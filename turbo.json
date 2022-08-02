@@ -5,10 +5,24 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**", ".next/**"]
     },
+    "test": {
+      "outputs": ["coverage/**"],
+      "dependsOn": []
+    },
     "lint": {
+      "dependsOn": ["^build"],
       "outputs": []
     },
     "dev": {
+      "cache": false
+    },
+    "sb": {
+      "cache": false
+    },
+    "clean": {
+      "cache": false
+    },
+    "clean-windows": {
       "cache": false
     }
   }
