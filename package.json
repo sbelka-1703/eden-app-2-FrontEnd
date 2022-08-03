@@ -18,10 +18,12 @@
     "clean": "turbo run clean",
     "clean-windows": "turbo run clean-windows",
     "build": "turbo run build",
-    "build-storybook": "yarn workspace storybook build-storybook"
+    "build-storybook": "yarn workspace storybook build-storybook",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "config": "*",
+    "husky": "^8.0.0",
     "prettier": "latest",
     "prettier-plugin-tailwindcss": "^0.1.13",
     "turbo": "latest"

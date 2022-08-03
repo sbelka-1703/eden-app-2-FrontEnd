@@ -5,6 +5,7 @@ import { Button } from "./";
 describe("Address", () => {
   it("renders without throwing", () => {
     const { container } = render(<Button />);
+
     expect(container).toBeInTheDocument();
   });
 });
