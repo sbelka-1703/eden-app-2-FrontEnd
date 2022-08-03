@@ -17,7 +17,7 @@
     "test:turbo": "turbo run test",
     "clean": "turbo run clean",
     "clean-windows": "turbo run clean-windows",
-    "build": "turbo run build --filter=web^... --parallel",
+    "build": "turbo run build --filter=web... --parallel",
     "build-storybook": "yarn workspace storybook build-storybook",
     "prepare": "husky install"
   },
