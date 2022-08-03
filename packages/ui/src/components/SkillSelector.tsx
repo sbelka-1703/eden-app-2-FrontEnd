@@ -148,7 +148,7 @@ export const SkillSelector = ({
               key={index}
             >
               <div className="flex h-full w-full items-center justify-between px-3">
-                <span className="mr-2 mb-px">{skill.name}</span>
+                {/* <span className="mr-2 mb-px">{skill.name}</span> */}
 
                 {/* <XIcon
                   className="inline-block h-4 w-4 cursor-pointer text-slate-600 hover:text-slate-400"
