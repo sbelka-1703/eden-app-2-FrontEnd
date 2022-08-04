@@ -1,10 +1,10 @@
 import { render } from "@testing-library/react";
 
-import { Button } from "./";
+import { SkillSelector } from "./";
 
-describe("Button", () => {
+describe("DropSkillSelectordown", () => {
   it("renders without throwing", () => {
-    const { container } = render(<Button />);
+    const { container } = render(<SkillSelector />);
 
     expect(container).toBeInTheDocument();
   });

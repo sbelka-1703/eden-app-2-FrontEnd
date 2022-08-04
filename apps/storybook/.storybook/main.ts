@@ -3,22 +3,14 @@ const path = require("path");
 module.exports = {
   stories: [
     "../../../packages/ui/src/elements/**/*.stories.@(js|jsx|ts|tsx)",
-    // "../../../packages/ui/src/components/**/*.stories.@(js|jsx|ts|tsx)",
+    "../../../packages/ui/src/components/**/*.stories.@(js|jsx|ts|tsx)",
   ],
   addons: [
     "@storybook/addon-links",
-    {
-      name: "@storybook/addon-essentials",
-      options: {
-        actions: false,
-      },
-    },
+    "@storybook/addon-essentials",
     {
       name: "@storybook/addon-postcss",
       options: {
-        // cssLoaderOptions: {
-        //   importLoaders: 1,
-        // },
         postcssLoaderOptions: {
           implementation: require("postcss"),
         },
