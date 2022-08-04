@@ -1,4 +1,11 @@
-import { Button, SkillSelector } from "ui";
+import { Button, Dropdown, SkillSelector } from "ui";
+
+const items = [
+  { _id: 1, name: "Skill 1" },
+  { _id: 2, name: "Skill 2" },
+  { _id: 3, name: "Skill 3" },
+  { _id: 4, name: "Skill 4" },
+];
 
 export default function Web() {
   return (
@@ -21,8 +28,17 @@ export default function Web() {
           Rounded Button
         </Button>
       </div>
-
-      <SkillSelector setSkillsCallback="" showSelected="" />
+      <Dropdown
+        items={items}
+        label={`skill`}
+        placeholder={`select skill`}
+        onSelect={(val: any) => console.log(val)}
+        multiple
+      />
+      <SkillSelector
+        onSetSkills={(val: any) => console.log(val)}
+        showSelected
+      />
     </div>
   );
 }

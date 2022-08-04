@@ -11,6 +11,8 @@
     "clean-windows": "rd /s /q node_modules"
   },
   "devDependencies": {
+    "@headlessui/react": "^1.6.6",
+    "@heroicons/react": "^1.0.6",
     "@types/react": "18.0.15",
     "@types/react-dom": "^18.0.6",
     "clsx": "^1.2.1",
