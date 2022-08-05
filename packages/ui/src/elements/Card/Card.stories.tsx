@@ -16,4 +16,5 @@ Default.args = {
   shadow: true,
   border: false,
   background: false,
+  focused: false,
 };
