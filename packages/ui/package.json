@@ -18,6 +18,7 @@
     "clsx": "^1.2.1",
     "eslint": "^8.20.0",
     "config": "*",
+    "identity-obj-proxy": "^3.0.0",
     "tsconfig": "*",
     "typescript": "^4.7.4"
   }
