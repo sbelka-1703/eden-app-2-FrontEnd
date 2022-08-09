@@ -16,7 +16,7 @@ export default function Web() {
         <Button>Default Button</Button>
         <Button variant="primary">Primary Button</Button>
         <Button variant="secondary">Secondary Button</Button>
-        <Button variant="warning">Warning Button</Button>
+        <Button variant="tertiary">Warning Button</Button>
       </div>
 
       <div className="p-8">
