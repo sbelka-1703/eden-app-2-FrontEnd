@@ -31,9 +31,7 @@ export const UserCard = ({
                 {endorsements} endorsements
               </div>
             </div>
-            <div
-              className={`text-soilPurple-600 my-auto text-3xl font-semibold`}
-            >
+            <div className={`text-soilPurple my-auto text-3xl font-semibold`}>
               {percentage}%
             </div>
           </div>
@@ -41,7 +39,7 @@ export const UserCard = ({
             {skills?.map((skill, index) => (
               <span
                 key={index}
-                className={`bg-soilPurple-600/20 mr-2 rounded-full px-2 py-1 text-xs`}
+                className={`bg-soilPurple/20 mr-2 rounded-full px-2 py-1 text-xs`}
               >
                 {skill}
               </span>

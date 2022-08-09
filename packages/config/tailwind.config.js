@@ -7,6 +7,15 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        background: "#F9FCF9",
+        accentColor: "#74FA6D",
+        darkGreen: "#071B08",
+        soilOrange: "#FF7E5C",
+        soilPurple: "#9B67FF",
+        soilTurquoise: "#78EECB",
+        soilYellow: "#FFF268",
+        soilBlue: "#88A9FF",
+        soilGray: "#BCBCBC",
         soilGreen: {
           50: "#FFFFFF",
           100: "#FFFFFF",
@@ -19,42 +28,47 @@ module.exports = {
           800: "#14EF08",
           900: "#0FB806",
         },
-        soilBlue: {
-          50: "#FFFFFF",
-          100: "#F0F2FC",
-          200: "#CDD6F7",
-          300: "#AAB9F1",
-          400: "#879DEB",
-          500: "#6480E5",
-          600: "#4164DF",
-          700: "#2146C6",
-          800: "#193596",
-          900: "#112466",
-        },
-        soilOrange: {
-          50: "#FFF9F3",
-          100: "#FFEEDF",
-          200: "#FFD9B6",
-          300: "#FFC48D",
-          400: "#FFAF65",
-          500: "#FF993C",
-          600: "#FF8413",
-          700: "#DA6800",
-          800: "#A24D00",
-          900: "#6A3300",
-        },
-        soilPurple: {
-          50: "#FFFFFF",
-          100: "#FFFFFF",
-          200: "#FFFFFF",
-          300: "#ECE1FF",
-          400: "#D1B9FF",
-          500: "#B690FF",
-          600: "#9B67FF",
-          700: "#762FFF",
-          800: "#5400F6",
-          900: "#4100BE",
-        },
+      },
+      fontSize: {
+        soilHeading1: [
+          "32px",
+          {
+            letterSpacing: "0.02em",
+          },
+        ],
+        soilHeading2: [
+          "26px",
+          {
+            letterSpacing: "0.02em",
+          },
+        ],
+        soilHeading3: [
+          "20px",
+          {
+            letterSpacing: "0.02em",
+          },
+        ],
+        soilBody: [
+          "16px",
+          {
+            letterSpacing: "0em",
+          },
+        ],
+        soilLabel: [
+          "12px",
+          {
+            letterSpacing: "0.04em",
+          },
+        ],
+      },
+      fontFamily: {
+        poppins: ["Poppins", "sans-serif"],
+        Inter: ["Inter", "sans-serif"],
+      },
+      boxShadow: {
+        headerShadow: "0px 1px 15px 0px rgba(0, 0, 0, 0.15)",
+        cardShadow: "0px 1px 4px 0px rgba(0, 0, 0, 0.15)",
+        focusShadow: "0px 0px 0px 3px #74FA6D",
       },
     },
   },

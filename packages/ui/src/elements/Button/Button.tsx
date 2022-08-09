@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { ButtonHTMLAttributes } from "react";
 
 type ButtonProps = {
-  variant?: "default" | "primary" | "secondary" | "warning";
+  variant?: "default" | "primary" | "secondary" | "tertiary";
   radius?: "default" | "rounded" | "pill";
   // eslint-disable-next-line no-unused-vars
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
@@ -14,14 +14,14 @@ export const Button = ({
   radius = "default",
   onClick,
 }: ButtonProps) => {
-  const btnCls = clsx("py-1 px-6 font-semibold text-lg", {
-    "bg-soilGreen-600/60 text-soilGreen-900 shadow-md shadow-soilGreen-800/30 hover:bg-soilGreen-500/60 hover:text-soilGreen-900 hover:shadow-sm":
+  const btnCls = clsx("py-1 px-6 font-Inter text-soilBody", {
+    "bg-accentColor text-soilGreen  hover:bg-darkGreen hover:text-white":
       variant === "primary",
-    "bg-soilBlue-600 text-white shadow-md shadow-soilBlue-800/30 hover:bg-soilBlue-500 hover:shadow-sm":
+    "text-darkGreen hover:text-white  border border-darkGreen hover:bg-darkGreen":
       variant === "secondary",
-    "bg-soilOrange-600 text-white shadow-md shadow-soilOrange-800/30 hover:bg-soilOrange-500 hover:shadow-sm":
-      variant === "warning",
-    "border-2 shadow-md hover:shadow-sm": variant === "default",
+    "bg-soilGray text-darkGreen hover:text-white  hover:bg-darkGreen":
+      variant === "tertiary",
+    "border-2": variant === "default",
     "rounded-full": radius === "pill",
     "rounded-lg": radius === "rounded",
     "rounded-md": radius === "default",
