@@ -5,6 +5,7 @@ module.exports = {
     "../../../packages/ui/src/elements/**/*.stories.@(js|jsx|ts|tsx)",
     "../../../packages/ui/src/components/**/*.stories.@(js|jsx|ts|tsx)",
     "../../../packages/ui/src/cards/**/*.stories.@(js|jsx|ts|tsx)",
+    "../../../packages/ui/src/design/**/*.stories.@(js|jsx|ts|tsx)",
   ],
   addons: [
     "@storybook/addon-links",
