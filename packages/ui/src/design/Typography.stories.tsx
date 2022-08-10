@@ -1,3 +1,11 @@
+import {
+  TextBody,
+  TextHeading1,
+  TextHeading2,
+  TextHeading3,
+  TextLabel,
+} from "../atoms/text";
+
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   title: "Design-System/Typography",
@@ -6,25 +14,25 @@ export default {
 export const Typography = () => {
   return (
     <div>
-      <div className={`text-soilHeading1 font-poppins font-medium`}>
-        soilHeading1
-        <p>The brown fox jumped over the lazy dog.</p>
+      <div className={``}>
+        TextHeading1
+        <TextHeading1>The brown fox jumped over the lazy dog.</TextHeading1>
       </div>
-      <div className={`text-soilHeading2 font-poppins font-medium`}>
-        soilHeading2
-        <p>The brown fox jumped over the lazy dog.</p>
+      <div className={``}>
+        TextHeading2
+        <TextHeading2>The brown fox jumped over the lazy dog.</TextHeading2>
       </div>
-      <div className={`text-soilHeading3 font-poppins font-medium`}>
-        soilHeading3
-        <p>The brown fox jumped over the lazy dog.</p>
+      <div className={``}>
+        TextHeading3
+        <TextHeading3>The brown fox jumped over the lazy dog.</TextHeading3>
       </div>
-      <div className={`text-soilBody font-Inter `}>
-        soilBody
-        <p>The brown fox jumped over the lazy dog.</p>
+      <div className={``}>
+        TextBody
+        <TextBody>The brown fox jumped over the lazy dog.</TextBody>
       </div>
-      <div className={`text-soilLabel font-Inter font-semibold uppercase`}>
-        soilLabel
-        <p>The brown fox jumped over the lazy dog.</p>
+      <div className={``}>
+        TextLabel
+        <TextLabel>The brown fox jumped over the lazy dog.</TextLabel>
       </div>
     </div>
   );
