@@ -1,10 +1,14 @@
 # Soil Turborepo
 
+public builds of both environments can be found at:
+
 [Webapp](https://soil-turborepo-webapp.vercel.app/)
 
 [Storybook](https://soil-turborepo-storybook.vercel.app/)
 
-## Develop
+## For Development
+
+Fork this repo.
 
 Install packages:
 
@@ -24,6 +28,50 @@ To develop the storybook app and packages, run the following command:
 yarn storybook
 ```
 
+During development, you may get a lot of prettier errors when doing something like a copy and paste. To clean up prettier errors, run:
+
+```
+yarn format
+```
+
+## Making a PR
+
+Create your own branch using `git checkout -b your_branch_name`. Remember to use a branch name that describes WHAT you're doing/fixing. Start branch name with
+
+- feat: A new feature
+- fix: A bug fix
+- docs: Changes to documentation
+- style: Formatting, missing semi colons, etc; no code change
+- refactor: Refactoring production code
+- test: Adding tests, refactoring test; no production code change
+- chore: Updating build tasks, package manager configs, etc; no production code change
+
+Before submitting your PR, be sure to test and lint for errors by running:
+
+```
+yarn test
+```
+
+and then
+
+```
+yarn lint
+```
+
+You can also test building the app and storybook locally to confirm no errors
+
+For the front-end app, run:
+
+```
+yarn build
+```
+
+For storybook, run:
+
+```
+yarn build-storybook
+```
+
 ## What's inside?
 
 This turborepo uses [Yarn](https://classic.yarnpkg.com/lang/en/) as a package manager. It includes the following packages/apps:
@@ -34,7 +82,7 @@ This turborepo uses [Yarn](https://classic.yarnpkg.com/lang/en/) as a package ma
 - `web`: another [Next.js](https://nextjs.org) app
 - `ui`: a stub React component library shared by both `web` and `storybook` applications
 - `config` configurations (includes `eslint-preset-js` , `jest-preset-js` , `postcss.config.js` and `tailwind.config.js`)
-- `tsconfig`: `tsconfig.json`s used throughout the monorepo
+- `tsconfig`: `tsconfig.json` is used throughout the monorepo
 
 Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
 
@@ -45,20 +93,6 @@ This turborepo has some additional tools already setup for you:
 - [TypeScript](https://www.typescriptlang.org/) for static type checking
 - [ESLint](https://eslint.org/) for code linting
 - [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build the front-end app, run the following command:
-
-```
-yarn run build
-```
-
-To build the storybook app, run the following command:
-
-```
-yarn run build-storybook
-```
 
 ### Remote Caching
 
