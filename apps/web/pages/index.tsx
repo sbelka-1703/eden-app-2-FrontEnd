@@ -1,3 +1,14 @@
+import { useQuery } from "@apollo/client";
+import { FIND_PROJECTS } from "@graphql/eden";
+// import { Project } from "@graphql/eden";
+// import {
+//   Project,
+//   ProjectUpdate,
+//   useFindMembersQuery,
+//   useFindProjectsQuery,
+//   useFindProjectsUpdateQuery,
+//   useFindTeamsQuery,
+// } from "@graphql/eden/generated/graphql";
 import { Button, Dropdown, SkillSelector } from "ui";
 
 const items = [
@@ -8,6 +19,15 @@ const items = [
 ];
 
 export default function Web() {
+  // console.log("findProjects", Project);
+  const { data } = useQuery(FIND_PROJECTS, {
+    variables: {
+      fields: {},
+    },
+    context: { serviceName: "soilservice" },
+  });
+
+  console.log("data", data);
   return (
     <div>
       <h1 className="p-8 text-3xl font-bold text-gray-600">Web</h1>

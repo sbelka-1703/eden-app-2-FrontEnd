@@ -11,6 +11,9 @@
     "clean-windows": "rd /s /q node_modules && rd /s /q .next"
   },
   "dependencies": {
+    "@apollo/client": "^3.6.9",
+    "@graphql/eden": "*",
+    "graphql": "^16.5.0",
     "next": "12.2.0",
     "react": "18.1.0",
     "react-dom": "18.1.0",
@@ -21,12 +24,12 @@
     "@types/node": "^18.6.1",
     "@types/react": "18.0.15",
     "autoprefixer": "^10.4.0",
-    "eslint": "^8.20.0",
     "config": "*",
+    "eslint": "^8.20.0",
     "next-transpile-modules": "9.0.0",
     "postcss": "^8.4.4",
-    "tsconfig": "*",
     "tailwindcss": "^3.1.7",
+    "tsconfig": "*",
     "typescript": "^4.7.4"
   }
 }

@@ -24,6 +24,7 @@
     },
     "clean-windows": {
       "cache": false
-    }
+    },
+    "codegen:eden": { "cache": false }
   }
 }
