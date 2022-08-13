@@ -1,0 +1,28 @@
+{
+  "name": "@graphql/eden",
+  "version": "0.0.0",
+  "main": "index.ts",
+  "license": "MIT",
+  "files": [],
+  "scripts": {
+    "clean": "rm -rf node_modules",
+    "clean-windows": "rd /s /q node_modules",
+    "codegen:eden": "graphql-codegen --config eden/codegen.yml"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.6.9",
+    "eslint-config-next": "^12.0.3",
+    "eslint-config-prettier": "^8.3.0"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^2.11.6",
+    "@graphql-codegen/fragment-matcher": "^3.3.1",
+    "@graphql-codegen/typescript": "^2.7.3",
+    "@graphql-codegen/typescript-operations": "2.5.2",
+    "@graphql-codegen/typescript-react-apollo": "3.3.2",
+    "eslint": "^8.8.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "tsconfig": "*"
+  }
+}

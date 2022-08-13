@@ -1,0 +1,6 @@
+schema: "https://oasis-bot-test-deploy.herokuapp.com/graphql"
+generates:
+  generated/graphqlEden.ts:
+    plugins:
+      - "typescript"
+      - "fragment-matcher"

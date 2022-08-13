@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "dev": "turbo run dev --filter=web^... --parallel",
-    "storybook": "turbo run sb --filter=storybook^... --parallel",
+    "storybook": "turbo run sb --filter=storybook... --parallel",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{js,ts,tsx,md}\"",
     "test": "yarn workspace ui test",
@@ -19,7 +19,8 @@
     "clean-windows": "turbo run clean-windows",
     "build": "turbo run build --filter=web...",
     "build-storybook": "yarn workspace storybook build-storybook",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "codegen:eden": "turbo run codegen:eden"
   },
   "devDependencies": {
     "config": "*",

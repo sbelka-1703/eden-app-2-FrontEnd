@@ -23,7 +23,18 @@ module.exports = {
   core: {
     builder: "webpack5",
   },
-  webpackFinal: async (config) => {
+  webpackFinal: async (config: {
+    module: {
+      rules: {
+        test: RegExp;
+        use: {
+          loader: string;
+          options: { postcssOptions: { plugins: any[] } };
+        }[];
+        include: any;
+      }[];
+    };
+  }) => {
     config.module.rules.push({
       test: /\.css$/,
       use: [
