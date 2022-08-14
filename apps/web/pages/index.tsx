@@ -30,7 +30,7 @@ export default function Web() {
   console.log("data", data);
   return (
     <div>
-      <h1 className="p-8 text-3xl font-bold text-gray-600">Web</h1>
+      <span className="p-8 text-3xl font-bold text-gray-600">Web</span>
 
       <div className="p-8">
         <Button>Default Button</Button>

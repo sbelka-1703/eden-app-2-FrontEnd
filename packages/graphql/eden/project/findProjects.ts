@@ -6,24 +6,24 @@ export const FIND_PROJECTS = gql`
       _id
       description
       title
-      tweets {
-        _id
-        approved
-        content
-        registeredAt
-        author {
+      team {
+        memberInfo {
+          _id
           discordName
-          discordAvatar
         }
       }
       role {
-        _id
-        archive
-        dateRangeEnd
-        dateRangeStart
-        description
-        hoursPerWeek
         title
+        skills {
+          skillData {
+            _id
+            name
+          }
+        }
+      }
+      budget {
+        totalBudget
+        token
       }
       dates {
         complition
