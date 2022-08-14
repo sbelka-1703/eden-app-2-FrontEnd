@@ -6,7 +6,7 @@ interface ILayoutProps {
 
 export const Layout = ({ children }: ILayoutProps) => {
   return (
-    <section className="bg-bgGrey min-h-screen">
+    <section className="bg-background min-h-screen">
       <div className="mx-auto w-full max-w-screen-xl">
         <Header />
         <div className="relative z-20 mx-6">
