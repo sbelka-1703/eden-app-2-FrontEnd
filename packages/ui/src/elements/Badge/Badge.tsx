@@ -2,7 +2,7 @@ import { XIcon } from '@heroicons/react/outline'
 import React, { CSSProperties } from 'react'
 
 interface BadgeProps {
-    colorRGB: CSSProperties,
+    colorRGB: string,
     text: string,
 }
 export const Badge: React.FC<BadgeProps> = ({
@@ -11,7 +11,7 @@ export const Badge: React.FC<BadgeProps> = ({
 }) => {
 
     const handleCloseClick = () => {
-        
+
     }
 
     return (
