@@ -1,11 +1,7 @@
 import { useState, useEffect } from "react";
 import { AiOutlineDoubleRight } from "react-icons/ai";
 import { AiOutlineDoubleLeft } from "react-icons/ai";
-
-interface IRole {
-  _id: number;
-  name: string;
-}
+import { IRole } from "../CandidateSelectionList";
 
 export interface IRoleCandidateSelectorProps {
   roles?: IRole[];
@@ -29,18 +25,20 @@ export const RoleCandidateSelector = ({
   const handleLeftBtnClick = () => {
     if (isLeftBtnDisabled) return;
     setCurrentRoleIndex(currentRoleIndex - 1);
-    onSelect && onSelect(currentRole);
   };
 
   const isRightBtnDisabled = currentRoleIndex === roles.length - 1;
   const handleRightBtnClick = () => {
     if (isRightBtnDisabled) return;
     setCurrentRoleIndex(currentRoleIndex + 1);
-    onSelect && onSelect(currentRole);
   };
 
+  useEffect(() => {
+    if (onSelect) onSelect(currentRole);
+  }, [currentRoleIndex]);
+
   return (
-    <div className="relative max-w-md">
+    <div className="relative max-w-lg">
       <div className={`font-poppins text-center text-gray-500`}>
         Match candidates for:
       </div>

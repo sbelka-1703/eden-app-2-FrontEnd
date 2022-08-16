@@ -9,7 +9,6 @@ export default {
   argTypes: {},
 } as ComponentMeta<typeof CandidateSelectionList>;
 
-// TODO: add args to component
 const Template: ComponentStory<typeof CandidateSelectionList> = (args) => (
   <div className={`max-w-lg`}>
     <CandidateSelectionList {...args} />
