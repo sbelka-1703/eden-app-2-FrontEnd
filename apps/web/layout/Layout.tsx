@@ -1,3 +1,4 @@
+import { CollectionOfUsers } from "ui/src/components/CollectionOfUsers/CollectionOfUsers";
 import Header from "./Header";
 
 interface ILayoutProps {
@@ -11,6 +12,9 @@ export const Layout = ({ children }: ILayoutProps) => {
         <Header />
         <div className="relative z-20 mx-6">
           <main>{children}</main>
+          <div className="">
+            <CollectionOfUsers Ctitle="Top Referencers" />
+          </div>
         </div>
       </div>
     </section>
