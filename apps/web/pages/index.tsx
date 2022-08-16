@@ -9,7 +9,7 @@ import { FIND_PROJECTS } from "@graphql/eden";
 //   useFindProjectsUpdateQuery,
 //   useFindTeamsQuery,
 // } from "@graphql/eden/generated/graphql";
-import { Button, Dropdown, SkillSelector } from "ui";
+import { Button, Dropdown, SkillSelector, UserInformationCard } from "ui";
 
 const items = [
   { _id: 1, name: "Skill 1" },
@@ -58,6 +58,11 @@ export default function Web() {
       <SkillSelector
         onSetSkills={(val: any) => console.log(val)}
         showSelected
+      />
+      <UserInformationCard
+        title="PROJECT MANAGER"
+        description="Sabre Corporation · Fulltime"
+        timeSpent="Oct 2021 - Present (9 mos)"
       />
     </div>
   );
