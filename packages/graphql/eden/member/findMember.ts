@@ -9,6 +9,7 @@ export const FIND_MEMBER = gql`
       bio
       skills {
         skillInfo {
+          _id
           name
         }
       }
