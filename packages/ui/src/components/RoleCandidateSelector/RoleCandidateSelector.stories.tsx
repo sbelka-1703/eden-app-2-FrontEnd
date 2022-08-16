@@ -22,5 +22,4 @@ const Template: ComponentStory<typeof RoleCandidateSelector> = (args) => (
 export const Default = Template.bind({});
 Default.args = {
   roles: roles,
-
 };

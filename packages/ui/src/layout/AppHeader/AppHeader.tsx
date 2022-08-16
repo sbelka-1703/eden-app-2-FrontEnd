@@ -2,18 +2,15 @@ import Link from "next/link";
 // import BurgerMenu from "./BurgerMenu";
 // import WhatIsSoil from "./WhatIsSoil";
 
-export default function Header() {
+export const AppHeader = ({}) => {
   return (
-    <header className="mb-4 pt-16">
-      <nav
-        className="z-30 h-16 w-screen bg-white px-4 shadow-md shadow-slate-500/10 sm:px-5 lg:px-6"
-        aria-label="Top"
-      >
+    <header className="z-30 border-b bg-white shadow-lg shadow-slate-500/10">
+      <nav className="h-16 w-full px-4  sm:px-5 lg:px-6" aria-label="Top">
         <div className="mx-auto flex h-full max-w-screen-xl items-center justify-between">
           <Link href="/">
             <a>
-              <span className="text-2xl">🌱</span>
-              <span className="text-soilGreen-70 ml-2 text-xl font-bold">
+              <span className="text-xl">🌱</span>
+              <span className="text-darkGreen ml-2 text-2xl font-bold">
                 Soil.
               </span>
             </a>
@@ -22,4 +19,4 @@ export default function Header() {
       </nav>
     </header>
   );
-}
+};
