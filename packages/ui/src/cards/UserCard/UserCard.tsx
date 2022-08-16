@@ -22,7 +22,9 @@ export const UserCard = ({
   return (
     <Card shadow focused={focused}>
       <div className="flex justify-between">
-        <Avatar src={avatar} />
+        <div>
+          <Avatar src={avatar} />
+        </div>
         <div className={`w-full pl-6`}>
           <div className="flex justify-between">
             <div className={`-mt-2`}>
