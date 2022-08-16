@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Avatar } from "../../elements";
 import { UserWithDescription } from "../UserWithDescription";
+import "./styles.css";
 
 export interface ICollectionOfUsers {
   Ctitle?: string;
