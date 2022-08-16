@@ -9,10 +9,10 @@ export default {
 } as ComponentMeta<typeof RoleCandidateSelector>;
 
 const roles = [
-  { _id: 1, name: "Scrum Master" },
-  { _id: 2, name: "Frontend" },
-  { _id: 3, name: "Backend" },
-  { _id: 4, name: "Product Manager" },
+  { _id: 1, name: "Scrum Master", candidates: [] },
+  { _id: 2, name: "Frontend", candidates: [] },
+  { _id: 3, name: "Backend", candidates: [] },
+  { _id: 4, name: "Product Manager", candidates: [] },
 ];
 
 const Template: ComponentStory<typeof RoleCandidateSelector> = (args) => (
@@ -21,6 +21,5 @@ const Template: ComponentStory<typeof RoleCandidateSelector> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  roles: roles,
-
+  roles,
 };
