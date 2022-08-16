@@ -10,11 +10,14 @@ export interface FavoriteProps {
 export const Favorite = ({ favorite, projectId, memberId }: FavoriteProps) => {
   async function handleClick() {
     // if (member.loading) return;
-    // const params = {
-    //   memberID: memberId,
-    //   projectID: projectId,
-    //   favorite: !favorite,
-    // };
+    const params = {
+      memberID: memberId,
+      projectID: projectId,
+      favorite: !favorite,
+    };
+
+    console.log(params);
+
     // addFavoriteProject(params);
   }
 
@@ -23,6 +26,7 @@ export const Favorite = ({ favorite, projectId, memberId }: FavoriteProps) => {
       favorite ? "bg-red-200" : "bg-red-100"
     }`
   );
+
   return (
     <button className={favoriteCls} onClick={handleClick}>
       {!favorite ? (
