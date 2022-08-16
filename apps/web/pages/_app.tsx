@@ -4,15 +4,14 @@ import { ApolloProvider } from "@apollo/client";
 import { apolloClient } from "@graphql/eden";
 import type { AppProps } from "next/app";
 import * as React from "react";
-
-import { Layout } from "../layout";
+import { AppLayout } from "ui";
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
     <ApolloProvider client={apolloClient}>
-      <Layout>
+      <AppLayout>
         <Component {...pageProps} />
-      </Layout>
+      </AppLayout>
     </ApolloProvider>
   );
 };

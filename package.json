@@ -6,6 +6,7 @@
     "apps/*",
     "packages/*"
   ],
+  "type": "module",
   "scripts": {
     "dev": "turbo run dev --filter=web... --parallel",
     "storybook": "turbo run sb --filter=storybook... --parallel",

@@ -1,58 +1,106 @@
-import "./styles.css";
+import { MouseEvent, useState } from "react";
 
-import { useState } from "react";
+// TODO: need to revisit this, tabs might be better as a prop.  Also a onSelect callback is needed.
 
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
-}
+const tabs = [
+  {
+    title: "All projects",
+    fullTitle: "All projects",
+  },
+  {
+    title: "Recommended",
+    fullTitle: "Recommended",
+  },
+  {
+    title: "Favourite",
+    fullTitle: "Favourite",
+  },
+];
 
 export interface TabsCardProps {}
 
 export const TabsCard = ({}: TabsCardProps) => {
-  const [activeTab, setActiveTab] = useState(0);
+  const [currentTab, setCurrentTab] = useState(0);
+
+  const handleTabClick = (
+    e: MouseEvent<HTMLButtonElement>,
+    index: number,
+    sideCorner = ""
+  ) => {
+    if (sideCorner === "right" && index < tabs.length - 1) {
+      setCurrentTab(index + 1);
+    } else if (sideCorner === "left" && currentTab > 0) {
+      setCurrentTab(index - 1);
+    } else {
+      setCurrentTab(index);
+    }
+  };
+
+  const calculateTabZindex = (index: number) => {
+    if (currentTab == index) {
+      return 50;
+    } else if (currentTab > index) {
+      return 30 + index;
+    } else {
+      return 40 - index;
+    }
+  };
 
   return (
-    <div className={`rounded-2xl`}>
-      <div className={`flex justify-between text-2xl font-medium`}>
-        <button
-          className={classNames(
-            activeTab === 0
-              ? "border-soilGreen-600 left-active text-black/80"
-              : "left border-t border-black/20 text-black/20",
-            "w-full rounded-tl-2xl py-2 text-center uppercase"
-          )}
-          onClick={() => setActiveTab(0)}
-        >
-          General
-        </button>
-        <button
-          className={classNames(
-            activeTab === 1
-              ? "border-soilGreen-600 center-active text-black/80"
-              : "center border-t border-black/20 text-black/20",
-            "w-full py-2 text-center uppercase"
-          )}
-          onClick={() => setActiveTab(1)}
-        >
-          Background
-        </button>
-        <button
-          className={classNames(
-            activeTab === 2
-              ? "border-soilGreen-600 right-active text-black/80"
-              : "right text-black/20",
-            "border-skew-y-12 w-full rounded-tr-2xl py-2 text-center uppercase"
-          )}
-          onClick={() => setActiveTab(2)}
-        >
-          Recommendations
-        </button>
-      </div>
-      <div
-        className={`border-soilGreen-600 rounded-b-2xl rounded-tr-md border-l-2 border-r-2 border-b-2 p-6`}
-      >
-        this is tab {activeTab}
-      </div>
+    <div className="flex">
+      {tabs &&
+        tabs.map((tab, index) => (
+          <div
+            style={{ zIndex: calculateTabZindex(index) }}
+            className={`relative h-10 cursor-pointer ${
+              currentTab == index ? "z-50" : "bg-slate-100"
+            }`}
+            key={index}
+          >
+            {index != 0 && index - 1 != currentTab && (
+              <button
+                className={`absolute -left-10 top-0 fill-slate-100 stroke-slate-200 ${
+                  currentTab == index ? "fill-white" : ""
+                }`}
+                style={{ strokeDasharray: "0,0,57,100" }}
+                onClick={(e) => handleTabClick(e, index, "left")}
+              >
+                <svg height="40" width="40">
+                  <polygon points="40,0 0,40 40,40" />
+                </svg>
+              </button>
+            )}
+            <button
+              className={`relative h-full border-t px-3 pt-2 text-center font-medium uppercase ${
+                !index ? "border-l" : ""
+              } ${
+                currentTab == index
+                  ? "text-darkGreen bg-white text-lg decoration-zinc-500 underline-offset-[3px]"
+                  : "text-soilGray bg-slate-100"
+              }
+                ${currentTab > index ? "pr-9" : ""}
+                ${currentTab < index ? "pl-9" : ""}
+                `}
+              key={index}
+              onClick={(e) => handleTabClick(e, index)}
+            >
+              <span>{tab.title}</span>
+            </button>
+            {index != currentTab - 1 && (
+              <button
+                className={`absolute -right-10 top-0 fill-slate-100 stroke-slate-200 ${
+                  currentTab == index ? "fill-white" : ""
+                }`}
+                style={{ strokeDasharray: "0,81,100" }}
+                onClick={(e) => handleTabClick(e, index, "right")}
+              >
+                <svg height="40" width="40">
+                  <polygon points="0,0 0,40 40,40" />
+                </svg>
+              </button>
+            )}
+          </div>
+        ))}
     </div>
   );
 };
