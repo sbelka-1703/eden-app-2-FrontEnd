@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
-import { RoleCandidateSelector } from "../../components";
+import { useEffect, useState } from "react";
+
 import { UserCard } from "../../cards";
+import { RoleCandidateSelector } from "../../components";
 
 export interface ICandidate {
   _id: number;
@@ -25,15 +26,18 @@ export const CandidateSelectionList = ({
   roles = [],
 }: IRoleCandidateSelector) => {
   const [currentRole, setCurrentRole] = useState<IRole | null>(null);
-  const [currentCandidate, setCurrentCandidate] = useState<ICandidate | null>(null);
+  const [currentCandidate, setCurrentCandidate] = useState<ICandidate | null>(
+    null
+  );
 
   useEffect(() => {
     setCurrentCandidate(null);
-  }, [currentRole])
+  }, [currentRole]);
 
   const candidates = currentRole?.candidates.map((candidate) => {
     const { _id, name, percentage, skills, endorsements, avatar } = candidate;
     const isFocused = candidate._id === currentCandidate?._id;
+
     return (
       <button
         key={_id}

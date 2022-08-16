@@ -1,5 +1,5 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { faker } from "@faker-js/faker";
+import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { CandidateSelectionList } from "./CandidateSelectionList";
 
