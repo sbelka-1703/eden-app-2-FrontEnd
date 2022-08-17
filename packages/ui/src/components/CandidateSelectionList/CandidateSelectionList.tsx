@@ -28,13 +28,15 @@ export interface IRole {
   // candidates: ICandidate[];
 }
 
-export interface IRoleCandidateSelector {
+export interface ICandidateSelectionListProps {
   roles?: IRole[];
+  onSelect?: (candidate: ICandidate) => void;
 }
 
 export const CandidateSelectionList = ({
   roles = [],
-}: IRoleCandidateSelector) => {
+  onSelect
+}: ICandidateSelectionListProps) => {
   const [currentRole, setCurrentRole] = useState<IRole | null>(null);
   const [currentCandidate, setCurrentCandidate] = useState<ICandidate | null>(
     null
@@ -81,6 +83,7 @@ export const CandidateSelectionList = ({
     const { _id, discordName, skills, endorsements, discordAvatar } =
       candidate.member;
     const isFocused = _id === currentCandidate?._id;
+
 
     return (
       <button
