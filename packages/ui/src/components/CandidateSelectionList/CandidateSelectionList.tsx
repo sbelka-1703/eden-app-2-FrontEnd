@@ -41,6 +41,8 @@ export const CandidateSelectionList = ({
   );
   const [roleSkills, setRoleSkills] = useState<string[]>([]);
 
+  // TODO: when backend creates matchMembersToRole, change this query to matchMembersToRole
+
   const { data: dataMemberWithSkills } = useQuery(MATCH_MEMBERS_TO_SKILLS, {
     variables: {
       fields: {
