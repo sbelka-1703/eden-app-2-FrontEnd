@@ -3,7 +3,22 @@ import { FIND_PROJECTS } from "@graphql/eden";
 import type { NextPage } from "next";
 import { GridItemSix, GridItemThree, GridLayout, TabsCard } from "ui";
 
-// TODO: is there a recommended projects query?
+// TODO: after getting user conext in place, add findProjects_RecommendedToUser query
+
+const tabs = [
+  {
+    title: "All projects",
+    fullTitle: "All projects",
+  },
+  {
+    title: "Favourites",
+    fullTitle: "Favourites",
+  },
+  {
+    title: "Recommended",
+    fullTitle: "Recommended",
+  },
+];
 
 const ProjectsPage: NextPage = () => {
   const { data: dataProjects } = useQuery(FIND_PROJECTS, {
@@ -13,14 +28,14 @@ const ProjectsPage: NextPage = () => {
     context: { serviceName: "soilservice" },
   });
 
-  console.log("dataMembers", dataProjects);
+  console.log("dataProjects", dataProjects);
   return (
     <GridLayout>
-      <GridItemThree>3</GridItemThree>
+      <GridItemThree>user profile</GridItemThree>
       <GridItemSix>
-        <TabsCard />
+        <TabsCard tabs={tabs} onSelect={(val) => console.log(val)} />
       </GridItemSix>
-      <GridItemThree>3</GridItemThree>
+      <GridItemThree>recommend</GridItemThree>
     </GridLayout>
   );
 };

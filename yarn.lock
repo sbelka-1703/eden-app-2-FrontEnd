@@ -2411,7 +2411,7 @@
     prop-types "^15.7.2"
     regenerator-runtime "^0.13.7"
 
-"@storybook/addons@6.5.10":
+"@storybook/addons@6.5.10", "@storybook/addons@^6.5.9":
   version "6.5.10"
   resolved "https://registry.yarnpkg.com/@storybook/addons/-/addons-6.5.10.tgz#bff2f8fb8453e9df04fa6dbc41341fd05f4cdeba"
   integrity sha512-VD4tBCQ23PkSeDoxuHcKy0RfhIs3oMYjBacOZx7d0bvOzK9WjPyvE2ysDAh7r/ceqnwmWHAScIpE+I1RU7gl+g==
@@ -2615,7 +2615,7 @@
     core-js "^3.8.2"
     global "^4.4.0"
 
-"@storybook/components@6.5.10":
+"@storybook/components@6.5.10", "@storybook/components@^6.5.9":
   version "6.5.10"
   resolved "https://registry.yarnpkg.com/@storybook/components/-/components-6.5.10.tgz#268e1269bc3d262f7dcec13f96c3b844919687b8"
   integrity sha512-9OhgB8YQfGwOKjo/N96N5mrtJ6qDVVoEM1zuhea32tJUd2eYf0aSWpryA9VnOM0V1q/8DAoCg5rPBMYWMBU5uw==
@@ -12229,6 +12229,15 @@ store2@^2.12.0:
   version "2.14.2"
   resolved "https://registry.yarnpkg.com/store2/-/store2-2.14.2.tgz#56138d200f9fe5f582ad63bc2704dbc0e4a45068"
   integrity sha512-siT1RiqlfQnGqgT/YzXVUNsom9S0H1OX+dpdGN1xkyYATo4I6sep5NmsRD/40s3IIOvlCq6akxkqG82urIZW1w==
+
+storybook-addon-apollo-client@^4.0.12:
+  version "4.0.12"
+  resolved "https://registry.yarnpkg.com/storybook-addon-apollo-client/-/storybook-addon-apollo-client-4.0.12.tgz#91d1fe1809a9038ec6292d85bc2e99f24c369e28"
+  integrity sha512-ascHG+3hJfvwAQ9Bo4OmLz1kNF+d/1v/TJuEShI+UknPxvlL7VsFmza1QY+5VYtbzh/f7U+MEH4POD2Jchc/gQ==
+  dependencies:
+    "@storybook/addons" "^6.5.9"
+    "@storybook/components" "^6.5.9"
+    tslib "^2.4.0"
 
 storybook-dark-mode@^1.1.0:
   version "1.1.0"

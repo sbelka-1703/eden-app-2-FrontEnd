@@ -1,7 +1,6 @@
-import { useEffect } from "react";
-import { Avatar } from "../../elements";
-import { UserWithDescription } from "../UserWithDescription";
 import "./styles.css";
+
+import { UserWithDescription } from "../UserWithDescription";
 
 export interface ICollectionOfUsers {
   Ctitle?: string;
@@ -46,6 +45,7 @@ export const CollectionOfUsers = ({ Ctitle, person }: ICollectionOfUsers) => {
         <div className={`r-users flex flex-wrap`}>
           {Users.map((user, index) => (
             <UserWithDescription
+              key={index}
               title={user.person}
               avatarSrc="url"
               name={user.username}
