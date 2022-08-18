@@ -4,15 +4,13 @@ import React, { CSSProperties } from 'react'
 interface BadgeProps {
     colorRGB: CSSProperties,
     text: string,
+    onClick: () => void;
 }
 export const Badge: React.FC<BadgeProps> = ({
     colorRGB, 
     text,
+    onClick
 }) => {
-
-    const handleCloseClick = () => {
-        
-    }
 
     return (
         <div
@@ -25,7 +23,7 @@ export const Badge: React.FC<BadgeProps> = ({
                 <XIcon
                     className="inline-block h-4 w-4 cursor-pointer text-gray-900 hover:text-slate-400"
                     aria-hidden="true"
-                    onClick={handleCloseClick}
+                    onClick={onClick}
                 />
                 </>
             </div>
