@@ -2,24 +2,18 @@ import { MouseEvent, useState } from "react";
 
 // TODO: need to revisit this, tabs might be better as a prop.  Also a onSelect callback is needed.
 
-const tabs = [
-  {
-    title: "All projects",
-    fullTitle: "All projects",
-  },
-  {
-    title: "Recommended",
-    fullTitle: "Recommended",
-  },
-  {
-    title: "Favourite",
-    fullTitle: "Favourite",
-  },
-];
+interface ITabsProps {
+  title: string;
+  fullTitle: string;
+}
 
-export interface TabsCardProps {}
+export interface TabsCardProps {
+  tabs: ITabsProps[];
+  // eslint-disable-next-line no-unused-vars
+  onSelect: (val: ITabsProps) => void;
+}
 
-export const TabsCard = ({}: TabsCardProps) => {
+export const TabsCard = ({ tabs, onSelect }: TabsCardProps) => {
   const [currentTab, setCurrentTab] = useState(0);
 
   const handleTabClick = (
@@ -29,10 +23,13 @@ export const TabsCard = ({}: TabsCardProps) => {
   ) => {
     if (sideCorner === "right" && index < tabs.length - 1) {
       setCurrentTab(index + 1);
+      onSelect(tabs[index + 1]);
     } else if (sideCorner === "left" && currentTab > 0) {
       setCurrentTab(index - 1);
+      onSelect(tabs[index - 1]);
     } else {
       setCurrentTab(index);
+      onSelect(tabs[index]);
     }
   };
 

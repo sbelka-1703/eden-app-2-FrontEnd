@@ -3,24 +3,13 @@ import clsx from "clsx";
 
 export interface FavoriteProps {
   favorite: boolean;
-  projectId: string;
-  memberId: string;
+  updateFavoriteCallback: Function;
 }
 
-export const Favorite = ({ favorite, projectId, memberId }: FavoriteProps) => {
-  async function handleClick() {
-    // if (member.loading) return;
-    const params = {
-      memberID: memberId,
-      projectID: projectId,
-      favorite: !favorite,
-    };
-
-    console.log(params);
-
-    // addFavoriteProject(params);
-  }
-
+export const Favorite = ({
+  favorite,
+  updateFavoriteCallback,
+}: FavoriteProps) => {
   const favoriteCls = clsx(
     `h-10 w-10 rounded-full pt-px flex items-center justify-center ${
       favorite ? "bg-red-200" : "bg-red-100"
@@ -28,7 +17,7 @@ export const Favorite = ({ favorite, projectId, memberId }: FavoriteProps) => {
   );
 
   return (
-    <button className={favoriteCls} onClick={handleClick}>
+    <button className={favoriteCls} onClick={() => updateFavoriteCallback()}>
       {!favorite ? (
         <HeartIcon className="h-7 w-7" stroke="red" strokeWidth="1" />
       ) : (

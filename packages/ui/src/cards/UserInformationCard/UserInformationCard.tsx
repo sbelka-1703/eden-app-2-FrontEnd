@@ -6,6 +6,7 @@ export interface UserInformationCardProps {
   description?: string;
   timeSpent?: string;
   onEdit?: () => void;
+  onExpand?: () => void;
 }
 
 export const UserInformationCard = ({
@@ -13,11 +14,8 @@ export const UserInformationCard = ({
   description,
   timeSpent,
   onEdit,
+  onExpand,
 }: UserInformationCardProps) => {
-  const onExpand = () => {
-    console.log("Expanding");
-  };
-
   return (
     <div
       className={`ml-2 w-96 rounded-3xl border-2 bg-white p-1 drop-shadow-2xl`}
@@ -26,7 +24,7 @@ export const UserInformationCard = ({
         <div>
           <button
             className={`basis-1/8 w-full text-zinc-400`}
-            onClick={() => onExpand()}
+            onClick={onExpand}
           >
             <IoIosExpand size="20px" />
           </button>

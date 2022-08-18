@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import { AiOutlineDoubleRight } from "react-icons/ai";
-import { AiOutlineDoubleLeft } from "react-icons/ai";
+import { useEffect, useState } from "react";
+import { AiOutlineDoubleLeft, AiOutlineDoubleRight } from "react-icons/ai";
+
 import { IRole } from "../CandidateSelectionList";
 
 export interface IRoleCandidateSelectorProps {
@@ -53,7 +53,7 @@ export const RoleCandidateSelector = ({
           </div>
         </button>
         <div className={`font-poppins text-3xl font-medium uppercase`}>
-          {currentRole?.name}
+          {currentRole?.title}
         </div>
         <button
           disabled={isRightBtnDisabled}
