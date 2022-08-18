@@ -1,12 +1,10 @@
-import { useQuery } from "@apollo/client";
-import { MATCH_MEMBERS_TO_SKILLS } from "@graphql/eden";
 import { useEffect, useState } from "react";
 
 import { ISkills, UserCard } from "../../cards";
 import { RoleCandidateSelector } from "../../components";
 
 export interface ICandidate {
-  _id: number;
+  _id: string;
   avatar: string;
   name: string;
   percentage: number;
@@ -25,59 +23,50 @@ export interface IRole {
   title: string;
   skills: IRoleSkill[];
   __typename: string;
-  // candidates: ICandidate[];
 }
 
 export interface ICandidateSelectionListProps {
   roles?: IRole[];
-  onSelect?: (candidate: ICandidate) => void;
+  members?: any;
+  // eslint-disable-next-line no-unused-vars
+  onSelectRole?: (role: string[]) => void;
+  // eslint-disable-next-line no-unused-vars
+  // onSelectMember?: (member: ICandidate) => void;
+  // eslint-disable-next-line no-unused-vars
+  onSelectMember?: (member: string) => void;
 }
 
 export const CandidateSelectionList = ({
   roles = [],
-  onSelect,
+  members = [],
+  onSelectRole,
+  onSelectMember,
 }: ICandidateSelectionListProps) => {
   const [currentRole, setCurrentRole] = useState<IRole | null>(null);
-  const [currentCandidate, setCurrentCandidate] =
-    useState<ICandidate | null>(null);
-  const [roleSkills, setRoleSkills] = useState<string[]>([]);
+  const [currentCandidate, setCurrentCandidate] = useState<ICandidate | null>(
+    null
+  );
 
-  // TODO: when backend creates matchMembersToRole, change this query to matchMembersToRole
-
-  const { data: dataMemberWithSkills } = useQuery(MATCH_MEMBERS_TO_SKILLS, {
-    variables: {
-      fields: {
-        skillsID: roleSkills,
-      },
-    },
-    skip: !roleSkills,
-    context: { serviceName: "soilservice" },
-  });
-
-  // console.log(
-  //   "dataMemberWithSkills",
-  //   dataMemberWithSkills?.matchMembersToSkills
-  // );
+  useEffect(() => {
+    if (currentCandidate && onSelectMember) {
+      onSelectMember(currentCandidate._id);
+    }
+  }, [currentCandidate, onSelectMember]);
 
   useEffect(() => {
     setCurrentCandidate(null);
-    // console.log("currentRole", currentRole);
-    // console.log("currentRole", currentRole?.skills);
 
-    setRoleSkills([]);
-    if (currentRole?.skills) {
+    if (currentRole?.skills && onSelectRole) {
       const indexSkills = [];
 
       for (const skill of currentRole?.skills) {
         indexSkills.push(skill?._id);
       }
-      setRoleSkills(indexSkills);
+      onSelectRole(indexSkills);
     }
   }, [currentRole]);
 
-  const { matchMembersToSkills } = dataMemberWithSkills || {};
-
-  const candidates = matchMembersToSkills?.map((candidate: any) => {
+  const candidates = members?.map((candidate: any) => {
     const { matchPercentage } = candidate;
     const { _id, discordName, skills, endorsements, discordAvatar } =
       candidate.member;
