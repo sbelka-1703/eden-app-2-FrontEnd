@@ -2,7 +2,7 @@ import { XIcon } from '@heroicons/react/outline'
 import React, { CSSProperties } from 'react'
 
 interface BadgeProps {
-    colorRGB: CSSProperties,
+    colorRGB: string,
     text: string,
     onClick: () => void;
 }
