@@ -8,6 +8,7 @@ export interface ProjectCardProps {
   position?: string;
   favButton?: boolean;
   favorite?: boolean;
+  updateFavoriteCallback?: Function;
   focused?: boolean;
 }
 
@@ -19,6 +20,7 @@ export const ProjectCard = ({
   position,
   favButton = false,
   favorite = false,
+  updateFavoriteCallback,
   focused,
 }: ProjectCardProps) => {
   return (
@@ -50,11 +52,14 @@ export const ProjectCard = ({
                 </span>
               </div>
             )}
-            {favButton && (
+            {favButton && updateFavoriteCallback && (
               <div
                 className={`flex h-full items-center border-l px-4 last:pr-0`}
               >
-                <Favorite favorite={favorite} projectId={""} memberId={""} />
+                <Favorite
+                  favorite={favorite}
+                  updateFavoriteCallback={updateFavoriteCallback}
+                />
               </div>
             )}
           </div>
