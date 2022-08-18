@@ -5,8 +5,8 @@ export interface TextHeading3Props {
 
 export const TextHeading3 = ({ children, className }: TextHeading3Props) => {
   return (
-    <h1 className={`text-soilHeading3 font-poppins font-medium ${className}`}>
+    <h3 className={`text-soilHeading3 font-poppins font-medium ${className}`}>
       {children}
-    </h1>
+    </h3>
   );
 };

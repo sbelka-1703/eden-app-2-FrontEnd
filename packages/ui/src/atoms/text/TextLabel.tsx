@@ -5,10 +5,10 @@ export interface TextLabelProps {
 
 export const TextLabel = ({ children, className }: TextLabelProps) => {
   return (
-    <h1
+    <span
       className={`text-soilLabel font-Inter text-soilGray font-semibold uppercase ${className}`}
     >
       {children}
-    </h1>
+    </span>
   );
 };
