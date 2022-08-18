@@ -35,12 +35,11 @@ export interface ICandidateSelectionListProps {
 
 export const CandidateSelectionList = ({
   roles = [],
-  onSelect
+  onSelect,
 }: ICandidateSelectionListProps) => {
   const [currentRole, setCurrentRole] = useState<IRole | null>(null);
-  const [currentCandidate, setCurrentCandidate] = useState<ICandidate | null>(
-    null
-  );
+  const [currentCandidate, setCurrentCandidate] =
+    useState<ICandidate | null>(null);
   const [roleSkills, setRoleSkills] = useState<string[]>([]);
 
   // TODO: when backend creates matchMembersToRole, change this query to matchMembersToRole
@@ -83,7 +82,6 @@ export const CandidateSelectionList = ({
     const { _id, discordName, skills, endorsements, discordAvatar } =
       candidate.member;
     const isFocused = _id === currentCandidate?._id;
-
 
     return (
       <button
