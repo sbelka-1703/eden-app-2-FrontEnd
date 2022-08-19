@@ -38,8 +38,9 @@ export const CandidateSelectionList = ({
   onSelect,
 }: ICandidateSelectionListProps) => {
   const [currentRole, setCurrentRole] = useState<IRole | null>(null);
-  const [currentCandidate, setCurrentCandidate] =
-    useState<ICandidate | null>(null);
+  const [currentCandidate, setCurrentCandidate] = useState<ICandidate | null>(
+    null
+  );
   const [roleSkills, setRoleSkills] = useState<string[]>([]);
 
   // TODO: when backend creates matchMembersToRole, change this query to matchMembersToRole
