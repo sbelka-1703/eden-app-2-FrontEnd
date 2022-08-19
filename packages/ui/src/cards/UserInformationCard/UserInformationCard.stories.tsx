@@ -17,4 +17,5 @@ Default.args = {
   title: "SCRUM MASTER",
   description: "Sabre Corporation · Fulltime",
   timeSpent: "Oct 2021 - Present (9 mos)",
+  isEditable: true
 };

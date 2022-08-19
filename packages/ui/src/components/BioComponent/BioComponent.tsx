@@ -1,4 +1,4 @@
-import { Avatar } from "../../elements";
+import { Card } from "../../elements";
 import { FiEdit3 } from "react-icons/fi";
 export interface IBioComponentProps {
   title?: string;
@@ -14,9 +14,7 @@ export const BioComponent = ({
   isEditable,
 }: IBioComponentProps) => {
   return (
-    <div
-      className={`ml-2 w-96 rounded-3xl border-2 bg-white p-1 drop-shadow-2xl`}
-    >
+    <Card shadow>
       <div className="my-4 flex flex-col">
         <div
           className={`mx-4 flex flex-row content-center justify-between justify-items-stretch`}
@@ -38,6 +36,6 @@ export const BioComponent = ({
           <p className="break-words text-justify">{description}</p>
         </div>
       </div>
-    </div>
+    </Card>
   );
 };
