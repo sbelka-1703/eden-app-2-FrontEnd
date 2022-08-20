@@ -1,5 +1,6 @@
 import { FiEdit3 } from "react-icons/fi";
 import { IoIosExpand } from "react-icons/io";
+
 import { Card } from "../../elements";
 
 export interface UserInformationCardProps {

@@ -8,7 +8,7 @@ describe("Badge", () => {
       <Badge
         colorRGB="236, 240, 71"
         text="Design"
-        onClick={() => console.log("")}
+        onClose={() => console.log("")}
       />
     );
 

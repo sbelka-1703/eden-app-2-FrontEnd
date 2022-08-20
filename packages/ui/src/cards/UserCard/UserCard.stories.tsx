@@ -25,5 +25,5 @@ Default.args = {
     { skillInfo: { _id: "2", name: "Frontend", __typename: "Skill" } },
   ],
   endorsements: 10,
-  focused: true,
+  focused: false,
 };

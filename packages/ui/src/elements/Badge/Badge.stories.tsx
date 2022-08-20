@@ -1,4 +1,5 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
+
 import { Badge } from "./Badge";
 
 export default {
@@ -13,5 +14,8 @@ export const Default = Template.bind({});
 Default.args = {
   colorRGB: "236, 240, 71",
   text: "Art",
-  onClick: () => console.log(""),
+  closeButton: false,
+  // eslint-disable-next-line no-empty-function
+  // close: () => {},
+  // onClose: () => console.log(""),
 };
