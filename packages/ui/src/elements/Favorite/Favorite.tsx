@@ -6,11 +6,7 @@ export interface FavoriteProps {
   onFavorite?: () => void;
 }
 
-export const Favorite = ({
-  favorite,
-  onFavorite,
-}: // updateFavoriteCallback,
-FavoriteProps) => {
+export const Favorite = ({ favorite, onFavorite }: FavoriteProps) => {
   const favoriteCls = clsx(
     `h-10 w-10 rounded-full pt-px flex items-center justify-center ${
       favorite ? "bg-red-200" : "bg-red-100"

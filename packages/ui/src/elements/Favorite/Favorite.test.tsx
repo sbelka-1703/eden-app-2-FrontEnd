@@ -7,7 +7,7 @@ describe("Favorite", () => {
     const { container } = render(
       <Favorite
         favorite={false}
-        updateFavoriteCallback={() => {
+        onFavorite={() => {
           console.log("update favorite");
         }}
       />
