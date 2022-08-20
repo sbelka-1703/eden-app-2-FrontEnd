@@ -58,7 +58,7 @@ export const ProjectCard = ({
               >
                 <Favorite
                   favorite={favorite}
-                  updateFavoriteCallback={updateFavoriteCallback}
+                  onFavorite={() => updateFavoriteCallback()}
                 />
               </div>
             )}
