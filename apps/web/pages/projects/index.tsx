@@ -1,9 +1,12 @@
 import { useQuery } from "@apollo/client";
-import { FIND_PROJECTS } from "@graphql/eden";
+import { FIND_PROJECTS, FIND_PROJECTS_RECOMMENDED } from "@graphql/eden";
 import type { NextPage } from "next";
+import { useContext } from "react";
 import { GridItemSix, GridItemThree, GridLayout, TabsCard } from "ui";
 
-// TODO: after getting user conext in place, add findProjects_RecommendedToUser query
+import { UserContext } from "../../context";
+
+// TODO: after getting user context in place, add findProjects_RecommendedToUser query
 
 const tabs = [
   {
@@ -21,14 +24,36 @@ const tabs = [
 ];
 
 const ProjectsPage: NextPage = () => {
-  const { data: dataProjects } = useQuery(FIND_PROJECTS, {
+  const { currentUser } = useContext(UserContext);
+
+  // if (currentUser) console.log("currentUser", currentUser);
+  const { data: dataProjectsAll } = useQuery(FIND_PROJECTS, {
     variables: {
       fields: {},
     },
     context: { serviceName: "soilservice" },
   });
 
-  console.log("dataProjects", dataProjects);
+  if (dataProjectsAll) console.log("dataProjectsAll", dataProjectsAll);
+
+  const { data: dataProjectsRecommended } = useQuery(
+    FIND_PROJECTS_RECOMMENDED,
+    {
+      variables: {
+        fields: {
+          memberID: currentUser?._id,
+        },
+      },
+      skip: !currentUser,
+      context: { serviceName: "soilservice" },
+    }
+  );
+
+  if (dataProjectsRecommended)
+    console.log("dataProjectsRecommended", dataProjectsRecommended);
+
+  // TODO: need query to get user favourite projects
+
   return (
     <GridLayout>
       <GridItemThree>user profile</GridItemThree>
