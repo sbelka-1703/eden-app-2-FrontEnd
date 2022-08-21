@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Avatar } from "../../elements";
 import { UserWithDescription } from "../UserWithDescription";
 import "./styles.css";
@@ -6,8 +6,27 @@ import "./styles.css";
 export interface ICollectionOfUsers {
   Ctitle?: string;
   person?: string;
-  // fade?: boolean;
+  Users?: IUsers[];
+  // Users?: IUsersData[];
+
+
 }
+
+export interface IUsers {
+  person: string,
+  username: string,
+}
+
+export interface IUsersData {
+  Users?: IUsers[];
+}
+
+
+// export const UsersList = ({
+//   Users = [],
+// }: ICollectionOfUsers ) =>{
+//   const [currentUsers, setCurrentUsers] = useState<IUsers | null>(null)
+// }
 
 const Users = [
   {
@@ -37,6 +56,8 @@ const Users = [
     username: "@iron-man",
   },
 ];
+
+// export const CollectionOfUsers = ({ Ctitle, person }: IUsers)
 
 export const CollectionOfUsers = ({ Ctitle, person }: ICollectionOfUsers) => {
   return (
