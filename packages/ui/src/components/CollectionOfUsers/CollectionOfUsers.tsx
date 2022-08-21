@@ -7,9 +7,6 @@ export interface ICollectionOfUsers {
   Ctitle?: string;
   person?: string;
   Users?: IUsers[];
-  // Users?: IUsersData[];
-
-
 }
 
 export interface IUsers {
@@ -20,13 +17,6 @@ export interface IUsers {
 export interface IUsersData {
   Users?: IUsers[];
 }
-
-
-// export const UsersList = ({
-//   Users = [],
-// }: ICollectionOfUsers ) =>{
-//   const [currentUsers, setCurrentUsers] = useState<IUsers | null>(null)
-// }
 
 const Users = [
   {
@@ -56,6 +46,7 @@ const Users = [
     username: "@iron-man",
   },
 ];
+
 
 // export const CollectionOfUsers = ({ Ctitle, person }: IUsers)
 

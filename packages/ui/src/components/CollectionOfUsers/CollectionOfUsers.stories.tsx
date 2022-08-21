@@ -10,7 +10,6 @@ export default {
 
 const Template: ComponentStory<typeof CollectionOfUsers> = (args) => (
   <CollectionOfUsers {...args} />
-
 );
 
 const Users = [
@@ -44,5 +43,5 @@ const Users = [
 
 export const Default = Template.bind({});
 Default.args = {
-  Users,
+  // Users,
 };
