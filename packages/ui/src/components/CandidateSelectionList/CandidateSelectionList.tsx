@@ -1,53 +1,87 @@
 import { useEffect, useState } from "react";
 
-import { UserCard } from "../../cards";
+import { ISkills, UserCard } from "../../cards";
 import { RoleCandidateSelector } from "../../components";
 
 export interface ICandidate {
-  _id: number;
+  _id: string;
   avatar: string;
   name: string;
   percentage: number;
   endorsements: number;
-  skills: string[];
+  skills: ISkills[];
+}
+
+interface IRoleSkill {
+  _id: string;
+  name: string;
+  __typename: string;
 }
 
 export interface IRole {
-  _id: number;
-  name: string;
-  candidates: ICandidate[];
+  _id: string;
+  title: string;
+  skills: IRoleSkill[];
+  __typename: string;
 }
 
-export interface IRoleCandidateSelector {
+export interface ICandidateSelectionListProps {
   roles?: IRole[];
+  members?: any;
+  // eslint-disable-next-line no-unused-vars
+  onSelectRole?: (role: string[]) => void;
+  // eslint-disable-next-line no-unused-vars
+  // onSelectMember?: (member: ICandidate) => void;
+  // eslint-disable-next-line no-unused-vars
+  onSelectMember?: (member: string) => void;
 }
 
 export const CandidateSelectionList = ({
   roles = [],
-}: IRoleCandidateSelector) => {
+  members = [],
+  onSelectRole,
+  onSelectMember,
+}: ICandidateSelectionListProps) => {
   const [currentRole, setCurrentRole] = useState<IRole | null>(null);
   const [currentCandidate, setCurrentCandidate] = useState<ICandidate | null>(
     null
   );
 
   useEffect(() => {
+    if (currentCandidate && onSelectMember) {
+      onSelectMember(currentCandidate._id);
+    }
+  }, [currentCandidate, onSelectMember]);
+
+  useEffect(() => {
     setCurrentCandidate(null);
+
+    if (currentRole?.skills && onSelectRole) {
+      const indexSkills = [];
+
+      for (const skill of currentRole?.skills) {
+        indexSkills.push(skill?._id);
+      }
+      onSelectRole(indexSkills);
+    }
   }, [currentRole]);
 
-  const candidates = currentRole?.candidates.map((candidate) => {
-    const { _id, name, percentage, skills, endorsements, avatar } = candidate;
-    const isFocused = candidate._id === currentCandidate?._id;
+  const candidates = members?.map((candidate: any) => {
+    const { matchPercentage } = candidate;
+    const { _id, discordName, skills, endorsements, discordAvatar } =
+      candidate.member;
+    const isFocused = _id === currentCandidate?._id;
 
     return (
       <button
         key={_id}
-        onClick={() => setCurrentCandidate(candidate)}
+        onClick={() => setCurrentCandidate(candidate.member)}
         className={`mb-6`}
       >
         <UserCard
-          avatar={avatar}
-          name={name}
-          percentage={percentage}
+          avatar={discordAvatar}
+          name={discordName}
+          percentage={matchPercentage}
           skills={skills}
           endorsements={endorsements}
           focused={isFocused}

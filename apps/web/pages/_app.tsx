@@ -6,12 +6,16 @@ import type { AppProps } from "next/app";
 import * as React from "react";
 import { AppLayout } from "ui";
 
+import { UserProvider } from "../context";
+
 const App = ({ Component, pageProps }: AppProps) => {
   return (
     <ApolloProvider client={apolloClient}>
-      <AppLayout>
-        <Component {...pageProps} />
-      </AppLayout>
+      <UserProvider>
+        <AppLayout>
+          <Component {...pageProps} />
+        </AppLayout>
+      </UserProvider>
     </ApolloProvider>
   );
 };

@@ -1,3 +1,4 @@
+import fetch from "cross-fetch";
 import {
   ApolloClient,
   ApolloLink,
@@ -10,7 +11,7 @@ import { RetryLink } from "@apollo/client/link/retry";
 
 // Soil API endpoint
 const SOIL_API_URL = "https://oasis-bot-test-deploy.herokuapp.com/graphql";
-const httpLinkSoil = new HttpLink({ uri: SOIL_API_URL });
+const httpLinkSoil = new HttpLink({ uri: SOIL_API_URL, fetch });
 
 const soilLink = new ApolloLink((operation, forward) => {
   // Use the setContext method to set the HTTP headers.
@@ -26,7 +27,7 @@ const soilLink = new ApolloLink((operation, forward) => {
 // Neo API endpoint
 // TODO: NEED TO CHANGE TO NEO ENDPOINT
 const NEO_API_URL = "https://oasis-bot-test-deploy.herokuapp.com/graphql";
-const httpLinkNeo = new HttpLink({ uri: NEO_API_URL });
+const httpLinkNeo = new HttpLink({ uri: NEO_API_URL, fetch });
 
 const neoLink = new ApolloLink((operation, forward) => {
   // Use the setContext method to set the HTTP headers.

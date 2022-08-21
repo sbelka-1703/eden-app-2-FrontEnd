@@ -1,11 +1,19 @@
 import { Avatar, Card } from "../../elements";
 
+export interface ISkills {
+  skillInfo: {
+    _id: string;
+    name: string;
+    __typename: string;
+  };
+}
+
 export interface UserCardProps {
   name?: string;
   avatar?: string;
   title?: string;
   percentage?: number;
-  skills?: string[];
+  skills?: ISkills[];
   endorsements?: number;
   focused?: boolean;
 }
@@ -43,7 +51,7 @@ export const UserCard = ({
                 key={index}
                 className={`bg-soilPurple/20 mr-2 rounded-full px-2 py-1 text-xs`}
               >
-                {skill}
+                {skill?.skillInfo.name}
               </span>
             ))}
           </div>
