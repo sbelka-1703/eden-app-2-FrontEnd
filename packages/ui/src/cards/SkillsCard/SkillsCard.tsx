@@ -16,7 +16,7 @@ export const SkillsCard: React.FC<SkillsCardProps> = ({ skills }) => {
             <div className="flex justify-start items-center flex-wrap">
                 {skills?.map((skill: ISkill) => (
                     <div className="mb-1">
-                    <Badge colorRGB={skill.colorRGB} text={skill.text} onClick={skill.onClick} />
+                    <Badge colorRGB={skill.colorRGB} text={skill.text} onClose={skill.onClick} />
                     </div>
                 ))}
             </div>
