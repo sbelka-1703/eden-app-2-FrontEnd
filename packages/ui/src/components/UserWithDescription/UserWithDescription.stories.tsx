@@ -1,3 +1,4 @@
+import { faker } from "@faker-js/faker";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { UserWithDescription } from "./UserWithDescription";
@@ -13,4 +14,8 @@ const Template: ComponentStory<typeof UserWithDescription> = (args) => (
 );
 
 export const Default = Template.bind({});
-Default.args = {};
+Default.args = {
+  avatarSrc: faker.internet.avatar(),
+  title: faker.name.fullName(),
+  name: `@${faker.internet.userName()}`,
+};
