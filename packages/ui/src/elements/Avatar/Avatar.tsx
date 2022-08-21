@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export interface AvatarProps {
   size?: "sm" | "md" | "lg";
@@ -18,18 +18,22 @@ export const Avatar = ({ size = "md", src, alt = "avatar" }: AvatarProps) => {
     }
   );
 
-  // TODO: change fallback logic to use svg
-  const fallbackSrc = "https://images.dog.ceo/breeds/cockapoo/bubbles1.jpg";
+  useEffect(() => {
+    if (src) {
+      setImageSrc(src);
+    }
+  }, [src]);
 
   return (
     <span className={btnCls}>
-      {src ? (
+      {imageSrc ? (
+        // eslint-disable-next-line @next/next/no-img-element
         <img
           src={`${imageSrc}`}
           className=""
           alt={alt}
           onError={() => {
-            if (imageSrc !== fallbackSrc) setImageSrc(fallbackSrc);
+            setImageSrc("");
           }}
         />
       ) : (
