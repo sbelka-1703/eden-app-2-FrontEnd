@@ -11,13 +11,13 @@ export const Endorsments = ({ title, endorsment }: IEndorsments) => {
     return (
         <div className="endorsment-box ">
             <div className="text-center p-3 ">
-                <UserWithDescription avatarSrc="h"/>
+                <UserWithDescription avatarSrc="h" />
                 <p className="end-p">{title}</p>
                 <h1>{endorsment}</h1>
-                 <div className=" mt-2 buttons flex justify-around">
+                <div className=" mt-2 buttons flex justify-around">
                     <button className="border text-white">Remove</button>
                     <button className="bg-white border">Claim</button>
-                 </div>
+                </div>
             </div>
         </div>
     )
