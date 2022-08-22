@@ -1,10 +1,10 @@
 import { render } from "@testing-library/react";
 
-import { Endorsments } from ".";
+import { Endorsements } from ".";
 
-describe("Endorsments", () => {
+describe("Endorsements", () => {
   it("renders without throwing", () => {
-    const { container } = render(<Endorsments />);
+    const { container } = render(<Endorsements />);
 
     expect(container).toBeInTheDocument();
   });

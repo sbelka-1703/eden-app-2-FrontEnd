@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import { Endorsments } from "../Endorsments/Endorsments";
+import { Endorsements } from "../Endorsements/Endorsements";
 
-export interface IEndorsmentsCarousel {
+export interface IEndorsementsCarousel {
     Ctitle?: string;
     person?: string;
 }
 
-export const EndorsmentsCarousel = ({ Ctitle, person }: IEndorsmentsCarousel) => {
+export const EndorsementsCarousel = ({ Ctitle, person }: IEndorsementsCarousel) => {
     return (
         <div>
-            <Endorsments />
+            <Endorsements />
         </div>
     )
 }

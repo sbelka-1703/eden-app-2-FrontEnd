@@ -1,4 +1,4 @@
-.endorsment-box {
+.endorsements-box {
     box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.15);
     border-radius: 25px;
     width: 202px;
@@ -15,7 +15,7 @@
     color: #AAAAAA;
 }
 
-.endorsment-box h1 {
+.endorsements-box h1 {
     font-family: 'Poppins';
     font-style: normal;
     font-weight: 500;
