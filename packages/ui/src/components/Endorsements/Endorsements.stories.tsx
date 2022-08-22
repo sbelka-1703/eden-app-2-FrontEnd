@@ -9,6 +9,8 @@ export default {
 
 const Template: ComponentStory<typeof Endorsements> = (args) => (
     <Endorsements {...args} />
+
+
 )
 
 export const Default = Template.bind({});
