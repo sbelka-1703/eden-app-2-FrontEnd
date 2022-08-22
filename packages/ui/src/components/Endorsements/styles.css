@@ -26,7 +26,7 @@
     text-transform: uppercase;
 }
 
-button {
+.endorsements-button {
     background: rgba(170, 170, 170, 0.85);
     border-radius: 11px;
     width: 76px;

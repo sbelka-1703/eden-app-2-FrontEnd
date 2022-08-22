@@ -14,8 +14,8 @@ export const Endorsements = ({ title, endorsement }: IEndorsements) => {
                 <p className="end-p">{title}</p>
                 <h1>{endorsement}</h1>
                 <div className=" mt-2 buttons flex justify-around">
-                    <button className="border text-white">Remove</button>
-                    <button className="bg-white border">Claim</button>
+                    <button className="border text-white endorsements-button">Remove</button>
+                    <button className="bg-white border endorsements-button">Claim</button>
                 </div>
             </div>
         </div>
