@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { SkillSelector } from "./SkillSelector";
 
 export default {
-  title: "Components/SkillSelector",
+  title: "Selector/SkillSelector",
   component: SkillSelector,
   argTypes: {},
 } as ComponentMeta<typeof SkillSelector>;

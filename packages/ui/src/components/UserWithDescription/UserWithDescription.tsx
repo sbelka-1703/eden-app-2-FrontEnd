@@ -12,7 +12,7 @@ export const UserWithDescription = ({
   name,
 }: IUserWithDescriptionProps) => {
   return (
-    <div className={`desc font-Inter mt-6 flex-col content-center text-center`}>
+    <div className={`desc font-Inter flex-col content-center text-center`}>
       <Avatar src={avatarSrc} />
       <div className={`pt-2 uppercase`}>{title}</div>
       <div className={`font-sm text-neutral-500`}>{name}</div>

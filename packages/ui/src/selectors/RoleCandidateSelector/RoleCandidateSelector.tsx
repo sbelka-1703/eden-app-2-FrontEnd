@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { AiOutlineDoubleLeft, AiOutlineDoubleRight } from "react-icons/ai";
-
-import { IRole } from "../CandidateSelectionList";
+import { IRole } from "ui";
 
 export interface IRoleCandidateSelectorProps {
   roles?: IRole[];
+  // eslint-disable-next-line no-unused-vars
   onSelect?: (role: IRole) => void;
 }
 
