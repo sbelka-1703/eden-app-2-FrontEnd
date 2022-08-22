@@ -1,5 +1,4 @@
 import { UserWithDescription } from "../UserWithDescription";
-import UserWithDescriptionStories from "../UserWithDescription/UserWithDescription.stories";
 import "./styles.css"
 
 export interface IEndorsments {
