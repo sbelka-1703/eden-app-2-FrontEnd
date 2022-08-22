@@ -1,11 +1,11 @@
 import { Avatar, Card, Favorite, Button } from "../../elements";
-import {useState} from "react"
+import { useState } from "react";
 export interface ProjectCardSmallProps {
   avatar?: string;
   title?: string;
   description?: string;
-  updateFavorite?: ()=> void;
-  moreInfoClick?: ()=> void;
+  updateFavorite?: () => void;
+  moreInfoClick?: () => void;
 }
 
 export const ProjectCardSmall = ({
@@ -13,27 +13,23 @@ export const ProjectCardSmall = ({
   title,
   description,
   updateFavorite,
-  moreInfoClick
+  moreInfoClick,
 }: ProjectCardSmallProps) => {
-  const [fav, updateFav] = useState(false)
+  const [fav, updateFav] = useState(false);
   const onClickFav = () => {
     updateFav(!fav);
-    if(updateFavorite)
-    {
+    if (updateFavorite) {
       updateFavorite();
     }
-  }
+  };
   return (
     <Card shadow>
-      <div className="flex justify-between flex-col">
+      <div className="flex flex-col justify-between">
         <div className="flex flex-row justify-between">
           <Avatar src={avatar} />
-          <Favorite
-            favorite={fav}
-            onFavorite={() => onClickFav()}
-          />
+          <Favorite favorite={fav} onFavorite={() => onClickFav()} />
         </div>
-        <div className={`w-full mt-6`}>
+        <div className={`mt-6 w-full`}>
           <div className="flex h-full">
             <div className={`-mt-2 mr-auto`}>
               <div className={`text-2xl`}>{title}</div>
@@ -42,13 +38,12 @@ export const ProjectCardSmall = ({
           </div>
         </div>
       </div>
-      <div className="flex justify-center align-center bg-slate-200 w-full py-3 px-2 rounded-b-lg mt-4 text-lg cursor-pointer" onClick={moreInfoClick}>
-        <div>
-          More Info
-        </div>
-        <div className="px-2">
-          {">"}
-        </div>
+      <div
+        className="align-center mt-4 flex w-full cursor-pointer justify-center rounded-b-lg bg-slate-200 py-3 px-2 text-lg"
+        onClick={moreInfoClick}
+      >
+        <div>More Info</div>
+        <div className="px-2">{">"}</div>
       </div>
     </Card>
   );
