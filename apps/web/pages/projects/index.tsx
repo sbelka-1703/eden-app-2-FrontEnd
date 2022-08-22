@@ -2,7 +2,13 @@ import { useQuery } from "@apollo/client";
 import { FIND_PROJECTS, FIND_PROJECTS_RECOMMENDED } from "@graphql/eden";
 import type { NextPage } from "next";
 import { useContext } from "react";
-import { GridItemSix, GridItemThree, GridLayout, ProjectsContainer } from "ui";
+import {
+  GridItemSix,
+  GridItemThree,
+  GridLayout,
+  ProjectsContainer,
+  UserProfileMenu,
+} from "ui";
 
 import { UserContext } from "../../context";
 
@@ -39,7 +45,9 @@ const ProjectsPage: NextPage = () => {
 
   return (
     <GridLayout>
-      <GridItemThree>user profile</GridItemThree>
+      <GridItemThree>
+        <UserProfileMenu />
+      </GridItemThree>
       <GridItemSix>
         <ProjectsContainer
           allProjects={dataProjectsAll?.findProjects}

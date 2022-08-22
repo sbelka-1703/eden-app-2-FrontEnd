@@ -2,7 +2,13 @@ import { useQuery } from "@apollo/client";
 import { FIND_PROJECT } from "@graphql/eden";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { GridItemNine, GridItemThree, GridLayout } from "ui";
+import {
+  Card,
+  GridItemNine,
+  GridItemThree,
+  GridLayout,
+  UserProfileMenu,
+} from "ui";
 
 const ProjectPage: NextPage = () => {
   const router = useRouter();
@@ -17,11 +23,17 @@ const ProjectPage: NextPage = () => {
     context: { serviceName: "soilservice" },
   });
 
-  console.log("dataProject", dataProject);
+  if (dataProject) console.log("dataProject", dataProject);
   return (
     <GridLayout>
-      <GridItemThree>3</GridItemThree>
-      <GridItemNine>9</GridItemNine>
+      <GridItemThree>
+        <UserProfileMenu />
+      </GridItemThree>
+      <GridItemNine>
+        <Card shadow className="h-8/10 bg-white">
+          content here
+        </Card>
+      </GridItemNine>
     </GridLayout>
   );
 };
