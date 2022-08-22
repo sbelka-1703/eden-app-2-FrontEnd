@@ -16,20 +16,7 @@ import {
   TabsCard,
 } from "ui";
 
-const tabs = [
-  {
-    title: "General",
-    fullTitle: "General",
-  },
-  {
-    title: "Background",
-    fullTitle: "Background",
-  },
-  {
-    title: "Endorsements",
-    fullTitle: "Endorsements",
-  },
-];
+const tabs = ["General", "Background", "Endorsements"];
 
 const ProjectPage: NextPage = () => {
   const router = useRouter();

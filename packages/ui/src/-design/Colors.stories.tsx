@@ -24,7 +24,7 @@ const scales = [
 ];
 
 const ColorBox = ({ color, scale }: { color: string; scale: string }) => {
-  console.log(color, scale);
+  // console.log(color, scale);
   return (
     <div>
       <div className={`h-16 w-48 bg-${color}-${scale} rounded-lg border`}></div>

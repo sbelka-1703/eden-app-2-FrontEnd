@@ -1,3 +1,4 @@
+import { faker } from "@faker-js/faker";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { ProjectCard } from "./ProjectCard";
@@ -14,12 +15,12 @@ const Template: ComponentStory<typeof ProjectCard> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  title: "Eden protocol",
-  description: "Find & be found by opportunities accross the DAO",
-  avatar:
-    "https://cdn.discordapp.com/avatars/908392557258604544/3d834ac5b2ed60c37533ffe2c3c3a2a7.jpg",
-  position: "Scrum Master",
-  // percentage: 0,
+  title: faker.company.name(),
+  description: faker.company.catchPhrase(),
+  avatar: faker.internet.avatar(),
+  position: faker.hacker.ingverb(),
+  percentage: Number(faker.random.numeric(2)),
   focused: false,
   favButton: true,
+  favorite: false,
 };

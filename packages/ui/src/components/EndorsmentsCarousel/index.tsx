@@ -1,1 +1,1 @@
-export * from './EndorsmentsCarousel'
+export * from "./EndorsmentsCarousel";

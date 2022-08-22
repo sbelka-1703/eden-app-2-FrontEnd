@@ -2,26 +2,9 @@ import { useQuery } from "@apollo/client";
 import { FIND_PROJECTS, FIND_PROJECTS_RECOMMENDED } from "@graphql/eden";
 import type { NextPage } from "next";
 import { useContext } from "react";
-import { GridItemSix, GridItemThree, GridLayout, TabsCard } from "ui";
+import { GridItemSix, GridItemThree, GridLayout, ProjectsContainer } from "ui";
 
 import { UserContext } from "../../context";
-
-// TODO: after getting user context in place, add findProjects_RecommendedToUser query
-
-const tabs = [
-  {
-    title: "All projects",
-    fullTitle: "All projects",
-  },
-  {
-    title: "Favourites",
-    fullTitle: "Favourites",
-  },
-  {
-    title: "Recommended",
-    fullTitle: "Recommended",
-  },
-];
 
 const ProjectsPage: NextPage = () => {
   const { currentUser } = useContext(UserContext);
@@ -34,7 +17,7 @@ const ProjectsPage: NextPage = () => {
     context: { serviceName: "soilservice" },
   });
 
-  if (dataProjectsAll) console.log("dataProjectsAll", dataProjectsAll);
+  // if (dataProjectsAll) console.log("dataProjectsAll", dataProjectsAll);
 
   const { data: dataProjectsRecommended } = useQuery(
     FIND_PROJECTS_RECOMMENDED,
@@ -49,8 +32,8 @@ const ProjectsPage: NextPage = () => {
     }
   );
 
-  if (dataProjectsRecommended)
-    console.log("dataProjectsRecommended", dataProjectsRecommended);
+  // if (dataProjectsRecommended)
+  //   console.log("dataProjectsRecommended", dataProjectsRecommended);
 
   // TODO: need query to get user favourite projects
 
@@ -58,7 +41,12 @@ const ProjectsPage: NextPage = () => {
     <GridLayout>
       <GridItemThree>user profile</GridItemThree>
       <GridItemSix>
-        <TabsCard tabs={tabs} onSelect={(val) => console.log(val)} />
+        <ProjectsContainer
+          allProjects={dataProjectsAll?.findProjects}
+          recommendedProjects={
+            dataProjectsRecommended?.findProjects_RecommendedToUser
+          }
+        />
       </GridItemSix>
       <GridItemThree>recommend</GridItemThree>
     </GridLayout>
