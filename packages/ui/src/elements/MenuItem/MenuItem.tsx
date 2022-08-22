@@ -1,24 +1,24 @@
 import { ReactElement } from "react";
-import { Badge } from "../../elements/Badge/Badge";
+import { Badge, Button } from "../../elements";
 export interface MenuItemProps {
   Icon?: ReactElement;
   FunctionName?: string;
-  FunctionCallback?: () => void;
+  onFunctionCallback?: () => void;
   counterBadge?: number;
 }
 
 export const MenuItem = ({
   Icon,
   FunctionName,
-  FunctionCallback,
+  onFunctionCallback,
   counterBadge,
 }: MenuItemProps) => {
   return (
     <div
       className={
-        "flex-start m-1 flex w-max cursor-pointer flex-row p-2 hover:rounded-lg hover:bg-slate-100 hover:drop-shadow-xl"
+        "flex-start flex w-full cursor-pointer flex-row p-2 hover:rounded-lg hover:bg-slate-100 hover:drop-shadow-xl"
       }
-      onClick={FunctionCallback}
+      onClick={onFunctionCallback}
     >
       <div className="px-2">{Icon}</div>
       <div className="px-2 text-lg font-medium">{FunctionName}</div>

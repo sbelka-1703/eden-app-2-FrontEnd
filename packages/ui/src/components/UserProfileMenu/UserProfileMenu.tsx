@@ -4,12 +4,18 @@ export interface IUserProfileMenuProps {
   avatarSrc?: string;
   title?: string;
   name?: string;
+  onClickFindProject?: () => void;
+  onClickActiveApplication?: () => void;
+  onClickMyProject?: () => void;
 }
 
 export const UserProfileMenu = ({
   avatarSrc,
   title,
   name,
+  onClickFindProject,
+  onClickActiveApplication,
+  onClickMyProject,
 }: IUserProfileMenuProps) => {
   return (
     <div className={`desc mt-6 flex-col`}>
@@ -25,15 +31,18 @@ export const UserProfileMenu = ({
           <MenuItem
             Icon={<MdPeopleAlt size={25} />}
             FunctionName="Find Projects"
+            onFunctionCallback={onClickFindProject}
           />
           <MenuItem
             Icon={<MdFactCheck size={25} />}
             FunctionName="Active Applications"
+            onFunctionCallback={onClickActiveApplication}
           />
           <MenuItem
             Icon={<MdCreateNewFolder size={25} />}
             FunctionName="My Projects"
             counterBadge={3}
+            onFunctionCallback={onClickMyProject}
           />
         </div>
       </div>
