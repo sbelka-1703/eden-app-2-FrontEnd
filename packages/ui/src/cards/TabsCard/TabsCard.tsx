@@ -1,35 +1,26 @@
-import { MouseEvent, useState } from "react";
-
-// TODO: need to revisit this, tabs might be better as a prop.  Also a onSelect callback is needed.
-
-interface ITabsProps {
-  title: string;
-  fullTitle: string;
-}
+import { useState } from "react";
 
 export interface TabsCardProps {
-  tabs: ITabsProps[];
+  tabs: string[];
   // eslint-disable-next-line no-unused-vars
-  onSelect: (val: ITabsProps) => void;
+  onSelect: (val: number) => void;
 }
 
 export const TabsCard = ({ tabs, onSelect }: TabsCardProps) => {
   const [currentTab, setCurrentTab] = useState(0);
+  const maxIndex = tabs.length - 1;
 
-  const handleTabClick = (
-    e: MouseEvent<HTMLButtonElement>,
-    index: number,
-    sideCorner = ""
-  ) => {
+  const handleTabClick = (index: number, sideCorner = "") => {
     if (sideCorner === "right" && index < tabs.length - 1) {
       setCurrentTab(index + 1);
-      onSelect(tabs[index + 1]);
+      onSelect(index);
     } else if (sideCorner === "left" && currentTab > 0) {
       setCurrentTab(index - 1);
-      onSelect(tabs[index - 1]);
+      onSelect(index);
     } else {
+      // console.log(index);
       setCurrentTab(index);
-      onSelect(tabs[index]);
+      onSelect(index);
     }
   };
 
@@ -43,32 +34,60 @@ export const TabsCard = ({ tabs, onSelect }: TabsCardProps) => {
     }
   };
 
+  const calculateActiveTab = (index: number) => {
+    if (currentTab == index) {
+      return "border-accentColor border-t-2 border-l-2 border-r-2";
+    } else {
+      return "border-accentColor border-b-2";
+    }
+  };
+
+  const calculateActiveTabBorderColor = (index: number) => {
+    if (currentTab == index) {
+      // return "#74FA6D";
+      return "stroke-accentColor";
+    } else {
+      return "stroke-slate-200";
+    }
+  };
+
+  const calculateActiveTabBorderWidth = (index: number) => {
+    if (currentTab == index) {
+      return "2px";
+    } else {
+      return "1px";
+    }
+  };
+
   return (
-    <div className="flex">
+    <div className="flex w-full">
       {tabs &&
         tabs.map((tab, index) => (
           <div
             style={{ zIndex: calculateTabZindex(index) }}
-            className={`relative h-10 cursor-pointer ${
-              currentTab == index ? "z-50" : "bg-slate-100"
-            }`}
+            className={`relative h-10 w-full cursor-pointer rounded-t-xl text-center ${
+              currentTab == index ? "z-50" : " bg-slate-100"
+            } ${calculateActiveTab(index)}`}
             key={index}
           >
             {index != 0 && index - 1 != currentTab && (
               <button
-                className={`absolute -left-10 top-0 fill-slate-100 stroke-slate-200 ${
-                  currentTab == index ? "fill-white" : ""
-                }`}
-                style={{ strokeDasharray: "0,0,57,100" }}
-                onClick={(e) => handleTabClick(e, index, "left")}
+                className={`absolute -left-9 top-0 fill-slate-100 ${calculateActiveTabBorderColor(
+                  index
+                )} ${currentTab == index ? "fill-white" : ""}`}
+                style={{
+                  strokeDasharray: "0,0,57,100",
+                  strokeWidth: calculateActiveTabBorderWidth(index),
+                }}
+                onClick={() => handleTabClick(index, "left")}
               >
-                <svg height="40" width="40">
+                <svg height="38" width="40">
                   <polygon points="40,0 0,40 40,40" />
                 </svg>
               </button>
             )}
             <button
-              className={`relative h-full border-t px-3 pt-2 text-center font-medium uppercase ${
+              className={`relative h-full w-full rounded-t-xl border-t px-3 pt-2 text-center font-medium uppercase ${
                 !index ? "border-l" : ""
               } ${
                 currentTab == index
@@ -79,19 +98,22 @@ export const TabsCard = ({ tabs, onSelect }: TabsCardProps) => {
                 ${currentTab < index ? "pl-9" : ""}
                 `}
               key={index}
-              onClick={(e) => handleTabClick(e, index)}
+              onClick={() => handleTabClick(index)}
             >
-              <span>{tab.title}</span>
+              <span>{tab}</span>
             </button>
-            {index != currentTab - 1 && (
+            {index != maxIndex && index != currentTab - 1 && (
               <button
-                className={`absolute -right-10 top-0 fill-slate-100 stroke-slate-200 ${
-                  currentTab == index ? "fill-white" : ""
-                }`}
-                style={{ strokeDasharray: "0,81,100" }}
-                onClick={(e) => handleTabClick(e, index, "right")}
+                className={`absolute -right-9 top-0 fill-slate-100 ${calculateActiveTabBorderColor(
+                  index
+                )}  ${currentTab == index ? "fill-white" : ""}`}
+                style={{
+                  strokeDasharray: "0,81,100",
+                  strokeWidth: calculateActiveTabBorderWidth(index),
+                }}
+                onClick={() => handleTabClick(index, "right")}
               >
-                <svg height="40" width="40">
+                <svg height="38" width="40">
                   <polygon points="0,0 0,40 40,40" />
                 </svg>
               </button>

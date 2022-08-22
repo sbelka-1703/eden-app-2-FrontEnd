@@ -5,8 +5,6 @@ interface Props {
   className?: string;
 }
 
-// TODO: all borders here should be removed, just here temporarily for testing
-
 export const GridLayout: FC<Props> = ({ children, className = "" }) => {
   return (
     <div
@@ -19,9 +17,7 @@ export const GridLayout: FC<Props> = ({ children, className = "" }) => {
 
 export const GridItemThree: FC<Props> = ({ children, className = "" }) => {
   return (
-    <div
-      className={`col-span-12 border md:col-span-12 lg:col-span-3 ${className}`}
-    >
+    <div className={`col-span-12 md:col-span-12 lg:col-span-3 ${className}`}>
       {children}
     </div>
   );
@@ -29,9 +25,7 @@ export const GridItemThree: FC<Props> = ({ children, className = "" }) => {
 
 export const GridItemFour: FC<Props> = ({ children, className = "" }) => {
   return (
-    <div
-      className={`col-span-12 border md:col-span-12 lg:col-span-4 ${className}`}
-    >
+    <div className={`col-span-12 md:col-span-12 lg:col-span-4 ${className}`}>
       {children}
     </div>
   );
@@ -39,9 +33,7 @@ export const GridItemFour: FC<Props> = ({ children, className = "" }) => {
 
 export const GridItemSix: FC<Props> = ({ children, className = "" }) => {
   return (
-    <div
-      className={`col-span-12 border md:col-span-12 lg:col-span-6 ${className}`}
-    >
+    <div className={`col-span-12 md:col-span-12 lg:col-span-6 ${className}`}>
       {children}
     </div>
   );
@@ -50,7 +42,7 @@ export const GridItemSix: FC<Props> = ({ children, className = "" }) => {
 export const GridItemEight: FC<Props> = ({ children, className = "" }) => {
   return (
     <div
-      className={`col-span-12 mb-5 border md:col-span-12 lg:col-span-8 ${className}`}
+      className={`col-span-12 mb-5 md:col-span-12 lg:col-span-8 ${className}`}
     >
       {children}
     </div>
@@ -60,7 +52,7 @@ export const GridItemEight: FC<Props> = ({ children, className = "" }) => {
 export const GridItemNine: FC<Props> = ({ children, className = "" }) => {
   return (
     <div
-      className={`col-span-12 mb-5 border md:col-span-12 lg:col-span-9 ${className}`}
+      className={`col-span-12 mb-5 md:col-span-12 lg:col-span-9 ${className}`}
     >
       {children}
     </div>

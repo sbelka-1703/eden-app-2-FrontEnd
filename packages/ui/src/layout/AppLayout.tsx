@@ -6,9 +6,9 @@ interface IAppLayoutProps {
 
 export const AppLayout = ({ children }: IAppLayoutProps) => {
   return (
-    <div className="bg-background h-screen">
+    <div className="bg-background flex h-screen min-w-0 flex-col overflow-y-hidden">
       <AppHeader />
-      <main className="flex-grow">{children}</main>
+      <main className="flex flex-grow">{children}</main>
     </div>
   );
 };
