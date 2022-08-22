@@ -3,16 +3,24 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { RoleCandidateSelector } from "./RoleCandidateSelector";
 
 export default {
-  title: "Components/RoleCandidateSelector",
+  title: "Selector/RoleCandidateSelector",
   component: RoleCandidateSelector,
   argTypes: {},
 } as ComponentMeta<typeof RoleCandidateSelector>;
 
+const skills = [
+  {
+    _id: "1",
+    name: "JavaScript",
+    __typename: "Skill",
+  },
+];
+
 const roles = [
-  { _id: 1, title: "Scrum Master", candidates: [] },
-  { _id: 2, title: "Frontend", candidates: [] },
-  { _id: 3, title: "Backend", candidates: [] },
-  { _id: 4, title: "Product Manager", candidates: [] },
+  { _id: "1", title: "Scrum Master", skills, __typename: "Role" },
+  { _id: "2", title: "Frontend", skills, __typename: "Role" },
+  { _id: "3", title: "Backend", skills, __typename: "Role" },
+  { _id: "4", title: "Product Manager", skills, __typename: "Role" },
 ];
 
 const Template: ComponentStory<typeof RoleCandidateSelector> = (args) => (

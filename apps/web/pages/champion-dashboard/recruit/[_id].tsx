@@ -10,13 +10,11 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import {
   CandidateSelectionList,
+  ChampionRecruitContainer,
   GridItemSix,
   GridItemThree,
   GridLayout,
-  TabsCard,
 } from "ui";
-
-const tabs = ["General", "Background", "Endorsements"];
 
 const ProjectPage: NextPage = () => {
   const router = useRouter();
@@ -85,9 +83,9 @@ const ProjectPage: NextPage = () => {
         />
       </GridItemThree>
       <GridItemSix>
-        <TabsCard tabs={tabs} onSelect={(val) => console.log(val)} />
+        <ChampionRecruitContainer member={dataMember?.findMember} />
       </GridItemSix>
-      <GridItemThree>3</GridItemThree>
+      <GridItemThree>shortlist</GridItemThree>
     </GridLayout>
   );
 };
