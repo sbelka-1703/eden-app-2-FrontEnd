@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { BioComponent, Button, TabsCard, UserWithDescription } from "ui";
+import {
+  BioComponent,
+  Button,
+  EndorsementsCarousel,
+  SkillsCard,
+  TabsCard,
+  UserWithDescription,
+} from "ui";
 
 const tabs = ["General", "Background", "Endorsements"];
 
@@ -27,28 +34,44 @@ export const ChampionRecruitContainer = ({
     <div className="rounded-xl">
       <TabsCard tabs={tabs} onSelect={(val) => setActiveTab(val)} />
       <div className="border-accentColor h-8/10 overflow-y-scroll rounded-b-xl border-b-2 border-r-2 border-l-2 bg-white px-4">
+        <div className={`pt-6`}>
+          <div className={`flex justify-between`}>
+            <div className={`mt-2`}>
+              <Button>NOT RIGHT NOW</Button>
+            </div>
+            <UserWithDescription
+              avatarSrc={member.discordAvatar}
+              title={`title here`}
+              name={`@${member.discordName}`}
+            />
+            <div className={`mt-2`}>
+              <Button>SHORTLIST</Button>
+            </div>
+          </div>
+        </div>
+
         {activeTab === 0 && (
           <div className={`pt-6`}>
-            <div className={`flex justify-between`}>
-              <div className={`mt-2`}>
-                <Button>NOT RIGHT NOW</Button>
-              </div>
-              <UserWithDescription
-                avatarSrc={member.discordAvatar}
-                title={`title here`}
-                name={`@${member.discordName}`}
-              />
-              <div className={`mt-2`}>
-                <Button>SHORTLIST</Button>
-              </div>
-            </div>
-            <div className={`pt-4`}>
+            <div className={`flex justify-between pt-4`}>
               <BioComponent title={`SHORT BIO`} description={member.bio} />
+              <div>Match</div>
             </div>
+            <div className={`flex justify-between`}>
+              <div>
+                <SkillsCard />
+              </div>
+              <div>social</div>
+              <div>availability</div>
+            </div>
+            <div>graph</div>
           </div>
         )}
         {activeTab === 1 && <div>Background</div>}
-        {activeTab === 2 && <div>Endorsements</div>}
+        {activeTab === 2 && (
+          <div>
+            <EndorsementsCarousel />
+          </div>
+        )}
       </div>
     </div>
   );
