@@ -1,6 +1,9 @@
-import { Avatar, Card, Favorite } from "../../elements";
+import { useRouter } from "next/router";
+import { BsArrowRight } from "react-icons/bs";
+import { Avatar, Button, Card, Favorite } from "ui";
 
 export interface ProjectCardProps {
+  _id?: string;
   avatar?: string;
   title?: string;
   description?: string;
@@ -13,6 +16,7 @@ export interface ProjectCardProps {
 }
 
 export const ProjectCard = ({
+  _id,
   avatar,
   title,
   description,
@@ -23,8 +27,10 @@ export const ProjectCard = ({
   updateFavoriteCallback,
   focused,
 }: ProjectCardProps) => {
+  const router = useRouter();
+
   return (
-    <Card shadow focused={focused}>
+    <Card border focused={focused}>
       <div className="flex justify-between">
         <div>
           <Avatar src={avatar} />
@@ -62,6 +68,21 @@ export const ProjectCard = ({
                 />
               </div>
             )}
+            <div
+              className={`flex h-full flex-col items-center border-l px-4 last:pr-0`}
+            >
+              <div className={`my-auto`}>
+                <Button
+                  variant={`primary`}
+                  onClick={() => router.push(`/apply/${_id}`)}
+                >
+                  Apply
+                  <span className={`my-auto pl-2`}>
+                    <BsArrowRight />
+                  </span>
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

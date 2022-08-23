@@ -1,41 +1,68 @@
 import { useQuery } from "@apollo/client";
-import { FIND_PROJECTS } from "@graphql/eden";
+import { FIND_PROJECTS, FIND_PROJECTS_RECOMMENDED } from "@graphql/eden";
+// import { Members } from "@graphql/eden/generated";
 import type { NextPage } from "next";
-import { GridItemSix, GridItemThree, GridLayout, TabsCard } from "ui";
+import { useContext } from "react";
+import {
+  GridItemSix,
+  GridItemThree,
+  GridLayout,
+  ProjectsContainer,
+  RecommendedList,
+  UserProfileMenu,
+} from "ui";
 
-// TODO: after getting user conext in place, add findProjects_RecommendedToUser query
-
-const tabs = [
-  {
-    title: "All projects",
-    fullTitle: "All projects",
-  },
-  {
-    title: "Favourites",
-    fullTitle: "Favourites",
-  },
-  {
-    title: "Recommended",
-    fullTitle: "Recommended",
-  },
-];
+import { UserContext } from "../../context";
 
 const ProjectsPage: NextPage = () => {
-  const { data: dataProjects } = useQuery(FIND_PROJECTS, {
+  const { currentUser } = useContext(UserContext);
+
+  // if (currentUser) console.log("currentUser", currentUser);
+  const { data: dataProjectsAll } = useQuery(FIND_PROJECTS, {
     variables: {
       fields: {},
     },
     context: { serviceName: "soilservice" },
   });
 
-  console.log("dataProjects", dataProjects);
+  // if (dataProjectsAll) console.log("dataProjectsAll", dataProjectsAll);
+
+  const { data: dataProjectsRecommended } = useQuery(
+    FIND_PROJECTS_RECOMMENDED,
+    {
+      variables: {
+        fields: {
+          memberID: currentUser?._id,
+        },
+      },
+      skip: !currentUser,
+      context: { serviceName: "soilservice" },
+    }
+  );
+
+  // if (dataProjectsRecommended)
+  //   console.log("dataProjectsRecommended", dataProjectsRecommended);
+
+  // TODO: need query to get user favourite projects
+
   return (
     <GridLayout>
-      <GridItemThree>user profile</GridItemThree>
+      <GridItemThree>
+        <UserProfileMenu currentUser={currentUser} title={`Good Morning,`} />
+      </GridItemThree>
       <GridItemSix>
-        <TabsCard tabs={tabs} onSelect={(val) => console.log(val)} />
+        <ProjectsContainer
+          allProjects={dataProjectsAll?.findProjects}
+          recommendedProjects={
+            dataProjectsRecommended?.findProjects_RecommendedToUser
+          }
+        />
       </GridItemSix>
-      <GridItemThree>recommend</GridItemThree>
+      <GridItemThree>
+        <RecommendedList
+          projects={dataProjectsRecommended?.findProjects_RecommendedToUser}
+        />
+      </GridItemThree>
     </GridLayout>
   );
 };

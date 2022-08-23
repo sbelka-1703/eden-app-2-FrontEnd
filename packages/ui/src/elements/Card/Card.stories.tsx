@@ -14,6 +14,7 @@ export const Default = Template.bind({});
 Default.args = {
   children: "Card",
   shadow: true,
-  background: false,
   focused: false,
+  border: false,
+  className: "",
 };

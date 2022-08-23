@@ -2,20 +2,7 @@ import { render } from "@testing-library/react";
 
 import { TabsCard } from "./";
 
-const tabs = [
-  {
-    title: "All projects",
-    fullTitle: "All projects",
-  },
-  {
-    title: "Favourites",
-    fullTitle: "Favourites",
-  },
-  {
-    title: "Recommended",
-    fullTitle: "Recommended",
-  },
-];
+const tabs = ["All projects", "Favourites", "Recommended"];
 
 describe("TabsCard", () => {
   it("renders without throwing", () => {

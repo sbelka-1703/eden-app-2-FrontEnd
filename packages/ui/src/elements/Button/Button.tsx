@@ -14,7 +14,7 @@ export const Button = ({
   radius = "default",
   onClick,
 }: ButtonProps) => {
-  const btnCls = clsx("py-1 px-6 font-Inter text-soilBody", {
+  const btnCls = clsx("py-1 px-6 font-Inter text-soilBody flex", {
     "bg-accentColor text-soilGreen  hover:bg-darkGreen hover:text-white":
       variant === "primary",
     "text-darkGreen hover:text-white  border border-darkGreen hover:bg-darkGreen":
