@@ -1,6 +1,9 @@
+import { Members } from "@graphql/eden/generated";
+import { MdCreateNewFolder, MdFactCheck, MdPeopleAlt } from "react-icons/md";
+
 import { Avatar, MenuItem } from "../../elements";
-import { MdPeopleAlt, MdFactCheck, MdCreateNewFolder } from "react-icons/md";
 export interface IUserProfileMenuProps {
+  currentUser: Members | undefined;
   avatarSrc?: string;
   title?: string;
   name?: string;
@@ -10,9 +13,10 @@ export interface IUserProfileMenuProps {
 }
 
 export const UserProfileMenu = ({
-  avatarSrc,
+  currentUser,
+  // avatarSrc,
   title,
-  name,
+  // name,
   onClickFindProject,
   onClickActiveApplication,
   onClickMyProject,
@@ -20,12 +24,12 @@ export const UserProfileMenu = ({
   return (
     <div className={`desc mt-6 flex-col`}>
       <div className="p-2">
-        <Avatar size="lg" src={avatarSrc} />
+        <Avatar size="lg" src={currentUser?.discordAvatar || ""} />
         <div className={`pt-2 text-base text-neutral-500`}>{title}</div>
         <div
           className={`mb-3 border-b pb-5 text-xl font-semibold text-neutral-700`}
         >
-          {name}
+          {currentUser?.discordName}
         </div>
         <div>
           <MenuItem
@@ -41,7 +45,7 @@ export const UserProfileMenu = ({
           <MenuItem
             Icon={<MdCreateNewFolder size={25} />}
             FunctionName="My Projects"
-            counterBadge={3}
+            counterBadge={currentUser?.projects?.length || 0}
             onFunctionCallback={onClickMyProject}
           />
         </div>
