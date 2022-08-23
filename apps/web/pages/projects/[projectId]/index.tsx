@@ -2,6 +2,7 @@ import { useQuery } from "@apollo/client";
 import { FIND_PROJECT } from "@graphql/eden";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
+import { useContext } from "react";
 import {
   Card,
   GridItemNine,
@@ -10,9 +11,14 @@ import {
   UserProfileMenu,
 } from "ui";
 
+import { UserContext } from "../../../context";
+
 const ProjectPage: NextPage = () => {
   const router = useRouter();
   const { projectId } = router.query;
+  const { currentUser } = useContext(UserContext);
+
+  if (currentUser) console.log("currentUser", currentUser);
 
   const { data: dataProject } = useQuery(FIND_PROJECT, {
     variables: {
@@ -27,7 +33,7 @@ const ProjectPage: NextPage = () => {
   return (
     <GridLayout>
       <GridItemThree>
-        <UserProfileMenu />
+        <UserProfileMenu currentUser={currentUser} title={`Good Morning,`} />
       </GridItemThree>
       <GridItemNine>
         <Card shadow className="h-8/10 bg-white">
