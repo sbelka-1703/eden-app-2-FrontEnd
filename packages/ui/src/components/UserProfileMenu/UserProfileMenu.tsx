@@ -3,7 +3,7 @@ import { MdCreateNewFolder, MdFactCheck, MdPeopleAlt } from "react-icons/md";
 
 import { Avatar, MenuItem } from "../../elements";
 export interface IUserProfileMenuProps {
-  currentUser: Members | undefined;
+  currentUser?: Members | undefined;
   avatarSrc?: string;
   title?: string;
   name?: string;

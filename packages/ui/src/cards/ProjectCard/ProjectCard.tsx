@@ -3,7 +3,7 @@ import { BsArrowRight } from "react-icons/bs";
 import { Avatar, Button, Card, Favorite } from "ui";
 
 export interface ProjectCardProps {
-  _id: string;
+  _id?: string;
   avatar?: string;
   title?: string;
   description?: string;
