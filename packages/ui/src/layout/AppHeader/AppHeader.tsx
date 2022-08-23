@@ -1,6 +1,7 @@
 import Link from "next/link";
 // import BurgerMenu from "./BurgerMenu";
 // import WhatIsSoil from "./WhatIsSoil";
+import { LoginButton } from "ui";
 
 export const AppHeader = ({}) => {
   return (
@@ -15,6 +16,7 @@ export const AppHeader = ({}) => {
               </span>
             </a>
           </Link>
+          <LoginButton />
         </div>
       </nav>
     </header>

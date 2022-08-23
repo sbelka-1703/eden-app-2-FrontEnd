@@ -1,9 +1,9 @@
 import { render } from "@testing-library/react";
 import { SessionProvider } from "next-auth/react";
 
-import { AppHeader } from "./";
+import { LoginButton } from ".";
 
-describe("AppHeader", () => {
+describe("LoginButton", () => {
   it("renders without throwing", () => {
     const { container } = render(
       <SessionProvider
@@ -12,7 +12,7 @@ describe("AppHeader", () => {
           user: { email: "a", name: "Miral", image: "c" },
         }}
       >
-        <AppHeader />
+        <LoginButton />
       </SessionProvider>
     );
 
