@@ -1,22 +1,25 @@
 import { UserWithDescription } from "../UserWithDescription";
-import "./styles.css"
+import "./styles.css";
 
 export interface IEndorsements {
-  endorsement?: any;
+  title?: string;
+  endorsement?: string;
 }
 
-export const Endorsements = ({ endorsement, }: IEndorsements) => {
+export const Endorsements = ({ title, endorsement }: IEndorsements) => {
   return (
-    <div className="endorsements-box px-5 m-5">
-      <div className="text-center p-3 ">
-        <UserWithDescription avatarSrc="url" />
-        <p className="end-p">endorsed you for</p>
+    <div className="endorsements-box ">
+      <div className="p-3 text-center ">
+        <UserWithDescription avatarSrc="h" />
+        <p className="end-p">{title}</p>
         <h1>{endorsement}</h1>
-        <div className=" mt-2 buttons flex justify-around">
-          <button className="border text-white endorsements-button">Remove</button>
-          <button className="bg-white border endorsements-button">Claim</button>
+        <div className=" buttons mt-2 flex justify-around">
+          <button className="endorsements-button border text-white">
+            Remove
+          </button>
+          <button className="endorsements-button border bg-white">Claim</button>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

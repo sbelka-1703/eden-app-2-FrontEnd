@@ -5,7 +5,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { CandidateSelectionList } from "./CandidateSelectionList";
 
 export default {
-  title: "Components/CandidateSelectionList",
+  title: "Lists/CandidateSelectionList",
   component: CandidateSelectionList,
   argTypes: {},
   // decorators: [ApolloDecorator],
@@ -32,7 +32,7 @@ const skills = [
 ];
 
 const getCandidates = () =>
-  Array.from({ length: 6 }, (_, i) => {
+  Array.from({ length: 6 }, () => {
     return {
       matchPercentage: faker.random.numeric(2),
       member: {

@@ -24,7 +24,7 @@ export const ProjectCard = ({
   focused,
 }: ProjectCardProps) => {
   return (
-    <Card shadow focused={focused}>
+    <Card border focused={focused}>
       <div className="flex justify-between">
         <div>
           <Avatar src={avatar} />

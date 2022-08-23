@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
+import { RoleCandidateSelector } from "ui";
 
 import { ISkills, UserCard } from "../../cards";
-import { RoleCandidateSelector } from "../../components";
 
 export interface ICandidate {
   _id: string;

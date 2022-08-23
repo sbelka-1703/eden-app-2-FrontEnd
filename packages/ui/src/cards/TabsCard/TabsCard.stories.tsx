@@ -12,20 +12,7 @@ const Template: ComponentStory<typeof TabsCard> = (args) => (
   <TabsCard {...args} />
 );
 
-const tabs = [
-  {
-    title: "General",
-    fullTitle: "General",
-  },
-  {
-    title: "Background",
-    fullTitle: "Background",
-  },
-  {
-    title: "Endorsements",
-    fullTitle: "Endorsements",
-  },
-];
+const tabs = ["General", "Background", "Endorsements"];
 
 export const Default = Template.bind({});
 Default.args = {
