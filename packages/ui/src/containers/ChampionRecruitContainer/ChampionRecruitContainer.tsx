@@ -2,6 +2,7 @@ import { useState } from "react";
 import {
   BioComponent,
   Button,
+  EndorsementsCarousel,
   SkillsCard,
   TabsCard,
   UserWithDescription,
@@ -66,7 +67,11 @@ export const ChampionRecruitContainer = ({
           </div>
         )}
         {activeTab === 1 && <div>Background</div>}
-        {activeTab === 2 && <div>Endorsements</div>}
+        {activeTab === 2 && (
+          <div>
+            <EndorsementsCarousel />
+          </div>
+        )}
       </div>
     </div>
   );
