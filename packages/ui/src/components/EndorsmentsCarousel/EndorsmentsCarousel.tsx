@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 import { Endorsements } from "../Endorsements/Endorsements";
-// import left from "./assets/left.png";
-// import right from "./assets/right.png";
 import "./style.css"
 
 export interface IEndorsementsCarousel {
-  endorsementList: any;
+  endorsementList?: any;
 }
 
 
