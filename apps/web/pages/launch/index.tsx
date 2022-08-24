@@ -1,14 +1,12 @@
 import type { NextPage } from "next";
-import { Card, GridItemSix, GridItemThree, GridLayout } from "ui";
+import { GridItemSix, GridItemThree, GridLayout, LaunchContainer } from "ui";
 
 const LaunchPage: NextPage = () => {
   return (
     <GridLayout>
       <GridItemThree> </GridItemThree>
       <GridItemSix>
-        <Card shadow className="h-8/10 bg-white">
-          launch
-        </Card>
+        <LaunchContainer />
       </GridItemSix>
       <GridItemThree> </GridItemThree>
     </GridLayout>

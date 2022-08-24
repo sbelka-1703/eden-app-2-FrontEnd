@@ -15,9 +15,9 @@ export const Button = ({
   onClick,
 }: ButtonProps) => {
   const btnCls = clsx("py-1 px-6 font-Inter text-soilBody flex", {
-    "bg-accentColor text-soilGreen  hover:bg-darkGreen hover:text-white":
+    "bg-accentColor text-soilGreen border-2 border-accentColor hover:border-darkGreen hover:bg-darkGreen hover:text-white":
       variant === "primary",
-    "text-darkGreen hover:text-white  border border-darkGreen hover:bg-darkGreen":
+    "text-darkGreen hover:text-white border-2 border-darkGreen hover:bg-darkGreen":
       variant === "secondary",
     "bg-soilGray text-darkGreen hover:text-white  hover:bg-darkGreen":
       variant === "tertiary",
