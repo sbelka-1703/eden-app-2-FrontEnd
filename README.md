@@ -2,9 +2,9 @@
 
 public builds of both environments can be found at:
 
-[Webapp](https://soil-turborepo-webapp.vercel.app/)
+[Webapp](https://eden-foundation.vercel.app/)
 
-[Storybook](https://soil-turborepo-storybook.vercel.app/)
+[Storybook](https://eden-foundation-storybook.vercel.app/)
 
 ## For Development
 
