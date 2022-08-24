@@ -1,5 +1,6 @@
 import { useQuery } from "@apollo/client";
 import { FIND_PROJECTS, FIND_PROJECTS_RECOMMENDED } from "@graphql/eden";
+// import { Project } from "@graphql/eden/generated";
 // import { Members } from "@graphql/eden/generated";
 import type { NextPage } from "next";
 import { useContext } from "react";

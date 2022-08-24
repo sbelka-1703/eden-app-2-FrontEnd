@@ -29,7 +29,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     context: { serviceName: "soilservice" },
   });
 
-  if (dataMember) console.log("dataMember", dataMember);
+  // if (dataMember) console.log("dataMember", dataMember);
 
   const injectContext = {
     currentUser: dataMember?.findMember || undefined,

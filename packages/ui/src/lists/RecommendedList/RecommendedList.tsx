@@ -1,11 +1,11 @@
+import { Project } from "@graphql/eden/generated";
 import { ProjectCardSmall } from "ui";
 
 export interface RecommendedListProps {
-  projects?: any;
+  projects?: Project[];
 }
 
 export const RecommendedList = ({ projects }: RecommendedListProps) => {
-  //   console.log("projects", projects);
   return (
     <div>
       <div className={`text-darkGreen text-2xl font-medium`}>Recommended</div>
@@ -14,8 +14,11 @@ export const RecommendedList = ({ projects }: RecommendedListProps) => {
           projects.map((project: any, index: number) => (
             <div key={index} className="my-4">
               <ProjectCardSmall
-                title={project.title || ""}
-                description={project.description || ""}
+                project={
+                  project.__typename === "Project"
+                    ? project
+                    : project.projectData
+                }
                 avatar={project?.avatar || ""}
               />
             </div>
