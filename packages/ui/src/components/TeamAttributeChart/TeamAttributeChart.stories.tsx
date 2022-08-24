@@ -1,5 +1,6 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
+import { mockTeamData } from "./mockData";
 import { TeamAttributeChart } from "./TeamAttributeChart";
 
 export default {
@@ -9,8 +10,12 @@ export default {
 } as ComponentMeta<typeof TeamAttributeChart>;
 
 const Template: ComponentStory<typeof TeamAttributeChart> = (args) => (
-  <TeamAttributeChart {...args} />
+  <div className="py-8 px-32">
+    <TeamAttributeChart {...args} />
+  </div>
 );
 
 export const Default = Template.bind({});
-Default.args = {};
+Default.args = {
+  members: mockTeamData,
+};
