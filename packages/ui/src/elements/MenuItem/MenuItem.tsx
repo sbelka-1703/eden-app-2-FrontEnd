@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { Badge, Button } from "../../elements";
+
 export interface MenuItemProps {
   Icon?: ReactElement;
   FunctionName?: string;
@@ -24,7 +24,11 @@ export const MenuItem = ({
       <div className="px-2 text-lg font-medium">{FunctionName}</div>
       {counterBadge !== undefined && (
         <div className="px-2">
-          <Badge colorRGB={"38, 138, 2"} text={`${counterBadge}`} />
+          <span
+            className={`bg-accentColor flex h-6 w-6 items-center justify-center rounded-full`}
+          >
+            {counterBadge}
+          </span>
         </div>
       )}
     </div>

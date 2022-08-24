@@ -6,7 +6,7 @@ const SignUpPage: NextPage = () => {
     <GridLayout>
       <GridItemThree>left side</GridItemThree>
       <GridItemSix>
-        <Card shadow className="h-8/10 bg-white">
+        <Card shadow className="h-8/10 bg-white p-6">
           content here
         </Card>
       </GridItemSix>

@@ -11,7 +11,7 @@ import {
 const tabs = ["General", "Background", "Endorsements"];
 
 export interface ChampionRecruitContainerProps {
-  member: any;
+  member?: any;
 }
 
 export const ChampionRecruitContainer = ({

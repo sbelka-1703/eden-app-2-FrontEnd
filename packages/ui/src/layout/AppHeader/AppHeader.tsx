@@ -12,7 +12,7 @@ export const AppHeader = ({}) => {
             <a>
               <span className="text-xl">🌱</span>
               <span className="text-darkGreen ml-2 text-2xl font-bold">
-                Soil.
+                Eden.
               </span>
             </a>
           </Link>
