@@ -9,7 +9,7 @@ export const LaunchContainer = ({}: LaunchPageProps) => {
   const maxSteps = 5;
 
   return (
-    <Card shadow className="h-8/10  bg-white">
+    <Card shadow className="h-8/10 bg-white p-6">
       <div className={`relative h-full`}>
         launch step: {currentIndex}
         <div className={`absolute bottom-2 flex w-full justify-between`}>

@@ -1,9 +1,10 @@
 import { useQuery } from "@apollo/client";
 import { FIND_MEMBER_FULL } from "@graphql/eden";
 import { Members } from "@graphql/eden/generated";
+// import type { DefaultUser } from "next-auth";
+import { useSession } from "next-auth/react";
 
 import { UserContext } from "./UserContext";
-
 type userProfile = Members;
 
 type UserProviderProps = {
@@ -11,16 +12,24 @@ type UserProviderProps = {
 };
 
 export const UserProvider = ({ children }: UserProviderProps) => {
+  const { data: session } = useSession();
+
+  // console.log("status", status);
+  // console.log("UserProvider session", session?.user?.id);
+
+  const { id } = session?.user || { id: null };
+
   const { data: dataMember, refetch } = useQuery(FIND_MEMBER_FULL, {
     variables: {
       fields: {
-        _id: "908392557258604544", // TODO: get user id from login
+        _id: id,
       },
     },
+    skip: !id,
     context: { serviceName: "soilservice" },
   });
 
-  //   if (dataMember) console.log("dataMember", dataMember);
+  if (dataMember) console.log("dataMember", dataMember);
 
   const injectContext = {
     currentUser: dataMember?.findMember || undefined,

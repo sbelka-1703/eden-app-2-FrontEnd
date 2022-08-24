@@ -1,7 +1,7 @@
 // import { useQuery } from "@apollo/client";
 // import { FIND_MEMBERS } from "@graphql/eden";
 import type { NextPage } from "next";
-import { GridItemNine, GridItemThree, GridLayout } from "ui";
+import { ChampionContainer, GridItemSix, GridItemThree, GridLayout } from "ui";
 
 // TODO: commented out to get a basic query in place.  Talk to backend about a query for projects by member that they champion.
 
@@ -16,8 +16,11 @@ const ProjectPage: NextPage = () => {
   // console.log("dataMembers", dataMembers);
   return (
     <GridLayout>
-      <GridItemThree>3</GridItemThree>
-      <GridItemNine>9</GridItemNine>
+      <GridItemThree>Hi there, champion!</GridItemThree>
+      <GridItemSix>
+        <ChampionContainer />
+      </GridItemSix>
+      <GridItemThree> </GridItemThree>
     </GridLayout>
   );
 };

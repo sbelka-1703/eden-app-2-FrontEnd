@@ -13,7 +13,7 @@ import {
 
 import { UserContext } from "../../context";
 
-const MyProjectsPage: NextPage = () => {
+const ApplicationsPage: NextPage = () => {
   const { currentUser } = useContext(UserContext);
 
   if (currentUser) console.log("currentUser", currentUser);
@@ -39,7 +39,7 @@ const MyProjectsPage: NextPage = () => {
       <GridItemSix>
         <Card shadow className="h-8/10 bg-white p-6">
           <div className={`text-2xl font-medium text-black/80`}>
-            My Active Projects
+            Magic Application List
           </div>
         </Card>
       </GridItemSix>
@@ -52,4 +52,4 @@ const MyProjectsPage: NextPage = () => {
   );
 };
 
-export default MyProjectsPage;
+export default ApplicationsPage;
