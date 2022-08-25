@@ -2,7 +2,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { faker } from "@faker-js/faker";
 
 
-import { EndorsementsCarousel } from "./EndorsmentsCarousel";
+import { EndorsementsCarousel } from "./EndorsementsCarousel";
 
 export default {
   title: "Components/EndorsmentsCarousel",
