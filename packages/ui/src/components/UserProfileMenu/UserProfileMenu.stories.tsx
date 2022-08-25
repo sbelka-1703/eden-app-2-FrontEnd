@@ -15,7 +15,9 @@ const Template: ComponentStory<typeof UserProfileMenu> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  avatarSrc: faker.internet.avatar(),
+  currentUser: {
+    discordName: faker.internet.userName(),
+    discordAvatar: faker.internet.avatar(),
+  },
   title: faker.name.fullName(),
-  name: `${faker.internet.userName()}.eth`,
 };

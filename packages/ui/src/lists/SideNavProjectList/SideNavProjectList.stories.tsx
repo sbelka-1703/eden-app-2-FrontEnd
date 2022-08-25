@@ -1,18 +1,18 @@
 import { faker } from "@faker-js/faker";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
-import { RecommendedList } from "./RecommendedList";
+import { SideNavProjectList } from "./SideNavProjectList";
 
 export default {
-  title: "Lists/RecommendedList",
-  component: RecommendedList,
+  title: "Lists/SideNavProjectList",
+  component: SideNavProjectList,
   argTypes: {},
-} as ComponentMeta<typeof RecommendedList>;
+} as ComponentMeta<typeof SideNavProjectList>;
 
 const getProjects = () =>
   Array.from({ length: 6 }, () => {
     return {
-      projectData: {
+      info: {
         title: faker.company.name(),
         description: faker.company.catchPhrase(),
       },
@@ -23,8 +23,8 @@ const getProjects = () =>
     };
   });
 
-const Template: ComponentStory<typeof RecommendedList> = (args) => (
-  <RecommendedList {...args} />
+const Template: ComponentStory<typeof SideNavProjectList> = (args) => (
+  <SideNavProjectList {...args} />
 );
 
 export const Default = Template.bind({});

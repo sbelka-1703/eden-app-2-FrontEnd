@@ -1,5 +1,5 @@
 import { Project } from "@graphql/eden/generated";
-import { IFavoriteProps, ProjectCardSmall } from "ui";
+import { IFavoriteProps, ProjectRecommendedCard } from "ui";
 
 export interface RecommendedListProps {
   projects?: Project[];
@@ -18,7 +18,7 @@ export const RecommendedList = ({
         {projects &&
           projects.map((project: any, index: number) => (
             <div key={index} className="my-4">
-              <ProjectCardSmall
+              <ProjectRecommendedCard
                 project={
                   project.__typename === "Project"
                     ? project
@@ -26,16 +26,6 @@ export const RecommendedList = ({
                 }
                 avatar={project?.avatar || ""}
                 onUpdateFavorite={onUpdateFavorite}
-                // onUpdateFavorite={({ id, favorite }) => {
-                //   if (id && onUpdateFavorite) {
-                //     onUpdateFavorite({ id, favorite });
-                //   }
-                // }}
-                // onUpdateFavorite={({ id, favorite }) => {
-                //   console.log("onUpdateFavorite");
-                //   console.log("id", id);
-                //   console.log("favorite", favorite);
-                // }}
               />
             </div>
           ))}
