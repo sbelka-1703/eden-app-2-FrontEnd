@@ -1,12 +1,11 @@
+import { Project } from "@graphql/eden/generated";
 import { useRouter } from "next/router";
 import { BsArrowRight } from "react-icons/bs";
 import { Avatar, Button, Card, Favorite } from "ui";
 
 export interface ProjectCardProps {
-  _id?: string;
+  project?: Project;
   avatar?: string;
-  title?: string;
-  description?: string;
   percentage?: number;
   position?: string;
   favButton?: boolean;
@@ -16,10 +15,8 @@ export interface ProjectCardProps {
 }
 
 export const ProjectCard = ({
-  _id,
+  project,
   avatar,
-  title,
-  description,
   percentage,
   position,
   favButton = false,
@@ -28,6 +25,8 @@ export const ProjectCard = ({
   focused,
 }: ProjectCardProps) => {
   const router = useRouter();
+
+  if (!project) return null;
 
   return (
     <Card border focused={focused}>
@@ -38,8 +37,10 @@ export const ProjectCard = ({
         <div className={`w-full pl-6`}>
           <div className="flex h-full">
             <div className={`-mt-2 mr-auto`}>
-              <div className={`text-xl`}>{title}</div>
-              <div className={`text-sm text-zinc-400`}>{description}</div>
+              <div className={`text-xl`}>{project.title}</div>
+              <div className={`text-sm text-zinc-400`}>
+                {project.description}
+              </div>
               <div className={`mt-2 flex`}>
                 <span
                   className={`bg-soilPurple/20 mr-2 rounded-full px-2 py-1 text-xs`}
@@ -48,7 +49,7 @@ export const ProjectCard = ({
                 </span>
               </div>
             </div>
-            {percentage !== undefined && (
+            {percentage && (
               <div
                 className={`flex h-full flex-col items-center border-l px-4 last:pr-0`}
               >
@@ -74,7 +75,7 @@ export const ProjectCard = ({
               <div className={`my-auto`}>
                 <Button
                   variant={`primary`}
-                  onClick={() => router.push(`/apply/${_id}`)}
+                  onClick={() => router.push(`/apply/${project._id}`)}
                 >
                   Apply
                   <span className={`my-auto pl-2`}>

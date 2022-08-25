@@ -24,7 +24,7 @@ const ProjectPage: NextPage = () => {
   });
 
   // project data with shortlist
-  console.log("dataProject", dataProject);
+  if (dataProject) console.log("dataProject", dataProject.findProject);
 
   const { data: dataRoles } = useQuery(FIND_ROLE_TEMPLATES, {
     variables: {
@@ -34,7 +34,7 @@ const ProjectPage: NextPage = () => {
   });
 
   // role titles
-  // console.log("dataSkills", dataRoles);
+  if (dataRoles) console.log("dataSkills", dataRoles);
 
   // TODO: tried matchMembersToSkills but wasn't returning empty array
 

@@ -1,8 +1,7 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { faker } from "@faker-js/faker";
 
-
-import { EndorsementsCarousel } from "./EndorsementsCarousel";
+import { EndorsementsCarousel } from "./EndorsmentsCarousel";
 
 export default {
   title: "Components/EndorsmentsCarousel",
@@ -18,12 +17,10 @@ const getEndorsements = () =>
   Array.from({ length: 10 }, (_, i) => {
     return {
       name: faker.name.firstName(),
-    }
-  })
-
-
+    };
+  });
 
 export const Default = Template.bind({});
 Default.args = {
-  endorsementList: getEndorsements()
+  endorsementList: getEndorsements(),
 };

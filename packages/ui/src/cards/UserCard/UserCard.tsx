@@ -28,7 +28,7 @@ export const UserCard = ({
   focused,
 }: UserCardProps) => {
   return (
-    <Card shadow focused={focused}>
+    <Card shadow focused={focused} className={`bg-white p-6`}>
       <div className="flex justify-between">
         <div>
           <Avatar src={avatar} />
