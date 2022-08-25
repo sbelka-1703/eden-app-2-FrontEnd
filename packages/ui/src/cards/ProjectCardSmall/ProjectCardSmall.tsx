@@ -1,11 +1,18 @@
-import { Project } from "@graphql/eden/generated";
+import { Maybe, Project } from "@graphql/eden/generated";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { Avatar, Card, Favorite } from "ui";
+
+export interface IFavoriteProps {
+  id: Maybe<string> | undefined;
+  favorite: boolean;
+}
+
 export interface ProjectCardSmallProps {
   project?: Project;
   avatar?: string;
-  onUpdateFavorite?: () => void;
+  // eslint-disable-next-line no-unused-vars
+  onUpdateFavorite?: ({ id, favorite }: IFavoriteProps) => void;
 }
 
 export const ProjectCardSmall = ({
@@ -19,7 +26,7 @@ export const ProjectCardSmall = ({
   const onClickFav = () => {
     updateFav(!fav);
     if (onUpdateFavorite) {
-      onUpdateFavorite();
+      onUpdateFavorite({ id: project?._id, favorite: !fav });
     }
   };
 

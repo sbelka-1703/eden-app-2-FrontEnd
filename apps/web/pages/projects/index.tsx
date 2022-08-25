@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { FIND_PROJECTS, FIND_PROJECTS_RECOMMENDED } from "@graphql/eden";
 // import { Project } from "@graphql/eden/generated";
 // import { Members } from "@graphql/eden/generated";
@@ -15,6 +15,14 @@ import {
 
 import { UserContext } from "../../context";
 
+const SET_FAVORITE = gql`
+  mutation ($fields: addFavoriteProjectInput!) {
+    addFavoriteProject(fields: $fields) {
+      _id
+    }
+  }
+`;
+
 const ProjectsPage: NextPage = () => {
   const { currentUser } = useContext(UserContext);
 
@@ -26,7 +34,7 @@ const ProjectsPage: NextPage = () => {
     context: { serviceName: "soilservice" },
   });
 
-  // if (dataProjectsAll) console.log("dataProjectsAll", dataProjectsAll);
+  if (dataProjectsAll) console.log("dataProjectsAll", dataProjectsAll);
 
   const { data: dataProjectsRecommended } = useQuery(
     FIND_PROJECTS_RECOMMENDED,
@@ -46,6 +54,8 @@ const ProjectsPage: NextPage = () => {
 
   // TODO: need query to get user favourite projects
 
+  const [addFavoriteProject, {}] = useMutation(SET_FAVORITE, {});
+
   return (
     <GridLayout>
       <GridItemThree>
@@ -62,6 +72,17 @@ const ProjectsPage: NextPage = () => {
       <GridItemThree>
         <RecommendedList
           projects={dataProjectsRecommended?.findProjects_RecommendedToUser}
+          onUpdateFavorite={({ id, favorite }) => {
+            addFavoriteProject({
+              variables: {
+                fields: {
+                  projectID: id,
+                  memberID: currentUser?._id,
+                  favorite: favorite,
+                },
+              },
+            });
+          }}
         />
       </GridItemThree>
     </GridLayout>
