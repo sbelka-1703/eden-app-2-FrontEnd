@@ -29,7 +29,7 @@ const ProjectPage: NextPage = () => {
     context: { serviceName: "soilservice" },
   });
 
-  if (dataProject) console.log("dataProject", dataProject);
+  if (dataProject) console.log("dataProject", dataProject.findProject);
   return (
     <GridLayout>
       <GridItemThree>
