@@ -4,6 +4,7 @@ import {
   Button,
   EndorsementsCarousel,
   SkillsCard,
+  SocialMediaComp,
   TabsSelector,
   UserWithDescription,
 } from "ui";
@@ -60,7 +61,9 @@ export const ChampionRecruitContainer = ({
               <div>
                 <SkillsCard />
               </div>
-              <div>social</div>
+              <div>
+                <SocialMediaComp />
+              </div>
               <div>availability</div>
             </div>
             <div>graph</div>

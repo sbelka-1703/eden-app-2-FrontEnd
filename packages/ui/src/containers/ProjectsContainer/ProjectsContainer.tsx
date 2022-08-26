@@ -17,7 +17,7 @@ export const ProjectsContainer = ({
   const [activeTab, setActiveTab] = useState(0);
 
   // if (allProjects) console.log("allProjects", allProjects);
-  // if (favouriteProjects) console.log("favouriteProjects", favouriteProjects);
+  if (favouriteProjects) console.log("favouriteProjects", favouriteProjects);
   // if (recommendedProjects)
   //   console.log("recommendedProjects", recommendedProjects);
   return (
