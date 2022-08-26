@@ -21,9 +21,8 @@
     "eslint": "^8.20.0",
     "identity-obj-proxy": "^3.0.0",
     "tsconfig": "*",
-    "typescript": "^4.7.4"
-  },
-  "dependencies": {
+    "typescript": "^4.7.4",
     "emoji-picker-react": "^3.6.1"
-  }
+  },
+  "dependencies": {}
 }
