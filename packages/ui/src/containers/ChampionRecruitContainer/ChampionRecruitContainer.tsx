@@ -19,7 +19,7 @@ export const ChampionRecruitContainer = ({
 }: ChampionRecruitContainerProps) => {
   const [activeTab, setActiveTab] = useState(0);
 
-  console.log("member", member);
+  // if (member) console.log("member", member);
   if (!member)
     return (
       <div className="rounded-xl">

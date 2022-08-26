@@ -31,8 +31,6 @@ export interface ICandidateSelectionListProps {
   // eslint-disable-next-line no-unused-vars
   onSelectRole?: (role: string[]) => void;
   // eslint-disable-next-line no-unused-vars
-  // onSelectMember?: (member: ICandidate) => void;
-  // eslint-disable-next-line no-unused-vars
   onSelectMember?: (member: string) => void;
 }
 
@@ -68,8 +66,7 @@ export const CandidateSelectionList = ({
 
   const candidates = members?.map((candidate: any) => {
     const { matchPercentage } = candidate;
-    const { _id, discordName, skills, endorsements, discordAvatar } =
-      candidate.member;
+    const { _id, endorsements } = candidate.member;
     const isFocused = _id === currentCandidate?._id;
 
     return (
@@ -79,10 +76,8 @@ export const CandidateSelectionList = ({
         className={`mb-6`}
       >
         <UserCard
-          avatar={discordAvatar}
-          name={discordName}
+          member={candidate.member}
           percentage={matchPercentage}
-          skills={skills}
           endorsements={endorsements}
           focused={isFocused}
         />
@@ -91,9 +86,9 @@ export const CandidateSelectionList = ({
   });
 
   return (
-    <div>
+    <div className={`h-8/10 overflow-y-scroll`}>
       <RoleCandidateSelector roles={roles} onSelect={setCurrentRole} />
-      <div className={`mt-4 flex flex-col`}>{candidates}</div>
+      <div className={`mx-1 mt-4 flex flex-col`}>{candidates}</div>
     </div>
   );
 };

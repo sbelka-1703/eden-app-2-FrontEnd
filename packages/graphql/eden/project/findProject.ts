@@ -26,6 +26,12 @@ export const FIND_PROJECT = gql`
             Reformer
             Supporter
           }
+          skills {
+            skillInfo {
+              _id
+              name
+            }
+          }
         }
         phase
       }
