@@ -4,7 +4,7 @@ import {
   Button,
   EndorsementsCarousel,
   SkillsCard,
-  TabsCard,
+  TabsSelector,
   UserWithDescription,
 } from "ui";
 
@@ -23,7 +23,7 @@ export const ChampionRecruitContainer = ({
   if (!member)
     return (
       <div className="rounded-xl">
-        <TabsCard tabs={tabs} onSelect={(val) => setActiveTab(val)} />
+        <TabsSelector tabs={tabs} onSelect={(val) => setActiveTab(val)} />
         <div className="border-accentColor h-8/10 overflow-y-scroll rounded-b-xl border-b-2 border-r-2 border-l-2 bg-white px-4">
           select member please
         </div>
@@ -32,7 +32,7 @@ export const ChampionRecruitContainer = ({
 
   return (
     <div className="rounded-xl">
-      <TabsCard tabs={tabs} onSelect={(val) => setActiveTab(val)} />
+      <TabsSelector tabs={tabs} onSelect={(val) => setActiveTab(val)} />
       <div className="border-accentColor h-8/10 overflow-y-scroll rounded-b-xl border-b-2 border-r-2 border-l-2 bg-white px-4">
         <div className={`pt-6`}>
           <div className={`flex justify-between`}>

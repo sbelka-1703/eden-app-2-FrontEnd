@@ -34,11 +34,7 @@ export default function Web() {
           projects
         </Button>
       </div>
-      <div className={`m-4`}>
-        <Button variant={`primary`} onClick={() => router.push(`/my-projects`)}>
-          my projects
-        </Button>
-      </div>
+
       <div className={`m-4`}>
         <Button
           variant={`primary`}
