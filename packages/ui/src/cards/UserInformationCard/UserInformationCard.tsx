@@ -22,9 +22,7 @@ export const UserInformationCard = ({
 }: UserInformationCardProps) => {
   return (
     <Card shadow>
-      <div
-        className={`mx-1 mt-1 flex flex-row justify-between justify-items-stretch`}
-      >
+      <div className={`flex flex-row justify-between justify-items-stretch`}>
         <div>
           <button
             className={`basis-1/8 w-full text-zinc-400`}

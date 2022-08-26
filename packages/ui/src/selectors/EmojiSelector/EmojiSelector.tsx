@@ -1,9 +1,10 @@
-import { useState } from "react";
 import dynamic from "next/dynamic";
+import { useState } from "react";
 export interface IEmojiSelectorProps {
   isDisabled?: boolean;
   // bgColor?: string;
   emoji?: string;
+  // eslint-disable-next-line no-unused-vars
   onSelection?: (val: any) => void;
 }
 
