@@ -7,3 +7,4 @@ export * from "./Favorite";
 export * from "./MenuItem";
 export * from "./Modal";
 export * from "./TextField";
+export * from "./ProgressBar"

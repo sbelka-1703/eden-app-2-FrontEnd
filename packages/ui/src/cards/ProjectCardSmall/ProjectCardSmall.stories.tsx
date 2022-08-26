@@ -20,4 +20,6 @@ Default.args = {
   },
   avatar: faker.internet.avatar(),
   focused: false,
+  totalDays: 100,
+  currentDayCount: 50
 };
