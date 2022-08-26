@@ -1,12 +1,12 @@
 import { useState } from "react";
 
-export interface TabsCardProps {
+export interface TabsSelectorProps {
   tabs: string[];
   // eslint-disable-next-line no-unused-vars
   onSelect: (val: number) => void;
 }
 
-export const TabsCard = ({ tabs, onSelect }: TabsCardProps) => {
+export const TabsSelector = ({ tabs, onSelect }: TabsSelectorProps) => {
   const [currentTab, setCurrentTab] = useState(0);
   const maxIndex = tabs.length - 1;
 
@@ -60,7 +60,7 @@ export const TabsCard = ({ tabs, onSelect }: TabsCardProps) => {
   };
 
   return (
-    <div className="flex w-full">
+    <div className="flex">
       {tabs &&
         tabs.map((tab, index) => (
           <div
@@ -87,11 +87,11 @@ export const TabsCard = ({ tabs, onSelect }: TabsCardProps) => {
               </button>
             )}
             <button
-              className={`relative h-full w-full rounded-t-xl border-t px-3 pt-2 text-center font-medium uppercase ${
+              className={`relative h-full w-full rounded-t-xl border-t px-3 pt-2 text-center text-sm font-medium uppercase md:text-lg ${
                 !index ? "border-l" : ""
               } ${
                 currentTab == index
-                  ? "text-darkGreen bg-white text-lg decoration-zinc-500 underline-offset-[3px]"
+                  ? "text-darkGreen bg-white text-sm decoration-zinc-500 underline-offset-[3px] md:text-lg"
                   : "text-soilGray bg-slate-100"
               }
                 ${currentTab > index ? "pr-9" : ""}
