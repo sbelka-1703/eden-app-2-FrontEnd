@@ -8,7 +8,6 @@ export default {
   argTypes: {},
 } as ComponentMeta<typeof EmojiSelector>;
 
-
 const Template: ComponentStory<typeof EmojiSelector> = (args) => (
   <EmojiSelector {...args} />
 );
@@ -17,5 +16,5 @@ export const Default = Template.bind({});
 Default.args = {
   isDisabled: false,
   // bgColor: "#ffdce9",
-  emoji: 'A',
+  emoji: "A",
 };
