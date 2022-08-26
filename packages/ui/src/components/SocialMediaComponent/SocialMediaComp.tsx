@@ -1,6 +1,5 @@
-import { Members } from "@graphql/eden/generated";
-import { useRouter } from "next/router";
-import { FaTwitter, FaLinkedin, FaDiscord, FaGithub } from "react-icons/fa";
+// import { useRouter } from "next/router";
+import { FaDiscord, FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 export interface ISocialMediaCompProps {
   twitterHandle?: string;
   linkedInHandle?: string;
@@ -14,7 +13,7 @@ export const SocialMediaComp = ({
   discordHandle,
   gitHubHandle,
 }: ISocialMediaCompProps) => {
-  const router = useRouter();
+  // const router = useRouter();
 
   return (
     <div>
@@ -24,7 +23,11 @@ export const SocialMediaComp = ({
       <div className="my-2">
         <div className={`flex flex-row`}>
           <div className="p-2">
-            <a href={`https://twitter.com/${twitterHandle}`} target="_blank">
+            <a
+              href={`https://twitter.com/${twitterHandle}`}
+              target="_blank"
+              rel="noreferrer"
+            >
               <FaTwitter size="50px" color="#BCBCBC" />
             </a>
           </div>
@@ -32,6 +35,7 @@ export const SocialMediaComp = ({
             <a
               href={`https://www.linkedin.com/in/${linkedInHandle}`}
               target="_blank"
+              rel="noreferrer"
             >
               <FaLinkedin size="50px" color="#BCBCBC" />
             </a>
@@ -42,12 +46,17 @@ export const SocialMediaComp = ({
             <a
               href={`https://discord.com/channels/@${discordHandle}`}
               target="_blank"
+              rel="noreferrer"
             >
               <FaDiscord size="50px" color="#BCBCBC" />
             </a>
           </div>
           <div className="p-2">
-            <a href={`https://github.com/${gitHubHandle}`} target="_blank">
+            <a
+              href={`https://github.com/${gitHubHandle}`}
+              target="_blank"
+              rel="noreferrer"
+            >
               <FaGithub size="50px" color="#BCBCBC" />
             </a>
           </div>

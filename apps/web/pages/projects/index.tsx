@@ -64,6 +64,7 @@ const ProjectsPage: NextPage = () => {
       <GridItemSix>
         <ProjectsContainer
           allProjects={dataProjectsAll?.findProjects}
+          favouriteProjects={currentUser?.projects}
           recommendedProjects={
             dataProjectsRecommended?.findProjects_RecommendedToUser
           }
