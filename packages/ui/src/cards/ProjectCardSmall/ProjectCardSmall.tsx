@@ -14,7 +14,7 @@ export const ProjectCardSmall = ({
   avatar,
   focused = false,
   totalDays = 100,
-  currentDayCount = 50
+  currentDayCount = 50,
 }: ProjectCardSmallProps) => {
   if (!project) return null;
   const daysLeft = totalDays - currentDayCount;
@@ -31,20 +31,15 @@ export const ProjectCardSmall = ({
       </div>
       <div className="mt-2">
         <div className={`pl-16 text-sm text-zinc-400`}>
-          {
-            daysLeft > 0
-            ?
-            (
-              `${daysLeft} days left till applications close`
-            )
-            :
-            (
-              "Application Closed"
-            )
-          }
+          {daysLeft > 0
+            ? `${daysLeft} days left till applications close`
+            : "Application Closed"}
         </div>
         <div className="mt-3 -mb-3">
-          <ProgressBar totalDays={totalDays} currentDayCount={currentDayCount}/>
+          <ProgressBar
+            totalDays={totalDays}
+            currentDayCount={currentDayCount}
+          />
         </div>
       </div>
     </Card>

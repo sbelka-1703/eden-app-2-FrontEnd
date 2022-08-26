@@ -12,21 +12,23 @@ export const ProgressBar = ({
   useEffect(() => {
     if (totalDays != 0 && currentDayCount != 0) {
       const reminderProgress = (currentDayCount / totalDays) * 100;
-      setProgressBarWidthFraction(reminderProgress)
+      setProgressBarWidthFraction(reminderProgress);
     }
-  }, [totalDays, currentDayCount])
+  }, [totalDays, currentDayCount]);
   return (
     <div className="w-full bg-gray-200 h-1.5 mb-6 rounded-lg">
-      {
-        progressBarWidthFraction!=100
-          ?
-          <div style={{ width: `${progressBarWidthFraction}%` }} className={`bg-soilYellow h-1.5 rounded-lg`}></div>
-          :
-          <div style={{ width: `${progressBarWidthFraction}%` }} className={`bg-soilOrange h-1.5 rounded-lg`}></div>
-      }
-
+      {progressBarWidthFraction != 100 ? (
+        <div
+          style={{ width: `${progressBarWidthFraction}%` }}
+          className={`bg-soilYellow h-1.5 rounded-lg`}
+        ></div>
+      ) : (
+        <div
+          style={{ width: `${progressBarWidthFraction}%` }}
+          className={`bg-soilOrange h-1.5 rounded-lg`}
+        ></div>
+      )}
     </div>
-
   );
 };
 
