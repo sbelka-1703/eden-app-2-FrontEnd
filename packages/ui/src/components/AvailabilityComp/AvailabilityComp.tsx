@@ -1,8 +1,8 @@
 // import { useRouter } from "next/router";
-import { FaDiscord, FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
+
 export interface IAvailabilityCompProps {
-  timePerWeek: 10,
-  seed: 1700
+  timePerWeek?: 10,
+  seed?: 1700
 }
 
 export const AvailabilityComp = ({
