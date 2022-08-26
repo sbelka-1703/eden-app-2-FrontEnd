@@ -15,5 +15,5 @@ const Template: ComponentStory<typeof AvailabilityComp> = (args) => (
 export const Default = Template.bind({});
 Default.args = {
   timePerWeek: 10,
-  seed: 1700
+  seed: 1700,
 };

@@ -16,7 +16,7 @@ export const ProgressBar = ({
     }
   }, [totalDays, currentDayCount]);
   return (
-    <div className="w-full bg-gray-200 h-1.5 mb-6 rounded-lg">
+    <div className="mb-6 h-1.5 w-full rounded-lg bg-gray-200">
       {progressBarWidthFraction != 100 ? (
         <div
           style={{ width: `${progressBarWidthFraction}%` }}
