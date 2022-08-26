@@ -1,20 +1,23 @@
 import { useState } from "react";
 import dynamic from "next/dynamic";
-export interface IEmojiSelectorProps {}
+export interface IEmojiSelectorProps {
+  isDisabled?: boolean;
+  // bgColor?: string;
+  emoji?: string;
+  onSelection?: (val: any)=> void;
+}
 
-export const EmojiSelector = ({ }: IEmojiSelectorProps) => {
-  const [emojiSelect, setEmojiSelect] = useState(false);
+export const EmojiSelector = ({isDisabled,  emoji, onSelection}: IEmojiSelectorProps) => {
   const [showEmojiSelector, setShowEmojiSelector] = useState(false);
-  const [selectedEmoji, setSelectedEmoji] = useState("@")
+  const [selectedEmoji, setSelectedEmoji] = useState("@");
   const Picker = dynamic(() => import("emoji-picker-react"), {
     ssr: false,
   });
 
   const onEmojiClick = (event: any, emojiObject: any) => {
-    setEmojiSelect(!emojiSelect);
-    console.log(emojiObject.emoji);
     setSelectedEmoji(emojiObject.emoji);
     setShowEmojiSelector(false);
+    onSelection && onSelection(emojiObject.emoji)
   };
 
   const onShowEmojiSelector = () => {
@@ -24,12 +27,12 @@ export const EmojiSelector = ({ }: IEmojiSelectorProps) => {
   return (
     <div className="flex flex-row">
       <div>
-        <div className="bg-emerald-500 rounded-full p-7 text-5xl cursor-pointer" onClick={()=>onShowEmojiSelector()}>
-          {selectedEmoji ? selectedEmoji : " ? "}
+        <div className={`bg-[#ffdce9] rounded-full p-7 text-5xl cursor-pointer`} onClick={()=>onShowEmojiSelector()}>
+          {emoji && isDisabled ? emoji : selectedEmoji}
         </div>
       </div>
       <div>
-        {showEmojiSelector ? (
+        {showEmojiSelector && !isDisabled ? (
           <Picker
             onEmojiClick={onEmojiClick}
             pickerStyle={{ marginTop: "0px", left: "40px" }}
