@@ -59,7 +59,7 @@ export const ChampionRecruitContainer = ({
             </div>
             <div className={`flex justify-between`}>
               <div>
-                <SkillsCard />
+                <SkillsCard shadow />
               </div>
               <div>
                 <SocialMediaComp />

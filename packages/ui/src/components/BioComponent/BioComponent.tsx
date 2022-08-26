@@ -1,5 +1,5 @@
-import { Card } from "../../elements";
 import { FiEdit3 } from "react-icons/fi";
+import { Card } from "ui";
 export interface IBioComponentProps {
   title?: string;
   description?: string;
@@ -15,9 +15,9 @@ export const BioComponent = ({
 }: IBioComponentProps) => {
   return (
     <Card shadow>
-      <div className="my-4 flex flex-col">
+      <div className="flex flex-col">
         <div
-          className={`mx-4 flex flex-row content-center justify-between justify-items-stretch`}
+          className={`flex flex-row content-center justify-between justify-items-stretch`}
         >
           <div>
             <div className={`text-2xl`}>{title}</div>

@@ -1,4 +1,5 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
+
 import { Endorsements } from "./Endorsements";
 
 export default {
@@ -12,6 +13,4 @@ const Template: ComponentStory<typeof Endorsements> = (args) => (
 );
 
 export const Default = Template.bind({});
-Default.args = {
-  
-};
+Default.args = {};
