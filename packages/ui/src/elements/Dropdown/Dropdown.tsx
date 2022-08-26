@@ -36,6 +36,7 @@ export const Dropdown = ({
         );
 
   const handleSelect = (val: any) => {
+    console.log("SELECTED ", onSelect)
     onSelect && onSelect(val);
     if (!multiple) {
       setQuery(val.name);
