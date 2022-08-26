@@ -21,9 +21,9 @@ export const SkillsCard: React.FC<SkillsCardProps> = ({
   const selectedSkill = skills?.[selectedSkillIndex];
   useEffect(() => {
     if (onSelect && selectedSkill) {
-        onSelect(selectedSkill);
+      onSelect(selectedSkill);
     }
-  }, [selectedSkillIndex])
+  }, [selectedSkillIndex]);
 
   const handleOnClick = (index: number) => {
     setSelectedSkillIndex(index);

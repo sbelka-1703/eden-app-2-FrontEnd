@@ -16,5 +16,5 @@ Default.args = {
   shadow: true,
   focused: false,
   border: false,
-  className: "",
+  className: "p-6",
 };
