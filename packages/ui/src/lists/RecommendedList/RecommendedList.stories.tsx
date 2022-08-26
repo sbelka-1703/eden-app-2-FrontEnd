@@ -12,12 +12,14 @@ export default {
 const getProjects = () =>
   Array.from({ length: 6 }, () => {
     return {
+      projectData: {
+        title: faker.company.name(),
+        description: faker.company.catchPhrase(),
+      },
+      avatar: faker.internet.avatar(),
+      __typename: "Project",
       title: faker.company.name(),
       description: faker.company.catchPhrase(),
-      avatar: faker.internet.avatar(),
-      //   percentage: Number(faker.random.numeric(2)),
-      //   position: faker.hacker.ingverb(),
-      //   favButton: true,
     };
   });
 
@@ -27,5 +29,6 @@ const Template: ComponentStory<typeof RecommendedList> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
+  // @ts-ignore
   projects: getProjects(),
 };

@@ -1,13 +1,13 @@
 import { render } from "@testing-library/react";
 
-import { TabsCard } from "./";
+import { TabsSelector } from "./";
 
 const tabs = ["All projects", "Favourites", "Recommended"];
 
-describe("TabsCard", () => {
+describe("TabsSelector", () => {
   it("renders without throwing", () => {
     const { container } = render(
-      <TabsCard tabs={tabs} onSelect={(val) => console.log(val)} />
+      <TabsSelector tabs={tabs} onSelect={(val) => console.log(val)} />
     );
 
     expect(container).toBeInTheDocument();

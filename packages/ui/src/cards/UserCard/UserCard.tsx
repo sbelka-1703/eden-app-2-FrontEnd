@@ -1,4 +1,5 @@
-import { Avatar, Card } from "../../elements";
+import { Members } from "@graphql/eden/generated";
+import { Avatar, Card } from "ui";
 
 export interface ISkills {
   skillInfo: {
@@ -9,34 +10,28 @@ export interface ISkills {
 }
 
 export interface UserCardProps {
-  name?: string;
-  avatar?: string;
-  title?: string;
+  member?: Members;
   percentage?: number;
-  skills?: ISkills[];
   endorsements?: number;
   focused?: boolean;
 }
 
 export const UserCard = ({
-  name,
-  avatar,
-  //   title,
+  member,
   percentage,
-  skills,
   endorsements,
   focused,
 }: UserCardProps) => {
   return (
-    <Card shadow focused={focused}>
-      <div className="flex justify-between">
+    <Card shadow focused={focused} className={`bg-white p-6`}>
+      <div className={`flex justify-between`}>
         <div>
-          <Avatar src={avatar} />
+          <Avatar src={member?.discordAvatar || ""} />
         </div>
         <div className={`w-full pl-6`}>
           <div className="flex justify-between">
             <div className={`-mt-2`}>
-              <div className={`text-xl`}>@{name}</div>
+              <div className={`text-xl`}>@{member?.discordName}</div>
               <div className={`text-sm text-zinc-400`}>
                 {endorsements} endorsements
               </div>
@@ -46,12 +41,12 @@ export const UserCard = ({
             </div>
           </div>
           <div className={`mt-2 flex`}>
-            {skills?.map((skill, index) => (
+            {member?.skills?.map((skill, index) => (
               <span
                 key={index}
                 className={`bg-soilPurple/20 mr-2 rounded-full px-2 py-1 text-xs`}
               >
-                {skill?.skillInfo.name}
+                {skill?.skillInfo?.name}
               </span>
             ))}
           </div>

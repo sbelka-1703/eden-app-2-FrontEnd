@@ -18,6 +18,7 @@ const getProjects = () =>
       percentage: Number(faker.random.numeric(2)),
       position: faker.hacker.ingverb(),
       favButton: true,
+      __typename: "Project",
     };
   });
 
@@ -27,5 +28,6 @@ const Template: ComponentStory<typeof ProjectList> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
+  // @ts-ignore
   projects: getProjects(),
 };

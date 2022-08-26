@@ -1,23 +1,50 @@
-// import { useQuery } from "@apollo/client";
-// import { FIND_MEMBERS } from "@graphql/eden";
+import { useQuery } from "@apollo/client";
+import { FIND_PROJECT } from "@graphql/eden";
 import type { NextPage } from "next";
-import { GridItemNine, GridItemThree, GridLayout } from "ui";
+import { useContext, useState } from "react";
+import {
+  ChampionContainer,
+  GridItemSix,
+  GridItemThree,
+  GridLayout,
+  SideNavProjectList,
+} from "ui";
 
-// TODO: commented out to get a basic query in place.  Talk to backend about a query for projects by member that they champion.
+import { UserContext } from "../../context";
 
 const ProjectPage: NextPage = () => {
-  // const { data: dataMembers } = useQuery(FIND_MEMBERS, {
-  //   variables: {
-  //     fields: {},
-  //   },
-  //   context: { serviceName: "soilservice" },
-  // });
+  const { currentUser } = useContext(UserContext);
+  const [selectProject, setSelectProject] = useState("");
 
-  // console.log("dataMembers", dataMembers);
+  // if (currentUser) console.log("currentUser", currentUser);
+
+  const { data: dataProject } = useQuery(FIND_PROJECT, {
+    variables: {
+      fields: {
+        _id: selectProject,
+      },
+    },
+    context: { serviceName: "soilservice" },
+    skip: !selectProject,
+  });
+
+  // if (dataProject) console.log("dataProject", dataProject?.findProject);
   return (
     <GridLayout>
-      <GridItemThree>3</GridItemThree>
-      <GridItemNine>9</GridItemNine>
+      <GridItemThree>
+        <div className={`text-lg font-medium text-black/60`}>
+          Hi there, champion!
+        </div>
+        <div className={`text-2xl font-medium text-black`}>YOUR PROJECTS</div>
+        <SideNavProjectList
+          projects={currentUser?.projects}
+          onSelectProject={(id) => setSelectProject(id)}
+        />
+      </GridItemThree>
+      <GridItemSix>
+        <ChampionContainer project={dataProject?.findProject} />
+      </GridItemSix>
+      <GridItemThree> </GridItemThree>
     </GridLayout>
   );
 };

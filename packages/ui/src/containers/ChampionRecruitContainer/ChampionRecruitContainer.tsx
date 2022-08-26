@@ -4,14 +4,14 @@ import {
   Button,
   EndorsementsCarousel,
   SkillsCard,
-  TabsCard,
+  TabsSelector,
   UserWithDescription,
 } from "ui";
 
 const tabs = ["General", "Background", "Endorsements"];
 
 export interface ChampionRecruitContainerProps {
-  member: any;
+  member?: any;
 }
 
 export const ChampionRecruitContainer = ({
@@ -19,11 +19,11 @@ export const ChampionRecruitContainer = ({
 }: ChampionRecruitContainerProps) => {
   const [activeTab, setActiveTab] = useState(0);
 
-  console.log("member", member);
+  // if (member) console.log("member", member);
   if (!member)
     return (
       <div className="rounded-xl">
-        <TabsCard tabs={tabs} onSelect={(val) => setActiveTab(val)} />
+        <TabsSelector tabs={tabs} onSelect={(val) => setActiveTab(val)} />
         <div className="border-accentColor h-8/10 overflow-y-scroll rounded-b-xl border-b-2 border-r-2 border-l-2 bg-white px-4">
           select member please
         </div>
@@ -32,7 +32,7 @@ export const ChampionRecruitContainer = ({
 
   return (
     <div className="rounded-xl">
-      <TabsCard tabs={tabs} onSelect={(val) => setActiveTab(val)} />
+      <TabsSelector tabs={tabs} onSelect={(val) => setActiveTab(val)} />
       <div className="border-accentColor h-8/10 overflow-y-scroll rounded-b-xl border-b-2 border-r-2 border-l-2 bg-white px-4">
         <div className={`pt-6`}>
           <div className={`flex justify-between`}>

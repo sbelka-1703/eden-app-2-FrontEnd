@@ -1,6 +1,7 @@
 import Link from "next/link";
 // import BurgerMenu from "./BurgerMenu";
 // import WhatIsSoil from "./WhatIsSoil";
+import { LoginButton } from "ui";
 
 export const AppHeader = ({}) => {
   return (
@@ -11,10 +12,11 @@ export const AppHeader = ({}) => {
             <a>
               <span className="text-xl">🌱</span>
               <span className="text-darkGreen ml-2 text-2xl font-bold">
-                Soil.
+                Eden.
               </span>
             </a>
           </Link>
+          <LoginButton />
         </div>
       </nav>
     </header>

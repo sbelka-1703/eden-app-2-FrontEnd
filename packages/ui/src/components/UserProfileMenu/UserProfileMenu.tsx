@@ -1,4 +1,5 @@
 import { Members } from "@graphql/eden/generated";
+import { useRouter } from "next/router";
 import { MdCreateNewFolder, MdFactCheck, MdPeopleAlt } from "react-icons/md";
 
 import { Avatar, MenuItem } from "../../elements";
@@ -16,11 +17,13 @@ export const UserProfileMenu = ({
   currentUser,
   // avatarSrc,
   title,
-  // name,
-  onClickFindProject,
-  onClickActiveApplication,
-  onClickMyProject,
-}: IUserProfileMenuProps) => {
+}: // name,
+// onClickFindProject,
+// onClickActiveApplication,
+// onClickMyProject,
+IUserProfileMenuProps) => {
+  const router = useRouter();
+
   return (
     <div className={`desc mt-6 flex-col`}>
       <div className="p-2">
@@ -35,18 +38,23 @@ export const UserProfileMenu = ({
           <MenuItem
             Icon={<MdPeopleAlt size={25} />}
             FunctionName="Find Projects"
-            onFunctionCallback={onClickFindProject}
+            onFunctionCallback={() => router.push(`/projects`)}
           />
           <MenuItem
             Icon={<MdFactCheck size={25} />}
             FunctionName="Active Applications"
-            onFunctionCallback={onClickActiveApplication}
+            onFunctionCallback={() => router.push(`/applications`)}
+          />
+          <MenuItem
+            Icon={<MdFactCheck size={25} />}
+            FunctionName="Invites"
+            onFunctionCallback={() => router.push(`/invites`)}
           />
           <MenuItem
             Icon={<MdCreateNewFolder size={25} />}
             FunctionName="My Projects"
             counterBadge={currentUser?.projects?.length || 0}
-            onFunctionCallback={onClickMyProject}
+            onFunctionCallback={() => router.push(`/my-projects`)}
           />
         </div>
       </div>

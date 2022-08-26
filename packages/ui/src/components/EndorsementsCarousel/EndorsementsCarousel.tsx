@@ -1,21 +1,20 @@
 import { useEffect, useState } from "react";
 import { Endorsements } from "../Endorsements/Endorsements";
+import "./style.css";
 
 export interface IEndorsementsCarousel {
-  Ctitle?: string;
-  person?: string;
+  endorsementList?: any;
 }
 
 export const EndorsementsCarousel = ({
-  Ctitle,
-  person,
+  endorsementList,
 }: IEndorsementsCarousel) => {
   return (
-    <div className="flex overflow-auto ">
-      {/* left button */}
+    <div className="relative w-max">
+      {/* left arrow */}
       <button
         type="button"
-        className="group absolute top-0 left-0 z-30 flex h-full cursor-pointer items-center justify-center px-4 focus:outline-none"
+        className=" btn-fade-l group absolute top-0 left-0 z-30 flex h-full cursor-pointer items-center justify-center px-4 focus:outline-none"
         data-carousel-prev
       >
         <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/30 group-hover:bg-white/50 group-focus:outline-none group-focus:ring-4 group-focus:ring-white dark:bg-gray-800/30 dark:group-hover:bg-gray-800/60 dark:group-focus:ring-gray-800/70 sm:h-10 sm:w-10">
@@ -36,17 +35,18 @@ export const EndorsementsCarousel = ({
           </svg>
           <span className="sr-only">Previous</span>
         </span>
+        <img alt="" />
       </button>
-      <Endorsements />
-      <Endorsements />
-      <Endorsements />
-      <Endorsements />
-      <Endorsements />
-
-      {/* right button */}
+      <div className="carousel-box flex overflow-auto overscroll-contain ">
+        {endorsementList &&
+          endorsementList.map((end: any, index: number) => (
+            <Endorsements key={index} endorsement={end.name} />
+          ))}
+      </div>
+      {/* right arrow */}
       <button
         type="button"
-        className="group absolute top-0 right-0 z-30 flex h-full cursor-pointer items-center justify-center px-4 focus:outline-none"
+        className="btn-fade-r group absolute top-0 right-0 z-30 flex h-full cursor-pointer items-center justify-center px-4 focus:outline-none"
         data-carousel-next
       >
         <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/30 group-hover:bg-white/50 group-focus:outline-none group-focus:ring-4 group-focus:ring-white dark:bg-gray-800/30 dark:group-hover:bg-gray-800/60 dark:group-focus:ring-gray-800/70 sm:h-10 sm:w-10">
@@ -67,6 +67,7 @@ export const EndorsementsCarousel = ({
           </svg>
           <span className="sr-only">Next</span>
         </span>
+        <img src="" alt="" />
       </button>
     </div>
   );

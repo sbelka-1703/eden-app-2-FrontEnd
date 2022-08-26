@@ -1,7 +1,6 @@
 import { XIcon } from "@heroicons/react/outline";
 import { useEffect, useState } from "react";
-
-import { Dropdown } from "../../elements";
+import { Dropdown } from "ui";
 
 const skills = [
   { _id: 1, name: "Skill 1" },
