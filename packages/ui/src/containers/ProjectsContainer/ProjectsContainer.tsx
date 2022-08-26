@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ProjectList, TabsCard } from "ui";
+import { ProjectList, TabsSelector } from "ui";
 
 const tabs = ["All Projects", "Favourites", "Recommended"];
 
@@ -22,7 +22,7 @@ export const ProjectsContainer = ({
   //   console.log("recommendedProjects", recommendedProjects);
   return (
     <div className="rounded-xl">
-      <TabsCard tabs={tabs} onSelect={(val) => setActiveTab(val)} />
+      <TabsSelector tabs={tabs} onSelect={(val) => setActiveTab(val)} />
       <div className="border-accentColor h-8/10 overflow-y-scroll rounded-b-xl border-b-2 border-r-2 border-l-2 bg-white px-4">
         {activeTab === 0 && <ProjectList projects={allProjects} />}
         {activeTab === 1 && <ProjectList projects={favouriteProjects} />}
