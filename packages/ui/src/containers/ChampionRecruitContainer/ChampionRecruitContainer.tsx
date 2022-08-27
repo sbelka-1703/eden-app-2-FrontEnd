@@ -1,18 +1,21 @@
+import { Members } from "@graphql/eden/generated";
 import { useState } from "react";
 import {
+  AvailabilityComp,
   BioComponent,
   Button,
   EndorsementsCarousel,
   SkillsCard,
   SocialMediaComp,
   TabsSelector,
+  UserInformationCard,
   UserWithDescription,
 } from "ui";
 
 const tabs = ["General", "Background", "Endorsements"];
 
 export interface ChampionRecruitContainerProps {
-  member?: any;
+  member?: Members;
 }
 
 export const ChampionRecruitContainer = ({
@@ -20,7 +23,7 @@ export const ChampionRecruitContainer = ({
 }: ChampionRecruitContainerProps) => {
   const [activeTab, setActiveTab] = useState(0);
 
-  // if (member) console.log("member", member);
+  if (member) console.log("member", member);
   if (!member)
     return (
       <div className="rounded-xl">
@@ -41,7 +44,7 @@ export const ChampionRecruitContainer = ({
               <Button>NOT RIGHT NOW</Button>
             </div>
             <UserWithDescription
-              avatarSrc={member.discordAvatar}
+              avatarSrc={member.discordAvatar || ""}
               title={`title here`}
               name={`@${member.discordName}`}
             />
@@ -54,22 +57,40 @@ export const ChampionRecruitContainer = ({
         {activeTab === 0 && (
           <div className={`pt-6`}>
             <div className={`flex justify-between pt-4`}>
-              <BioComponent title={`SHORT BIO`} description={member.bio} />
+              <BioComponent
+                title={`SHORT BIO`}
+                description={member.bio || ""}
+              />
               <div>Match</div>
             </div>
-            <div className={`flex justify-between`}>
-              <div>
-                <SkillsCard shadow />
+            <div className={`my-4 grid grid-cols-12`}>
+              <div className={`col-span-4`}>
+                {member.skills && <SkillsCard skills={member.skills} />}
               </div>
-              <div>
+              <div className={`col-span-4`}>
                 <SocialMediaComp />
               </div>
-              <div>availability</div>
+              <div className={`col-span-4`}>
+                <AvailabilityComp />
+              </div>
             </div>
             <div>graph</div>
           </div>
         )}
-        {activeTab === 1 && <div>Background</div>}
+        {activeTab === 1 && (
+          <div className={`mt-4 grid grid-cols-12 space-x-4`}>
+            <div className={`col-span-6 space-y-4`}>
+              <UserInformationCard />
+              <UserInformationCard />
+              <BioComponent />
+            </div>
+            <div className={`col-span-6 space-y-4`}>
+              <UserInformationCard />
+              <UserInformationCard />
+              <BioComponent />
+            </div>
+          </div>
+        )}
         {activeTab === 2 && (
           <div>
             <EndorsementsCarousel />

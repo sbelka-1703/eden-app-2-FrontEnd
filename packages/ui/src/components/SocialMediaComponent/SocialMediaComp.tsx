@@ -17,7 +17,7 @@ export const SocialMediaComp = ({
 
   return (
     <div>
-      <div className="text-lg font-semibold tracking-widest subpixel-antialiased">
+      <div className="text-sm font-semibold tracking-widest subpixel-antialiased">
         SOCIALS
       </div>
       <div className="my-2">
@@ -28,7 +28,7 @@ export const SocialMediaComp = ({
               target="_blank"
               rel="noreferrer"
             >
-              <FaTwitter size="50px" color="#BCBCBC" />
+              <FaTwitter size="2rem" color="#BCBCBC" />
             </a>
           </div>
           <div className="p-2">
@@ -37,7 +37,7 @@ export const SocialMediaComp = ({
               target="_blank"
               rel="noreferrer"
             >
-              <FaLinkedin size="50px" color="#BCBCBC" />
+              <FaLinkedin size="2rem" color="#BCBCBC" />
             </a>
           </div>
         </div>
@@ -48,7 +48,7 @@ export const SocialMediaComp = ({
               target="_blank"
               rel="noreferrer"
             >
-              <FaDiscord size="50px" color="#BCBCBC" />
+              <FaDiscord size="2rem" color="#BCBCBC" />
             </a>
           </div>
           <div className="p-2">
@@ -57,7 +57,7 @@ export const SocialMediaComp = ({
               target="_blank"
               rel="noreferrer"
             >
-              <FaGithub size="50px" color="#BCBCBC" />
+              <FaGithub size="2rem" color="#BCBCBC" />
             </a>
           </div>
         </div>

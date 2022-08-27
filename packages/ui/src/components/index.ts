@@ -1,3 +1,4 @@
+export * from "./AvailabilityComp";
 export * from "./BioComponent";
 export * from "./CollectionOfUsers";
 export * from "./Endorsements";
