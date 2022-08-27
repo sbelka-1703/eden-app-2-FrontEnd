@@ -34,7 +34,7 @@ const ProjectsPage: NextPage = () => {
     context: { serviceName: "soilservice" },
   });
 
-  if (dataProjectsAll) console.log("dataProjectsAll", dataProjectsAll);
+  // if (dataProjectsAll) console.log("dataProjectsAll", dataProjectsAll);
 
   const { data: dataProjectsRecommended } = useQuery(
     FIND_PROJECTS_RECOMMENDED,
