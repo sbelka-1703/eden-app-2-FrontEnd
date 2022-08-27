@@ -1,5 +1,6 @@
 import { useQuery } from "@apollo/client";
 import { FIND_PROJECTS_RECOMMENDED } from "@graphql/eden";
+// import { Maybe, Project, ProjectMemberType } from "@graphql/eden/generated";
 import type { NextPage } from "next";
 import { useContext } from "react";
 import {
@@ -15,6 +16,7 @@ import { UserContext } from "../../context";
 
 const ApplicationsPage: NextPage = () => {
   const { currentUser } = useContext(UserContext);
+  // const [currentApplication, setCurrentApplication] = useState([]);
 
   if (currentUser) console.log("currentUser", currentUser);
 
@@ -30,6 +32,22 @@ const ApplicationsPage: NextPage = () => {
       context: { serviceName: "soilservice" },
     }
   );
+
+  // TODO: type error, need to come back to this
+
+  // console.log("currentApplication", currentApplication);
+
+  // const { projects } = currentUser;
+
+  // useEffect(() => {
+  //   if (currentUser?.projects && currentUser?.projects.length > 0) {
+  //     setCurrentApplication(
+  //       currentUser?.projects.filter(
+  //         (project: any) => project.phase === "engaged"
+  //       )
+  //     );
+  //   }
+  // }, [currentUser?.projects]);
 
   return (
     <GridLayout>

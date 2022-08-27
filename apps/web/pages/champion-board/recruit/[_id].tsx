@@ -55,7 +55,7 @@ const ProjectPage: NextPage = () => {
   });
 
   // role titles
-  // console.log("dataSkills", dataRoles);
+  console.log("dataSkills", dataRoles);
 
   // TODO: when backend creates matchMembersToRole, change this query to matchMembersToRole
 
@@ -65,7 +65,7 @@ const ProjectPage: NextPage = () => {
         skillsID: selectRole,
       },
     },
-    skip: !selectRole,
+    skip: !selectRole || selectRole.length === 0,
     context: { serviceName: "soilservice" },
   });
 
@@ -74,6 +74,8 @@ const ProjectPage: NextPage = () => {
   //     "dataMemberWithSkills",
   //     dataMemberWithSkills.matchMembersToSkills
   //   );
+
+  // console.log("selectRole", selectRole);
 
   return (
     <GridLayout>
