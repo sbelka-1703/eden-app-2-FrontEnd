@@ -40,6 +40,12 @@ export const FIND_MEMBER = gql`
         name
         url
       }
+      skills {
+        skillInfo {
+          _id
+          name
+        }
+      }
     }
   }
 `;

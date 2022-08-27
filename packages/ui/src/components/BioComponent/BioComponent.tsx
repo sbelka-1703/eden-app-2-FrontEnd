@@ -20,7 +20,7 @@ export const BioComponent = ({
           className={`flex flex-row content-center justify-between justify-items-stretch`}
         >
           <div>
-            <div className={`text-2xl`}>{title}</div>
+            <div className={`text-sm font-semibold`}>{title}</div>
           </div>
           <div className="mt-1">
             {isEditable ? (

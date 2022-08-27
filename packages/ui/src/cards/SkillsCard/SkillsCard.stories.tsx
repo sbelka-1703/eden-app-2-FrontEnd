@@ -1,3 +1,4 @@
+import { faker } from "@faker-js/faker";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { SkillsCard } from "./SkillsCard";
@@ -12,21 +13,17 @@ const Template: ComponentStory<typeof SkillsCard> = (args) => (
   <SkillsCard {...args} />
 );
 
+const getCandidates = () =>
+  Array.from({ length: 12 }, () => {
+    return {
+      skillInfo: { name: faker.name.jobArea() },
+    };
+  });
+
 export const Default = Template.bind({});
 Default.args = {
-  skills: [
-    { text: "Design", colorRGB: "38, 138, 2", closeButton: true },
-    { text: "Figma", colorRGB: "214, 92, 158", closeButton: true },
-    { text: "FrontEnd", colorRGB: "101, 125, 248", closeButton: true },
-    { text: "Art", colorRGB: "236, 240, 71", closeButton: true },
-    { text: "Design", colorRGB: "38, 138, 2", closeButton: true },
-    { text: "Figma", colorRGB: "214, 92, 158", closeButton: true },
-    { text: "FrontEnd", colorRGB: "101, 125, 248", closeButton: true },
-    { text: "Art", colorRGB: "236, 240, 71", closeButton: true },
-    { text: "Design", colorRGB: "38, 138, 2", closeButton: true },
-    { text: "Figma", colorRGB: "214, 92, 158", closeButton: true },
-    { text: "FrontEnd", colorRGB: "101, 125, 248", closeButton: true },
-    { text: "Art", colorRGB: "236, 240, 71", closeButton: true },
-  ],
+  skills: getCandidates(),
   shadow: true,
+  closeButton: false,
+  className: "p-6",
 };
