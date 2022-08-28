@@ -79,8 +79,6 @@ export const SkillSelector = ({
         multiple
       />
 
-      {/* bg colors loader */}
-      <div className="hidden bg-[#c2f5e9] bg-[#d1f7c4] bg-[#ffeab6] bg-[#fee2d5] bg-[#ffdce5] bg-[#ffdaf6] bg-[#ede2fe] bg-[#cfdfff]"></div>
       {showSelected && (
         <section>
           {selectedSkills &&

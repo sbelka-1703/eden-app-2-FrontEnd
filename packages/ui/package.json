@@ -12,19 +12,20 @@
   },
   "devDependencies": {
     "@context/eden": "*",
-    "@graphql/eden": "*",
     "@faker-js/faker": "^7.4.0",
+    "@graphql/eden": "*",
     "@headlessui/react": "^1.6.6",
     "@heroicons/react": "^1.0.6",
     "@types/react": "18.0.15",
     "@types/react-dom": "^18.0.6",
     "clsx": "^1.2.1",
     "config": "*",
+    "emoji-picker-react": "^3.6.1",
     "eslint": "^8.20.0",
     "identity-obj-proxy": "^3.0.0",
+    "react-confetti": "^6.1.0",
     "tsconfig": "*",
-    "typescript": "^4.7.4",
-    "emoji-picker-react": "^3.6.1"
+    "typescript": "^4.7.4"
   },
   "dependencies": {}
 }
