@@ -1,3 +1,4 @@
+import { LaunchProvider } from "@context/eden";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { LaunchContainer } from "./LaunchContainer";
@@ -9,7 +10,9 @@ export default {
 } as ComponentMeta<typeof LaunchContainer>;
 
 const Template: ComponentStory<typeof LaunchContainer> = (args) => (
-  <LaunchContainer {...args} />
+  <LaunchProvider>
+    <LaunchContainer {...args} />
+  </LaunchProvider>
 );
 
 export const Default = Template.bind({});
