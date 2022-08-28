@@ -1,5 +1,7 @@
 // import { useQuery } from "@apollo/client";
 // import { FIND_MEMBERS, FIND_SKILLS } from "@graphql/eden";
+import { useQuery } from "@apollo/client";
+import { FIND_SKILLS } from "@graphql/eden";
 import type { NextPage } from "next";
 import {
   Avatar,
@@ -50,12 +52,14 @@ const OnboardPartyPage: NextPage = () => {
   //   context: { serviceName: "soilservice" },
   // });
 
-  // const { data: dataSkills } = useQuery(FIND_SKILLS, {
-  //   variables: {
-  //     fields: {},
-  //   },
-  //   context: { serviceName: "soilservice" },
-  // });
+  const {
+    data: { findSkills: dataSkills },
+  } = useQuery(FIND_SKILLS, {
+    variables: {
+      fields: {},
+    },
+    context: { serviceName: "soilservice" },
+  });
 
   // console.log("dataMembers", dataMembers);
   // console.log("dataSkills", dataSkills);
@@ -71,7 +75,7 @@ const OnboardPartyPage: NextPage = () => {
             />
             <span className="ml-2">exwhyzee.eth</span>
           </div>
-          <SkillSelector showSelected />
+          <SkillSelector showSelected options={dataSkills} />
         </Card>
       </GridItemThree>
       <GridItemNine>

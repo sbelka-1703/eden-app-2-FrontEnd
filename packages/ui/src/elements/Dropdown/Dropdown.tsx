@@ -1,10 +1,11 @@
+import { Maybe } from "@graphql/eden/generated";
 import { Combobox } from "@headlessui/react";
 import { SelectorIcon } from "@heroicons/react/solid";
 import { useState } from "react";
 
 interface IItems {
-  _id: number;
-  name: string;
+  _id?: number | Maybe<string> | undefined;
+  name?: Maybe<string> | undefined;
 }
 
 export interface DropdownProps {
@@ -30,7 +31,7 @@ export const Dropdown = ({
       ? items
       : items.filter((item: IItems) =>
           item.name
-            .toLowerCase()
+            ?.toLowerCase()
             .replace(/\s+/g, "")
             .includes(query.toLowerCase().replace(/\s+/g, ""))
         );
