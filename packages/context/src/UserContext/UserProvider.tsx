@@ -1,21 +1,18 @@
 import { useQuery } from "@apollo/client";
 import { FIND_MEMBER_FULL } from "@graphql/eden";
 import { Members } from "@graphql/eden/generated";
-// import type { DefaultUser } from "next-auth";
 import { useSession } from "next-auth/react";
+import React from "react";
 
 import { UserContext } from "./UserContext";
 type userProfile = Members;
 
-type UserProviderProps = {
+export interface UserProviderProps {
   children: React.ReactNode;
-};
+}
 
 export const UserProvider = ({ children }: UserProviderProps) => {
   const { data: session } = useSession();
-
-  // console.log("status", status);
-  // console.log("UserProvider session", session?.user?.id);
 
   const { id } = session?.user || { id: null };
 

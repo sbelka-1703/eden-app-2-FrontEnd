@@ -1,20 +1,15 @@
 import { Project } from "@graphql/eden/generated";
-import { IFavoriteProps, ProjectRecommendedCard } from "ui";
+import { ProjectRecommendedCard } from "ui";
 
 export interface RecommendedListProps {
   projects?: Project[];
-  // eslint-disable-next-line no-unused-vars
-  onUpdateFavorite?: ({ id, favorite }: IFavoriteProps) => void;
 }
 
-export const RecommendedList = ({
-  projects,
-  onUpdateFavorite,
-}: RecommendedListProps) => {
+export const RecommendedList = ({ projects }: RecommendedListProps) => {
   return (
     <div>
       <div className={`text-darkGreen text-2xl font-medium`}>Recommended</div>
-      <div className={`h-8/10 overflow-y-scroll`}>
+      <div className={`h-8/10 overflow-y-scroll px-2`}>
         {projects &&
           projects.map((project: any, index: number) => (
             <div key={index} className="my-4">
@@ -25,7 +20,6 @@ export const RecommendedList = ({
                     : project.projectData
                 }
                 avatar={project?.avatar || ""}
-                onUpdateFavorite={onUpdateFavorite}
               />
             </div>
           ))}
