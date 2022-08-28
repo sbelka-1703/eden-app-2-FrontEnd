@@ -1,4 +1,5 @@
 import { useQuery } from "@apollo/client";
+import { UserContext } from "@context/eden";
 import { FIND_PROJECT } from "@graphql/eden";
 import type { NextPage } from "next";
 import { useContext, useState } from "react";
@@ -9,8 +10,6 @@ import {
   GridLayout,
   SideNavProjectList,
 } from "ui";
-
-import { UserContext } from "../../context";
 
 const ProjectPage: NextPage = () => {
   const { currentUser } = useContext(UserContext);

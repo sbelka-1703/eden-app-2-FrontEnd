@@ -1,3 +1,4 @@
+import { UserContext } from "@context/eden";
 import type { NextPage } from "next";
 import { useContext } from "react";
 import {
@@ -7,8 +8,6 @@ import {
   ProfileContainer,
   UserProfileMenu,
 } from "ui";
-
-import { UserContext } from "../../context";
 
 const ProfilePage: NextPage = () => {
   const { currentUser } = useContext(UserContext);

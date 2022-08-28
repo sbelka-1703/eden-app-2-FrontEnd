@@ -1,4 +1,5 @@
 import { useQuery } from "@apollo/client";
+import { UserContext } from "@context/eden";
 import { FIND_PROJECT } from "@graphql/eden";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
@@ -10,8 +11,6 @@ import {
   GridLayout,
   UserProfileMenu,
 } from "ui";
-
-import { UserContext } from "../../../context";
 
 const ProjectPage: NextPage = () => {
   const router = useRouter();

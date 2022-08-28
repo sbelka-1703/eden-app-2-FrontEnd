@@ -11,6 +11,8 @@
     "clean-windows": "rd /s /q node_modules"
   },
   "devDependencies": {
+    "@context/eden": "*",
+    "@graphql/eden": "*",
     "@faker-js/faker": "^7.4.0",
     "@headlessui/react": "^1.6.6",
     "@heroicons/react": "^1.0.6",

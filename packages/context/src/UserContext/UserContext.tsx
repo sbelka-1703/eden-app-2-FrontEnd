@@ -3,11 +3,11 @@ import { createContext, Dispatch } from "react";
 
 type userProfile = Members;
 
-type UserContextType = {
+export interface UserContextType {
   currentUser?: userProfile;
   setCurrentUser: Dispatch<userProfile>;
   refechProfile: () => void;
-};
+}
 
 export const UserContext = createContext<UserContextType>({
   currentUser: undefined,

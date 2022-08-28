@@ -1,5 +1,4 @@
-import { render } from "@testing-library/react";
-
+import { render } from "../../../utils/jext-apollo";
 import { ProjectRecommendedCard } from ".";
 
 describe("ProjectRecommendedCard", () => {

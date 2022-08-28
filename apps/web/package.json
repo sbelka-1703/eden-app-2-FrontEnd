@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.6.9",
+    "@context/eden": "*",
     "@graphql/eden": "*",
     "graphql": "^16.5.0",
     "next": "12.2.0",
