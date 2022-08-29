@@ -76,7 +76,7 @@ export const Dropdown = ({
               <Combobox.Option
                 key={index}
                 className={({ active }) =>
-                  `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                  `relative cursor-default select-none py-2 pl-4 pr-4 ${
                     active ? "bg-indigo-600 text-white" : "text-gray-900"
                   }`
                 }
