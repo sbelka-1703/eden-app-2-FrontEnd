@@ -12,7 +12,7 @@ export default {
 } as ComponentMeta<typeof CandidateSelectionList>;
 
 const Template: ComponentStory<typeof CandidateSelectionList> = (args) => (
-  <div className={`max-w-lg`}>
+  <div className={``}>
     <CandidateSelectionList {...args} />
   </div>
 );
