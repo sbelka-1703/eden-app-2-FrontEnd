@@ -73,7 +73,7 @@ export const CandidateSelectionList = ({
       <button
         key={_id}
         onClick={() => setCurrentCandidate(candidate.member)}
-        className={`mb-6`}
+        className={`my-3 w-full px-1`}
       >
         <UserCard
           member={candidate.member}
@@ -86,9 +86,9 @@ export const CandidateSelectionList = ({
   });
 
   return (
-    <div className={`h-8/10 overflow-y-scroll`}>
+    <div className={``}>
       <RoleCandidateSelector roles={roles} onSelect={setCurrentRole} />
-      <div className={`mx-1 mt-4 flex flex-col`}>{candidates}</div>
+      <div className={`h-8/10 overflow-y-scroll`}>{candidates}</div>
     </div>
   );
 };

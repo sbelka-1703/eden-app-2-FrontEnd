@@ -56,12 +56,21 @@ export const ChampionRecruitContainer = ({
 
         {activeTab === 0 && (
           <div className={`pt-6`}>
-            <div className={`flex justify-between pt-4`}>
-              <BioComponent
-                title={`SHORT BIO`}
-                description={member.bio || ""}
-              />
-              <div>Match</div>
+            <div className={`grid grid-cols-12 space-x-4 pt-4`}>
+              <div className={`col-span-8`}>
+                <BioComponent
+                  title={`SHORT BIO`}
+                  description={member.bio || ""}
+                />
+              </div>
+              <div className={`col-span-4`}>
+                <div className={`font-Inter text-sm`}>Match</div>
+                <div
+                  className={`text-soilPurple font-poppins text-5xl font-semibold`}
+                >
+                  %
+                </div>
+              </div>
             </div>
             <div className={`my-4 grid grid-cols-12`}>
               <div className={`col-span-4`}>

@@ -19,7 +19,7 @@ export const Button = ({
       variant === "primary",
     "text-darkGreen hover:text-white border-2 border-darkGreen hover:bg-darkGreen":
       variant === "secondary",
-    "bg-soilGray text-darkGreen hover:text-white  hover:bg-darkGreen":
+    "bg-soilGray text-darkGreen hover:text-white hover:bg-darkGreen":
       variant === "tertiary",
     "border-2": variant === "default",
     "rounded-full": radius === "pill",

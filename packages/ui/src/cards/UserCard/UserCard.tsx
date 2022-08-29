@@ -26,7 +26,7 @@ export const UserCard = ({
     <Card shadow focused={focused} className={`bg-white p-6`}>
       <div className={`flex justify-between`}>
         <div>
-          <Avatar src={member?.discordAvatar || ""} />
+          <Avatar src={member?.discordAvatar || ""} size={`sm`} />
         </div>
         <div className={`w-full pl-6`}>
           <div className="flex justify-between">
