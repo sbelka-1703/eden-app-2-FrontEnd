@@ -29,7 +29,13 @@ export interface SignUpContainerProps {}
 export const SignUpContainer = ({}: SignUpContainerProps) => {
   const router = useRouter();
   const { currentUser } = useContext(UserContext);
-  const { profileBio } = useContext(SignUpContext);
+  const {
+    profileBio,
+    contentMostProud,
+    contentShowcaseAbility,
+    hoursPerWeek,
+    timezone,
+  } = useContext(SignUpContext);
 
   // console.log("currentUser", currentUser);
 
@@ -56,7 +62,12 @@ export const SignUpContainer = ({}: SignUpContainerProps) => {
           serverID: "alpha-test",
           _id: currentUser?._id,
           bio: profileBio,
-          // description: projectDescription,
+          content: {
+            mostProud: contentMostProud,
+            showCaseAbility: contentShowcaseAbility,
+          },
+          hoursPerWeek: hoursPerWeek,
+          timeZone: timezone,
         },
       },
     });

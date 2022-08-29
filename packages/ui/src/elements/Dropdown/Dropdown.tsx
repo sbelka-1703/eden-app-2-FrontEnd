@@ -52,7 +52,7 @@ export const Dropdown = ({
       <div className="relative mt-1 mb-4">
         <Combobox.Button className="w-full rounded-full border border-gray-300 bg-white shadow-sm sm:text-sm">
           <Combobox.Input
-            className="w-full rounded-full border-none bg-transparent py-2 pl-3 pr-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+            className="focus:border-accentColor focus:ring-accentColor w-full rounded-full border-none bg-transparent py-1.5 pl-3 pr-10 focus:outline-none focus:ring-1 sm:text-sm"
             onChange={(event) => setQuery(event.target.value)}
             displayValue={(query: string) => query}
             placeholder={placeholder}
