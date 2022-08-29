@@ -15,9 +15,11 @@ const getProjects = () =>
       title: faker.company.name(),
       description: faker.company.catchPhrase(),
       avatar: faker.internet.avatar(),
-      percentage: Number(faker.random.numeric(2)),
-      position: faker.hacker.ingverb(),
-      favButton: true,
+      favorite: true,
+      // percentage: Number(faker.random.numeric(2)),
+      // position: faker.hacker.ingverb(),
+      // favButton: true,
+      __typename: "Project",
     };
   });
 

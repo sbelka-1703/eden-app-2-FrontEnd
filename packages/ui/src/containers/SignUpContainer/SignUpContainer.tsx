@@ -31,7 +31,7 @@ export const SignUpContainer = ({}: SignUpContainerProps) => {
   const { currentUser } = useContext(UserContext);
   const { profileBio } = useContext(SignUpContext);
 
-  console.log("currentUser", currentUser);
+  // console.log("currentUser", currentUser);
 
   const [currentIndex, setCurrentIndex] = useState(1);
   const maxSteps = 6;
@@ -39,8 +39,8 @@ export const SignUpContainer = ({}: SignUpContainerProps) => {
   const [submittingProfile, setSubmittingProfile] = useState(false);
 
   const [updateMember, {}] = useMutation(UPDATE_MEMBER, {
-    onCompleted({ updateProject }: Mutation) {
-      if (!updateProject) console.log("updateProject is null");
+    onCompleted({ updateMember }: Mutation) {
+      if (!updateMember) console.log("updateMember is null");
       setCurrentIndex(maxSteps + 1);
       setSubmittingProfile(false);
     },
