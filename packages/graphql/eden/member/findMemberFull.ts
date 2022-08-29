@@ -3,34 +3,47 @@ import { gql } from "@apollo/client";
 export const FIND_MEMBER_FULL = gql`
   query ($fields: findMemberInput) {
     findMember(fields: $fields) {
-      _id
       discordAvatar
       discordName
-      skills {
-        level
-        skillInfo {
-          _id
-          name
-          registeredAt
-        }
+      bio
+      content {
+        interest
+        mostProud
+        showCaseAbility
       }
+      attributes {
+        Coordinator
+        Director
+        Helper
+        Inspirer
+        Motivator
+        Observer
+        Reformer
+        Supporter
+      }
+      archiveProjects
+      discriminator
+      hoursPerWeek
+      interest
+      timeZone
       projects {
-        favorite
         champion
-        phase
+        favorite
         info {
           _id
-          title
           description
+          title
         }
       }
-      timeZone
-      bio
-      serverID
-      registeredAt
       links {
         name
         url
+      }
+      skills {
+        skillInfo {
+          _id
+          name
+        }
       }
     }
   }
