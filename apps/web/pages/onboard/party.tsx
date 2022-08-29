@@ -97,23 +97,25 @@ const OnboardPartyPage: NextPage = () => {
           <TextHeading3 className="mb-2">See Other Profiles</TextHeading3>
           <section className="grid grid-cols-2 gap-3">
             {dataMembers &&
-              dataMembers.findMembers.map((member: Members, index: number) => (
-                <Card key={index} border className="col-span-1 bg-white p-3">
-                  <div className="mb-4 flex flex-col">
-                    {member.discordAvatar && (
-                      <Avatar src={member.discordAvatar} size="sm" />
-                    )}
-                    <span className="mt-2">{member.discordName}</span>
-                  </div>
-                  {member.skills?.map((skill, index) => (
-                    <Badge
-                      key={index}
-                      colorRGB="209,247,196"
-                      text={skill?.skillInfo?.name || "no_name"}
-                    />
-                  ))}
-                </Card>
-              ))}
+              dataMembers.findMembers
+                .filter((member: Members) => member._id !== currentUser?._id)
+                .map((member: Members, index: number) => (
+                  <Card key={index} border className="col-span-1 bg-white p-3">
+                    <div className="mb-4 flex flex-col">
+                      {member.discordAvatar && (
+                        <Avatar src={member.discordAvatar} size="sm" />
+                      )}
+                      <span className="mt-2">{member.discordName}</span>
+                    </div>
+                    {member.skills?.map((skill, index) => (
+                      <Badge
+                        key={index}
+                        colorRGB="209,247,196"
+                        text={skill?.skillInfo?.name || "no_name"}
+                      />
+                    ))}
+                  </Card>
+                ))}
           </section>
         </Card>
       </GridItemNine>
