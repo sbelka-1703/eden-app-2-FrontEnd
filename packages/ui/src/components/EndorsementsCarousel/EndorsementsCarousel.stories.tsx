@@ -17,6 +17,7 @@ const getEndorsements = () =>
   Array.from({ length: 10 }, (_, i) => {
     return {
       name: faker.name.firstName(),
+      avatarSrc: faker.internet.avatar(),
     };
   });
 

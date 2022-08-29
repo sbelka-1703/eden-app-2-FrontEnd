@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
-import { Endorsements } from "../Endorsements/Endorsements";
+import { Endorsements  } from "../Endorsements/Endorsements";
+import { UserWithDescription } from "../UserWithDescription";
+
 import "./style.css";
 
 export interface IEndorsementsCarousel {
   endorsementList?: any;
 }
+
 
 export const EndorsementsCarousel = ({
   endorsementList,

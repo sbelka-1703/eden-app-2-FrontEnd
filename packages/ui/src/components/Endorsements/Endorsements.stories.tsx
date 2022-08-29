@@ -13,5 +13,4 @@ const Template: ComponentStory<typeof Endorsements> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  
 };
