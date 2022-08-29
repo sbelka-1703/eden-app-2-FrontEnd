@@ -1,11 +1,10 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
+import { UserContext } from "@context/eden";
 import { FIND_PROJECT } from "@graphql/eden";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 import { ApplyContainer, GridItemSix, GridItemThree, GridLayout } from "ui";
-
-import { UserContext } from "../../context";
 
 const SET_APPLY_TO_PROJECT = gql`
   mutation ($fields: changeTeamMember_Phase_ProjectInput!) {

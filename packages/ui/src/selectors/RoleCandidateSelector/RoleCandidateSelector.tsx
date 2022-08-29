@@ -38,7 +38,7 @@ export const RoleCandidateSelector = ({
   }, [currentRoleIndex]);
 
   return (
-    <div className="relative max-w-lg">
+    <div className="relative w-full">
       <div className={`font-poppins text-center text-gray-500`}>
         Match candidates for:
       </div>
@@ -52,7 +52,9 @@ export const RoleCandidateSelector = ({
             <AiOutlineDoubleLeft className={`text-xl`} />
           </div>
         </button>
-        <div className={`font-poppins text-3xl font-medium uppercase`}>
+        <div
+          className={`font-poppins text-center text-xl font-medium uppercase lg:text-xl xl:text-2xl`}
+        >
           {currentRole?.title}
         </div>
         <button

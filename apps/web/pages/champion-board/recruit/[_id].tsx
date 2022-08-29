@@ -33,7 +33,7 @@ const ProjectPage: NextPage = () => {
   });
 
   // member data
-  if (dataMember) console.log("dataMember", dataMember);
+  // if (dataMember) console.log("dataMember", dataMember);
 
   const { data: dataProject } = useQuery(FIND_PROJECT, {
     variables: {
@@ -65,7 +65,7 @@ const ProjectPage: NextPage = () => {
         skillsID: selectRole,
       },
     },
-    skip: !selectRole,
+    skip: !selectRole || selectRole.length === 0,
     context: { serviceName: "soilservice" },
   });
 
@@ -74,6 +74,8 @@ const ProjectPage: NextPage = () => {
       "dataMemberWithSkills",
       dataMemberWithSkills.matchMembersToSkills
     );
+
+  console.log("selectRole", selectRole);
 
   return (
     <GridLayout>

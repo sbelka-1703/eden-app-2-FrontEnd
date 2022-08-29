@@ -1,4 +1,5 @@
 import { useQuery } from "@apollo/client";
+import { UserContext } from "@context/eden";
 import { FIND_PROJECTS_RECOMMENDED } from "@graphql/eden";
 import type { NextPage } from "next";
 import { useContext } from "react";
@@ -10,8 +11,6 @@ import {
   RecommendedList,
   UserProfileMenu,
 } from "ui";
-
-import { UserContext } from "../../context";
 
 const MyProjectsPage: NextPage = () => {
   const { currentUser } = useContext(UserContext);

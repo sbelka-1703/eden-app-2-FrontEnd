@@ -9,7 +9,7 @@ describe("LoginButton", () => {
       <SessionProvider
         session={{
           expires: "1",
-          user: { email: "a", name: "Miral", image: "c" },
+          user: { id: "1", email: "a", name: "Miral", image: "c" },
         }}
       >
         <LoginButton />
