@@ -1,17 +1,18 @@
+import { SignUpProvider } from "@context/eden";
 import type { NextPage } from "next";
-import { Card, GridItemSix, GridItemThree, GridLayout } from "ui";
+import { GridItemSix, GridItemThree, GridLayout, SignUpContainer } from "ui";
 
 const SignUpPage: NextPage = () => {
   return (
-    <GridLayout>
-      <GridItemThree>left side</GridItemThree>
-      <GridItemSix>
-        <Card shadow className="h-8/10 bg-white p-6">
-          content here
-        </Card>
-      </GridItemSix>
-      <GridItemThree>right side</GridItemThree>
-    </GridLayout>
+    <SignUpProvider>
+      <GridLayout>
+        <GridItemThree> </GridItemThree>
+        <GridItemSix>
+          <SignUpContainer />
+        </GridItemSix>
+        <GridItemThree> </GridItemThree>
+      </GridLayout>
+    </SignUpProvider>
   );
 };
 

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Confetti from "react-confetti";
 
-export const LaunchViewSuccess = () => {
+export const SignUpViewSuccess = () => {
   const [height, setHeight] = useState(0);
   const [width, setWidth] = useState(0);
   const ref = useRef(null);
