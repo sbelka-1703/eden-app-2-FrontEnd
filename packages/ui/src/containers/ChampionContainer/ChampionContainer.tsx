@@ -19,21 +19,32 @@ export const ChampionContainer = ({ project }: ChampionContainerProps) => {
       <div className="border-accentColor h-8/10 overflow-y-scroll rounded-b-xl border-b-2 border-r-2 border-l-2 bg-white px-4">
         {activeTab === 0 && (
           <div className={`pt-6`}>
-            <>
-              {project?.team &&
-                project?.team.map((member, index) => {
-                  return (
-                    <div key={index}>
-                      {member?.phase === "engaged" && (
-                        <UserCard member={member?.memberInfo as Members} />
-                      )}
-                    </div>
-                  );
-                })}
-            </>
+            {project?.team &&
+              project?.team.map((member, index) => {
+                return (
+                  <div key={index} className={`mb-6`}>
+                    {member?.phase === "engaged" && (
+                      <UserCard member={member?.memberInfo as Members} />
+                    )}
+                  </div>
+                );
+              })}
           </div>
         )}
-        {activeTab === 1 && <div>Committed Team</div>}
+        {activeTab === 1 && (
+          <div className={`pt-6`}>
+            {project?.team &&
+              project?.team.map((member, index) => {
+                return (
+                  <div key={index} className={`mb-6`}>
+                    {member?.phase === "committed" && (
+                      <UserCard member={member?.memberInfo as Members} />
+                    )}
+                  </div>
+                );
+              })}
+          </div>
+        )}
       </div>
     </div>
   );

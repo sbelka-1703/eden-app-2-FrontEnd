@@ -1,5 +1,5 @@
 import { gql, useMutation } from "@apollo/client";
-import { LaunchContext, UserContext } from "@context/eden";
+import { SignUpContext, UserContext } from "@context/eden";
 import { Mutation } from "@graphql/eden/generated";
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
@@ -7,77 +7,77 @@ import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import {
   Button,
   Card,
-  LaunchViewDescribe,
-  LaunchViewLinks,
-  LaunchViewName,
-  LaunchViewRoles,
-  LaunchViewSteps,
-  LaunchViewSuccess,
-  LaunchViewVerify,
+  SignUpViewBio,
+  SignUpViewConfirm,
+  SignUpViewShare,
+  SignUpViewSkills,
+  SignUpViewSocials,
+  SignUpViewSuccess,
+  SignUpViewXP,
 } from "ui";
 
-const LAUNCH_PROJECT = gql`
-  mutation ($fields: updateProjectInput!) {
-    updateProject(fields: $fields) {
+const UPDATE_MEMBER = gql`
+  mutation ($fields: updateMemberInput!) {
+    updateMember(fields: $fields) {
       _id
     }
   }
 `;
 
-export interface LaunchPageProps {}
+export interface SignUpContainerProps {}
 
-export const LaunchContainer = ({}: LaunchPageProps) => {
+export const SignUpContainer = ({}: SignUpContainerProps) => {
   const router = useRouter();
   const { currentUser } = useContext(UserContext);
-  const { projectName, projectDescription } = useContext(LaunchContext);
+  const { profileBio } = useContext(SignUpContext);
+
+  // console.log("currentUser", currentUser);
 
   const [currentIndex, setCurrentIndex] = useState(1);
   const maxSteps = 6;
 
-  const [submittingProject, setSubmittingProject] = useState(false);
-  const [createdProjectId, setCreatedProjectId] = useState("1");
+  const [submittingProfile, setSubmittingProfile] = useState(false);
 
-  const [updateProject, {}] = useMutation(LAUNCH_PROJECT, {
-    onCompleted({ updateProject }: Mutation) {
-      if (!updateProject) console.log("updateProject is null");
-      setCreatedProjectId(updateProject?._id as string);
+  const [updateMember, {}] = useMutation(UPDATE_MEMBER, {
+    onCompleted({ updateMember }: Mutation) {
+      if (!updateMember) console.log("updateMember is null");
       setCurrentIndex(maxSteps + 1);
-      setSubmittingProject(false);
+      setSubmittingProfile(false);
     },
     onError(error) {
       console.log(error);
     },
   });
 
-  const onClickLaunch = () => {
-    updateProject({
+  const onClickProfile = () => {
+    updateMember({
       variables: {
         fields: {
           serverID: "alpha-test",
-          champion: currentUser?._id,
-          title: projectName,
-          description: projectDescription,
+          _id: currentUser?._id,
+          bio: profileBio,
+          // description: projectDescription,
         },
       },
     });
   };
 
-  const LaunchView = () => {
+  const SignUpView = () => {
     switch (currentIndex) {
       case 1:
-        return <LaunchViewName />;
+        return <SignUpViewBio />;
       case 2:
-        return <LaunchViewDescribe />;
+        return <SignUpViewSocials />;
       case 3:
-        return <LaunchViewRoles />;
+        return <SignUpViewXP />;
       case 4:
-        return <LaunchViewLinks />;
+        return <SignUpViewShare />;
       case 5:
-        return <LaunchViewSteps />;
+        return <SignUpViewSkills />;
       case 6:
-        return <LaunchViewVerify />;
+        return <SignUpViewConfirm />;
       case 7:
-        return <LaunchViewSuccess />;
+        return <SignUpViewSuccess />;
       default:
         return <div>error</div>;
     }
@@ -85,12 +85,12 @@ export const LaunchContainer = ({}: LaunchPageProps) => {
 
   return (
     <Card shadow className="h-8/10 bg-white">
-      {submittingProject ? (
-        <div>submiting project</div>
+      {submittingProfile ? (
+        <div>submiting profile</div>
       ) : (
         <div className={`relative h-full`}>
-          launch step: {currentIndex}
-          {LaunchView && LaunchView()}
+          signup step: {currentIndex}
+          {SignUpView && SignUpView()}
           <div className={`absolute bottom-2 flex w-full justify-between p-6`}>
             <div>
               {currentIndex !== 1 && currentIndex !== maxSteps + 1 && (
@@ -113,8 +113,8 @@ export const LaunchContainer = ({}: LaunchPageProps) => {
                 <Button
                   variant={`primary`}
                   onClick={() => {
-                    setSubmittingProject(true);
-                    onClickLaunch();
+                    setSubmittingProfile(true);
+                    onClickProfile();
                   }}
                 >
                   FINISH
@@ -123,11 +123,9 @@ export const LaunchContainer = ({}: LaunchPageProps) => {
               ) : (
                 <Button
                   variant={`primary`}
-                  onClick={() =>
-                    router.push(`/champion-board/recruit/${createdProjectId}`)
-                  }
+                  onClick={() => router.push(`/projects`)}
                 >
-                  FIND TALENT
+                  FIND A PROJECT
                   <BsArrowRight className={`my-auto ml-2`} />
                 </Button>
               )}

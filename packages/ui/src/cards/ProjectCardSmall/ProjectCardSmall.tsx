@@ -18,15 +18,16 @@ export const ProjectCardSmall = ({
 }: ProjectCardSmallProps) => {
   if (!project) return null;
   const daysLeft = totalDays - currentDayCount;
+
   return (
-    <Card shadow focused={focused} className={`w-full bg-white p-6`}>
+    <Card shadow focused={focused} className={`w-full bg-white p-3`}>
       <div className="flex w-full">
         <div>
-          <Avatar src={avatar} />
+          <Avatar src={avatar} size={`sm`} />
         </div>
         <div className={`my-auto pl-4`}>
-          <div className={`text-2xl`}>{project.title}</div>
-          <div className={`text-lg `}>Engaged talent:</div>
+          <div className={`text-xl`}>{project.title}</div>
+          <div className={`text-base `}>Engaged talent:</div>
         </div>
       </div>
       <div className="mt-2">

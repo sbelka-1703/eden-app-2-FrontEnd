@@ -53,7 +53,7 @@ export const RoleCandidateSelector = ({
           </div>
         </button>
         <div
-          className={`font-poppins text-center text-xl font-medium uppercase lg:text-2xl xl:text-3xl`}
+          className={`font-poppins text-center text-xl font-medium uppercase lg:text-xl xl:text-2xl`}
         >
           {currentRole?.title}
         </div>
