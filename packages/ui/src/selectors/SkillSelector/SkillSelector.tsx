@@ -30,7 +30,7 @@ export interface SkillSelectorProps {
   // eslint-disable-next-line no-unused-vars
   onSetSkills?: (val: any) => void;
   showSelected?: boolean;
-  value?: [];
+  value?: any[];
   options?: Array<Skills>;
 }
 

@@ -6,6 +6,8 @@ import { useState } from "react";
 interface IItems {
   _id?: number | Maybe<string> | undefined;
   name?: Maybe<string> | undefined;
+  title?: Maybe<string> | undefined;
+  __typename?: Maybe<string> | undefined;
 }
 
 export interface DropdownProps {
@@ -37,7 +39,6 @@ export const Dropdown = ({
         );
 
   const handleSelect = (val: any) => {
-    console.log("SELECTED ", onSelect);
     onSelect && onSelect(val);
     if (!multiple) {
       setQuery(val.name);
@@ -72,7 +73,7 @@ export const Dropdown = ({
             </div>
           ) : (
             filteredItems &&
-            filteredItems.map((item: IItems, index: number) => (
+            filteredItems?.map((item: IItems, index: number) => (
               <Combobox.Option
                 key={index}
                 className={({ active }) =>
@@ -83,7 +84,7 @@ export const Dropdown = ({
                 value={item}
               >
                 <span className={`block truncate font-medium`}>
-                  {item.name}
+                  {item.name || item.title}
                 </span>
               </Combobox.Option>
             ))
