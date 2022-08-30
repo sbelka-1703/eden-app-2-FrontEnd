@@ -1,6 +1,10 @@
 import { gql, useMutation } from "@apollo/client";
 import { LaunchContext, UserContext } from "@context/eden";
-import { Mutation } from "@graphql/eden/generated";
+import {
+  Mutation,
+  RoleTemplate,
+  ServerTemplate,
+} from "@graphql/eden/generated";
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
@@ -25,9 +29,12 @@ const LAUNCH_PROJECT = gql`
   }
 `;
 
-export interface LaunchPageProps {}
+export interface LaunchPageProps {
+  servers: ServerTemplate[];
+  roles: RoleTemplate[];
+}
 
-export const LaunchContainer = ({}: LaunchPageProps) => {
+export const LaunchContainer = ({ servers, roles }: LaunchPageProps) => {
   const router = useRouter();
   const { currentUser } = useContext(UserContext);
   const { projectName, projectDescription } = useContext(LaunchContext);
@@ -70,9 +77,9 @@ export const LaunchContainer = ({}: LaunchPageProps) => {
       case 2:
         return <LaunchViewDescribe />;
       case 3:
-        return <LaunchViewRoles />;
+        return <LaunchViewRoles roles={roles} />;
       case 4:
-        return <LaunchViewLinks />;
+        return <LaunchViewLinks servers={servers} />;
       case 5:
         return <LaunchViewSteps />;
       case 6:
