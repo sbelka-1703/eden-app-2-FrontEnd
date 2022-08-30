@@ -14,6 +14,7 @@ import {
   LaunchViewSteps,
   LaunchViewSuccess,
   LaunchViewVerify,
+  Loading,
 } from "ui";
 
 const LAUNCH_PROJECT = gql`
@@ -86,7 +87,7 @@ export const LaunchContainer = ({}: LaunchPageProps) => {
   return (
     <Card shadow className="h-8/10 bg-white">
       {submittingProject ? (
-        <div>submiting project</div>
+        <Loading title={`Submitting...`} />
       ) : (
         <div className={`relative h-full`}>
           launch step: {currentIndex}

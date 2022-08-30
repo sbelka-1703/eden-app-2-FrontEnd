@@ -6,9 +6,15 @@ export type ModalProps = {
   title?: string;
   children?: React.ReactNode;
   open?: boolean;
+  closeOnEsc?: boolean;
 };
 
-export const Modal = ({ title = "", children, open = false }: ModalProps) => {
+export const Modal = ({
+  title = "",
+  children,
+  open = false,
+  closeOnEsc = true,
+}: ModalProps) => {
   const [isOpen, setIsOpen] = useState(open);
 
   useEffect(() => {
@@ -20,7 +26,9 @@ export const Modal = ({ title = "", children, open = false }: ModalProps) => {
       <Dialog
         as="div"
         className={"fixed inset-0 z-10 overflow-y-auto"}
-        onClose={setIsOpen}
+        onClose={() => {
+          if (closeOnEsc) setIsOpen(false);
+        }}
       >
         <div
           className={
@@ -42,7 +50,6 @@ export const Modal = ({ title = "", children, open = false }: ModalProps) => {
               }
             />
           </Transition.Child>
-
           {/* This element is to trick the browser into centering the modal contents. */}
           <span
             className={"hidden sm:inline-block sm:h-screen sm:align-middle"}
@@ -50,6 +57,7 @@ export const Modal = ({ title = "", children, open = false }: ModalProps) => {
           >
             &#8203;
           </span>
+
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -67,16 +75,18 @@ export const Modal = ({ title = "", children, open = false }: ModalProps) => {
               <div
                 className={"absolute top-0 right-0 hidden pt-4 pr-4 sm:block"}
               >
-                <button
-                  type="button"
-                  className={
-                    "rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none"
-                  }
-                  onClick={() => setIsOpen(false)}
-                >
-                  <span className={"sr-only"}>Close</span>
-                  <XIcon className={"h-6 w-6"} aria-hidden="true" />
-                </button>
+                {closeOnEsc && (
+                  <button
+                    type="button"
+                    className={
+                      "rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none"
+                    }
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <span className={"sr-only"}>Close</span>
+                    <XIcon className={"h-6 w-6"} aria-hidden="true" />
+                  </button>
+                )}
               </div>
               <div className={"sm:flex"}>
                 <div className={"mt-3 w-full sm:mt-0"}>

@@ -1,10 +1,10 @@
 import { render } from "@testing-library/react";
 
-import { AvatarList } from "./AvatarList";
+import { Loading } from ".";
 
-describe("AvatarList", () => {
+describe("Loading", () => {
   it("renders without throwing", () => {
-    const { container } = render(<AvatarList avatars={[]} />);
+    const { container } = render(<Loading />);
 
     expect(container).toBeInTheDocument();
   });

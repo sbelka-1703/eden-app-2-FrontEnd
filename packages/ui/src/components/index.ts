@@ -1,4 +1,5 @@
 export * from "./AvailabilityComp";
+export * from "./AvatarList";
 export * from "./BioComponent";
 export * from "./CollectionOfUsers";
 export * from "./Endorsements";
