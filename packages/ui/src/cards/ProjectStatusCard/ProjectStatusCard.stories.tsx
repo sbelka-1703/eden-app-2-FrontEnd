@@ -4,7 +4,7 @@ import { faker } from "@faker-js/faker";
 import { OpenOrClosed, ProjectStatusCard } from "./ProjectStatusCard";
 
 export default {
-  title: "Card/ProjectStatusCard",
+  title: "Cards/ProjectStatusCard",
   component: ProjectStatusCard,
   argTypes: {},
 } as ComponentMeta<typeof ProjectStatusCard>;
