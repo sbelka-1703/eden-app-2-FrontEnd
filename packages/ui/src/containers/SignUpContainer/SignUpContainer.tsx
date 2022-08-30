@@ -7,6 +7,7 @@ import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import {
   Button,
   Card,
+  Loading,
   SignUpViewBio,
   SignUpViewConfirm,
   SignUpViewShare,
@@ -97,7 +98,7 @@ export const SignUpContainer = ({}: SignUpContainerProps) => {
   return (
     <Card shadow className="h-8/10 bg-white">
       {submittingProfile ? (
-        <div>submiting profile</div>
+        <Loading title={`Submitting...`} />
       ) : (
         <div className={`relative h-full`}>
           signup step: {currentIndex}

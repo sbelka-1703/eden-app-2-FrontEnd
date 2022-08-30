@@ -14,23 +14,23 @@ const Template: ComponentStory<typeof ProgressStepper> = (args) => (
 
 export const Default = Template.bind({});
 const steps = [
-    {
-        name: 'Applied',
-        completed: true,
-    },
-    {
-        name: 'Application Reviewed',
-        completed: true,
-    },
-    {
-        name: 'Application Shortlisted',
-        completed: false,
-    },
-    {
-        name: 'Application Shortlisted',
-        completed: false,
-    }
-]
+  {
+    name: "Applied",
+    completed: true,
+  },
+  {
+    name: "Application Reviewed",
+    completed: true,
+  },
+  {
+    name: "Application Shortlisted",
+    completed: false,
+  },
+  {
+    name: "Application Shortlisted",
+    completed: false,
+  },
+];
 Default.args = {
-    steps
+  steps,
 };
