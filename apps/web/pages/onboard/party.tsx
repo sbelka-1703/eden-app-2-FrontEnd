@@ -1,8 +1,13 @@
 // import { useQuery } from "@apollo/client";
 // import { FIND_MEMBERS, FIND_SKILLS } from "@graphql/eden";
-import { useQuery } from "@apollo/client";
+import { useQuery, useSubscription } from "@apollo/client";
 import { UserContext } from "@context/eden";
-import { FIND_MEMBERS, FIND_SKILLS } from "@graphql/eden";
+import {
+  FIND_MEMBERS,
+  FIND_ROOM,
+  FIND_SKILLS,
+  ROOM_UPDATED,
+} from "@graphql/eden";
 import { Members } from "@graphql/eden/generated";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
@@ -19,50 +24,41 @@ import {
 } from "ui";
 
 const OnboardPartyPage: NextPage = () => {
-  // const members = [
-  //   {
-  //     discordName: "BluePanda",
-  //     discordAvatar:
-  //       "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/598.jpg",
-  //     skills: [
-  //       { name: "Solidity", _id: "asd123" },
-  //       { name: "HTML5", _id: "asd456" },
-  //     ],
-  //   },
-  //   {
-  //     discordName: "eloigil",
-  //     discordAvatar:
-  //       "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/598.jpg",
-  //     skills: [
-  //       { name: "Solidity", _id: "asd123" },
-  //       { name: "HTML5", _id: "asd456" },
-  //     ],
-  //   },
-  //   {
-  //     discordName: "sbelka",
-  //     discordAvatar:
-  //       "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/598.jpg",
-  //     skills: [
-  //       { name: "Solidity", _id: "asd123" },
-  //       { name: "HTML5", _id: "asd456" },
-  //     ],
-  //   },
-  // ];
   const router = useRouter();
 
   const { currentUser } = useContext(UserContext);
 
-  const { data: dataMembers } = useQuery(FIND_MEMBERS, {
+  const { data: dataRoom } = useQuery(FIND_ROOM, {
     variables: {
       fields: {
-        _id:
-          typeof router.query.id === "object"
-            ? router.query.id
-            : [router.query.id],
+        _id: "630e2a394fa4c10004442f56",
       },
     },
     context: { serviceName: "soilservice" },
   });
+
+  const { data: dataMembers } = useQuery(FIND_MEMBERS, {
+    variables: {
+      fields: {
+        _id: dataRoom
+          ? dataRoom.findRoom?.members.map((member: Members) => member._id)
+          : [],
+      },
+    },
+    context: { serviceName: "soilservice" },
+  });
+
+  const { data: dataRoomSubscription } = useSubscription(ROOM_UPDATED, {
+    variables: {
+      fields: { _id: router.query.id },
+    },
+  });
+
+  // const { data: dataMembersSubscription } = useSubscription(ROOM_UPDATED, {
+  //   variables: {
+  //     fields: { _id: router.query.id },
+  //   },
+  // });
 
   const { data: dataSkills } = useQuery(FIND_SKILLS, {
     variables: {
@@ -71,9 +67,12 @@ const OnboardPartyPage: NextPage = () => {
     context: { serviceName: "soilservice" },
   });
 
+  // const displayMembers = dataMembers;
+
   return (
     <GridLayout>
       <GridItemThree>
+        {JSON.stringify(dataRoomSubscription)}
         {currentUser && (
           <Card shadow className="bg-white p-3">
             <TextHeading3 className="mb-2">Edit Your Profile Card</TextHeading3>
