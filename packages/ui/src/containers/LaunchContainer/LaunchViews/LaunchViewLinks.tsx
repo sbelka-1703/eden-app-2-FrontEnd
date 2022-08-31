@@ -1,5 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
+import { LaunchContext } from "@context/eden";
 import { ServerTemplate } from "@graphql/eden/generated";
+import { useContext } from "react";
 import {
   FaDiscord,
   FaGithub,
@@ -14,6 +16,18 @@ export interface LaunchViewLinksProps {
 }
 
 export const LaunchViewLinks = ({ servers }: LaunchViewLinksProps) => {
+  const {
+    setServerId,
+    githubUrl,
+    setGithubUrl,
+    discordUrl,
+    setDiscordUrl,
+    notionUrl,
+    setNotionUrl,
+    telegramUrl,
+    setTelegramUrl,
+  } = useContext(LaunchContext);
+
   return (
     <div className={`p-6`}>
       <div
@@ -27,7 +41,7 @@ export const LaunchViewLinks = ({ servers }: LaunchViewLinksProps) => {
             <Dropdown
               items={servers}
               placeholder={`Select Your Server`}
-              onSelect={(val) => console.log(val.name)}
+              onSelect={(val) => setServerId(val._id)}
             />
           </div>
         </div>
@@ -54,8 +68,8 @@ export const LaunchViewLinks = ({ servers }: LaunchViewLinksProps) => {
         <TextField
           radius="pill"
           placeholder={`Github URL`}
-          value={``}
-          onChange={(e) => console.log(e.target.value)}
+          value={githubUrl}
+          onChange={(e) => setGithubUrl(e.target.value)}
         />
       </div>
       <div className={`my-6 flex w-full`}>
@@ -63,8 +77,8 @@ export const LaunchViewLinks = ({ servers }: LaunchViewLinksProps) => {
         <TextField
           radius="pill"
           placeholder={`Discord Link`}
-          value={``}
-          onChange={(e) => console.log(e.target.value)}
+          value={discordUrl}
+          onChange={(e) => setDiscordUrl(e.target.value)}
         />
       </div>
       <div className={`my-6 flex w-full`}>
@@ -72,8 +86,8 @@ export const LaunchViewLinks = ({ servers }: LaunchViewLinksProps) => {
         <TextField
           radius="pill"
           placeholder={`Notion Link`}
-          value={``}
-          onChange={(e) => console.log(e.target.value)}
+          value={notionUrl}
+          onChange={(e) => setNotionUrl(e.target.value)}
         />
       </div>
       <div className={`my-6 flex w-full`}>
@@ -81,8 +95,8 @@ export const LaunchViewLinks = ({ servers }: LaunchViewLinksProps) => {
         <TextField
           radius="pill"
           placeholder={`Telegram Link`}
-          value={``}
-          onChange={(e) => console.log(e.target.value)}
+          value={telegramUrl}
+          onChange={(e) => setTelegramUrl(e.target.value)}
         />
       </div>
     </div>
