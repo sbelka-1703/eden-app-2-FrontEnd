@@ -13,6 +13,10 @@ export const SignUpProvider = ({ children }: SignUpProviderProps) => {
   const [contentInterest, setContentInterest] = useState("");
   const [contentMostProud, setContentMostProud] = useState("");
   const [contentShowcaseAbility, setContentShowcaseAbility] = useState("");
+  const [twitterHandle, setTwitterHandle] = useState("");
+  const [githubHandle, setGithubHandle] = useState("");
+  const [discordHandle, setDiscordHandle] = useState("");
+  const [telegramHandle, setTelegramHandle] = useState("");
 
   const injectContext = {
     profileBio,
@@ -27,6 +31,14 @@ export const SignUpProvider = ({ children }: SignUpProviderProps) => {
     setContentMostProud: (val: string) => setContentMostProud(val),
     contentShowcaseAbility,
     setContentShowcaseAbility: (val: string) => setContentShowcaseAbility(val),
+    twitterHandle,
+    setTwitterHandle: (val: string) => setTwitterHandle(val),
+    githubHandle,
+    setGithubHandle: (val: string) => setGithubHandle(val),
+    discordHandle,
+    setDiscordHandle: (val: string) => setDiscordHandle(val),
+    telegramHandle,
+    setTelegramHandle: (val: string) => setTelegramHandle(val),
   };
 
   return (

@@ -36,9 +36,13 @@ export const SignUpContainer = ({}: SignUpContainerProps) => {
     contentShowcaseAbility,
     hoursPerWeek,
     timezone,
+    twitterHandle,
+    githubHandle,
+    discordHandle,
+    telegramHandle,
   } = useContext(SignUpContext);
 
-  // console.log("currentUser", currentUser);
+  console.log("currentUser", currentUser);
 
   const [currentIndex, setCurrentIndex] = useState(1);
   const maxSteps = 6;
@@ -69,6 +73,24 @@ export const SignUpContainer = ({}: SignUpContainerProps) => {
           },
           hoursPerWeek: hoursPerWeek,
           timeZone: timezone,
+          links: [
+            {
+              name: "twitter",
+              url: twitterHandle,
+            },
+            {
+              name: "github",
+              url: githubHandle,
+            },
+            {
+              name: "discord",
+              url: discordHandle,
+            },
+            {
+              name: "telegram",
+              url: telegramHandle,
+            },
+          ],
         },
       },
     });
