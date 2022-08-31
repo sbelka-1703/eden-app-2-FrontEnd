@@ -1,12 +1,19 @@
 // import { useQuery } from "@apollo/client";
 // import { FIND_MEMBERS, FIND_SKILLS } from "@graphql/eden";
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery, useSubscription } from "@apollo/client";
 import { UserContext } from "@context/eden";
-import { FIND_MEMBERS, FIND_SKILLS } from "@graphql/eden";
-import { Members } from "@graphql/eden/generated";
+import {
+  ADD_SKILL_TO_MEMBER,
+  FIND_MEMBERS,
+  FIND_ROOM,
+  FIND_SKILLS,
+  MEMBER_UPDATED,
+  ROOM_UPDATED,
+} from "@graphql/eden";
+import { Members, Skills } from "@graphql/eden/generated";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import {
   Avatar,
   Badge,
@@ -19,49 +26,64 @@ import {
 } from "ui";
 
 const OnboardPartyPage: NextPage = () => {
-  // const members = [
-  //   {
-  //     discordName: "BluePanda",
-  //     discordAvatar:
-  //       "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/598.jpg",
-  //     skills: [
-  //       { name: "Solidity", _id: "asd123" },
-  //       { name: "HTML5", _id: "asd456" },
-  //     ],
-  //   },
-  //   {
-  //     discordName: "eloigil",
-  //     discordAvatar:
-  //       "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/598.jpg",
-  //     skills: [
-  //       { name: "Solidity", _id: "asd123" },
-  //       { name: "HTML5", _id: "asd456" },
-  //     ],
-  //   },
-  //   {
-  //     discordName: "sbelka",
-  //     discordAvatar:
-  //       "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/598.jpg",
-  //     skills: [
-  //       { name: "Solidity", _id: "asd123" },
-  //       { name: "HTML5", _id: "asd456" },
-  //     ],
-  //   },
-  // ];
   const router = useRouter();
+  const { partyId } = router.query;
+
+  const [members, setMembers] = useState<Members[]>([]);
 
   const { currentUser } = useContext(UserContext);
+
+  const { data: dataRoom } = useQuery(FIND_ROOM, {
+    variables: {
+      fields: {
+        _id: partyId,
+      },
+    },
+    context: { serviceName: "soilservice" },
+  });
+
+  const { data: dataRoomSubscription } = useSubscription(ROOM_UPDATED, {
+    variables: {
+      fields: { _id: partyId },
+    },
+  });
+
+  const membersIds: Array<string> = dataRoomSubscription
+    ? dataRoomSubscription.roomUpdated.members.map(
+        (member: Members) => member._id
+      )
+    : dataRoom?.findRoom.members.map((member: Members) => member._id);
 
   const { data: dataMembers } = useQuery(FIND_MEMBERS, {
     variables: {
       fields: {
-        _id:
-          typeof router.query.id === "object"
-            ? router.query.id
-            : [router.query.id],
+        _id: dataRoom
+          ? dataRoom.findRoom?.members.map((member: Members) => member._id)
+          : [],
       },
     },
     context: { serviceName: "soilservice" },
+    onCompleted: (data) => {
+      if (data) {
+        setMembers(data.findMembers);
+      }
+    },
+  });
+
+  useSubscription(MEMBER_UPDATED, {
+    variables: {
+      fields: { _id: membersIds },
+    },
+    onSubscriptionData: (data) => {
+      const newMemberData = data.subscriptionData.data.memberUpdated;
+
+      setMembers(
+        members.map((member: Members) => {
+          if (member._id !== newMemberData._id) return member;
+          return newMemberData;
+        })
+      );
+    },
   });
 
   const { data: dataSkills } = useQuery(FIND_SKILLS, {
@@ -70,6 +92,25 @@ const OnboardPartyPage: NextPage = () => {
     },
     context: { serviceName: "soilservice" },
   });
+
+  const [addSkillToMember] = useMutation(ADD_SKILL_TO_MEMBER, {});
+
+  const handleSetSkills = (skills: Skills[]) => {
+    const lastSkillAdded = skills[skills.length - 1];
+
+    addSkillToMember({
+      variables: {
+        fields: {
+          skillID: lastSkillAdded._id,
+          memberID: currentUser?._id,
+          authorID:
+            lastSkillAdded.authors && lastSkillAdded.authors[0]
+              ? lastSkillAdded.authors[0]._id
+              : currentUser?._id,
+        },
+      },
+    });
+  };
 
   return (
     <GridLayout>
@@ -87,7 +128,22 @@ const OnboardPartyPage: NextPage = () => {
             </div>
             <SkillSelector
               showSelected
-              options={dataSkills?.findSkills || []}
+              options={
+                // filter from options the skills user already has
+                dataSkills?.findSkills.filter(
+                  (skill: Skills) =>
+                    !currentUser.skills?.some(
+                      (currUserSkill) =>
+                        currUserSkill?.skillInfo?._id === skill._id
+                    )
+                ) || []
+              }
+              value={
+                currentUser.skills
+                  ?.filter((skill) => skill !== undefined)
+                  .map((skill) => skill?.skillInfo) || []
+              }
+              onSetSkills={handleSetSkills}
             />
           </Card>
         )}
