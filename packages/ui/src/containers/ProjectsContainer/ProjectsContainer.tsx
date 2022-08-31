@@ -35,7 +35,7 @@ export const ProjectsContainer = ({
   return (
     <div className="rounded-xl">
       <TabsSelector tabs={tabs} onSelect={(val) => setActiveTab(val)} />
-      <div className="border-accentColor h-8/10 overflow-y-scroll rounded-b-xl border-b-2 border-r-2 border-l-2 bg-white px-4">
+      <div className="border-accentColor h-8/10 scrollbar-hide overflow-y-scroll rounded-b-xl border-b-2 border-r-2 border-l-2 bg-white px-4">
         {activeTab === 0 && <ProjectList projects={allProjects} />}
         {activeTab === 1 && <ProjectList projects={favourites} />}
         {activeTab === 2 && <ProjectList projects={recommendedProjects} />}
