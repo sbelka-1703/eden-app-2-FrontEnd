@@ -7,6 +7,7 @@ import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import {
   Button,
   Card,
+  FormStepper,
   Loading,
   SignUpViewBio,
   SignUpViewConfirm,
@@ -123,6 +124,7 @@ export const SignUpContainer = ({}: SignUpContainerProps) => {
         <Loading title={`Submitting...`} />
       ) : (
         <div className={`relative h-full`}>
+          <FormStepper step={currentIndex} maxSteps={maxSteps} />
           signup step: {currentIndex}
           {SignUpView && SignUpView()}
           <div className={`absolute bottom-2 flex w-full justify-between p-6`}>
