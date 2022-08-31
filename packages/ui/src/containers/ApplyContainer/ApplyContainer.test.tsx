@@ -1,5 +1,4 @@
-import { render } from "@testing-library/react";
-
+import { render } from "../../../utils/jext-apollo";
 import { ApplyContainer } from "./";
 
 describe("ApplyContainer", () => {

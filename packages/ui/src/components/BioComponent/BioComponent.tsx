@@ -15,12 +15,12 @@ export const BioComponent = ({
 }: IBioComponentProps) => {
   return (
     <Card shadow>
-      <div className="flex flex-col">
+      <div className="flex flex-col text-sm">
         <div
           className={`flex flex-row content-center justify-between justify-items-stretch`}
         >
           <div>
-            <div className={`text-sm font-semibold`}>{title}</div>
+            <div className={`font-semibold`}>{title}</div>
           </div>
           <div className="mt-1">
             {isEditable ? (
@@ -32,7 +32,7 @@ export const BioComponent = ({
             )}
           </div>
         </div>
-        <div className={`mx-6 my-2 text-lg text-slate-700`}>
+        <div className={`my-2 text-slate-700`}>
           <p className="break-words text-justify">{description}</p>
         </div>
       </div>

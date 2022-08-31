@@ -1,8 +1,8 @@
 import { Members } from "@graphql/eden/generated";
 import { useRouter } from "next/router";
 import { MdCreateNewFolder, MdFactCheck, MdPeopleAlt } from "react-icons/md";
+import { Avatar, MenuItem } from "ui";
 
-import { Avatar, MenuItem } from "../../elements";
 export interface IUserProfileMenuProps {
   currentUser?: Members | undefined;
   avatarSrc?: string;
@@ -15,13 +15,8 @@ export interface IUserProfileMenuProps {
 
 export const UserProfileMenu = ({
   currentUser,
-  // avatarSrc,
   title,
-}: // name,
-// onClickFindProject,
-// onClickActiveApplication,
-// onClickMyProject,
-IUserProfileMenuProps) => {
+}: IUserProfileMenuProps) => {
   const router = useRouter();
 
   return (

@@ -7,8 +7,12 @@ export const LaunchViewDescribe = () => {
     useContext(LaunchContext);
 
   return (
-    <div>
-      <h1>LaunchViewDescribe</h1>
+    <div className={`p-6`}>
+      <div
+        className={`font-poppins text-darkGreen text-center text-2xl font-medium`}
+      >
+        DESCRIBE YOUR PROJECT
+      </div>
       <TextField
         label="Describe Your Project"
         value={projectDescription}

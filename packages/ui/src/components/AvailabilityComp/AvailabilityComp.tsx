@@ -1,12 +1,10 @@
-// import { useRouter } from "next/router";
-
 export interface IAvailabilityCompProps {
-  timePerWeek?: string;
+  timePerWeek?: number;
   seed?: string;
 }
 
 export const AvailabilityComp = ({
-  timePerWeek = "0",
+  timePerWeek = 0,
   seed = "0",
 }: IAvailabilityCompProps) => {
   return (

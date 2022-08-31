@@ -45,8 +45,8 @@ export const ChampionRecruitContainer = ({
             </div>
             <UserWithDescription
               avatarSrc={member.discordAvatar || ""}
-              title={`title here`}
-              name={`@${member.discordName}`}
+              title={`@${member.discordName}`}
+              name={`title here`}
             />
             <div className={`mt-2`}>
               <Button>SHORTLIST</Button>
@@ -80,7 +80,7 @@ export const ChampionRecruitContainer = ({
                 <SocialMediaComp />
               </div>
               <div className={`col-span-4`}>
-                <AvailabilityComp />
+                <AvailabilityComp timePerWeek={member.hoursPerWeek || 0} />
               </div>
             </div>
             <div>graph</div>
@@ -91,12 +91,18 @@ export const ChampionRecruitContainer = ({
             <div className={`col-span-6 space-y-4`}>
               <UserInformationCard />
               <UserInformationCard />
-              <BioComponent />
+              <BioComponent
+                title={`What project are you most proud of?`}
+                description={member.content?.mostProud || ""}
+              />
             </div>
             <div className={`col-span-6 space-y-4`}>
               <UserInformationCard />
               <UserInformationCard />
-              <BioComponent />
+              <BioComponent
+                title={`What piece of work really showcases your abilities?`}
+                description={member.content?.showCaseAbility || ""}
+              />
             </div>
           </div>
         )}
