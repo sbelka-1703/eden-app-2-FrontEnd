@@ -96,8 +96,6 @@ const OnboardPartyPage: NextPage = () => {
   const [updateMember] = useMutation(UPDATE_MEMBER, {});
 
   const handleSetSkills = (skills: Skills[]) => {
-    console.log(skills);
-
     updateMember({
       variables: {
         fields: {
