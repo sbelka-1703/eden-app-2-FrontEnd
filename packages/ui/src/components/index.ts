@@ -6,6 +6,7 @@ export * from "./Endorsements";
 export * from "./EndorsementsCarousel";
 export * from "./FormStepper";
 export * from "./LoginButton";
+export * from "./SearchBar";
 export * from "./SocialMediaComponent";
 export * from "./UserProfileMenu";
 export * from "./UserWithDescription";
