@@ -1,15 +1,16 @@
 // import { useQuery } from "@apollo/client";
 // import { FIND_MEMBERS, FIND_SKILLS } from "@graphql/eden";
-import { useQuery, useSubscription } from "@apollo/client";
+import { useMutation, useQuery, useSubscription } from "@apollo/client";
 import { UserContext } from "@context/eden";
 import {
+  ADD_SKILL_TO_MEMBER,
   FIND_MEMBERS,
   FIND_ROOM,
   FIND_SKILLS,
   MEMBER_UPDATED,
   ROOM_UPDATED,
 } from "@graphql/eden";
-import { Members } from "@graphql/eden/generated";
+import { Members, Skills } from "@graphql/eden/generated";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
@@ -93,8 +94,23 @@ const OnboardPartyPage: NextPage = () => {
     context: { serviceName: "soilservice" },
   });
 
-  const handleSetSkills = () => {
-    //update member
+  const [addSkillToMember] = useMutation(ADD_SKILL_TO_MEMBER, {});
+
+  const handleSetSkills = (skills: Skills[]) => {
+    const lastSkillAdded = skills[skills.length - 1];
+
+    addSkillToMember({
+      variables: {
+        fields: {
+          skillID: lastSkillAdded._id,
+          memberID: currentUser?._id,
+          authorID:
+            lastSkillAdded.authors && lastSkillAdded.authors[0]
+              ? lastSkillAdded.authors[0]._id
+              : currentUser?._id,
+        },
+      },
+    });
   };
 
   return (
