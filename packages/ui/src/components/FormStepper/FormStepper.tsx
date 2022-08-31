@@ -20,12 +20,12 @@ export const FormStepper: React.FC<FormStepperProps> = ({ step, maxSteps }) => {
   return (
     <div className="flex w-full">
       {stepArray?.map((item, index: number) => (
-        <div key={index} className="flex w-24 flex-col">
+        <div key={index} className="flex w-full flex-col">
           <div className="flex h-2 w-full flex-row rounded-md">
             <div
               className={`${
                 item ? "data-container" : "data-container-active"
-              } flex items-center justify-center`}
+              } flex w-full items-center justify-center`}
             >
               <h3
                 className={`text-xs font-normal uppercase tracking-wide ${
@@ -41,30 +41,6 @@ export const FormStepper: React.FC<FormStepperProps> = ({ step, maxSteps }) => {
           </div>
         </div>
       ))}
-      {/* {steps?.map((step: FormStepper, index: number) => (
-        <div key={index} className="flex w-24 flex-col">
-          <div className="flex h-2 w-full flex-row rounded-md">
-            <div
-              className={`${
-                step?.completed ? "data-container" : "data-container-active"
-              } flex items-center justify-center`}
-            >
-              <h3
-                className={`text-xs font-normal uppercase tracking-wide ${
-                  step?.completed ? "text-black" : "text-transparent"
-                }`}
-              >
-                {`STEP ${step?.name}`}
-              </h3>
-            </div>
-            <div
-              className={`${
-                step?.completed ? "front-arrow" : "front-arrow-active"
-              }`}
-            ></div>
-          </div>
-        </div>
-      ))} */}
     </div>
   );
 };

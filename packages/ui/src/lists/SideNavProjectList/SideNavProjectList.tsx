@@ -40,7 +40,7 @@ export const SideNavProjectList = ({
   });
 
   return (
-    <div className={`h-8/10 overflow-y-scroll`}>
+    <div className={`h-8/10 scrollbar-hide overflow-y-scroll`}>
       <div className={`mx-1 mt-4 flex flex-col`}>{projectsList}</div>
     </div>
   );
