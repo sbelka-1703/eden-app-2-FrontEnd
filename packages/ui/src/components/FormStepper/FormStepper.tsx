@@ -18,7 +18,7 @@ export const FormStepper: React.FC<FormStepperProps> = ({ step, maxSteps }) => {
     }
   }
   return (
-    <div className="flex w-full rounded-lg border-amber-600	">
+    <div className="flex w-full">
       {stepArray?.map((item, index: number) => (
         <div key={index} className="flex w-24 flex-col">
           <div className="flex h-2 w-full flex-row rounded-md">
