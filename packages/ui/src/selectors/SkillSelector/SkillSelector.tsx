@@ -1,4 +1,4 @@
-import { Skills } from "@graphql/eden/generated";
+import { Maybe, Skills } from "@graphql/eden/generated";
 import { XIcon } from "@heroicons/react/outline";
 import { useEffect, useState } from "react";
 import { Dropdown } from "ui";
@@ -30,7 +30,7 @@ export interface SkillSelectorProps {
   // eslint-disable-next-line no-unused-vars
   onSetSkills?: (val: any) => void;
   showSelected?: boolean;
-  value?: [];
+  value?: (Maybe<Skills> | undefined)[];
   options?: Array<Skills>;
 }
 

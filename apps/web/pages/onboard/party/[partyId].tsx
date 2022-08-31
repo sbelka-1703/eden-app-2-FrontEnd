@@ -27,6 +27,8 @@ import {
 
 const OnboardPartyPage: NextPage = () => {
   const router = useRouter();
+  const { partyId } = router.query;
+
   const [members, setMembers] = useState<Members[]>([]);
 
   const { currentUser } = useContext(UserContext);
@@ -34,7 +36,7 @@ const OnboardPartyPage: NextPage = () => {
   const { data: dataRoom } = useQuery(FIND_ROOM, {
     variables: {
       fields: {
-        _id: router.query.id,
+        _id: partyId,
       },
     },
     context: { serviceName: "soilservice" },
@@ -42,7 +44,7 @@ const OnboardPartyPage: NextPage = () => {
 
   const { data: dataRoomSubscription } = useSubscription(ROOM_UPDATED, {
     variables: {
-      fields: { _id: router.query.id },
+      fields: { _id: partyId },
     },
   });
 
@@ -129,7 +131,17 @@ const OnboardPartyPage: NextPage = () => {
             </div>
             <SkillSelector
               showSelected
-              options={dataSkills?.findSkills || []}
+              options={
+                // filter from options the skills user already has
+                dataSkills?.findSkills.filter(
+                  (skill: Skills) =>
+                    !currentUser.skills?.some(
+                      (currUserSkill) =>
+                        currUserSkill?.skillInfo?._id === skill._id
+                    )
+                ) || []
+              }
+              value={currentUser.skills?.map((skill) => skill?.skillInfo)}
               onSetSkills={handleSetSkills}
             />
           </Card>
