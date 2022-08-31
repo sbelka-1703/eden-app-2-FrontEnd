@@ -27,5 +27,8 @@
     "tsconfig": "*",
     "typescript": "^4.7.4"
   },
-  "dependencies": {}
+  "dependencies": {
+    "chart.js": "^3.9.1",
+    "react-chartjs-2": "^4.3.1"
+  }
 }
