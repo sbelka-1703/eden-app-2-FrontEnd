@@ -6,12 +6,13 @@ import {
   FIND_MEMBERS,
   FIND_ROOM,
   FIND_SKILLS,
+  MEMBER_UPDATED,
   ROOM_UPDATED,
 } from "@graphql/eden";
 import { Members } from "@graphql/eden/generated";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import {
   Avatar,
   Badge,
@@ -25,24 +26,14 @@ import {
 
 const OnboardPartyPage: NextPage = () => {
   const router = useRouter();
+  const [members, setMembers] = useState<Members[]>([]);
 
   const { currentUser } = useContext(UserContext);
 
   const { data: dataRoom } = useQuery(FIND_ROOM, {
     variables: {
       fields: {
-        _id: "630e2a394fa4c10004442f56",
-      },
-    },
-    context: { serviceName: "soilservice" },
-  });
-
-  const { data: dataMembers } = useQuery(FIND_MEMBERS, {
-    variables: {
-      fields: {
-        _id: dataRoom
-          ? dataRoom.findRoom?.members.map((member: Members) => member._id)
-          : [],
+        _id: router.query.id,
       },
     },
     context: { serviceName: "soilservice" },
@@ -54,11 +45,46 @@ const OnboardPartyPage: NextPage = () => {
     },
   });
 
-  // const { data: dataMembersSubscription } = useSubscription(ROOM_UPDATED, {
-  //   variables: {
-  //     fields: { _id: router.query.id },
-  //   },
-  // });
+  const membersIds: Array<string> = dataRoomSubscription
+    ? dataRoomSubscription.roomUpdated.members.map(
+        (member: Members) => member._id
+      )
+    : dataRoom?.findRoom.members.map((member: Members) => member._id);
+
+  const { data: dataMembers } = useQuery(FIND_MEMBERS, {
+    variables: {
+      fields: {
+        _id: dataRoom
+          ? dataRoom.findRoom?.members.map((member: Members) => member._id)
+          : [],
+      },
+    },
+    context: { serviceName: "soilservice" },
+    onCompleted: (data) => {
+      if (data) {
+        setMembers(data.findMembers);
+      }
+    },
+  });
+
+  useSubscription(MEMBER_UPDATED, {
+    variables: {
+      fields: { _id: membersIds },
+    },
+    onSubscriptionData: (data) => {
+      const newMemberData = data.subscriptionData.data.memberUpdated;
+
+      console.log(newMemberData);
+      console.log(members);
+
+      setMembers(
+        members.map((member: Members) => {
+          if (member._id !== newMemberData._id) return member;
+          return newMemberData;
+        })
+      );
+    },
+  });
 
   const { data: dataSkills } = useQuery(FIND_SKILLS, {
     variables: {
@@ -67,12 +93,13 @@ const OnboardPartyPage: NextPage = () => {
     context: { serviceName: "soilservice" },
   });
 
-  // const displayMembers = dataMembers;
+  const handleSetSkills = () => {
+    //update member
+  };
 
   return (
     <GridLayout>
       <GridItemThree>
-        {JSON.stringify(dataRoomSubscription)}
         {currentUser && (
           <Card shadow className="bg-white p-3">
             <TextHeading3 className="mb-2">Edit Your Profile Card</TextHeading3>
@@ -87,6 +114,7 @@ const OnboardPartyPage: NextPage = () => {
             <SkillSelector
               showSelected
               options={dataSkills?.findSkills || []}
+              onSetSkills={handleSetSkills}
             />
           </Card>
         )}
