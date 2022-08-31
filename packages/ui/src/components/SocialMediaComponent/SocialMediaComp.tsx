@@ -7,10 +7,10 @@ export interface ISocialMediaCompProps {
 }
 
 export const SocialMediaComp = ({ links }: ISocialMediaCompProps) => {
-  const [twitterHandle, setTwitterHandle] = useState("");
-  const [discordHandle, setDiscordHandle] = useState("");
-  const [gitHubHandle, setGitHubHandle] = useState("");
-  const [telegramHandle, setTelegramHandle] = useState("");
+  const [twitterUrl, setTwitterUrl] = useState("");
+  const [discordUrl, setDiscordUrl] = useState("");
+  const [githubUrl, setGithubUrl] = useState("");
+  const [telegramUrl, setTelegramUrl] = useState("");
   const [notionLink, setNotionLink] = useState("");
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -18,17 +18,17 @@ export const SocialMediaComp = ({ links }: ISocialMediaCompProps) => {
     if (links) {
       const twitter = links.find((link) => link?.name === "twitter");
 
-      if (twitter) setTwitterHandle(twitter.url ?? "");
+      if (twitter) setTwitterUrl(twitter.url ?? "");
 
       const discord = links.find((link) => link?.name === "discord");
 
-      if (discord) setDiscordHandle(discord.url ?? "");
+      if (discord) setDiscordUrl(discord.url ?? "");
       const gitHub = links.find((link) => link?.name === "github");
 
-      if (gitHub) setGitHubHandle(gitHub.url ?? "");
+      if (gitHub) setGithubUrl(gitHub.url ?? "");
       const telegram = links.find((link) => link?.name === "telegram");
 
-      if (telegram) setTelegramHandle(telegram.url ?? "");
+      if (telegram) setTelegramUrl(telegram.url ?? "");
       const notion = links.find((link) => link?.name === "notion");
 
       if (notion) setNotionLink(notion.url ?? "");
@@ -45,46 +45,30 @@ export const SocialMediaComp = ({ links }: ISocialMediaCompProps) => {
         SOCIALS
       </div>
       <div className={`mt-4 grid grid-cols-2 gap-4`}>
-        {twitterHandle && (
+        {twitterUrl && (
           <div>
-            <a
-              href={`https://twitter.com/${twitterHandle}`}
-              target="_blank"
-              rel="noreferrer"
-            >
+            <a href={`${twitterUrl}`} target="_blank" rel="noreferrer">
               <FaTwitter size="2rem" color="#BCBCBC" />
             </a>
           </div>
         )}
-        {telegramHandle && (
+        {telegramUrl && (
           <div>
-            <a
-              href={`https://www.linkedin.com/in/${telegramHandle}`}
-              target="_blank"
-              rel="noreferrer"
-            >
+            <a href={`${telegramUrl}`} target="_blank" rel="noreferrer">
               <FaTelegram size="2rem" color="#BCBCBC" />
             </a>
           </div>
         )}
-        {discordHandle && (
+        {discordUrl && (
           <div>
-            <a
-              href={`https://discord.com/channels/@${discordHandle}`}
-              target="_blank"
-              rel="noreferrer"
-            >
+            <a href={`${discordUrl}`} target="_blank" rel="noreferrer">
               <FaDiscord size="2rem" color="#BCBCBC" />
             </a>
           </div>
         )}
-        {gitHubHandle && (
+        {githubUrl && (
           <div>
-            <a
-              href={`https://github.com/${gitHubHandle}`}
-              target="_blank"
-              rel="noreferrer"
-            >
+            <a href={`${githubUrl}`} target="_blank" rel="noreferrer">
               <FaGithub size="2rem" color="#BCBCBC" />
             </a>
           </div>
