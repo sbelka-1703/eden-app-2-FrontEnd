@@ -16,6 +16,6 @@ export const Default = Template.bind({});
 Default.args = {
   name: "textfield",
   required: false,
-  row: 8,
+  rows: 8,
   placeholder: "Start typing here",
 };
