@@ -6,8 +6,12 @@ export const LaunchViewName = () => {
   const { projectName, setProjectName } = useContext(LaunchContext);
 
   return (
-    <div>
-      <h1>LaunchViewName</h1>
+    <div className={`p-6`}>
+      <div
+        className={`font-poppins text-darkGreen text-center text-2xl font-medium`}
+      >
+        NAME YOUR PROJECT
+      </div>
       <TextField
         label="Name Your Project"
         value={projectName}

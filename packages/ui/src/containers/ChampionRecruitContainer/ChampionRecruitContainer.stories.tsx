@@ -17,40 +17,32 @@ const skills = [
   "Leadership",
 ];
 
+const getSkills = () =>
+  Array.from({ length: 6 }, () => {
+    return {
+      skillInfo: {
+        _id: Number(faker.random.numeric(5)),
+        name: faker.helpers.uniqueArray(skills, 1),
+        __typename: "Skills",
+      },
+      __typename: "skillType_member",
+    };
+  });
+
 const member = {
   _id: String(faker.random.numeric(5)),
   discordAvatar: faker.internet.avatar(),
   discordName: faker.internet.userName(),
-  bio: null,
-  skills: [
-    {
-      skillInfo: {
-        _id: Number(faker.random.numeric(5)),
-        name: faker.helpers.uniqueArray(skills, 1),
-        __typename: "Skills",
-      },
-      __typename: "skillType_member",
-    },
-    {
-      skillInfo: {
-        _id: Number(faker.random.numeric(5)),
-        name: faker.helpers.uniqueArray(skills, 1),
-        __typename: "Skills",
-      },
-      __typename: "skillType_member",
-    },
-    {
-      skillInfo: {
-        _id: Number(faker.random.numeric(5)),
-        name: faker.helpers.uniqueArray(skills, 1),
-        __typename: "Skills",
-      },
-      __typename: "skillType_member",
-    },
-  ],
+  bio: faker.lorem.sentences(5),
+  skills: getSkills(),
+  content: {
+    interest: faker.lorem.lines(),
+    mostProud: faker.lorem.sentences(5),
+    showCaseAbility: faker.lorem.sentences(4),
+  },
   archiveProjects: [],
   discriminator: "0208",
-  hoursPerWeek: null,
+  hoursPerWeek: String(faker.random.numeric(2)),
   interest: null,
   links: [],
   timeZone: null,

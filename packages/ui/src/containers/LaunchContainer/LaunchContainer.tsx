@@ -1,6 +1,10 @@
 import { gql, useMutation } from "@apollo/client";
 import { LaunchContext, UserContext } from "@context/eden";
-import { Mutation } from "@graphql/eden/generated";
+import {
+  Mutation,
+  RoleTemplate,
+  ServerTemplate,
+} from "@graphql/eden/generated";
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
@@ -14,6 +18,7 @@ import {
   LaunchViewSteps,
   LaunchViewSuccess,
   LaunchViewVerify,
+  Loading,
 } from "ui";
 
 const LAUNCH_PROJECT = gql`
@@ -24,9 +29,12 @@ const LAUNCH_PROJECT = gql`
   }
 `;
 
-export interface LaunchPageProps {}
+export interface LaunchPageProps {
+  servers: ServerTemplate[];
+  roles: RoleTemplate[];
+}
 
-export const LaunchContainer = ({}: LaunchPageProps) => {
+export const LaunchContainer = ({ servers, roles }: LaunchPageProps) => {
   const router = useRouter();
   const { currentUser } = useContext(UserContext);
   const { projectName, projectDescription } = useContext(LaunchContext);
@@ -69,9 +77,9 @@ export const LaunchContainer = ({}: LaunchPageProps) => {
       case 2:
         return <LaunchViewDescribe />;
       case 3:
-        return <LaunchViewRoles />;
+        return <LaunchViewRoles roles={roles} />;
       case 4:
-        return <LaunchViewLinks />;
+        return <LaunchViewLinks servers={servers} />;
       case 5:
         return <LaunchViewSteps />;
       case 6:
@@ -86,7 +94,7 @@ export const LaunchContainer = ({}: LaunchPageProps) => {
   return (
     <Card shadow className="h-8/10 bg-white">
       {submittingProject ? (
-        <div>submiting project</div>
+        <Loading title={`Submitting...`} />
       ) : (
         <div className={`relative h-full`}>
           launch step: {currentIndex}

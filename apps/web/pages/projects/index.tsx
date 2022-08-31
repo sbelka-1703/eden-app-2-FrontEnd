@@ -15,7 +15,7 @@ import {
 const ProjectsPage: NextPage = () => {
   const { currentUser } = useContext(UserContext);
 
-  // if (currentUser) console.log("currentUser", currentUser);
+  if (currentUser) console.log("currentUser", currentUser);
   const { data: dataProjectsAll } = useQuery(FIND_PROJECTS, {
     variables: {
       fields: {},
@@ -37,6 +37,9 @@ const ProjectsPage: NextPage = () => {
       context: { serviceName: "soilservice" },
     }
   );
+
+  if (dataProjectsRecommended)
+    console.log("dataProjectsRecommended", dataProjectsRecommended);
 
   return (
     <GridLayout>

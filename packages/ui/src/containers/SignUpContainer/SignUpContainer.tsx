@@ -7,6 +7,8 @@ import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import {
   Button,
   Card,
+  FormStepper,
+  Loading,
   SignUpViewBio,
   SignUpViewConfirm,
   SignUpViewShare,
@@ -29,9 +31,19 @@ export interface SignUpContainerProps {}
 export const SignUpContainer = ({}: SignUpContainerProps) => {
   const router = useRouter();
   const { currentUser } = useContext(UserContext);
-  const { profileBio } = useContext(SignUpContext);
+  const {
+    profileBio,
+    contentMostProud,
+    contentShowcaseAbility,
+    hoursPerWeek,
+    timezone,
+    twitterHandle,
+    githubHandle,
+    discordHandle,
+    telegramHandle,
+  } = useContext(SignUpContext);
 
-  // console.log("currentUser", currentUser);
+  console.log("currentUser", currentUser);
 
   const [currentIndex, setCurrentIndex] = useState(1);
   const maxSteps = 6;
@@ -56,7 +68,30 @@ export const SignUpContainer = ({}: SignUpContainerProps) => {
           serverID: "alpha-test",
           _id: currentUser?._id,
           bio: profileBio,
-          // description: projectDescription,
+          content: {
+            mostProud: contentMostProud,
+            showCaseAbility: contentShowcaseAbility,
+          },
+          hoursPerWeek: hoursPerWeek,
+          timeZone: timezone,
+          links: [
+            {
+              name: "twitter",
+              url: twitterHandle,
+            },
+            {
+              name: "github",
+              url: githubHandle,
+            },
+            {
+              name: "discord",
+              url: discordHandle,
+            },
+            {
+              name: "telegram",
+              url: telegramHandle,
+            },
+          ],
         },
       },
     });
@@ -86,9 +121,10 @@ export const SignUpContainer = ({}: SignUpContainerProps) => {
   return (
     <Card shadow className="h-8/10 bg-white">
       {submittingProfile ? (
-        <div>submiting profile</div>
+        <Loading title={`Submitting...`} />
       ) : (
         <div className={`relative h-full`}>
+          <FormStepper step={currentIndex} maxSteps={maxSteps} />
           signup step: {currentIndex}
           {SignUpView && SignUpView()}
           <div className={`absolute bottom-2 flex w-full justify-between p-6`}>
