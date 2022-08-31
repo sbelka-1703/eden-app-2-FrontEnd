@@ -1,3 +1,5 @@
+// import { useQuery } from "@apollo/client";
+// import { SKILLS_AUTOCOMPLETE } from "@graphql/eden";
 import { Combobox } from "@headlessui/react";
 import { EmojiSadIcon } from "@heroicons/react/outline";
 import { SearchIcon } from "@heroicons/react/solid";
@@ -199,6 +201,18 @@ export const SearchBar = ({ allSkills, skills, setSkills }: SearchBarProps) => {
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selected, setSelected] = useState<number | null>(null);
+
+  // const { data: dataSkills } = useQuery(SKILLS_AUTOCOMPLETE, {
+  //   variables: {
+  //     fields: {
+  //       search: query,
+  //     },
+  //   },
+  //   skip: !query,
+  //   context: { serviceName: "soilservice" },
+  // });
+
+  // if (dataSkills) console.log("dataSkills", dataSkills);
 
   const filteredItems = allSkills?.filter((item) => {
     return item.name.toLowerCase().includes(query.toLowerCase());
