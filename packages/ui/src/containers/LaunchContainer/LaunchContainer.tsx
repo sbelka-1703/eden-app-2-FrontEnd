@@ -1,12 +1,17 @@
 import { gql, useMutation } from "@apollo/client";
 import { LaunchContext, UserContext } from "@context/eden";
-import { Mutation } from "@graphql/eden/generated";
+import {
+  Mutation,
+  RoleTemplate,
+  ServerTemplate,
+} from "@graphql/eden/generated";
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import {
   Button,
   Card,
+  FormStepper,
   LaunchViewDescribe,
   LaunchViewLinks,
   LaunchViewName,
@@ -14,6 +19,7 @@ import {
   LaunchViewSteps,
   LaunchViewSuccess,
   LaunchViewVerify,
+  Loading,
 } from "ui";
 
 const LAUNCH_PROJECT = gql`
@@ -24,12 +30,23 @@ const LAUNCH_PROJECT = gql`
   }
 `;
 
-export interface LaunchPageProps {}
+export interface LaunchPageProps {
+  servers: ServerTemplate[];
+  roles: RoleTemplate[];
+}
 
-export const LaunchContainer = ({}: LaunchPageProps) => {
+export const LaunchContainer = ({ servers, roles }: LaunchPageProps) => {
   const router = useRouter();
   const { currentUser } = useContext(UserContext);
-  const { projectName, projectDescription } = useContext(LaunchContext);
+  const {
+    projectName,
+    projectDescription,
+    serverId,
+    githubUrl,
+    discordUrl,
+    notionUrl,
+    telegramUrl,
+  } = useContext(LaunchContext);
 
   const [currentIndex, setCurrentIndex] = useState(1);
   const maxSteps = 6;
@@ -53,11 +70,29 @@ export const LaunchContainer = ({}: LaunchPageProps) => {
     updateProject({
       variables: {
         fields: {
-          serverID: "alpha-test",
+          serverID: serverId,
           champion: currentUser?._id,
           title: projectName,
           description: projectDescription,
         },
+        links: [
+          {
+            name: "github",
+            url: githubUrl,
+          },
+          {
+            name: "discord",
+            url: discordUrl,
+          },
+          {
+            name: "notion",
+            url: notionUrl,
+          },
+          {
+            name: "telegram",
+            url: telegramUrl,
+          },
+        ],
       },
     });
   };
@@ -69,9 +104,9 @@ export const LaunchContainer = ({}: LaunchPageProps) => {
       case 2:
         return <LaunchViewDescribe />;
       case 3:
-        return <LaunchViewRoles />;
+        return <LaunchViewRoles roles={roles} />;
       case 4:
-        return <LaunchViewLinks />;
+        return <LaunchViewLinks servers={servers} />;
       case 5:
         return <LaunchViewSteps />;
       case 6:
@@ -86,11 +121,19 @@ export const LaunchContainer = ({}: LaunchPageProps) => {
   return (
     <Card shadow className="h-8/10 bg-white">
       {submittingProject ? (
-        <div>submiting project</div>
+        <Loading title={`Submitting...`} />
       ) : (
         <div className={`relative h-full`}>
-          launch step: {currentIndex}
+          <div className={`p-6`}>
+            {currentIndex <= maxSteps && (
+              <FormStepper step={currentIndex} maxSteps={maxSteps} />
+            )}
+          </div>
+
+          {/* view window */}
           {LaunchView && LaunchView()}
+
+          {/* navigation */}
           <div className={`absolute bottom-2 flex w-full justify-between p-6`}>
             <div>
               {currentIndex !== 1 && currentIndex !== maxSteps + 1 && (

@@ -5,9 +5,13 @@ import {
   from,
   HttpLink,
   InMemoryCache,
+  split,
 } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
 import { RetryLink } from "@apollo/client/link/retry";
+import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
+import { createClient } from "graphql-ws";
+import { getMainDefinition } from "@apollo/client/utilities";
 
 // const soilUrl = NEXT_PUBLIC_GRAPHQL_URI;
 
@@ -54,8 +58,32 @@ const errorLink = onError(({ graphQLErrors }) => {
   if (graphQLErrors) graphQLErrors.map(({ message }) => console.log(message));
 });
 
+const wsLink =
+  typeof window !== "undefined"
+    ? new GraphQLWsLink(
+        createClient({
+          url: "wss://oasis-bot-test-deploy.herokuapp.com/graphql",
+        })
+      )
+    : null;
+
+const splitLink =
+  typeof window !== "undefined" && wsLink
+    ? split(
+        ({ query }) => {
+          const definition = getMainDefinition(query);
+          return (
+            definition.kind === "OperationDefinition" &&
+            definition.operation === "subscription"
+          );
+        },
+        wsLink,
+        directionalLink
+      )
+    : directionalLink;
+
 export const apolloClient = new ApolloClient({
-  link: from([errorLink, directionalLink]),
+  link: from([errorLink, splitLink]),
   cache: new InMemoryCache({
     typePolicies: {
       Query: {
