@@ -13,8 +13,19 @@ import { Dropdown, TextField } from "ui";
 import { timezones } from "../../../../constants";
 
 export const SignUpViewSocials = () => {
-  const { hoursPerWeek, setHoursPerWeek, setTimezone } =
-    useContext(SignUpContext);
+  const {
+    hoursPerWeek,
+    setHoursPerWeek,
+    setTimezone,
+    twitterHandle,
+    setTwitterHandle,
+    githubHandle,
+    setGithubHandle,
+    discordHandle,
+    setDiscordHandle,
+    telegramHandle,
+    setTelegramHandle,
+  } = useContext(SignUpContext);
 
   return (
     <div className={`py-6 px-12`}>
@@ -62,8 +73,8 @@ export const SignUpViewSocials = () => {
         <TextField
           radius="pill"
           placeholder={`Twitter Handle`}
-          value={``}
-          onChange={(e) => console.log(e.target.value)}
+          value={twitterHandle}
+          onChange={(e) => setTwitterHandle(e.target.value)}
         />
       </div>
       <div className={`my-6 flex w-full`}>
@@ -71,8 +82,8 @@ export const SignUpViewSocials = () => {
         <TextField
           radius="pill"
           placeholder={`Github Handle`}
-          value={``}
-          onChange={(e) => console.log(e.target.value)}
+          value={githubHandle}
+          onChange={(e) => setGithubHandle(e.target.value)}
         />
       </div>
       <div className={`my-6 flex w-full`}>
@@ -80,8 +91,8 @@ export const SignUpViewSocials = () => {
         <TextField
           radius="pill"
           placeholder={`Discord Handle`}
-          value={``}
-          onChange={(e) => console.log(e.target.value)}
+          value={discordHandle}
+          onChange={(e) => setDiscordHandle(e.target.value)}
         />
       </div>
       <div className={`my-6 flex w-full`}>
@@ -89,8 +100,8 @@ export const SignUpViewSocials = () => {
         <TextField
           radius="pill"
           placeholder={`Telegram Handle`}
-          value={``}
-          onChange={(e) => console.log(e.target.value)}
+          value={telegramHandle}
+          onChange={(e) => setTelegramHandle(e.target.value)}
         />
       </div>
       {/* <div className={`my-2 flex w-full`}>

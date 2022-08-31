@@ -1,7 +1,4 @@
 import { faker } from "@faker-js/faker";
-import { ComponentMeta, ComponentStory } from "@storybook/react";
-
-import { ChampionRecruitContainer } from "./ChampionRecruitContainer";
 
 const skills = [
   "3D",
@@ -29,7 +26,26 @@ const getSkills = () =>
     };
   });
 
-const member = {
+const links = [
+  {
+    name: "twitter",
+    url: "edenprotocolxyz",
+  },
+  {
+    name: "github",
+    url: "Soil-labs",
+  },
+  {
+    name: "discord",
+    url: "",
+  },
+  {
+    name: "telegram",
+    url: "",
+  },
+];
+
+export const member = {
   _id: String(faker.random.numeric(5)),
   discordAvatar: faker.internet.avatar(),
   discordName: faker.internet.userName(),
@@ -42,22 +58,9 @@ const member = {
   },
   archiveProjects: [],
   discriminator: "0208",
-  hoursPerWeek: String(faker.random.numeric(2)),
+  hoursPerWeek: Number(faker.random.numeric(2)),
   interest: null,
-  links: [],
+  links,
   timeZone: null,
-  __typename: "Members",
+  __typename: "Members" as "Members",
 };
-
-export default {
-  title: "Containers/ChampionRecruitContainer",
-  component: ChampionRecruitContainer,
-  argTypes: {},
-} as ComponentMeta<typeof ChampionRecruitContainer>;
-
-const Template: ComponentStory<typeof ChampionRecruitContainer> = (args) => (
-  <ChampionRecruitContainer {...args} />
-);
-
-export const Default = Template.bind({});
-Default.args = { member };

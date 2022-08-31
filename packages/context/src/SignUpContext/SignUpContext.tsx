@@ -13,6 +13,14 @@ export interface SignUpContextType {
   setContentMostProud: Dispatch<string>;
   contentShowcaseAbility: string;
   setContentShowcaseAbility: Dispatch<string>;
+  twitterHandle: string;
+  setTwitterHandle: Dispatch<string>;
+  githubHandle: string;
+  setGithubHandle: Dispatch<string>;
+  discordHandle: string;
+  setDiscordHandle: Dispatch<string>;
+  telegramHandle: string;
+  setTelegramHandle: Dispatch<string>;
 }
 
 export const SignUpContext = createContext<SignUpContextType>({
@@ -34,4 +42,16 @@ export const SignUpContext = createContext<SignUpContextType>({
   contentShowcaseAbility: "",
   // eslint-disable-next-line no-empty-function
   setContentShowcaseAbility: () => {},
+  twitterHandle: "",
+  // eslint-disable-next-line no-empty-function
+  setTwitterHandle: () => {},
+  githubHandle: "",
+  // eslint-disable-next-line no-empty-function
+  setGithubHandle: () => {},
+  discordHandle: "",
+  // eslint-disable-next-line no-empty-function
+  setDiscordHandle: () => {},
+  telegramHandle: "",
+  // eslint-disable-next-line no-empty-function
+  setTelegramHandle: () => {},
 });
