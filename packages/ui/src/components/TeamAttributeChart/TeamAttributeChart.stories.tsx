@@ -10,7 +10,7 @@ export default {
 } as ComponentMeta<typeof TeamAttributeChart>;
 
 const Template: ComponentStory<typeof TeamAttributeChart> = (args) => (
-  <div className="py-8 px-32">
+  <div className="m-auto max-w-2xl p-8">
     <TeamAttributeChart {...args} />
   </div>
 );
