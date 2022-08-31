@@ -77,9 +77,6 @@ const OnboardPartyPage: NextPage = () => {
     onSubscriptionData: (data) => {
       const newMemberData = data.subscriptionData.data.memberUpdated;
 
-      console.log(newMemberData);
-      console.log(members);
-
       setMembers(
         members.map((member: Members) => {
           if (member._id !== newMemberData._id) return member;
