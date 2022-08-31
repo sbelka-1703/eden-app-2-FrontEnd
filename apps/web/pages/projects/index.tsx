@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
+import { UserContext } from "@context/eden";
 import { FIND_PROJECTS, FIND_PROJECTS_RECOMMENDED } from "@graphql/eden";
-// import { Members } from "@graphql/eden/generated";
 import type { NextPage } from "next";
 import { useContext } from "react";
 import {
@@ -12,12 +12,10 @@ import {
   UserProfileMenu,
 } from "ui";
 
-import { UserContext } from "../../context";
-
 const ProjectsPage: NextPage = () => {
   const { currentUser } = useContext(UserContext);
 
-  // if (currentUser) console.log("currentUser", currentUser);
+  if (currentUser) console.log("currentUser", currentUser);
   const { data: dataProjectsAll } = useQuery(FIND_PROJECTS, {
     variables: {
       fields: {},
@@ -40,10 +38,8 @@ const ProjectsPage: NextPage = () => {
     }
   );
 
-  // if (dataProjectsRecommended)
-  //   console.log("dataProjectsRecommended", dataProjectsRecommended);
-
-  // TODO: need query to get user favourite projects
+  if (dataProjectsRecommended)
+    console.log("dataProjectsRecommended", dataProjectsRecommended);
 
   return (
     <GridLayout>
@@ -53,6 +49,7 @@ const ProjectsPage: NextPage = () => {
       <GridItemSix>
         <ProjectsContainer
           allProjects={dataProjectsAll?.findProjects}
+          favouriteProjects={currentUser?.projects}
           recommendedProjects={
             dataProjectsRecommended?.findProjects_RecommendedToUser
           }

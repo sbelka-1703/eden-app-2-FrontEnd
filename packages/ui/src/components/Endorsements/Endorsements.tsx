@@ -8,10 +8,10 @@ export interface IEndorsements {
 
 export const Endorsements = ({ title, endorsement }: IEndorsements) => {
   return (
-    <div className="endorsements-box ">
+    <div className="endorsements-box m-3 ">
       <div className="p-3 text-center ">
         <UserWithDescription avatarSrc="h" />
-        <p className="end-p">{title}</p>
+        <p className="end-p">endorsed you for</p>
         <h1>{endorsement}</h1>
         <div className=" buttons mt-2 flex justify-around">
           <button className="endorsements-button border text-white">

@@ -15,7 +15,7 @@ export const Badge = ({
   return (
     <div
       className={`mr-2 mb-1 inline-block rounded-full`}
-      style={{ background: `rgba(${colorRGB}, 0.4)` }}
+      style={{ background: `rgba(${colorRGB})` }}
     >
       <div className="flex h-full w-full items-center justify-between px-3">
         <>

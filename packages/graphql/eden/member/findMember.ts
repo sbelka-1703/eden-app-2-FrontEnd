@@ -7,34 +7,44 @@ export const FIND_MEMBER = gql`
       discordAvatar
       discordName
       bio
-      skills {
-        skillInfo {
-          _id
-          name
-        }
+      content {
+        interest
+        mostProud
+        showCaseAbility
       }
+      attributes {
+        Coordinator
+        Director
+        Helper
+        Inspirer
+        Motivator
+        Observer
+        Reformer
+        Supporter
+      }
+      archiveProjects
+      discriminator
+      hoursPerWeek
+      interest
+      timeZone
       projects {
         champion
         favorite
         info {
           _id
+          description
           title
-          dates {
-            complition
-            kickOff
-          }
-          team {
-            phase
-            memberInfo {
-              _id
-              discordAvatar
-              discordName
-            }
-          }
         }
       }
-      network {
-        discordName
+      links {
+        name
+        url
+      }
+      skills {
+        skillInfo {
+          _id
+          name
+        }
       }
     }
   }

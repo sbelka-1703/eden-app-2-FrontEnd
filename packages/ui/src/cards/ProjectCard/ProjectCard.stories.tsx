@@ -15,8 +15,10 @@ const Template: ComponentStory<typeof ProjectCard> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  title: faker.company.name(),
-  description: faker.company.catchPhrase(),
+  project: {
+    title: faker.company.name(),
+    description: faker.company.catchPhrase(),
+  },
   avatar: faker.internet.avatar(),
   position: faker.hacker.ingverb(),
   percentage: Number(faker.random.numeric(2)),

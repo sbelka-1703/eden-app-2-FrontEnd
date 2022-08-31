@@ -46,6 +46,11 @@ IUserProfileMenuProps) => {
             onFunctionCallback={() => router.push(`/applications`)}
           />
           <MenuItem
+            Icon={<MdFactCheck size={25} />}
+            FunctionName="Invites"
+            onFunctionCallback={() => router.push(`/invites`)}
+          />
+          <MenuItem
             Icon={<MdCreateNewFolder size={25} />}
             FunctionName="My Projects"
             counterBadge={currentUser?.projects?.length || 0}

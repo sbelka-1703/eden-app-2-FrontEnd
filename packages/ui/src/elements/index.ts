@@ -4,6 +4,8 @@ export * from "./Button";
 export * from "./Card";
 export * from "./Dropdown";
 export * from "./Favorite";
+export * from "./Loading";
 export * from "./MenuItem";
 export * from "./Modal";
+export * from "./ProgressBar";
 export * from "./TextField";

@@ -33,7 +33,7 @@ const ProjectPage: NextPage = () => {
   });
 
   // member data
-  if (dataMember) console.log("dataMember", dataMember);
+  // if (dataMember) console.log("dataMember", dataMember);
 
   const { data: dataProject } = useQuery(FIND_PROJECT, {
     variables: {
@@ -45,7 +45,7 @@ const ProjectPage: NextPage = () => {
   });
 
   // project data with shortlist
-  if (dataProject) console.log("dataProject", dataProject);
+  if (dataProject) console.log("dataProject", dataProject.findProject);
 
   const { data: dataRoles } = useQuery(FIND_ROLE_TEMPLATES, {
     variables: {
@@ -65,12 +65,17 @@ const ProjectPage: NextPage = () => {
         skillsID: selectRole,
       },
     },
-    skip: !selectRole,
+    skip: !selectRole || selectRole.length === 0,
     context: { serviceName: "soilservice" },
   });
 
   if (dataMemberWithSkills)
-    console.log("dataMemberWithSkills", dataMemberWithSkills);
+    console.log(
+      "dataMemberWithSkills",
+      dataMemberWithSkills.matchMembersToSkills
+    );
+
+  console.log("selectRole", selectRole);
 
   return (
     <GridLayout>

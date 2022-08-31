@@ -6,7 +6,7 @@ describe("Badge", () => {
   it("renders without throwing", () => {
     const { container } = render(
       <Badge
-        colorRGB="236, 240, 71"
+        colorRGB="236, 240, 71, 40"
         text="Design"
         onClose={() => console.log("")}
       />

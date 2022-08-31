@@ -6216,6 +6216,11 @@ emittery@^0.10.2:
   resolved "https://registry.yarnpkg.com/emittery/-/emittery-0.10.2.tgz#902eec8aedb8c41938c46e9385e9db7e03182933"
   integrity sha512-aITqOwnLanpHLNXZJENbOgjUBeHocD+xsSJmNrjovKBW5HbSpW3d1pEls7GFQPUWXiwG9+0P4GtHfEqC/4M0Iw==
 
+emoji-picker-react@^3.6.1:
+  version "3.6.1"
+  resolved "https://registry.yarnpkg.com/emoji-picker-react/-/emoji-picker-react-3.6.1.tgz#dc066f4d6bd407bfd7aebb18d8a0ef8171584b07"
+  integrity sha512-bJNvpdf3wO+1z4V/GKZC159zSAgUjLP8gdgGzvi/sFjy11Zpi/O9a8/G2rpQwy+QBePnmvS1F+MqcNVJvilEGA==
+
 emoji-regex@^8.0.0:
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/emoji-regex/-/emoji-regex-8.0.0.tgz#e818fd69ce5ccfcb404594f842963bf53164cc37"
@@ -11255,10 +11260,12 @@ raw-loader@^4.0.2:
     loader-utils "^2.0.0"
     schema-utils "^3.0.0"
 
-react-chartjs-2@^4.3.1:
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/react-chartjs-2/-/react-chartjs-2-4.3.1.tgz#9941e7397fb963f28bb557addb401e9ff96c6681"
-  integrity sha512-5i3mjP6tU7QSn0jvb8I4hudTzHJqS8l00ORJnVwI2sYu0ihpj83Lv2YzfxunfxTZkscKvZu2F2w9LkwNBhj6xA==
+react-confetti@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/react-confetti/-/react-confetti-6.1.0.tgz#03dc4340d955acd10b174dbf301f374a06e29ce6"
+  integrity sha512-7Ypx4vz0+g8ECVxr88W9zhcQpbeujJAVqL14ZnXJ3I23mOI9/oBVTQ3dkJhUmB0D6XOtCZEM6N0Gm9PMngkORw==
+  dependencies:
+    tween-functions "^1.2.0"
 
 react-docgen-typescript@^2.1.1:
   version "2.2.2"
@@ -13060,6 +13067,11 @@ turbo@latest:
     turbo-windows-32 "1.4.3"
     turbo-windows-64 "1.4.3"
     turbo-windows-arm64 "1.4.3"
+
+tween-functions@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/tween-functions/-/tween-functions-1.2.0.tgz#1ae3a50e7c60bb3def774eac707acbca73bbc3ff"
+  integrity sha512-PZBtLYcCLtEcjL14Fzb1gSxPBeL7nWvGhO5ZFPGqziCcr8uvHp0NDmdjBchp6KHL+tExcg0m3NISmKxhU394dA==
 
 type-check@^0.4.0, type-check@~0.4.0:
   version "0.4.0"

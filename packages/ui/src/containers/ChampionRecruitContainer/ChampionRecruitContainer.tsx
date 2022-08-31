@@ -1,17 +1,21 @@
+import { Members } from "@graphql/eden/generated";
 import { useState } from "react";
 import {
+  AvailabilityComp,
   BioComponent,
   Button,
   EndorsementsCarousel,
   SkillsCard,
-  TabsCard,
+  SocialMediaComp,
+  TabsSelector,
+  UserInformationCard,
   UserWithDescription,
 } from "ui";
 
 const tabs = ["General", "Background", "Endorsements"];
 
 export interface ChampionRecruitContainerProps {
-  member?: any;
+  member?: Members;
 }
 
 export const ChampionRecruitContainer = ({
@@ -19,11 +23,11 @@ export const ChampionRecruitContainer = ({
 }: ChampionRecruitContainerProps) => {
   const [activeTab, setActiveTab] = useState(0);
 
-  console.log("member", member);
+  if (member) console.log("member", member);
   if (!member)
     return (
       <div className="rounded-xl">
-        <TabsCard tabs={tabs} onSelect={(val) => setActiveTab(val)} />
+        <TabsSelector tabs={tabs} onSelect={(val) => setActiveTab(val)} />
         <div className="border-accentColor h-8/10 overflow-y-scroll rounded-b-xl border-b-2 border-r-2 border-l-2 bg-white px-4">
           select member please
         </div>
@@ -32,7 +36,7 @@ export const ChampionRecruitContainer = ({
 
   return (
     <div className="rounded-xl">
-      <TabsCard tabs={tabs} onSelect={(val) => setActiveTab(val)} />
+      <TabsSelector tabs={tabs} onSelect={(val) => setActiveTab(val)} />
       <div className="border-accentColor h-8/10 overflow-y-scroll rounded-b-xl border-b-2 border-r-2 border-l-2 bg-white px-4">
         <div className={`pt-6`}>
           <div className={`flex justify-between`}>
@@ -40,7 +44,7 @@ export const ChampionRecruitContainer = ({
               <Button>NOT RIGHT NOW</Button>
             </div>
             <UserWithDescription
-              avatarSrc={member.discordAvatar}
+              avatarSrc={member.discordAvatar || ""}
               title={`title here`}
               name={`@${member.discordName}`}
             />
@@ -52,21 +56,50 @@ export const ChampionRecruitContainer = ({
 
         {activeTab === 0 && (
           <div className={`pt-6`}>
-            <div className={`flex justify-between pt-4`}>
-              <BioComponent title={`SHORT BIO`} description={member.bio} />
-              <div>Match</div>
-            </div>
-            <div className={`flex justify-between`}>
-              <div>
-                <SkillsCard />
+            <div className={`grid grid-cols-12 space-x-4 pt-4`}>
+              <div className={`col-span-8`}>
+                <BioComponent
+                  title={`SHORT BIO`}
+                  description={member.bio || ""}
+                />
               </div>
-              <div>social</div>
-              <div>availability</div>
+              <div className={`col-span-4`}>
+                <div className={`font-Inter text-sm`}>Match</div>
+                <div
+                  className={`text-soilPurple font-poppins text-5xl font-semibold`}
+                >
+                  %
+                </div>
+              </div>
+            </div>
+            <div className={`my-4 grid grid-cols-12`}>
+              <div className={`col-span-4`}>
+                {member.skills && <SkillsCard skills={member.skills} />}
+              </div>
+              <div className={`col-span-4`}>
+                <SocialMediaComp />
+              </div>
+              <div className={`col-span-4`}>
+                <AvailabilityComp />
+              </div>
             </div>
             <div>graph</div>
           </div>
         )}
-        {activeTab === 1 && <div>Background</div>}
+        {activeTab === 1 && (
+          <div className={`mt-4 grid grid-cols-12 space-x-4`}>
+            <div className={`col-span-6 space-y-4`}>
+              <UserInformationCard />
+              <UserInformationCard />
+              <BioComponent />
+            </div>
+            <div className={`col-span-6 space-y-4`}>
+              <UserInformationCard />
+              <UserInformationCard />
+              <BioComponent />
+            </div>
+          </div>
+        )}
         {activeTab === 2 && (
           <div>
             <EndorsementsCarousel />
