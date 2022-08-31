@@ -5,7 +5,6 @@ export type TextAreaProps = {
   name?: string;
   value?: string;
   required?: boolean;
-  radius?: "default" | "rounded" | "pill";
   row?: number;
   // eslint-disable-next-line no-unused-vars
   onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
@@ -15,17 +14,12 @@ export const TextArea: React.FC<TextAreaProps> = ({
   name,
   value,
   required,
-  radius = "default",
   autoComplete,
   placeholder,
   row,
   onChange,
 }) => {
-  const inputCls = clsx("py-1 px-4 font-Inter text-soilBody flex", {
-    "rounded-md": radius === "default",
-    "rounded-lg": radius === "rounded",
-    "rounded-full": radius === "pill",
-  });
+  const inputCls = clsx("py-1 px-4 font-Inter text-soilBody flex rounded-md");
 
   return (
     <div className={`w-full`}>
