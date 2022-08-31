@@ -1,4 +1,4 @@
-import { Maybe, Skills } from "@graphql/eden/generated";
+import { Skills } from "@graphql/eden/generated";
 import { XIcon } from "@heroicons/react/outline";
 import { useEffect, useState } from "react";
 import { Dropdown } from "ui";
@@ -21,7 +21,10 @@ const colors = [
   "#cfdfff",
 ];
 
-type ISkills = Maybe<Skills> | undefined;
+interface ISkills {
+  _id: string;
+  name: string;
+}
 
 export interface SkillSelectorProps {
   // eslint-disable-next-line no-unused-vars
