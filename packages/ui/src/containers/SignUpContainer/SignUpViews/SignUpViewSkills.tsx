@@ -1,3 +1,5 @@
+import { SearchBar } from "ui";
+
 export const SignUpViewSkills = () => {
   return (
     <div className={`py-6 px-12`}>
@@ -6,6 +8,7 @@ export const SignUpViewSkills = () => {
       >
         ADD YOUR SKILLS AND SORT THEM BY LEVEL
       </div>
+      <SearchBar />
     </div>
   );
 };
