@@ -138,7 +138,11 @@ const OnboardPartyPage: NextPage = () => {
                     )
                 ) || []
               }
-              value={currentUser.skills?.map((skill) => skill?.skillInfo)}
+              value={
+                currentUser.skills
+                  ?.filter((skill) => skill !== undefined)
+                  .map((skill) => skill?.skillInfo) || []
+              }
               onSetSkills={handleSetSkills}
             />
           </Card>
