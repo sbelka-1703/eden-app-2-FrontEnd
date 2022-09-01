@@ -3,6 +3,7 @@
 import { useMutation, useQuery, useSubscription } from "@apollo/client";
 import { UserContext } from "@context/eden";
 import {
+  ENTER_ROOM,
   FIND_MEMBERS,
   FIND_ROOM,
   FIND_SKILLS,
@@ -13,7 +14,7 @@ import {
 import { Members, Skills } from "@graphql/eden/generated";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   Avatar,
   Badge,
@@ -53,6 +54,29 @@ const OnboardPartyPage: NextPage = () => {
         (member: Members) => member._id
       )
     : dataRoom?.findRoom.members.map((member: Members) => member._id);
+
+  const [enterRoom] = useMutation(ENTER_ROOM, {});
+
+  useEffect(() => {
+    if (!currentUser || !partyId) return;
+    if (
+      partyId &&
+      !!membersIds?.length &&
+      currentUser &&
+      membersIds.some((id) => id === currentUser?._id)
+    ) {
+      return;
+    }
+
+    enterRoom({
+      variables: {
+        fields: {
+          roomId: partyId,
+          memberId: currentUser?._id,
+        },
+      },
+    });
+  }, [currentUser, membersIds, partyId]);
 
   const { data: dataMembers } = useQuery(FIND_MEMBERS, {
     variables: {
