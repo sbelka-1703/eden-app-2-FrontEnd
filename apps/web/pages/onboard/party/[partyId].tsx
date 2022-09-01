@@ -3,6 +3,7 @@
 import { useMutation, useQuery, useSubscription } from "@apollo/client";
 import { UserContext } from "@context/eden";
 import {
+  ENTER_ROOM,
   FIND_MEMBERS,
   FIND_ROOM,
   FIND_SKILLS,
@@ -13,13 +14,14 @@ import {
 import { Members, Skills } from "@graphql/eden/generated";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   Avatar,
   Badge,
   Card,
   GridItemNine,
   GridItemThree,
+  GridItemTwelve,
   GridLayout,
   SkillSelector,
   TextHeading3,
@@ -53,6 +55,29 @@ const OnboardPartyPage: NextPage = () => {
         (member: Members) => member._id
       )
     : dataRoom?.findRoom.members.map((member: Members) => member._id);
+
+  const [enterRoom] = useMutation(ENTER_ROOM, {});
+
+  useEffect(() => {
+    if (!currentUser || !partyId) return;
+    if (
+      partyId &&
+      !!membersIds?.length &&
+      currentUser &&
+      membersIds.some((id) => id === currentUser?._id)
+    ) {
+      return;
+    }
+
+    enterRoom({
+      variables: {
+        fields: {
+          roomId: partyId,
+          memberId: currentUser?._id,
+        },
+      },
+    });
+  }, [currentUser, membersIds, partyId]);
 
   const { data: dataMembers } = useQuery(FIND_MEMBERS, {
     variables: {
@@ -112,67 +137,85 @@ const OnboardPartyPage: NextPage = () => {
 
   return (
     <GridLayout>
-      <GridItemThree>
-        {currentUser && (
-          <Card shadow className="bg-white p-3">
-            <TextHeading3 className="mb-2">Edit Your Profile Card</TextHeading3>
-            <div className="mb-4 flex items-center">
-              {currentUser.discordAvatar && (
-                <Avatar src={currentUser.discordAvatar} size="sm" />
-              )}
-              {currentUser.discordName && (
-                <span className="ml-2">{currentUser?.discordName}</span>
-              )}
-            </div>
-            <SkillSelector
-              showSelected
-              options={
-                // filter from options the skills user already has
-                dataSkills?.findSkills.filter(
-                  (skill: Skills) =>
-                    !currentUser.skills?.some(
-                      (currUserSkill) =>
-                        currUserSkill?.skillInfo?._id === skill._id
+      {currentUser ? (
+        <>
+          <GridItemThree>
+            {currentUser && (
+              <Card shadow className="bg-white p-3">
+                <TextHeading3 className="mb-2">
+                  Edit Your Profile Card
+                </TextHeading3>
+                <div className="mb-4 flex items-center">
+                  {currentUser.discordAvatar && (
+                    <Avatar src={currentUser.discordAvatar} size="sm" />
+                  )}
+                  {currentUser.discordName && (
+                    <span className="ml-2">{currentUser?.discordName}</span>
+                  )}
+                </div>
+                <SkillSelector
+                  showSelected
+                  options={
+                    // filter from options the skills user already has
+                    dataSkills?.findSkills.filter(
+                      (skill: Skills) =>
+                        !currentUser.skills?.some(
+                          (currUserSkill) =>
+                            currUserSkill?.skillInfo?._id === skill._id
+                        )
+                    ) || []
+                  }
+                  value={
+                    currentUser.skills
+                      ?.filter((skill) => skill !== undefined)
+                      .map((skill) => skill?.skillInfo) || []
+                  }
+                  onSetSkills={handleSetSkills}
+                />
+              </Card>
+            )}
+          </GridItemThree>
+          <GridItemNine>
+            <Card shadow className="bg-white p-3">
+              <TextHeading3 className="mb-2">See Other Profiles</TextHeading3>
+              <section className="grid grid-cols-2 gap-3">
+                {dataMembers &&
+                  dataMembers.findMembers
+                    .filter(
+                      (member: Members) => member._id !== currentUser?._id
                     )
-                ) || []
-              }
-              value={
-                currentUser.skills
-                  ?.filter((skill) => skill !== undefined)
-                  .map((skill) => skill?.skillInfo) || []
-              }
-              onSetSkills={handleSetSkills}
-            />
-          </Card>
-        )}
-      </GridItemThree>
-      <GridItemNine>
-        <Card shadow className="bg-white p-3">
-          <TextHeading3 className="mb-2">See Other Profiles</TextHeading3>
-          <section className="grid grid-cols-2 gap-3">
-            {dataMembers &&
-              dataMembers.findMembers
-                .filter((member: Members) => member._id !== currentUser?._id)
-                .map((member: Members, index: number) => (
-                  <Card key={index} border className="col-span-1 bg-white p-3">
-                    <div className="mb-4 flex flex-col">
-                      {member.discordAvatar && (
-                        <Avatar src={member.discordAvatar} size="sm" />
-                      )}
-                      <span className="mt-2">{member.discordName}</span>
-                    </div>
-                    {member.skills?.map((skill, index) => (
-                      <Badge
+                    .map((member: Members, index: number) => (
+                      <Card
                         key={index}
-                        colorRGB="209,247,196"
-                        text={skill?.skillInfo?.name || "no_name"}
-                      />
+                        border
+                        className="col-span-1 bg-white p-3"
+                      >
+                        <div className="mb-4 flex flex-col">
+                          {member.discordAvatar && (
+                            <Avatar src={member.discordAvatar} size="sm" />
+                          )}
+                          <span className="mt-2">{member.discordName}</span>
+                        </div>
+                        {member.skills?.map((skill, index) => (
+                          <Badge
+                            key={index}
+                            colorRGB="209,247,196"
+                            text={skill?.skillInfo?.name || "no_name"}
+                          />
+                        ))}
+                      </Card>
                     ))}
-                  </Card>
-                ))}
-          </section>
-        </Card>
-      </GridItemNine>
+              </section>
+            </Card>
+          </GridItemNine>
+        </>
+      ) : (
+        <GridItemTwelve>
+          <p className="text-center">
+            You must be logged in to join the onboarding party
+          </p>
+        </GridItemTwelve>
+      )}
     </GridLayout>
   );
 };
