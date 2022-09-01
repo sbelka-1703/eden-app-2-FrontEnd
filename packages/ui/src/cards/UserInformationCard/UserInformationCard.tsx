@@ -1,25 +1,24 @@
+import { PreviusProjectsType } from "@graphql/eden/generated";
 import { FiEdit3 } from "react-icons/fi";
 import { IoIosExpand } from "react-icons/io";
-
-import { Card } from "../../elements";
+import { Card } from "ui";
 
 export interface UserInformationCardProps {
-  title?: string;
-  description?: string;
-  timeSpent?: string;
+  previousProjects?: PreviusProjectsType | null;
   isEditable?: boolean;
   onEdit?: () => void;
   onExpand?: () => void;
 }
 
 export const UserInformationCard = ({
-  title,
-  description,
-  timeSpent,
+  previousProjects,
   onEdit,
   onExpand,
   isEditable,
 }: UserInformationCardProps) => {
+  if (!previousProjects) {
+    return null;
+  }
   return (
     <Card shadow>
       <div className={`flex flex-row justify-between justify-items-stretch`}>
@@ -35,9 +34,13 @@ export const UserInformationCard = ({
           <div
             className={`mb-4 mt-5 flex flex-col content-center items-center justify-center justify-items-center`}
           >
-            <div className={`text-2xl`}>{title?.toUpperCase()}</div>
-            <div className={`text-lg text-slate-500`}>{description}</div>
-            <div className={`mt-1 text-base text-slate-500`}>{timeSpent}</div>
+            <div className={`text-2xl`}>{previousProjects?.positionName}</div>
+            <div className={`text-lg text-slate-500`}>
+              {previousProjects?.title}
+            </div>
+            <div className={`mt-1 text-base text-slate-500`}>
+              {previousProjects?.startDate} - {previousProjects?.endDate}
+            </div>
           </div>
         </div>
         <div>

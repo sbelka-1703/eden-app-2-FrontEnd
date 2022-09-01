@@ -132,13 +132,18 @@ export const ChampionRecruitContainer = ({
               </div>
             </div>
             <div className={`my-4 grid grid-cols-12`}>
-              <div className={`col-span-4`}>
+              <div className={`col-span-7`}>
+                <div
+                  className={`mb-4 text-sm font-semibold tracking-widest subpixel-antialiased`}
+                >
+                  TOP SKILLS
+                </div>
                 {member.skills && <SkillsCard skills={member.skills} />}
               </div>
-              <div className={`col-span-4`}>
-                <SocialMediaComp />
+              <div className={`col-span-2`}>
+                <SocialMediaComp links={member?.links} />
               </div>
-              <div className={`col-span-4`}>
+              <div className={`col-span-3`}>
                 <AvailabilityComp timePerWeek={member.hoursPerWeek || 0} />
               </div>
             </div>
@@ -146,24 +151,29 @@ export const ChampionRecruitContainer = ({
           </div>
         )}
         {activeTab === 1 && (
-          <div className={`mt-4 grid grid-cols-12 space-x-4`}>
-            <div className={`col-span-6 space-y-4`}>
-              <UserInformationCard />
-              <UserInformationCard />
-              <BioComponent
-                title={`What project are you most proud of?`}
-                description={member.content?.mostProud || ""}
-              />
+          <>
+            <div className={`mt-4 grid grid-cols-12 space-x-4`}>
+              {member.previusProjects?.map((project, index) => (
+                <div key={index} className={`col-span-6`}>
+                  <UserInformationCard previousProjects={project} />
+                </div>
+              ))}
             </div>
-            <div className={`col-span-6 space-y-4`}>
-              <UserInformationCard />
-              <UserInformationCard />
-              <BioComponent
-                title={`What piece of work really showcases your abilities?`}
-                description={member.content?.showCaseAbility || ""}
-              />
+            <div className={`mt-4 grid grid-cols-12 space-x-4`}>
+              <div className={`col-span-6 space-y-4`}>
+                <BioComponent
+                  title={`What project are you most proud of?`}
+                  description={member.content?.mostProud || ""}
+                />
+              </div>
+              <div className={`col-span-6 space-y-4`}>
+                <BioComponent
+                  title={`What piece of work really showcases your abilities?`}
+                  description={member.content?.showCaseAbility || ""}
+                />
+              </div>
             </div>
-          </div>
+          </>
         )}
         {activeTab === 2 && (
           <div>
