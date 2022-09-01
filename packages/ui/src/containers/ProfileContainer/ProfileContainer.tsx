@@ -46,8 +46,11 @@ export const ProfileContainer = ({}: ProfileContainerProps) => {
             />
             <div className={`my-4 grid grid-cols-12 space-x-4`}>
               <div className={`col-span-9 space-y-4`}>
-                <UserInformationCard isEditable />
-                <UserInformationCard isEditable />
+                {currentUser.previusProjects?.map((project, index) => (
+                  <div key={index} className={``}>
+                    <UserInformationCard previousProjects={project} />
+                  </div>
+                ))}
               </div>
               <div className={`col-span-3`}>
                 <SocialMediaComp links={currentUser.links} />
