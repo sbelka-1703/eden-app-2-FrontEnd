@@ -4,6 +4,7 @@ import { useMutation, useQuery, useSubscription } from "@apollo/client";
 import { UserContext } from "@context/eden";
 import {
   ENTER_ROOM,
+  FIND_MEMBER,
   FIND_MEMBERS,
   FIND_ROOM,
   FIND_SKILLS,
@@ -21,7 +22,7 @@ import {
   Card,
   GridItemNine,
   GridItemThree,
-  GridItemTwelve,
+  // GridItemTwelve,
   GridLayout,
   SkillSelector,
   TextHeading3,
@@ -34,6 +35,17 @@ const OnboardPartyPage: NextPage = () => {
   const [members, setMembers] = useState<Members[]>([]);
 
   const { currentUser } = useContext(UserContext);
+
+  const { data: currentUserAlternative } = useQuery(FIND_MEMBER, {
+    variables: {
+      fields: {
+        _id: router.query.memberId,
+      },
+    },
+    context: { serviceName: "soilservice" },
+  });
+
+  const currUser = currentUser || currentUserAlternative?.findMember;
 
   const { data: dataRoom } = useQuery(FIND_ROOM, {
     variables: {
@@ -59,25 +71,24 @@ const OnboardPartyPage: NextPage = () => {
   const [enterRoom] = useMutation(ENTER_ROOM, {});
 
   useEffect(() => {
-    if (!currentUser || !partyId) return;
+    if (!currUser || !partyId) return;
     if (
       partyId &&
       !!membersIds?.length &&
-      currentUser &&
-      membersIds.some((id) => id === currentUser?._id)
+      currUser &&
+      membersIds.some((id) => id === currUser?._id)
     ) {
       return;
     }
-
     enterRoom({
       variables: {
         fields: {
           roomId: partyId,
-          memberId: currentUser?._id,
+          memberId: currUser?._id,
         },
       },
     });
-  }, [currentUser, membersIds, partyId]);
+  }, [currUser, membersIds, partyId]);
 
   const { data: dataMembers } = useQuery(FIND_MEMBERS, {
     variables: {
@@ -124,7 +135,7 @@ const OnboardPartyPage: NextPage = () => {
     updateMember({
       variables: {
         fields: {
-          _id: currentUser?._id,
+          _id: currUser?._id,
           skills: skills.map((skill: Skills) => {
             return {
               id: skill._id,
@@ -137,20 +148,28 @@ const OnboardPartyPage: NextPage = () => {
 
   return (
     <GridLayout>
-      {/* {currentUser ? ( */}
+      {/* {currUser ? ( */}
       <>
         <GridItemThree>
-          {currentUser && (
+          {!currUser && (
+            <p>
+              You must be logged in to edit your profile.
+              <br />
+              <br />
+              If you can&rsquo;t log in ask the onboarder for help
+            </p>
+          )}
+          {currUser && (
             <Card shadow className="bg-white p-3">
               <TextHeading3 className="mb-2">
                 Edit Your Profile Card
               </TextHeading3>
               <div className="mb-4 flex items-center">
-                {currentUser.discordAvatar && (
-                  <Avatar src={currentUser.discordAvatar} size="sm" />
+                {currUser.discordAvatar && (
+                  <Avatar src={currUser.discordAvatar} size="sm" />
                 )}
-                {currentUser.discordName && (
-                  <span className="ml-2">{currentUser?.discordName}</span>
+                {currUser.discordName && (
+                  <span className="ml-2">{currUser?.discordName}</span>
                 )}
               </div>
               <SkillSelector
@@ -159,16 +178,16 @@ const OnboardPartyPage: NextPage = () => {
                   // filter from options the skills user already has
                   dataSkills?.findSkills.filter(
                     (skill: Skills) =>
-                      !currentUser.skills?.some(
-                        (currUserSkill) =>
-                          currUserSkill?.skillInfo?._id === skill._id
+                      !currUser.skills?.some(
+                        (currentUserSkill: any) =>
+                          currentUserSkill?.skillInfo?._id === skill._id
                       )
                   ) || []
                 }
                 value={
-                  currentUser.skills
-                    ?.filter((skill) => skill !== undefined)
-                    .map((skill) => skill?.skillInfo) || []
+                  currUser.skills
+                    ?.filter((skill: any) => skill !== undefined)
+                    .map((skill: any) => skill?.skillInfo) || []
                 }
                 onSetSkills={handleSetSkills}
               />
@@ -181,7 +200,7 @@ const OnboardPartyPage: NextPage = () => {
             <section className="grid grid-cols-2 gap-3">
               {dataMembers &&
                 dataMembers.findMembers
-                  .filter((member: Members) => member._id !== currentUser?._id)
+                  .filter((member: Members) => member._id !== currUser?._id)
                   .map((member: Members, index: number) => (
                     <Card
                       key={index}
