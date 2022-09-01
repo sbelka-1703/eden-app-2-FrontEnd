@@ -1,16 +1,7 @@
+// eslint-disable-next-line camelcase
+import { Members } from "@graphql/eden/generated";
 import { useEffect, useState } from "react";
-import { RoleCandidateSelector } from "ui";
-
-import { ISkills, UserCard } from "../../cards";
-
-export interface ICandidate {
-  _id: string;
-  avatar: string;
-  name: string;
-  percentage: number;
-  endorsements: number;
-  skills: ISkills[];
-}
+import { RoleCandidateSelector, UserCard } from "ui";
 
 interface IRoleSkill {
   _id: string;
@@ -27,7 +18,7 @@ export interface IRole {
 
 export interface ICandidateSelectionListProps {
   roles?: IRole[];
-  members?: any;
+  members?: Members[];
   // eslint-disable-next-line no-unused-vars
   onSelectRole?: (role: string[]) => void;
   // eslint-disable-next-line no-unused-vars
@@ -41,12 +32,13 @@ export const CandidateSelectionList = ({
   onSelectMember,
 }: ICandidateSelectionListProps) => {
   const [currentRole, setCurrentRole] = useState<IRole | null>(null);
-  const [currentCandidate, setCurrentCandidate] =
-    useState<ICandidate | null>(null);
+  const [currentCandidate, setCurrentCandidate] = useState<Members | null>(
+    null
+  );
 
   useEffect(() => {
     if (currentCandidate && onSelectMember) {
-      onSelectMember(currentCandidate._id);
+      onSelectMember(currentCandidate._id as string);
     }
   }, [currentCandidate, onSelectMember]);
 
