@@ -37,7 +37,15 @@ export interface LaunchPageProps {
 export const LaunchContainer = ({ servers, roles }: LaunchPageProps) => {
   const router = useRouter();
   const { currentUser } = useContext(UserContext);
-  const { projectName, projectDescription } = useContext(LaunchContext);
+  const {
+    projectName,
+    projectDescription,
+    serverId,
+    githubUrl,
+    discordUrl,
+    notionUrl,
+    telegramUrl,
+  } = useContext(LaunchContext);
 
   const [currentIndex, setCurrentIndex] = useState(1);
   const maxSteps = 6;
@@ -61,11 +69,29 @@ export const LaunchContainer = ({ servers, roles }: LaunchPageProps) => {
     updateProject({
       variables: {
         fields: {
-          serverID: "alpha-test",
+          serverID: serverId,
           champion: currentUser?._id,
           title: projectName,
           description: projectDescription,
         },
+        links: [
+          {
+            name: "github",
+            url: githubUrl,
+          },
+          {
+            name: "discord",
+            url: discordUrl,
+          },
+          {
+            name: "notion",
+            url: notionUrl,
+          },
+          {
+            name: "telegram",
+            url: telegramUrl,
+          },
+        ],
       },
     });
   };

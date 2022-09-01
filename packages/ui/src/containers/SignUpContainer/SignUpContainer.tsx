@@ -77,11 +77,11 @@ export const SignUpContainer = ({}: SignUpContainerProps) => {
           links: [
             {
               name: "twitter",
-              url: twitterHandle,
+              url: "https://twitter.com/" + twitterHandle,
             },
             {
               name: "github",
-              url: githubHandle,
+              url: "https://github.com/" + githubHandle,
             },
             {
               name: "discord",
