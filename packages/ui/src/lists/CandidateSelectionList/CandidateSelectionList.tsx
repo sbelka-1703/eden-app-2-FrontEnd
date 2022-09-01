@@ -88,7 +88,9 @@ export const CandidateSelectionList = ({
   return (
     <div className={``}>
       <RoleCandidateSelector roles={roles} onSelect={setCurrentRole} />
-      <div className={`h-8/10 overflow-y-scroll`}>{candidates}</div>
+      <div className={`h-8/10 scrollbar-hide overflow-y-scroll`}>
+        {candidates}
+      </div>
     </div>
   );
 };

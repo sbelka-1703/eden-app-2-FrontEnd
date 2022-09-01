@@ -5,8 +5,8 @@ export interface IAvailabilityCompProps {
 
 export const AvailabilityComp = ({
   timePerWeek = 0,
-  seed = "0",
-}: IAvailabilityCompProps) => {
+}: // seed = "0",
+IAvailabilityCompProps) => {
   return (
     <div>
       <div className="text-sm font-semibold tracking-widest subpixel-antialiased">
@@ -17,10 +17,10 @@ export const AvailabilityComp = ({
           <div>⏳</div>
           <div>{`${timePerWeek} hrs\\week`}</div>
         </div>
-        <div className={`flex flex-row p-1 font-normal tracking-wide`}>
+        {/* <div className={`flex flex-row p-1 font-normal tracking-wide`}>
           <div>💰</div>
           <div>{`${seed} $SEED`}</div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
