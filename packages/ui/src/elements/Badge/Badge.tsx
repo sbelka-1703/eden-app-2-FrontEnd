@@ -19,9 +19,9 @@ export const Badge = ({
     >
       <div className="flex h-full w-full items-center justify-between px-3">
         <>
-          <span className="mr-2 mb-px">{text}</span>
+          <span className="mb-px">{text}</span>
           {closeButton && (
-            <button className={` -mt-1`} onClick={onClose}>
+            <button className={`ml-2 -mt-1`} onClick={onClose}>
               <XIcon
                 className="inline-block h-4 w-4 cursor-pointer text-gray-900 hover:text-slate-400"
                 aria-hidden="true"
