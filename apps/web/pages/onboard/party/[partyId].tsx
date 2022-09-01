@@ -199,9 +199,8 @@ const OnboardPartyPage: NextPage = () => {
             <TextHeading3 className="mb-2">See Other Profiles</TextHeading3>
             <section className="grid grid-cols-2 gap-3">
               {dataMembers &&
-                dataMembers.findMembers
-                  .filter((member: Members) => member._id !== currUser?._id)
-                  .map((member: Members, index: number) => (
+                dataMembers.findMembers.map(
+                  (member: Members, index: number) => (
                     <Card
                       key={index}
                       border
@@ -221,7 +220,8 @@ const OnboardPartyPage: NextPage = () => {
                         />
                       ))}
                     </Card>
-                  ))}
+                  )
+                )}
             </section>
           </Card>
         </GridItemNine>
