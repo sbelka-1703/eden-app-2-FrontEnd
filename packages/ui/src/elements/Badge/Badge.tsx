@@ -3,18 +3,20 @@ import { XIcon } from "@heroicons/react/outline";
 export interface BadgeProps {
   colorRGB: string;
   text: string;
+  className?: string;
   closeButton?: boolean;
   onClose?: () => void;
 }
 export const Badge = ({
   colorRGB,
   text,
+  className = "",
   closeButton = false,
   onClose,
 }: BadgeProps) => {
   return (
     <div
-      className={`mr-2 mb-1 inline-block rounded-full`}
+      className={`mr-2 mb-1 inline-block rounded-full ${className}`}
       style={{ background: `rgba(${colorRGB})` }}
     >
       <div className="flex h-full w-full items-center justify-between px-3">
