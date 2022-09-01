@@ -34,11 +34,11 @@ export const UserInformationCard = ({
           <div
             className={`mb-4 mt-5 flex flex-col content-center items-center justify-center justify-items-center`}
           >
-            <div className={`text-2xl`}>{previousProjects?.positionName}</div>
-            <div className={`text-lg text-slate-500`}>
+            <div className={`text-xl`}>{previousProjects?.positionName}</div>
+            <div className={`text-base text-slate-500`}>
               {previousProjects?.title}
             </div>
-            <div className={`mt-1 text-base text-slate-500`}>
+            <div className={`mt-1 text-sm text-slate-500`}>
               {previousProjects?.startDate} - {previousProjects?.endDate}
             </div>
           </div>

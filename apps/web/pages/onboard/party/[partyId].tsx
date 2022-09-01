@@ -195,7 +195,10 @@ const OnboardPartyPage: NextPage = () => {
           )}
         </GridItemThree>
         <GridItemNine>
-          <Card shadow className="bg-white p-3">
+          <Card
+            shadow
+            className="h-8/10 scrollbar-hide overflow-y-scroll bg-white p-3"
+          >
             <TextHeading3 className="mb-2">See Other Profiles</TextHeading3>
             <section className="grid grid-cols-2 gap-3">
               {dataMembers &&
