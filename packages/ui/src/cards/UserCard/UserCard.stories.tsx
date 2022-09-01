@@ -1,5 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { getMember } from "storybook/mocks";
 
 import { UserCard } from "./UserCard";
 
@@ -15,16 +16,8 @@ const Template: ComponentStory<typeof UserCard> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  member: {
-    discordName: faker.internet.userName(),
-    discordAvatar: faker.internet.avatar(),
-    skills: [
-      { skillInfo: { _id: "0", name: "Fullstack" } },
-      { skillInfo: { _id: "1", name: "Backend" } },
-      { skillInfo: { _id: "2", name: "Frontend" } },
-    ],
-  },
-  percentage: 84,
-  endorsements: 10,
+  member: getMember(),
+  percentage: Number(faker.random.numeric(2)),
+  endorsements: Number(faker.random.numeric(2)),
   focused: false,
 };
