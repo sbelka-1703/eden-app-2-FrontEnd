@@ -24,6 +24,8 @@ export const SideNavProjectList = ({
   // console.log("projects", projects);
 
   const projectsList = projects.map((project: any, index: number) => {
+    // TODO: here to test if project champion actions are working
+    // if (!project.champion) return null;
     return (
       <button
         key={index}

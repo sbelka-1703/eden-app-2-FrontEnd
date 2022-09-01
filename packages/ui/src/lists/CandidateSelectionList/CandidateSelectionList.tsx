@@ -41,9 +41,8 @@ export const CandidateSelectionList = ({
   onSelectMember,
 }: ICandidateSelectionListProps) => {
   const [currentRole, setCurrentRole] = useState<IRole | null>(null);
-  const [currentCandidate, setCurrentCandidate] = useState<ICandidate | null>(
-    null
-  );
+  const [currentCandidate, setCurrentCandidate] =
+    useState<ICandidate | null>(null);
 
   useEffect(() => {
     if (currentCandidate && onSelectMember) {
