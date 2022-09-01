@@ -45,7 +45,7 @@ const ProjectPage: NextPage = () => {
   });
 
   // project data with shortlist
-  if (dataProject) console.log("dataProject", dataProject.findProject);
+  // if (dataProject) console.log("dataProject", dataProject.findProject);
 
   const { data: dataRoles } = useQuery(FIND_ROLE_TEMPLATES, {
     variables: {
@@ -69,13 +69,13 @@ const ProjectPage: NextPage = () => {
     context: { serviceName: "soilservice" },
   });
 
-  if (dataMemberWithSkills)
-    console.log(
-      "dataMemberWithSkills",
-      dataMemberWithSkills.matchMembersToSkills
-    );
+  // if (dataMemberWithSkills)
+  //   console.log(
+  //     "dataMemberWithSkills",
+  //     dataMemberWithSkills.matchMembersToSkills
+  //   );
 
-  console.log("selectRole", selectRole);
+  // if (selectRole) console.log("selectRole", selectRole);
 
   return (
     <GridLayout>
@@ -88,7 +88,10 @@ const ProjectPage: NextPage = () => {
         />
       </GridItemThree>
       <GridItemSix>
-        <ChampionRecruitContainer member={dataMember?.findMember} />
+        <ChampionRecruitContainer
+          project={dataProject?.findProject}
+          member={dataMember?.findMember}
+        />
       </GridItemSix>
       <GridItemThree>shortlist</GridItemThree>
     </GridLayout>
