@@ -1,16 +1,8 @@
-import { Members } from "@graphql/eden/generated";
+import { Maybe, Members } from "@graphql/eden/generated";
 import { Avatar, Card } from "ui";
 
-export interface ISkills {
-  skillInfo: {
-    _id: string;
-    name: string;
-    __typename: string;
-  };
-}
-
 export interface UserCardProps {
-  member?: Members;
+  member?: Maybe<Members>;
   percentage?: number;
   endorsements?: number;
   focused?: boolean;
