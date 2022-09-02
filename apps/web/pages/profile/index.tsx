@@ -1,6 +1,6 @@
-import { UserContext } from "@context/eden";
+// import { UserContext } from "@context/eden";
 import type { NextPage } from "next";
-import { useContext } from "react";
+// import { useContext } from "react";
 import {
   GridItemNine,
   GridItemThree,
@@ -10,12 +10,12 @@ import {
 } from "ui";
 
 const ProfilePage: NextPage = () => {
-  const { currentUser } = useContext(UserContext);
+  // const { currentUser } = useContext(UserContext);
 
   return (
     <GridLayout>
       <GridItemThree>
-        <UserProfileMenu currentUser={currentUser} title={`Good Morning,`} />
+        <UserProfileMenu title={`Good Morning,`} />
       </GridItemThree>
       <GridItemNine>
         <ProfileContainer />

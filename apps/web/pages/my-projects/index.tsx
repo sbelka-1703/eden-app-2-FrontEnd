@@ -8,6 +8,7 @@ import {
   GridItemSix,
   GridItemThree,
   GridLayout,
+  ProjectList,
   RecommendedList,
   UserProfileMenu,
 } from "ui";
@@ -15,7 +16,7 @@ import {
 const MyProjectsPage: NextPage = () => {
   const { currentUser } = useContext(UserContext);
 
-  if (currentUser) console.log("currentUser", currentUser);
+  // if (currentUser) console.log("currentUser", currentUser);
 
   const { data: dataProjectsRecommended } = useQuery(
     FIND_PROJECTS_RECOMMENDED,
@@ -30,16 +31,23 @@ const MyProjectsPage: NextPage = () => {
     }
   );
 
+  const committedProjects = currentUser?.projects?.filter(
+    (project: any) => project.phase === "committed"
+  );
+
+  // console.log("committedProjects", committedProjects);
+
   return (
     <GridLayout>
       <GridItemThree>
-        <UserProfileMenu currentUser={currentUser} title={`Good Morning,`} />
+        <UserProfileMenu title={`Good Morning,`} />
       </GridItemThree>
       <GridItemSix>
         <Card shadow className="h-8/10 bg-white p-6">
           <div className={`text-2xl font-medium text-black/80`}>
             My Active Projects
           </div>
+          <ProjectList projects={committedProjects} />
         </Card>
       </GridItemSix>
       <GridItemThree>
