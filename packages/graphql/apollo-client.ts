@@ -87,8 +87,39 @@ export const apolloClient = new ApolloClient({
   cache: new InMemoryCache({
     typePolicies: {
       Query: {
-        fields: {},
+        fields: {
+          findMember: {
+            keyArgs: ["_id"],
+          },
+          findMembers: {
+            keyArgs: ["_id"],
+          },
+          findProject: {
+            keyArgs: ["_id"],
+          },
+          findProjects: {
+            keyArgs: ["_id"],
+          },
+        },
       },
     },
   }),
 });
+
+// const cacheMerge = (keyArgs: any) => {
+//   return {
+//     keyArgs: [keyArgs],
+//     merge(existing: any, incoming: any) {
+//       if (!existing) {
+//         return incoming;
+//       }
+//       const existingItems = existing.items;
+//       const incomingItems = incoming.items;
+
+//       return {
+//         items: existingItems.concat(incomingItems),
+//         // pageInfo: incoming.pageInfo,
+//       };
+//     },
+//   };
+// };
