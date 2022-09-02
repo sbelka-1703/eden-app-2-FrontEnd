@@ -24,7 +24,7 @@ export const ProfileContainer = ({}: ProfileContainerProps) => {
   return (
     <div className="rounded-xl">
       <TabsSelector tabs={tabs} onSelect={(val) => console.log(val)} />
-      <div className="border-accentColor h-8/10 overflow-y-scroll rounded-b-xl border-b-2 border-r-2 border-l-2 bg-white px-4">
+      <div className="border-accentColor h-8/10 scrollbar-hide overflow-y-scroll rounded-b-xl border-b-2 border-r-2 border-l-2 bg-white px-4">
         <div className={`my-4 flex justify-between p-4`}>
           <div className={`w-3/4 text-sm text-zinc-500 md:w-1/2`}>
             please note, you cannont change your pfp and user name as those are
@@ -46,8 +46,11 @@ export const ProfileContainer = ({}: ProfileContainerProps) => {
             />
             <div className={`my-4 grid grid-cols-12 space-x-4`}>
               <div className={`col-span-9 space-y-4`}>
-                <UserInformationCard isEditable />
-                <UserInformationCard isEditable />
+                {currentUser.previusProjects?.map((project, index) => (
+                  <div key={index} className={``}>
+                    <UserInformationCard previousProjects={project} />
+                  </div>
+                ))}
               </div>
               <div className={`col-span-3`}>
                 <SocialMediaComp links={currentUser.links} />

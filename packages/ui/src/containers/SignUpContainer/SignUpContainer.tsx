@@ -43,7 +43,7 @@ export const SignUpContainer = ({}: SignUpContainerProps) => {
     telegramHandle,
   } = useContext(SignUpContext);
 
-  console.log("currentUser", currentUser);
+  // console.log("currentUser", currentUser);
 
   const [currentIndex, setCurrentIndex] = useState(1);
   const maxSteps = 6;
@@ -124,9 +124,16 @@ export const SignUpContainer = ({}: SignUpContainerProps) => {
         <Loading title={`Submitting...`} />
       ) : (
         <div className={`relative h-full`}>
-          <FormStepper step={currentIndex} maxSteps={maxSteps} />
-          signup step: {currentIndex}
+          <div className={`p-6`}>
+            {currentIndex <= maxSteps && (
+              <FormStepper step={currentIndex} maxSteps={maxSteps} />
+            )}
+          </div>
+
+          {/* view window */}
           {SignUpView && SignUpView()}
+
+          {/* navigation */}
           <div className={`absolute bottom-2 flex w-full justify-between p-6`}>
             <div>
               {currentIndex !== 1 && currentIndex !== maxSteps + 1 && (

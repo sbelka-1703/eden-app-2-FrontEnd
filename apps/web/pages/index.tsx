@@ -53,6 +53,12 @@ export default function Web() {
           champion dashboard recruit
         </Button>
       </div>
+
+      <div className={`m-4`}>
+        <Button variant={`primary`} onClick={() => router.push(`/profile`)}>
+          profile
+        </Button>
+      </div>
     </div>
   );
 }

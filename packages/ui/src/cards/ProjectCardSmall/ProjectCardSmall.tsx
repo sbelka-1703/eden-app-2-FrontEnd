@@ -19,6 +19,12 @@ export const ProjectCardSmall = ({
   if (!project) return null;
   const daysLeft = totalDays - currentDayCount;
 
+  // console.log(project);
+
+  const engagedProjects = project?.team?.filter(
+    (project: any) => project.phase === "engaged"
+  );
+
   return (
     <Card shadow focused={focused} className={`w-full bg-white p-3`}>
       <div className="flex w-full">
@@ -27,7 +33,9 @@ export const ProjectCardSmall = ({
         </div>
         <div className={`my-auto pl-4`}>
           <div className={`text-xl`}>{project.title}</div>
-          <div className={`text-base `}>Engaged talent:</div>
+          <div className={`text-base `}>
+            Engaged talent: {engagedProjects?.length}
+          </div>
         </div>
       </div>
       <div className="mt-2">

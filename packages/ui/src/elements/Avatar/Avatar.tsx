@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { useEffect, useState } from "react";
 
 export interface AvatarProps {
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg" | "xl";
   src?: string;
   alt?: string;
 }
@@ -15,6 +15,7 @@ export const Avatar = ({ size = "md", src, alt = "avatar" }: AvatarProps) => {
       "w-12 h-12": size === "sm",
       "w-16 h-16": size === "md",
       "w-20 h-20": size === "lg",
+      "w-25 h-25": size === "xl",
     }
   );
 

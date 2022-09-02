@@ -63,6 +63,12 @@ export const SkillSelector = ({
     setSelectedSkills(
       selectedSkills.filter((selected: ISkills) => selected?._id !== skill?._id)
     );
+    onSetSkills &&
+      onSetSkills(
+        selectedSkills.filter(
+          (selectedSkill) => selectedSkill._id !== skill._id
+        )
+      );
   };
 
   // useCallback hook might be a better choice here

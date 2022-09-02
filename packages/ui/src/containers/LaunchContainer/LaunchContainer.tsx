@@ -11,6 +11,7 @@ import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import {
   Button,
   Card,
+  FormStepper,
   LaunchViewDescribe,
   LaunchViewLinks,
   LaunchViewName,
@@ -123,8 +124,16 @@ export const LaunchContainer = ({ servers, roles }: LaunchPageProps) => {
         <Loading title={`Submitting...`} />
       ) : (
         <div className={`relative h-full`}>
-          launch step: {currentIndex}
+          <div className={`p-6`}>
+            {currentIndex <= maxSteps && (
+              <FormStepper step={currentIndex} maxSteps={maxSteps} />
+            )}
+          </div>
+
+          {/* view window */}
           {LaunchView && LaunchView()}
+
+          {/* navigation */}
           <div className={`absolute bottom-2 flex w-full justify-between p-6`}>
             <div>
               {currentIndex !== 1 && currentIndex !== maxSteps + 1 && (
