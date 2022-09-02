@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { useEffect, useState } from "react";
 
 export interface AvatarProps {
-  size?: "sm" | "md" | "lg" | "xl";
+  size?: "xs" | "sm" | "md" | "lg" | "xl";
   src?: string;
   alt?: string;
 }
@@ -12,6 +12,7 @@ export const Avatar = ({ size = "md", src, alt = "avatar" }: AvatarProps) => {
   const btnCls = clsx(
     "rounded-full shadow-lg inline-block overflow-hidden bg-gray-100",
     {
+      "w-8 h-8": size === "xs",
       "w-12 h-12": size === "sm",
       "w-16 h-16": size === "md",
       "w-20 h-20": size === "lg",

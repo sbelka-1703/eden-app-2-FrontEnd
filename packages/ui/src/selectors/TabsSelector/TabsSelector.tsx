@@ -26,11 +26,11 @@ export const TabsSelector = ({ tabs, onSelect }: TabsSelectorProps) => {
 
   const calculateTabZindex = (index: number) => {
     if (currentTab == index) {
-      return 50;
+      return 9;
     } else if (currentTab > index) {
-      return 30 + index;
+      return 1 + index;
     } else {
-      return 40 - index;
+      return 5 - index;
     }
   };
 
