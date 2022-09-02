@@ -1,9 +1,9 @@
 import { useQuery } from "@apollo/client";
-import { SKILLS_AUTOCOMPLETE } from "@graphql/eden";
+import { FIND_ALL_SKILLS, SKILLS_AUTOCOMPLETE } from "@graphql/eden";
 import { Combobox } from "@headlessui/react";
 import { EmojiSadIcon } from "@heroicons/react/outline";
 import { SearchIcon } from "@heroicons/react/solid";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type SelectorProps = {
   title: string;
@@ -48,7 +48,7 @@ function Expandable({
     <div className="w-full">
       <div
         onClick={() => setIsExpandingOpen(!isExandingOpen)}
-        className="flex w-full cursor-pointer items-center justify-between bg-[#EDF2F7] px-3 py-2 font-bold"
+        className="flex w-full cursor-pointer items-center justify-between bg-[#ffffff] px-3 py-2 font-bold"
       >
         {category}
         <p className="underline">{isExandingOpen ? "Hide" : "Show"}</p>
@@ -71,7 +71,11 @@ function Expandable({
             className="cursor-pointer p-2"
             key={item._id}
           >
-            <div className="flex items-center justify-between">
+            <div
+              className={`flex ${
+                selected === item._id ? "bg-[#EDF2F7]" : "bg-white"
+              } items-center justify-between px-4 pt-4`}
+            >
               {item.name}
               {skills.filter((s) => s.id === item._id).length > 0 && (
                 <h1>ADDED</h1>
@@ -79,8 +83,8 @@ function Expandable({
             </div>
 
             {isOpen && selected === item._id && (
-              <div>
-                <p>Skill level</p>
+              <div className="bg-[#EDF2F7] px-4 pb-4 pt-2">
+                <p className="font-semibold text-[#AAAAAA]">Skill level</p>
                 <div className="flex gap-2">
                   <Selector
                     title="Interested"
@@ -201,33 +205,48 @@ export const SearchBar = ({ skills, setSkills }: SearchBarProps) => {
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selected, setSelected] = useState<number | null>(null);
+  const [inFocus, setInFocus] = useState<boolean>(false);
 
-  const { data: dataSkills, loading: dataSkillsLoading } = useQuery(
-    SKILLS_AUTOCOMPLETE,
-    {
-      variables: {
-        fields: {
-          search: query,
-        },
+  const { data: dataSkills } = useQuery(SKILLS_AUTOCOMPLETE, {
+    variables: {
+      fields: {
+        search: query,
       },
-    }
-  );
+    },
+  });
+
+  const { data: AllSkillsData, loading: AllSkillsDataLoading } =
+    useQuery(FIND_ALL_SKILLS);
+
+  const AllSkillWithCategoery: Skills[] = useMemo(() => [], []);
 
   useEffect(() => {
-    if (dataSkillsLoading === false) {
-      console.log(
-        "search data========",
-        dataSkills ? dataSkills.skills_autocomplete : []
-      );
+    if (AllSkillsData && AllSkillsDataLoading === false) {
+      AllSkillsData.findSkillSubCategories.forEach((skill: any) => {
+        const category = skill.name;
+
+        skill.skills.forEach((s: Skills) => {
+          AllSkillWithCategoery.push({
+            _id: s._id,
+            name: s.name,
+            category: category,
+          });
+        });
+      });
     }
-  }, [query, dataSkills, dataSkillsLoading]);
+  }, [AllSkillsData, AllSkillsDataLoading]);
+
+  // useEffect(() => {
+  //   console.log("All skills=====================", AllSkillWithCategoery);
+  // }, [AllSkillWithCategoery]);
 
   const filteredItems = dataSkills
-    ? dataSkills.skills_autocomplete?.filter((item) => {
+    ? dataSkills.skills_autocomplete?.filter((item: any) => {
         return item.name.toLowerCase().includes(query.toLowerCase());
       })
     : [];
 
+  // @ts-ignore
   const groups = filteredItems?.reduce((groups, item) => {
     return {
       ...groups,
@@ -238,6 +257,18 @@ export const SearchBar = ({ skills, setSkills }: SearchBarProps) => {
       ],
     };
   }, {});
+
+  const allSkillGroup = AllSkillWithCategoery?.reduce((groups, item) => {
+    return {
+      ...groups,
+      // @ts-ignore
+      [item.category!]: [...(groups[item.category] || []), item],
+    };
+  }, {});
+
+  useEffect(() => {
+    console.log("allSkillGrup==========", allSkillGroup);
+  }, [allSkillGroup]);
 
   return (
     <Combobox
@@ -263,19 +294,29 @@ export const SearchBar = ({ skills, setSkills }: SearchBarProps) => {
           className="h-12 w-[25rem] rounded-md border-0 bg-white pl-11 pr-4 text-gray-800 placeholder-gray-400 focus:ring-0 sm:text-sm"
           placeholder="Search for a skill.."
           onChange={(event) => setQuery(event.target.value)}
+          onFocus={() => setInFocus(true)}
+          // onBlur={() => {
+          //   setInFocus(false);
+          // }}
         />
       </div>
 
-      {filteredItems && filteredItems.length >= 0 && query.length >= 0 && (
+      {filteredItems.length >= 0 && query.length >= 0 && (
         <Combobox.Options
           static
           className="max-h-80 scroll-pt-11 scroll-pb-2 space-y-2 overflow-y-auto pb-2"
         >
-          {Object.entries(groups!).map(([category, allSkills]) => (
+          {Object.entries(
+            inFocus && query === "" ? allSkillGroup : groups!
+          ).map(([category]) => (
             <Expandable
               category={category}
               // @ts-ignore
-              allSkills={dataSkills.skills_autocomplete}
+              allSkills={
+                inFocus && query === ""
+                  ? AllSkillWithCategoery
+                  : dataSkills.skills_autocomplete
+              }
               skills={skills!}
               isOpen={isOpen}
               selected={selected}
