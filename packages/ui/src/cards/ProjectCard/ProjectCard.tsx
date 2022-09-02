@@ -28,6 +28,8 @@ export const ProjectCard = ({
 
   if (!project) return null;
 
+  const round = (num: number) => Math.round(num * 10) / 10;
+
   return (
     <Card border focused={focused}>
       <div className="flex justify-between">
@@ -55,7 +57,7 @@ export const ProjectCard = ({
               >
                 <span>⚡ Match</span>
                 <span className={`text-soilPurple text-3xl font-semibold`}>
-                  {percentage}%
+                  {round(percentage)}%
                 </span>
               </div>
             )}

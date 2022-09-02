@@ -2,8 +2,10 @@ import { useQuery } from "@apollo/client";
 import { UserContext } from "@context/eden";
 import { FIND_PROJECT } from "@graphql/eden";
 import type { NextPage } from "next";
+import { useRouter } from "next/router";
 import { useContext, useState } from "react";
 import {
+  Button,
   ChampionContainer,
   GridItemSix,
   GridItemThree,
@@ -12,6 +14,7 @@ import {
 } from "ui";
 
 const ProjectPage: NextPage = () => {
+  const router = useRouter();
   const { currentUser } = useContext(UserContext);
   const [selectProject, setSelectProject] = useState("");
 
@@ -43,7 +46,25 @@ const ProjectPage: NextPage = () => {
       <GridItemSix>
         <ChampionContainer project={dataProject?.findProject} />
       </GridItemSix>
-      <GridItemThree> </GridItemThree>
+      <GridItemThree>
+        {selectProject && (
+          <>
+            <div className={`text-center text-lg font-medium text-black/60`}>
+              Need to find more Members for your project?
+            </div>
+            <div className={`my-8 flex justify-center`}>
+              <Button
+                variant={`primary`}
+                onClick={() =>
+                  router.push(`/champion-board/recruit/${selectProject}`)
+                }
+              >
+                Recruit
+              </Button>
+            </div>
+          </>
+        )}
+      </GridItemThree>
     </GridLayout>
   );
 };

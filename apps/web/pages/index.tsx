@@ -21,36 +21,17 @@ export default function Web() {
       <TextLabel>The brown fox jumped over the lazy dog.</TextLabel>
       <div className={`m-4`}>
         <Button variant={`primary`} onClick={() => router.push(`/signup`)}>
-          signup
+          new user signup
         </Button>
       </div>
       <div className={`m-4`}>
         <Button variant={`primary`} onClick={() => router.push(`/launch`)}>
-          launch
+          launch a project
         </Button>
       </div>
       <div className={`m-4`}>
         <Button variant={`primary`} onClick={() => router.push(`/projects`)}>
-          projects
-        </Button>
-      </div>
-
-      {/* <div className={`m-4`}>
-        <Button
-          variant={`primary`}
-          onClick={() => router.push(`/champion-board`)}
-        >
-          champion dashboard
-        </Button>
-      </div> */}
-      <div className={`m-4`}>
-        <Button
-          variant={`primary`}
-          onClick={() =>
-            router.push(`/champion-board/recruit/62f77a832dc2d40004d4512f`)
-          }
-        >
-          champion dashboard recruit
+          user dashboard
         </Button>
       </div>
 
