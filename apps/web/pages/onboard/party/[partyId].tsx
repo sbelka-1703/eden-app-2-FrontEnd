@@ -219,12 +219,7 @@ const OnboardPartyPage: NextPage = () => {
                       >
                         TOTAL SKILLS: {`${member.skills?.length || 0}`}
                       </span>
-                      {/* <Badge
-                        key={index}
-                        colorRGB="255, 103, 103, 0.15"
-                        text={`TOTAL SKILLS: ${member.skills?.length || 0}`}
-                        className="absolute right-0 text-xs font-medium"
-                      /> */}
+
                       <div className="mb-4 flex flex-col">
                         {member.discordAvatar && (
                           <Avatar src={member.discordAvatar} size="sm" />
