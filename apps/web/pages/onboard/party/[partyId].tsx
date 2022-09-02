@@ -65,6 +65,7 @@ const OnboardPartyPage: NextPage = () => {
       fields: { _id: partyId },
     },
     skip: !partyId,
+    context: { serviceName: "soilservice" },
   });
 
   const membersIds: Array<string> = dataRoomSubscription
@@ -103,6 +104,7 @@ const OnboardPartyPage: NextPage = () => {
           : [],
       },
     },
+    skip: !dataRoom,
     context: { serviceName: "soilservice" },
     onCompleted: (data) => {
       if (data) {
@@ -115,6 +117,8 @@ const OnboardPartyPage: NextPage = () => {
     variables: {
       fields: { _id: membersIds },
     },
+    skip: !membersIds,
+    context: { serviceName: "soilservice" },
     onSubscriptionData: (data) => {
       const newMemberData = data.subscriptionData.data.memberUpdated;
 
