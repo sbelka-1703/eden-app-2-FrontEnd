@@ -1,8 +1,7 @@
-import { useMutation, useQuery, useSubscription } from "@apollo/client";
+import { gql, useMutation, useQuery, useSubscription } from "@apollo/client";
 import { UserContext } from "@context/eden";
 import {
   ENTER_ROOM,
-  FIND_MEMBERS,
   FIND_ROOM,
   FIND_SKILLS,
   MEMBER_UPDATED,
@@ -76,22 +75,39 @@ const OnboardPartyPage: NextPage = () => {
     });
   }, [currentUser, membersIds, partyId]);
 
-  const { data: dataMembers } = useQuery(FIND_MEMBERS, {
-    variables: {
-      fields: {
-        _id: dataRoom
-          ? dataRoom.findRoom?.members.map((member: Members) => member._id)
-          : [],
-      },
-    },
-    skip: !dataRoom,
-    context: { serviceName: "soilservice" },
-    onCompleted: (data) => {
-      if (data) {
-        setMembers(data.findMembers);
+  // Custom query with only members basic data and skills
+  const { data: dataMembers } = useQuery(
+    gql`
+      query ($fields: findMembersInput) {
+        findMembers(fields: $fields) {
+          _id
+          discordAvatar
+          discordName
+          bio
+          skills {
+            skillInfo {
+              _id
+              name
+            }
+          }
+        }
       }
-    },
-  });
+    `,
+    {
+      variables: {
+        fields: {
+          _id: dataRoom?.findRoom?.members.map((member: Members) => member._id),
+        },
+      },
+      skip: !dataRoom,
+      context: { serviceName: "soilservice" },
+      onCompleted: (data) => {
+        if (data) {
+          setMembers(data.findMembers);
+        }
+      },
+    }
+  );
 
   useSubscription(MEMBER_UPDATED, {
     variables: {
