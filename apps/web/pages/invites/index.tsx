@@ -31,7 +31,7 @@ const InvitePage: NextPage = () => {
   return (
     <GridLayout>
       <GridItemThree>
-        <UserProfileMenu currentUser={currentUser} title={`Good Morning,`} />
+        <UserProfileMenu title={`Good Morning,`} />
       </GridItemThree>
       <GridItemSix>
         <Card shadow className="h-8/10 bg-white p-6">

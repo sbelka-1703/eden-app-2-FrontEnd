@@ -43,7 +43,7 @@ export const SignUpContainer = ({}: SignUpContainerProps) => {
     telegramHandle,
   } = useContext(SignUpContext);
 
-  console.log("currentUser", currentUser);
+  // console.log("currentUser", currentUser);
 
   const [currentIndex, setCurrentIndex] = useState(1);
   const maxSteps = 6;

@@ -1,5 +1,5 @@
-import { useQuery } from "@apollo/client";
-import { FIND_MEMBER_FULL } from "@graphql/eden";
+import { useQuery, useSubscription } from "@apollo/client";
+import { FIND_MEMBER_FULL, MEMBER_SUBSCRIPTION } from "@graphql/eden";
 import { Members } from "@graphql/eden/generated";
 import { useSession } from "next-auth/react";
 import React from "react";
@@ -24,6 +24,19 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     },
     skip: !id,
     context: { serviceName: "soilservice" },
+  });
+
+  useSubscription(MEMBER_SUBSCRIPTION, {
+    variables: {
+      fields: {
+        _id: id,
+      },
+    },
+    skip: !id,
+    context: { serviceName: "soilservice" },
+    // onSubscriptionData: (data) => {
+    //   console.log("data", data);
+    // },
   });
 
   // if (dataMember) console.log("dataMember", dataMember.findMember);
