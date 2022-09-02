@@ -36,12 +36,15 @@ const OnboardPartyPage: NextPage = () => {
 
   const { currentUser } = useContext(UserContext);
 
+  // console.log("currentUser", currentUser);
+
   const { data: currentUserAlternative } = useQuery(FIND_MEMBER, {
     variables: {
       fields: {
-        _id: router.query.memberId,
+        _id: currentUser?._id,
       },
     },
+    skip: !currentUser,
     context: { serviceName: "soilservice" },
   });
 
@@ -53,6 +56,7 @@ const OnboardPartyPage: NextPage = () => {
         _id: partyId,
       },
     },
+    skip: !partyId,
     context: { serviceName: "soilservice" },
   });
 
@@ -60,6 +64,7 @@ const OnboardPartyPage: NextPage = () => {
     variables: {
       fields: { _id: partyId },
     },
+    skip: !partyId,
   });
 
   const membersIds: Array<string> = dataRoomSubscription
