@@ -1,4 +1,5 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { getMember } from "storybook/mocks";
 
 import { EditProfileOnboardPartyCard } from "./EditProfileOnboardPartyCard";
 
@@ -14,12 +15,7 @@ const Template: ComponentStory<typeof EditProfileOnboardPartyCard> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  currentUser: {
-    _id: "123412342134",
-    discordAvatar: undefined,
-    discordName: undefined,
-    skills: undefined,
-  },
+  currentUser: getMember(),
   skills: [],
   handleSetSkills: function (): void {
     //

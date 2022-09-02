@@ -1,5 +1,5 @@
-import { faker } from "@faker-js/faker";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { getMember } from "storybook/mocks";
 
 import { OnboardPartyContainer } from "./OnboardPartyContainer";
 
@@ -15,10 +15,5 @@ const Template: ComponentStory<typeof OnboardPartyContainer> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  members: [
-    {
-      discordName: faker.name.firstName(),
-      bio: faker.lorem.sentence(),
-    },
-  ],
+  members: [getMember(), getMember()],
 };
