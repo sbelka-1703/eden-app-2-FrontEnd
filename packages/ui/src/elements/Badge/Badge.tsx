@@ -7,6 +7,7 @@ export interface BadgeProps {
   text: string;
   className?: string;
   closeButton?: boolean;
+  cutText?: number;
   onClose?: () => void;
 }
 export const Badge = ({
@@ -14,13 +15,15 @@ export const Badge = ({
   text,
   className = "",
   closeButton = false,
+  cutText = 8,
   onClose,
 }: BadgeProps) => {
   const [isHover, setIsHover] = useState("");
 
   if (!text) return null;
 
-  const textShort = text?.length > 10 ? text.substring(0, 8) + "..." : text;
+  const textShort =
+    text?.length > 10 ? text.substring(0, cutText) + "..." : text;
 
   return (
     <>

@@ -213,12 +213,18 @@ const OnboardPartyPage: NextPage = () => {
                       border
                       className="col-span-1 bg-white p-3"
                     >
-                      <Badge
+                      <span
+                        className={`absolute right-2 rounded-full py-1 px-2 text-xs font-medium`}
+                        style={{ background: `rgba(255, 103, 103, 0.15)` }}
+                      >
+                        TOTAL SKILLS: {`${member.skills?.length || 0}`}
+                      </span>
+                      {/* <Badge
                         key={index}
                         colorRGB="255, 103, 103, 0.15"
                         text={`TOTAL SKILLS: ${member.skills?.length || 0}`}
                         className="absolute right-0 text-xs font-medium"
-                      />
+                      /> */}
                       <div className="mb-4 flex flex-col">
                         {member.discordAvatar && (
                           <Avatar src={member.discordAvatar} size="sm" />
@@ -230,6 +236,7 @@ const OnboardPartyPage: NextPage = () => {
                           key={index}
                           colorRGB="209,247,196"
                           text={skill?.skillInfo?.name || "no_name"}
+                          cutText={13}
                         />
                       ))}
                     </Card>
