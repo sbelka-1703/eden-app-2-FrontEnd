@@ -1,4 +1,4 @@
-import { Avatar } from "../../elements";
+import { Avatar } from "ui";
 
 export interface IUserWithDescriptionProps {
   avatarSrc?: string;
