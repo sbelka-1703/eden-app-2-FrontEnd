@@ -35,14 +35,14 @@ export default function Web() {
         </Button>
       </div>
 
-      <div className={`m-4`}>
+      {/* <div className={`m-4`}>
         <Button
           variant={`primary`}
           onClick={() => router.push(`/champion-board`)}
         >
           champion dashboard
         </Button>
-      </div>
+      </div> */}
       <div className={`m-4`}>
         <Button
           variant={`primary`}
