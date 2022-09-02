@@ -100,6 +100,12 @@ export const apolloClient = new ApolloClient({
           findProjects: {
             keyArgs: ["_id"],
           },
+          findSkills: {
+            keyArgs: ["_id"],
+          },
+          findRoom: {
+            keyArgs: ["_id"],
+          },
         },
       },
     },
