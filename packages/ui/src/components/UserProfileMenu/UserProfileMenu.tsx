@@ -13,7 +13,7 @@ export const UserProfileMenu = ({ title }: IUserProfileMenuProps) => {
   const router = useRouter();
   const { currentUser } = useContext(UserContext);
 
-  // console.log("currentUser", currentUser);
+  console.log("currentUser", currentUser);
 
   const engagedProjects = currentUser?.projects?.filter(
     (project: any) => project.phase === "engaged"
@@ -25,7 +25,7 @@ export const UserProfileMenu = ({ title }: IUserProfileMenuProps) => {
     (project: any) => project.phase === "committed"
   );
 
-  // console.log("committedProjects", committedProjects);
+  console.log("committedProjects", committedProjects);
 
   const championProjects = currentUser?.projects?.filter(
     (project: any) => project.champion
