@@ -17,6 +17,7 @@ import {
   Avatar,
   Badge,
   Card,
+  EditProfileOnboardPartyCard,
   GridItemNine,
   GridItemThree,
   GridLayout,
@@ -140,45 +141,18 @@ const OnboardPartyPage: NextPage = () => {
   return (
     <GridLayout>
       <GridItemThree>
-        {!currentUser && (
+        {!currentUser ? (
           <p>
             You must be logged in to edit your profile.
             <br />
-            <br />
             If you can&rsquo;t log in ask the onboarder for help
           </p>
-        )}
-        {currentUser && (
-          <Card shadow className="bg-white p-3">
-            <TextHeading3 className="mb-2">Edit Your Profile Card</TextHeading3>
-            <div className="mb-4 flex items-center">
-              {currentUser.discordAvatar && (
-                <Avatar src={currentUser.discordAvatar} size="sm" />
-              )}
-              {currentUser.discordName && (
-                <span className="ml-2">{currentUser?.discordName}</span>
-              )}
-            </div>
-            <SkillSelector
-              showSelected
-              options={
-                // filter from options the skills user already has
-                dataSkills?.findSkills.filter(
-                  (skill: Skills) =>
-                    !currentUser.skills?.some(
-                      (currentUserSkill: any) =>
-                        currentUserSkill?.skillInfo?._id === skill._id
-                    )
-                ) || []
-              }
-              value={
-                currentUser.skills
-                  ?.filter((skill: any) => skill !== undefined)
-                  .map((skill: any) => skill?.skillInfo) || []
-              }
-              onSetSkills={handleSetSkills}
-            />
-          </Card>
+        ) : (
+          <EditProfileOnboardPartyCard
+            currentUser={currentUser}
+            skills={dataSkills?.findSkills || []}
+            handleSetSkills={handleSetSkills}
+          />
         )}
       </GridItemThree>
       <GridItemNine>
