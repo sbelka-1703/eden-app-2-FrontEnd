@@ -266,10 +266,6 @@ export const SearchBar = ({ skills, setSkills }: SearchBarProps) => {
     };
   }, {});
 
-  useEffect(() => {
-    console.log("allSkillGrup==========", allSkillGroup);
-  }, [allSkillGroup]);
-
   return (
     <Combobox
       // @ts-ignore
