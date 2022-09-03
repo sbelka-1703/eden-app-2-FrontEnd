@@ -87,11 +87,11 @@ export const TabsSelector = ({ tabs, onSelect }: TabsSelectorProps) => {
               </button>
             )}
             <button
-              className={`relative h-full w-full rounded-t-xl border-t px-3 pt-2 text-center text-sm font-medium uppercase md:text-lg ${
+              className={`relative h-full w-full rounded-t-xl border-t px-3 pt-0 text-center text-sm font-medium uppercase md:text-lg ${
                 !index ? "border-l" : ""
               } ${
                 currentTab == index
-                  ? "text-darkGreen bg-white text-sm decoration-zinc-500 underline-offset-[3px] md:text-lg"
+                  ? "text-darkGreen border-t-0 border-l-0 border-r-0 bg-white text-sm decoration-zinc-500 underline-offset-[3px] md:text-lg"
                   : "text-soilGray bg-slate-100"
               }
                 ${currentTab > index ? "pr-9" : ""}
