@@ -1,7 +1,7 @@
 import { Project } from "@graphql/eden/generated";
 import { useRouter } from "next/router";
 import { BsArrowRight } from "react-icons/bs";
-import { Avatar, Button, Card, Favorite } from "ui";
+import { Avatar, Badge, Button, Card, Favorite } from "ui";
 
 export interface ProjectCardProps {
   project?: Project;
@@ -18,7 +18,6 @@ export const ProjectCard = ({
   project,
   avatar,
   percentage,
-  position,
   favButton = false,
   favorite = false,
   updateFavoriteCallback,
@@ -44,11 +43,14 @@ export const ProjectCard = ({
                 {project.description}
               </div>
               <div className={`mt-2 flex`}>
-                <span
-                  className={`bg-soilPurple/20 mr-2 rounded-full px-2 py-1 text-xs`}
-                >
-                  {position}
-                </span>
+                {project.role?.map((role, index) => (
+                  <Badge
+                    key={index}
+                    className={`bg-soilPurple/20 py-px text-xs`}
+                    text={role?.title || ""}
+                    cutText={99}
+                  ></Badge>
+                ))}
               </div>
             </div>
             {percentage && (
