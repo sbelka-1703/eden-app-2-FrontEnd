@@ -35,7 +35,7 @@ export const ProjectsContainer = ({
   }, [favouriteProjects]);
 
   return (
-    <div className="rounded-xl">
+    <div className="relative overflow-hidden rounded-xl">
       <TabsSelector tabs={tabs} onSelect={(val) => setActiveTab(val)} />
       <div className="border-accentColor h-8/10 scrollbar-hide overflow-y-scroll rounded-b-xl border-b-2 border-r-2 border-l-2 bg-white px-4">
         {activeTab === 0 && (
@@ -51,6 +51,7 @@ export const ProjectsContainer = ({
           <ProjectList projects={recommendedProjects} applyButton />
         )}
       </div>
+      <div className="border-accentColor pointer-events-none absolute bottom-0 h-12 w-full rounded-b-xl border-b-2 border-r-2 border-l-2 bg-gradient-to-t from-white to-transparent"></div>
     </div>
   );
 };
