@@ -7,12 +7,14 @@ export interface ProjectsContainerProps {
   allProjects?: any;
   favouriteProjects?: any;
   recommendedProjects?: any;
+  updateFavoriteCallback: Function;
 }
 
 export const ProjectsContainer = ({
   allProjects,
   favouriteProjects,
   recommendedProjects,
+  updateFavoriteCallback,
 }: ProjectsContainerProps) => {
   const [activeTab, setActiveTab] = useState(0);
   const [favourites, setFavourites] = useState([]);
@@ -32,11 +34,6 @@ export const ProjectsContainer = ({
     }
   }, [favouriteProjects]);
 
-  const updateFavoriteCallback = () => {
-    //update fav
-    return;
-  };
-
   return (
     <div className="rounded-xl">
       <TabsSelector tabs={tabs} onSelect={(val) => setActiveTab(val)} />
@@ -46,6 +43,7 @@ export const ProjectsContainer = ({
             projects={allProjects}
             favButton
             updateFavoriteCallback={updateFavoriteCallback}
+            favouriteProjects={favouriteProjects}
           />
         )}
         {activeTab === 1 && <ProjectList projects={favourites} applyButton />}

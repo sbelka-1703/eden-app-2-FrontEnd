@@ -5,13 +5,15 @@ export interface ProjectListProps {
   projects?: Project[] | Maybe<ProjectMemberType>[];
   applyButton?: boolean;
   favButton?: boolean;
-  updateFavoriteCallback?: () => void;
+  favouriteProjects?: Maybe<ProjectMemberType>[];
+  updateFavoriteCallback?: Function;
 }
 
 export const ProjectList = ({
   projects,
   applyButton,
   favButton,
+  favouriteProjects,
   updateFavoriteCallback,
 }: ProjectListProps) => {
   const projectType = (project: any) => {
@@ -40,7 +42,13 @@ export const ProjectList = ({
               position={project?.position || ""}
               applyButton={applyButton}
               favButton={favButton}
-              favorite={project.favorite}
+              favorite={
+                project.favorite ||
+                favouriteProjects?.find(
+                  (favProj: ProjectMemberType | null) =>
+                    favProj?.info?._id === project._id
+                )
+              }
               updateFavoriteCallback={updateFavoriteCallback}
             />
           </div>
