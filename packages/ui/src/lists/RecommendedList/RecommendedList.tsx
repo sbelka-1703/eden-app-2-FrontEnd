@@ -1,8 +1,8 @@
-import { Project } from "@graphql/eden/generated";
+import { Maybe, ProjectMatchType } from "@graphql/eden/generated";
 import { ProjectRecommendedCard } from "ui";
 
 export interface RecommendedListProps {
-  projects?: Project[];
+  projects?: Maybe<Array<Maybe<ProjectMatchType>>>;
 }
 
 export const RecommendedList = ({ projects }: RecommendedListProps) => {
