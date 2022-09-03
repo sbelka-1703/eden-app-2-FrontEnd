@@ -32,11 +32,22 @@ export const ProjectsContainer = ({
     }
   }, [favouriteProjects]);
 
+  const updateFavoriteCallback = () => {
+    //update fav
+    return;
+  };
+
   return (
     <div className="rounded-xl">
       <TabsSelector tabs={tabs} onSelect={(val) => setActiveTab(val)} />
       <div className="border-accentColor h-8/10 scrollbar-hide overflow-y-scroll rounded-b-xl border-b-2 border-r-2 border-l-2 bg-white px-4">
-        {activeTab === 0 && <ProjectList projects={allProjects} />}
+        {activeTab === 0 && (
+          <ProjectList
+            projects={allProjects}
+            favButton
+            updateFavoriteCallback={updateFavoriteCallback}
+          />
+        )}
         {activeTab === 1 && <ProjectList projects={favourites} />}
         {activeTab === 2 && <ProjectList projects={recommendedProjects} />}
       </div>

@@ -3,9 +3,15 @@ import { ProjectCard } from "ui";
 
 export interface ProjectListProps {
   projects?: Project[] | Maybe<ProjectMemberType>[];
+  favButton?: boolean;
+  updateFavoriteCallback?: () => void;
 }
 
-export const ProjectList = ({ projects }: ProjectListProps) => {
+export const ProjectList = ({
+  projects,
+  favButton = false,
+  updateFavoriteCallback,
+}: ProjectListProps) => {
   const projectType = (project: any) => {
     if (project.__typename === "Project") {
       return project;
@@ -30,6 +36,9 @@ export const ProjectList = ({ projects }: ProjectListProps) => {
                   : null
               }
               position={project?.position || ""}
+              favButton={favButton}
+              favorite={project.favorite}
+              updateFavoriteCallback={updateFavoriteCallback}
             />
           </div>
         ))}
