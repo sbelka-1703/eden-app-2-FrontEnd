@@ -18,7 +18,6 @@ export const ProjectCard = ({
   project,
   avatar,
   percentage,
-  position,
   favButton = false,
   favorite = false,
   updateFavoriteCallback,
@@ -44,11 +43,14 @@ export const ProjectCard = ({
                 {project.description}
               </div>
               <div className={`mt-2 flex`}>
-                <span
-                  className={`bg-soilPurple/20 mr-2 rounded-full px-2 py-1 text-xs`}
-                >
-                  {position}
-                </span>
+                {project.role?.map((role, index) => (
+                  <span
+                    key={index}
+                    className={`bg-soilPurple/20 mr-2 rounded-full px-2 py-1 text-xs`}
+                  >
+                    {role?.title}
+                  </span>
+                ))}
               </div>
             </div>
             {percentage && (
