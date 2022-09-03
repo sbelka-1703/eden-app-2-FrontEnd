@@ -7,7 +7,7 @@ export interface ProjectsContainerProps {
   allProjects?: any;
   favouriteProjects?: any;
   recommendedProjects?: any;
-  updateFavoriteCallback: Function;
+  updateFavoriteCallback?: Function;
 }
 
 export const ProjectsContainer = ({
