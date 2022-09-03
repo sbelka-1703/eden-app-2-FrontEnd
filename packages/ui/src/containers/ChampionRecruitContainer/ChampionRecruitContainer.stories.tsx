@@ -1,5 +1,5 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { member } from "storybook/mocks";
+import { getMember } from "storybook/mocks";
 
 import { ChampionRecruitContainer } from "./ChampionRecruitContainer";
 
@@ -14,4 +14,4 @@ const Template: ComponentStory<typeof ChampionRecruitContainer> = (args) => (
 );
 
 export const Default = Template.bind({});
-Default.args = { member };
+Default.args = { member: getMember() };
