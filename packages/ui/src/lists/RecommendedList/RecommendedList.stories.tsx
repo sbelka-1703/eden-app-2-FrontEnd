@@ -1,5 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { getProject } from "storybook/mocks";
 
 import { RecommendedList } from "./RecommendedList";
 
@@ -12,14 +13,9 @@ export default {
 const getProjects = () =>
   Array.from({ length: 6 }, () => {
     return {
-      projectData: {
-        title: faker.company.name(),
-        description: faker.company.catchPhrase(),
-      },
+      projectData: getProject(),
       avatar: faker.internet.avatar(),
-      __typename: "Project",
-      title: faker.company.name(),
-      description: faker.company.catchPhrase(),
+      matchPercentage: Number(faker.random.numeric(2)),
     };
   });
 
@@ -29,6 +25,5 @@ const Template: ComponentStory<typeof RecommendedList> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  // @ts-ignore
   projects: getProjects(),
 };

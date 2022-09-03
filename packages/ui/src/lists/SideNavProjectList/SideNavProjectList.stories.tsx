@@ -1,10 +1,9 @@
 import { faker } from "@faker-js/faker";
 import { Maybe, ProjectMemberType } from "@graphql/eden/generated";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { getProject } from "storybook/mocks";
 
 import { SideNavProjectList } from "./SideNavProjectList";
-
-// import { getProject } from "storybook/mocks";
 
 export default {
   title: "Lists/SideNavProjectList",
@@ -15,14 +14,8 @@ export default {
 const getProjects = () =>
   Array.from({ length: 6 }, () => {
     return {
-      info: {
-        title: faker.company.name(),
-        description: faker.company.catchPhrase(),
-      },
+      info: getProject(),
       avatar: faker.internet.avatar(),
-      __typename: "Project",
-      title: faker.company.name(),
-      description: faker.company.catchPhrase(),
       champion: true,
     };
   });
