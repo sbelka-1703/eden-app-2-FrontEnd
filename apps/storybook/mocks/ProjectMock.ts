@@ -1,6 +1,28 @@
 import { faker } from "@faker-js/faker";
+import { PhaseType } from "@graphql/eden/generated";
 
-import { member } from "./MembersMock";
+import { getMember } from "./MembersMock";
+
+const phase = ["committed", "engaged", "rejected", "shortlisted", "invited"];
+
+const randomTeamType = () =>
+  Array.from({ length: 40 }, () => {
+    return {
+      _id: String(faker.random.numeric(5)),
+      phase: faker.helpers.arrayElements(phase, 1)[0] as PhaseType,
+      memberInfo: getMember(),
+    };
+  });
+
+const randomTeam = () =>
+  Array.from({ length: 40 }, () => {
+    return {
+      _id: String(faker.random.numeric(5)),
+      champion: getMember(),
+      name: faker.name.firstName(),
+      description: faker.lorem.paragraph(),
+    };
+  });
 
 export const project = {
   _id: String(faker.random.numeric(5)),
@@ -9,7 +31,7 @@ export const project = {
     token: faker.finance.amount(0, 100, 2),
     totalBudget: faker.finance.amount(0, 100, 2),
   },
-  champion: member,
+  champion: getMember(),
   collaborationLinks: [
     {
       link: faker.internet.url(),
@@ -25,33 +47,13 @@ export const project = {
     },
   ],
   dates: {
-    complition: faker.date.future(),
-    kickOff: faker.date.future(),
+    complition: "1662161995158",
+    kickOff: "1662161995158",
   },
   description: faker.lorem.sentences(5),
+  team: randomTeamType(),
   // eslint-disable-next-line camelcase
-  garden_teams: [
-    {
-      _id: String(faker.random.numeric(5)),
-      champion: member,
-      description: faker.lorem.sentences(5),
-      members: [member, member],
-      name: faker.name.firstName(),
-      projects: [],
-      roles: [],
-      serverID: [],
-    },
-    {
-      _id: String(faker.random.numeric(5)),
-      champion: member,
-      description: faker.lorem.sentences(5),
-      members: [member, member],
-      name: faker.name.firstName(),
-      projects: [],
-      roles: [],
-      serverID: [],
-    },
-  ],
+  garden_teams: randomTeam(),
   role: [
     {
       _id: String(faker.random.numeric(5)),
@@ -61,22 +63,20 @@ export const project = {
         token: faker.finance.amount(0, 100, 2),
         totalBudget: faker.finance.amount(0, 100, 2),
       },
-      dateRangeEnd: faker.date.future(),
-      dateRangeStart: faker.date.future(),
+      dateRangeEnd: "1662161995158",
+      dateRangeStart: "1662161995158",
       description: faker.lorem.sentences(5),
       hoursPerWeek: Number(faker.random.numeric(2)),
       skills: [
         {
-          _id: String(faker.random.numeric(5)),
-          name: faker.name.firstName(),
+          comment: faker.lorem.sentences(1),
+          level: faker.lorem.sentences(1),
+          numEndorsement: String(faker.random.numeric(2)),
         },
         {
-          _id: String(faker.random.numeric(5)),
-          name: faker.name.firstName(),
-        },
-        {
-          _id: String(faker.random.numeric(5)),
-          name: faker.name.firstName(),
+          comment: faker.lorem.sentences(1),
+          level: faker.lorem.sentences(1),
+          numEndorsement: String(faker.random.numeric(2)),
         },
       ],
       title: faker.name.firstName(),
@@ -89,22 +89,20 @@ export const project = {
         token: faker.finance.amount(0, 100, 2),
         totalBudget: faker.finance.amount(0, 100, 2),
       },
-      dateRangeEnd: faker.date.future(),
-      dateRangeStart: faker.date.future(),
+      dateRangeEnd: "1662161995158",
+      dateRangeStart: "1662161995158",
       description: faker.lorem.sentences(5),
       hoursPerWeek: Number(faker.random.numeric(2)),
       skills: [
         {
-          _id: String(faker.random.numeric(5)),
-          name: faker.name.firstName(),
+          comment: faker.lorem.sentences(1),
+          level: faker.lorem.sentences(1),
+          numEndorsement: String(faker.random.numeric(2)),
         },
         {
-          _id: String(faker.random.numeric(5)),
-          name: faker.name.firstName(),
-        },
-        {
-          _id: String(faker.random.numeric(5)),
-          name: faker.name.firstName(),
+          comment: faker.lorem.sentences(1),
+          level: faker.lorem.sentences(1),
+          numEndorsement: String(faker.random.numeric(2)),
         },
       ],
       title: faker.name.firstName(),
@@ -112,4 +110,8 @@ export const project = {
   ],
   serverID: [faker.internet.url(), faker.internet.url(), faker.internet.url()],
   title: faker.name.firstName(),
+};
+
+export const getProject = () => {
+  return project;
 };

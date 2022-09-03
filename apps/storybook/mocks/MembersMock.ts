@@ -33,7 +33,7 @@ const links = [
   },
 ];
 
-const getSkills = () =>
+export const getSkills = () =>
   Array.from({ length: 6 }, () => {
     return {
       skillInfo: {
@@ -44,45 +44,6 @@ const getSkills = () =>
       __typename: "skillType_member",
     };
   });
-
-export const member = {
-  _id: String(faker.random.numeric(5)),
-  bio: faker.lorem.sentences(5),
-  content: {
-    interest: faker.lorem.lines(),
-    mostProud: faker.lorem.sentences(5),
-    showCaseAbility: faker.lorem.sentences(4),
-  },
-  discordAvatar: faker.internet.avatar(),
-  discordName: faker.internet.userName(),
-  discriminator: faker.random.numeric(4),
-  hoursPerWeek: Number(faker.random.numeric(2)),
-  interest: faker.lorem.paragraph(),
-  links,
-  previusProjects: [
-    {
-      title: "Sabre Corporation · Fulltime",
-      positionName: "SCRUM MASTER",
-      description: faker.lorem.paragraph(),
-      link: "https://www.google.com",
-      startDate: "Oct 2019",
-      endDate: "present",
-      picture: faker.image.image(),
-    },
-    {
-      title: "Sabre Corporation · Fulltime",
-      positionName: "PROJECT MANAGER",
-      description: faker.lorem.paragraph(),
-      link: "https://www.google.com",
-      startDate: "March 2015",
-      endDate: "Oct 2019",
-      picture: faker.image.image(),
-    },
-  ],
-  serverID: faker.random.numeric(12),
-  skills: getSkills(),
-  timeZone: faker.address.timeZone(),
-};
 
 export const getMember = () =>
   ({
@@ -101,9 +62,22 @@ export const getMember = () =>
     links,
     previusProjects: [
       {
+        title: "Sabre Corporation · Fulltime",
+        positionName: "SCRUM MASTER",
         description: faker.lorem.paragraph(),
-        title: "title",
-        positionName: "positionName",
+        link: "https://www.google.com",
+        startDate: "Oct 2019",
+        endDate: "present",
+        picture: faker.image.image(),
+      },
+      {
+        title: "Sabre Corporation · Fulltime",
+        positionName: "PROJECT MANAGER",
+        description: faker.lorem.paragraph(),
+        link: "https://www.google.com",
+        startDate: "March 2015",
+        endDate: "Oct 2019",
+        picture: faker.image.image(),
       },
     ],
     serverID: faker.random.numeric(12),
