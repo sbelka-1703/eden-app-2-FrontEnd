@@ -1,5 +1,5 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { faker } from "@faker-js/faker";
+import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { OpenOrClosed, ProjectStatusCard } from "./ProjectStatusCard";
 
@@ -9,7 +9,9 @@ export default {
   argTypes: {},
 } as ComponentMeta<typeof ProjectStatusCard>;
 
-const Template: ComponentStory<typeof ProjectStatusCard> = (args) => <ProjectStatusCard {...args} />;
+const Template: ComponentStory<typeof ProjectStatusCard> = (args) => (
+  <ProjectStatusCard {...args} />
+);
 
 export const Default = Template.bind({});
 Default.args = {
@@ -46,5 +48,5 @@ Default.args = {
       name: "Application Shortlisted",
       completed: false,
     },
-  ]
+  ],
 };
