@@ -1,6 +1,11 @@
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { UserContext } from "@context/eden";
-import { FIND_PROJECTS, FIND_PROJECTS_RECOMMENDED } from "@graphql/eden";
+import {
+  ADD_FAVOURITE_PROJECT_TO_MEMBER,
+  FIND_PROJECTS,
+  FIND_PROJECTS_RECOMMENDED,
+} from "@graphql/eden";
+import { Project } from "@graphql/eden/generated";
 import type { NextPage } from "next";
 import { useContext } from "react";
 import {
@@ -42,6 +47,22 @@ const ProjectsPage: NextPage = () => {
   // if (dataProjectsRecommended)
   //   console.log("dataProjectsRecommended", dataProjectsRecommended);
 
+  const [updateFavorite] = useMutation(ADD_FAVOURITE_PROJECT_TO_MEMBER, {});
+
+  const updateFavoriteCallback = (project: Project) => {
+    updateFavorite({
+      variables: {
+        fields: {
+          memberID: currentUser?._id,
+          projectID: project._id,
+          favorite: !currentUser?.projects?.find(
+            (proj) => proj?.info?._id === project._id
+          )?.favorite,
+        },
+      },
+    });
+  };
+
   return (
     <GridLayout>
       <GridItemThree>
@@ -54,6 +75,7 @@ const ProjectsPage: NextPage = () => {
           recommendedProjects={
             dataProjectsRecommended?.findProjects_RecommendedToUser
           }
+          updateFavoriteCallback={updateFavoriteCallback}
         />
       </GridItemSix>
       <GridItemThree>

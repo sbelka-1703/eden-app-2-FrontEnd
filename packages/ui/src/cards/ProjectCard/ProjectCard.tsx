@@ -8,6 +8,7 @@ export interface ProjectCardProps {
   avatar?: string;
   percentage?: number;
   position?: string;
+  applyButton?: boolean;
   favButton?: boolean;
   favorite?: boolean;
   updateFavoriteCallback?: Function;
@@ -18,6 +19,7 @@ export const ProjectCard = ({
   project,
   avatar,
   percentage,
+  applyButton = false,
   favButton = false,
   favorite = false,
   updateFavoriteCallback,
@@ -30,12 +32,12 @@ export const ProjectCard = ({
   const round = (num: number) => Math.round(num * 10) / 10;
 
   return (
-    <Card border focused={focused}>
+    <Card border focused={focused} className="px-4 py-4">
       <div className="flex justify-between">
         <div>
-          <Avatar src={avatar} size="sm" />
+          <Avatar src={avatar} size="md" />
         </div>
-        <div className={`w-full pl-6`}>
+        <div className={`w-full pl-4`}>
           <div className="flex h-full">
             <div className={`-mt-2 mr-auto`}>
               <div className={`text-xl`}>{project.title}</div>
@@ -69,25 +71,27 @@ export const ProjectCard = ({
               >
                 <Favorite
                   favorite={favorite}
-                  onFavorite={() => updateFavoriteCallback()}
+                  onFavorite={() => updateFavoriteCallback(project)}
                 />
               </div>
             )}
-            <div
-              className={`flex h-full flex-col items-center border-l px-4 last:pr-0`}
-            >
-              <div className={`my-auto`}>
-                <Button
-                  variant={`primary`}
-                  onClick={() => router.push(`/apply/${project._id}`)}
-                >
-                  Apply
-                  <span className={`my-auto pl-2`}>
-                    <BsArrowRight />
-                  </span>
-                </Button>
+            {applyButton && (
+              <div
+                className={`flex h-full flex-col items-center border-l px-4 last:pr-0`}
+              >
+                <div className={`my-auto`}>
+                  <Button
+                    variant={`primary`}
+                    onClick={() => router.push(`/apply/${project._id}`)}
+                  >
+                    Apply
+                    <span className={`my-auto pl-2`}>
+                      <BsArrowRight />
+                    </span>
+                  </Button>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
