@@ -1,7 +1,11 @@
 // TODO: Create a test file for this component //
 
 import { useQuery } from "@apollo/client";
-import { FIND_ALL_SKILLS, SKILLS_AUTOCOMPLETE } from "@graphql/eden";
+import {
+  FIND_ALL_CATEGORIES,
+  FIND_SKILL_BY_CATEGORIES,
+  SKILLS_AUTOCOMPLETE,
+} from "@graphql/eden";
 import { Combobox } from "@headlessui/react";
 import { EmojiSadIcon } from "@heroicons/react/outline";
 import { SearchIcon } from "@heroicons/react/solid";
@@ -26,37 +30,67 @@ function Selector({ title, onClick }: SelectorProps) {
 type ExpandableProps = {
   category: string;
   skills: SelectedSkill[];
-  allSkills: Skills[];
+  allSkills?: any;
   isOpen: boolean;
   selected: number | null;
   setSkills: any;
   setIsOpen: any;
   setSelected: any;
+  id: string;
+  query: string;
 };
 
 function Expandable({
   category,
-  allSkills,
   skills,
   isOpen,
   selected,
+  allSkills,
   setSkills,
   setIsOpen,
   setSelected,
+  id,
+  query,
 }: ExpandableProps) {
   const [isExandingOpen, setIsExpandingOpen] = useState<boolean>(false);
+
+  const [idSelected, setIdSelected] = useState<string | null>(null);
+
+  const useGetSkills = (id: string) => {
+    const { data: allSkillsByCategory } = useQuery(FIND_SKILL_BY_CATEGORIES, {
+      variables: {
+        fields: { _id: id },
+      },
+    });
+
+    return allSkillsByCategory
+      ? allSkillsByCategory.findSkillSubCategory.skills
+      : [];
+  };
+
+  const fetchedSkills = useGetSkills(idSelected!);
 
   return (
     <div className="w-full">
       <div
-        onClick={() => setIsExpandingOpen(!isExandingOpen)}
+        onClick={() => {
+          setIsExpandingOpen(!isExandingOpen);
+          if (query === "") {
+            setIdSelected(id);
+          }
+        }}
         className="flex w-full cursor-pointer items-center justify-between bg-[#ffffff] px-3 py-2 font-bold"
       >
         {category}
         <p className="underline">{isExandingOpen ? "Hide" : "Show"}</p>
       </div>
       {isExandingOpen &&
-        allSkills.map((item) => (
+        (query === ""
+          ? fetchedSkills
+          : allSkills?.filter(
+              (s: any) => s.subCategorySkill[0].name === category
+            )
+        ).map((item: any) => (
           <div
             onClick={() => {
               if (skills.filter((s) => s.id === item._id).length > 0) {
@@ -198,8 +232,8 @@ type SelectedSkill = {
 
 export interface SearchBarProps {
   allSkills?: Skills[];
-  skills?: SelectedSkill[];
-  setSkills?: any;
+  skills: SelectedSkill[];
+  setSkills: any;
 }
 
 export const SearchBar = ({ skills, setSkills }: SearchBarProps) => {
@@ -218,29 +252,24 @@ export const SearchBar = ({ skills, setSkills }: SearchBarProps) => {
   });
 
   const { data: AllSkillsData, loading: AllSkillsDataLoading } =
-    useQuery(FIND_ALL_SKILLS);
+    useQuery(FIND_ALL_CATEGORIES);
 
-  const AllSkillWithCategoery: Skills[] = useMemo(() => [], []);
+  const AllCategoery: any = useMemo(() => [], []);
 
   useEffect(() => {
     if (AllSkillsData && AllSkillsDataLoading === false) {
       AllSkillsData.findSkillSubCategories.forEach((skill: any) => {
-        const category = skill.name;
-
-        skill.skills.forEach((s: Skills) => {
-          AllSkillWithCategoery.push({
-            _id: s._id,
-            name: s.name,
-            category: category,
-          });
+        AllCategoery.push({
+          _id: skill._id,
+          category: skill.name,
         });
       });
     }
   }, [AllSkillsData, AllSkillsDataLoading]);
 
   // useEffect(() => {
-  //   console.log("All skills=====================", AllSkillWithCategoery);
-  // }, [AllSkillWithCategoery]);
+  //   console.log("All skills=====================", AllCategoery);
+  // }, [AllCategoery]);
 
   const filteredItems = dataSkills
     ? dataSkills.skills_autocomplete?.filter((item: any) => {
@@ -260,7 +289,8 @@ export const SearchBar = ({ skills, setSkills }: SearchBarProps) => {
     };
   }, {});
 
-  const allSkillGroup = AllSkillWithCategoery?.reduce((groups, item) => {
+  // @ts-ignore
+  const allSkillGroup = AllCategoery?.reduce((groups, item) => {
     return {
       ...groups,
       // @ts-ignore
@@ -305,17 +335,15 @@ export const SearchBar = ({ skills, setSkills }: SearchBarProps) => {
           className="max-h-80 scroll-pt-11 scroll-pb-2 space-y-2 overflow-y-auto pb-2"
         >
           {Object.entries(
-            inFocus && query === "" ? allSkillGroup : groups!
-          ).map(([category]) => (
+            query === "" && inFocus ? allSkillGroup : groups!
+          ).map(([category, id]) => (
             <Expandable
+              query={query}
               category={category}
               // @ts-ignore
-              allSkills={
-                inFocus && query === ""
-                  ? AllSkillWithCategoery
-                  : dataSkills.skills_autocomplete
-              }
+              id={id[0]._id}
               skills={skills!}
+              allSkills={query !== "" && dataSkills.skills_autocomplete}
               isOpen={isOpen}
               selected={selected}
               setIsOpen={setIsOpen}
