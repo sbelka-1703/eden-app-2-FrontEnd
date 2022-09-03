@@ -1,7 +1,10 @@
 import { faker } from "@faker-js/faker";
+import { Maybe, ProjectMemberType } from "@graphql/eden/generated";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { SideNavProjectList } from "./SideNavProjectList";
+
+// import { getProject } from "storybook/mocks";
 
 export default {
   title: "Lists/SideNavProjectList",
@@ -20,6 +23,7 @@ const getProjects = () =>
       __typename: "Project",
       title: faker.company.name(),
       description: faker.company.catchPhrase(),
+      champion: true,
     };
   });
 
@@ -29,6 +33,5 @@ const Template: ComponentStory<typeof SideNavProjectList> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  // @ts-ignore
-  projects: getProjects(),
+  projects: getProjects() as Maybe<Array<Maybe<ProjectMemberType>>>,
 };
