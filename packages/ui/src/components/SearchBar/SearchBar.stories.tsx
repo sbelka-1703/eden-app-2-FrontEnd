@@ -15,14 +15,4 @@ const Template: ComponentStory<typeof SearchBar> = (args) => {
   return <SearchBar {...args} skills={skills} setSkills={setSkills} />;
 };
 
-const allSkills = [
-  { id: 1, name: "Reactjs", category: "Frontend" },
-  { id: 2, name: "Nextjs", category: "Frontend" },
-  { id: 3, name: "Node", category: "Backend" },
-  { id: 4, name: "Express", category: "Backend" },
-];
-
 export const Default = Template.bind({});
-Default.args = {
-  allSkills: allSkills,
-};

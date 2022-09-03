@@ -232,8 +232,8 @@ type SelectedSkill = {
 
 export interface SearchBarProps {
   allSkills?: Skills[];
-  skills?: SelectedSkill[];
-  setSkills?: any;
+  skills: SelectedSkill[];
+  setSkills: any;
 }
 
 export const SearchBar = ({ skills, setSkills }: SearchBarProps) => {
