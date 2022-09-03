@@ -28,6 +28,5 @@ const Template: ComponentStory<typeof ProjectList> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  // @ts-ignore
   projects: getProjects(),
 };

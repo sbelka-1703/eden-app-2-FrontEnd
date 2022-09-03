@@ -7,6 +7,43 @@ export const MEMBER_SUBSCRIPTION = gql`
       discordAvatar
       discordName
       bio
+      content {
+        interest
+        mostProud
+        showCaseAbility
+      }
+      attributes {
+        Coordinator
+        Director
+        Helper
+        Inspirer
+        Motivator
+        Observer
+        Reformer
+        Supporter
+      }
+      archiveProjects
+      discriminator
+      hoursPerWeek
+      interest
+      timeZone
+      projects {
+        phase
+        champion
+        favorite
+        info {
+          _id
+          description
+          title
+          team {
+            phase
+          }
+        }
+      }
+      links {
+        name
+        url
+      }
       skills {
         skillInfo {
           _id
