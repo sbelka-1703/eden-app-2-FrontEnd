@@ -109,6 +109,23 @@ export const ChampionRecruitContainer = ({
               >
                 SHORTLIST
               </Button>
+              <Button
+                disabled={submitting}
+                variant={`primary`}
+                onClick={() => {
+                  changeTeamMember_Phase_Project({
+                    variables: {
+                      fields: {
+                        projectID: project?._id,
+                        memberID: member?._id,
+                        phase: "invited",
+                      },
+                    },
+                  });
+                }}
+              >
+                Invite
+              </Button>
             </div>
           </div>
         </div>

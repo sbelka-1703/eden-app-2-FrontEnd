@@ -1,11 +1,11 @@
+import { RoleTemplate } from "@graphql/eden/generated";
 import { useEffect, useState } from "react";
 import { AiOutlineDoubleLeft, AiOutlineDoubleRight } from "react-icons/ai";
-import { IRole } from "ui";
 
 export interface IRoleCandidateSelectorProps {
-  roles?: IRole[];
+  roles?: RoleTemplate[];
   // eslint-disable-next-line no-unused-vars
-  onSelect?: (role: IRole) => void;
+  onSelect?: (role: RoleTemplate) => void;
 }
 
 export const RoleCandidateSelector = ({

@@ -27,6 +27,12 @@ export const UserProfileMenu = ({ title }: IUserProfileMenuProps) => {
 
   // console.log("committedProjects", committedProjects);
 
+  const invitedProjects = currentUser?.projects?.filter(
+    (project: any) => project.phase === "invited"
+  );
+
+  // console.log("invitedProjects", invitedProjects);
+
   const championProjects = currentUser?.projects?.filter(
     (project: any) => project.champion
   );
@@ -55,13 +61,12 @@ export const UserProfileMenu = ({ title }: IUserProfileMenuProps) => {
             counterBadge={engagedProjects?.length || 0}
             onFunctionCallback={() => router.push(`/applications`)}
           />
-          {/* TODO: Don't have a phase status for invite yet */}
-          {/* <MenuItem
+          <MenuItem
             Icon={<MdFactCheck size={25} />}
             FunctionName="Invites"
-            counterBadge={currentUser?.projects?.length || 0}
+            counterBadge={invitedProjects?.length || 0}
             onFunctionCallback={() => router.push(`/invites`)}
-          /> */}
+          />
           <MenuItem
             Icon={<MdCreateNewFolder size={25} />}
             FunctionName="My Projects"
@@ -73,6 +78,11 @@ export const UserProfileMenu = ({ title }: IUserProfileMenuProps) => {
             FunctionName="Champion Projects"
             counterBadge={championProjects?.length || 0}
             onFunctionCallback={() => router.push(`/champion-board`)}
+          />
+          <MenuItem
+            Icon={<MdCreateNewFolder size={25} />}
+            FunctionName="Launch A Project"
+            onFunctionCallback={() => router.push(`/launch`)}
           />
         </div>
       </div>
