@@ -8,6 +8,7 @@ export interface ProjectCardProps {
   avatar?: string;
   percentage?: number;
   position?: string;
+  applyButton?: boolean;
   favButton?: boolean;
   favorite?: boolean;
   updateFavoriteCallback?: Function;
@@ -18,6 +19,7 @@ export const ProjectCard = ({
   project,
   avatar,
   percentage,
+  applyButton = false,
   favButton = false,
   favorite = false,
   updateFavoriteCallback,
@@ -73,21 +75,23 @@ export const ProjectCard = ({
                 />
               </div>
             )}
-            <div
-              className={`flex h-full flex-col items-center border-l px-4 last:pr-0`}
-            >
-              <div className={`my-auto`}>
-                <Button
-                  variant={`primary`}
-                  onClick={() => router.push(`/apply/${project._id}`)}
-                >
-                  Apply
-                  <span className={`my-auto pl-2`}>
-                    <BsArrowRight />
-                  </span>
-                </Button>
+            {applyButton && (
+              <div
+                className={`flex h-full flex-col items-center border-l px-4 last:pr-0`}
+              >
+                <div className={`my-auto`}>
+                  <Button
+                    variant={`primary`}
+                    onClick={() => router.push(`/apply/${project._id}`)}
+                  >
+                    Apply
+                    <span className={`my-auto pl-2`}>
+                      <BsArrowRight />
+                    </span>
+                  </Button>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>

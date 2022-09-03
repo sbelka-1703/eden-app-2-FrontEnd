@@ -48,8 +48,10 @@ export const ProjectsContainer = ({
             updateFavoriteCallback={updateFavoriteCallback}
           />
         )}
-        {activeTab === 1 && <ProjectList projects={favourites} />}
-        {activeTab === 2 && <ProjectList projects={recommendedProjects} />}
+        {activeTab === 1 && <ProjectList projects={favourites} applyButton />}
+        {activeTab === 2 && (
+          <ProjectList projects={recommendedProjects} applyButton />
+        )}
       </div>
     </div>
   );
