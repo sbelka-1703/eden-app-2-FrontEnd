@@ -15,6 +15,6 @@ const Template: ComponentStory<typeof FormStepper> = (args) => (
 export const Default = Template.bind({});
 
 Default.args = {
-  maxSteps: 6,
-  step: 3,
+  currentStep: 3,
+  numberofSteps: 6,
 };

@@ -126,7 +126,10 @@ export const LaunchContainer = ({ servers, roles }: LaunchPageProps) => {
         <div className={`relative h-full`}>
           <div className={`p-6`}>
             {currentIndex <= maxSteps && (
-              <FormStepper step={currentIndex} maxSteps={maxSteps} />
+              <FormStepper
+                currentStep={currentIndex}
+                numberofSteps={maxSteps}
+              />
             )}
           </div>
 
