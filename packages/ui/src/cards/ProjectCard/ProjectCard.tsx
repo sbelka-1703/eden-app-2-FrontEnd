@@ -37,7 +37,7 @@ export const ProjectCard = ({
         <div>
           <Avatar src={avatar} size="md" />
         </div>
-        <div className={`w-full pl-6`}>
+        <div className={`w-full pl-4`}>
           <div className="flex h-full">
             <div className={`-mt-2 mr-auto`}>
               <div className={`text-xl`}>{project.title}</div>
