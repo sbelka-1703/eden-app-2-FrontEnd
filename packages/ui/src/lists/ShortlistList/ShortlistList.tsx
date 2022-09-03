@@ -21,12 +21,14 @@ export const ShortlistList = ({ project }: ShortlistListProps) => {
       <div className={`h-8/10 scrollbar-hide overflow-y-scroll`}>
         {project?.team?.map((member, index) => (
           <div key={index} className={`my-3 w-full px-1`}>
-            <UserCard
-              member={member?.memberInfo}
-              // percentage={matchPercentage}
-              // endorsements={endorsements}
-              // focused={isFocused}
-            />
+            {member && member.phase === "shortlisted" && (
+              <UserCard
+                member={member?.memberInfo}
+                // percentage={matchPercentage}
+                // endorsements={endorsements}
+                // focused={isFocused}
+              />
+            )}
           </div>
         ))}
       </div>

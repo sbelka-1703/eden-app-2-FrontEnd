@@ -8,6 +8,7 @@ import {
   GridItemSix,
   GridItemThree,
   GridLayout,
+  ProjectList,
   RecommendedList,
   UserProfileMenu,
 } from "ui";
@@ -28,6 +29,12 @@ const InvitePage: NextPage = () => {
     }
   );
 
+  const invitedProjects = currentUser?.projects?.filter(
+    (project: any) => project.phase === "invited"
+  );
+
+  // console.log("engagedProjects", engagedProjects);
+
   return (
     <GridLayout>
       <GridItemThree>
@@ -36,6 +43,7 @@ const InvitePage: NextPage = () => {
       <GridItemSix>
         <Card shadow className="h-8/10 bg-white p-6">
           <div className={`text-2xl font-medium text-black/80`}>My Invites</div>
+          <ProjectList projects={invitedProjects} />
         </Card>
       </GridItemSix>
       <GridItemThree>

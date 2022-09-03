@@ -17,6 +17,7 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
+          <link rel="shortcut icon" href="/favicon.ico" />
           <link
             href="https://fonts.googleapis.com/css2?family=Poppins&display=optional"
             rel="stylesheet"
