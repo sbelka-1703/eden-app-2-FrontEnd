@@ -35,7 +35,7 @@ export const ProjectCard = ({
     <Card border focused={focused}>
       <div className="flex justify-between">
         <div>
-          <Avatar src={avatar} size="sm" />
+          <Avatar src={avatar} size="md" />
         </div>
         <div className={`w-full pl-6`}>
           <div className="flex h-full">
