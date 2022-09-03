@@ -88,15 +88,17 @@ export const apolloClient = new ApolloClient({
     typePolicies: {
       Query: {
         fields: {
-          findMember: {
-            keyArgs: ["_id"],
-          },
+          // freezes the cache
+          // findMember: {
+          //   keyArgs: ["_id"],
+          // },
           findMembers: {
             keyArgs: ["_id"],
           },
-          findProject: {
-            keyArgs: ["_id"],
-          },
+          // freezes the cache
+          // findProject: {
+          //   keyArgs: ["_id"],
+          // },
           findProjects: {
             keyArgs: ["_id"],
           },
