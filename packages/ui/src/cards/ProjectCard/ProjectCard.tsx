@@ -32,7 +32,7 @@ export const ProjectCard = ({
   const round = (num: number) => Math.round(num * 10) / 10;
 
   return (
-    <Card border focused={focused}>
+    <Card border focused={focused} className="px-4 py-4">
       <div className="flex justify-between">
         <div>
           <Avatar src={avatar} size="md" />
