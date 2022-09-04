@@ -22,7 +22,9 @@ const SET_APPLY_TO_PROJECT = gql`
   }
 `;
 
-const tabs = ["General", "Background", "Endorsements"];
+// const tabs = ["General", "Background", "Endorsements"];
+// TODO: disabled Endorsements tab until data on backend is ready
+const tabs = ["General", "Background"];
 
 export interface ChampionRecruitContainerProps {
   project?: Project;
