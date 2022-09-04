@@ -9,16 +9,16 @@ const kickOffDate: DateCardProps = {
   dayOfMonth: 22,
   month: "AUG",
   year: 22,
-}
+};
 
 const appliedDate: DateCardProps = {
   type: "secondary",
   dayOfMonth: 22,
   month: "AUG",
   year: 22,
-}
+};
 
-const   progressSteps = [
+const progressSteps = [
   {
     name: "Applied",
     completed: true,
@@ -35,7 +35,7 @@ const   progressSteps = [
     name: "Application Shortlisted",
     completed: false,
   },
-]
+];
 
 describe("ProjectStatusCard", () => {
   it("renders without throwing", () => {

@@ -1,18 +1,6 @@
 import { faker } from "@faker-js/faker";
 
-const skills = [
-  "3D",
-  "Solidity",
-  "Design",
-  "Fullstack",
-  "React",
-  "Node.js",
-  "Mentorship",
-  "Figma",
-  "Adobe",
-  "Tailwind",
-  "Leadership",
-];
+import { skills } from "./skills";
 
 const links = [
   {
@@ -33,17 +21,26 @@ const links = [
   },
 ];
 
-export const getSkills = () =>
-  Array.from({ length: 6 }, () => {
+export const getSkills = (total: number) =>
+  Array.from({ length: total }, () => {
     return {
-      skillInfo: {
-        _id: Number(faker.random.numeric(5)),
-        name: faker.helpers.uniqueArray(skills, 1),
-        __typename: "Skills",
-      },
-      __typename: "skillType_member",
+      skillInfo: faker.helpers.uniqueArray(skills, 1)[0],
     };
   });
+
+// TODO: question about keys for this object, should there be a company key?  and what is the difference between title and positionName?
+export const getPreviusProjects = () => ({
+  title: "Sabre Corporation · Fulltime",
+  positionName: faker.name.jobTitle(),
+  description: faker.lorem.paragraph(),
+  link: "https://www.google.com",
+  startDate: "Oct 2019",
+  endDate: "present",
+  picture: faker.image.image(),
+});
+
+export const getPreviusProjectsArray = () =>
+  Array.from({ length: 4 }, () => getPreviusProjects());
 
 export const getMember = () =>
   ({
@@ -60,27 +57,28 @@ export const getMember = () =>
     hoursPerWeek: Number(faker.random.numeric(2)),
     interest: faker.lorem.paragraph(),
     links,
-    previusProjects: [
-      {
-        title: "Sabre Corporation · Fulltime",
-        positionName: "SCRUM MASTER",
-        description: faker.lorem.paragraph(),
-        link: "https://www.google.com",
-        startDate: "Oct 2019",
-        endDate: "present",
-        picture: faker.image.image(),
-      },
-      {
-        title: "Sabre Corporation · Fulltime",
-        positionName: "PROJECT MANAGER",
-        description: faker.lorem.paragraph(),
-        link: "https://www.google.com",
-        startDate: "March 2015",
-        endDate: "Oct 2019",
-        picture: faker.image.image(),
-      },
-    ],
+    previusProjects: getPreviusProjectsArray(),
+    // previusProjects: [
+    //   {
+    //     title: "Sabre Corporation · Fulltime",
+    //     positionName: "SCRUM MASTER",
+    //     description: faker.lorem.paragraph(),
+    //     link: "https://www.google.com",
+    //     startDate: "Oct 2019",
+    //     endDate: "present",
+    //     picture: faker.image.image(),
+    //   },
+    //   {
+    //     title: "Sabre Corporation · Fulltime",
+    //     positionName: "PROJECT MANAGER",
+    //     description: faker.lorem.paragraph(),
+    //     link: "https://www.google.com",
+    //     startDate: "March 2015",
+    //     endDate: "Oct 2019",
+    //     picture: faker.image.image(),
+    //   },
+    // ],
     serverID: faker.random.numeric(12),
-    skills: getSkills(),
+    skills: getSkills(Number(faker.random.numeric(1))),
     timeZone: faker.address.timeZone(),
   } as any);

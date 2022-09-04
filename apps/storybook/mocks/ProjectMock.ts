@@ -67,6 +67,7 @@ export const project = {
       dateRangeStart: "1662161995158",
       description: faker.lorem.sentences(5),
       hoursPerWeek: Number(faker.random.numeric(2)),
+      // skills: getSkills(Number(faker.random.numeric(1))),
       skills: [
         {
           comment: faker.lorem.sentences(1),

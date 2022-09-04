@@ -21,7 +21,7 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          <link rel="apple-touch-icon" sizes="192x192" href="/icon192.png" />
+          <link rel="apple-touch-icon" sizes="192x192" href="/logo192.png" />
           <link rel="icon" type="image/png" sizes="32x32" href="/logo32.png" />
           <link rel="icon" type="image/png" sizes="16x16" href="/logo16.png" />
           <meta property="og:url" content={appUrl} />
