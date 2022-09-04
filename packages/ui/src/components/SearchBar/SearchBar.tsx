@@ -129,7 +129,6 @@ function Expandable({
                   {/* <Selector
                     title="Interested"
                     onClick={() => {
-                      debugger;
                       setSkills([
                         ...skills,
                         {

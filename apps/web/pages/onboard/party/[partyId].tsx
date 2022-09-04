@@ -6,6 +6,7 @@ import {
   FIND_ROOM,
   FIND_SKILLS,
   MEMBER_UPDATED,
+  NEW_SKILL_IN_ROOM,
   ROOM_UPDATED,
   UPDATE_MEMBER,
 } from "@graphql/eden";
@@ -138,7 +139,6 @@ const OnboardPartyPage: NextPage = () => {
   const [updateMember] = useMutation(UPDATE_MEMBER, {});
 
   const handleSetSkills = (skills: SkillType_Member[]) => {
-    debugger;
     updateMember({
       variables: {
         fields: {
