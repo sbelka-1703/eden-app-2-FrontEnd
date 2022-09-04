@@ -4,7 +4,7 @@ import { IoIosExpand } from "react-icons/io";
 import { Card } from "ui";
 
 export interface UserInformationCardProps {
-  previousProjects?: PreviusProjectsType | null;
+  previousProjects?: PreviusProjectsType;
   isEditable?: boolean;
   onEdit?: () => void;
   onExpand?: () => void;
