@@ -1,11 +1,10 @@
 import { faker } from "@faker-js/faker";
-import { PhaseType } from "@graphql/eden/generated";
+import { PhaseType, Project } from "@graphql/eden/generated";
 
+import { phase } from "./data";
 import { getMember } from "./MembersMock";
 
-const phase = ["committed", "engaged", "rejected", "shortlisted", "invited"];
-
-const randomTeamType = () =>
+export const randomTeamType = () =>
   Array.from({ length: 40 }, () => {
     return {
       _id: String(faker.random.numeric(5)),
@@ -14,7 +13,7 @@ const randomTeamType = () =>
     };
   });
 
-const randomTeam = () =>
+export const randomTeam = () =>
   Array.from({ length: 40 }, () => {
     return {
       _id: String(faker.random.numeric(5)),
@@ -24,7 +23,7 @@ const randomTeam = () =>
     };
   });
 
-export const project = {
+export const project: Project = {
   _id: String(faker.random.numeric(5)),
   budget: {
     perHour: faker.finance.amount(0, 100, 2),
@@ -115,4 +114,8 @@ export const project = {
 
 export const getProject = () => {
   return project;
+};
+
+export const getProjectArray = (total: number) => {
+  return Array.from({ length: total }, () => getProject());
 };
