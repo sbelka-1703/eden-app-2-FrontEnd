@@ -6,6 +6,8 @@ import {
   FIND_SKILL_BY_CATEGORIES,
   SKILLS_AUTOCOMPLETE,
 } from "@graphql/eden";
+// eslint-disable-next-line camelcase
+import { Maybe, Skills, SkillType_Member } from "@graphql/eden/generated";
 import { Combobox } from "@headlessui/react";
 import { EmojiSadIcon } from "@heroicons/react/outline";
 import { SearchIcon } from "@heroicons/react/solid";
@@ -29,10 +31,11 @@ function Selector({ title, onClick }: SelectorProps) {
 
 type ExpandableProps = {
   category: string;
-  skills: SelectedSkill[];
-  allSkills?: any;
+  // eslint-disable-next-line camelcase
+  skills: Maybe<SkillType_Member>[];
+  allSkills?: Skills[];
   isOpen: boolean;
-  selected: number | null;
+  selected: string | null;
   setSkills: any;
   setIsOpen: any;
   setSelected: any;
@@ -93,7 +96,9 @@ function Expandable({
         ).map((item: any) => (
           <div
             onClick={() => {
-              if (skills.filter((s) => s.id === item._id).length > 0) {
+              if (
+                skills.filter((s) => s?.skillInfo?._id === item._id).length > 0
+              ) {
                 return;
               } else {
                 setSelected(item._id);
@@ -113,38 +118,42 @@ function Expandable({
               } items-center justify-between px-4 pt-4`}
             >
               {item.name}
-              {skills.filter((s) => s.id === item._id).length > 0 && (
-                <h1>ADDED</h1>
-              )}
+              {skills.filter((s) => s?.skillInfo?._id === item._id).length >
+                0 && <h1>ADDED</h1>}
             </div>
 
             {isOpen && selected === item._id && (
               <div className="bg-[#EDF2F7] px-4 pb-4 pt-2">
                 <p className="font-semibold text-[#AAAAAA]">Skill level</p>
                 <div className="flex gap-2">
-                  <Selector
+                  {/* <Selector
                     title="Interested"
                     onClick={() => {
+                      debugger;
                       setSkills([
                         ...skills,
                         {
-                          id: item._id,
-                          name: item.name,
-                          skillLevel: "interested",
+                          skillInfo: {
+                            _id: item._id,
+                            name: item.name,
+                          },
+                          level: "learning",
                         },
                       ]);
                       setIsOpen(false);
                     }}
-                  />
+                  /> */}
                   <Selector
                     title="Learning"
                     onClick={() => {
                       setSkills([
                         ...skills,
                         {
-                          id: item._id,
-                          name: item.name,
-                          skillLevel: "learning",
+                          skillInfo: {
+                            _id: item._id,
+                            name: item.name,
+                          },
+                          level: "learning",
                         },
                       ]);
                       setIsOpen(false);
@@ -156,9 +165,11 @@ function Expandable({
                       setSkills([
                         ...skills,
                         {
-                          id: item._id,
-                          name: item.name,
-                          skillLevel: "junior",
+                          skillInfo: {
+                            _id: item._id,
+                            name: item.name,
+                          },
+                          level: "junior",
                         },
                       ]);
                       setIsOpen(false);
@@ -170,9 +181,11 @@ function Expandable({
                       setSkills([
                         ...skills,
                         {
-                          id: item._id,
-                          name: item.name,
-                          skillLevel: "mid",
+                          skillInfo: {
+                            _id: item._id,
+                            name: item.name,
+                          },
+                          level: "mid",
                         },
                       ]);
                       setIsOpen(false);
@@ -184,9 +197,11 @@ function Expandable({
                       setSkills([
                         ...skills,
                         {
-                          id: item._id,
-                          name: item.name,
-                          skillLevel: "senior",
+                          skillInfo: {
+                            _id: item._id,
+                            name: item.name,
+                          },
+                          level: "senior",
                         },
                       ]);
                       setIsOpen(false);
@@ -198,9 +213,9 @@ function Expandable({
                       setSkills([
                         ...skills,
                         {
-                          id: item._id,
+                          _id: item._id,
                           name: item.name,
-                          skillLevel: "unknown",
+                          // skillLevel: "unknown",
                         },
                       ]);
                       setIsOpen(false);
@@ -218,21 +233,9 @@ function Expandable({
   );
 }
 
-type Skills = {
-  _id: number;
-  name: string;
-  category?: string;
-};
-
-type SelectedSkill = {
-  id: number;
-  name: string;
-  skillLevel: string;
-};
-
 export interface SearchBarProps {
-  allSkills?: Skills[];
-  skills: SelectedSkill[];
+  // eslint-disable-next-line camelcase
+  skills: Maybe<Maybe<SkillType_Member>[]> | undefined;
   setSkills: any;
 }
 
@@ -240,7 +243,7 @@ export const SearchBar = ({ skills, setSkills }: SearchBarProps) => {
   const [query, setQuery] = useState<string>("");
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [selected, setSelected] = useState<number | null>(null);
+  const [selected, setSelected] = useState<string | null>(null);
   const [inFocus, setInFocus] = useState<boolean>(false);
 
   const { data: dataSkills } = useQuery(SKILLS_AUTOCOMPLETE, {
@@ -249,6 +252,7 @@ export const SearchBar = ({ skills, setSkills }: SearchBarProps) => {
         search: query,
       },
     },
+    skip: !query,
   });
 
   const { data: AllSkillsData, loading: AllSkillsDataLoading } =
@@ -301,9 +305,11 @@ export const SearchBar = ({ skills, setSkills }: SearchBarProps) => {
   return (
     <Combobox
       // @ts-ignore
-      onChange={(item: Skills) => {
+      value={skills}
+      // @TODO remove this any
+      onChange={(item: any) => {
         setIsOpen(item._id === item._id);
-        setSelected(item._id);
+        setSelected(item._id || null);
         if (isOpen) {
           setIsOpen(false);
           setSelected(null);
