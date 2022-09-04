@@ -6,7 +6,6 @@ import {
   FIND_ROOM,
   FIND_SKILLS,
   MEMBER_UPDATED,
-  NEW_SKILL_IN_ROOM,
   ROOM_UPDATED,
   UPDATE_MEMBER,
 } from "@graphql/eden";
