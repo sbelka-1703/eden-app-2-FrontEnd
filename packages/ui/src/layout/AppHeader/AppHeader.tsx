@@ -1,7 +1,5 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-// import BurgerMenu from "./BurgerMenu";
-// import WhatIsSoil from "./WhatIsSoil";
 import { LoginButton } from "ui";
 
 export const AppHeader = ({}) => {
