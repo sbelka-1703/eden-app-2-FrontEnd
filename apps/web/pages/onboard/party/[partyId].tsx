@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { gql, useMutation, useQuery, useSubscription } from "@apollo/client";
 import { UserContext } from "@context/eden";
 import {
@@ -8,7 +9,7 @@ import {
   ROOM_UPDATED,
   UPDATE_MEMBER,
 } from "@graphql/eden";
-import { Members, Skills } from "@graphql/eden/generated";
+import { Members, SkillType_Member } from "@graphql/eden/generated";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
@@ -136,14 +137,16 @@ const OnboardPartyPage: NextPage = () => {
 
   const [updateMember] = useMutation(UPDATE_MEMBER, {});
 
-  const handleSetSkills = (skills: Skills[]) => {
+  const handleSetSkills = (skills: SkillType_Member[]) => {
+    debugger;
     updateMember({
       variables: {
         fields: {
           _id: currentUser?._id,
-          skills: skills.map((skill: Skills) => {
+          skills: skills.map((skill: SkillType_Member) => {
             return {
-              id: skill._id,
+              id: skill.skillInfo?._id,
+              level: skill.level,
             };
           }),
         },

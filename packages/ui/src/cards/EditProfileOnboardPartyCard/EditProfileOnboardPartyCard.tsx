@@ -1,5 +1,5 @@
 import { Members, Skills } from "@graphql/eden/generated";
-import { Avatar, Card, SkillSelector, TextHeading3 } from "ui";
+import { Avatar, Card, SearchBar, TextHeading3 } from "ui";
 
 export interface EditProfileOnboardPartyCardProps {
   currentUser: Members;
@@ -10,7 +10,7 @@ export interface EditProfileOnboardPartyCardProps {
 
 export const EditProfileOnboardPartyCard = ({
   currentUser,
-  skills,
+  // skills,
   handleSetSkills,
 }: EditProfileOnboardPartyCardProps) => {
   return (
@@ -24,7 +24,7 @@ export const EditProfileOnboardPartyCard = ({
           <span className="ml-2">{currentUser?.discordName}</span>
         )}
       </div>
-      <SkillSelector
+      {/* <SkillSelector
         showSelected
         options={
           // filter from options the skills user already has
@@ -42,7 +42,8 @@ export const EditProfileOnboardPartyCard = ({
             .map((skill: any) => skill?.skillInfo) || []
         }
         onSetSkills={handleSetSkills}
-      />
+      /> */}
+      <SearchBar skills={currentUser.skills} setSkills={handleSetSkills} />
     </Card>
   );
 };
