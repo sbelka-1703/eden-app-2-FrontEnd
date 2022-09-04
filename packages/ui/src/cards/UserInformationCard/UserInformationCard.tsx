@@ -1,10 +1,10 @@
-import { PreviusProjectsType } from "@graphql/eden/generated";
+import { Maybe, PreviusProjectsType } from "@graphql/eden/generated";
 import { FiEdit3 } from "react-icons/fi";
 import { IoIosExpand } from "react-icons/io";
 import { Card } from "ui";
 
 export interface UserInformationCardProps {
-  previousProjects?: PreviusProjectsType;
+  previousProjects?: Maybe<PreviusProjectsType>;
   isEditable?: boolean;
   onEdit?: () => void;
   onExpand?: () => void;
