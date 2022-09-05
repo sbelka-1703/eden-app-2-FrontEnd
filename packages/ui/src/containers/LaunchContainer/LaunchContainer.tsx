@@ -57,6 +57,7 @@ export const LaunchContainer = ({ servers, roles }: LaunchPageProps) => {
   const [updateProject, {}] = useMutation(LAUNCH_PROJECT, {
     onCompleted({ updateProject }: Mutation) {
       if (!updateProject) console.log("updateProject is null");
+      // console.log("updateProject", updateProject);
       setCreatedProjectId(updateProject?._id as string);
       setCurrentIndex(maxSteps + 1);
       setSubmittingProject(false);
@@ -74,25 +75,27 @@ export const LaunchContainer = ({ servers, roles }: LaunchPageProps) => {
           champion: currentUser?._id,
           title: projectName,
           description: projectDescription,
+          collaborationLinks: [
+            {
+              title: "github",
+              link: githubUrl,
+            },
+            {
+              title: "discord",
+              link: discordUrl,
+            },
+            {
+              title: "notion",
+              link: notionUrl,
+            },
+            {
+              title: "telegram",
+              link: telegramUrl,
+            },
+          ],
+          budget: { perHour: "", token: "", totalBudget: "" },
+          stepsJoinProject: ["step1", "step2", "step3"],
         },
-        links: [
-          {
-            name: "github",
-            url: githubUrl,
-          },
-          {
-            name: "discord",
-            url: discordUrl,
-          },
-          {
-            name: "notion",
-            url: notionUrl,
-          },
-          {
-            name: "telegram",
-            url: telegramUrl,
-          },
-        ],
       },
     });
   };
