@@ -1,6 +1,6 @@
 import { gql, useMutation } from "@apollo/client";
-import { Members, Project } from "@graphql/eden/generated";
-import { useState } from "react";
+import { Members, Project, TeamType } from "@graphql/eden/generated";
+import { useEffect, useState } from "react";
 import {
   AvailabilityComp,
   BioComponent,
@@ -22,7 +22,9 @@ const SET_APPLY_TO_PROJECT = gql`
   }
 `;
 
-const tabs = ["General", "Background", "Endorsements"];
+// const tabs = ["General", "Background", "Endorsements"];
+// TODO: disabled Endorsements tab until data on backend is ready
+const tabs = ["General", "Background"];
 
 export interface ChampionRecruitContainerProps {
   project?: Project;
@@ -35,8 +37,21 @@ export const ChampionRecruitContainer = ({
 }: ChampionRecruitContainerProps) => {
   const [activeTab, setActiveTab] = useState(0);
   const [submitting, setSubmitting] = useState(false);
+  const [teamMember, setTeamMember] = useState<TeamType | null>(null);
 
-  // if (project) console.log("project", project);
+  useEffect(() => {
+    if (project) {
+      const memberInTeam = project?.team?.find(
+        (teamMember: any) => teamMember?.memberInfo._id === member?._id
+      );
+
+      if (memberInTeam) {
+        setTeamMember(memberInTeam);
+      } else {
+        setTeamMember(null);
+      }
+    }
+  }, [project, member]);
 
   // eslint-disable-next-line camelcase
   const [changeTeamMember_Phase_Project, {}] = useMutation(
@@ -93,39 +108,42 @@ export const ChampionRecruitContainer = ({
               name={`title here`}
             />
             <div className={`mt-2`}>
-              <Button
-                disabled={submitting}
-                onClick={() => {
-                  changeTeamMember_Phase_Project({
-                    variables: {
-                      fields: {
-                        projectID: project?._id,
-                        memberID: member?._id,
-                        phase: "shortlisted",
+              {teamMember && teamMember?.phase === "shortlisted" ? (
+                <Button
+                  disabled={submitting}
+                  variant={`primary`}
+                  onClick={() => {
+                    changeTeamMember_Phase_Project({
+                      variables: {
+                        fields: {
+                          projectID: project?._id,
+                          memberID: member?._id,
+                          phase: "invited",
+                        },
                       },
-                    },
-                  });
-                }}
-              >
-                SHORTLIST
-              </Button>
-              <Button
-                disabled={submitting}
-                variant={`primary`}
-                onClick={() => {
-                  changeTeamMember_Phase_Project({
-                    variables: {
-                      fields: {
-                        projectID: project?._id,
-                        memberID: member?._id,
-                        phase: "invited",
+                    });
+                  }}
+                >
+                  Invite
+                </Button>
+              ) : (
+                <Button
+                  disabled={submitting}
+                  onClick={() => {
+                    changeTeamMember_Phase_Project({
+                      variables: {
+                        fields: {
+                          projectID: project?._id,
+                          memberID: member?._id,
+                          phase: "shortlisted",
+                        },
                       },
-                    },
-                  });
-                }}
-              >
-                Invite
-              </Button>
+                    });
+                  }}
+                >
+                  SHORTLIST
+                </Button>
+              )}
             </div>
           </div>
         </div>
