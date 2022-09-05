@@ -56,7 +56,7 @@ const OnboardPartyPage: NextPage = () => {
 
   useEffect(() => {
     // if user logged in and not in party, add currentUser to party
-    if (!partyId) return;
+    if (!currentUser || !partyId) return;
     if (
       partyId &&
       !!membersIds?.length &&
