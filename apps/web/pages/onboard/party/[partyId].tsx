@@ -68,8 +68,8 @@ const OnboardPartyPage: NextPage = () => {
     enterRoom({
       variables: {
         fields: {
-          roomId: partyId,
-          memberId: currentUser?._id,
+          roomID: partyId,
+          memberID: currentUser?._id,
         },
       },
     });
