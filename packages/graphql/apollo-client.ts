@@ -92,9 +92,9 @@ export const apolloClient = new ApolloClient({
           // findMember: {
           //   keyArgs: ["_id"],
           // },
-          findMembers: {
-            keyArgs: ["_id"],
-          },
+          // findMembers: {
+          //   keyArgs: ["_id"],
+          // },
           // freezes the cache
           // findProject: {
           //   keyArgs: ["_id"],
