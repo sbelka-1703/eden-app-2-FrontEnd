@@ -59,6 +59,8 @@ function Expandable({
 
   const [idSelected, setIdSelected] = useState<string | null>(null);
 
+  const levels = ["Learning", "Junior", "Senior", "Mid"];
+
   const useGetSkills = (id: string) => {
     const { data: allSkillsByCategory } = useQuery(FIND_SKILL_BY_CATEGORIES, {
       variables: {
@@ -126,87 +128,25 @@ function Expandable({
               <div className="bg-[#EDF2F7] px-4 pb-4 pt-2">
                 <p className="font-semibold text-[#AAAAAA]">Skill level</p>
                 <div className="flex gap-2">
-                  {/* <Selector
-                    title="Interested"
-                    onClick={() => {
-                      debugger;
-                      setSkills([
-                        ...skills,
-                        {
-                          skillInfo: {
-                            _id: item._id,
-                            name: item.name,
+                  {levels.map((level, index) => (
+                    <Selector
+                      key={index}
+                      title={level.toUpperCase()}
+                      onClick={() => {
+                        setSkills([
+                          ...skills,
+                          {
+                            skillInfo: {
+                              _id: item._id,
+                              name: item.name,
+                            },
+                            level: { level },
                           },
-                          level: "learning",
-                        },
-                      ]);
-                      setIsOpen(false);
-                    }}
-                  /> */}
-                  <Selector
-                    title="Learning"
-                    onClick={() => {
-                      setSkills([
-                        ...skills,
-                        {
-                          skillInfo: {
-                            _id: item._id,
-                            name: item.name,
-                          },
-                          level: "learning",
-                        },
-                      ]);
-                      setIsOpen(false);
-                    }}
-                  />
-                  <Selector
-                    title="Junior"
-                    onClick={() => {
-                      setSkills([
-                        ...skills,
-                        {
-                          skillInfo: {
-                            _id: item._id,
-                            name: item.name,
-                          },
-                          level: "junior",
-                        },
-                      ]);
-                      setIsOpen(false);
-                    }}
-                  />
-                  <Selector
-                    title="Mid"
-                    onClick={() => {
-                      setSkills([
-                        ...skills,
-                        {
-                          skillInfo: {
-                            _id: item._id,
-                            name: item.name,
-                          },
-                          level: "mid",
-                        },
-                      ]);
-                      setIsOpen(false);
-                    }}
-                  />
-                  <Selector
-                    title="Senior"
-                    onClick={() => {
-                      setSkills([
-                        ...skills,
-                        {
-                          skillInfo: {
-                            _id: item._id,
-                            name: item.name,
-                          },
-                          level: "senior",
-                        },
-                      ]);
-                      setIsOpen(false);
-                    }}
-                  />
+                        ]);
+                        setIsOpen(false);
+                      }}
+                    />
+                  ))}
 
                   <button
                     onClick={() => {
