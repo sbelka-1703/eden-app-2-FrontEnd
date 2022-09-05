@@ -4,7 +4,7 @@ import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import React from "react";
 import {
-  CandidateSelectionList,
+  // CandidateSelectionList,
   GridItemSix,
   GridItemThree,
   GridLayout,
@@ -41,7 +41,7 @@ const ProjectPage: NextPage = () => {
   return (
     <GridLayout>
       <GridItemThree>
-        <CandidateSelectionList roles={dataRoles?.findRoleTemplates} />
+        3{/* <CandidateSelectionList roles={dataRoles?.findRoleTemplates} /> */}
       </GridItemThree>
       <GridItemSix>6</GridItemSix>
       <GridItemThree>3</GridItemThree>

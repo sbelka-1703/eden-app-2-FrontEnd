@@ -1,9 +1,9 @@
-import { Members, Skills } from "@graphql/eden/generated";
+import { Members } from "@graphql/eden/generated";
 import { Avatar, Card, SearchBar, TextHeading3 } from "ui";
 
 export interface EditProfileOnboardPartyCardProps {
   currentUser: Members;
-  skills: Skills[];
+  // skills: Skills[];
   // eslint-disable-next-line no-unused-vars
   handleSetSkills: (val: any) => void;
 }

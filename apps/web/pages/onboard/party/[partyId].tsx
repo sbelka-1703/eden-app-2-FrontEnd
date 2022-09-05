@@ -4,7 +4,6 @@ import { UserContext } from "@context/eden";
 import {
   ENTER_ROOM,
   FIND_ROOM,
-  FIND_SKILLS,
   MEMBER_UPDATED,
   ROOM_UPDATED,
   UPDATE_MEMBER,
@@ -128,17 +127,16 @@ const OnboardPartyPage: NextPage = () => {
     },
   });
 
-  const { data: dataSkills } = useQuery(FIND_SKILLS, {
-    variables: {
-      fields: {},
-    },
-    context: { serviceName: "soilservice" },
-  });
+  // const { data: dataSkills } = useQuery(FIND_SKILLS, {
+  //   variables: {
+  //     fields: {},
+  //   },
+  //   context: { serviceName: "soilservice" },
+  // });
 
   const [updateMember] = useMutation(UPDATE_MEMBER, {});
 
   const handleSetSkills = (skills: SkillType_Member[]) => {
-    debugger;
     updateMember({
       variables: {
         fields: {
@@ -166,7 +164,6 @@ const OnboardPartyPage: NextPage = () => {
         ) : (
           <EditProfileOnboardPartyCard
             currentUser={currentUser}
-            skills={dataSkills?.findSkills || []}
             handleSetSkills={handleSetSkills}
           />
         )}
