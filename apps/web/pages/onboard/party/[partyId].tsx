@@ -99,7 +99,7 @@ const OnboardPartyPage: NextPage = () => {
           _id: membersIds,
         },
       },
-      skip: !dataRoom,
+      skip: !membersIds,
       context: { serviceName: "soilservice" },
       onCompleted: (data) => {
         if (data) {
