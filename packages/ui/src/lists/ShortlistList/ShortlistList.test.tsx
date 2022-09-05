@@ -4,7 +4,9 @@ import { ShortlistList } from "./";
 
 describe("ShortlistList", () => {
   it("renders without throwing", () => {
-    const { container } = render(<ShortlistList />);
+    const { container } = render(
+      <ShortlistList onSelectMember={(val) => console.log(val)} />
+    );
 
     expect(container).toBeInTheDocument();
   });

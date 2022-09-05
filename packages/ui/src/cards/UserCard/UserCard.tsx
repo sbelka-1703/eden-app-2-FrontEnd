@@ -24,7 +24,7 @@ export const UserCard = ({
   member,
   projectId,
   percentage,
-  endorsements,
+  // endorsements,
   focused,
   engagedCard = false,
 }: UserCardProps) => {
@@ -62,9 +62,10 @@ export const UserCard = ({
           <div className="flex justify-between">
             <div className={``}>
               <div className={`text-xl`}>@{member?.discordName}</div>
-              <div className={`text-sm text-zinc-400`}>
+              {/* TODO: endorsements are not implemented in backend yet */}
+              {/* <div className={`text-sm text-zinc-400`}>
                 {endorsements} endorsements
-              </div>
+              </div> */}
             </div>
             <div className={``}>
               {engagedCard && (

@@ -20,7 +20,7 @@ import {
 const ProjectPage: NextPage = () => {
   const router = useRouter();
   const { _id } = router.query;
-  const [selectMember, setSelectMember] = useState<string | null>(null);
+  const [selectMember, setSelectMember] = useState("");
   const [selectRole, setSelectSkills] = useState<string[]>([]);
 
   const { data: dataMember } = useQuery(FIND_MEMBER, {
@@ -46,7 +46,7 @@ const ProjectPage: NextPage = () => {
   });
 
   // project data with shortlist
-  if (dataProject) console.log("dataProject", dataProject.findProject);
+  // if (dataProject) console.log("dataProject", dataProject.findProject);
 
   const { data: dataRoles } = useQuery(FIND_ROLE_TEMPLATES, {
     variables: {
@@ -86,6 +86,7 @@ const ProjectPage: NextPage = () => {
           members={dataMemberWithSkills?.matchMembersToSkills}
           onSelectRole={(selectRole) => setSelectSkills(selectRole)}
           onSelectMember={(selectMember) => setSelectMember(selectMember)}
+          selectMember={selectMember}
         />
       </GridItemThree>
       <GridItemSix>
@@ -95,7 +96,11 @@ const ProjectPage: NextPage = () => {
         />
       </GridItemSix>
       <GridItemThree>
-        <ShortlistList project={dataProject?.findProject} />
+        <ShortlistList
+          project={dataProject?.findProject}
+          selectMember={selectMember}
+          onSelectMember={(selectMember) => setSelectMember(selectMember)}
+        />
       </GridItemThree>
     </GridLayout>
   );
