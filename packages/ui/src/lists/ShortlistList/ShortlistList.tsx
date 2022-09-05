@@ -3,9 +3,16 @@ import { UserCard } from "ui";
 
 export interface ShortlistListProps {
   project?: Project;
+  selectMember?: string;
+  // eslint-disable-next-line no-unused-vars
+  onSelectMember: (member: string) => void;
 }
 
-export const ShortlistList = ({ project }: ShortlistListProps) => {
+export const ShortlistList = ({
+  project,
+  selectMember,
+  onSelectMember,
+}: ShortlistListProps) => {
   return (
     <div className={``}>
       <div
@@ -20,16 +27,20 @@ export const ShortlistList = ({ project }: ShortlistListProps) => {
       </h3>
       <div className={`h-8/10 scrollbar-hide overflow-y-scroll`}>
         {project?.team?.map((member, index) => (
-          <div key={index} className={`my-3 w-full px-1`}>
+          <button
+            key={index}
+            className={`my-3 w-full px-1`}
+            onClick={() => onSelectMember(member?.memberInfo?._id as string)}
+          >
             {member && member.phase === "shortlisted" && (
               <UserCard
                 member={member?.memberInfo}
                 // percentage={matchPercentage}
                 // endorsements={endorsements}
-                // focused={isFocused}
+                focused={selectMember === member?.memberInfo?._id}
               />
             )}
-          </div>
+          </button>
         ))}
       </div>
     </div>
