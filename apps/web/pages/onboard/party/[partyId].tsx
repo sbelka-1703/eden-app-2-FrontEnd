@@ -147,6 +147,26 @@ const OnboardPartyPage: NextPage = () => {
       },
     });
   };
+  const handleUpdateUser = (e) => {
+    if (!partyId || !currentUser) return;
+
+    console.log(e.target.value);
+
+    // updateMember({
+    //   variables: {
+    //     fields: {
+    //       roomID: partyId,
+    //       memberID: currentUser?._id,
+    //       skills: skills.map((skill: SkillType_Member) => {
+    //         return {
+    //           id: skill.skillInfo?._id,
+    //           level: skill.level,
+    //         };
+    //       }),
+    //     },
+    //   },
+    // });
+  };
 
   return (
     <GridLayout>
@@ -161,6 +181,7 @@ const OnboardPartyPage: NextPage = () => {
           <EditProfileOnboardPartyCard
             currentUser={currentUser}
             handleSetSkills={handleSetSkills}
+            handleUpdateUser={handleUpdateUser}
           />
         )}
       </GridItemThree>
