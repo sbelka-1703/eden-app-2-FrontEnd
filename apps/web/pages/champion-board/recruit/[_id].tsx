@@ -5,10 +5,10 @@ import {
   FIND_ROLE_TEMPLATES,
   MATCH_MEMBERS_TO_SKILLS,
 } from "@graphql/eden";
-import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import {
+  AppUserLayout,
   CandidateSelectionList,
   ChampionRecruitContainer,
   GridItemSix,
@@ -17,7 +17,9 @@ import {
   ShortlistList,
 } from "ui";
 
-const ProjectPage: NextPage = () => {
+import type { NextPageWithLayout } from "../../_app";
+
+const ProjectPage: NextPageWithLayout = () => {
   const router = useRouter();
   const { _id } = router.query;
   const [selectMember, setSelectMember] = useState("");
@@ -106,4 +108,29 @@ const ProjectPage: NextPage = () => {
   );
 };
 
+ProjectPage.getLayout = (page) => <AppUserLayout>{page}</AppUserLayout>;
+
 export default ProjectPage;
+
+import { IncomingMessage, ServerResponse } from "http";
+import { getSession } from "next-auth/react";
+
+export async function getServerSideProps(ctx: {
+  req: IncomingMessage;
+  res: ServerResponse;
+}) {
+  const session = await getSession(ctx);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: `/login`,
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}

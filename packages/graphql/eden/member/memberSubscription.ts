@@ -50,6 +50,10 @@ export const MEMBER_SUBSCRIPTION = gql`
           name
         }
       }
+      onbording {
+        percentage
+        signup
+      }
     }
   }
 `;

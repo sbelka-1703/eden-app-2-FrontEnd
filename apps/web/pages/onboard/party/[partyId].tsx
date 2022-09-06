@@ -9,10 +9,10 @@ import {
   UPDATE_MEMBER,
 } from "@graphql/eden";
 import { Members, SkillType_Member } from "@graphql/eden/generated";
-import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import {
+  AppPublicLayout,
   EditProfileOnboardPartyCard,
   GridItemNine,
   GridItemThree,
@@ -20,7 +20,9 @@ import {
   OnboardPartyContainer,
 } from "ui";
 
-const OnboardPartyPage: NextPage = () => {
+import type { NextPageWithLayout } from "../../_app";
+
+const OnboardPartyPage: NextPageWithLayout = () => {
   const router = useRouter();
   const { partyId } = router.query;
 
@@ -174,5 +176,9 @@ const OnboardPartyPage: NextPage = () => {
     </GridLayout>
   );
 };
+
+OnboardPartyPage.getLayout = (page) => (
+  <AppPublicLayout>{page}</AppPublicLayout>
+);
 
 export default OnboardPartyPage;
