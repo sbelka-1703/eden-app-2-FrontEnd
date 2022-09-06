@@ -1,5 +1,5 @@
 import { Members } from "@graphql/eden/generated";
-import { Avatar, Card, SearchBar, TextHeading3 } from "ui";
+import { Avatar, Card, SearchSkill, TextHeading3 } from "ui";
 
 export interface EditProfileOnboardPartyCardProps {
   currentUser: Members;
@@ -43,7 +43,7 @@ export const EditProfileOnboardPartyCard = ({
         }
         onSetSkills={handleSetSkills}
       /> */}
-      <SearchBar skills={currentUser.skills} setSkills={handleSetSkills} />
+      <SearchSkill skills={currentUser.skills} setSkills={handleSetSkills} />
     </Card>
   );
 };
