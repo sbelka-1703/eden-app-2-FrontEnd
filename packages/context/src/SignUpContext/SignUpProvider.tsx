@@ -10,7 +10,7 @@ export interface SignUpProviderProps {
 export const SignUpProvider = ({ children }: SignUpProviderProps) => {
   const { currentUser } = useContext(UserContext);
 
-  // console.log("currentUser", currentUser);
+  console.log("currentUser", currentUser);
   const [profileBio, setProfileBio] = useState(currentUser?.bio || "");
   const [hoursPerWeek, setHoursPerWeek] = useState(
     currentUser?.hoursPerWeek || 0

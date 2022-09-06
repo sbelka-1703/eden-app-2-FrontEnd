@@ -13,6 +13,7 @@ interface IItems {
 export interface DropdownProps {
   items: IItems[];
   label?: string;
+  value?: string;
   placeholder?: string;
   // eslint-disable-next-line no-unused-vars
   onSelect?: (val: any) => void;
@@ -22,11 +23,12 @@ export interface DropdownProps {
 export const Dropdown = ({
   items,
   label,
+  value,
   placeholder,
   onSelect,
   multiple = false,
 }: DropdownProps) => {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(value || "");
 
   const filteredItems =
     query === ""
