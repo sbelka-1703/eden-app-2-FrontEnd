@@ -16,7 +16,7 @@ export const EditProfileOnboardPartyCard = ({
 }: EditProfileOnboardPartyCardProps) => {
   return (
     <Card shadow className="bg-white p-3">
-      <TextHeading3 className="mb-2">Edit Your Profile Card</TextHeading3>
+      <TextHeading3 className="mb-2">Edit Your Profile</TextHeading3>
       <div className="mb-4 flex items-center">
         {currentUser.discordAvatar && (
           <Avatar src={currentUser.discordAvatar} size="sm" />

@@ -16,8 +16,10 @@ const Template: ComponentStory<typeof EditProfileOnboardPartyCard> = (args) => (
 export const Default = Template.bind({});
 Default.args = {
   currentUser: getMember(),
-  skills: [],
   handleSetSkills: function (): void {
+    //
+  },
+  handleUpdateUser: function (): void {
     //
   },
 };

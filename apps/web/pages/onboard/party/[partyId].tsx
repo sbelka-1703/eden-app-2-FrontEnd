@@ -147,7 +147,7 @@ const OnboardPartyPage: NextPage = () => {
       },
     });
   };
-  const handleUpdateUser = (e) => {
+  const handleUpdateUser = (e: any) => {
     if (!partyId || !currentUser) return;
 
     console.log(e.target.value);
