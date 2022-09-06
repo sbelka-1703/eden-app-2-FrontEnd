@@ -6,21 +6,19 @@ import {
   FIND_PROJECTS_RECOMMENDED,
 } from "@graphql/eden";
 import { Project } from "@graphql/eden/generated";
-import type { NextPage } from "next";
+// import { NextApiRequest, NextApiResponse } from "next";
+// eslint-disable-next-line camelcase
+// import { unstable_getServerSession } from "next-auth/next";
 import { useContext } from "react";
-import {
-  GridItemSix,
-  GridItemThree,
-  GridLayout,
-  ProjectsContainer,
-  RecommendedList,
-  UserProfileMenu,
-} from "ui";
+import { AppUserMenuLayout, ProjectsContainer } from "ui";
 
-const ProjectsPage: NextPage = () => {
+import type { NextPageWithLayout } from "../_app";
+// import { authOptions } from "../api/auth/[...nextauth]";
+
+const ProjectsPage: NextPageWithLayout = () => {
   const { currentUser } = useContext(UserContext);
 
-  if (currentUser) console.log("currentUser", currentUser);
+  // if (currentUser) console.log("currentUser", currentUser);
 
   const { data: dataProjectsAll } = useQuery(FIND_PROJECTS, {
     variables: {
@@ -64,27 +62,42 @@ const ProjectsPage: NextPage = () => {
   };
 
   return (
-    <GridLayout>
-      <GridItemThree>
-        <UserProfileMenu title={`Good Morning,`} />
-      </GridItemThree>
-      <GridItemSix>
-        <ProjectsContainer
-          allProjects={dataProjectsAll?.findProjects}
-          favouriteProjects={currentUser?.projects}
-          recommendedProjects={
-            dataProjectsRecommended?.findProjects_RecommendedToUser
-          }
-          updateFavoriteCallback={updateFavoriteCallback}
-        />
-      </GridItemSix>
-      <GridItemThree>
-        <RecommendedList
-          projects={dataProjectsRecommended?.findProjects_RecommendedToUser}
-        />
-      </GridItemThree>
-    </GridLayout>
+    <ProjectsContainer
+      allProjects={dataProjectsAll?.findProjects}
+      favouriteProjects={currentUser?.projects}
+      recommendedProjects={
+        dataProjectsRecommended?.findProjects_RecommendedToUser
+      }
+      updateFavoriteCallback={updateFavoriteCallback}
+    />
   );
 };
 
+ProjectsPage.getLayout = (page) => (
+  <AppUserMenuLayout>{page}</AppUserMenuLayout>
+);
+
 export default ProjectsPage;
+
+import { IncomingMessage, ServerResponse } from "http";
+import { getSession } from "next-auth/react";
+
+export async function getServerSideProps(ctx: {
+  req: IncomingMessage;
+  res: ServerResponse;
+}) {
+  const session = await getSession(ctx);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: `/login`,
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}

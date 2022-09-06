@@ -50,6 +50,10 @@ export const FIND_MEMBER_FULL = gql`
           name
         }
       }
+      onbording {
+        percentage
+        signup
+      }
     }
   }
 `;

@@ -1,12 +1,11 @@
 import Head from "next/head";
-
-import { AppHeader } from "./";
+import { AppHeader } from "ui";
 
 interface IAppLayoutProps {
   children: React.ReactNode;
 }
 
-export const AppLayout = ({ children }: IAppLayoutProps) => {
+export const AppPublicLayout = ({ children }: IAppLayoutProps) => {
   return (
     <>
       <Head>
@@ -20,4 +19,4 @@ export const AppLayout = ({ children }: IAppLayoutProps) => {
   );
 };
 
-export default AppLayout;
+export default AppPublicLayout;

@@ -25,6 +25,7 @@ export type Epic = {
   phase?: Maybe<PhaseEpicType>;
   project?: Maybe<Project>;
   serverID?: Maybe<Array<Maybe<Scalars['String']>>>;
+  task?: Maybe<Array<Maybe<ProjectUpdate>>>;
   teams?: Maybe<Array<Maybe<Team>>>;
 };
 
@@ -56,6 +57,7 @@ export type Members = {
   invitedBy?: Maybe<MembersSmallType>;
   links?: Maybe<Array<Maybe<LinkType>>>;
   network?: Maybe<Array<Maybe<Members>>>;
+  onbording?: Maybe<OnboardingType>;
   previusProjects?: Maybe<Array<Maybe<PreviusProjectsType>>>;
   projects?: Maybe<Array<Maybe<ProjectMemberType>>>;
   registeredAt?: Maybe<Scalars['String']>;
@@ -247,6 +249,7 @@ export type Project = {
   collaborationLinks?: Maybe<Array<Maybe<CollaborationLinksType>>>;
   dates?: Maybe<DatesType>;
   description?: Maybe<Scalars['String']>;
+  gardenServerID?: Maybe<Scalars['String']>;
   garden_teams?: Maybe<Array<Maybe<Team>>>;
   role?: Maybe<Array<Maybe<RoleType>>>;
   serverID?: Maybe<Array<Maybe<Scalars['String']>>>;
@@ -275,7 +278,7 @@ export type ProjectUpdate = {
   serverID?: Maybe<Array<Maybe<Scalars['String']>>>;
   task?: Maybe<ProjectUpdate>;
   team?: Maybe<Array<Maybe<Team>>>;
-  threadDiscordlID?: Maybe<Scalars['String']>;
+  threadDiscordID?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
   token?: Maybe<Scalars['String']>;
 };
@@ -306,6 +309,7 @@ export type Query = {
   findSkillSubCategory?: Maybe<SkillSubCategory>;
   findSkills?: Maybe<Array<Maybe<Skills>>>;
   findTeams?: Maybe<Array<Maybe<Team>>>;
+  matchMembersToProject?: Maybe<Array<Maybe<MatchMembersToProjectOutput>>>;
   matchMembersToSkills?: Maybe<Array<Maybe<MatchMembersToSkillOutput>>>;
   matchMembersToUser?: Maybe<Array<Maybe<MatchMembersToUserOutput>>>;
   match_projectToUser?: Maybe<ProjectUserMatchType>;
@@ -427,6 +431,11 @@ export type QueryFindSkillsArgs = {
 
 export type QueryFindTeamsArgs = {
   fields?: InputMaybe<FindTeamsInput>;
+};
+
+
+export type QueryMatchMembersToProjectArgs = {
+  fields?: InputMaybe<MatchMembersToProjectInput>;
 };
 
 
@@ -762,7 +771,7 @@ export type CreateProjectUpdateInput = {
   serverID?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   taskID?: InputMaybe<Scalars['String']>;
   teamID?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  threadDiscordlID?: InputMaybe<Scalars['String']>;
+  threadDiscordID?: InputMaybe<Scalars['String']>;
   title?: InputMaybe<Scalars['String']>;
   token?: InputMaybe<Scalars['String']>;
 };
@@ -865,6 +874,7 @@ export type FindMembersInput = {
 
 export type FindProjectInput = {
   _id?: InputMaybe<Scalars['ID']>;
+  gardenServerID?: InputMaybe<Scalars['String']>;
   serverID?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
@@ -881,6 +891,7 @@ export type FindProjectUpdatesInput = {
 
 export type FindProjectsInput = {
   _id?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  gardenServerID?: InputMaybe<Scalars['String']>;
   serverID?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
@@ -979,6 +990,18 @@ export type LoginInput = {
   password?: InputMaybe<Scalars['String']>;
 };
 
+export type MatchMembersToProjectInput = {
+  projectID?: InputMaybe<Scalars['ID']>;
+  serverID?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type MatchMembersToProjectOutput = {
+  __typename?: 'matchMembersToProjectOutput';
+  commonSkills?: Maybe<Array<Maybe<Skills>>>;
+  matchPercentage?: Maybe<Scalars['Float']>;
+  member?: Maybe<Members>;
+};
+
 export type MatchMembersToSkillInput = {
   serverID?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   skillsID?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
@@ -1027,6 +1050,17 @@ export type NewTweetProjectInput = {
   title?: InputMaybe<Scalars['String']>;
 };
 
+export type OnboardingInput = {
+  percentage?: InputMaybe<Scalars['Int']>;
+  signup?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type OnboardingType = {
+  __typename?: 'onboardingType';
+  percentage?: Maybe<Scalars['Int']>;
+  signup?: Maybe<Scalars['Boolean']>;
+};
+
 export enum PhaseEpicType {
   Archive = 'archive',
   Open = 'open'
@@ -1035,6 +1069,7 @@ export enum PhaseEpicType {
 export enum PhaseType {
   Committed = 'committed',
   Engaged = 'engaged',
+  Invited = 'invited',
   Rejected = 'rejected',
   Shortlisted = 'shortlisted'
 }
@@ -1221,6 +1256,7 @@ export type UpdateMemberInput = {
   hoursPerWeek?: InputMaybe<Scalars['Float']>;
   interest?: InputMaybe<Scalars['String']>;
   links?: InputMaybe<Array<InputMaybe<LinkInput>>>;
+  onbording?: InputMaybe<OnboardingInput>;
   previusProjects?: InputMaybe<Array<InputMaybe<PreviusProjectsInput>>>;
   serverID?: InputMaybe<Scalars['String']>;
   skills?: InputMaybe<Array<InputMaybe<SkillInput_Member>>>;
@@ -1234,6 +1270,7 @@ export type UpdateProjectInput = {
   collaborationLinks?: InputMaybe<Array<InputMaybe<CollaborationLinksInput>>>;
   dates?: InputMaybe<DatesInput>;
   description?: InputMaybe<Scalars['String']>;
+  gardenServerID?: InputMaybe<Scalars['String']>;
   role?: InputMaybe<Array<InputMaybe<RoleInput>>>;
   serverID?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   stepsJoinProject?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;

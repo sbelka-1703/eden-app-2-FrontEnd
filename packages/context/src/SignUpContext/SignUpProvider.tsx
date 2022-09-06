@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { UserContext } from "@context/eden";
+import React, { useContext, useState } from "react";
 
 import { SignUpContext } from "./SignUpContext";
 
@@ -7,12 +8,23 @@ export interface SignUpProviderProps {
 }
 
 export const SignUpProvider = ({ children }: SignUpProviderProps) => {
-  const [profileBio, setProfileBio] = useState("");
-  const [hoursPerWeek, setHoursPerWeek] = useState(0);
-  const [timezone, setTimezone] = useState("");
-  const [contentInterest, setContentInterest] = useState("");
-  const [contentMostProud, setContentMostProud] = useState("");
-  const [contentShowcaseAbility, setContentShowcaseAbility] = useState("");
+  const { currentUser } = useContext(UserContext);
+
+  // console.log("currentUser", currentUser);
+  const [profileBio, setProfileBio] = useState(currentUser?.bio || "");
+  const [hoursPerWeek, setHoursPerWeek] = useState(
+    currentUser?.hoursPerWeek || 0
+  );
+  const [timezone, setTimezone] = useState(currentUser?.timeZone || "");
+  const [contentInterest, setContentInterest] = useState(
+    currentUser?.content?.interest || ""
+  );
+  const [contentMostProud, setContentMostProud] = useState(
+    currentUser?.content?.mostProud || ""
+  );
+  const [contentShowcaseAbility, setContentShowcaseAbility] = useState(
+    currentUser?.content?.showCaseAbility || ""
+  );
   const [twitterHandle, setTwitterHandle] = useState("");
   const [githubHandle, setGithubHandle] = useState("");
   const [discordHandle, setDiscordHandle] = useState("");
