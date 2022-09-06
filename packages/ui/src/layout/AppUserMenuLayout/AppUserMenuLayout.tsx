@@ -21,7 +21,7 @@ export const AppUserMenuLayout = ({ children }: IAppLayoutProps) => {
   const router = useRouter();
   const { currentUser } = useContext(UserContext);
 
-  if (currentUser) console.log("currentUser", currentUser);
+  // if (currentUser) console.log("currentUser", currentUser);
   if (currentUser) {
     if (!currentUser?.onbording?.signup) router.push(`/signup`);
   }
