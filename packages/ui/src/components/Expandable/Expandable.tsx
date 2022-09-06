@@ -52,7 +52,7 @@ export const Expandable = ({
   const [isExandingOpen, setIsExpandingOpen] = useState<boolean>(false);
   const [idSelected, setIdSelected] = useState<string | null>(null);
 
-  const levels = ["Learning", "Senior"];
+  const levels = ["learning", "junior", "mid", "senior"];
 
   const useGetSkills = (id: string) => {
     const { data: allSkillsByCategory } = useQuery(FIND_SKILL_BY_CATEGORIES, {
@@ -134,7 +134,7 @@ export const Expandable = ({
                               _id: item._id,
                               name: item.name,
                             },
-                            level: { level },
+                            level: level,
                           },
                         ]);
                         setIsOpen(false);
@@ -151,7 +151,6 @@ export const Expandable = ({
                             _id: item._id,
                             name: item.name,
                           },
-                          level: "unknown",
                         },
                       ]);
                       setIsOpen(false);
