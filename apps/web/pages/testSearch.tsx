@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { SearchBar } from "ui";
+import { SearchSkill } from "ui";
 
 const TestSearch = () => {
   const [skills, setSkills] = useState([]);
 
   return (
-    <div>
-      <SearchBar skills={skills} setSkills={setSkills} />
+    <div className="w-[30rem]">
+      <SearchSkill skills={skills} setSkills={setSkills} />
     </div>
   );
 };
