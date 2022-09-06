@@ -56,7 +56,7 @@ const OnboardPartyPage: NextPage = () => {
 
   useEffect(() => {
     // if user logged in and not in party, add currentUser to party
-    if (!partyId) return;
+    if (!currentUser || !partyId) return;
     if (
       partyId &&
       !!membersIds?.length &&
@@ -68,15 +68,15 @@ const OnboardPartyPage: NextPage = () => {
     enterRoom({
       variables: {
         fields: {
-          roomId: partyId,
-          memberId: currentUser?._id,
+          roomID: partyId,
+          memberID: currentUser?._id,
         },
       },
     });
   }, [currentUser, membersIds, partyId]);
 
   // Custom query with only members basic data and skills
-  const { data: dataMembers } = useQuery(
+  useQuery(
     gql`
       query ($fields: findMembersInput) {
         findMembers(fields: $fields) {
@@ -96,7 +96,7 @@ const OnboardPartyPage: NextPage = () => {
     {
       variables: {
         fields: {
-          _id: dataRoom?.findRoom?.members.map((member: Members) => member._id),
+          _id: membersIds,
         },
       },
       skip: !dataRoom,
@@ -169,7 +169,7 @@ const OnboardPartyPage: NextPage = () => {
         )}
       </GridItemThree>
       <GridItemNine>
-        <OnboardPartyContainer members={dataMembers?.findMembers} />
+        <OnboardPartyContainer members={members} />
       </GridItemNine>
     </GridLayout>
   );

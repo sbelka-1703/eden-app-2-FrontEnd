@@ -59,6 +59,7 @@ export const Expandable = ({
       variables: {
         fields: { _id: id },
       },
+      skip: !id,
     });
 
     return allSkillsByCategory
