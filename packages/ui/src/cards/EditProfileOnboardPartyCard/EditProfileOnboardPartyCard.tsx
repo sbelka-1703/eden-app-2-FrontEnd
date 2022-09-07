@@ -1,5 +1,12 @@
 import { Members } from "@graphql/eden/generated";
-import { Avatar, Card, SearchSkill, TextArea, TextHeading3 } from "ui";
+import {
+  Avatar,
+  Card,
+  SearchSkill,
+  SocialMediaInput,
+  TextArea,
+  TextHeading3,
+} from "ui";
 
 export interface EditProfileOnboardPartyCardProps {
   currentUser: Members;
@@ -32,6 +39,8 @@ export const EditProfileOnboardPartyCard = ({
         // value={`${currentUser.bio ? currentUser.bio : ""}`}
         onChange={handleUpdateUser}
       />
+      <SocialMediaInput platform="twitter" onChange={handleUpdateUser} />
+      <SocialMediaInput platform="linkedin" onChange={handleUpdateUser} />
     </Card>
   );
 };
