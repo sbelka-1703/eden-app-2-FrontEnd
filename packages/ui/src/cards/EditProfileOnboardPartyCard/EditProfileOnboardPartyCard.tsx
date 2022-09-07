@@ -1,18 +1,39 @@
+/* eslint-disable camelcase */
 import { Members } from "@graphql/eden/generated";
-import { Avatar, Card, SearchSkill, TextHeading3 } from "ui";
+import { Avatar, Card, SearchSkill, TextHeading3, TextLabel } from "ui";
 
 export interface EditProfileOnboardPartyCardProps {
   currentUser: Members;
-  // skills: Skills[];
   // eslint-disable-next-line no-unused-vars
   handleSetSkills: (val: any) => void;
+  // eslint-disable-next-line no-unused-vars
+  handleUpdateUser: (val: any) => void;
 }
 
 export const EditProfileOnboardPartyCard = ({
   currentUser,
-  // skills,
   handleSetSkills,
-}: EditProfileOnboardPartyCardProps) => {
+}: // handleUpdateUser,
+EditProfileOnboardPartyCardProps) => {
+  // const learningBadges = currentUser?.skills
+  //   ?.filter((skill: Maybe<SkillType_Member>) => skill?.level === "learning")
+  //   .map((skill, index) => (
+  //     <Badge
+  //       key={index}
+  //       text={skill?.skillInfo?.name || ""}
+  //       colorRGB="209,247,196"
+  //       className={`font-Inter text-sm`}
+  //     />
+  //   ));
+  // const skilledBadges = currentUser?.skills
+  //   ?.filter((skill: Maybe<SkillType_Member>) => skill?.level !== "learning")
+  //   .map((skill, index) => (
+  //     <Badge
+  //       key={index}
+  //       text={skill?.skillInfo?.name || ""}
+  //       className={`bg-soilPurple/20 font-Inter text-sm`}
+  //     />
+  //   ));
   const levels = [
     {
       title: "learning",
@@ -26,7 +47,7 @@ export const EditProfileOnboardPartyCard = ({
 
   return (
     <Card shadow className="bg-white p-3">
-      <TextHeading3 className="mb-2">Edit Your Profile Card</TextHeading3>
+      <TextHeading3 className="mb-2">Edit Your Profile</TextHeading3>
       <div className="mb-4 flex items-center">
         {currentUser.discordAvatar && (
           <Avatar src={currentUser.discordAvatar} size="sm" />
@@ -35,30 +56,26 @@ export const EditProfileOnboardPartyCard = ({
           <span className="ml-2">{currentUser?.discordName}</span>
         )}
       </div>
-      {/* <SkillSelector
-        showSelected
-        options={
-          // filter from options the skills user already has
-          skills.filter(
-            (skill: Skills) =>
-              !currentUser.skills?.some(
-                (currentUserSkill: any) =>
-                  currentUserSkill?.skillInfo?._id === skill._id
-              )
-          ) || []
-        }
-        value={
-          currentUser.skills
-            ?.filter((skill: any) => skill !== undefined)
-            .map((skill: any) => skill?.skillInfo) || []
-        }
-        onSetSkills={handleSetSkills}
-      /> */}
+      <TextLabel>🛠 SKILLS</TextLabel>
       <SearchSkill
         levels={levels}
         skills={currentUser.skills}
         setSkills={handleSetSkills}
       />
+      {/* <TextLabel>LEARNING</TextLabel>
+      <div>{learningBadges}</div>
+      <TextLabel>SKILLED</TextLabel>
+      <div>{skilledBadges}</div>
+      <TextLabel>ABOUT ME</TextLabel>
+      <TextArea
+        placeholder={`Write a short description about yourself...`}
+        rows={5}
+        // value={`${currentUser.bio ? currentUser.bio : ""}`}
+        onChange={handleUpdateUser}
+      />
+      <TextLabel>SOCIAL MEDIA</TextLabel>
+      <SocialMediaInput platform="twitter" onChange={handleUpdateUser} />
+      <SocialMediaInput platform="linkedin" onChange={handleUpdateUser} /> */}
     </Card>
   );
 };

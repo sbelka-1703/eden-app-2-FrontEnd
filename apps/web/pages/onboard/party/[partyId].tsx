@@ -109,6 +109,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
               _id
               name
             }
+            level
           }
         }
       }
@@ -149,10 +150,30 @@ const OnboardPartyPage: NextPageWithLayout = () => {
       },
     });
   };
+  const handleUpdateUser = (e: any) => {
+    if (!partyId || !currentUser) return;
+
+    console.log(e.target.value);
+
+    // updateMember({
+    //   variables: {
+    //     fields: {
+    //       roomID: partyId,
+    //       memberID: currentUser?._id,
+    //       skills: skills.map((skill: SkillType_Member) => {
+    //         return {
+    //           id: skill.skillInfo?._id,
+    //           level: skill.level,
+    //         };
+    //       }),
+    //     },
+    //   },
+    // });
+  };
 
   return (
     <GridLayout>
-      <GridItemThree>
+      <GridItemThree className="scrollbar-hide overflow-scroll">
         {!currentUser ? (
           <p>
             You must be logged in to edit your profile.
@@ -163,6 +184,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
           <EditProfileOnboardPartyCard
             currentUser={currentUser}
             handleSetSkills={handleSetSkills}
+            handleUpdateUser={handleUpdateUser}
           />
         )}
       </GridItemThree>
