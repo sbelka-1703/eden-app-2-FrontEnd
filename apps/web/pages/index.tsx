@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { Button } from "ui";
 
@@ -5,43 +6,48 @@ export default function Web() {
   const router = useRouter();
 
   return (
-    <div className="bg-darkGreen/80 w-full pt-10 sm:pt-16 lg:overflow-hidden lg:pt-8 lg:pb-14">
-      <div className="mx-auto w-full lg:px-8">
-        <div className="lg:grid lg:grid-cols-2 lg:gap-8">
-          <div className="mx-auto max-w-md px-4 sm:max-w-2xl sm:px-6 sm:text-center lg:flex lg:items-center lg:px-0 lg:text-left">
-            <div className="lg:py-24">
-              <h1 className="font-poppins mt-4 text-6xl font-bold tracking-tight text-white sm:mt-5 sm:text-6xl lg:mt-6 xl:text-6xl">
-                Eden protocol
-              </h1>
-              <h3 className="mt-4 text-2xl font-bold tracking-tight text-white sm:mt-5 sm:text-2xl lg:mt-6 xl:text-3xl">
-                <span className="font-poppins">Community Power</span>
-                <span className="font-poppins text-accentColor pl-4  tracking-normal">
-                  Unlocked
-                </span>
-              </h3>
-              <p className="font-Inter mt-3 text-base text-zinc-200 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
-                Together, let&apos;s build the perfect breeding ground for
-                everyone to do work they love. Eden&apos;s talent coordination
-                protocol is how.
-              </p>
+    <div className={`flex h-screen overflow-hidden`}>
+      <Head>
+        <title>Eden protocol</title>
+      </Head>
+      <main className="bg-darkGreen/80 flex w-full flex-grow pt-10 sm:pt-16 lg:pt-8 lg:pb-14">
+        <div className="mx-auto w-full lg:px-8">
+          <div className="lg:grid lg:grid-cols-2 lg:gap-8">
+            <div className="mx-auto max-w-md px-4 sm:max-w-2xl sm:px-6 sm:text-center lg:flex lg:items-center lg:px-0 lg:text-left">
+              <div className="lg:py-24">
+                <h1 className="font-poppins mt-4 text-6xl font-bold tracking-tight text-white sm:mt-5 sm:text-6xl lg:mt-6 xl:text-6xl">
+                  Eden protocol
+                </h1>
+                <h3 className="mt-4 text-2xl font-bold tracking-tight text-white sm:mt-5 sm:text-2xl lg:mt-6 xl:text-3xl">
+                  <span className="font-poppins">Community Power</span>
+                  <span className="font-poppins text-accentColor pl-4  tracking-normal">
+                    Unlocked
+                  </span>
+                </h3>
+                <p className="font-Inter mt-3 text-base text-zinc-200 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
+                  Together, let&apos;s build the perfect breeding ground for
+                  everyone to do work they love. Eden&apos;s talent coordination
+                  protocol is how.
+                </p>
 
-              <div className="mt-10 sm:mt-12">
-                <div className="sm:flex">
-                  <div className="mt-3 sm:mt-0 sm:ml-3">
-                    <Button
-                      variant={`primary`}
-                      onClick={() => router.push(`/projects`)}
-                    >
-                      Enter App
-                    </Button>
+                <div className="mt-10 sm:mt-12">
+                  <div className="sm:flex">
+                    <div className="mt-3 sm:mt-0 sm:ml-3">
+                      <Button
+                        variant={`primary`}
+                        onClick={() => router.push(`/projects`)}
+                      >
+                        Enter App
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+            <div className="mt-12 -mb-16 sm:-mb-48 lg:relative lg:m-0"></div>
           </div>
-          <div className="mt-12 -mb-16 sm:-mb-48 lg:relative lg:m-0"></div>
         </div>
-      </div>
+      </main>
       <footer className="absolute inset-x-0 bottom-0 bg-white">
         <div className="mx-auto max-w-7xl py-6 px-4 sm:px-6 md:flex md:items-center md:justify-between lg:px-8">
           <div className="flex justify-center space-x-6 md:order-2">
@@ -58,7 +64,7 @@ export default function Web() {
               </a>
             ))}
           </div>
-          <div className="mt-8 md:order-1 md:mt-0">
+          <div className="mt-4 md:order-1 md:mt-6">
             <p className="text-center text-base text-zinc-500">
               &copy; 2022 Eden protocol, Inc. All rights reserved.
             </p>

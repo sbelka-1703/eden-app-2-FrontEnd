@@ -16,6 +16,7 @@ export const SignUpViewSocials = () => {
   const {
     hoursPerWeek,
     setHoursPerWeek,
+    timezone,
     setTimezone,
     twitterHandle,
     setTwitterHandle,
@@ -26,6 +27,8 @@ export const SignUpViewSocials = () => {
     telegramHandle,
     setTelegramHandle,
   } = useContext(SignUpContext);
+
+  console.log("timezone", timezone);
 
   return (
     <div className={`py-6 px-12`}>
@@ -38,6 +41,7 @@ export const SignUpViewSocials = () => {
         <div>
           <div className={`mx-auto w-40`}>
             <Dropdown
+              value={timezone}
               items={timezones}
               placeholder={`Timezone`}
               onSelect={(val) => setTimezone(val.name)}

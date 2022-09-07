@@ -4,9 +4,20 @@ import { SearchSkill } from "ui";
 const TestSearch = () => {
   const [skills, setSkills] = useState([]);
 
+  const levels = [
+    {
+      title: "learning",
+      level: "learning",
+    },
+    {
+      title: "Skilled",
+      level: "mid",
+    },
+  ];
+
   return (
     <div className="w-[30rem]">
-      <SearchSkill skills={skills} setSkills={setSkills} />
+      <SearchSkill levels={levels} skills={skills} setSkills={setSkills} />
     </div>
   );
 };

@@ -28,17 +28,23 @@ class MyDocument extends Document {
           <meta property="og:site_name" content={`Eden protocol`} />
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
-          {/* <meta property="og:image" content={``} />
+          <meta
+            property="og:image"
+            content={`https://pbs.twimg.com/profile_images/1563942271170617344/4Tpfr8SY_400x400.jpg`}
+          />
           <meta property="og:image:width" content="400" />
-          <meta property="og:image:height" content="400" /> */}
+          <meta property="og:image:height" content="400" />
 
           <meta property="twitter:card" content="summary" />
           <meta property="twitter:site" content={`Eden protocol`} />
           <meta property="twitter:title" content={title} />
           <meta property="twitter:description" content={description} />
-          {/* <meta property="twitter:image:src" content={``} />
+          <meta
+            property="twitter:image:src"
+            content={`https://pbs.twimg.com/profile_images/1563942271170617344/4Tpfr8SY_400x400.jpg`}
+          />
           <meta property="twitter:image:width" content="400" />
-          <meta property="twitter:image:height" content="400" /> */}
+          <meta property="twitter:image:height" content="400" />
           <meta property="twitter:creator" content={`Eden protocol`} />
           <link
             href="https://fonts.googleapis.com/css2?family=Poppins&display=optional"
