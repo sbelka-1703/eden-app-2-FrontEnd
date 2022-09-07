@@ -39,7 +39,7 @@ type ExpandableProps = {
   id: string;
   query: string;
   setExpanding?: any;
-  levels: LevelProp[];
+  levels?: LevelProp[];
 };
 
 export const Expandable = ({
@@ -127,7 +127,7 @@ export const Expandable = ({
               <div className="bg-[#EDF2F7] px-4 pb-4 pt-2">
                 <p className="font-semibold text-[#AAAAAA]">Skill level</p>
                 <div className="flex gap-2">
-                  {levels.map((level, index) => (
+                  {levels!.map((level, index) => (
                     <Selector
                       key={index}
                       title={level.title.toUpperCase()}

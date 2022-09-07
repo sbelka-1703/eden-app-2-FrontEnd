@@ -13,8 +13,25 @@ export default {
 
 const Template: ComponentStory<typeof SearchSkill> = (args) => {
   const [skills, setSkills] = useState([]);
+  const levels = [
+    {
+      title: "learning",
+      level: "learning",
+    },
+    {
+      title: "Skilled",
+      level: "mid",
+    },
+  ];
 
-  return <SearchSkill {...args} skills={skills} setSkills={setSkills} />;
+  return (
+    <SearchSkill
+      {...args}
+      skills={skills}
+      levels={levels}
+      setSkills={setSkills}
+    />
+  );
 };
 
 export const Default = Template.bind({});
