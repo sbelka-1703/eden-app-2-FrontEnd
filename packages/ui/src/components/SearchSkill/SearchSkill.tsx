@@ -10,13 +10,23 @@ import { SearchIcon } from "@heroicons/react/solid";
 import { useEffect, useMemo, useState } from "react";
 import { Expandable } from "ui";
 
+type LevelProp = {
+  title: string;
+  level: string;
+};
+
 export interface SearchSkillProps {
   // eslint-disable-next-line camelcase
   skills: Maybe<Maybe<SkillType_Member>[]> | undefined;
   setSkills: any;
+  levels: LevelProp[];
 }
 
-export const SearchSkill = ({ skills, setSkills }: SearchSkillProps) => {
+export const SearchSkill = ({
+  skills,
+  setSkills,
+  levels,
+}: SearchSkillProps) => {
   const [query, setQuery] = useState<string>("");
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -127,6 +137,7 @@ export const SearchSkill = ({ skills, setSkills }: SearchSkillProps) => {
               key={category}
               setSelected={setSelected}
               setExpanding={(e: boolean) => setInFocus(e)}
+              levels={levels}
             />
           ))}
         </Combobox.Options>

@@ -10,11 +10,16 @@ type SelectorProps = {
   onClick: () => void;
 };
 
+type LevelProp = {
+  title: string;
+  level: string;
+};
+
 function Selector({ title, onClick }: SelectorProps) {
   return (
     <div
       onClick={onClick}
-      className="cursor-pointer rounded-md border-[1px] border-black p-1 transition-all duration-500 hover:bg-black hover:text-white"
+      className="cursor-pointer rounded-md border-[2px] border-black bg-white p-2 text-[14px] font-semibold transition-all duration-500 hover:bg-black hover:text-white"
     >
       {title}
     </div>
@@ -34,6 +39,7 @@ type ExpandableProps = {
   id: string;
   query: string;
   setExpanding?: any;
+  levels?: LevelProp[];
 };
 
 export const Expandable = ({
@@ -48,11 +54,10 @@ export const Expandable = ({
   id,
   query,
   setExpanding,
+  levels,
 }: ExpandableProps) => {
   const [isExandingOpen, setIsExpandingOpen] = useState<boolean>(false);
   const [idSelected, setIdSelected] = useState<string | null>(null);
-
-  const levels = ["learning", "junior", "mid", "senior"];
 
   const useGetSkills = (id: string) => {
     const { data: allSkillsByCategory } = useQuery(FIND_SKILL_BY_CATEGORIES, {
@@ -122,10 +127,10 @@ export const Expandable = ({
               <div className="bg-[#EDF2F7] px-4 pb-4 pt-2">
                 <p className="font-semibold text-[#AAAAAA]">Skill level</p>
                 <div className="flex gap-2">
-                  {levels.map((level, index) => (
+                  {levels!.map((level, index) => (
                     <Selector
                       key={index}
-                      title={level.toUpperCase()}
+                      title={level.title.toUpperCase()}
                       onClick={() => {
                         setSkills([
                           ...skills!,
@@ -134,7 +139,7 @@ export const Expandable = ({
                               _id: item._id,
                               name: item.name,
                             },
-                            level: level,
+                            level: level.level,
                           },
                         ]);
                         setIsOpen(false);
@@ -151,6 +156,7 @@ export const Expandable = ({
                             _id: item._id,
                             name: item.name,
                           },
+                          level: "mid",
                         },
                       ]);
                       setIsOpen(false);

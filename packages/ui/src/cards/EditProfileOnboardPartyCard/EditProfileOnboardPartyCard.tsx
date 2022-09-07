@@ -13,6 +13,17 @@ export const EditProfileOnboardPartyCard = ({
   // skills,
   handleSetSkills,
 }: EditProfileOnboardPartyCardProps) => {
+  const levels = [
+    {
+      title: "learning",
+      level: "learning",
+    },
+    {
+      title: "Skilled",
+      level: "mid",
+    },
+  ];
+
   return (
     <Card shadow className="bg-white p-3">
       <TextHeading3 className="mb-2">Edit Your Profile Card</TextHeading3>
@@ -43,7 +54,11 @@ export const EditProfileOnboardPartyCard = ({
         }
         onSetSkills={handleSetSkills}
       /> */}
-      <SearchSkill skills={currentUser.skills} setSkills={handleSetSkills} />
+      <SearchSkill
+        levels={levels}
+        skills={currentUser.skills}
+        setSkills={handleSetSkills}
+      />
     </Card>
   );
 };
