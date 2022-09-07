@@ -6,6 +6,7 @@ import {
   SocialMediaInput,
   TextArea,
   TextHeading3,
+  TextLabel,
 } from "ui";
 
 export interface EditProfileOnboardPartyCardProps {
@@ -32,13 +33,16 @@ export const EditProfileOnboardPartyCard = ({
           <span className="ml-2">{currentUser?.discordName}</span>
         )}
       </div>
+      <TextLabel>🛠 SKILLS</TextLabel>
       <SearchSkill skills={currentUser.skills} setSkills={handleSetSkills} />
+      <TextLabel>ABOUT ME</TextLabel>
       <TextArea
-        placeholder={`Start typing here`}
-        rows={8}
+        placeholder={`Write a short description about yourself...`}
+        rows={5}
         // value={`${currentUser.bio ? currentUser.bio : ""}`}
         onChange={handleUpdateUser}
       />
+      <TextLabel>SOCIAL MEDIA</TextLabel>
       <SocialMediaInput platform="twitter" onChange={handleUpdateUser} />
       <SocialMediaInput platform="linkedin" onChange={handleUpdateUser} />
     </Card>
