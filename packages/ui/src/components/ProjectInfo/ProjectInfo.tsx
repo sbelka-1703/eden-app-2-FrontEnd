@@ -23,14 +23,16 @@ export const ProjectInfo = ({
     <div className={`desc mt-6 flex-col`}>
       <div className="p-2">
         <div className="flex flex-row content-center items-center justify-start">
-          <Avatar size="lg" src={avatarSrc} />
+          <div>
+            <Avatar size="lg" src={avatarSrc} />
+          </div>
           <div className="ml-6">
             <div
               className={`text-2xl font-normal tracking-wide text-neutral-700`}
             >
               {projectTitle}
             </div>
-            <div className={` text-lg text-neutral-400`}>{projectSubTitle}</div>
+            <div className={`text-lg text-neutral-400`}>{projectSubTitle}</div>
           </div>
         </div>
         <div className="mt-6">

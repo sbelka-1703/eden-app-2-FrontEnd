@@ -28,8 +28,6 @@ export const SignUpViewSocials = () => {
     setTelegramHandle,
   } = useContext(SignUpContext);
 
-  console.log("timezone", timezone);
-
   return (
     <div className={`py-6 px-12`}>
       <div
