@@ -30,15 +30,14 @@ export const Calendar = ({
   maxDate,
   numberOfMonths,
   currentDate,
-}: ICalendarProps) =>{
+}: ICalendarProps) => {
   const [inputValue, setInputValue] = useState("");
   const datePickerRef: any = useRef();
 
   const onSelectDate = (dateValue: DateObject) => {
     let dateAssign = dateValue?.toDate().toLocaleDateString().toString();
     setInputValue(dateAssign);
-    if(onChange)
-    {
+    if (onChange) {
       onChange(dateValue);
     }
   };
@@ -54,13 +53,9 @@ export const Calendar = ({
             <MdEditCalendar color="#BCBCBC" />
           </div>
           {inputValue ? (
-            <div className="font-light text-slate-600">
-              {inputValue}
-            </div>
+            <div className="font-light text-slate-600">{inputValue}</div>
           ) : (
-            <div className="font-light text-slate-400">
-               {label}
-            </div>
+            <div className="font-light text-slate-400">{label}</div>
           )}
         </div>
       </Button>
