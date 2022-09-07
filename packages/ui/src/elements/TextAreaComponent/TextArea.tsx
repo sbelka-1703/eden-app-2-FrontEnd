@@ -6,6 +6,7 @@ export type TextAreaProps = {
   value?: string;
   required?: boolean;
   rows?: number;
+  maxLength?: number;
   // eslint-disable-next-line no-unused-vars
   onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 } & InputHTMLAttributes<HTMLTextAreaElement>;
@@ -17,9 +18,10 @@ export const TextArea: React.FC<TextAreaProps> = ({
   autoComplete,
   placeholder,
   rows = 3,
+  maxLength,
   onChange,
 }) => {
-  const inputCls = clsx("py-1 px-4 font-Inter text-soilBody flex rounded-md");
+  const inputCls = clsx("py-1 px-2 font-Inter text-soilBody flex rounded-md");
 
   return (
     <div className={`w-full`}>
@@ -35,6 +37,7 @@ export const TextArea: React.FC<TextAreaProps> = ({
           onChange={(e) => {
             onChange(e);
           }}
+          maxLength={maxLength}
           className={`${inputCls} focus:border-accentColor focus:ring-soilGreen-500 block w-full resize-none border border-zinc-400/50 py-1 px-2 text-base shadow-sm focus:outline-transparent focus:ring focus:ring-opacity-50`}
         />
       </div>

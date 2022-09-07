@@ -80,6 +80,7 @@ export const EditProfileOnboardPartyCard = ({
         placeholder={`Write a short description about yourself...`}
         rows={5}
         // value={`${currentUser.bio ? currentUser.bio : ""}`}
+        className="text-xs"
         onChange={handleUpdateUser}
       />
       <TextLabel>SOCIAL MEDIA</TextLabel>
