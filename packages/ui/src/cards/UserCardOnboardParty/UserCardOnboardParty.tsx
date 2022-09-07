@@ -7,7 +7,7 @@ export interface UserCardOnboardPartyProps {
 }
 
 export const UserCardOnboardParty = ({ member }: UserCardOnboardPartyProps) => {
-  const learningBadges = member?.skills
+  const learningBadges: JSX.Element[] | undefined = member?.skills
     ?.filter((skill: Maybe<SkillType_Member>) => skill?.level === "learning")
     .map((skill, index) => (
       <Badge
@@ -18,7 +18,7 @@ export const UserCardOnboardParty = ({ member }: UserCardOnboardPartyProps) => {
         cutText={16}
       />
     ));
-  const skilledBadges = member?.skills
+  const skilledBadges: JSX.Element[] | undefined = member?.skills
     ?.filter((skill: Maybe<SkillType_Member>) => skill?.level !== "learning")
     .map((skill, index) => (
       <Badge
@@ -48,6 +48,8 @@ export const UserCardOnboardParty = ({ member }: UserCardOnboardPartyProps) => {
       <div>{learningBadges}</div>
       <TextLabel>SKILLED</TextLabel>
       <div>{skilledBadges}</div>
+      <TextLabel>ABOUT ME</TextLabel>
+      <div>{member.bio}</div>
     </Card>
   );
 };

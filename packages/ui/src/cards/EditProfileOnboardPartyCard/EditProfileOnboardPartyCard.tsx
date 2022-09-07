@@ -77,6 +77,7 @@ export const EditProfileOnboardPartyCard = ({
       <div>{skilledBadges}</div>
       <TextLabel>ABOUT ME</TextLabel>
       <TextArea
+        name="bio"
         placeholder={`Write a short description about yourself...`}
         rows={5}
         // value={`${currentUser.bio ? currentUser.bio : ""}`}
