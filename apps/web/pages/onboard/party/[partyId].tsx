@@ -173,7 +173,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
 
   return (
     <GridLayout>
-      <GridItemThree className="scrollbar-hide overflow-scroll">
+      <GridItemThree>
         {!currentUser ? (
           <p>
             You must be logged in to edit your profile.

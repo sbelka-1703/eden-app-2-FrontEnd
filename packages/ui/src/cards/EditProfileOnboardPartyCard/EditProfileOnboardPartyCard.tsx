@@ -1,6 +1,15 @@
 /* eslint-disable camelcase */
-import { Members } from "@graphql/eden/generated";
-import { Avatar, Card, SearchSkill, TextHeading3, TextLabel } from "ui";
+import { Maybe, Members, SkillType_Member } from "@graphql/eden/generated";
+import {
+  Avatar,
+  Badge,
+  Card,
+  SearchSkill,
+  SocialMediaInput,
+  TextArea,
+  TextHeading3,
+  TextLabel,
+} from "ui";
 
 export interface EditProfileOnboardPartyCardProps {
   currentUser: Members;
@@ -13,27 +22,27 @@ export interface EditProfileOnboardPartyCardProps {
 export const EditProfileOnboardPartyCard = ({
   currentUser,
   handleSetSkills,
-}: // handleUpdateUser,
-EditProfileOnboardPartyCardProps) => {
-  // const learningBadges = currentUser?.skills
-  //   ?.filter((skill: Maybe<SkillType_Member>) => skill?.level === "learning")
-  //   .map((skill, index) => (
-  //     <Badge
-  //       key={index}
-  //       text={skill?.skillInfo?.name || ""}
-  //       colorRGB="209,247,196"
-  //       className={`font-Inter text-sm`}
-  //     />
-  //   ));
-  // const skilledBadges = currentUser?.skills
-  //   ?.filter((skill: Maybe<SkillType_Member>) => skill?.level !== "learning")
-  //   .map((skill, index) => (
-  //     <Badge
-  //       key={index}
-  //       text={skill?.skillInfo?.name || ""}
-  //       className={`bg-soilPurple/20 font-Inter text-sm`}
-  //     />
-  //   ));
+  handleUpdateUser,
+}: EditProfileOnboardPartyCardProps) => {
+  const learningBadges = currentUser?.skills
+    ?.filter((skill: Maybe<SkillType_Member>) => skill?.level === "learning")
+    .map((skill, index) => (
+      <Badge
+        key={index}
+        text={skill?.skillInfo?.name || ""}
+        colorRGB="209,247,196"
+        className={`font-Inter bg-white text-sm`}
+      />
+    ));
+  const skilledBadges = currentUser?.skills
+    ?.filter((skill: Maybe<SkillType_Member>) => skill?.level !== "learning")
+    .map((skill, index) => (
+      <Badge
+        key={index}
+        text={skill?.skillInfo?.name || ""}
+        className={`bg-soilPurple/20 font-Inter text-sm`}
+      />
+    ));
   const levels = [
     {
       title: "learning",
@@ -46,7 +55,7 @@ EditProfileOnboardPartyCardProps) => {
   ];
 
   return (
-    <Card shadow className="bg-white p-3">
+    <Card shadow className="h-8/10 scrollbar-hide overflow-scroll p-3">
       <TextHeading3 className="mb-2">Edit Your Profile</TextHeading3>
       <div className="mb-4 flex items-center">
         {currentUser.discordAvatar && (
@@ -62,7 +71,7 @@ EditProfileOnboardPartyCardProps) => {
         skills={currentUser.skills}
         setSkills={handleSetSkills}
       />
-      {/* <TextLabel>LEARNING</TextLabel>
+      <TextLabel>LEARNING</TextLabel>
       <div>{learningBadges}</div>
       <TextLabel>SKILLED</TextLabel>
       <div>{skilledBadges}</div>
@@ -75,7 +84,7 @@ EditProfileOnboardPartyCardProps) => {
       />
       <TextLabel>SOCIAL MEDIA</TextLabel>
       <SocialMediaInput platform="twitter" onChange={handleUpdateUser} />
-      <SocialMediaInput platform="linkedin" onChange={handleUpdateUser} /> */}
+      <SocialMediaInput platform="linkedin" onChange={handleUpdateUser} />
     </Card>
   );
 };
