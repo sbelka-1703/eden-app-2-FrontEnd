@@ -107,6 +107,7 @@ const OnboardPartyPage: NextPage = () => {
               _id
               name
             }
+            level
           }
         }
       }
