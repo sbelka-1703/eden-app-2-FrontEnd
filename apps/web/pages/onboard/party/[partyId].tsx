@@ -111,6 +111,10 @@ const OnboardPartyPage: NextPageWithLayout = () => {
             }
             level
           }
+          links {
+            name
+            url
+          }
         }
       }
     `,

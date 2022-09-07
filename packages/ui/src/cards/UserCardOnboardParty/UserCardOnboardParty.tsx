@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { Maybe, Members, SkillType_Member } from "@graphql/eden/generated";
-import { Avatar, Badge, Card, TextLabel } from "ui";
+import { Avatar, Badge, Card, SocialMediaComp, TextLabel } from "ui";
 
 export interface UserCardOnboardPartyProps {
   member: Members;
@@ -38,11 +38,16 @@ export const UserCardOnboardParty = ({ member }: UserCardOnboardPartyProps) => {
         TOTAL SKILLS: {`${member.skills?.length || 0}`}
       </span>
 
-      <div className="mb-4 flex flex-col">
+      <div className="mb-4 flex">
         {member.discordAvatar && (
-          <Avatar src={member.discordAvatar} size="sm" />
+          <div className="mr-3 mb-1">
+            <Avatar src={member.discordAvatar} size="md" />
+          </div>
         )}
-        <span className="mt-2">{member.discordName}</span>
+        <div>
+          <span className="mt-2">{member.discordName}</span>
+          <SocialMediaComp links={member.links} title="" size="18px" />
+        </div>
       </div>
       <TextLabel>LEARNING</TextLabel>
       <div>{learningBadges}</div>
