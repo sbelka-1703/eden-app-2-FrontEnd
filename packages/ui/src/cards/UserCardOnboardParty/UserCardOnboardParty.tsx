@@ -24,6 +24,7 @@ export const UserCardOnboardParty = ({ member }: UserCardOnboardPartyProps) => {
         key={index}
         text={skill?.skillInfo?.name || ""}
         className={`bg-soilPurple/20 font-Inter text-sm`}
+        cutText={16}
       />
     ));
 
