@@ -52,6 +52,10 @@ export const getMemberProject = () => ({
       _id: String(faker.random.numeric(5)),
       description: faker.lorem.sentences(5),
       title: faker.name.firstName(),
+      dates: {
+        complition: "1662161995158",
+        kickOff: "1662161995158",
+      },
     },
   ],
 });
@@ -85,7 +89,7 @@ export const getMember = () =>
     interest: faker.lorem.paragraph(),
     links,
     previusProjects: getPreviusProjectsArray(3),
-    projects: getMemberProjectArray(8),
+    projects: getMemberProjectArray(14),
     serverID: faker.random.numeric(12),
     skills: getSkills(faker.datatype.number({ min: 2, max: 36, precision: 1 })),
     timeZone: faker.address.timeZone(),

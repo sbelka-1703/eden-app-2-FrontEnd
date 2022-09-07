@@ -1,7 +1,14 @@
 import { gql, useQuery } from "@apollo/client";
 import { LaunchProvider } from "@context/eden";
-import type { NextPage } from "next";
-import { GridItemSix, GridItemThree, GridLayout, LaunchContainer } from "ui";
+import {
+  AppUserLayout,
+  GridItemSix,
+  GridItemThree,
+  GridLayout,
+  LaunchContainer,
+} from "ui";
+
+import type { NextPageWithLayout } from "../_app";
 
 export const FIND_SERVERS = gql`
   query ($fields: findServersInput) {
@@ -21,7 +28,7 @@ export const FIND_ROLES = gql`
   }
 `;
 
-const LaunchPage: NextPage = () => {
+const LaunchPage: NextPageWithLayout = () => {
   const { data: dataServers } = useQuery(FIND_SERVERS, {
     variables: {
       fields: {},
@@ -56,4 +63,29 @@ const LaunchPage: NextPage = () => {
   );
 };
 
+LaunchPage.getLayout = (page) => <AppUserLayout>{page}</AppUserLayout>;
+
 export default LaunchPage;
+
+import { IncomingMessage, ServerResponse } from "http";
+import { getSession } from "next-auth/react";
+
+export async function getServerSideProps(ctx: {
+  req: IncomingMessage;
+  res: ServerResponse;
+}) {
+  const session = await getSession(ctx);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: `/login`,
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}

@@ -1,12 +1,23 @@
 import React, { useState } from "react";
-import { SearchBar } from "ui";
+import { SearchSkill } from "ui";
 
 const TestSearch = () => {
   const [skills, setSkills] = useState([]);
 
+  const levels = [
+    {
+      title: "learning",
+      level: "learning",
+    },
+    {
+      title: "Skilled",
+      level: "mid",
+    },
+  ];
+
   return (
-    <div>
-      <SearchBar skills={skills} setSkills={setSkills} />
+    <div className="w-[30rem]">
+      <SearchSkill levels={levels} skills={skills} setSkills={setSkills} />
     </div>
   );
 };

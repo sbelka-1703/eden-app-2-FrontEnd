@@ -1,27 +1,34 @@
-// import { UserContext } from "@context/eden";
-import type { NextPage } from "next";
-// import { useContext } from "react";
-import {
-  GridItemNine,
-  GridItemThree,
-  GridLayout,
-  ProfileContainer,
-  UserProfileMenu,
-} from "ui";
+import { AppUserMenuLayout, ProfileContainer } from "ui";
 
-const ProfilePage: NextPage = () => {
-  // const { currentUser } = useContext(UserContext);
+import type { NextPageWithLayout } from "../_app";
 
-  return (
-    <GridLayout>
-      <GridItemThree>
-        <UserProfileMenu title={`Good Morning,`} />
-      </GridItemThree>
-      <GridItemNine>
-        <ProfileContainer />
-      </GridItemNine>
-    </GridLayout>
-  );
+const ProfilePage: NextPageWithLayout = () => {
+  return <ProfileContainer />;
 };
 
+ProfilePage.getLayout = (page) => <AppUserMenuLayout>{page}</AppUserMenuLayout>;
+
 export default ProfilePage;
+
+import { IncomingMessage, ServerResponse } from "http";
+import { getSession } from "next-auth/react";
+
+export async function getServerSideProps(ctx: {
+  req: IncomingMessage;
+  res: ServerResponse;
+}) {
+  const session = await getSession(ctx);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: `/login`,
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}

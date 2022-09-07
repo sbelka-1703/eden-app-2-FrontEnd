@@ -1,10 +1,10 @@
 import { useQuery } from "@apollo/client";
 import { UserContext } from "@context/eden";
 import { FIND_PROJECT } from "@graphql/eden";
-import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
 import {
+  AppUserLayout,
   Button,
   ChampionContainer,
   GridItemSix,
@@ -13,7 +13,9 @@ import {
   SideNavProjectList,
 } from "ui";
 
-const ProjectPage: NextPage = () => {
+import type { NextPageWithLayout } from "../_app";
+
+const ProjectPage: NextPageWithLayout = () => {
   const router = useRouter();
   const { currentUser } = useContext(UserContext);
   const [selectProject, setSelectProject] = useState("");
@@ -69,4 +71,29 @@ const ProjectPage: NextPage = () => {
   );
 };
 
+ProjectPage.getLayout = (page) => <AppUserLayout>{page}</AppUserLayout>;
+
 export default ProjectPage;
+
+import { IncomingMessage, ServerResponse } from "http";
+import { getSession } from "next-auth/react";
+
+export async function getServerSideProps(ctx: {
+  req: IncomingMessage;
+  res: ServerResponse;
+}) {
+  const session = await getSession(ctx);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: `/login`,
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}

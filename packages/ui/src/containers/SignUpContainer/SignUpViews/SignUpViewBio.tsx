@@ -14,12 +14,17 @@ export const SignUpViewBio = () => {
       >
         Fill out your Eden Profile
       </div>
+
       <div className={`mt-8 flex justify-center`}>
-        <div>
-          <Avatar src={`${currentUser?.discordAvatar}`} size={`lg`} />
-          <div className={`font-Inter text-darkGreen text-center`}>
-            @{currentUser?.discordName}
-          </div>
+        <div className={`h-1/10 mb-6`}>
+          {currentUser && (
+            <>
+              <Avatar src={`${currentUser?.discordAvatar}`} size={`lg`} />
+              <div className={`font-Inter text-darkGreen text-center`}>
+                @{currentUser?.discordName}
+              </div>
+            </>
+          )}
         </div>
       </div>
       <div className={`font-poppins mt-8`}>

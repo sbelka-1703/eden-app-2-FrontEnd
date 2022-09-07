@@ -2,17 +2,17 @@
 import { gql, useMutation, useQuery, useSubscription } from "@apollo/client";
 import { UserContext } from "@context/eden";
 import {
+  ADD_SKILL_TO_MEMBER_IN_ROOM,
   ENTER_ROOM,
   FIND_ROOM,
-  MEMBER_UPDATED,
+  NEW_SKILL_IN_ROOM,
   ROOM_UPDATED,
-  UPDATE_MEMBER,
 } from "@graphql/eden";
 import { Members, SkillType_Member } from "@graphql/eden/generated";
-import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import {
+  AppPublicLayout,
   EditProfileOnboardPartyCard,
   GridItemNine,
   GridItemThree,
@@ -20,7 +20,9 @@ import {
   OnboardPartyContainer,
 } from "ui";
 
-const OnboardPartyPage: NextPage = () => {
+import type { NextPageWithLayout } from "../../_app";
+
+const OnboardPartyPage: NextPageWithLayout = () => {
   const router = useRouter();
   const { partyId } = router.query;
 
@@ -44,6 +46,24 @@ const OnboardPartyPage: NextPage = () => {
     },
     skip: !partyId,
     context: { serviceName: "soilservice" },
+  });
+
+  useSubscription(NEW_SKILL_IN_ROOM, {
+    variables: {
+      fields: { _id: partyId },
+    },
+    skip: !partyId,
+    context: { serviceName: "soilservice" },
+    onSubscriptionData: (data) => {
+      const newMemberData = data.subscriptionData.data.newSkillInRoom;
+
+      setMembers(
+        members.map((member: Members) => {
+          if (member._id !== newMemberData._id) return member;
+          return newMemberData;
+        })
+      );
+    },
   });
 
   const membersIds: Array<string> = dataRoomSubscription
@@ -89,6 +109,7 @@ const OnboardPartyPage: NextPage = () => {
               _id
               name
             }
+            level
           }
         }
       }
@@ -99,7 +120,7 @@ const OnboardPartyPage: NextPage = () => {
           _id: membersIds,
         },
       },
-      skip: !dataRoom,
+      skip: !membersIds,
       context: { serviceName: "soilservice" },
       onCompleted: (data) => {
         if (data) {
@@ -109,38 +130,16 @@ const OnboardPartyPage: NextPage = () => {
     }
   );
 
-  useSubscription(MEMBER_UPDATED, {
-    variables: {
-      fields: { _id: membersIds },
-    },
-    skip: !membersIds,
-    context: { serviceName: "soilservice" },
-    onSubscriptionData: (data) => {
-      const newMemberData = data.subscriptionData.data.memberUpdated;
-
-      setMembers(
-        members.map((member: Members) => {
-          if (member._id !== newMemberData._id) return member;
-          return newMemberData;
-        })
-      );
-    },
-  });
-
-  // const { data: dataSkills } = useQuery(FIND_SKILLS, {
-  //   variables: {
-  //     fields: {},
-  //   },
-  //   context: { serviceName: "soilservice" },
-  // });
-
-  const [updateMember] = useMutation(UPDATE_MEMBER, {});
+  const [updateMember] = useMutation(ADD_SKILL_TO_MEMBER_IN_ROOM, {});
 
   const handleSetSkills = (skills: SkillType_Member[]) => {
+    if (!partyId || !currentUser) return;
+
     updateMember({
       variables: {
         fields: {
-          _id: currentUser?._id,
+          roomID: partyId,
+          memberID: currentUser?._id,
           skills: skills.map((skill: SkillType_Member) => {
             return {
               id: skill.skillInfo?._id,
@@ -151,10 +150,30 @@ const OnboardPartyPage: NextPage = () => {
       },
     });
   };
+  const handleUpdateUser = (e: any) => {
+    if (!partyId || !currentUser) return;
+
+    console.log(e.target.value);
+
+    // updateMember({
+    //   variables: {
+    //     fields: {
+    //       roomID: partyId,
+    //       memberID: currentUser?._id,
+    //       skills: skills.map((skill: SkillType_Member) => {
+    //         return {
+    //           id: skill.skillInfo?._id,
+    //           level: skill.level,
+    //         };
+    //       }),
+    //     },
+    //   },
+    // });
+  };
 
   return (
     <GridLayout>
-      <GridItemThree>
+      <GridItemThree className="scrollbar-hide overflow-scroll">
         {!currentUser ? (
           <p>
             You must be logged in to edit your profile.
@@ -165,6 +184,7 @@ const OnboardPartyPage: NextPage = () => {
           <EditProfileOnboardPartyCard
             currentUser={currentUser}
             handleSetSkills={handleSetSkills}
+            handleUpdateUser={handleUpdateUser}
           />
         )}
       </GridItemThree>
@@ -174,5 +194,9 @@ const OnboardPartyPage: NextPage = () => {
     </GridLayout>
   );
 };
+
+OnboardPartyPage.getLayout = (page) => (
+  <AppPublicLayout>{page}</AppPublicLayout>
+);
 
 export default OnboardPartyPage;

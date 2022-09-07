@@ -1,19 +1,32 @@
-import { Members } from "@graphql/eden/generated";
-import { Avatar, Badge, Card } from "ui";
+/* eslint-disable camelcase */
+import { Maybe, Members, SkillType_Member } from "@graphql/eden/generated";
+import { Avatar, Badge, Card, TextLabel } from "ui";
 
 export interface UserCardOnboardPartyProps {
   member: Members;
 }
 
 export const UserCardOnboardParty = ({ member }: UserCardOnboardPartyProps) => {
-  const displayBadges = member.skills?.map((skill, index) => (
-    <Badge
-      key={index}
-      colorRGB="209,247,196"
-      text={skill?.skillInfo?.name || "no_name"}
-      cutText={13}
-    />
-  ));
+  const learningBadges = member?.skills
+    ?.filter((skill: Maybe<SkillType_Member>) => skill?.level === "learning")
+    .map((skill, index) => (
+      <Badge
+        key={index}
+        text={skill?.skillInfo?.name || ""}
+        colorRGB="209,247,196"
+        className={`font-Inter text-sm`}
+      />
+    ));
+  const skilledBadges = member?.skills
+    ?.filter((skill: Maybe<SkillType_Member>) => skill?.level !== "learning")
+    .map((skill, index) => (
+      <Badge
+        key={index}
+        text={skill?.skillInfo?.name || ""}
+        className={`bg-soilPurple/20 font-Inter text-sm`}
+        cutText={16}
+      />
+    ));
 
   return (
     <Card border className="col-span-1 bg-white p-3">
@@ -30,7 +43,10 @@ export const UserCardOnboardParty = ({ member }: UserCardOnboardPartyProps) => {
         )}
         <span className="mt-2">{member.discordName}</span>
       </div>
-      {displayBadges}
+      <TextLabel>LEARNING</TextLabel>
+      <div>{learningBadges}</div>
+      <TextLabel>SKILLED</TextLabel>
+      <div>{skilledBadges}</div>
     </Card>
   );
 };

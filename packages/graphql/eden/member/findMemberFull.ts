@@ -49,6 +49,11 @@ export const FIND_MEMBER_FULL = gql`
           _id
           name
         }
+        level
+      }
+      onbording {
+        percentage
+        signup
       }
     }
   }
