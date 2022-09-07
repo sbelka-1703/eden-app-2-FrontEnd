@@ -150,25 +150,26 @@ const OnboardPartyPage: NextPageWithLayout = () => {
       },
     });
   };
-  // const handleUpdateUser = (e: any) => {
-  //   if (!partyId || !currentUser) return;
+  const handleUpdateUser = (e: any) => {
+    if (!partyId || !currentUser) return;
+    console.log(e);
 
-  //   updateMember({
-  //     variables: {
-  //       fields: {
-  //         roomID: partyId,
-  //         memberID: currentUser?._id,
-  //         skills: currentUser?.skills?.map((skill: SkillType_Member | null) => {
-  //           return {
-  //             id: skill?.skillInfo?._id,
-  //             level: skill?.level,
-  //           };
-  //         }),
-  //         bio: e.target.name === "bio" ? e.target.value : currentUser.bio,
-  //       },
-  //     },
-  //   });
-  // };
+    //   updateMember({
+    //     variables: {
+    //       fields: {
+    //         roomID: partyId,
+    //         memberID: currentUser?._id,
+    //         skills: currentUser?.skills?.map((skill: SkillType_Member | null) => {
+    //           return {
+    //             id: skill?.skillInfo?._id,
+    //             level: skill?.level,
+    //           };
+    //         }),
+    //         bio: e.target.name === "bio" ? e.target.value : currentUser.bio,
+    //       },
+    //     },
+    //   });
+  };
 
   return (
     <GridLayout>
