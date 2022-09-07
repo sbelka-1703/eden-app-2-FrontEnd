@@ -1,6 +1,8 @@
-import { Members } from "@graphql/eden/generated";
+/* eslint-disable camelcase */
+import { Maybe, Members, SkillType_Member } from "@graphql/eden/generated";
 import {
   Avatar,
+  Badge,
   Card,
   SearchSkill,
   SocialMediaInput,
@@ -22,6 +24,26 @@ export const EditProfileOnboardPartyCard = ({
   handleSetSkills,
   handleUpdateUser,
 }: EditProfileOnboardPartyCardProps) => {
+  const learningBadges = currentUser?.skills
+    ?.filter((skill: Maybe<SkillType_Member>) => skill?.level === "learning")
+    .map((skill, index) => (
+      <Badge
+        key={index}
+        text={skill?.skillInfo?.name || ""}
+        colorRGB="209,247,196"
+        className={`font-Inter text-sm`}
+      />
+    ));
+  const skilledBadges = currentUser?.skills
+    ?.filter((skill: Maybe<SkillType_Member>) => skill?.level !== "learning")
+    .map((skill, index) => (
+      <Badge
+        key={index}
+        text={skill?.skillInfo?.name || ""}
+        className={`bg-soilPurple/20 font-Inter text-sm`}
+      />
+    ));
+
   return (
     <Card shadow className="bg-white p-3">
       <TextHeading3 className="mb-2">Edit Your Profile</TextHeading3>
@@ -35,6 +57,10 @@ export const EditProfileOnboardPartyCard = ({
       </div>
       <TextLabel>🛠 SKILLS</TextLabel>
       <SearchSkill skills={currentUser.skills} setSkills={handleSetSkills} />
+      <TextLabel>LEARNING</TextLabel>
+      <div>{learningBadges}</div>
+      <TextLabel>SKILLED</TextLabel>
+      <div>{skilledBadges}</div>
       <TextLabel>ABOUT ME</TextLabel>
       <TextArea
         placeholder={`Write a short description about yourself...`}

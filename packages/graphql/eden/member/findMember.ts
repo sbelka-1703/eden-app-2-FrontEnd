@@ -45,6 +45,7 @@ export const FIND_MEMBER = gql`
           _id
           name
         }
+        level
       }
     }
   }
