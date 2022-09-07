@@ -15,6 +15,7 @@ export const UserCardOnboardParty = ({ member }: UserCardOnboardPartyProps) => {
         text={skill?.skillInfo?.name || ""}
         colorRGB="209,247,196"
         className={`font-Inter text-sm`}
+        cutText={16}
       />
     ));
   const skilledBadges = member?.skills
