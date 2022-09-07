@@ -82,6 +82,7 @@ export const EditProfileOnboardPartyCard = ({
         // value={`${currentUser.bio ? currentUser.bio : ""}`}
         className="text-xs"
         onChange={handleUpdateUser}
+        debounceTime={2000}
       />
       <TextLabel>SOCIAL MEDIA</TextLabel>
       <SocialMediaInput platform="twitter" onChange={handleUpdateUser} />
