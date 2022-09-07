@@ -1,37 +1,49 @@
 import { LinkType, Maybe } from "@graphql/eden/generated";
 import { useEffect, useState } from "react";
-import { FaDiscord, FaGithub, FaTelegram, FaTwitter } from "react-icons/fa";
+import {
+  FaDiscord,
+  FaGithub,
+  FaLinkedin,
+  FaTelegram,
+  FaTwitter,
+} from "react-icons/fa";
 import { SiNotion } from "react-icons/si";
 export interface ISocialMediaCompProps {
   links?: Maybe<Array<Maybe<LinkType>>>;
+  title?: string;
+  size?: string;
+  color?: string;
 }
 
-export const SocialMediaComp = ({ links }: ISocialMediaCompProps) => {
+export const SocialMediaComp = ({
+  links,
+  size = "2rem",
+  color = "#BCBCBC",
+  title = "SOCIALS",
+}: ISocialMediaCompProps) => {
   const [twitterUrl, setTwitterUrl] = useState("");
   const [discordUrl, setDiscordUrl] = useState("");
   const [githubUrl, setGithubUrl] = useState("");
   const [telegramUrl, setTelegramUrl] = useState("");
+  const [linkedinUrl, setLinkedinUrl] = useState("");
   const [notionLink, setNotionLink] = useState("");
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (links) {
       const twitter = links.find((link) => link?.name === "twitter");
+      const discord = links.find((link) => link?.name === "discord");
+      const gitHub = links.find((link) => link?.name === "github");
+      const telegram = links.find((link) => link?.name === "telegram");
+      const notion = links.find((link) => link?.name === "notion");
+      const linkedin = links.find((link) => link?.name === "linkedin");
 
       if (twitter) setTwitterUrl(twitter.url ?? "");
-
-      const discord = links.find((link) => link?.name === "discord");
-
       if (discord) setDiscordUrl(discord.url ?? "");
-      const gitHub = links.find((link) => link?.name === "github");
-
       if (gitHub) setGithubUrl(gitHub.url ?? "");
-      const telegram = links.find((link) => link?.name === "telegram");
-
       if (telegram) setTelegramUrl(telegram.url ?? "");
-      const notion = links.find((link) => link?.name === "notion");
-
       if (notion) setNotionLink(notion.url ?? "");
+      if (linkedin) setLinkedinUrl(linkedin.url ?? "");
     }
   }),
     [links];
@@ -39,44 +51,53 @@ export const SocialMediaComp = ({ links }: ISocialMediaCompProps) => {
   // console.log("links", links);
   return (
     <div>
-      <div
-        className={`text-sm font-semibold tracking-widest subpixel-antialiased`}
-      >
-        SOCIALS
-      </div>
-      <div className={`mt-4 grid grid-cols-2 gap-4`}>
+      {title && (
+        <div
+          className={`mb-3 text-sm font-semibold tracking-widest subpixel-antialiased`}
+        >
+          {title}
+        </div>
+      )}
+      <div className={`flex flex-wrap`}>
         {twitterUrl && (
-          <div>
+          <div className="mr-2 mb-2">
             <a href={`${twitterUrl}`} target="_blank" rel="noreferrer">
-              <FaTwitter size="2rem" color="#BCBCBC" />
+              <FaTwitter size={size} color={color} />
             </a>
           </div>
         )}
         {telegramUrl && (
-          <div>
+          <div className="mr-2 mb-2">
             <a href={`${telegramUrl}`} target="_blank" rel="noreferrer">
-              <FaTelegram size="2rem" color="#BCBCBC" />
+              <FaTelegram size={size} color={color} />
             </a>
           </div>
         )}
         {discordUrl && (
-          <div>
+          <div className="mr-2 mb-2">
             <a href={`${discordUrl}`} target="_blank" rel="noreferrer">
-              <FaDiscord size="2rem" color="#BCBCBC" />
+              <FaDiscord size={size} color={color} />
             </a>
           </div>
         )}
         {githubUrl && (
-          <div>
+          <div className="mr-2 mb-2">
             <a href={`${githubUrl}`} target="_blank" rel="noreferrer">
-              <FaGithub size="2rem" color="#BCBCBC" />
+              <FaGithub size={size} color={color} />
+            </a>
+          </div>
+        )}
+        {linkedinUrl && (
+          <div className="mr-2 mb-2">
+            <a href={`${githubUrl}`} target="_blank" rel="noreferrer">
+              <FaLinkedin size={size} color={color} />
             </a>
           </div>
         )}
         {notionLink && (
-          <div>
+          <div className="mr-2 mb-2">
             <a href={`${notionLink}`} target="_blank" rel="noreferrer">
-              <SiNotion size="2rem" color="#BCBCBC" />
+              <SiNotion size={size} color={color} />
             </a>
           </div>
         )}
