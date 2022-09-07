@@ -34,11 +34,11 @@ export const SocialMediaInput = ({
   return (
     <div className="mb-2 flex rounded-md py-2 shadow-md">
       <div className="px-2">
-        {platform === "twitter" && <FaTwitter size="24px" color="#BCBCBC" />}
+        {platform === "twitter" && <FaTwitter size="24px" color="#00acee" />}
         {platform === "discord" && <FaTelegram size="24px" color="#BCBCBC" />}
         {platform === "github" && <FaDiscord size="24px" color="#BCBCBC" />}
         {platform === "notion" && <FaGithub size="24px" color="#BCBCBC" />}
-        {platform === "linkedin" && <FaLinkedin size="24px" color="#BCBCBC" />}
+        {platform === "linkedin" && <FaLinkedin size="24px" color="#0e76a8" />}
         {platform === "telegram" && <SiNotion size="24px" color="#BCBCBC" />}
       </div>
       <input
