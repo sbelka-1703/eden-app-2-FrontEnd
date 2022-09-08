@@ -1,3 +1,4 @@
+import { Maybe, RoleType } from "@graphql/eden/generated";
 import { createContext, Dispatch } from "react";
 
 export interface LaunchContextType {
@@ -5,8 +6,8 @@ export interface LaunchContextType {
   setProjectName: Dispatch<string>;
   projectDescription: string;
   setProjectDescription: Dispatch<string>;
-  // projectRoles: string[];
-  // setProjectRoles: Dispatch<string[]>;
+  projectRoles: Maybe<Array<Maybe<RoleType>>>;
+  setProjectRoles: Dispatch<Maybe<Array<Maybe<RoleType>>>>;
   serverId: string;
   setServerId: Dispatch<string>;
   githubUrl: string;
@@ -26,9 +27,9 @@ export const LaunchContext = createContext<LaunchContextType>({
   projectDescription: "",
   // eslint-disable-next-line no-empty-function
   setProjectDescription: () => {},
-  // projectRoles: [],
+  projectRoles: [],
   // eslint-disable-next-line no-empty-function
-  // setProjectRoles: () => {},
+  setProjectRoles: () => {},
   serverId: "",
   // eslint-disable-next-line no-empty-function
   setServerId: () => {},

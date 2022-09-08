@@ -24,8 +24,11 @@
     "eslint": "^8.20.0",
     "identity-obj-proxy": "^3.0.0",
     "react-confetti": "^6.1.0",
+    "react-tooltip": "^4.2.21",
     "tsconfig": "*",
-    "typescript": "^4.7.4"
+    "typescript": "^4.7.4",
+    "react-multi-date-picker": "^3.3.0"
   },
-  "dependencies": {}
+  "dependencies": {
+  }
 }

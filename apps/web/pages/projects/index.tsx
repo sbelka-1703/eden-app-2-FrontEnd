@@ -1,21 +1,16 @@
 import { useQuery } from "@apollo/client";
 import { UserContext } from "@context/eden";
 import { FIND_PROJECTS, FIND_PROJECTS_RECOMMENDED } from "@graphql/eden";
-import type { NextPage } from "next";
 import { useContext } from "react";
-import {
-  GridItemSix,
-  GridItemThree,
-  GridLayout,
-  ProjectsContainer,
-  RecommendedList,
-  UserProfileMenu,
-} from "ui";
+import { AppUserMenuLayout, ProjectsContainer } from "ui";
 
-const ProjectsPage: NextPage = () => {
+import type { NextPageWithLayout } from "../_app";
+
+const ProjectsPage: NextPageWithLayout = () => {
   const { currentUser } = useContext(UserContext);
 
-  if (currentUser) console.log("currentUser", currentUser);
+  // if (currentUser) console.log("currentUser", currentUser);
+
   const { data: dataProjectsAll } = useQuery(FIND_PROJECTS, {
     variables: {
       fields: {},
@@ -38,30 +33,42 @@ const ProjectsPage: NextPage = () => {
     }
   );
 
-  if (dataProjectsRecommended)
-    console.log("dataProjectsRecommended", dataProjectsRecommended);
-
   return (
-    <GridLayout>
-      <GridItemThree>
-        <UserProfileMenu currentUser={currentUser} title={`Good Morning,`} />
-      </GridItemThree>
-      <GridItemSix>
-        <ProjectsContainer
-          allProjects={dataProjectsAll?.findProjects}
-          favouriteProjects={currentUser?.projects}
-          recommendedProjects={
-            dataProjectsRecommended?.findProjects_RecommendedToUser
-          }
-        />
-      </GridItemSix>
-      <GridItemThree>
-        <RecommendedList
-          projects={dataProjectsRecommended?.findProjects_RecommendedToUser}
-        />
-      </GridItemThree>
-    </GridLayout>
+    <ProjectsContainer
+      allProjects={dataProjectsAll?.findProjects}
+      favouriteProjects={currentUser?.projects}
+      recommendedProjects={
+        dataProjectsRecommended?.findProjects_RecommendedToUser
+      }
+    />
   );
 };
 
+ProjectsPage.getLayout = (page) => (
+  <AppUserMenuLayout>{page}</AppUserMenuLayout>
+);
+
 export default ProjectsPage;
+
+import { IncomingMessage, ServerResponse } from "http";
+import { getSession } from "next-auth/react";
+
+export async function getServerSideProps(ctx: {
+  req: IncomingMessage;
+  res: ServerResponse;
+}) {
+  const session = await getSession(ctx);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: `/login`,
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}

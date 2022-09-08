@@ -1,9 +1,9 @@
 import { useQuery } from "@apollo/client";
-import { UserContext } from "@context/eden";
+// import { UserContext } from "@context/eden";
 import { FIND_PROJECT } from "@graphql/eden";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useContext } from "react";
+// import { useContext } from "react";
 import {
   Card,
   GridItemNine,
@@ -15,9 +15,9 @@ import {
 const ProjectPage: NextPage = () => {
   const router = useRouter();
   const { projectId } = router.query;
-  const { currentUser } = useContext(UserContext);
+  // const { currentUser } = useContext(UserContext);
 
-  if (currentUser) console.log("currentUser", currentUser);
+  // if (currentUser) console.log("currentUser", currentUser);
 
   const { data: dataProject } = useQuery(FIND_PROJECT, {
     variables: {
@@ -25,6 +25,7 @@ const ProjectPage: NextPage = () => {
         _id: projectId,
       },
     },
+    skip: !projectId,
     context: { serviceName: "soilservice" },
   });
 
@@ -32,7 +33,7 @@ const ProjectPage: NextPage = () => {
   return (
     <GridLayout>
       <GridItemThree>
-        <UserProfileMenu currentUser={currentUser} title={`Good Morning,`} />
+        <UserProfileMenu title={`Good Morning,`} />
       </GridItemThree>
       <GridItemNine>
         <Card shadow className="h-8/10 bg-white">
@@ -44,3 +45,26 @@ const ProjectPage: NextPage = () => {
 };
 
 export default ProjectPage;
+
+import { IncomingMessage, ServerResponse } from "http";
+import { getSession } from "next-auth/react";
+
+export async function getServerSideProps(ctx: {
+  req: IncomingMessage;
+  res: ServerResponse;
+}) {
+  const session = await getSession(ctx);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: `/login`,
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}

@@ -1,14 +1,18 @@
 import { Members, Project } from "@graphql/eden/generated";
 import { useState } from "react";
-import { TabsSelector, UserCard } from "ui";
+import { TabsSelector, UserCard, UserWithDescription } from "ui";
 
 const tabs = ["Engaged Talent", "Committed Team"];
 
 export interface ChampionContainerProps {
   project?: Project;
+  refetch?: () => void;
 }
 
-export const ChampionContainer = ({ project }: ChampionContainerProps) => {
+export const ChampionContainer = ({
+  project,
+  refetch,
+}: ChampionContainerProps) => {
   const [activeTab, setActiveTab] = useState(0);
 
   // console.log("project", project);
@@ -24,7 +28,12 @@ export const ChampionContainer = ({ project }: ChampionContainerProps) => {
                 return (
                   <div key={index} className={`mb-6`}>
                     {member?.phase === "engaged" && (
-                      <UserCard member={member?.memberInfo as Members} />
+                      <UserCard
+                        member={member?.memberInfo as Members}
+                        projectId={project?._id as string}
+                        engagedCard
+                        refetch={refetch}
+                      />
                     )}
                   </div>
                 );
@@ -32,13 +41,16 @@ export const ChampionContainer = ({ project }: ChampionContainerProps) => {
           </div>
         )}
         {activeTab === 1 && (
-          <div className={`pt-6`}>
+          <div className={`flex justify-between pt-6`}>
             {project?.team &&
               project?.team.map((member, index) => {
                 return (
                   <div key={index} className={`mb-6`}>
                     {member?.phase === "committed" && (
-                      <UserCard member={member?.memberInfo as Members} />
+                      <UserWithDescription
+                        avatarSrc={member?.memberInfo?.discordAvatar as string}
+                        name={member?.memberInfo?.discordName as string}
+                      />
                     )}
                   </div>
                 );

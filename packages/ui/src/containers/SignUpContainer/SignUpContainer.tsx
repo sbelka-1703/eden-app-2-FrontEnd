@@ -43,7 +43,7 @@ export const SignUpContainer = ({}: SignUpContainerProps) => {
     telegramHandle,
   } = useContext(SignUpContext);
 
-  console.log("currentUser", currentUser);
+  // console.log("currentUser", currentUser);
 
   const [currentIndex, setCurrentIndex] = useState(1);
   const maxSteps = 6;
@@ -65,7 +65,7 @@ export const SignUpContainer = ({}: SignUpContainerProps) => {
     updateMember({
       variables: {
         fields: {
-          serverID: "alpha-test",
+          // serverID: "alpha-test", // don't need this anymore
           _id: currentUser?._id,
           bio: profileBio,
           content: {
@@ -92,6 +92,10 @@ export const SignUpContainer = ({}: SignUpContainerProps) => {
               url: telegramHandle,
             },
           ],
+          // skills: [],
+          onbording: {
+            signup: true,
+          },
         },
       },
     });
@@ -119,63 +123,70 @@ export const SignUpContainer = ({}: SignUpContainerProps) => {
   };
 
   return (
-    <Card shadow className="h-8/10 bg-white">
-      {submittingProfile ? (
-        <Loading title={`Submitting...`} />
-      ) : (
-        <div className={`relative h-full`}>
-          <div className={`p-6`}>
-            {currentIndex <= maxSteps && (
-              <FormStepper step={currentIndex} maxSteps={maxSteps} />
-            )}
-          </div>
-
-          {/* view window */}
-          {SignUpView && SignUpView()}
-
-          {/* navigation */}
-          <div className={`absolute bottom-2 flex w-full justify-between p-6`}>
-            <div>
-              {currentIndex !== 1 && currentIndex !== maxSteps + 1 && (
-                <Button onClick={() => setCurrentIndex(currentIndex - 1)}>
-                  <BsArrowLeft className={`my-auto mr-2`} />
-                  PREVIOUS
-                </Button>
+    <main className={`bg-background`}>
+      <Card shadow className="h-9/10 bg-white">
+        {submittingProfile ? (
+          <Loading title={`Submitting...`} />
+        ) : (
+          <div className={`relative h-full`}>
+            <div className={`p-6`}>
+              {currentIndex <= maxSteps && (
+                <FormStepper
+                  currentStep={currentIndex}
+                  numberofSteps={maxSteps}
+                />
               )}
             </div>
-            <div>
-              {currentIndex < maxSteps ? (
-                <Button
-                  variant={`primary`}
-                  onClick={() => setCurrentIndex(currentIndex + 1)}
-                >
-                  NEXT
-                  <BsArrowRight className={`my-auto ml-2`} />
-                </Button>
-              ) : currentIndex === maxSteps ? (
-                <Button
-                  variant={`primary`}
-                  onClick={() => {
-                    setSubmittingProfile(true);
-                    onClickProfile();
-                  }}
-                >
-                  FINISH
-                  <BsArrowRight className={`my-auto ml-2`} />
-                </Button>
-              ) : (
-                <Button
-                  variant={`primary`}
-                  onClick={() => router.push(`/projects`)}
-                >
-                  FIND A PROJECT
-                  <BsArrowRight className={`my-auto ml-2`} />
-                </Button>
-              )}
+
+            {/* view window */}
+            {SignUpView && SignUpView()}
+
+            {/* navigation */}
+            <div
+              className={`absolute bottom-2 flex w-full justify-between p-6`}
+            >
+              <div>
+                {currentIndex !== 1 && currentIndex !== maxSteps + 1 && (
+                  <Button onClick={() => setCurrentIndex(currentIndex - 1)}>
+                    <BsArrowLeft className={`my-auto mr-2`} />
+                    PREVIOUS
+                  </Button>
+                )}
+              </div>
+              <div>
+                {currentIndex < maxSteps ? (
+                  <Button
+                    variant={`primary`}
+                    onClick={() => setCurrentIndex(currentIndex + 1)}
+                  >
+                    NEXT
+                    <BsArrowRight className={`my-auto ml-2`} />
+                  </Button>
+                ) : currentIndex === maxSteps ? (
+                  <Button
+                    variant={`primary`}
+                    onClick={() => {
+                      setSubmittingProfile(true);
+                      onClickProfile();
+                    }}
+                  >
+                    FINISH
+                    <BsArrowRight className={`my-auto ml-2`} />
+                  </Button>
+                ) : (
+                  <Button
+                    variant={`primary`}
+                    onClick={() => router.push(`/projects`)}
+                  >
+                    FIND A PROJECT
+                    <BsArrowRight className={`my-auto ml-2`} />
+                  </Button>
+                )}
+              </div>
             </div>
           </div>
-        </div>
-      )}
-    </Card>
+        )}
+      </Card>
+    </main>
   );
 };

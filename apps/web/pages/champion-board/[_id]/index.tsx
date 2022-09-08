@@ -4,7 +4,7 @@ import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import React from "react";
 import {
-  CandidateSelectionList,
+  // CandidateSelectionList,
   GridItemSix,
   GridItemThree,
   GridLayout,
@@ -20,6 +20,7 @@ const ProjectPage: NextPage = () => {
         _id,
       },
     },
+    skip: !_id,
     context: { serviceName: "soilservice" },
   });
 
@@ -41,7 +42,7 @@ const ProjectPage: NextPage = () => {
   return (
     <GridLayout>
       <GridItemThree>
-        <CandidateSelectionList roles={dataRoles?.findRoleTemplates} />
+        3{/* <CandidateSelectionList roles={dataRoles?.findRoleTemplates} /> */}
       </GridItemThree>
       <GridItemSix>6</GridItemSix>
       <GridItemThree>3</GridItemThree>
@@ -50,3 +51,26 @@ const ProjectPage: NextPage = () => {
 };
 
 export default ProjectPage;
+
+import { IncomingMessage, ServerResponse } from "http";
+import { getSession } from "next-auth/react";
+
+export async function getServerSideProps(ctx: {
+  req: IncomingMessage;
+  res: ServerResponse;
+}) {
+  const session = await getSession(ctx);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: `/login`,
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}

@@ -1,6 +1,6 @@
 import React from "react";
 
-type ProgressStep = {
+export type ProgressStep = {
   name: string;
   completed: boolean;
 };

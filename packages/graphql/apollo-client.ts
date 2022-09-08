@@ -17,7 +17,7 @@ import { getMainDefinition } from "@apollo/client/utilities";
 
 // Soil API endpoint
 // const SOIL_API_URL = soilUrl;
-const SOIL_API_URL = "https://oasis-bot-test-deploy.herokuapp.com/graphql";
+const SOIL_API_URL = "https://soil-test-backend.herokuapp.com/graphql";
 const httpLinkSoil = new HttpLink({ uri: SOIL_API_URL, fetch });
 
 const soilLink = new ApolloLink((operation, forward) => {
@@ -34,7 +34,7 @@ const soilLink = new ApolloLink((operation, forward) => {
 // Neo API endpoint
 // TODO: NEED TO CHANGE TO NEO ENDPOINT
 // const NEO_API_URL = soilUrl;
-const NEO_API_URL = "https://oasis-bot-test-deploy.herokuapp.com/graphql";
+const NEO_API_URL = "https://soil-test-backend.herokuapp.com/graphql";
 const httpLinkNeo = new HttpLink({ uri: NEO_API_URL, fetch });
 
 const neoLink = new ApolloLink((operation, forward) => {
@@ -62,7 +62,7 @@ const wsLink =
   typeof window !== "undefined"
     ? new GraphQLWsLink(
         createClient({
-          url: "wss://oasis-bot-test-deploy.herokuapp.com/graphql",
+          url: "wss://soil-test-backend.herokuapp.com/graphql",
         })
       )
     : null;
@@ -87,8 +87,47 @@ export const apolloClient = new ApolloClient({
   cache: new InMemoryCache({
     typePolicies: {
       Query: {
-        fields: {},
+        fields: {
+          // freezes the cache
+          // findMember: {
+          //   keyArgs: ["_id"],
+          // },
+          // findMembers: {
+          //   keyArgs: ["_id"],
+          // },
+          // freezes the cache
+          // findProject: {
+          //   keyArgs: ["_id"],
+          // },
+          findProjects: {
+            keyArgs: ["_id"],
+          },
+          findSkills: {
+            keyArgs: ["_id"],
+          },
+          findRoom: {
+            keyArgs: ["_id"],
+          },
+        },
       },
     },
   }),
 });
+
+// const cacheMerge = (keyArgs: any) => {
+//   return {
+//     keyArgs: [keyArgs],
+//     merge(existing: any, incoming: any) {
+//       if (!existing) {
+//         return incoming;
+//       }
+//       const existingItems = existing.items;
+//       const incomingItems = incoming.items;
+
+//       return {
+//         items: existingItems.concat(incomingItems),
+//         // pageInfo: incoming.pageInfo,
+//       };
+//     },
+//   };
+// };

@@ -1,7 +1,7 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { faker } from "@faker-js/faker";
+import { ComponentMeta, ComponentStory } from "@storybook/react";
+
 import { EndorsementsCarousel } from "./EndorsementsCarousel";
-import { useState } from "react";
 
 export default {
   title: "Components/EndorsmentsCarousel",
@@ -10,12 +10,11 @@ export default {
 } as ComponentMeta<typeof EndorsementsCarousel>;
 
 const Template: ComponentStory<typeof EndorsementsCarousel> = (args) => {
-  return <EndorsementsCarousel  {...args} />
+  return <EndorsementsCarousel {...args} />;
 };
 
-
 const getEndorsements = () =>
-  Array.from({ length: 10 }, (_, i) => {
+  Array.from({ length: 10 }, () => {
     return {
       id: Math.random(),
       name: faker.name.firstName(),
@@ -23,12 +22,10 @@ const getEndorsements = () =>
     };
   });
 
-  const list = getEndorsements()
-
+const list = getEndorsements();
 
 export const Default = Template.bind({});
 Default.args = {
   endorsementList: list,
   // onClaim: (id:number) => console.log(list.filter((l) => l.id !== id))
-  
 };

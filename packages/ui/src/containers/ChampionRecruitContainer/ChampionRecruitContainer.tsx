@@ -1,6 +1,6 @@
 import { gql, useMutation } from "@apollo/client";
-import { Members, Project } from "@graphql/eden/generated";
-import { useState } from "react";
+import { Members, Project, TeamType } from "@graphql/eden/generated";
+import { useEffect, useState } from "react";
 import {
   AvailabilityComp,
   BioComponent,
@@ -22,29 +22,50 @@ const SET_APPLY_TO_PROJECT = gql`
   }
 `;
 
-const tabs = ["General", "Background", "Endorsements"];
+// const tabs = ["General", "Background", "Endorsements"];
+// TODO: disabled Endorsements tab until data on backend is ready
+const tabs = ["General", "Background"];
 
 export interface ChampionRecruitContainerProps {
   project?: Project;
   member?: Members;
+  refetchMember?: () => void;
+  refetchProject?: () => void;
 }
 
 export const ChampionRecruitContainer = ({
   project,
   member,
+  refetchMember,
+  refetchProject,
 }: ChampionRecruitContainerProps) => {
   const [activeTab, setActiveTab] = useState(0);
   const [submitting, setSubmitting] = useState(false);
+  const [teamMember, setTeamMember] = useState<TeamType | null>(null);
 
-  // if (project) console.log("project", project);
+  useEffect(() => {
+    if (project) {
+      const memberInTeam = project?.team?.find(
+        (teamMember: any) => teamMember?.memberInfo._id === member?._id
+      );
+
+      if (memberInTeam) {
+        setTeamMember(memberInTeam);
+      } else {
+        setTeamMember(null);
+      }
+    }
+  }, [project, member]);
 
   // eslint-disable-next-line camelcase
   const [changeTeamMember_Phase_Project, {}] = useMutation(
     SET_APPLY_TO_PROJECT,
     {
       onCompleted: () => {
-        console.log("onCompleted");
+        // console.log("onCompleted");
         setSubmitting(false);
+        if (refetchMember) refetchMember();
+        if (refetchProject) refetchProject();
       },
       onError: (error) => {
         console.log("onError", error);
@@ -73,6 +94,7 @@ export const ChampionRecruitContainer = ({
               <Button
                 disabled={submitting}
                 onClick={() => {
+                  setSubmitting(true);
                   changeTeamMember_Phase_Project({
                     variables: {
                       fields: {
@@ -93,22 +115,43 @@ export const ChampionRecruitContainer = ({
               name={`title here`}
             />
             <div className={`mt-2`}>
-              <Button
-                disabled={submitting}
-                onClick={() => {
-                  changeTeamMember_Phase_Project({
-                    variables: {
-                      fields: {
-                        projectID: project?._id,
-                        memberID: member?._id,
-                        phase: "shortlisted",
+              {teamMember && teamMember?.phase === "shortlisted" ? (
+                <Button
+                  disabled={submitting}
+                  variant={`primary`}
+                  onClick={() => {
+                    setSubmitting(true);
+                    changeTeamMember_Phase_Project({
+                      variables: {
+                        fields: {
+                          projectID: project?._id,
+                          memberID: member?._id,
+                          phase: "invited",
+                        },
                       },
-                    },
-                  });
-                }}
-              >
-                SHORTLIST
-              </Button>
+                    });
+                  }}
+                >
+                  Invite
+                </Button>
+              ) : (
+                <Button
+                  disabled={submitting}
+                  onClick={() => {
+                    changeTeamMember_Phase_Project({
+                      variables: {
+                        fields: {
+                          projectID: project?._id,
+                          memberID: member?._id,
+                          phase: "shortlisted",
+                        },
+                      },
+                    });
+                  }}
+                >
+                  SHORTLIST
+                </Button>
+              )}
             </div>
           </div>
         </div>
@@ -132,13 +175,18 @@ export const ChampionRecruitContainer = ({
               </div>
             </div>
             <div className={`my-4 grid grid-cols-12`}>
-              <div className={`col-span-4`}>
+              <div className={`col-span-7`}>
+                <div
+                  className={`mb-4 text-sm font-semibold tracking-widest subpixel-antialiased`}
+                >
+                  TOP SKILLS
+                </div>
                 {member.skills && <SkillsCard skills={member.skills} />}
               </div>
-              <div className={`col-span-4`}>
-                <SocialMediaComp />
+              <div className={`col-span-2`}>
+                <SocialMediaComp links={member?.links} color="#BCBCBC" />
               </div>
-              <div className={`col-span-4`}>
+              <div className={`col-span-3`}>
                 <AvailabilityComp timePerWeek={member.hoursPerWeek || 0} />
               </div>
             </div>
@@ -146,24 +194,29 @@ export const ChampionRecruitContainer = ({
           </div>
         )}
         {activeTab === 1 && (
-          <div className={`mt-4 grid grid-cols-12 space-x-4`}>
-            <div className={`col-span-6 space-y-4`}>
-              <UserInformationCard />
-              <UserInformationCard />
-              <BioComponent
-                title={`What project are you most proud of?`}
-                description={member.content?.mostProud || ""}
-              />
+          <>
+            <div className={`mt-4 grid grid-cols-12 space-x-4`}>
+              {member.previusProjects?.map((project, index) => (
+                <div key={index} className={`col-span-6`}>
+                  <UserInformationCard previousProjects={project} />
+                </div>
+              ))}
             </div>
-            <div className={`col-span-6 space-y-4`}>
-              <UserInformationCard />
-              <UserInformationCard />
-              <BioComponent
-                title={`What piece of work really showcases your abilities?`}
-                description={member.content?.showCaseAbility || ""}
-              />
+            <div className={`mt-4 grid grid-cols-12 space-x-4`}>
+              <div className={`col-span-6 space-y-4`}>
+                <BioComponent
+                  title={`What project are you most proud of?`}
+                  description={member.content?.mostProud || ""}
+                />
+              </div>
+              <div className={`col-span-6 space-y-4`}>
+                <BioComponent
+                  title={`What piece of work really showcases your abilities?`}
+                  description={member.content?.showCaseAbility || ""}
+                />
+              </div>
             </div>
-          </div>
+          </>
         )}
         {activeTab === 2 && (
           <div>

@@ -1,37 +1,20 @@
+// eslint-disable-next-line camelcase
+import {
+  MatchMembersToSkillOutput,
+  Maybe,
+  RoleTemplate,
+} from "@graphql/eden/generated";
 import { useEffect, useState } from "react";
-import { RoleCandidateSelector } from "ui";
-
-import { ISkills, UserCard } from "../../cards";
-
-export interface ICandidate {
-  _id: string;
-  avatar: string;
-  name: string;
-  percentage: number;
-  endorsements: number;
-  skills: ISkills[];
-}
-
-interface IRoleSkill {
-  _id: string;
-  name: string;
-  __typename: string;
-}
-
-export interface IRole {
-  _id: string;
-  title: string;
-  skills: IRoleSkill[];
-  __typename: string;
-}
+import { RoleCandidateSelector, UserCard } from "ui";
 
 export interface ICandidateSelectionListProps {
-  roles?: IRole[];
-  members?: any;
+  roles?: RoleTemplate[];
+  members?: Array<Maybe<MatchMembersToSkillOutput>>;
   // eslint-disable-next-line no-unused-vars
   onSelectRole?: (role: string[]) => void;
   // eslint-disable-next-line no-unused-vars
-  onSelectMember?: (member: string) => void;
+  onSelectMember: (member: string) => void;
+  selectMember?: string | null;
 }
 
 export const CandidateSelectionList = ({
@@ -39,51 +22,39 @@ export const CandidateSelectionList = ({
   members = [],
   onSelectRole,
   onSelectMember,
+  selectMember,
 }: ICandidateSelectionListProps) => {
-  const [currentRole, setCurrentRole] = useState<IRole | null>(null);
-  const [currentCandidate, setCurrentCandidate] = useState<ICandidate | null>(
-    null
-  );
+  const [currentRole, setCurrentRole] = useState<RoleTemplate | null>(null);
 
   useEffect(() => {
-    if (currentCandidate && onSelectMember) {
-      onSelectMember(currentCandidate._id);
-    }
-  }, [currentCandidate, onSelectMember]);
-
-  useEffect(() => {
-    setCurrentCandidate(null);
-
     if (currentRole?.skills && onSelectRole) {
       const indexSkills = [];
 
       for (const skill of currentRole?.skills) {
         indexSkills.push(skill?._id);
       }
-      onSelectRole(indexSkills);
+      onSelectRole(indexSkills as string[]);
     }
   }, [currentRole]);
 
-  const candidates = members?.map((candidate: any) => {
-    const { matchPercentage } = candidate;
-    const { _id, endorsements } = candidate.member;
-    const isFocused = _id === currentCandidate?._id;
-
-    return (
-      <button
-        key={_id}
-        onClick={() => setCurrentCandidate(candidate.member)}
-        className={`my-3 w-full px-1`}
-      >
-        <UserCard
-          member={candidate.member}
-          percentage={matchPercentage}
-          endorsements={endorsements}
-          focused={isFocused}
-        />
-      </button>
-    );
-  });
+  const candidates = members?.map(
+    (candidate: Maybe<MatchMembersToSkillOutput>) => {
+      return (
+        <button
+          key={candidate?.member?._id}
+          onClick={() => onSelectMember(candidate?.member?._id as string)}
+          className={`my-3 w-full px-1`}
+        >
+          <UserCard
+            member={candidate?.member}
+            percentage={candidate?.matchPercentage as number}
+            // endorsements={endorsements}
+            focused={candidate?.member?._id === selectMember}
+          />
+        </button>
+      );
+    }
+  );
 
   return (
     <div className={``}>

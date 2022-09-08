@@ -1,10 +1,10 @@
 import { render } from "@testing-library/react";
 
-import { SearchBar } from ".";
+import { ProjectActivityCard } from ".";
 
-describe("SearchBar", () => {
+describe("ProjectActivityCard", () => {
   it("renders without throwing", () => {
-    const { container } = render(<SearchBar />);
+    const { container } = render(<ProjectActivityCard />);
 
     expect(container).toBeInTheDocument();
   });

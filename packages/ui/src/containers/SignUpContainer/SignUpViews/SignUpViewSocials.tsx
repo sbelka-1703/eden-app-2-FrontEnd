@@ -16,6 +16,7 @@ export const SignUpViewSocials = () => {
   const {
     hoursPerWeek,
     setHoursPerWeek,
+    timezone,
     setTimezone,
     twitterHandle,
     setTwitterHandle,
@@ -38,6 +39,7 @@ export const SignUpViewSocials = () => {
         <div>
           <div className={`mx-auto w-40`}>
             <Dropdown
+              value={timezone}
               items={timezones}
               placeholder={`Timezone`}
               onSelect={(val) => setTimezone(val.name)}

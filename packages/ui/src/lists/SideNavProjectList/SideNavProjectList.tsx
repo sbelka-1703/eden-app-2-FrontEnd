@@ -1,9 +1,9 @@
-// import { Project, Members } from "@graphql/eden/generated";
+import { Maybe, ProjectMemberType } from "@graphql/eden/generated";
 import { useEffect, useState } from "react";
 import { ProjectCardSmall } from "ui";
 
 export interface SideNavProjectListProps {
-  projects: any;
+  projects?: Maybe<Array<Maybe<ProjectMemberType>>>;
   // eslint-disable-next-line no-unused-vars
   onSelectProject?: (id: string) => void;
 }
@@ -24,6 +24,8 @@ export const SideNavProjectList = ({
   // console.log("projects", projects);
 
   const projectsList = projects.map((project: any, index: number) => {
+    // TODO: comment out here to test if project champion actions are working for other users
+    if (!project.champion) return null;
     return (
       <button
         key={index}

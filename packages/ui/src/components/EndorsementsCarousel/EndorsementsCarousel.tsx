@@ -1,8 +1,6 @@
-import { useEffect, useState } from "react";
-import { Endorsements, IEndorsements } from "../Endorsements/Endorsements";
-import { UserWithDescription } from "../UserWithDescription";
-
 import "./style.css";
+
+import { Endorsements } from "ui";
 
 export interface IEndorsementsCarousel {
   _id?: string;
@@ -11,13 +9,11 @@ export interface IEndorsementsCarousel {
   onRemove?: any;
 }
 
-
-
-
 export const EndorsementsCarousel = ({
-  endorsementList, onClaim, onRemove
+  endorsementList,
+  onClaim,
+  onRemove,
 }: IEndorsementsCarousel) => {
-  
   return (
     <div className="relative w-max">
       {/* left arrow */}
@@ -47,9 +43,14 @@ export const EndorsementsCarousel = ({
         <img alt="" />
       </button>
       <div className="carousel-box flex overflow-auto overscroll-contain ">
-        {endorsementList && 
+        {endorsementList &&
           endorsementList.map((end: any, index: number) => (
-            <Endorsements remove={() => onRemove(end)} claim={() => onClaim(end)} key={index} endorsement={end.name} />
+            <Endorsements
+              remove={() => onRemove(end)}
+              claim={() => onClaim(end)}
+              key={index}
+              endorsement={end.name}
+            />
           ))}
       </div>
       {/* right arrow */}
