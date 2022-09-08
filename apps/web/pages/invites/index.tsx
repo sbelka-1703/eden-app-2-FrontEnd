@@ -24,7 +24,7 @@ const InvitePage: NextPageWithLayout = () => {
           {invitedProjects?.length}
         </span>
       </div>
-      <ProjectList projects={invitedProjects} />
+      <ProjectList projects={invitedProjects} inviteButton />
     </Card>
   );
 };

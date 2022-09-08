@@ -5,6 +5,7 @@ export interface ProjectListProps {
   projects?: Project[] | Maybe<ProjectMemberType>[];
   applyButton?: boolean;
   statusButton?: boolean;
+  inviteButton?: boolean;
   favButton?: boolean;
 }
 
@@ -12,6 +13,7 @@ export const ProjectList = ({
   projects,
   applyButton,
   statusButton,
+  inviteButton,
   favButton,
 }: ProjectListProps) => {
   // console.log("projects", projects);
@@ -41,6 +43,7 @@ export const ProjectList = ({
               position={project?.position || ""}
               applyButton={applyButton}
               statusButton={statusButton}
+              inviteButton={inviteButton}
               favButton={favButton}
             />
           </div>
