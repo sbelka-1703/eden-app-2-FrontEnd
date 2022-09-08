@@ -11,7 +11,7 @@ const ApplicationsPage: NextPageWithLayout = () => {
     (project: any) => project.phase === "engaged"
   );
 
-  // console.log("engagedProjects", engagedProjects);
+  console.log("engagedProjects", engagedProjects);
 
   return (
     <Card shadow className="h-8/10 bg-white p-6">
@@ -24,7 +24,9 @@ const ApplicationsPage: NextPageWithLayout = () => {
           {engagedProjects?.length}
         </span>
       </div>
-      <ProjectList projects={engagedProjects} />
+      <div className={`scrollbar-hide h-7/10 overflow-y-scroll`}>
+        <ProjectList projects={engagedProjects} />
+      </div>
     </Card>
   );
 };

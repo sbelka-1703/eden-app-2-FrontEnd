@@ -24,7 +24,9 @@ const InvitePage: NextPageWithLayout = () => {
           {invitedProjects?.length}
         </span>
       </div>
-      <ProjectList projects={invitedProjects} inviteButton />
+      <div className={`scrollbar-hide h-7/10 overflow-y-scroll`}>
+        <ProjectList projects={invitedProjects} inviteButton />
+      </div>
     </Card>
   );
 };
