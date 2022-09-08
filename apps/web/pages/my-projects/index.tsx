@@ -17,8 +17,14 @@ const MyProjectsPage: NextPageWithLayout = () => {
     <Card shadow className="h-8/10 bg-white p-6">
       <div className={`text-2xl font-medium text-black/80`}>
         My Active Projects
+        <span
+          className={`ml-2 inline-block flex-shrink-0 rounded-full px-2 py-0.5 text-sm font-medium `}
+          style={{ background: "rgba(186, 213, 240, 0.31)" }}
+        >
+          {committedProjects?.length}
+        </span>
       </div>
-      <ProjectList projects={committedProjects} />
+      <ProjectList projects={committedProjects} statusButton />
     </Card>
   );
 };

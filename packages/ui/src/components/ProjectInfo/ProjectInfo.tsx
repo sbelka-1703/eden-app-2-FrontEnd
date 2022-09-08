@@ -1,30 +1,35 @@
+import { Project } from "@graphql/eden/generated";
 import { useRouter } from "next/router";
 import { BsArrowRight, BsSuitHeart } from "react-icons/bs";
 import { Avatar, Button } from "ui";
 
 export interface IProjectInfoProps {
+  project?: Project;
   avatarSrc?: string;
   projectTitle?: string;
   projectSubTitle?: string;
   projectDescription?: string;
+  isFavoriteButton?: boolean;
   onAddFav?: () => void;
 }
 
 export const ProjectInfo = ({
+  // project,
   avatarSrc,
   projectTitle,
   projectSubTitle,
   projectDescription,
+  isFavoriteButton,
   onAddFav,
 }: IProjectInfoProps) => {
   const router = useRouter();
 
   return (
-    <div className={`desc mt-6 flex-col`}>
+    <div className={`desc flex-col`}>
       <div className="p-2">
         <div className="flex flex-row content-center items-center justify-start">
           <div>
-            <Avatar size="lg" src={avatarSrc} />
+            <Avatar size="lg" src={avatarSrc} isProject />
           </div>
           <div className="ml-6">
             <div
@@ -51,17 +56,19 @@ export const ProjectInfo = ({
               </span>
             </Button>
           </div>
-          <div className="mr-5">
-            <button
-              className="text-soilBody flex flex-row content-center items-center rounded-md bg-[#FFEEEE] py-1 px-3 text-lg font-normal tracking-wide"
-              onClick={onAddFav}
-            >
-              <span className={`mr-2`}>
-                <BsSuitHeart color="#EE0000" />
-              </span>
-              Add to favourites
-            </button>
-          </div>
+          {isFavoriteButton && (
+            <div className="mr-5">
+              <button
+                className="text-soilBody flex flex-row content-center items-center rounded-md bg-[#FFEEEE] py-1 px-3 text-lg font-normal tracking-wide"
+                onClick={onAddFav}
+              >
+                <span className={`mr-2`}>
+                  <BsSuitHeart color="#EE0000" />
+                </span>
+                Add to favourites
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
