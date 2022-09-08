@@ -1,8 +1,8 @@
 import { useQuery } from "@apollo/client";
-import { UserContext } from "@context/eden";
+// import { UserContext } from "@context/eden";
 import { FIND_PROJECT } from "@graphql/eden";
 import { useRouter } from "next/router";
-import { useContext } from "react";
+// import { useContext } from "react";
 import { AppUserMenuLayout, MyProjectContainer } from "ui";
 
 import type { NextPageWithLayout } from "../../_app";
@@ -10,9 +10,9 @@ import type { NextPageWithLayout } from "../../_app";
 const MyProjectsViewPage: NextPageWithLayout = () => {
   const router = useRouter();
   const { _id } = router.query;
-  const { currentUser } = useContext(UserContext);
+  // const { currentUser } = useContext(UserContext);
 
-  console.log("currentUser", currentUser);
+  // console.log("currentUser", currentUser);
 
   const { data: dataProject } = useQuery(FIND_PROJECT, {
     variables: {
@@ -20,6 +20,7 @@ const MyProjectsViewPage: NextPageWithLayout = () => {
         _id,
       },
     },
+    skip: !_id,
     context: { serviceName: "soilservice" },
   });
 
