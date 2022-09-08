@@ -18,6 +18,7 @@ export interface UserCardProps {
   endorsements?: number;
   focused?: boolean;
   engagedCard?: boolean;
+  refetch?: () => void;
 }
 
 export const UserCard = ({
@@ -27,6 +28,7 @@ export const UserCard = ({
   // endorsements,
   focused,
   engagedCard = false,
+  refetch,
 }: UserCardProps) => {
   const [submitting, setSubmitting] = useState(false);
 
@@ -35,7 +37,8 @@ export const UserCard = ({
     SET_APPLY_TO_PROJECT,
     {
       onCompleted: () => {
-        console.log("onCompleted");
+        // console.log("onCompleted");
+        if (refetch) refetch();
         setSubmitting(false);
       },
       onError: (error) => {
@@ -86,6 +89,7 @@ export const UserCard = ({
             <Button
               disabled={submitting}
               onClick={() => {
+                setSubmitting(true);
                 changeTeamMember_Phase_Project({
                   variables: {
                     fields: {
@@ -102,6 +106,7 @@ export const UserCard = ({
             <Button
               disabled={submitting}
               onClick={() => {
+                setSubmitting(true);
                 changeTeamMember_Phase_Project({
                   variables: {
                     fields: {

@@ -25,7 +25,7 @@ const ProjectPage: NextPageWithLayout = () => {
   const [selectMember, setSelectMember] = useState("");
   const [selectRole, setSelectSkills] = useState<string[]>([]);
 
-  const { data: dataMember } = useQuery(FIND_MEMBER, {
+  const { data: dataMember, refetch: refetchMember } = useQuery(FIND_MEMBER, {
     variables: {
       fields: {
         _id: selectMember,
@@ -38,14 +38,17 @@ const ProjectPage: NextPageWithLayout = () => {
   // member data
   // if (dataMember) console.log("dataMember", dataMember);
 
-  const { data: dataProject } = useQuery(FIND_PROJECT, {
-    variables: {
-      fields: {
-        _id,
+  const { data: dataProject, refetch: refetchProject } = useQuery(
+    FIND_PROJECT,
+    {
+      variables: {
+        fields: {
+          _id,
+        },
       },
-    },
-    context: { serviceName: "soilservice" },
-  });
+      context: { serviceName: "soilservice" },
+    }
+  );
 
   // project data with shortlist
   // if (dataProject) console.log("dataProject", dataProject.findProject);
@@ -95,6 +98,8 @@ const ProjectPage: NextPageWithLayout = () => {
         <ChampionRecruitContainer
           project={dataProject?.findProject}
           member={dataMember?.findMember}
+          refetchMember={refetchMember}
+          refetchProject={refetchProject}
         />
       </GridItemSix>
       <GridItemThree>

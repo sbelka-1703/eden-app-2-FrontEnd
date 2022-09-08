@@ -77,7 +77,7 @@ export const ProjectCard = ({
     <Card border focused={focused} className="px-4 py-4">
       <div className="flex justify-between">
         <div>
-          <Avatar src={avatar} size="md" />
+          <Avatar src={avatar} size="md" isProject />
         </div>
         <div className={`w-full pl-4`}>
           <div className="flex h-full">
