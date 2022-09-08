@@ -1,10 +1,6 @@
 import { gql, useMutation } from "@apollo/client";
 import { LaunchContext, UserContext } from "@context/eden";
-import {
-  Mutation,
-  RoleTemplate,
-  ServerTemplate,
-} from "@graphql/eden/generated";
+import { Maybe, Mutation, Role, ServerTemplate } from "@graphql/eden/generated";
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
@@ -32,7 +28,7 @@ const LAUNCH_PROJECT = gql`
 
 export interface LaunchPageProps {
   servers: ServerTemplate[];
-  roles: RoleTemplate[];
+  roles: Maybe<Array<Maybe<Role>>>;
 }
 
 export const LaunchContainer = ({ servers, roles }: LaunchPageProps) => {
@@ -41,6 +37,7 @@ export const LaunchContainer = ({ servers, roles }: LaunchPageProps) => {
   const {
     projectName,
     projectDescription,
+    projectRoles,
     serverId,
     githubUrl,
     discordUrl,
@@ -75,6 +72,7 @@ export const LaunchContainer = ({ servers, roles }: LaunchPageProps) => {
           champion: currentUser?._id,
           title: projectName,
           description: projectDescription,
+          role: projectRoles,
           collaborationLinks: [
             {
               title: "github",
@@ -139,7 +137,7 @@ export const LaunchContainer = ({ servers, roles }: LaunchPageProps) => {
           {/* view window */}
           {LaunchView && LaunchView()}
 
-          {/* navigation */}
+          {/* bottom navigation */}
           <div className={`absolute bottom-2 flex w-full justify-between p-6`}>
             <div>
               {currentIndex !== 1 && currentIndex !== maxSteps + 1 && (

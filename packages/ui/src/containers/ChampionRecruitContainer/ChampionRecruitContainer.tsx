@@ -29,11 +29,15 @@ const tabs = ["General", "Background"];
 export interface ChampionRecruitContainerProps {
   project?: Project;
   member?: Members;
+  refetchMember?: () => void;
+  refetchProject?: () => void;
 }
 
 export const ChampionRecruitContainer = ({
   project,
   member,
+  refetchMember,
+  refetchProject,
 }: ChampionRecruitContainerProps) => {
   const [activeTab, setActiveTab] = useState(0);
   const [submitting, setSubmitting] = useState(false);
@@ -58,8 +62,10 @@ export const ChampionRecruitContainer = ({
     SET_APPLY_TO_PROJECT,
     {
       onCompleted: () => {
-        console.log("onCompleted");
+        // console.log("onCompleted");
         setSubmitting(false);
+        if (refetchMember) refetchMember();
+        if (refetchProject) refetchProject();
       },
       onError: (error) => {
         console.log("onError", error);
@@ -88,6 +94,7 @@ export const ChampionRecruitContainer = ({
               <Button
                 disabled={submitting}
                 onClick={() => {
+                  setSubmitting(true);
                   changeTeamMember_Phase_Project({
                     variables: {
                       fields: {
@@ -113,6 +120,7 @@ export const ChampionRecruitContainer = ({
                   disabled={submitting}
                   variant={`primary`}
                   onClick={() => {
+                    setSubmitting(true);
                     changeTeamMember_Phase_Project({
                       variables: {
                         fields: {

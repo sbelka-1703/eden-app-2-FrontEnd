@@ -19,11 +19,21 @@ export const FIND_SERVERS = gql`
   }
 `;
 
+// export const FIND_ROLES = gql`
+//   query ($fields: findRoleTemplatesInput) {
+//     findRoleTemplates(fields: $fields) {
+//       _id
+//       title
+//     }
+//   }
+// `;
+
 export const FIND_ROLES = gql`
-  query ($fields: findRoleTemplatesInput) {
-    findRoleTemplates(fields: $fields) {
+  query ($fields: findRolesInput) {
+    findRoles(fields: $fields) {
       _id
-      title
+      description
+      name
     }
   }
 `;
@@ -54,7 +64,7 @@ const LaunchPage: NextPageWithLayout = () => {
         <GridItemSix>
           <LaunchContainer
             servers={dataServers?.findServers}
-            roles={dataRoles?.findRoleTemplates}
+            roles={dataRoles?.findRoles}
           />
         </GridItemSix>
         <GridItemThree> </GridItemThree>

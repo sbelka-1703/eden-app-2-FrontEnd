@@ -54,7 +54,7 @@ export const getMemberProject = () => ({
       title: faker.name.firstName(),
       dates: {
         complition: "1662161995158",
-        kickOff: "1662161995158",
+        kickOff: "1662161895158",
       },
     },
   ],

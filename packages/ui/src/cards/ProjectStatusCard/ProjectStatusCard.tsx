@@ -51,7 +51,7 @@ export const ProjectStatusCard: React.FC<ProjectStatusCardProps> = ({
         </div>
         <div className="flex flex-col items-center justify-start">
           <Button variant="primary" radius="rounded">
-            <p className="text-sm text-black flex justify-center items-center">
+            <p className="flex items-center justify-center text-sm text-black">
               {cardStatus === OpenOrClosed.OPEN ? "Hide Status" : "View Status"}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -59,7 +59,7 @@ export const ProjectStatusCard: React.FC<ProjectStatusCardProps> = ({
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="currentColor"
-                className="h-5 ml-2"
+                className="ml-2 h-5"
               >
                 <path
                   strokeLinecap="round"
