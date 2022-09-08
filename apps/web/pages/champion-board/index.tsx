@@ -22,7 +22,7 @@ const ProjectPage: NextPageWithLayout = () => {
 
   // if (currentUser) console.log("currentUser", currentUser);
 
-  const { data: dataProject } = useQuery(FIND_PROJECT, {
+  const { data: dataProject, refetch } = useQuery(FIND_PROJECT, {
     variables: {
       fields: {
         _id: selectProject,
@@ -46,7 +46,10 @@ const ProjectPage: NextPageWithLayout = () => {
         />
       </GridItemThree>
       <GridItemSix>
-        <ChampionContainer project={dataProject?.findProject} />
+        <ChampionContainer
+          project={dataProject?.findProject}
+          refetch={refetch}
+        />
       </GridItemSix>
       <GridItemThree>
         {selectProject && (

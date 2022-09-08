@@ -6,9 +6,13 @@ const tabs = ["Engaged Talent", "Committed Team"];
 
 export interface ChampionContainerProps {
   project?: Project;
+  refetch?: () => void;
 }
 
-export const ChampionContainer = ({ project }: ChampionContainerProps) => {
+export const ChampionContainer = ({
+  project,
+  refetch,
+}: ChampionContainerProps) => {
   const [activeTab, setActiveTab] = useState(0);
 
   // console.log("project", project);
@@ -28,6 +32,7 @@ export const ChampionContainer = ({ project }: ChampionContainerProps) => {
                         member={member?.memberInfo as Members}
                         projectId={project?._id as string}
                         engagedCard
+                        refetch={refetch}
                       />
                     )}
                   </div>
