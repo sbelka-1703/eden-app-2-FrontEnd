@@ -18,7 +18,7 @@ export interface ISocialMediaCompProps {
 export const SocialMediaComp = ({
   links,
   size = "2rem",
-  color = "#BCBCBC",
+  color,
   title = "SOCIALS",
 }: ISocialMediaCompProps) => {
   const [twitterUrl, setTwitterUrl] = useState("");
@@ -62,42 +62,42 @@ export const SocialMediaComp = ({
         {twitterUrl && (
           <div className="mr-2 mb-2">
             <a href={`${twitterUrl}`} target="_blank" rel="noreferrer">
-              <FaTwitter size={size} color={color} />
+              <FaTwitter size={size} color={color ? color : "#00acee"} />
             </a>
           </div>
         )}
         {telegramUrl && (
           <div className="mr-2 mb-2">
             <a href={`${telegramUrl}`} target="_blank" rel="noreferrer">
-              <FaTelegram size={size} color={color} />
+              <FaTelegram size={size} color={color ? color : "#BCBCBC"} />
             </a>
           </div>
         )}
         {discordUrl && (
           <div className="mr-2 mb-2">
             <a href={`${discordUrl}`} target="_blank" rel="noreferrer">
-              <FaDiscord size={size} color={color} />
+              <FaDiscord size={size} color={color ? color : "#BCBCBC"} />
             </a>
           </div>
         )}
         {githubUrl && (
           <div className="mr-2 mb-2">
             <a href={`${githubUrl}`} target="_blank" rel="noreferrer">
-              <FaGithub size={size} color={color} />
+              <FaGithub size={size} color={color ? color : "#BCBCBC"} />
             </a>
           </div>
         )}
         {linkedinUrl && (
           <div className="mr-2 mb-2">
             <a href={`${githubUrl}`} target="_blank" rel="noreferrer">
-              <FaLinkedin size={size} color={color} />
+              <FaLinkedin size={size} color={color ? color : "#0e76a8"} />
             </a>
           </div>
         )}
         {notionLink && (
           <div className="mr-2 mb-2">
             <a href={`${notionLink}`} target="_blank" rel="noreferrer">
-              <SiNotion size={size} color={color} />
+              <SiNotion size={size} color={color ? color : "#BCBCBC"} />
             </a>
           </div>
         )}

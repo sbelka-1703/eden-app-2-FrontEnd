@@ -176,7 +176,7 @@ export const ChampionRecruitContainer = ({
                 {member.skills && <SkillsCard skills={member.skills} />}
               </div>
               <div className={`col-span-2`}>
-                <SocialMediaComp links={member?.links} />
+                <SocialMediaComp links={member?.links} color="#BCBCBC" />
               </div>
               <div className={`col-span-3`}>
                 <AvailabilityComp timePerWeek={member.hoursPerWeek || 0} />

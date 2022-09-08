@@ -5,7 +5,7 @@ import {
   Badge,
   Card,
   SearchSkill,
-  SocialMediaInput,
+  // SocialMediaInput,
   TextArea,
   TextHeading3,
   TextLabel,
@@ -85,9 +85,9 @@ export const EditProfileOnboardPartyCard = ({
         onChange={handleUpdateUser}
         debounceTime={2000}
       />
-      <TextLabel>SOCIAL MEDIA</TextLabel>
+      {/* <TextLabel>SOCIAL MEDIA</TextLabel>
       <SocialMediaInput platform="twitter" onChange={handleUpdateUser} />
-      <SocialMediaInput platform="linkedin" onChange={handleUpdateUser} />
+      <SocialMediaInput platform="linkedin" onChange={handleUpdateUser} /> */}
     </Card>
   );
 };
