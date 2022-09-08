@@ -20,6 +20,7 @@ export interface ProjectCardProps {
   percentage?: number;
   position?: string;
   applyButton?: boolean;
+  statusButton?: boolean;
   favButton?: boolean;
   focused?: boolean;
 }
@@ -29,6 +30,7 @@ export const ProjectCard = ({
   avatar,
   percentage,
   applyButton = false,
+  statusButton = false,
   favButton = false,
   focused,
 }: ProjectCardProps) => {
@@ -128,6 +130,23 @@ export const ProjectCard = ({
                     onClick={() => router.push(`/apply/${project._id}`)}
                   >
                     Apply
+                    <span className={`my-auto pl-2`}>
+                      <BsArrowRight />
+                    </span>
+                  </Button>
+                </div>
+              </div>
+            )}
+            {statusButton && (
+              <div
+                className={`flex h-full flex-col items-center border-l px-4 last:pr-0`}
+              >
+                <div className={`my-auto`}>
+                  <Button
+                    variant={`primary`}
+                    onClick={() => router.push(`/my-projects/${project._id}`)}
+                  >
+                    View Project
                     <span className={`my-auto pl-2`}>
                       <BsArrowRight />
                     </span>
