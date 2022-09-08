@@ -1,13 +1,13 @@
 /* eslint-disable camelcase */
 import { Maybe, Members, SkillType_Member } from "@graphql/eden/generated";
-import { Avatar, Badge, Card, TextLabel } from "ui";
+import { Avatar, Badge, Card, SocialMediaComp, TextLabel } from "ui";
 
 export interface UserCardOnboardPartyProps {
   member: Members;
 }
 
 export const UserCardOnboardParty = ({ member }: UserCardOnboardPartyProps) => {
-  const learningBadges = member?.skills
+  const learningBadges: JSX.Element[] | undefined = member?.skills
     ?.filter((skill: Maybe<SkillType_Member>) => skill?.level === "learning")
     .map((skill, index) => (
       <Badge
@@ -15,9 +15,10 @@ export const UserCardOnboardParty = ({ member }: UserCardOnboardPartyProps) => {
         text={skill?.skillInfo?.name || ""}
         colorRGB="209,247,196"
         className={`font-Inter text-sm`}
+        cutText={16}
       />
     ));
-  const skilledBadges = member?.skills
+  const skilledBadges: JSX.Element[] | undefined = member?.skills
     ?.filter((skill: Maybe<SkillType_Member>) => skill?.level !== "learning")
     .map((skill, index) => (
       <Badge
@@ -37,16 +38,23 @@ export const UserCardOnboardParty = ({ member }: UserCardOnboardPartyProps) => {
         TOTAL SKILLS: {`${member.skills?.length || 0}`}
       </span>
 
-      <div className="mb-4 flex flex-col">
+      <div className="mb-4 flex">
         {member.discordAvatar && (
-          <Avatar src={member.discordAvatar} size="sm" />
+          <div className="mr-3 mb-1">
+            <Avatar src={member.discordAvatar} size="md" />
+          </div>
         )}
-        <span className="mt-2">{member.discordName}</span>
+        <div>
+          <span className="mt-2">{member.discordName}</span>
+          <SocialMediaComp links={member.links} title="" size="18px" />
+        </div>
       </div>
       <TextLabel>LEARNING</TextLabel>
       <div>{learningBadges}</div>
       <TextLabel>SKILLED</TextLabel>
       <div>{skilledBadges}</div>
+      <TextLabel>ABOUT ME</TextLabel>
+      <div>{member.bio}</div>
     </Card>
   );
 };

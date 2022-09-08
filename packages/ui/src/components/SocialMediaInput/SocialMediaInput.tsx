@@ -34,11 +34,11 @@ export const SocialMediaInput = ({
   return (
     <div className="mb-2 flex rounded-md py-2 shadow-md">
       <div className="px-2">
-        {platform === "twitter" && <FaTwitter size="24px" color="#BCBCBC" />}
+        {platform === "twitter" && <FaTwitter size="24px" color="#00acee" />}
         {platform === "discord" && <FaTelegram size="24px" color="#BCBCBC" />}
         {platform === "github" && <FaDiscord size="24px" color="#BCBCBC" />}
         {platform === "notion" && <FaGithub size="24px" color="#BCBCBC" />}
-        {platform === "linkedin" && <FaLinkedin size="24px" color="#BCBCBC" />}
+        {platform === "linkedin" && <FaLinkedin size="24px" color="#0e76a8" />}
         {platform === "telegram" && <SiNotion size="24px" color="#BCBCBC" />}
       </div>
       <input
@@ -51,7 +51,7 @@ export const SocialMediaInput = ({
         onChange={(e) => {
           onChange(e);
         }}
-        className={`font-Inter text-soilBody focus:ring-soilGreen-500 block flex w-full border-l border-zinc-400/50 px-4 px-2 text-base focus:border-none focus:outline-transparent focus:ring focus:ring-opacity-50`}
+        className={`font-Inter text-soilBody focus:ring-soilGreen-500 block flex w-full border-l border-zinc-400/50 px-1 text-base focus:border-none focus:outline-transparent focus:ring focus:ring-opacity-50`}
       />
     </div>
   );

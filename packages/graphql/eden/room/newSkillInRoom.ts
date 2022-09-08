@@ -6,12 +6,17 @@ export const NEW_SKILL_IN_ROOM = gql`
       _id
       discordName
       discordAvatar
+      bio
       skills {
         skillInfo {
           _id
           name
         }
         level
+      }
+      links {
+        name
+        url
       }
     }
   }

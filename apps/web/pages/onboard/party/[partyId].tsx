@@ -2,11 +2,11 @@
 import { gql, useMutation, useQuery, useSubscription } from "@apollo/client";
 import { UserContext } from "@context/eden";
 import {
-  ADD_SKILL_TO_MEMBER_IN_ROOM,
   ENTER_ROOM,
   FIND_ROOM,
-  NEW_SKILL_IN_ROOM,
+  MEMBER_UPDATED,
   ROOM_UPDATED,
+  UPDATE_MEMBER,
 } from "@graphql/eden";
 import { Members, SkillType_Member } from "@graphql/eden/generated";
 import { useRouter } from "next/router";
@@ -48,7 +48,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
     context: { serviceName: "soilservice" },
   });
 
-  useSubscription(NEW_SKILL_IN_ROOM, {
+  useSubscription(MEMBER_UPDATED, {
     variables: {
       fields: { _id: partyId },
     },
@@ -111,6 +111,10 @@ const OnboardPartyPage: NextPageWithLayout = () => {
             }
             level
           }
+          links {
+            name
+            url
+          }
         }
       }
     `,
@@ -130,7 +134,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
     }
   );
 
-  const [updateMember] = useMutation(ADD_SKILL_TO_MEMBER_IN_ROOM, {});
+  const [updateMember] = useMutation(UPDATE_MEMBER, {});
 
   const handleSetSkills = (skills: SkillType_Member[]) => {
     if (!partyId || !currentUser) return;
@@ -138,8 +142,8 @@ const OnboardPartyPage: NextPageWithLayout = () => {
     updateMember({
       variables: {
         fields: {
-          roomID: partyId,
-          memberID: currentUser?._id,
+          _id: currentUser?._id,
+          bio: currentUser?.bio,
           skills: skills.map((skill: SkillType_Member) => {
             return {
               id: skill.skillInfo?._id,
@@ -152,28 +156,27 @@ const OnboardPartyPage: NextPageWithLayout = () => {
   };
   const handleUpdateUser = (e: any) => {
     if (!partyId || !currentUser) return;
+    console.log(e);
 
-    console.log(e.target.value);
-
-    // updateMember({
-    //   variables: {
-    //     fields: {
-    //       roomID: partyId,
-    //       memberID: currentUser?._id,
-    //       skills: skills.map((skill: SkillType_Member) => {
-    //         return {
-    //           id: skill.skillInfo?._id,
-    //           level: skill.level,
-    //         };
-    //       }),
-    //     },
-    //   },
-    // });
+    updateMember({
+      variables: {
+        fields: {
+          _id: currentUser?._id,
+          skills: currentUser?.skills?.map((skill: SkillType_Member | null) => {
+            return {
+              id: skill?.skillInfo?._id,
+              level: skill?.level,
+            };
+          }),
+          bio: e.target.name === "bio" ? e.target.value : currentUser.bio,
+        },
+      },
+    });
   };
 
   return (
     <GridLayout>
-      <GridItemThree className="scrollbar-hide overflow-scroll">
+      <GridItemThree>
         {!currentUser ? (
           <p>
             You must be logged in to edit your profile.
