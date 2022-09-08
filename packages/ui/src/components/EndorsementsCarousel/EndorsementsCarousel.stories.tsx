@@ -1,6 +1,5 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { faker } from "@faker-js/faker";
-
 import { EndorsementsCarousel } from "./EndorsementsCarousel";
 import { useState } from "react";
 
@@ -11,10 +10,7 @@ export default {
 } as ComponentMeta<typeof EndorsementsCarousel>;
 
 const Template: ComponentStory<typeof EndorsementsCarousel> = (args) => {
-  
   return <EndorsementsCarousel  {...args} />
-  
- 
 };
 
 
