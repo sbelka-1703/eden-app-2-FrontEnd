@@ -14,7 +14,7 @@ import {
   UserProfileMenu,
 } from "ui";
 
-interface IAppLayoutProps {
+export interface IAppUserMenuLayoutProps {
   children: React.ReactNode;
   recommnededSidebar?: boolean;
 }
@@ -22,7 +22,7 @@ interface IAppLayoutProps {
 export const AppUserMenuLayout = ({
   children,
   recommnededSidebar = true,
-}: IAppLayoutProps) => {
+}: IAppUserMenuLayoutProps) => {
   const router = useRouter();
   const { currentUser } = useContext(UserContext);
 
@@ -50,7 +50,7 @@ export const AppUserMenuLayout = ({
         <title>Eden protocol</title>
       </Head>
       <div className="bg-background flex h-screen min-w-0 flex-col lg:overflow-y-hidden">
-        <AppHeader />
+        <AppHeader logoLink={`/projects`} inApp />
         <main className="flex flex-grow">
           <GridLayout>
             <GridItemThree>

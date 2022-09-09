@@ -37,8 +37,6 @@ const ProjectPage: NextPage = () => {
   // role titles
   if (dataRoles) console.log("dataSkills", dataRoles);
 
-  // TODO: tried matchMembersToSkills but wasn't returning empty array
-
   return (
     <GridLayout>
       <GridItemThree>
