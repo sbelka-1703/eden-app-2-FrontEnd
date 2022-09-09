@@ -31,6 +31,24 @@ module.exports = {
         },
       },
       fontSize: {
+        landingTitle: [
+          "192px",
+          {
+            letterSpacing: "0.02em",
+          },
+        ],
+        landingTitleSM: [
+          "128px",
+          {
+            letterSpacing: "0.02em",
+          },
+        ],
+        landingSubtitle: [
+          "72px",
+          {
+            letterSpacing: "0.02em",
+          },
+        ],
         soilHeading1: [
           "32px",
           {

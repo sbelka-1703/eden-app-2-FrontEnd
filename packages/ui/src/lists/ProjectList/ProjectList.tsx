@@ -28,7 +28,7 @@ export const ProjectList = ({
   };
 
   return (
-    <div>
+    <div className={``}>
       {projects &&
         projects.map((project: any, index: number) => (
           <div key={index} className="my-4">
