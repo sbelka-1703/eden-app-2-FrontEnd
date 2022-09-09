@@ -4,18 +4,19 @@ import { ProjectCard } from "ui";
 export interface ProjectListProps {
   projects?: Project[] | Maybe<ProjectMemberType>[];
   applyButton?: boolean;
+  statusButton?: boolean;
+  inviteButton?: boolean;
   favButton?: boolean;
-  favouriteProjects?: Maybe<ProjectMemberType>[];
-  updateFavoriteCallback?: Function;
 }
 
 export const ProjectList = ({
   projects,
   applyButton,
+  statusButton,
+  inviteButton,
   favButton,
-  favouriteProjects,
-  updateFavoriteCallback,
 }: ProjectListProps) => {
+  // console.log("projects", projects);
   const projectType = (project: any) => {
     if (project.__typename === "Project") {
       return project;
@@ -27,7 +28,7 @@ export const ProjectList = ({
   };
 
   return (
-    <div>
+    <div className={``}>
       {projects &&
         projects.map((project: any, index: number) => (
           <div key={index} className="my-4">
@@ -41,15 +42,9 @@ export const ProjectList = ({
               }
               position={project?.position || ""}
               applyButton={applyButton}
+              statusButton={statusButton}
+              inviteButton={inviteButton}
               favButton={favButton}
-              favorite={
-                project.favorite ||
-                favouriteProjects?.find(
-                  (favProj: ProjectMemberType | null) =>
-                    favProj?.info?._id === project._id
-                )
-              }
-              updateFavoriteCallback={updateFavoriteCallback}
             />
           </div>
         ))}

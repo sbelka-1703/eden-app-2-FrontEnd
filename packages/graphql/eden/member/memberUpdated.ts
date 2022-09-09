@@ -5,11 +5,14 @@ export const MEMBER_UPDATED = gql`
     memberUpdated(fields: $fields) {
       _id
       discordName
+      discordAvatar
+      bio
       skills {
         skillInfo {
           _id
           name
         }
+        level
       }
     }
   }

@@ -1,36 +1,53 @@
-import { Members } from "@graphql/eden/generated";
-import { Avatar, Badge, Card } from "ui";
+/* eslint-disable camelcase */
+import { Maybe, Members, SkillType_Member } from "@graphql/eden/generated";
+import { Avatar, Card, SocialMediaComp, TextLabel } from "ui";
+
+import { SkillList } from "../../components/SkillList";
+import { NumberCircle } from "../../elements/NumberCircle";
 
 export interface UserCardOnboardPartyProps {
   member: Members;
 }
 
 export const UserCardOnboardParty = ({ member }: UserCardOnboardPartyProps) => {
-  const displayBadges = member.skills?.map((skill, index) => (
-    <Badge
-      key={index}
-      colorRGB="209,247,196"
-      text={skill?.skillInfo?.name || "no_name"}
-      cutText={13}
-    />
-  ));
+  const learningSkills: Maybe<SkillType_Member>[] | undefined =
+    member?.skills?.filter(
+      (skill: Maybe<SkillType_Member>) => skill?.level === "learning"
+    );
+  const skilledSkills: Maybe<SkillType_Member>[] | undefined =
+    member?.skills?.filter(
+      (skill: Maybe<SkillType_Member>) => skill?.level !== "learning"
+    );
 
   return (
     <Card border className="col-span-1 bg-white p-3">
-      <span
-        className={`absolute right-2 rounded-full py-1 px-2 text-xs font-medium`}
-        style={{ background: `rgba(255, 103, 103, 0.15)` }}
-      >
-        TOTAL SKILLS: {`${member.skills?.length || 0}`}
-      </span>
-
-      <div className="mb-4 flex flex-col">
+      <div className="mb-4 flex">
         {member.discordAvatar && (
-          <Avatar src={member.discordAvatar} size="sm" />
+          <div className="mr-3 mb-1">
+            <Avatar src={member.discordAvatar} size="md" />
+          </div>
         )}
-        <span className="mt-2">{member.discordName}</span>
+        <div>
+          <span className="mt-2">{member.discordName}</span>
+          <SocialMediaComp links={member.links} title="" size="18px" />
+        </div>
       </div>
-      {displayBadges}
+      <div className="flex items-center space-x-2">
+        <TextLabel>LEARNING</TextLabel>
+        {learningSkills && <NumberCircle value={learningSkills?.length} />}
+      </div>
+      {learningSkills && (
+        <SkillList skills={learningSkills} colorRGB="209,247,196" />
+      )}
+      <div className="flex items-center space-x-2">
+        <TextLabel>SKILLED</TextLabel>
+        {skilledSkills && <NumberCircle value={skilledSkills?.length} />}
+      </div>
+      {skilledSkills && (
+        <SkillList skills={skilledSkills} colorRGB="235,225,255" />
+      )}
+      <TextLabel>ABOUT ME</TextLabel>
+      <div>{member.bio}</div>
     </Card>
   );
 };

@@ -11,14 +11,22 @@ const ApplicationsPage: NextPageWithLayout = () => {
     (project: any) => project.phase === "engaged"
   );
 
-  // console.log("engagedProjects", engagedProjects);
+  console.log("engagedProjects", engagedProjects);
 
   return (
     <Card shadow className="h-8/10 bg-white p-6">
       <div className={`text-2xl font-medium text-black/80`}>
         Magic Application List
+        <span
+          className={`ml-2 inline-block flex-shrink-0 rounded-full px-2 py-0.5 text-sm font-medium `}
+          style={{ background: "rgba(186, 213, 240, 0.31)" }}
+        >
+          {engagedProjects?.length}
+        </span>
       </div>
-      <ProjectList projects={engagedProjects} />
+      <div className={`scrollbar-hide h-7/10 overflow-y-scroll`}>
+        <ProjectList projects={engagedProjects} />
+      </div>
     </Card>
   );
 };

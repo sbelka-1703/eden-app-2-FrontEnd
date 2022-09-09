@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { useContext } from "react";
 import {
   AppHeader,
+  GridItemNine,
   GridItemSix,
   GridItemThree,
   GridLayout,
@@ -15,9 +16,13 @@ import {
 
 interface IAppLayoutProps {
   children: React.ReactNode;
+  recommnededSidebar?: boolean;
 }
 
-export const AppUserMenuLayout = ({ children }: IAppLayoutProps) => {
+export const AppUserMenuLayout = ({
+  children,
+  recommnededSidebar = true,
+}: IAppLayoutProps) => {
   const router = useRouter();
   const { currentUser } = useContext(UserContext);
 
@@ -51,14 +56,20 @@ export const AppUserMenuLayout = ({ children }: IAppLayoutProps) => {
             <GridItemThree>
               <UserProfileMenu title={`Good Morning,`} />
             </GridItemThree>
-            <GridItemSix>{children}</GridItemSix>
-            <GridItemThree>
-              <RecommendedList
-                projects={
-                  dataProjectsRecommended?.findProjects_RecommendedToUser
-                }
-              />
-            </GridItemThree>
+            {recommnededSidebar ? (
+              <>
+                <GridItemSix>{children}</GridItemSix>
+                <GridItemThree>
+                  <RecommendedList
+                    projects={
+                      dataProjectsRecommended?.findProjects_RecommendedToUser
+                    }
+                  />
+                </GridItemThree>
+              </>
+            ) : (
+              <GridItemNine>{children}</GridItemNine>
+            )}
           </GridLayout>
         </main>
       </div>

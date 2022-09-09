@@ -20,6 +20,7 @@ const ProjectPage: NextPage = () => {
         _id,
       },
     },
+    skip: !_id,
     context: { serviceName: "soilservice" },
   });
 

@@ -21,6 +21,7 @@ const ApplyPage: NextPageWithLayout = () => {
         _id,
       },
     },
+    skip: !_id,
     context: { serviceName: "soilservice" },
   });
 

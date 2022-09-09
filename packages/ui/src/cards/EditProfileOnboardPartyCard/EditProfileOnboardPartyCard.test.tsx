@@ -15,7 +15,13 @@ describe("EditProfileOnboardPartyCard", () => {
             discordName: undefined,
             skills: undefined,
           }}
+          handleUpdateUser={function (): void {
+            throw new Error("Function not implemented.");
+          }}
           handleSetSkills={function (): void {
+            throw new Error("Function not implemented.");
+          }}
+          handleDeleteSkill={function (): void {
             throw new Error("Function not implemented.");
           }}
         />

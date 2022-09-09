@@ -2,7 +2,7 @@
 import { SignUpContext } from "@context/eden";
 import { useContext } from "react";
 import {
-  FaDiscord,
+  // FaDiscord,
   FaGithub,
   // FaLinkedin,
   FaTelegram,
@@ -22,13 +22,11 @@ export const SignUpViewSocials = () => {
     setTwitterHandle,
     githubHandle,
     setGithubHandle,
-    discordHandle,
-    setDiscordHandle,
+    // discordHandle,
+    // setDiscordHandle,
     telegramHandle,
     setTelegramHandle,
   } = useContext(SignUpContext);
-
-  console.log("timezone", timezone);
 
   return (
     <div className={`py-6 px-12`}>
@@ -90,7 +88,7 @@ export const SignUpViewSocials = () => {
           onChange={(e) => setGithubHandle(e.target.value)}
         />
       </div>
-      <div className={`my-6 flex w-full`}>
+      {/* <div className={`my-6 flex w-full`}>
         <FaDiscord size="2rem" color="#000000" className={`my-auto mr-4`} />
         <TextField
           radius="pill"
@@ -98,7 +96,7 @@ export const SignUpViewSocials = () => {
           value={discordHandle}
           onChange={(e) => setDiscordHandle(e.target.value)}
         />
-      </div>
+      </div> */}
       <div className={`my-6 flex w-full`}>
         <FaTelegram size="2rem" color="#000000" className={`my-auto mr-4`} />
         <TextField
