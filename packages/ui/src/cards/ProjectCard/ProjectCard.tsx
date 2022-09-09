@@ -1,7 +1,18 @@
-import { Project } from "@graphql/eden/generated";
+import { gql, useMutation } from "@apollo/client";
+import { UserContext } from "@context/eden";
+import { Mutation, Project } from "@graphql/eden/generated";
 import { useRouter } from "next/router";
+import { useContext, useEffect, useState } from "react";
 import { BsArrowRight } from "react-icons/bs";
 import { Avatar, Badge, Button, Card, Favorite } from "ui";
+
+const SET_FAVORITE = gql`
+  mutation ($fields: addFavoriteProjectInput!) {
+    addFavoriteProject(fields: $fields) {
+      _id
+    }
+  }
+`;
 
 export interface ProjectCardProps {
   project?: Project;
@@ -9,9 +20,9 @@ export interface ProjectCardProps {
   percentage?: number;
   position?: string;
   applyButton?: boolean;
+  statusButton?: boolean;
+  inviteButton?: boolean;
   favButton?: boolean;
-  favorite?: boolean;
-  updateFavoriteCallback?: Function;
   focused?: boolean;
 }
 
@@ -20,12 +31,47 @@ export const ProjectCard = ({
   avatar,
   percentage,
   applyButton = false,
+  statusButton = false,
+  inviteButton = false,
   favButton = false,
-  favorite = false,
-  updateFavoriteCallback,
   focused,
 }: ProjectCardProps) => {
   const router = useRouter();
+  const { currentUser } = useContext(UserContext);
+  const [submitting, setSubmitting] = useState(false);
+
+  const [addFavoriteProject, {}] = useMutation(SET_FAVORITE, {
+    onCompleted({ addFavoriteProject }: Mutation) {
+      if (!addFavoriteProject) console.log("addFavoriteProject is null");
+      setSubmitting(false);
+    },
+  });
+
+  useEffect(() => {
+    if (currentUser?.projects && currentUser?.projects.length > 0 && project) {
+      currentUser?.projects.forEach((element) => {
+        if (project?._id === element?.info?._id) {
+          updateFav(element?.favorite || false);
+        }
+      });
+    }
+  }, [currentUser?.projects, project]);
+
+  const [fav, updateFav] = useState(false);
+  const onClickFav = () => {
+    setSubmitting(true);
+    addFavoriteProject({
+      variables: {
+        fields: {
+          projectID: project?._id,
+          memberID: currentUser?._id,
+          favorite: !fav,
+        },
+      },
+      context: { serviceName: "soilservice" },
+    });
+    updateFav(!fav);
+  };
 
   if (!project) return null;
 
@@ -35,7 +81,7 @@ export const ProjectCard = ({
     <Card border focused={focused} className="px-4 py-4">
       <div className="flex justify-between">
         <div>
-          <Avatar src={avatar} size="md" />
+          <Avatar src={avatar} size="md" isProject />
         </div>
         <div className={`w-full pl-4`}>
           <div className="flex h-full">
@@ -65,13 +111,14 @@ export const ProjectCard = ({
                 </span>
               </div>
             )}
-            {favButton && updateFavoriteCallback && (
+            {favButton && (
               <div
                 className={`flex h-full items-center border-l px-4 last:pr-0`}
               >
                 <Favorite
-                  favorite={favorite}
-                  onFavorite={() => updateFavoriteCallback(project)}
+                  disabled={submitting}
+                  favorite={fav}
+                  onFavorite={() => onClickFav()}
                 />
               </div>
             )}
@@ -85,6 +132,40 @@ export const ProjectCard = ({
                     onClick={() => router.push(`/apply/${project._id}`)}
                   >
                     Apply
+                    <span className={`my-auto pl-2`}>
+                      <BsArrowRight />
+                    </span>
+                  </Button>
+                </div>
+              </div>
+            )}
+            {statusButton && (
+              <div
+                className={`flex h-full flex-col items-center border-l px-4 last:pr-0`}
+              >
+                <div className={`my-auto`}>
+                  <Button
+                    variant={`primary`}
+                    onClick={() => router.push(`/my-projects/${project._id}`)}
+                  >
+                    View Project
+                    <span className={`my-auto pl-2`}>
+                      <BsArrowRight />
+                    </span>
+                  </Button>
+                </div>
+              </div>
+            )}
+            {inviteButton && (
+              <div
+                className={`flex h-full flex-col items-center border-l px-4 last:pr-0`}
+              >
+                <div className={`my-auto`}>
+                  <Button
+                    variant={`primary`}
+                    onClick={() => router.push(`/invites/${project._id}`)}
+                  >
+                    View Project
                     <span className={`my-auto pl-2`}>
                       <BsArrowRight />
                     </span>

@@ -1,7 +1,7 @@
 import { SignUpProvider } from "@context/eden";
 import type { NextPage } from "next";
 import Head from "next/head";
-import { Card, GridItemSix, GridItemThree, GridLayout, LoginButton } from "ui";
+import { GridItemSix, GridItemThree, GridLayout, LoginCard } from "ui";
 
 const LoginPage: NextPage = () => {
   return (
@@ -14,14 +14,7 @@ const LoginPage: NextPage = () => {
         <GridLayout>
           <GridItemThree> </GridItemThree>
           <GridItemSix>
-            <Card shadow className={`h-5/10 bg-white p-6`}>
-              <div
-                className={`text-darkGreen my-12 text-center text-2xl font-semibold uppercase`}
-              >
-                you must be logged in
-              </div>
-              <LoginButton />
-            </Card>
+            <LoginCard />
           </GridItemSix>
           <GridItemThree> </GridItemThree>
         </GridLayout>

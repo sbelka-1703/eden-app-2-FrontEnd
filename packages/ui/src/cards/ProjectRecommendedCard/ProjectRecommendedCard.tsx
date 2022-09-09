@@ -71,7 +71,7 @@ export const ProjectRecommendedCard = ({
     <Card shadow className="bg-white p-0">
       <div className="flex flex-col justify-between p-4">
         <div className="flex flex-row justify-between">
-          <Avatar src={avatar} size={`sm`} />
+          <Avatar src={avatar} size={`sm`} isProject />
           <Favorite
             disabled={submitting}
             favorite={fav}

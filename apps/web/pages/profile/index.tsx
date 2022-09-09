@@ -6,7 +6,9 @@ const ProfilePage: NextPageWithLayout = () => {
   return <ProfileContainer />;
 };
 
-ProfilePage.getLayout = (page) => <AppUserMenuLayout>{page}</AppUserMenuLayout>;
+ProfilePage.getLayout = (page) => (
+  <AppUserMenuLayout recommnededSidebar={false}>{page}</AppUserMenuLayout>
+);
 
 export default ProfilePage;
 

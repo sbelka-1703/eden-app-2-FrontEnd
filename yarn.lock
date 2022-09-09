@@ -11284,6 +11284,11 @@ react-confetti@^6.1.0:
   dependencies:
     tween-functions "^1.2.0"
 
+react-date-object@^2.1.5:
+  version "2.1.5"
+  resolved "https://registry.yarnpkg.com/react-date-object/-/react-date-object-2.1.5.tgz#9f139cf0fbd9b8033cc18699be2ea14a772dbd73"
+  integrity sha512-iAtF2nz+jZjy3w36qKx2MsxXqbiL7UgGljz9jPjLWxWCl4rDTZUMS/i7hKKiVbL1lJlmubz1Xu6W3i6CW06kTg==
+
 react-docgen-typescript@^2.1.1:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/react-docgen-typescript/-/react-docgen-typescript-2.2.2.tgz#4611055e569edc071204aadb20e1c93e1ab1659c"
@@ -11312,6 +11317,11 @@ react-dom@18.1.0:
   dependencies:
     loose-envify "^1.1.0"
     scheduler "^0.22.0"
+
+react-element-popper@^2.1.6:
+  version "2.1.6"
+  resolved "https://registry.yarnpkg.com/react-element-popper/-/react-element-popper-2.1.6.tgz#4afb912287d57de5d442fb85e76f4d7b94fde879"
+  integrity sha512-8va7mUmrKIkUnaM2t5Dyctd8cjgVgVcrv5vVD0FRay0sN6EPBCKa0bDi1/KmVDAjfgSIn7zQnjtc4VojcGrkgQ==
 
 react-element-to-jsx-string@^14.3.4:
   version "14.3.4"
@@ -11350,6 +11360,14 @@ react-is@^18.0.0:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.2.0.tgz#199431eeaaa2e09f86427efbb4f1473edb47609b"
   integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
+
+react-multi-date-picker@^3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/react-multi-date-picker/-/react-multi-date-picker-3.3.0.tgz#89036a1bf013fc65bc12dda640d5a979a640b453"
+  integrity sha512-xAounECAkPUSnwmGCXlLevRLS9lt6IrGzD1VUJKZPbuzauwxaJLZ0mW6vnGUjui60qBY/uQeEmJftq+pEq5HgQ==
+  dependencies:
+    react-date-object "^2.1.5"
+    react-element-popper "^2.1.6"
 
 react-refresh@^0.11.0:
   version "0.11.0"
