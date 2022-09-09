@@ -1,5 +1,6 @@
 import { Card, TextField } from "../../elements";
 import { useState } from "react";
+import { TextArea } from "../../elements/TextAreaComponent";
 export interface UserExperienceCardlProps {
   // avatar?: string;
   // title?: string;
@@ -19,7 +20,7 @@ export const UserExperienceCard = ({}: UserExperienceCardlProps) => {
           <TextField onChange={(val) => setTitle("")} />
         </div>
         <div>
-          <TextField className="h-10" onChange={(val) => setTitle("")} />
+          <TextArea onChange={(val) => setTitle("")} />
         </div>
       </div>
     </Card>

@@ -1,0 +1,24 @@
+{
+  "name": "@context/eden",
+  "version": "0.0.0",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint src/*.ts*",
+    "test": "jest",
+    "clean": "rm -rf node_modules",
+    "clean-windows": "rd /s /q node_modules"
+  },
+  "devDependencies": {
+    "@graphql/eden": "*",
+    "@types/node": "^18.6.1",
+    "@types/react": "18.0.15",
+    "@types/react-dom": "^18.0.6",
+    "config": "*",
+    "eslint": "^8.20.0",
+    "tsconfig": "*",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {}
+}
