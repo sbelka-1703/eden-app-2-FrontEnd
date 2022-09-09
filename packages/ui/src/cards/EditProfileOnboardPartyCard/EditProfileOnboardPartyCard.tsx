@@ -4,6 +4,7 @@ import {
   Avatar,
   Badge,
   Card,
+  // Dropdown,
   SearchSkill,
   // SocialMediaInput,
   TextArea,
@@ -16,12 +17,15 @@ export interface EditProfileOnboardPartyCardProps {
   // eslint-disable-next-line no-unused-vars
   handleSetSkills: (val: any) => void;
   // eslint-disable-next-line no-unused-vars
+  handleDeleteSkill: (val: Maybe<SkillType_Member>) => void;
+  // eslint-disable-next-line no-unused-vars
   handleUpdateUser: (val: any) => void;
 }
 
 export const EditProfileOnboardPartyCard = ({
   currentUser,
   handleSetSkills,
+  handleDeleteSkill,
   handleUpdateUser,
 }: EditProfileOnboardPartyCardProps) => {
   const learningBadges = currentUser?.skills
@@ -32,6 +36,8 @@ export const EditProfileOnboardPartyCard = ({
         text={skill?.skillInfo?.name || ""}
         colorRGB="209,247,196"
         className={`font-Inter bg-white text-sm`}
+        closeButton
+        onClose={() => handleDeleteSkill(skill)}
       />
     ));
   const skilledBadges = currentUser?.skills
@@ -41,6 +47,8 @@ export const EditProfileOnboardPartyCard = ({
         key={index}
         text={skill?.skillInfo?.name || ""}
         className={`bg-soilPurple/20 font-Inter text-sm`}
+        closeButton
+        onClose={() => handleDeleteSkill(skill)}
       />
     ));
   const levels = [
@@ -65,7 +73,9 @@ export const EditProfileOnboardPartyCard = ({
           <span className="ml-2">{currentUser?.discordName}</span>
         )}
       </div>
-      <TextLabel>🛠 SKILLS</TextLabel>
+      {/* <TextLabel>💼 SELECT YOUR ROLE</TextLabel>
+      <Dropdown items={[]} placeholder={`Select Your Role`} /> */}
+      <TextLabel>🛠 ADD YOUR SKILLS</TextLabel>
       <SearchSkill
         levels={levels}
         skills={currentUser.skills}
@@ -84,6 +94,7 @@ export const EditProfileOnboardPartyCard = ({
         className="text-xs"
         onChange={handleUpdateUser}
         debounceTime={2000}
+        maxLength={280}
       />
       {/* <TextLabel>SOCIAL MEDIA</TextLabel>
       <SocialMediaInput platform="twitter" onChange={handleUpdateUser} />
