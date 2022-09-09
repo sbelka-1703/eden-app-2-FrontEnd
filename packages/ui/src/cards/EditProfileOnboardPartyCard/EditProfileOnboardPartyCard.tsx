@@ -2,10 +2,10 @@
 import { Maybe, Members, SkillType_Member } from "@graphql/eden/generated";
 import {
   Avatar,
-  Badge,
   Card,
   // Dropdown,
   SearchSkill,
+  SkillList,
   // SocialMediaInput,
   TextArea,
   TextHeading3,
@@ -19,7 +19,7 @@ export interface EditProfileOnboardPartyCardProps {
   // eslint-disable-next-line no-unused-vars
   handleSetSkills: (val: any) => void;
   // eslint-disable-next-line no-unused-vars
-  handleDeleteSkill: (val: Maybe<SkillType_Member>) => void;
+  handleDeleteSkill: (val: Maybe<SkillType_Member> | undefined) => void;
   // eslint-disable-next-line no-unused-vars
   handleUpdateUser: (val: any) => void;
 }
@@ -30,31 +30,14 @@ export const EditProfileOnboardPartyCard = ({
   handleDeleteSkill,
   handleUpdateUser,
 }: EditProfileOnboardPartyCardProps) => {
-  const learningBadges = currentUser?.skills
-    ?.filter((skill: Maybe<SkillType_Member>) => skill?.level === "learning")
-    .map((skill, index) => (
-      <Badge
-        key={index}
-        text={skill?.skillInfo?.name || ""}
-        colorRGB="209,247,196"
-        className={`font-Inter bg-white text-sm`}
-        closeButton
-        onClose={() => handleDeleteSkill(skill)}
-        cutText={16}
-      />
-    ));
-  const skilledBadges = currentUser?.skills
-    ?.filter((skill: Maybe<SkillType_Member>) => skill?.level !== "learning")
-    .map((skill, index) => (
-      <Badge
-        key={index}
-        text={skill?.skillInfo?.name || ""}
-        className={`bg-soilPurple/20 font-Inter text-sm`}
-        closeButton
-        onClose={() => handleDeleteSkill(skill)}
-        cutText={16}
-      />
-    ));
+  const learningSkills: Maybe<SkillType_Member>[] | undefined =
+    currentUser?.skills?.filter(
+      (skill: Maybe<SkillType_Member>) => skill?.level === "learning"
+    );
+  const skilledSkills: Maybe<SkillType_Member>[] | undefined =
+    currentUser?.skills?.filter(
+      (skill: Maybe<SkillType_Member>) => skill?.level !== "learning"
+    );
   const levels = [
     {
       title: "learning",
@@ -87,19 +70,32 @@ export const EditProfileOnboardPartyCard = ({
       />
       <div className="flex items-center space-x-2">
         <TextLabel>LEARNING</TextLabel>
-        {learningBadges && <NumberCircle value={learningBadges?.length} />}
+        {learningSkills && <NumberCircle value={learningSkills?.length} />}
       </div>
-      <div>{learningBadges}</div>
+      {learningSkills && (
+        <SkillList
+          skills={learningSkills}
+          handleDeleteSkill={handleDeleteSkill}
+          colorRGB="209,247,196"
+        />
+      )}
       <div className="flex items-center space-x-2">
         <TextLabel>SKILLED</TextLabel>
-        {skilledBadges && <NumberCircle value={skilledBadges?.length} />}
+        {skilledSkills && <NumberCircle value={skilledSkills?.length} />}
       </div>
+      {skilledSkills && (
+        <SkillList
+          skills={skilledSkills}
+          handleDeleteSkill={handleDeleteSkill}
+          colorRGB="235,225,255"
+        />
+      )}
       <TextLabel>ABOUT ME</TextLabel>
       <TextArea
         name="bio"
         placeholder={`Write a short description about yourself...`}
         rows={5}
-        // value={`${currentUser.bio ? currentUser.bio : ""}`}
+        value={`${currentUser.bio ? currentUser.bio : ""}`}
         className="text-xs"
         onChange={handleUpdateUser}
         debounceTime={2000}
