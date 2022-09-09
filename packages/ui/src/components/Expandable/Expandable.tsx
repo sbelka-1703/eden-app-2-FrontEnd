@@ -2,29 +2,14 @@ import { useQuery } from "@apollo/client";
 import { FIND_SKILL_BY_CATEGORIES } from "@graphql/eden";
 // eslint-disable-next-line camelcase
 import { Maybe, Skills, SkillType_Member } from "@graphql/eden/generated";
+import { CheckCircleIcon } from "@heroicons/react/solid";
 import { useState } from "react";
 import { Button } from "ui";
-
-type SelectorProps = {
-  title: string;
-  onClick: () => void;
-};
 
 type LevelProp = {
   title: string;
   level: string;
 };
-
-function Selector({ title, onClick }: SelectorProps) {
-  return (
-    <div
-      onClick={onClick}
-      className="cursor-pointer rounded-md border-[2px] border-black bg-white p-2 text-[14px] font-semibold transition-all duration-500 hover:bg-black hover:text-white"
-    >
-      {title}
-    </div>
-  );
-}
 
 type ExpandableProps = {
   category: string;
@@ -38,7 +23,7 @@ type ExpandableProps = {
   setSelected?: any;
   id: string;
   query: string;
-  setExpanding?: any;
+  // setExpanding?: any;
   levels?: LevelProp[];
 };
 
@@ -53,7 +38,7 @@ export const Expandable = ({
   setSelected,
   id,
   query,
-  setExpanding,
+  // setExpanding,
   levels,
 }: ExpandableProps) => {
   const [isExandingOpen, setIsExpandingOpen] = useState<boolean>(false);
@@ -83,10 +68,12 @@ export const Expandable = ({
             setIdSelected(id);
           }
         }}
-        className="flex w-full cursor-pointer items-center justify-between bg-[#ffffff] px-3 py-2 font-bold"
+        className="flex w-full cursor-pointer items-center justify-between bg-[#EDF2F7] px-3 py-2 text-sm"
       >
         {category}
-        <p className="underline">{isExandingOpen ? "Hide" : "Show"}</p>
+        <p className="text-xs font-medium underline">
+          {isExandingOpen ? "HIDE" : "SHOW"}
+        </p>
       </div>
       {isExandingOpen &&
         (query === ""
@@ -104,34 +91,40 @@ export const Expandable = ({
               } else {
                 setSelected(item._id);
                 setIsOpen(true);
-                if (isOpen) {
+                if (selected) {
                   setSelected(null);
-                  setIsOpen(false);
+                  //   // setIsOpen(false);
                 }
               }
             }}
-            className="cursor-pointer p-2"
+            className="p-2"
             key={item._id}
           >
             <div
               className={`flex ${
-                selected === item._id ? "bg-[#EDF2F7]" : "bg-white"
-              } items-center justify-between px-4 pt-4`}
+                selected === item._id ? "-mx-2 bg-[#EDF2F7] px-2" : "bg-white"
+              } group cursor-pointer items-center justify-between`}
             >
-              {item.name}
+              <span className="w-3/4 text-sm text-slate-700 group-hover:text-slate-500">
+                {item.name}
+              </span>
               {skills!.filter((s) => s?.skillInfo?._id === item._id).length >
-                0 && <h1>ADDED</h1>}
+                0 && <CheckCircleIcon color="rgb(116, 250, 109)" width={24} />}
             </div>
 
             {isOpen && selected === item._id && (
-              <div className="bg-[#EDF2F7] px-4 pb-4 pt-2">
-                <p className="font-semibold text-[#AAAAAA]">Skill level</p>
-                <div className="flex gap-2">
+              <div className="-mx-2 bg-[#EDF2F7] px-3 pb-2">
+                <p className="mb-1 text-xs font-medium text-slate-500">
+                  SKILL LEVEL
+                </p>
+                <div className="-ml-1 flex gap-2">
                   {levels!.map((level, index) => (
-                    <Selector
+                    <Button
                       key={index}
-                      title={level.title.toUpperCase()}
-                      onClick={() => {
+                      // className="h-6 py-1 px-2 text-xs"
+                      size="sm"
+                      onClick={(e) => {
+                        e.preventDefault();
                         setSkills([
                           ...skills!,
                           {
@@ -142,12 +135,17 @@ export const Expandable = ({
                             level: level.level,
                           },
                         ]);
-                        setIsOpen(false);
-                        setExpanding(false);
+                        // setIsOpen(false);
+                        setSelected(null);
                       }}
-                    />
+                      variant="secondary"
+                    >
+                      {level.title.toUpperCase()}
+                    </Button>
                   ))}
                   <Button
+                    className="ml-auto"
+                    size="sm"
                     onClick={() => {
                       setSkills([
                         ...skills!,
@@ -159,8 +157,8 @@ export const Expandable = ({
                           level: "mid",
                         },
                       ]);
-                      setIsOpen(false);
-                      setExpanding(false);
+                      // setIsOpen(false);
+                      setSelected(null);
                     }}
                     variant="primary"
                   >

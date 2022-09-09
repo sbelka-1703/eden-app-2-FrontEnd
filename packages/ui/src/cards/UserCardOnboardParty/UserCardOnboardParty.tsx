@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { Maybe, Members, SkillType_Member } from "@graphql/eden/generated";
-import { Avatar, Card, SocialMediaComp, TextLabel } from "ui";
+import { Avatar, Card, TextLabel } from "ui";
 
 import { SkillList } from "../../components/SkillList";
 import { NumberCircle } from "../../elements/NumberCircle";
@@ -21,15 +21,15 @@ export const UserCardOnboardParty = ({ member }: UserCardOnboardPartyProps) => {
 
   return (
     <Card border className="col-span-1 bg-white p-3">
-      <div className="mb-4 flex">
+      <div className="mb-4 flex items-center">
         {member.discordAvatar && (
-          <div className="mr-3 mb-1">
+          <div className="mr-3">
             <Avatar src={member.discordAvatar} size="md" />
           </div>
         )}
         <div>
           <span className="mt-2">{member.discordName}</span>
-          <SocialMediaComp links={member.links} title="" size="18px" />
+          {/* <SocialMediaComp links={member.links} title="" size="18px" /> */}
         </div>
       </div>
       <div className="flex items-center space-x-2">

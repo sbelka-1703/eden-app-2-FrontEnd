@@ -99,62 +99,76 @@ export const SearchSkill = ({
         }
       }}
     >
-      <div className="relative">
-        <SearchIcon
-          className="pointer-events-none absolute top-3.5 left-4 h-5 w-5 text-gray-400"
-          aria-hidden="true"
-        />
-        <Combobox.Input
-          style={{
-            boxShadow: "0px 1px 4px rgba(0, 0, 0, 0.15)",
-          }}
-          className="h-12 w-full rounded-md border-0 bg-white pl-11 pr-4 text-gray-800 placeholder-gray-400 focus:ring-0 sm:text-sm"
-          placeholder="Search for a skill.."
-          onChange={(event) => setQuery(event.target.value)}
-          onFocus={() => setInFocus(true)}
-        />
-      </div>
-
-      {filteredItems.length >= 0 && query.length >= 0 && (
-        <Combobox.Options
-          static
-          className="max-h-80 scroll-pt-11 scroll-pb-2 space-y-2 overflow-y-auto pb-2"
-        >
-          {Object.entries(
-            query === "" && inFocus ? allSkillGroup : groups!
-          ).map(([category, id]) => (
-            <Expandable
-              query={query}
-              category={category}
-              // @ts-ignore
-              id={id[0]._id}
-              skills={skills!}
-              allSkills={query !== "" && dataSkills.skills_autocomplete}
-              isOpen={isOpen}
-              selected={selected}
-              setIsOpen={setIsOpen}
-              setSkills={setSkills}
-              key={category}
-              setSelected={setSelected}
-              setExpanding={(e: boolean) => setInFocus(e)}
-              levels={levels}
-            />
-          ))}
-        </Combobox.Options>
-      )}
-
-      {query !== "" && filteredItems!.length === 0 && (
-        <div className="border-t border-gray-100 py-14 px-6 text-center text-sm sm:px-14">
-          <EmojiSadIcon
-            className="mx-auto h-6 w-6 text-gray-400"
+      <div className="relative mb-2">
+        <div className="relative z-30">
+          <SearchIcon
+            className="pointer-events-none absolute top-3.5 left-4 h-5 w-5 text-gray-400"
             aria-hidden="true"
           />
-          <p className="mt-4 font-semibold text-gray-900">No results found</p>
-          <p className="mt-2 text-gray-500">
-            We couldn’t find anything with that term. Please try again.
-          </p>
+          <Combobox.Input
+            style={{
+              boxShadow: "0px 1px 4px rgba(0, 0, 0, 0.15)",
+            }}
+            className="h-12 w-full rounded-md border-0 bg-white pl-11 pr-4 text-gray-800 placeholder-gray-400 focus:ring-0 sm:text-sm"
+            placeholder="Search for a skill.."
+            onChange={(event) => setQuery(event.target.value)}
+            onFocus={() => {
+              setInFocus(true);
+              setIsOpen(true);
+            }}
+          />
         </div>
-      )}
+        {filteredItems.length >= 0 && query.length >= 0 && isOpen && (
+          <div
+            className="fixed top-0 left-0 z-20 h-screen w-screen"
+            onClick={() => {
+              setIsOpen(false);
+              setInFocus(false);
+            }}
+          ></div>
+        )}
+
+        {filteredItems.length >= 0 && query.length >= 0 && isOpen && (
+          <Combobox.Options
+            static
+            className="scrollbar-hide absolute z-30 h-80 w-full scroll-pt-11 scroll-pb-2 space-y-2 overflow-y-auto rounded-b-md border bg-white pb-2"
+          >
+            {Object.entries(
+              query === "" && inFocus ? allSkillGroup : groups!
+            ).map(([category, id]) => (
+              <Expandable
+                query={query}
+                category={category}
+                // @ts-ignore
+                id={id[0]._id}
+                skills={skills!}
+                allSkills={query !== "" && dataSkills.skills_autocomplete}
+                isOpen={isOpen}
+                selected={selected}
+                setIsOpen={setIsOpen}
+                setSkills={setSkills}
+                key={category}
+                setSelected={setSelected}
+                // setExpanding={(e: boolean) => setInFocus(e)}
+                levels={levels}
+              />
+            ))}
+          </Combobox.Options>
+        )}
+
+        {query !== "" && filteredItems!.length === 0 && (
+          <div className="border-t border-gray-100 py-14 px-6 text-center text-sm sm:px-14">
+            <EmojiSadIcon
+              className="mx-auto h-6 w-6 text-gray-400"
+              aria-hidden="true"
+            />
+            <p className="mt-4 font-semibold text-gray-900">No results found</p>
+            <p className="mt-2 text-gray-500">
+              We couldn’t find anything with that term. Please try again.
+            </p>
+          </div>
+        )}
+      </div>
     </Combobox>
   );
 };
