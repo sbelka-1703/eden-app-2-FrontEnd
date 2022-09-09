@@ -1,15 +1,15 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { SessionProvider } from "next-auth/react";
 
-import { AppHeader } from "./AppHeader";
+import { AppUserMenuLayout } from "./AppUserMenuLayout";
 
 export default {
-  title: "Layout/AppHeader",
-  component: AppHeader,
+  title: "Layout/AppUserMenuLayout",
+  component: AppUserMenuLayout,
   argTypes: {},
-} as ComponentMeta<typeof AppHeader>;
+} as ComponentMeta<typeof AppUserMenuLayout>;
 
-const Template: ComponentStory<typeof AppHeader> = (args) => (
+const Template: ComponentStory<typeof AppUserMenuLayout> = (args) => (
   <SessionProvider
     session={{
       expires: "1",
@@ -22,7 +22,7 @@ const Template: ComponentStory<typeof AppHeader> = (args) => (
       },
     }}
   >
-    <AppHeader {...args} />
+    <AppUserMenuLayout {...args} />
   </SessionProvider>
 );
 

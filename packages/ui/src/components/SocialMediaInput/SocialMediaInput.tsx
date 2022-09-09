@@ -7,7 +7,6 @@ import {
   FaLinkedin,
 } from "react-icons/fa";
 import { SiNotion } from "react-icons/si";
-import { TextField } from "../../elements";
 
 enum Platforms {
   "twitter",
