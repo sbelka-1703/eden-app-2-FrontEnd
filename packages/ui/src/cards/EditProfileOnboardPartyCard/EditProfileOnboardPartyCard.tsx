@@ -40,6 +40,7 @@ export const EditProfileOnboardPartyCard = ({
         className={`font-Inter bg-white text-sm`}
         closeButton
         onClose={() => handleDeleteSkill(skill)}
+        cutText={16}
       />
     ));
   const skilledBadges = currentUser?.skills
@@ -51,6 +52,7 @@ export const EditProfileOnboardPartyCard = ({
         className={`bg-soilPurple/20 font-Inter text-sm`}
         closeButton
         onClose={() => handleDeleteSkill(skill)}
+        cutText={16}
       />
     ));
   const levels = [
