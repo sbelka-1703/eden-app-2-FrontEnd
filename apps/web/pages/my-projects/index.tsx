@@ -24,7 +24,9 @@ const MyProjectsPage: NextPageWithLayout = () => {
           {committedProjects?.length}
         </span>
       </div>
-      <ProjectList projects={committedProjects} statusButton />
+      <div className={`scrollbar-hide h-7/10 overflow-y-scroll`}>
+        <ProjectList projects={committedProjects} statusButton />
+      </div>
     </Card>
   );
 };
