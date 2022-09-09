@@ -1,17 +1,55 @@
 /* eslint-disable @next/next/no-img-element */
+import { useMutation, useQuery } from "@apollo/client";
+import { ADD_NEW_MEMBER, FIND_MEMBER } from "@graphql/eden";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
 import { signIn, signOut, useSession } from "next-auth/react";
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Avatar } from "ui";
 
 export const LoginButton = () => {
   const router = useRouter();
   const { data: session } = useSession();
+  const [memberCreated, setMemberCreated] = useState(false);
+
+  const { data: member, loading: memberLoading } = useQuery(FIND_MEMBER, {
+    variables: {
+      fields: {
+        _id: session?.user?.id,
+      },
+    },
+  });
+
+  useEffect(() => {
+    if (memberLoading === false) console.log("session========", member);
+  }, [member, memberLoading]);
+
+  const [addMember, {}] = useMutation(ADD_NEW_MEMBER);
+
+  useEffect(() => {
+    if (
+      memberCreated === false &&
+      member?.findMember === null &&
+      memberLoading === false
+    ) {
+      console.log("this is runnning");
+      addMember({
+        variables: {
+          fields: {
+            _id: session?.user?.id,
+            discordName: session?.user?.name,
+            discordAvatar: session?.user?.image,
+          },
+        },
+      });
+      setMemberCreated(true);
+      console.log("id created successfully");
+    }
+  }, [session, member?.findMember]);
 
   return (
-    <div className=" top-16 z-50 w-56 text-right">
+    <div className="top-16 z-50 w-56 text-right">
       <Menu as="div" className="relative inline-block text-left">
         <div>
           {session ? (
