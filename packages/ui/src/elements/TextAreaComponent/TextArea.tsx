@@ -43,7 +43,7 @@ export const TextArea: React.FC<TextAreaProps> = ({
         <textarea
           id={name}
           name={name}
-          value={value}
+          defaultValue={value}
           rows={rows}
           required={required}
           autoComplete={autoComplete}
