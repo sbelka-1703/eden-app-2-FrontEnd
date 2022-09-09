@@ -7,3 +7,4 @@ export * from "./addSkillToMember";
 export * from "./addSkillToMemberInRoom";
 export * from "./memberSubscription";
 export * from "./memberUpdated";
+export * from "./addNewMember";

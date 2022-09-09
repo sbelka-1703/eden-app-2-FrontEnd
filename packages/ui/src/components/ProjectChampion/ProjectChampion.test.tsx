@@ -1,4 +1,5 @@
 import { render } from "@testing-library/react";
+
 import { ProjectChampion } from "./ProjectChampion";
 
 describe("ProjectChampion", () => {
@@ -6,5 +7,5 @@ describe("ProjectChampion", () => {
     const { container } = render(<ProjectChampion />);
 
     expect(container).toBeInTheDocument();
-  })
-})
+  });
+});

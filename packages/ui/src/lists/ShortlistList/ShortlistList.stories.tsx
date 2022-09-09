@@ -1,6 +1,5 @@
-import { faker } from "@faker-js/faker";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { getMember } from "storybook/mocks";
+import { getProject } from "storybook/mocks";
 
 import { ShortlistList } from "./ShortlistList";
 
@@ -17,22 +16,7 @@ const Template: ComponentStory<typeof ShortlistList> = (args) => (
   </div>
 );
 
-const getCandidates = () =>
-  Array.from({ length: 6 }, () => {
-    return {
-      matchPercentage: faker.random.numeric(2),
-      memberInfo: getMember(),
-    };
-  });
-
-const randomCandidates = getCandidates();
-
-const members = [...randomCandidates];
-
 export const Default = Template.bind({});
 Default.args = {
-  project: {
-    title: "Fake",
-    team: members,
-  },
+  project: getProject(),
 };
