@@ -1,28 +1,21 @@
-import { Avatar } from "../../elements"
-import "./style.css"
+import "./style.css";
+
+import { Avatar } from "ui";
 
 export interface IProjectChampion {
   avatarSrc?: string;
-
 }
 
-export const ProjectChampion = ({ avatarSrc}: IProjectChampion) => {
-
+export const ProjectChampion = ({ avatarSrc }: IProjectChampion) => {
   return (
     <div>
-      <p className="pc-text-head ">
-        🏆 Champion
-      </p>
+      <p className="pc-text-head ">🏆 Champion</p>
       {/* <UserWithDescription avatarSrc="src" /> */}
 
-      <div className="flex items-center mt-4">
+      <div className="mt-4 flex items-center">
         <Avatar src={avatarSrc} />
-        <p className="pc-text ml-4">
-          Mutantape.eth
-        </p>
-
+        <p className="pc-text ml-4">Mutantape.eth</p>
       </div>
-
     </div>
-  )
-}
+  );
+};
