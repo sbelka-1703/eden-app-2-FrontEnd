@@ -26,5 +26,6 @@
       "cache": false
     },
     "codegen:eden": { "cache": false }
-  }
+  },
+  "globalDependencies": [".env", "tsconfig.json"]
 }
