@@ -10,6 +10,7 @@ export * from "./LoginButton";
 export * from "./ProgressStepper";
 export * from "./ProjectInfo";
 export * from "./SearchSkill";
+export * from "./SkillList";
 export * from "./SocialMediaComponent";
 export * from "./SocialMediaInput";
 export * from "./UserProfileMenu";

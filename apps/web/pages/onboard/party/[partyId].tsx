@@ -154,7 +154,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
       },
     });
   };
-  const handleDeleteSkill = (_skill: Maybe<SkillType_Member>) => {
+  const handleDeleteSkill = (val: Maybe<SkillType_Member> | undefined) => {
     if (!partyId || !currentUser) return;
 
     updateMember({
@@ -164,7 +164,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
           skills: currentUser.skills
             ?.filter(
               (skill: Maybe<SkillType_Member>) =>
-                skill?.skillInfo?._id !== _skill?.skillInfo?._id
+                skill?.skillInfo?._id !== val?.skillInfo?._id
             )
             .map((skill: Maybe<SkillType_Member>) => {
               return {
