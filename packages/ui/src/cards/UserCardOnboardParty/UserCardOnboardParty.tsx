@@ -33,13 +33,6 @@ export const UserCardOnboardParty = ({ member }: UserCardOnboardPartyProps) => {
 
   return (
     <Card border className="col-span-1 bg-white p-3">
-      <span
-        className={`absolute right-2 rounded-full py-1 px-2 text-xs font-medium`}
-        style={{ background: `rgba(255, 103, 103, 0.15)` }}
-      >
-        TOTAL SKILLS: {`${member.skills?.length || 0}`}
-      </span>
-
       <div className="mb-4 flex">
         {member.discordAvatar && (
           <div className="mr-3 mb-1">
