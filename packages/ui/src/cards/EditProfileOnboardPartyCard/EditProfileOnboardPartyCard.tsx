@@ -12,6 +12,8 @@ import {
   TextLabel,
 } from "ui";
 
+import { NumberCircle } from "../../elements/NumberCircle";
+
 export interface EditProfileOnboardPartyCardProps {
   currentUser: Members;
   // eslint-disable-next-line no-unused-vars
@@ -81,10 +83,15 @@ export const EditProfileOnboardPartyCard = ({
         skills={currentUser.skills}
         setSkills={handleSetSkills}
       />
-      <TextLabel>LEARNING</TextLabel>
+      <div className="flex items-center space-x-2">
+        <TextLabel>LEARNING</TextLabel>
+        {learningBadges && <NumberCircle value={learningBadges?.length} />}
+      </div>
       <div>{learningBadges}</div>
-      <TextLabel>SKILLED</TextLabel>
-      <div>{skilledBadges}</div>
+      <div className="flex items-center space-x-2">
+        <TextLabel>SKILLED</TextLabel>
+        {skilledBadges && <NumberCircle value={skilledBadges?.length} />}
+      </div>
       <TextLabel>ABOUT ME</TextLabel>
       <TextArea
         name="bio"
