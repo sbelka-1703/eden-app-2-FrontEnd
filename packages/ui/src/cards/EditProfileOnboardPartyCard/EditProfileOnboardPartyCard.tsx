@@ -77,6 +77,7 @@ export const EditProfileOnboardPartyCard = ({
           skills={learningSkills}
           handleDeleteSkill={handleDeleteSkill}
           colorRGB="209,247,196"
+          closeButton
         />
       )}
       <div className="flex items-center space-x-2">
@@ -88,6 +89,7 @@ export const EditProfileOnboardPartyCard = ({
           skills={skilledSkills}
           handleDeleteSkill={handleDeleteSkill}
           colorRGB="235,225,255"
+          closeButton
         />
       )}
       <TextLabel>ABOUT ME</TextLabel>

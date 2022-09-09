@@ -7,12 +7,14 @@ import { Badge } from "ui";
 export interface SkillListProps {
   skills: Maybe<SkillType_Member>[] | undefined;
   colorRGB?: string;
+  closeButton?: boolean;
   // eslint-disable-next-line no-unused-vars
   handleDeleteSkill?: (val: Maybe<SkillType_Member> | undefined) => void;
 }
 export const SkillList: React.FC<SkillListProps> = ({
   skills,
   colorRGB,
+  closeButton = false,
   handleDeleteSkill,
 }) => {
   const [seeMore, setSeeMore] = useState(false);
@@ -24,7 +26,7 @@ export const SkillList: React.FC<SkillListProps> = ({
         text={skill?.skillInfo?.name || ""}
         colorRGB={colorRGB}
         className={`font-Inter text-sm`}
-        closeButton
+        closeButton={closeButton}
         onClose={() => {
           if (handleDeleteSkill) handleDeleteSkill(skill);
         }}
