@@ -8,7 +8,7 @@ import {
   ROOM_UPDATED,
   UPDATE_MEMBER,
 } from "@graphql/eden";
-import { Members, SkillType_Member } from "@graphql/eden/generated";
+import { Maybe, Members, SkillType_Member } from "@graphql/eden/generated";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import {
@@ -48,14 +48,20 @@ const OnboardPartyPage: NextPageWithLayout = () => {
     context: { serviceName: "soilservice" },
   });
 
+  const membersIds: Array<string> = dataRoomSubscription
+    ? dataRoomSubscription.roomUpdated.members.map(
+        (member: Members) => member._id
+      )
+    : dataRoom?.findRoom.members.map((member: Members) => member._id);
+
   useSubscription(MEMBER_UPDATED, {
     variables: {
-      fields: { _id: partyId },
+      fields: { _id: membersIds },
     },
-    skip: !partyId,
+    skip: !membersIds,
     context: { serviceName: "soilservice" },
     onSubscriptionData: (data) => {
-      const newMemberData = data.subscriptionData.data.newSkillInRoom;
+      const newMemberData = data.subscriptionData.data.memberUpdated;
 
       setMembers(
         members.map((member: Members) => {
@@ -65,12 +71,6 @@ const OnboardPartyPage: NextPageWithLayout = () => {
       );
     },
   });
-
-  const membersIds: Array<string> = dataRoomSubscription
-    ? dataRoomSubscription.roomUpdated.members.map(
-        (member: Members) => member._id
-      )
-    : dataRoom?.findRoom.members.map((member: Members) => member._id);
 
   const [enterRoom] = useMutation(ENTER_ROOM, {});
 
@@ -124,7 +124,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
           _id: membersIds,
         },
       },
-      skip: !membersIds,
+      skip: !membersIds || members.length === membersIds.length,
       context: { serviceName: "soilservice" },
       onCompleted: (data) => {
         if (data) {
@@ -154,9 +154,30 @@ const OnboardPartyPage: NextPageWithLayout = () => {
       },
     });
   };
+  const handleDeleteSkill = (_skill: Maybe<SkillType_Member>) => {
+    if (!partyId || !currentUser) return;
+
+    updateMember({
+      variables: {
+        fields: {
+          _id: currentUser?._id,
+          skills: currentUser.skills
+            ?.filter(
+              (skill: Maybe<SkillType_Member>) =>
+                skill?.skillInfo?._id !== _skill?.skillInfo?._id
+            )
+            .map((skill: Maybe<SkillType_Member>) => {
+              return {
+                id: skill?.skillInfo?._id,
+                level: skill?.level,
+              };
+            }),
+        },
+      },
+    });
+  };
   const handleUpdateUser = (e: any) => {
     if (!partyId || !currentUser) return;
-    console.log(e);
 
     updateMember({
       variables: {
@@ -187,6 +208,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
           <EditProfileOnboardPartyCard
             currentUser={currentUser}
             handleSetSkills={handleSetSkills}
+            handleDeleteSkill={handleDeleteSkill}
             handleUpdateUser={handleUpdateUser}
           />
         )}

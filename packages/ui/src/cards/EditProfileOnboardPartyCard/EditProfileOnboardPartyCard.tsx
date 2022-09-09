@@ -4,6 +4,7 @@ import {
   Avatar,
   Badge,
   Card,
+  // Dropdown,
   SearchSkill,
   // SocialMediaInput,
   TextArea,
@@ -11,10 +12,14 @@ import {
   TextLabel,
 } from "ui";
 
+import { NumberCircle } from "../../elements/NumberCircle";
+
 export interface EditProfileOnboardPartyCardProps {
   currentUser: Members;
   // eslint-disable-next-line no-unused-vars
   handleSetSkills: (val: any) => void;
+  // eslint-disable-next-line no-unused-vars
+  handleDeleteSkill: (val: Maybe<SkillType_Member>) => void;
   // eslint-disable-next-line no-unused-vars
   handleUpdateUser: (val: any) => void;
 }
@@ -22,6 +27,7 @@ export interface EditProfileOnboardPartyCardProps {
 export const EditProfileOnboardPartyCard = ({
   currentUser,
   handleSetSkills,
+  handleDeleteSkill,
   handleUpdateUser,
 }: EditProfileOnboardPartyCardProps) => {
   const learningBadges = currentUser?.skills
@@ -32,6 +38,9 @@ export const EditProfileOnboardPartyCard = ({
         text={skill?.skillInfo?.name || ""}
         colorRGB="209,247,196"
         className={`font-Inter bg-white text-sm`}
+        closeButton
+        onClose={() => handleDeleteSkill(skill)}
+        cutText={16}
       />
     ));
   const skilledBadges = currentUser?.skills
@@ -41,6 +50,9 @@ export const EditProfileOnboardPartyCard = ({
         key={index}
         text={skill?.skillInfo?.name || ""}
         className={`bg-soilPurple/20 font-Inter text-sm`}
+        closeButton
+        onClose={() => handleDeleteSkill(skill)}
+        cutText={16}
       />
     ));
   const levels = [
@@ -65,16 +77,23 @@ export const EditProfileOnboardPartyCard = ({
           <span className="ml-2">{currentUser?.discordName}</span>
         )}
       </div>
-      <TextLabel>🛠 SKILLS</TextLabel>
+      {/* <TextLabel>💼 SELECT YOUR ROLE</TextLabel>
+      <Dropdown items={[]} placeholder={`Select Your Role`} /> */}
+      <TextLabel>🛠 ADD YOUR SKILLS</TextLabel>
       <SearchSkill
         levels={levels}
         skills={currentUser.skills}
         setSkills={handleSetSkills}
       />
-      <TextLabel>LEARNING</TextLabel>
+      <div className="flex items-center space-x-2">
+        <TextLabel>LEARNING</TextLabel>
+        {learningBadges && <NumberCircle value={learningBadges?.length} />}
+      </div>
       <div>{learningBadges}</div>
-      <TextLabel>SKILLED</TextLabel>
-      <div>{skilledBadges}</div>
+      <div className="flex items-center space-x-2">
+        <TextLabel>SKILLED</TextLabel>
+        {skilledBadges && <NumberCircle value={skilledBadges?.length} />}
+      </div>
       <TextLabel>ABOUT ME</TextLabel>
       <TextArea
         name="bio"
@@ -84,6 +103,7 @@ export const EditProfileOnboardPartyCard = ({
         className="text-xs"
         onChange={handleUpdateUser}
         debounceTime={2000}
+        maxLength={280}
       />
       {/* <TextLabel>SOCIAL MEDIA</TextLabel>
       <SocialMediaInput platform="twitter" onChange={handleUpdateUser} />

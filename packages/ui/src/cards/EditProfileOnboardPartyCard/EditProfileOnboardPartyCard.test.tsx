@@ -21,6 +21,9 @@ describe("EditProfileOnboardPartyCard", () => {
           handleSetSkills={function (): void {
             throw new Error("Function not implemented.");
           }}
+          handleDeleteSkill={function (): void {
+            throw new Error("Function not implemented.");
+          }}
         />
       </MockedProvider>
     );
