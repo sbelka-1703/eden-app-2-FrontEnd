@@ -17,7 +17,8 @@ import { getMainDefinition } from "@apollo/client/utilities";
 
 // Soil API endpoint
 // const SOIL_API_URL = soilUrl;
-const SOIL_API_URL = "https://soil-test-backend.herokuapp.com/graphql";
+// const SOIL_API_URL = "https://soil-test-backend.herokuapp.com/graphql";
+const SOIL_API_URL = "https://oasis-bot-test-deploy.herokuapp.com/graphql";
 const httpLinkSoil = new HttpLink({ uri: SOIL_API_URL, fetch });
 
 const soilLink = new ApolloLink((operation, forward) => {
