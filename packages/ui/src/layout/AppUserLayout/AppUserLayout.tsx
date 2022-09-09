@@ -4,11 +4,11 @@ import { useRouter } from "next/router";
 import { useContext } from "react";
 import { AppHeader } from "ui";
 
-interface IAppLayoutProps {
+interface IAppUserLayoutProps {
   children: React.ReactNode;
 }
 
-export const AppUserLayout = ({ children }: IAppLayoutProps) => {
+export const AppUserLayout = ({ children }: IAppUserLayoutProps) => {
   const router = useRouter();
   const { currentUser } = useContext(UserContext);
 
@@ -23,7 +23,7 @@ export const AppUserLayout = ({ children }: IAppLayoutProps) => {
         <title>Eden protocol</title>
       </Head>
       <div className="bg-background flex h-screen min-w-0 flex-col lg:overflow-y-hidden">
-        <AppHeader />
+        <AppHeader logoLink={`/projects`} inApp />
         <main className="flex flex-grow">{children}</main>
       </div>
     </>
