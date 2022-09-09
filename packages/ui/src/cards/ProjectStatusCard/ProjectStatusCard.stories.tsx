@@ -4,7 +4,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { OpenOrClosed, ProjectStatusCard } from "./ProjectStatusCard";
 
 export default {
-  title: "Cards/ProjectStatusCard",
+  title: "Cards/Project/ProjectStatusCard",
   component: ProjectStatusCard,
   argTypes: {},
 } as ComponentMeta<typeof ProjectStatusCard>;
