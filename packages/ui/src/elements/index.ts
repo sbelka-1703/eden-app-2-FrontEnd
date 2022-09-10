@@ -8,5 +8,6 @@ export * from "./Loading";
 export * from "./MenuItem";
 export * from "./Modal";
 export * from "./ProgressBar";
+export * from "./ProgressBarGeneric";
 export * from "./TextAreaComponent";
 export * from "./TextField";

@@ -13,10 +13,10 @@ export const OnboardPartyContainer = ({
   return (
     <Card
       shadow
-      className="h-8/10 scrollbar-hide overflow-y-scroll bg-white p-3"
+      className="h-8/10 scrollbar-hide overflow-y-scroll bg-white py-3 px-6"
     >
       <TextHeading3 className="mb-2">See Other Profiles</TextHeading3>
-      <section className="grid grid-cols-2 gap-3">
+      <section className="grid grid-cols-3 gap-5">
         {[...members]
           .sort(
             (a: Members, b: Members) =>
