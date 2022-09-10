@@ -14,6 +14,10 @@ export const MEMBER_UPDATED = gql`
         }
         level
       }
+      links {
+        name
+        url
+      }
     }
   }
 `;
