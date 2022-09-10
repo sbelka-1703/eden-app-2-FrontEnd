@@ -1,6 +1,7 @@
 import { Maybe } from "@graphql/eden/generated";
 import { Combobox } from "@headlessui/react";
 import { SelectorIcon } from "@heroicons/react/solid";
+import clsx from "clsx";
 import { useState } from "react";
 
 interface IItems {
@@ -15,6 +16,7 @@ export interface DropdownProps {
   label?: string;
   value?: string;
   placeholder?: string;
+  radius?: "default" | "rounded" | "pill";
   // eslint-disable-next-line no-unused-vars
   onSelect?: (val: any) => void;
   multiple?: boolean;
@@ -27,6 +29,7 @@ export const Dropdown = ({
   placeholder,
   onSelect,
   multiple = false,
+  radius = "default",
 }: DropdownProps) => {
   const [query, setQuery] = useState(value || "");
 
@@ -47,18 +50,30 @@ export const Dropdown = ({
     }
   };
 
+  const cls = clsx(
+    "h-10 focus:border-accentColor focus:ring-accentColor w-full border-none bg-transparent py-1.5 pl-3 pr-10 focus:outline-none focus:ring-1 sm:text-sm",
+    {
+      "rounded-full": radius === "pill",
+      "rounded-xl": radius === "rounded",
+      "rounded-md": radius === "default",
+    }
+  );
+
   return (
     <Combobox as="div" value={query} onChange={(val: any) => handleSelect(val)}>
       <Combobox.Label className="block text-sm font-medium text-gray-700">
         {label}
       </Combobox.Label>
       <div className="relative mt-1 mb-4">
-        <Combobox.Button className="w-full rounded-full border border-gray-300 bg-white shadow-sm sm:text-sm">
+        <Combobox.Button className="w-full bg-white sm:text-sm">
           <Combobox.Input
-            className="focus:border-accentColor focus:ring-accentColor w-full rounded-full border-none bg-transparent py-1.5 pl-3 pr-10 focus:outline-none focus:ring-1 sm:text-sm"
+            className={cls}
             onChange={(event) => setQuery(event.target.value)}
             displayValue={(query: string) => query}
             placeholder={placeholder}
+            style={{
+              boxShadow: "0px 1px 4px rgba(0, 0, 0, 0.15)",
+            }}
           />
           <div className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
             <SelectorIcon

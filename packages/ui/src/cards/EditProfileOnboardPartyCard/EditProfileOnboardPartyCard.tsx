@@ -85,6 +85,8 @@ export const EditProfileOnboardPartyCard = ({
       <Dropdown
         items={dataRoles?.findRoleTemplates}
         placeholder={`Select Your Role`}
+        onSelect={handleUpdateUser}
+        radius="rounded"
       />
       <TextLabel>🛠 ADD YOUR SKILLS</TextLabel>
       <SearchSkill

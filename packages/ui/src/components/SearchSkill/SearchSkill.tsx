@@ -64,11 +64,9 @@ export const SearchSkill = ({
       })
     : [];
 
-  // @ts-ignore
-  const groups = filteredItems?.reduce((groups, item) => {
+  const groups = filteredItems?.reduce((groups: any, item: any) => {
     return {
       ...groups,
-      // @ts-ignore
       [item.subCategorySkill[0].name!]: [
         ...(groups[item.subCategorySkill[0].name!] || []),
         item,
@@ -76,18 +74,15 @@ export const SearchSkill = ({
     };
   }, {});
 
-  // @ts-ignore
-  const allSkillGroup = AllCategoery?.reduce((groups, item) => {
+  const allSkillGroup = AllCategoery?.reduce((groups: any, item: any) => {
     return {
       ...groups,
-      // @ts-ignore
       [item.category!]: [...(groups[item.category] || []), item],
     };
   }, {});
 
   return (
     <Combobox
-      // @ts-ignore
       value={skills}
       // @TODO remove this any
       onChange={(item: any) => {
@@ -99,17 +94,17 @@ export const SearchSkill = ({
         }
       }}
     >
-      <div className="relative mb-2">
+      <div className="relative mt-1 mb-4">
         <div className="relative z-30">
           <SearchIcon
-            className="pointer-events-none absolute top-3.5 left-4 h-5 w-5 text-gray-400"
+            className="pointer-events-none absolute top-2.5 left-3 h-5 w-5 text-gray-400"
             aria-hidden="true"
           />
           <Combobox.Input
             style={{
               boxShadow: "0px 1px 4px rgba(0, 0, 0, 0.15)",
             }}
-            className="h-12 w-full rounded-md border-0 bg-white pl-11 pr-4 text-gray-800 placeholder-gray-400 focus:ring-0 sm:text-sm"
+            className="h-10 w-full rounded-xl border-0 bg-white pl-11 pr-4 text-gray-800 placeholder-gray-400 focus:ring-0 sm:text-sm"
             placeholder="Search for a skill.."
             onChange={(event) => setQuery(event.target.value)}
             onFocus={() => {
@@ -131,7 +126,7 @@ export const SearchSkill = ({
         {filteredItems.length >= 0 && query.length >= 0 && isOpen && (
           <Combobox.Options
             static
-            className="scrollbar-hide absolute z-30 h-80 w-full scroll-pt-11 scroll-pb-2 space-y-2 overflow-y-auto rounded-b-md border bg-white pb-2"
+            className="scrollbar-hide absolute top-12 z-30 h-80 w-full scroll-pt-11 scroll-pb-2 space-y-2 overflow-y-auto rounded-md border bg-white pb-2"
           >
             {Object.entries(
               query === "" && inFocus ? allSkillGroup : groups!
