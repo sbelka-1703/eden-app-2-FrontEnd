@@ -3,17 +3,7 @@ import { UserProfileCard } from ".";
 
 describe("UserProfileCard", () => {
   it("renders without throwing", () => {
-    const { container } = render(
-      <UserProfileCard
-        member={{
-          _id: undefined,
-          bio: undefined,
-          discordAvatar: undefined,
-          discordName: undefined,
-          skills: [],
-        }}
-      />
-    );
+    const { container } = render(<UserProfileCard />);
 
     expect(container).toBeInTheDocument();
   });
