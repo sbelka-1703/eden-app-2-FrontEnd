@@ -1,6 +1,7 @@
 export * from "./EditProfileOnboardPartyCard";
 export * from "./ProjectCard";
 export * from "./ProjectCardSmall";
+export * from "./ProjectMatchCard";
 export * from "./ProjectRecommendedCard";
 export * from "./SignUpCard";
 export * from "./SkillsCard";

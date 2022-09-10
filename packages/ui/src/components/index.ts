@@ -8,6 +8,7 @@ export * from "./Expandable";
 export * from "./FormStepper";
 export * from "./LoginButton";
 export * from "./ProgressStepper";
+export * from "./ProjectChampion";
 export * from "./ProjectInfo";
 export * from "./SearchSkill";
 export * from "./SkillList";
