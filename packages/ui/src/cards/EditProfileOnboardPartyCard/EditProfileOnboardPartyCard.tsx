@@ -3,6 +3,7 @@ import { Maybe, Members, SkillType_Member } from "@graphql/eden/generated";
 import {
   Avatar,
   Card,
+  ProgressBarGeneric,
   // Dropdown,
   SearchSkill,
   SkillList,
@@ -12,6 +13,7 @@ import {
   TextLabel,
 } from "ui";
 
+import { getUserProgress } from "../../../utils/user-progress";
 import { NumberCircle } from "../../elements/NumberCircle";
 
 export interface EditProfileOnboardPartyCardProps {
@@ -49,6 +51,8 @@ export const EditProfileOnboardPartyCard = ({
     },
   ];
 
+  const progress = getUserProgress(currentUser);
+
   return (
     <Card shadow className="h-8/10 scrollbar-hide overflow-scroll bg-white p-3">
       <TextHeading3 className="mb-2">Edit Your Profile</TextHeading3>
@@ -59,6 +63,13 @@ export const EditProfileOnboardPartyCard = ({
         {currentUser.discordName && (
           <span className="ml-2">{currentUser?.discordName}</span>
         )}
+      </div>
+      <div className="mb-2">
+        <div className="mb-1 flex items-baseline">
+          <TextLabel>PROFILE PROGRESS</TextLabel>
+          <span className="ml-auto">{progress}%</span>
+        </div>
+        <ProgressBarGeneric progress={progress} />
       </div>
       {/* <TextLabel>💼 SELECT YOUR ROLE</TextLabel>
       <Dropdown items={[]} placeholder={`Select Your Role`} /> */}
