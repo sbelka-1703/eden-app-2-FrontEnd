@@ -2,13 +2,13 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { getProjectArray } from "storybook/mocks";
 
-import { ProjectList } from "./ProjectList";
+import { ProjectMatchList } from "./ProjectMatchList";
 
 export default {
-  title: "Lists/ProjectList",
-  component: ProjectList,
+  title: "Lists/ProjectMatchList",
+  component: ProjectMatchList,
   argTypes: {},
-} as ComponentMeta<typeof ProjectList>;
+} as ComponentMeta<typeof ProjectMatchList>;
 
 // const getProjects = () =>
 //   Array.from({ length: 6 }, () => {
@@ -23,15 +23,11 @@ export default {
 //     };
 //   });
 
-const Template: ComponentStory<typeof ProjectList> = (args) => (
-  <ProjectList {...args} />
+const Template: ComponentStory<typeof ProjectMatchList> = (args) => (
+  <ProjectMatchList {...args} />
 );
 
 export const Default = Template.bind({});
 Default.args = {
-  projects: getProjectArray(9),
-  applyButton: false,
-  statusButton: false,
-  inviteButton: false,
-  favButton: false,
+  projects: getProjectArray(8),
 };

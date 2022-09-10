@@ -1,14 +1,17 @@
 import { gql, useQuery } from "@apollo/client";
 import { Maybe, RoleTemplate } from "@graphql/eden/generated";
-import type { NextPage } from "next";
+// import type { NextPage } from "next";
 import Head from "next/head";
 import {
+  AppUserLayout,
   GridItemNine,
   GridItemThree,
   GridLayout,
   SignUpCard,
   UserProfileCard,
 } from "ui";
+
+import type { NextPageWithLayout } from "../_app";
 
 export const FIND_ROLES = gql`
   query ($fields: findRoleTemplatesInput) {
@@ -24,7 +27,7 @@ export const FIND_ROLES = gql`
   }
 `;
 
-const SignUpTestPage: NextPage = () => {
+const SignUpTestPage: NextPageWithLayout = () => {
   const [roleSelected, setRoleSelected] = useState<Maybe<RoleTemplate>>();
   const { data: dataRoles } = useQuery(FIND_ROLES, {
     variables: {
@@ -55,6 +58,8 @@ const SignUpTestPage: NextPage = () => {
     </div>
   );
 };
+
+SignUpTestPage.getLayout = (page) => <AppUserLayout>{page}</AppUserLayout>;
 
 export default SignUpTestPage;
 
