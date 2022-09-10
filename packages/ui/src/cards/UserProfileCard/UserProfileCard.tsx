@@ -1,34 +1,37 @@
 /* eslint-disable camelcase */
-import { Maybe, Members, SkillType_Member } from "@graphql/eden/generated";
+import { UserContext } from "@context/eden";
+import { Maybe, SkillType_Member } from "@graphql/eden/generated";
+import { useContext } from "react";
 import { Avatar, NumberCircle, SkillList, TextLabel } from "ui";
 
 export interface IUserProfileCardProps {
-  member?: Members;
-  role?: string;
+  role?: string | null;
 }
 
-export const UserProfileCard = ({ member, role }: IUserProfileCardProps) => {
+export const UserProfileCard = ({ role }: IUserProfileCardProps) => {
+  const { currentUser } = useContext(UserContext);
+
   const learningSkills: Maybe<SkillType_Member>[] | undefined =
-    member?.skills?.filter(
+    currentUser?.skills?.filter(
       (skill: Maybe<SkillType_Member>) => skill?.level === "learning"
     );
 
   const skilledSkills: Maybe<SkillType_Member>[] | undefined =
-    member?.skills?.filter(
+    currentUser?.skills?.filter(
       (skill: Maybe<SkillType_Member>) => skill?.level !== "learning"
     );
 
   return (
-    <div className={`text-darkGreen  rounded-2xl bg-white px-8 py-6`}>
+    <div className={`text-darkGreen rounded-2xl bg-white px-8 py-6`}>
       <div className={` font-poppins text-xl font-medium`}>Your Profile</div>
       <div className={`my-3 flex`}>
         <div>
-          <Avatar src={member?.discordAvatar || ""} size="md" />
+          <Avatar src={currentUser?.discordAvatar || ""} size="md" />
         </div>
         <div className={`font-poppins pl-4 text-2xl font-medium`}>
           <div>
-            @{member?.discordName}
-            <TextLabel> #{member?.discriminator}</TextLabel>
+            @{currentUser?.discordName}
+            <TextLabel> #{currentUser?.discriminator}</TextLabel>
           </div>
           <div className={`font-Inter text-zinc-500`}>{role}</div>
         </div>
