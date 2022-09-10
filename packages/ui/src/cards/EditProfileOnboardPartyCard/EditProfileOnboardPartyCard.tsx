@@ -1,10 +1,12 @@
 /* eslint-disable camelcase */
+import { useQuery } from "@apollo/client";
+import { FIND_ROLE_TEMPLATES } from "@graphql/eden";
 import { Maybe, Members, SkillType_Member } from "@graphql/eden/generated";
 import {
   Avatar,
   Card,
+  Dropdown,
   ProgressBarGeneric,
-  // Dropdown,
   SearchSkill,
   SkillList,
   // SocialMediaInput,
@@ -40,6 +42,14 @@ export const EditProfileOnboardPartyCard = ({
     currentUser?.skills?.filter(
       (skill: Maybe<SkillType_Member>) => skill?.level !== "learning"
     );
+
+  const { data: dataRoles } = useQuery(FIND_ROLE_TEMPLATES, {
+    variables: {
+      fields: {},
+    },
+    context: { serviceName: "soilservice" },
+  });
+
   const levels = [
     {
       title: "learning",
@@ -71,8 +81,11 @@ export const EditProfileOnboardPartyCard = ({
         </div>
         <ProgressBarGeneric progress={progress} />
       </div>
-      {/* <TextLabel>💼 SELECT YOUR ROLE</TextLabel>
-      <Dropdown items={[]} placeholder={`Select Your Role`} /> */}
+      <TextLabel>💼 SELECT YOUR ROLE</TextLabel>
+      <Dropdown
+        items={dataRoles?.findRoleTemplates}
+        placeholder={`Select Your Role`}
+      />
       <TextLabel>🛠 ADD YOUR SKILLS</TextLabel>
       <SearchSkill
         levels={levels}
@@ -109,7 +122,7 @@ export const EditProfileOnboardPartyCard = ({
         placeholder={`Write a short description about yourself...`}
         rows={5}
         value={`${currentUser.bio ? currentUser.bio : ""}`}
-        className="text-xs"
+        className="border-0 text-xs"
         onChange={handleUpdateUser}
         debounceTime={2000}
         maxLength={280}
