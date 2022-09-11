@@ -182,6 +182,17 @@ const OnboardPartyPage: NextPageWithLayout = () => {
   };
   const handleUpdateUser = (val: any, name: any) => {
     if (!partyId || !currentUser) return;
+
+    let bio = currentUser?.bio || null;
+    let role = currentUser?.memberRole?._id || null;
+
+    if (name === "bio") {
+      bio = val;
+    }
+    if (name === "role") {
+      role = val._id;
+    }
+
     updateMember({
       variables: {
         fields: {
@@ -192,9 +203,8 @@ const OnboardPartyPage: NextPageWithLayout = () => {
               level: skill?.level,
             };
           }),
-          bio: name === "bio" ? val : currentUser.bio,
-          memberRole:
-            name === "role" ? val._id : currentUser?.memberRole?._id || null,
+          bio: bio,
+          memberRole: role,
         },
       },
     });

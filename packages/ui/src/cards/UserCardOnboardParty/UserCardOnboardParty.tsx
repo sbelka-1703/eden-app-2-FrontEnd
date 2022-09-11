@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { Maybe, Members, SkillType_Member } from "@graphql/eden/generated";
-import { Avatar, Card, ProgressBarGeneric, TextLabel } from "ui";
+import { Avatar, Card, ProgressBarGeneric, TextHeading3, TextLabel } from "ui";
 
 import { getUserProgress } from "../../../utils/user-progress";
 import { SkillList } from "../../components/SkillList";
@@ -31,7 +31,12 @@ export const UserCardOnboardParty = ({ member }: UserCardOnboardPartyProps) => {
           </div>
         )}
         <div>
-          <span className="mt-2">{member.discordName}</span>
+          <TextHeading3 className="-mt-3">{member.discordName}</TextHeading3>
+          {member.memberRole && (
+            <p className="-mt-0.5 text-xs font-medium leading-none">
+              {member.memberRole.title?.toUpperCase()}
+            </p>
+          )}
           {/* <SocialMediaComp links={member.links} title="" size="18px" /> */}
         </div>
       </div>
@@ -42,12 +47,6 @@ export const UserCardOnboardParty = ({ member }: UserCardOnboardPartyProps) => {
         </div>
         <ProgressBarGeneric progress={progress} />
       </div>
-      {member.memberRole && (
-        <div className="mb-2">
-          <TextLabel>ROLE</TextLabel>
-          <p className="leading-none">{member.memberRole.title}</p>
-        </div>
-      )}
       <div className="flex items-center space-x-2">
         <TextLabel>LEARNING</TextLabel>
         {learningSkills && <NumberCircle value={learningSkills?.length} />}

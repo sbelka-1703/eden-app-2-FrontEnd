@@ -1,6 +1,7 @@
 import { Members } from "@graphql/eden/generated";
 import { Card, TextHeading3 } from "ui";
 
+import { getUserProgress } from "../../../utils/user-progress";
 import { UserCardOnboardParty } from "../../cards/UserCardOnboardParty";
 
 export interface OnboardPartyContainerProps {
@@ -20,7 +21,7 @@ export const OnboardPartyContainer = ({
         {[...members]
           .sort(
             (a: Members, b: Members) =>
-              (b.skills?.length || 0) - (a.skills?.length || 0)
+              (getUserProgress(b) || 0) - (getUserProgress(a) || 0)
           )
           .map((member: Members, index: number) => (
             <UserCardOnboardParty key={index} member={member} />
