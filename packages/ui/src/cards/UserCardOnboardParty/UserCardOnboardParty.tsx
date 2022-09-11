@@ -24,7 +24,7 @@ export const UserCardOnboardParty = ({ member }: UserCardOnboardPartyProps) => {
 
   return (
     <Card border className="border-soilGray col-span-1 bg-white p-3">
-      <div className="mb-2 flex items-center">
+      <div className="flex items-center">
         {member.discordAvatar && (
           <div className="mr-3">
             <Avatar src={member.discordAvatar} size="md" />
@@ -33,7 +33,8 @@ export const UserCardOnboardParty = ({ member }: UserCardOnboardPartyProps) => {
         <div>
           <TextHeading3 className="-mt-3">{member.discordName}</TextHeading3>
           {member.memberRole && (
-            <p className="-mt-0.5 text-xs font-medium leading-none">
+            <p className="text-xs font-medium leading-none">
+              <span className="mr-1">💼</span>
               {member.memberRole.title?.toUpperCase()}
             </p>
           )}
