@@ -1,7 +1,8 @@
 /* eslint-disable camelcase */
 import { Maybe, Members, SkillType_Member } from "@graphql/eden/generated";
-import { Avatar, Card, TextLabel } from "ui";
+import { Avatar, Card, ProgressBarGeneric, TextLabel } from "ui";
 
+import { getUserProgress } from "../../../utils/user-progress";
 import { SkillList } from "../../components/SkillList";
 import { NumberCircle } from "../../elements/NumberCircle";
 
@@ -19,9 +20,11 @@ export const UserCardOnboardParty = ({ member }: UserCardOnboardPartyProps) => {
       (skill: Maybe<SkillType_Member>) => skill?.level !== "learning"
     );
 
+  const progress = getUserProgress(member);
+
   return (
-    <Card border className="col-span-1 bg-white p-3">
-      <div className="mb-4 flex items-center">
+    <Card border className="border-soilGray col-span-1 bg-white p-3">
+      <div className="mb-2 flex items-center">
         {member.discordAvatar && (
           <div className="mr-3">
             <Avatar src={member.discordAvatar} size="md" />
@@ -32,6 +35,19 @@ export const UserCardOnboardParty = ({ member }: UserCardOnboardPartyProps) => {
           {/* <SocialMediaComp links={member.links} title="" size="18px" /> */}
         </div>
       </div>
+      <div className="mb-2">
+        <div className="mb-1 flex items-baseline">
+          <TextLabel>PROFILE PROGRESS</TextLabel>
+          <span className="ml-auto">{progress}%</span>
+        </div>
+        <ProgressBarGeneric progress={progress} />
+      </div>
+      {member.memberRole && (
+        <div className="mb-2">
+          <TextLabel>ROLE</TextLabel>
+          <p className="leading-none">{member.memberRole.title}</p>
+        </div>
+      )}
       <div className="flex items-center space-x-2">
         <TextLabel>LEARNING</TextLabel>
         {learningSkills && <NumberCircle value={learningSkills?.length} />}

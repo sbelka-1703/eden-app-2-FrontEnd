@@ -115,6 +115,10 @@ const OnboardPartyPage: NextPageWithLayout = () => {
             name
             url
           }
+          memberRole {
+            _id
+            title
+          }
         }
       }
     `,
@@ -176,9 +180,8 @@ const OnboardPartyPage: NextPageWithLayout = () => {
       },
     });
   };
-  const handleUpdateUser = (e: any) => {
+  const handleUpdateUser = (val: any, name: any) => {
     if (!partyId || !currentUser) return;
-
     updateMember({
       variables: {
         fields: {
@@ -189,7 +192,9 @@ const OnboardPartyPage: NextPageWithLayout = () => {
               level: skill?.level,
             };
           }),
-          bio: e.target.name === "bio" ? e.target.value : currentUser.bio,
+          bio: name === "bio" ? val : currentUser.bio,
+          memberRole:
+            name === "role" ? val._id : currentUser?.memberRole?._id || null,
         },
       },
     });

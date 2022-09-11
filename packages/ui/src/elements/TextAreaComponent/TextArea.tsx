@@ -9,6 +9,7 @@ export type TextAreaProps = {
   rows?: number;
   maxLength?: number;
   debounceTime?: number;
+  className?: string;
   // eslint-disable-next-line no-unused-vars
   onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 } & InputHTMLAttributes<HTMLTextAreaElement>;
@@ -22,6 +23,7 @@ export const TextArea: React.FC<TextAreaProps> = ({
   rows = 3,
   maxLength,
   debounceTime = 0,
+  className = "",
   onChange,
 }) => {
   const debouncedOnChange = debounce((e: any) => {
@@ -35,7 +37,10 @@ export const TextArea: React.FC<TextAreaProps> = ({
     }
   };
 
-  const inputCls = clsx("py-1 px-2 font-Inter text-soilBody flex rounded-md");
+  const inputCls = clsx(
+    className,
+    "py-1 px-2 font-Inter text-soilBody flex rounded-md"
+  );
 
   return (
     <div className={`w-full`}>
@@ -52,7 +57,10 @@ export const TextArea: React.FC<TextAreaProps> = ({
             handleInputChange(e);
           }}
           maxLength={maxLength}
-          className={`${inputCls} focus:border-accentColor focus:ring-soilGreen-500 block w-full resize-none border border-zinc-400/50 py-1 px-2 text-base shadow-sm focus:outline-transparent focus:ring focus:ring-opacity-50`}
+          className={`${inputCls} focus:border-accentColor focus:ring-soilGreen-500 block w-full resize-none border border-zinc-400/50 py-1 px-2 text-base focus:outline-transparent focus:ring focus:ring-opacity-50`}
+          style={{
+            boxShadow: "0px 1px 4px rgba(0, 0, 0, 0.15)",
+          }}
         />
       </div>
     </div>

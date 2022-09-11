@@ -1,9 +1,12 @@
 /* eslint-disable camelcase */
+import { useQuery } from "@apollo/client";
+import { FIND_ROLE_TEMPLATES } from "@graphql/eden";
 import { Maybe, Members, SkillType_Member } from "@graphql/eden/generated";
 import {
   Avatar,
   Card,
-  // Dropdown,
+  Dropdown,
+  ProgressBarGeneric,
   SearchSkill,
   SkillList,
   // SocialMediaInput,
@@ -12,6 +15,7 @@ import {
   TextLabel,
 } from "ui";
 
+import { getUserProgress } from "../../../utils/user-progress";
 import { NumberCircle } from "../../elements/NumberCircle";
 
 export interface EditProfileOnboardPartyCardProps {
@@ -21,7 +25,7 @@ export interface EditProfileOnboardPartyCardProps {
   // eslint-disable-next-line no-unused-vars
   handleDeleteSkill: (val: Maybe<SkillType_Member> | undefined) => void;
   // eslint-disable-next-line no-unused-vars
-  handleUpdateUser: (val: any) => void;
+  handleUpdateUser: (val: any, name: string) => void;
 }
 
 export const EditProfileOnboardPartyCard = ({
@@ -38,6 +42,14 @@ export const EditProfileOnboardPartyCard = ({
     currentUser?.skills?.filter(
       (skill: Maybe<SkillType_Member>) => skill?.level !== "learning"
     );
+
+  const { data: dataRoles } = useQuery(FIND_ROLE_TEMPLATES, {
+    variables: {
+      fields: {},
+    },
+    context: { serviceName: "soilservice" },
+  });
+
   const levels = [
     {
       title: "learning",
@@ -48,6 +60,15 @@ export const EditProfileOnboardPartyCard = ({
       level: "mid",
     },
   ];
+
+  const progress = getUserProgress(currentUser);
+
+  const _handleUpdateUser = (e: any) => {
+    handleUpdateUser(e.target.value, e.target.name);
+  };
+  const _handleUpdateUserRole = (val: any) => {
+    handleUpdateUser(val, "role");
+  };
 
   return (
     <Card shadow className="h-8/10 scrollbar-hide overflow-scroll bg-white p-3">
@@ -60,8 +81,22 @@ export const EditProfileOnboardPartyCard = ({
           <span className="ml-2">{currentUser?.discordName}</span>
         )}
       </div>
-      {/* <TextLabel>💼 SELECT YOUR ROLE</TextLabel>
-      <Dropdown items={[]} placeholder={`Select Your Role`} /> */}
+      <div className="mb-2">
+        <div className="mb-1 flex items-baseline">
+          <TextLabel>PROFILE PROGRESS</TextLabel>
+          <span className="ml-auto">{progress}%</span>
+        </div>
+        <ProgressBarGeneric progress={progress} />
+      </div>
+      <TextLabel>💼 SELECT YOUR ROLE</TextLabel>
+      <Dropdown
+        items={dataRoles?.findRoleTemplates}
+        placeholder={`Select Your Role`}
+        onSelect={_handleUpdateUserRole}
+        radius="rounded"
+        key={currentUser.memberRole?.title || ""}
+        value={currentUser.memberRole?.title || ""}
+      />
       <TextLabel>🛠 ADD YOUR SKILLS</TextLabel>
       <SearchSkill
         levels={levels}
@@ -98,8 +133,8 @@ export const EditProfileOnboardPartyCard = ({
         placeholder={`Write a short description about yourself...`}
         rows={5}
         value={`${currentUser.bio ? currentUser.bio : ""}`}
-        className="text-xs"
-        onChange={handleUpdateUser}
+        className="border-0 text-xs"
+        onChange={_handleUpdateUser}
         debounceTime={2000}
         maxLength={280}
       />
