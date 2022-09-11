@@ -23,7 +23,7 @@ export interface DropdownProps {
 }
 
 export const Dropdown = ({
-  items,
+  items = [],
   label,
   value,
   placeholder,
