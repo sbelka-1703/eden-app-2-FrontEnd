@@ -3,6 +3,7 @@ export * from "./ProjectCard";
 export * from "./ProjectCardSmall";
 export * from "./ProjectMatchCard";
 export * from "./ProjectRecommendedCard";
+export * from "./RoleCard";
 export * from "./SignUpCard";
 export * from "./SkillsCard";
 export * from "./UserCard";

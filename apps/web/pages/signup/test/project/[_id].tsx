@@ -1,42 +1,35 @@
-import { gql, useQuery } from "@apollo/client";
-import { Maybe, RoleTemplate } from "@graphql/eden/generated";
-// import type { NextPage } from "next";
+import { useQuery } from "@apollo/client";
+// import { UserContext } from "@context/eden";
+import { FIND_PROJECT } from "@graphql/eden";
 import Head from "next/head";
+import { useRouter } from "next/router";
+// import { useContext } from "react";
 import {
+  ApplyByRoleContainer,
   AppUserLayout,
   GridItemNine,
   GridItemThree,
   GridLayout,
-  SignUpCard,
   UserProfileCard,
 } from "ui";
 
-import type { NextPageWithLayout } from "../_app";
-
-export const FIND_ROLES = gql`
-  query ($fields: findRoleTemplatesInput) {
-    findRoleTemplates(fields: $fields) {
-      _id
-      description
-      title
-      skills {
-        _id
-        name
-      }
-    }
-  }
-`;
+import type { NextPageWithLayout } from "../../../_app";
 
 const SignUpTestPage: NextPageWithLayout = () => {
-  const [roleSelected, setRoleSelected] = useState<Maybe<RoleTemplate>>();
-  const { data: dataRoles } = useQuery(FIND_ROLES, {
+  const router = useRouter();
+  const { _id } = router.query;
+  //   const { currentUser } = useContext(UserContext);
+  const { data: dataProject } = useQuery(FIND_PROJECT, {
     variables: {
-      fields: {},
+      fields: {
+        _id: _id,
+      },
     },
+    skip: !_id,
     context: { serviceName: "soilservice" },
   });
 
-  //   if (dataRoles) console.log("dataRoles", dataRoles);
+  //   if (dataProject) console.log(dataProject?.findProject);
 
   return (
     <div className={`bg-background`}>
@@ -46,13 +39,10 @@ const SignUpTestPage: NextPageWithLayout = () => {
 
       <GridLayout>
         <GridItemThree>
-          <UserProfileCard role={roleSelected?.title} />
+          <UserProfileCard role={""} />
         </GridItemThree>
         <GridItemNine>
-          <SignUpCard
-            roles={dataRoles?.findRoleTemplates}
-            onSelectedRole={(val) => setRoleSelected(val)}
-          />
+          <ApplyByRoleContainer project={dataProject?.findProject} />
         </GridItemNine>
       </GridLayout>
     </div>
@@ -65,7 +55,6 @@ export default SignUpTestPage;
 
 import { IncomingMessage, ServerResponse } from "http";
 import { getSession } from "next-auth/react";
-import { useState } from "react";
 
 export async function getServerSideProps(ctx: {
   req: IncomingMessage;
