@@ -182,7 +182,6 @@ const OnboardPartyPage: NextPageWithLayout = () => {
   };
   const handleUpdateUser = (val: any, name: any) => {
     if (!partyId || !currentUser) return;
-    debugger;
     updateMember({
       variables: {
         fields: {
