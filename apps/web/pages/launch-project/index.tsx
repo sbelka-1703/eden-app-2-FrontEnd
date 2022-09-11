@@ -2,6 +2,7 @@ import { gql, useQuery } from "@apollo/client";
 import { LaunchProvider } from "@context/eden";
 import {
   AppUserLayout,
+  Button,
   Card,
   EmojiSelector,
   GridItemNine,
@@ -71,7 +72,7 @@ const LaunchPage: NextPageWithLayout = () => {
           </Card>
         </GridItemThree>
         <GridItemNine>
-          <Card className="bg-white p-6">
+          <Card className="mb-8 bg-white p-6">
             <section className="mb-6">
               <TextHeading3>
                 Future Champion? Welcome to Eden!
@@ -83,7 +84,7 @@ const LaunchPage: NextPageWithLayout = () => {
                 You can exit at any time, your workflow will be saved to drafts.
               </p>
             </section>
-            <section className="lg:grid lg:grid-cols-2 lg:gap-4">
+            <section className="lg:grid lg:grid-cols-2 lg:gap-8">
               <div className="col-span-1">
                 <div className="mb-3">
                   <TextBody>Name your project</TextBody>
@@ -97,11 +98,26 @@ const LaunchPage: NextPageWithLayout = () => {
                 </div>
                 <div className="mb-3">
                   <TextBody>Choose emoji for your project</TextBody>
-                  <EmojiSelector />
                 </div>
+                <EmojiSelector />
+              </div>
+              <div className="col-span-1">
+                <TextBody className="mb-1">Preview</TextBody>
+                <Card className="p-4" border>
+                  <TextBody className="mb-2">Your Project</TextBody>
+                  <div className="flex items-center">
+                    <div className="mr-4">
+                      <EmojiSelector isDisabled />
+                    </div>
+                    <TextHeading3>Project Name</TextHeading3>
+                  </div>
+                </Card>
               </div>
             </section>
           </Card>
+          <Button variant="primary" className="mx-auto">
+            Next
+          </Button>
         </GridItemNine>
       </GridLayout>
     </LaunchProvider>
