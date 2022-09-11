@@ -5,7 +5,7 @@ import { getProject } from "storybook/mocks";
 import { ProjectCard } from "./ProjectCard";
 
 export default {
-  title: "Cards/ProjectCard",
+  title: "Cards/Project/ProjectCard",
   component: ProjectCard,
   argTypes: {},
 } as ComponentMeta<typeof ProjectCard>;
@@ -22,5 +22,7 @@ Default.args = {
   percentage: Number(faker.random.numeric(2)),
   focused: false,
   favButton: true,
-  favorite: false,
+  applyButton: false,
+  statusButton: false,
+  inviteButton: false,
 };

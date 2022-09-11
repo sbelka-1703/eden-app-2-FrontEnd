@@ -5,7 +5,7 @@ import { getProject } from "storybook/mocks";
 import { ProjectRecommendedCard } from "./ProjectRecommendedCard";
 
 export default {
-  title: "Cards/ProjectRecommendedCard",
+  title: "Cards/Project/ProjectRecommendedCard",
   component: ProjectRecommendedCard,
   argTypes: {},
 } as ComponentMeta<typeof ProjectRecommendedCard>;

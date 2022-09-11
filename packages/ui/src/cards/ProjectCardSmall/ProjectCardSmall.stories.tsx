@@ -5,7 +5,7 @@ import { getProject } from "storybook/mocks";
 import { ProjectCardSmall } from "./ProjectCardSmall";
 
 export default {
-  title: "Cards/ProjectCardSmall",
+  title: "Cards/Project/ProjectCardSmall",
   component: ProjectCardSmall,
   argTypes: {},
 } as ComponentMeta<typeof ProjectCardSmall>;

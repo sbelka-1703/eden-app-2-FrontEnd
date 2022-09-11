@@ -1,4 +1,4 @@
-import { render } from "../../../utils/jext-apollo";
+import { render } from "../../../utils/jest-apollo";
 import { InviteContainer } from "./";
 
 describe("InviteContainer", () => {

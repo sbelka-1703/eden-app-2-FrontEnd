@@ -110,12 +110,12 @@ export const project: Project = {
   ],
   serverID: [faker.internet.url(), faker.internet.url(), faker.internet.url()],
   title: faker.name.firstName(),
+  __typename: "Project",
 };
 
 export const getProject = () => {
   return project;
 };
 
-export const getProjectArray = (total: number) => {
-  return Array.from({ length: total }, () => getProject());
-};
+export const getProjectArray = (total: number) =>
+  Array.from({ length: total }, () => getProject());

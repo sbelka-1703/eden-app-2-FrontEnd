@@ -20,4 +20,5 @@ Default.args = {
   percentage: Number(faker.random.numeric(2)),
   endorsements: Number(faker.random.numeric(2)),
   focused: false,
+  engagedCard: false,
 };

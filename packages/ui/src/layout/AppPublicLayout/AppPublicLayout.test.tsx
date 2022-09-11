@@ -1,7 +1,7 @@
 // import { render } from "@testing-library/react";
 import { SessionProvider } from "next-auth/react";
 
-import { render } from "../../../utils/jext-apollo";
+import { render } from "../../../utils/jest-apollo";
 import { AppPublicLayout } from "./";
 
 describe("AppPublicLayout", () => {

@@ -1,11 +1,11 @@
 import Head from "next/head";
 import { AppHeader } from "ui";
 
-interface IAppLayoutProps {
+export interface IAppPublicLayoutProps {
   children: React.ReactNode;
 }
 
-export const AppPublicLayout = ({ children }: IAppLayoutProps) => {
+export const AppPublicLayout = ({ children }: IAppPublicLayoutProps) => {
   return (
     <>
       <Head>

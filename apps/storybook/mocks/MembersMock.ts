@@ -22,10 +22,13 @@ const links = [
   },
 ];
 
+const level = ["learning", "junior", "mid", "senior"];
+
 export const getSkills = (total: number) =>
   Array.from({ length: total }, () => {
     return {
       skillInfo: faker.helpers.uniqueArray(skills, 1)[0],
+      level: faker.helpers.uniqueArray(level, 1)[0],
     };
   });
 

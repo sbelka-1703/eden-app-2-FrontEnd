@@ -27,4 +27,6 @@ const Template: ComponentStory<typeof AppUserMenuLayout> = (args) => (
 );
 
 export const Default = Template.bind({});
-Default.args = {};
+Default.args = {
+  recommnededSidebar: true,
+};

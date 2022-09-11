@@ -1,5 +1,5 @@
-import { faker } from "@faker-js/faker";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { getMember } from "storybook/mocks";
 
 import { ProjectChampion } from "./ProjectChampion";
 
@@ -15,5 +15,5 @@ const Template: ComponentStory<typeof ProjectChampion> = (args) => {
 
 export const Default = Template.bind({});
 Default.args = {
-  avatarSrc: faker.internet.avatar(),
+  member: getMember(),
 };

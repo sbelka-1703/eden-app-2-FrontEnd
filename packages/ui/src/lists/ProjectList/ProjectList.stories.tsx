@@ -1,5 +1,6 @@
-import { faker } from "@faker-js/faker";
+// import { faker } from "@faker-js/faker";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { getProjectArray } from "storybook/mocks";
 
 import { ProjectList } from "./ProjectList";
 
@@ -9,18 +10,18 @@ export default {
   argTypes: {},
 } as ComponentMeta<typeof ProjectList>;
 
-const getProjects = () =>
-  Array.from({ length: 6 }, () => {
-    return {
-      title: faker.company.name(),
-      description: faker.company.catchPhrase(),
-      avatar: faker.internet.avatar(),
-      percentage: Number(faker.random.numeric(2)),
-      position: faker.hacker.ingverb(),
-      favButton: true,
-      __typename: "Project",
-    };
-  });
+// const getProjects = () =>
+//   Array.from({ length: 6 }, () => {
+//     return {
+//       title: faker.company.name(),
+//       description: faker.company.catchPhrase(),
+//       avatar: faker.internet.avatar(),
+//       percentage: Number(faker.random.numeric(2)),
+//       position: faker.hacker.ingverb(),
+//       favButton: true,
+//       __typename: "Project",
+//     };
+//   });
 
 const Template: ComponentStory<typeof ProjectList> = (args) => (
   <ProjectList {...args} />
@@ -28,5 +29,9 @@ const Template: ComponentStory<typeof ProjectList> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  projects: getProjects(),
+  projects: getProjectArray(9),
+  applyButton: false,
+  statusButton: false,
+  inviteButton: false,
+  favButton: false,
 };

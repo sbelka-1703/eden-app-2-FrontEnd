@@ -1,20 +1,20 @@
 import "./style.css";
 
+import { Members } from "@graphql/eden/generated";
 import { Avatar } from "ui";
 
 export interface IProjectChampion {
-  avatarSrc?: string;
+  member: Members;
 }
 
-export const ProjectChampion = ({ avatarSrc }: IProjectChampion) => {
+export const ProjectChampion = ({ member }: IProjectChampion) => {
   return (
     <div>
       <p className="pc-text-head ">🏆 Champion</p>
-      {/* <UserWithDescription avatarSrc="src" /> */}
 
-      <div className="mt-4 flex items-center">
-        <Avatar src={avatarSrc} />
-        <p className="pc-text ml-4">Mutantape.eth</p>
+      <div className="mt-2 flex items-center">
+        <Avatar src={member?.discordAvatar || ""} />
+        <p className="pc-text ml-4">@{member?.discordName}</p>
       </div>
     </div>
   );
