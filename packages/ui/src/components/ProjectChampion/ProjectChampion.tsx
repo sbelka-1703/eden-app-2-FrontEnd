@@ -13,7 +13,9 @@ export const ProjectChampion = ({ member }: IProjectChampion) => {
       <p className="pc-text-head ">🏆 Champion</p>
 
       <div className="mt-2 flex items-center">
-        <Avatar src={member?.discordAvatar || ""} />
+        <div>
+          <Avatar src={member?.discordAvatar || ""} />
+        </div>
         <p className="pc-text ml-4">@{member?.discordName}</p>
       </div>
     </div>

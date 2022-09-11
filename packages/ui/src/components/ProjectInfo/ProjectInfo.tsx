@@ -6,19 +6,15 @@ import { Avatar, Button } from "ui";
 export interface IProjectInfoProps {
   project?: Project;
   avatarSrc?: string;
-  projectTitle?: string;
   projectSubTitle?: string;
-  projectDescription?: string;
   isFavoriteButton?: boolean;
   onAddFav?: () => void;
 }
 
 export const ProjectInfo = ({
-  // project,
+  project,
   avatarSrc,
-  projectTitle,
   projectSubTitle,
-  projectDescription,
   isFavoriteButton,
   onAddFav,
 }: IProjectInfoProps) => {
@@ -35,13 +31,13 @@ export const ProjectInfo = ({
             <div
               className={`text-2xl font-normal tracking-wide text-neutral-700`}
             >
-              {projectTitle}
+              {project?.title}
             </div>
             <div className={`text-lg text-neutral-400`}>{projectSubTitle}</div>
           </div>
         </div>
         <div className="mt-6">
-          <p className="text-justify">{projectDescription}</p>
+          <p className="text-justify">{project?.description}</p>
         </div>
         <div className="mt-4 flex flex-row">
           <div className="mr-5">
