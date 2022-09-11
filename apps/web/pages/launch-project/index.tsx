@@ -3,9 +3,13 @@ import { LaunchProvider } from "@context/eden";
 import {
   AppUserLayout,
   Card,
-  GridItemSix,
+  EmojiSelector,
+  GridItemNine,
   GridItemThree,
   GridLayout,
+  TextBody,
+  TextField,
+  TextHeading3,
   UserProfileMenu,
 } from "ui";
 
@@ -66,8 +70,39 @@ const LaunchPage: NextPageWithLayout = () => {
             <UserProfileMenu title={`Good Morning,`} />
           </Card>
         </GridItemThree>
-        <GridItemSix> </GridItemSix>
-        <GridItemThree> </GridItemThree>
+        <GridItemNine>
+          <Card className="bg-white p-6">
+            <section className="mb-6">
+              <TextHeading3>
+                Future Champion? Welcome to Eden!
+                <br />
+                Let&rsquo;s get started and go through launching your first
+                project.
+              </TextHeading3>
+              <p className="text-soilGray text-sm">
+                You can exit at any time, your workflow will be saved to drafts.
+              </p>
+            </section>
+            <section className="lg:grid lg:grid-cols-2 lg:gap-4">
+              <div className="col-span-1">
+                <div className="mb-3">
+                  <TextBody>Name your project</TextBody>
+                  <TextField
+                    name="name"
+                    placeholder="Start typing here"
+                    onChange={() => {
+                      /**/
+                    }}
+                  />
+                </div>
+                <div className="mb-3">
+                  <TextBody>Choose emoji for your project</TextBody>
+                  <EmojiSelector />
+                </div>
+              </div>
+            </section>
+          </Card>
+        </GridItemNine>
       </GridLayout>
     </LaunchProvider>
   );

@@ -4,6 +4,7 @@ export interface IEmojiSelectorProps {
   isDisabled?: boolean;
   // bgColor?: string;
   emoji?: string;
+  size?: number;
   // eslint-disable-next-line no-unused-vars
   onSelection?: (val: any) => void;
 }
@@ -12,9 +13,10 @@ export const EmojiSelector = ({
   isDisabled,
   emoji,
   onSelection,
+  size = 60,
 }: IEmojiSelectorProps) => {
   const [showEmojiSelector, setShowEmojiSelector] = useState(false);
-  const [selectedEmoji, setSelectedEmoji] = useState("@");
+  const [selectedEmoji, setSelectedEmoji] = useState("👋");
   const Picker = dynamic(() => import("emoji-picker-react"), {
     ssr: false,
   });
@@ -33,10 +35,17 @@ export const EmojiSelector = ({
     <div className="flex flex-row">
       <div>
         <div
-          className={`cursor-pointer rounded-full bg-[#ffdce9] p-7 text-5xl`}
+          className={`flex cursor-pointer items-center justify-center rounded-full bg-[#ffdce9]`}
           onClick={() => onShowEmojiSelector()}
+          style={{
+            width: size + "px",
+            height: size + "px",
+            fontSize: Math.ceil(size) / 2 + "px",
+          }}
         >
-          {emoji && isDisabled ? emoji : selectedEmoji}
+          <span className="leading-none	">
+            {emoji && isDisabled ? emoji : selectedEmoji}
+          </span>
         </div>
       </div>
       <div>
