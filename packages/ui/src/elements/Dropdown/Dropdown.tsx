@@ -36,17 +36,19 @@ export const Dropdown = ({
   const filteredItems =
     query === ""
       ? items
-      : items.filter((item: IItems) =>
-          item.name
-            ?.toLowerCase()
-            .replace(/\s+/g, "")
-            .includes(query.toLowerCase().replace(/\s+/g, ""))
+      : items.filter(
+          (item: IItems) =>
+            item.name ||
+            item.title
+              ?.toLowerCase()
+              .replace(/\s+/g, "")
+              .includes(query?.toLowerCase().replace(/\s+/g, ""))
         );
 
   const handleSelect = (val: any) => {
     onSelect && onSelect(val);
     if (!multiple) {
-      setQuery(val.name);
+      setQuery(val.name || val.title);
     }
   };
 
