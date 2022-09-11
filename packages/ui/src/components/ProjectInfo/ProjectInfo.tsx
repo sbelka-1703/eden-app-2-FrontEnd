@@ -1,6 +1,6 @@
 import { Project } from "@graphql/eden/generated";
-import { useRouter } from "next/router";
-import { BsArrowRight, BsSuitHeart } from "react-icons/bs";
+import HeartIcon from "@heroicons/react/outline/HeartIcon";
+import { BsArrowRight } from "react-icons/bs";
 import { Avatar, Button } from "ui";
 
 export interface IProjectInfoProps {
@@ -8,7 +8,11 @@ export interface IProjectInfoProps {
   avatarSrc?: string;
   projectSubTitle?: string;
   isFavoriteButton?: boolean;
-  onAddFav?: () => void;
+  isRoleView?: boolean;
+  submitting?: boolean;
+  isFavorite?: boolean;
+  onSwitchView?: () => void;
+  onSetFavorite?: () => void;
 }
 
 export const ProjectInfo = ({
@@ -16,10 +20,12 @@ export const ProjectInfo = ({
   avatarSrc,
   projectSubTitle,
   isFavoriteButton,
-  onAddFav,
+  isRoleView,
+  submitting,
+  isFavorite,
+  onSwitchView,
+  onSetFavorite,
 }: IProjectInfoProps) => {
-  const router = useRouter();
-
   return (
     <div className={`desc flex-col`}>
       <div className="p-2">
@@ -44,9 +50,9 @@ export const ProjectInfo = ({
             <Button
               variant={`secondary`}
               radius="rounded"
-              onClick={() => router.push(`/project-activity`)}
+              onClick={onSwitchView}
             >
-              See Project Activity
+              {isRoleView ? `See Project Activity` : `See Project Roles`}
               <span className={`my-auto pl-2`}>
                 <BsArrowRight />
               </span>
@@ -55,11 +61,25 @@ export const ProjectInfo = ({
           {isFavoriteButton && (
             <div className="mr-5">
               <button
+                disabled={submitting}
                 className="text-soilBody flex flex-row content-center items-center rounded-md bg-[#FFEEEE] py-1 px-3 text-lg font-normal tracking-wide"
-                onClick={onAddFav}
+                onClick={onSetFavorite}
               >
                 <span className={`mr-2`}>
-                  <BsSuitHeart color="#EE0000" />
+                  {!isFavorite ? (
+                    <HeartIcon
+                      className="h-7 w-7"
+                      stroke="red"
+                      strokeWidth="1"
+                    />
+                  ) : (
+                    <HeartIcon
+                      className="h-7 w-7"
+                      fill="red"
+                      stroke="red"
+                      strokeWidth="1"
+                    />
+                  )}
                 </span>
                 Add to favourites
               </button>

@@ -50,7 +50,7 @@ export const SocialMediaInput = ({
         onChange={(e) => {
           onChange(e);
         }}
-        className={`font-Inter text-soilBody focus:ring-soilGreen-500 block flex w-full border-l border-zinc-400/50 px-1 text-base focus:border-none focus:outline-transparent focus:ring focus:ring-opacity-50`}
+        className={`font-Inter text-soilBody focus:ring-soilGreen-500 flex w-full border-l border-zinc-400/50 px-1 text-base focus:border-none focus:outline-transparent focus:ring focus:ring-opacity-50`}
       />
     </div>
   );
