@@ -1,6 +1,6 @@
-// import { faker } from "@faker-js/faker";
+/* eslint-disable camelcase */
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { getProjectArray } from "storybook/mocks";
+import { findProjects_RecommendedToUser } from "storybook/mocks";
 
 import { ProjectMatchList } from "./ProjectMatchList";
 
@@ -10,18 +10,8 @@ export default {
   argTypes: {},
 } as ComponentMeta<typeof ProjectMatchList>;
 
-// const getProjects = () =>
-//   Array.from({ length: 6 }, () => {
-//     return {
-//       title: faker.company.name(),
-//       description: faker.company.catchPhrase(),
-//       avatar: faker.internet.avatar(),
-//       percentage: Number(faker.random.numeric(2)),
-//       position: faker.hacker.ingverb(),
-//       favButton: true,
-//       __typename: "Project",
-//     };
-//   });
+export const getProjectArray = (total: number) =>
+  Array.from({ length: total }, () => findProjects_RecommendedToUser);
 
 const Template: ComponentStory<typeof ProjectMatchList> = (args) => (
   <ProjectMatchList {...args} />

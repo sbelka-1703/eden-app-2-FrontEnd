@@ -14,9 +14,7 @@ const Template: ComponentStory<typeof RoleCard> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  roleTitle: "Backend Developer",
   percentage: 89,
-  duration: "10 Weeks",
   jds: [
     "Minimum two years related experience",
     "Experience with Docker",

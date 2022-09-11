@@ -22,35 +22,39 @@ export const UserProfileCard = ({ role }: IUserProfileCardProps) => {
     );
 
   return (
-    <div className={`text-darkGreen rounded-2xl bg-white px-8 py-6`}>
-      <div className={` font-poppins text-xl font-medium`}>Your Profile</div>
-      <div className={`my-3 flex`}>
-        <div>
-          <Avatar src={currentUser?.discordAvatar || ""} size="md" />
-        </div>
-        <div className={`font-poppins pl-4 text-2xl font-medium`}>
+    <div className={`text-darkGreen rounded-2xl bg-white py-6`}>
+      <div className={`px-6`}>
+        <div className={` font-poppins text-xl font-medium`}>Your Profile</div>
+        <div className={`my-3 flex`}>
           <div>
-            @{currentUser?.discordName}
-            <TextLabel> #{currentUser?.discriminator}</TextLabel>
+            <Avatar src={currentUser?.discordAvatar || ""} size="md" />
           </div>
-          <div className={`font-Inter text-zinc-500`}>{role}</div>
+          <div className={`font-poppins pl-4 text-2xl font-medium`}>
+            <div>
+              @{currentUser?.discordName}
+              <TextLabel> #{currentUser?.discriminator}</TextLabel>
+            </div>
+            <div className={`font-Inter text-zinc-500`}>{role}</div>
+          </div>
         </div>
       </div>
 
-      <div className="my-2 flex items-center space-x-2">
-        <TextLabel>LEARNING</TextLabel>
-        {learningSkills && <NumberCircle value={learningSkills?.length} />}
+      <div className={`h-6/10 scrollbar-hide overflow-y-scroll px-6`}>
+        <div className="my-2 flex items-center space-x-2">
+          <TextLabel>LEARNING</TextLabel>
+          {learningSkills && <NumberCircle value={learningSkills?.length} />}
+        </div>
+        {learningSkills && (
+          <SkillList skills={learningSkills} colorRGB="209,247,196" />
+        )}
+        <div className="my-2 flex items-center space-x-2">
+          <TextLabel>SKILLED</TextLabel>
+          {skilledSkills && <NumberCircle value={skilledSkills?.length} />}
+        </div>
+        {skilledSkills && (
+          <SkillList skills={skilledSkills} colorRGB="235,225,255" />
+        )}
       </div>
-      {learningSkills && (
-        <SkillList skills={learningSkills} colorRGB="209,247,196" />
-      )}
-      <div className="my-2 flex items-center space-x-2">
-        <TextLabel>SKILLED</TextLabel>
-        {skilledSkills && <NumberCircle value={skilledSkills?.length} />}
-      </div>
-      {skilledSkills && (
-        <SkillList skills={skilledSkills} colorRGB="235,225,255" />
-      )}
     </div>
   );
 };
