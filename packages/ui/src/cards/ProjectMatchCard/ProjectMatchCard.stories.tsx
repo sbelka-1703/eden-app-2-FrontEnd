@@ -1,6 +1,6 @@
-// import { faker } from "@faker-js/faker";
+/* eslint-disable camelcase */
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { getProject } from "storybook/mocks";
+import { findProjects_RecommendedToUser } from "storybook/mocks";
 
 import { ProjectMatchCard } from "./ProjectMatchCard";
 
@@ -16,5 +16,5 @@ const Template: ComponentStory<typeof ProjectMatchCard> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  project: getProject(),
+  project: findProjects_RecommendedToUser,
 };

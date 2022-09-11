@@ -1,24 +1,22 @@
-import { useRouter } from "next/router";
+import { Maybe, RoleType } from "@graphql/eden/generated";
 import { BsDot } from "react-icons/bs";
 import { MdArrowForward } from "react-icons/md";
 import { Card } from "ui";
 
 export interface RoleCardProps {
-  roleTitle?: string;
+  role?: Maybe<RoleType>;
   percentage?: number;
-  duration?: string;
   jds?: String[];
   openSeats?: string;
 }
 
 export const RoleCard = ({
-  roleTitle,
+  role,
   percentage,
-  duration,
   jds,
   openSeats,
 }: RoleCardProps) => {
-  const router = useRouter();
+  console.log("role", role);
 
   return (
     <Card border shadow className="bg-white p-0">
@@ -28,7 +26,7 @@ export const RoleCard = ({
             <span className="">
               <BsDot color="#D9D9D9" size={30} />
             </span>
-            <span>{roleTitle}</span>
+            <span>{role?.title}</span>
           </div>
           <div className={`items-flex-start mt-1 flex h-full flex-row`}>
             <span className="text-2xl">⚡</span>
@@ -43,7 +41,7 @@ export const RoleCard = ({
               <div className="flex flex-row p-1">
                 <div>⏳</div>
                 <div className={`ml-3 mt-0.5 text-sm capitalize text-zinc-400`}>
-                  {duration}
+                  {role?.hoursPerWeek} hours/week
                 </div>
               </div>
               <div className="flex flex-row p-1">
@@ -69,7 +67,7 @@ export const RoleCard = ({
         </div>
       </div>
       <div className="align-center bg-accentColor mt-4 flex w-full justify-center rounded-b-2xl py-3 px-2 text-lg">
-        <button onClick={() => router.push(`/apply/${roleTitle}`)}>
+        <button onClick={() => console.log(`apply`)}>
           <div className="align-center flex w-full cursor-pointer justify-center text-base text-black">
             <div>Apply for this role</div>
             <div className="mt-1 ml-1">
