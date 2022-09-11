@@ -25,7 +25,7 @@ export interface EditProfileOnboardPartyCardProps {
   // eslint-disable-next-line no-unused-vars
   handleDeleteSkill: (val: Maybe<SkillType_Member> | undefined) => void;
   // eslint-disable-next-line no-unused-vars
-  handleUpdateUser: (val: any) => void;
+  handleUpdateUser: (val: any, name: string) => void;
 }
 
 export const EditProfileOnboardPartyCard = ({
@@ -63,6 +63,13 @@ export const EditProfileOnboardPartyCard = ({
 
   const progress = getUserProgress(currentUser);
 
+  const _handleUpdateUser = (e: any) => {
+    handleUpdateUser(e.target.value, e.target.name);
+  };
+  const _handleUpdateUserRole = (val: any) => {
+    handleUpdateUser(val, "role");
+  };
+
   return (
     <Card shadow className="h-8/10 scrollbar-hide overflow-scroll bg-white p-3">
       <TextHeading3 className="mb-2">Edit Your Profile</TextHeading3>
@@ -85,8 +92,10 @@ export const EditProfileOnboardPartyCard = ({
       <Dropdown
         items={dataRoles?.findRoleTemplates}
         placeholder={`Select Your Role`}
-        onSelect={handleUpdateUser}
+        onSelect={_handleUpdateUserRole}
         radius="rounded"
+        key={currentUser.memberRole?.title || ""}
+        value={currentUser.memberRole?.title || ""}
       />
       <TextLabel>🛠 ADD YOUR SKILLS</TextLabel>
       <SearchSkill
@@ -125,7 +134,7 @@ export const EditProfileOnboardPartyCard = ({
         rows={5}
         value={`${currentUser.bio ? currentUser.bio : ""}`}
         className="border-0 text-xs"
-        onChange={handleUpdateUser}
+        onChange={_handleUpdateUser}
         debounceTime={2000}
         maxLength={280}
       />

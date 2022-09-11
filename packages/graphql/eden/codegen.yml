@@ -1,4 +1,4 @@
-schema: "https://oasis-bot-test-deploy.herokuapp.com/graphql"
+schema: "https://oasis-development.up.railway.app/graphql"
 generates:
   generated/graphqlEden.ts:
     plugins:

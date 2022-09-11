@@ -18,6 +18,10 @@ export const MEMBER_UPDATED = gql`
         name
         url
       }
+      memberRole {
+        _id
+        title
+      }
     }
   }
 `;

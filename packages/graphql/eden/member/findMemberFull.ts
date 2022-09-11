@@ -55,6 +55,14 @@ export const FIND_MEMBER_FULL = gql`
         percentage
         signup
       }
+      memberRole {
+        _id
+        title
+        description
+        skills {
+          _id
+        }
+      }
     }
   }
 `;

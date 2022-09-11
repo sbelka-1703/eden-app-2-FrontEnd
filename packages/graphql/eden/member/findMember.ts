@@ -47,6 +47,10 @@ export const FIND_MEMBER = gql`
         }
         level
       }
+      memberRole {
+        _id
+        title
+      }
     }
   }
 `;

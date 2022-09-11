@@ -42,6 +42,12 @@ export const UserCardOnboardParty = ({ member }: UserCardOnboardPartyProps) => {
         </div>
         <ProgressBarGeneric progress={progress} />
       </div>
+      {member.memberRole && (
+        <div className="mb-2">
+          <TextLabel>ROLE</TextLabel>
+          <p className="leading-none">{member.memberRole.title}</p>
+        </div>
+      )}
       <div className="flex items-center space-x-2">
         <TextLabel>LEARNING</TextLabel>
         {learningSkills && <NumberCircle value={learningSkills?.length} />}

@@ -19,6 +19,10 @@ export const UPDATE_MEMBER = gql`
         }
         level
       }
+      memberRole {
+        _id
+        title
+      }
     }
   }
 `;
