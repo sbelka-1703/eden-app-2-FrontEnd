@@ -4,11 +4,9 @@ import { Maybe, SkillType_Member } from "@graphql/eden/generated";
 import { useContext } from "react";
 import { Avatar, NumberCircle, SkillList, TextLabel } from "ui";
 
-export interface IUserProfileCardProps {
-  role?: string | null;
-}
+export interface IUserProfileCardProps {}
 
-export const UserProfileCard = ({ role }: IUserProfileCardProps) => {
+export const UserProfileCard = ({}: IUserProfileCardProps) => {
   const { currentUser } = useContext(UserContext);
 
   const learningSkills: Maybe<SkillType_Member>[] | undefined =
@@ -34,7 +32,9 @@ export const UserProfileCard = ({ role }: IUserProfileCardProps) => {
               @{currentUser?.discordName}
               <TextLabel> #{currentUser?.discriminator}</TextLabel>
             </div>
-            <div className={`font-Inter text-zinc-500`}>{role}</div>
+            <div className={`font-Inter text-xl text-zinc-500`}>
+              {currentUser?.memberRole?.title}
+            </div>
           </div>
         </div>
       </div>

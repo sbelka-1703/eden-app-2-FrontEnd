@@ -54,6 +54,14 @@ export const MEMBER_SUBSCRIPTION = gql`
         percentage
         signup
       }
+      memberRole {
+        _id
+        title
+        description
+        skills {
+          _id
+        }
+      }
     }
   }
 `;
