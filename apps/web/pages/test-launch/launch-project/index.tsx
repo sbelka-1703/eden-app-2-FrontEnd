@@ -14,7 +14,7 @@ import {
   UserProfileMenu,
 } from "ui";
 
-import type { NextPageWithLayout } from "../_app";
+import type { NextPageWithLayout } from "../../_app";
 
 export const FIND_SERVERS = gql`
   query ($fields: findServersInput) {
@@ -24,15 +24,6 @@ export const FIND_SERVERS = gql`
     }
   }
 `;
-
-// export const FIND_ROLES = gql`
-//   query ($fields: findRoleTemplatesInput) {
-//     findRoleTemplates(fields: $fields) {
-//       _id
-//       title
-//     }
-//   }
-// `;
 
 export const FIND_ROLES = gql`
   query ($fields: findRolesInput) {
