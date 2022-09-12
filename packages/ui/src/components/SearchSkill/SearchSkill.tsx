@@ -8,7 +8,7 @@ import { Combobox } from "@headlessui/react";
 import { EmojiSadIcon } from "@heroicons/react/outline";
 import { SearchIcon } from "@heroicons/react/solid";
 import { useEffect, useMemo, useState } from "react";
-import { Expandable } from "ui";
+import { Expandable, Loading } from "ui";
 
 type LevelProp = {
   title: string;
@@ -33,14 +33,21 @@ export const SearchSkill = ({
   const [selected, setSelected] = useState<string | null>(null);
   const [inFocus, setInFocus] = useState<boolean>(false);
 
-  const { data: dataSkills } = useQuery(SKILLS_AUTOCOMPLETE, {
-    variables: {
-      fields: {
-        search: query,
+  const { data: dataSkills, loading: skillLoading } = useQuery(
+    SKILLS_AUTOCOMPLETE,
+    {
+      variables: {
+        fields: {
+          search: query,
+        },
       },
-    },
-    skip: !query,
-  });
+      skip: !query,
+    }
+  );
+
+  useEffect(() => {
+    console.log("Loading====", skillLoading);
+  }, [skillLoading]);
 
   const { data: AllSkillsData, loading: AllSkillsDataLoading } =
     useQuery(FIND_ALL_CATEGORIES);
@@ -123,10 +130,17 @@ export const SearchSkill = ({
           ></div>
         )}
 
+        {skillLoading && isOpen && (
+          <div className="absolute top-12 z-40 border-t border-gray-100 bg-white py-14 px-6 text-center text-sm sm:px-14">
+            <Loading />
+            {/* <h1>Loading................</h1> */}
+          </div>
+        )}
+
         {filteredItems.length >= 0 && query.length >= 0 && isOpen && (
           <Combobox.Options
             static
-            className="scrollbar-hide absolute top-12 z-30 h-80 w-full scroll-pt-11 scroll-pb-2 space-y-2 overflow-y-auto rounded-md border bg-white pb-2"
+            className="scrollbar-hide absolute top-12 z-30 h-80 w-full scroll-pt-11 scroll-pb-2 space-y-2 overflow-y-auto rounded-md border bg-white pb-2 shadow-lg"
           >
             {Object.entries(
               query === "" && inFocus ? allSkillGroup : groups!
@@ -151,18 +165,21 @@ export const SearchSkill = ({
           </Combobox.Options>
         )}
 
-        {query !== "" && filteredItems!.length === 0 && (
-          <div className="border-t border-gray-100 py-14 px-6 text-center text-sm sm:px-14">
-            <EmojiSadIcon
-              className="mx-auto h-6 w-6 text-gray-400"
-              aria-hidden="true"
-            />
-            <p className="mt-4 font-semibold text-gray-900">No results found</p>
-            <p className="mt-2 text-gray-500">
-              We couldn’t find anything with that term. Please try again.
-            </p>
-          </div>
-        )}
+        {dataSkills?.skills_autocomplete.length <= 0 &&
+          query !== "" &&
+          filteredItems!.length === 0 &&
+          isOpen && (
+            <div className="absolute top-12 z-30 border-t border-gray-100 py-14 px-6 text-center text-sm sm:px-14">
+              <EmojiSadIcon
+                className="mx-auto h-6 w-6 text-gray-400"
+                aria-hidden="true"
+              />
+              <p className="mt-4 font-semibold text-gray-900">No skill found</p>
+              <p className="mt-2 text-gray-500">
+                We couldn’t find anything with that term. Please try again.
+              </p>
+            </div>
+          )}
       </div>
     </Combobox>
   );
