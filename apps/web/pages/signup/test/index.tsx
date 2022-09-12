@@ -1,9 +1,9 @@
+/* eslint-disable camelcase */
 import { gql, useQuery } from "@apollo/client";
 import { UserContext } from "@context/eden";
 import { FIND_PROJECTS_RECOMMENDED } from "@graphql/eden";
-import { Maybe, RoleTemplate } from "@graphql/eden/generated";
 import Head from "next/head";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import {
   AppUserLayout,
   GridItemNine,
@@ -32,7 +32,7 @@ export const FIND_ROLES = gql`
 
 const SignUpTestPage: NextPageWithLayout = () => {
   const { currentUser } = useContext(UserContext);
-  const [roleSelected, setRoleSelected] = useState<Maybe<RoleTemplate>>();
+
   const { data: dataRoles } = useQuery(FIND_ROLES, {
     variables: {
       fields: {},
@@ -40,7 +40,7 @@ const SignUpTestPage: NextPageWithLayout = () => {
     context: { serviceName: "soilservice" },
   });
 
-  const { data: dataProjectsRecommended } = useQuery(
+  const { data: dataProjectsRecommended, refetch } = useQuery(
     FIND_PROJECTS_RECOMMENDED,
     {
       variables: {
@@ -65,13 +65,13 @@ const SignUpTestPage: NextPageWithLayout = () => {
 
       <GridLayout>
         <GridItemThree>
-          <UserProfileCard role={roleSelected?.title} />
+          <UserProfileCard />
         </GridItemThree>
         <GridItemNine>
           <div className={``}>
             <SignUpCard
               roles={dataRoles?.findRoleTemplates}
-              onSelectedRole={(val) => setRoleSelected(val)}
+              refetch={refetch}
             />
             <div className={"mt-6"}>
               <ProjectMatchList

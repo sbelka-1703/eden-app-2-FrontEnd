@@ -39,7 +39,7 @@ const SignUpTestPage: NextPageWithLayout = () => {
 
       <GridLayout>
         <GridItemThree>
-          <UserProfileCard role={""} />
+          <UserProfileCard />
         </GridItemThree>
         <GridItemNine>
           <ApplyByRoleContainer

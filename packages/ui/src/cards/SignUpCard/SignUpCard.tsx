@@ -1,6 +1,14 @@
 /* eslint-disable camelcase */
-import { Maybe, RoleTemplate, SkillType_Member } from "@graphql/eden/generated";
-import { useState } from "react";
+import { useMutation } from "@apollo/client";
+import { UserContext } from "@context/eden";
+import { UPDATE_MEMBER } from "@graphql/eden";
+import {
+  Maybe,
+  Mutation,
+  RoleTemplate,
+  SkillType_Member,
+} from "@graphql/eden/generated";
+import { useContext, useState } from "react";
 import { BsArrowRight } from "react-icons/bs";
 import {
   Button,
@@ -33,23 +41,60 @@ const levels = [
 
 export interface ISignUpCardProps {
   roles: Maybe<Array<Maybe<RoleTemplate>>>;
-  // eslint-disable-next-line no-unused-vars
-  onSelectedRole: (role: Maybe<RoleTemplate>) => void;
+  refetch?: () => void;
 }
 
-export const SignUpCard = ({ roles, onSelectedRole }: ISignUpCardProps) => {
+export const SignUpCard = ({ roles, refetch }: ISignUpCardProps) => {
+  const { currentUser } = useContext(UserContext);
   const [currentView, setCurrentView] = useState(1);
+
+  const [updateMember] = useMutation(UPDATE_MEMBER, {
+    onCompleted({ updateMember }: Mutation) {
+      if (!updateMember) console.log("addFavoriteProject is null");
+      refetch?.();
+    },
+  });
 
   return (
     <div className={`rounded-2xl bg-white px-8 py-6`}>
       {currentView === 1 && (
         <SelectRoleView
           roles={roles}
-          onSelectedRole={onSelectedRole}
-          roleSelected={() => setCurrentView(2)}
+          onSelectedRole={(role) => {
+            if (!role?._id || !currentUser?._id) return;
+            updateMember({
+              variables: {
+                fields: {
+                  _id: currentUser?._id,
+                  memberRole: role?._id,
+                },
+              },
+            });
+            setCurrentView(2);
+          }}
         />
       )}
-      {currentView === 2 && <AddSkillsView />}
+      {currentView === 2 && (
+        <AddSkillsView
+          onSelectedSkills={(skills) => {
+            if (!currentUser?._id) return;
+            updateMember({
+              variables: {
+                fields: {
+                  _id: currentUser?._id,
+                  skills: skills.map((skill: Maybe<SkillType_Member>) => {
+                    return {
+                      id: skill?.skillInfo?._id,
+                      level: skill?.level,
+                    };
+                  }),
+                },
+              },
+            });
+          }}
+          setCurrentView={setCurrentView}
+        />
+      )}
       {currentView === 3 && <ThankYouView />}
     </div>
   );
@@ -83,14 +128,20 @@ const SelectRoleView = ({
   );
 };
 
-const AddSkillsView = () => {
+interface IAddSkillsViewProps {
+  // eslint-disable-next-line no-unused-vars
+  onSelectedSkills: (skills: Maybe<SkillType_Member>[]) => void;
+  // eslint-disable-next-line no-unused-vars
+  setCurrentView?: (val: number) => void;
+}
+
+const AddSkillsView = ({
+  onSelectedSkills,
+  setCurrentView,
+}: IAddSkillsViewProps) => {
+  const { currentUser } = useContext(UserContext);
+
   const [showModal, setShowModal] = useState(false);
-
-  const [skills, setSkills] = useState<Maybe<SkillType_Member>[]>([]);
-
-  const handleSetSkills = (addSkill: SkillType_Member[]) => {
-    setSkills([...addSkill]);
-  };
 
   const filterSkills = (
     skills: Maybe<Maybe<SkillType_Member>[]>,
@@ -101,8 +152,8 @@ const AddSkillsView = () => {
 
   return (
     <div>
-      <div className={`flex justify-between`}>
-        <div>
+      <div className={`grid grid-cols-3`}>
+        <div className={`col-span-2`}>
           <TextHeading2>
             Add your skills to get personalised matches
           </TextHeading2>
@@ -114,19 +165,24 @@ const AddSkillsView = () => {
             </span>
           </div>
         </div>
-        <div>
-          <Button onClick={() => setShowModal(!showModal)} variant={`primary`}>
-            Add Skills <BsArrowRight className={`my-auto ml-2`} />
-          </Button>
+        <div className={`col-span-1 `}>
+          <div className={`flex justify-end`}>
+            <Button
+              onClick={() => setShowModal(!showModal)}
+              variant={`primary`}
+            >
+              Add Skills <BsArrowRight className={`my-auto ml-2`} />
+            </Button>
+          </div>
         </div>
       </div>
 
-      <Modal open={showModal}>
+      <Modal open={showModal} closeOnEsc={false}>
         <div className={`h-5/10 mt-8`}>
           <SearchSkill
             levels={levels}
-            skills={skills as Maybe<Maybe<SkillType_Member>[]>}
-            setSkills={handleSetSkills}
+            skills={currentUser?.skills}
+            setSkills={onSelectedSkills}
           />
           <div className={`mt-4 grid grid-flow-col grid-rows-2 gap-4`}>
             {levels.map((level, index: number) => {
@@ -135,7 +191,7 @@ const AddSkillsView = () => {
                   key={index}
                   skills={
                     filterSkills(
-                      skills as Maybe<Maybe<SkillType_Member>[]>,
+                      currentUser?.skills as Maybe<Maybe<SkillType_Member>[]>,
                       `${level.level}`
                     ) as Maybe<Maybe<SkillType_Member>[]>
                   }
@@ -146,6 +202,17 @@ const AddSkillsView = () => {
               );
             })}
           </div>
+        </div>
+        <div className={"flex justify-end"}>
+          <Button
+            variant="primary"
+            onClick={() => {
+              setShowModal(false);
+              if (setCurrentView) setCurrentView(3);
+            }}
+          >
+            Done
+          </Button>
         </div>
       </Modal>
     </div>
