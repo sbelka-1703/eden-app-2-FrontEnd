@@ -25,6 +25,7 @@ type ExpandableProps = {
   query: string;
   // setExpanding?: any;
   levels?: LevelProp[];
+  isExpandingOpenByDefault?: boolean;
 };
 
 export const Expandable = ({
@@ -40,8 +41,11 @@ export const Expandable = ({
   query,
   // setExpanding,
   levels,
+  isExpandingOpenByDefault = false,
 }: ExpandableProps) => {
-  const [isExandingOpen, setIsExpandingOpen] = useState<boolean>(false);
+  const [isExandingOpen, setIsExpandingOpen] = useState<boolean>(
+    isExpandingOpenByDefault
+  );
   const [idSelected, setIdSelected] = useState<string | null>(null);
 
   const useGetSkills = (id: string) => {
@@ -53,7 +57,7 @@ export const Expandable = ({
     });
 
     return allSkillsByCategory
-      ? allSkillsByCategory.findSkillSubCategory.skills
+      ? allSkillsByCategory.findSkillSubCategory?.skills
       : [];
   };
 
@@ -81,7 +85,7 @@ export const Expandable = ({
           : allSkills?.filter(
               (s: any) => s.subCategorySkill[0].name === category
             )
-        ).map((item: any) => (
+        )?.map((item: any) => (
           <div
             onClick={() => {
               if (
