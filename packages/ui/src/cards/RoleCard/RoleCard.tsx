@@ -8,6 +8,7 @@ export interface RoleCardProps {
   percentage?: number;
   jds?: String[];
   openSeats?: string;
+  onApply?: () => void;
 }
 
 export const RoleCard = ({
@@ -15,8 +16,9 @@ export const RoleCard = ({
   percentage,
   jds,
   openSeats,
+  onApply,
 }: RoleCardProps) => {
-  console.log("role", role);
+  // console.log("role", role);
 
   return (
     <Card border shadow className="bg-white p-0">
@@ -67,7 +69,7 @@ export const RoleCard = ({
         </div>
       </div>
       <div className="align-center bg-accentColor mt-4 flex w-full justify-center rounded-b-2xl py-3 px-2 text-lg">
-        <button onClick={() => console.log(`apply`)}>
+        <button onClick={onApply}>
           <div className="align-center flex w-full cursor-pointer justify-center text-base text-black">
             <div>Apply for this role</div>
             <div className="mt-1 ml-1">

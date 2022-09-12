@@ -105,7 +105,7 @@ export const Expandable = ({
                 selected === item._id ? "-mx-2 bg-[#EDF2F7] px-2" : "bg-white"
               } group cursor-pointer items-center justify-between`}
             >
-              <span className="w-3/4 text-sm text-slate-700 group-hover:text-slate-500">
+              <span className="w-3/4 px-2 text-sm text-slate-700 group-hover:text-slate-500">
                 {item.name}
               </span>
               {skills!.filter((s) => s?.skillInfo?._id === item._id).length >
@@ -113,7 +113,7 @@ export const Expandable = ({
             </div>
 
             {isOpen && selected === item._id && (
-              <div className="-mx-2 bg-[#EDF2F7] px-3 pb-2">
+              <div className="-mx-2 bg-[#EDF2F7] px-4 pt-1 pb-2">
                 <p className="mb-1 text-xs font-medium text-slate-500">
                   SKILL LEVEL
                 </p>
@@ -143,27 +143,6 @@ export const Expandable = ({
                       {level.title.toUpperCase()}
                     </Button>
                   ))}
-                  <Button
-                    className="ml-auto"
-                    size="sm"
-                    onClick={() => {
-                      setSkills([
-                        ...skills!,
-                        {
-                          skillInfo: {
-                            _id: item._id,
-                            name: item.name,
-                          },
-                          level: "mid",
-                        },
-                      ]);
-                      // setIsOpen(false);
-                      setSelected(null);
-                    }}
-                    variant="primary"
-                  >
-                    Add
-                  </Button>
                 </div>
               </div>
             )}

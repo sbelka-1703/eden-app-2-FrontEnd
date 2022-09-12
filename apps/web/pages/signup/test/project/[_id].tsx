@@ -19,7 +19,7 @@ const SignUpTestPage: NextPageWithLayout = () => {
   const router = useRouter();
   const { _id } = router.query;
   //   const { currentUser } = useContext(UserContext);
-  const { data: dataProject } = useQuery(FIND_PROJECT, {
+  const { data: dataProject, refetch } = useQuery(FIND_PROJECT, {
     variables: {
       fields: {
         _id: _id,
@@ -39,10 +39,13 @@ const SignUpTestPage: NextPageWithLayout = () => {
 
       <GridLayout>
         <GridItemThree>
-          <UserProfileCard role={""} />
+          <UserProfileCard />
         </GridItemThree>
         <GridItemNine>
-          <ApplyByRoleContainer project={dataProject?.findProject} />
+          <ApplyByRoleContainer
+            project={dataProject?.findProject}
+            refetch={refetch}
+          />
         </GridItemNine>
       </GridLayout>
     </div>

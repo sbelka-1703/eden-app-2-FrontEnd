@@ -1,8 +1,8 @@
-// import { faker } from "@faker-js/faker";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
+import React from "react";
 import { getProject } from "storybook/mocks";
 
-import { ApplyByRoleContainer } from "./ApplyByRoleContainer";
+import { ApplyByRoleContainer } from "./";
 
 export default {
   title: "Containers/ApplyByRoleContainer",
@@ -17,8 +17,4 @@ const Template: ComponentStory<typeof ApplyByRoleContainer> = (args) => (
 export const Default = Template.bind({});
 Default.args = {
   project: getProject(),
-  //   project: {
-  //     title: faker.company.name(),
-  //     description: faker.company.catchPhrase(),
-  //   },
 };
