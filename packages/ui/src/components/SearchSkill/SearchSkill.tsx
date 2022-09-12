@@ -45,10 +45,6 @@ export const SearchSkill = ({
     }
   );
 
-  useEffect(() => {
-    console.log("Loading====", skillLoading);
-  }, [skillLoading]);
-
   const { data: AllSkillsData, loading: AllSkillsDataLoading } =
     useQuery(FIND_ALL_CATEGORIES);
 
@@ -87,6 +83,12 @@ export const SearchSkill = ({
       [item.category!]: [...(groups[item.category] || []), item],
     };
   }, {});
+
+  useEffect(() => {
+    if (dataSkills?.length > 0) {
+      setSelected(dataSkills[0]._id);
+    }
+  }, [dataSkills]);
 
   return (
     <Combobox
@@ -144,7 +146,7 @@ export const SearchSkill = ({
           >
             {Object.entries(
               query === "" && inFocus ? allSkillGroup : groups!
-            ).map(([category, id]) => (
+            ).map(([category, id], index) => (
               <Expandable
                 query={query}
                 category={category}
@@ -160,6 +162,7 @@ export const SearchSkill = ({
                 setSelected={setSelected}
                 // setExpanding={(e: boolean) => setInFocus(e)}
                 levels={levels}
+                isExpandingOpenByDefault={query == "" ? false : !index}
               />
             ))}
           </Combobox.Options>
