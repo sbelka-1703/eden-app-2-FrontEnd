@@ -1,5 +1,4 @@
 import { UserContext } from "@context/eden";
-// import { Project, Members, ProjectMemberType } from "@graphql/eden/generated";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 import { MdCreateNewFolder, MdFactCheck, MdPeopleAlt } from "react-icons/md";
@@ -40,15 +39,16 @@ export const UserProfileMenu = ({ title }: IUserProfileMenuProps) => {
   // console.log("championProjects", championProjects);
 
   return (
-    <div className={`desc mt-6 flex-col`}>
-      <div className="p-2">
-        <Avatar size="lg" src={currentUser?.discordAvatar || ""} />
-        <div className={`pt-2 text-base text-neutral-500`}>{title}</div>
-        <div
-          className={`mb-3 border-b pb-5 text-xl font-semibold text-neutral-700`}
-        >
-          {currentUser?.discordName}
+    <div className={`desc flex-col`}>
+      <div className="">
+        <div>
+          <Avatar size="lg" src={currentUser?.discordAvatar || ""} />
+          <div className={`pt-2 text-base text-neutral-500`}>{title}</div>
+          <div className={`mb-3 pb-2 font-semibold text-neutral-700`}>
+            {currentUser?.discordName}
+          </div>
         </div>
+        <hr className="mb-2 text-slate-300" />
         <div>
           <MenuItem
             Icon={<MdPeopleAlt size={25} />}
@@ -82,7 +82,7 @@ export const UserProfileMenu = ({ title }: IUserProfileMenuProps) => {
           <MenuItem
             Icon={<MdCreateNewFolder size={25} />}
             FunctionName="Launch A Project"
-            onFunctionCallback={() => router.push(`/launch`)}
+            onFunctionCallback={() => router.push(`/launch-project`)}
           />
         </div>
       </div>

@@ -22,7 +22,7 @@ export const MenuItem = ({
     >
       <div className={`flex`}>
         <div className="px-2">{Icon}</div>
-        <div className="px-2 text-lg font-medium">{FunctionName}</div>
+        <div className="text-md px-2 font-medium">{FunctionName}</div>
       </div>
       <div>
         {counterBadge !== undefined && (
