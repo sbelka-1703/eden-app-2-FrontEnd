@@ -16,6 +16,7 @@ import {
   LaunchViewSuccess,
   LaunchViewVerify,
   Loading,
+  LaunchViewBudget
 } from "ui";
 
 const LAUNCH_PROJECT = gql`
@@ -109,7 +110,7 @@ export const LaunchContainer = ({ servers, roles }: LaunchPageProps) => {
       case 4:
         return <LaunchViewLinks servers={servers} />;
       case 5:
-        return <LaunchViewSteps />;
+        return <LaunchViewBudget />;
       case 6:
         return <LaunchViewVerify />;
       case 7:
