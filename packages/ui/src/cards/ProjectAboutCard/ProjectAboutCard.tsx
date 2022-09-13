@@ -1,5 +1,10 @@
-
-import { Maybe,Members, Mutation, Project,ProjectMatchType } from "@graphql/eden/generated";
+import {
+  Maybe,
+  Members,
+  Mutation,
+  Project,
+  ProjectMatchType,
+} from "@graphql/eden/generated";
 import { useRouter } from "next/router";
 import { Avatar, Card, ProjectChampion, ReadMore } from "ui";
 export interface ProjectAboutCardProps {
@@ -11,7 +16,7 @@ export interface ProjectAboutCardProps {
 export const ProjectAboutCard = ({
   project,
   projectOneLiner,
-  emoji
+  emoji,
 }: ProjectAboutCardProps) => {
   const router = useRouter();
 
@@ -19,7 +24,7 @@ export const ProjectAboutCard = ({
     <Card shadow className="bg-white p-0">
       <div className="flex flex-col justify-between p-4">
         <div className="border-b pb-3">
-          <div className="bg-soilTurquoise p-4 text-5xl rounded-xl w-fit">
+          <div className="bg-soilTurquoise w-fit rounded-xl p-4 text-5xl">
             {emoji}
           </div>
           <div className={`mt-6 w-full`}>
@@ -40,7 +45,10 @@ export const ProjectAboutCard = ({
         </div>
         <div className="mt-5">
           <div>
-            <ReadMore description={String(project?.description)} characterLimit={200}/>
+            <ReadMore
+              description={String(project?.description)}
+              characterLimit={200}
+            />
           </div>
         </div>
       </div>
