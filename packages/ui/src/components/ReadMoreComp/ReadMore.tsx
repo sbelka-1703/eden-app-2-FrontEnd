@@ -1,8 +1,4 @@
-import { Project } from "@graphql/eden/generated";
-import HeartIcon from "@heroicons/react/outline/HeartIcon";
 import { useEffect, useState } from "react";
-import { BsArrowRight } from "react-icons/bs";
-import { Avatar, Button } from "ui";
 
 export interface IReadMoreProps {
   description?: string;
