@@ -8,6 +8,7 @@ import {
   GridItemNine,
   GridItemThree,
   GridLayout,
+  ProjectLayoutCard,
   TextBody,
   TextField,
   TextHeading3,
@@ -94,15 +95,7 @@ const LaunchPage: NextPageWithLayout = () => {
               </div>
               <div className="col-span-1">
                 <TextBody className="mb-1">Preview</TextBody>
-                <Card className="p-4" border>
-                  <TextBody className="mb-2">Your Project</TextBody>
-                  <div className="flex items-center">
-                    <div className="mr-4">
-                      <EmojiSelector isDisabled />
-                    </div>
-                    <TextHeading3>Project Name</TextHeading3>
-                  </div>
-                </Card>
+                <ProjectLayoutCard />
               </div>
             </section>
           </Card>
