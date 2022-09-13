@@ -56,10 +56,10 @@ export const LaunchViewBudget = () => {
       </div>
       <div>
         <TextArea
-            placeholder={`Start typing here`}
-            rows={6}
-            value={projectDescription}
-            onChange={(e) => setProjectDescription(e.target.value)}
+          placeholder={`Start typing here`}
+          rows={6}
+          value={projectDescription}
+          onChange={(e) => setProjectDescription(e.target.value)}
         />
       </div>
     </div>

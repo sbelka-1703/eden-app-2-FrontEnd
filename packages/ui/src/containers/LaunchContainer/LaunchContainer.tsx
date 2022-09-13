@@ -16,7 +16,7 @@ import {
   LaunchViewSuccess,
   LaunchViewVerify,
   Loading,
-  LaunchViewBudget
+  LaunchViewBudget,
 } from "ui";
 
 const LAUNCH_PROJECT = gql`

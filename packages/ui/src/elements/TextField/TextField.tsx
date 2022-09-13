@@ -26,7 +26,7 @@ export const TextField: React.FC<TextFieldProps> = ({
     "rounded-md": radius === "default",
     "rounded-lg": radius === "rounded",
     "rounded-full": radius === "pill",
-    "drop-shadow-md text-center rounded-full py-2": radius === "pill-shadow"
+    "drop-shadow-md text-center rounded-full py-2": radius === "pill-shadow",
   });
 
   return (
