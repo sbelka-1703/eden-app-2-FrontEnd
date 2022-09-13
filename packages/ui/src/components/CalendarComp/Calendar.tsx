@@ -1,7 +1,6 @@
 import { useState, useRef } from "react";
 import DatePicker, { DateObject } from "react-multi-date-picker";
 import TimePicker from "react-multi-date-picker/plugins/time_picker";
-import InputIcon from "react-multi-date-picker/components/input_icon";
 import { Button } from "ui";
 import { MdEditCalendar } from "react-icons/md";
 export interface ICalendarProps {
@@ -12,8 +11,8 @@ export interface ICalendarProps {
   onChange?: (data: DateObject) => void;
   onOpen?: () => void;
   onClose?: () => void;
-  minDate?: DateObject;
-  maxDate?: DateObject;
+  minDate?: any; // new Date()
+  maxDate?: any;
   numberOfMonths?: number;
   currentDate?: DateObject;
 }
