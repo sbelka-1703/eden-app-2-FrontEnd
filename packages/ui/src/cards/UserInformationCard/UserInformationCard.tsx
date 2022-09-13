@@ -1,7 +1,15 @@
 import { Maybe, PreviusProjectsType } from "@graphql/eden/generated";
 import { FiEdit3 } from "react-icons/fi";
 import { IoIosExpand } from "react-icons/io";
-import { Card, Modal, Button, TextField,TextArea, Calendar, CheckBox } from "ui";
+import {
+  Card,
+  Modal,
+  Button,
+  TextField,
+  TextArea,
+  Calendar,
+  CheckBox,
+} from "ui";
 import { useState } from "react";
 
 export interface UserInformationCardProps {
@@ -21,7 +29,7 @@ export const UserInformationCard = ({
   }
 
   const onExpand = () => {
-    console.log("sasasasass")
+    console.log("sasasasass");
     setShowExpandModal(true);
   };
 
@@ -101,11 +109,22 @@ export const UserInformationCard = ({
             />
           </div>
           <div className={`mt-4`}>
-            <div className="text-sm font-normal text-gray-700">Duration Of Work</div>
-            <div><CheckBox label="Currently Working Here" onChange={()=>setToggleEndDate(!toggleEndDate)}/></div>
-            <div className="flex flex-row justify-evenly content-between mt-2">
-            <Calendar label="Start Date" timePicker={false}/>
-            {!toggleEndDate ? <Calendar label="End Date" timePicker={false}/> : <></>}
+            <div className="text-sm font-normal text-gray-700">
+              Duration Of Work
+            </div>
+            <div>
+              <CheckBox
+                label="Currently Working Here"
+                onChange={() => setToggleEndDate(!toggleEndDate)}
+              />
+            </div>
+            <div className="mt-2 flex flex-row content-between justify-evenly">
+              <Calendar label="Start Date" timePicker={false} />
+              {!toggleEndDate ? (
+                <Calendar label="End Date" timePicker={false} />
+              ) : (
+                <></>
+              )}
             </div>
           </div>
           <div className={`mx-1 mt-4 text-lg text-slate-700`}>

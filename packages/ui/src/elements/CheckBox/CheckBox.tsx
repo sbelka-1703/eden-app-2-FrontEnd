@@ -45,10 +45,10 @@ export const CheckBox: React.FC<CheckBoxProps> = ({
         />
         <label
           htmlFor={name}
-          className={"text-sm font-medium text-gray-700 ml-2"}
+          className={"ml-2 text-sm font-medium text-gray-700"}
         >
-        {label}
-      </label>
+          {label}
+        </label>
       </div>
     </div>
   );
