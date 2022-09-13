@@ -29,7 +29,6 @@ export const UserInformationCard = ({
   }
 
   const onExpand = () => {
-    console.log("sasasasass");
     setShowExpandModal(true);
   };
 
