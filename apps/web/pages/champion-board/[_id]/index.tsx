@@ -1,5 +1,5 @@
-import { useQuery } from "@apollo/client";
-import { FIND_PROJECT, FIND_ROLE_TEMPLATES } from "@graphql/eden";
+// import { useQuery } from "@apollo/client";
+// import { FIND_PROJECT, FIND_ROLE_TEMPLATES } from "@graphql/eden";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import React from "react";
@@ -14,28 +14,30 @@ const ProjectPage: NextPage = () => {
   const router = useRouter();
   const { _id } = router.query;
 
-  const { data: dataProject } = useQuery(FIND_PROJECT, {
-    variables: {
-      fields: {
-        _id,
-      },
-    },
-    skip: !_id,
-    context: { serviceName: "soilservice" },
-  });
+  console.log(_id);
 
-  // project data with shortlist
-  if (dataProject) console.log("dataProject", dataProject.findProject);
+  // const { data: dataProject } = useQuery(FIND_PROJECT, {
+  //   variables: {
+  //     fields: {
+  //       _id,
+  //     },
+  //   },
+  //   skip: !_id,
+  //   context: { serviceName: "soilservice" },
+  // });
 
-  const { data: dataRoles } = useQuery(FIND_ROLE_TEMPLATES, {
-    variables: {
-      fields: {},
-    },
-    context: { serviceName: "soilservice" },
-  });
+  // // project data with shortlist
+  // if (dataProject) console.log("dataProject", dataProject.findProject);
 
-  // role titles
-  if (dataRoles) console.log("dataSkills", dataRoles);
+  // const { data: dataRoles } = useQuery(FIND_ROLE_TEMPLATES, {
+  //   variables: {
+  //     fields: {},
+  //   },
+  //   context: { serviceName: "soilservice" },
+  // });
+
+  // // role titles
+  // if (dataRoles) console.log("dataSkills", dataRoles);
 
   return (
     <GridLayout>

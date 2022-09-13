@@ -1,11 +1,21 @@
-import { useQuery, useSubscription } from "@apollo/client";
+import { gql, useMutation, useQuery, useSubscription } from "@apollo/client";
 import { FIND_MEMBER_FULL, MEMBER_SUBSCRIPTION } from "@graphql/eden";
-import { Members } from "@graphql/eden/generated";
+import { Members, Mutation } from "@graphql/eden/generated";
 import { useSession } from "next-auth/react";
-import React from "react";
+import React, { useState } from "react";
 
 import { UserContext } from "./UserContext";
 type userProfile = Members;
+
+export const ADD_NEW_MEMBER = gql`
+  mutation AddNewMember($fields: addNewMemberInput!) {
+    addNewMember(fields: $fields) {
+      _id
+      discordAvatar
+      discordName
+    }
+  }
+`;
 
 export interface UserProviderProps {
   children: React.ReactNode;
@@ -16,6 +26,16 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 
   const { id } = session?.user || { id: null };
 
+  const [memberFound, setMemberFound] = useState(false);
+
+  const [addNewMember, {}] = useMutation(ADD_NEW_MEMBER, {
+    onCompleted({ addNewMember }: Mutation) {
+      if (!addNewMember) console.log("addNewMember is null");
+      setMemberFound(true);
+      refetch();
+    },
+  });
+
   const { data: dataMember, refetch } = useQuery(FIND_MEMBER_FULL, {
     variables: {
       fields: {
@@ -24,7 +44,23 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     },
     skip: !id,
     context: { serviceName: "soilservice" },
+    ssr: false,
+    onCompleted: (data) => {
+      if (!data.findMember) {
+        addNewMember({
+          variables: {
+            fields: {
+              _id: session?.user?.id,
+              discordName: session?.user?.name,
+              discordAvatar: session?.user?.image,
+            },
+          },
+        });
+      } else setMemberFound(true);
+    },
   });
+
+  // console.log("dataMember", dataMember);
 
   useSubscription(MEMBER_SUBSCRIPTION, {
     variables: {
@@ -32,7 +68,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         _id: id,
       },
     },
-    skip: !id,
+    skip: !id || !memberFound,
     context: { serviceName: "soilservice" },
     // onSubscriptionData: (data) => {
     //   console.log("data", data);
@@ -43,6 +79,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 
   const injectContext = {
     currentUser: dataMember?.findMember || undefined,
+    memberFound,
     setCurrentUser: (user: userProfile) => {
       console.log("setCurrentUser", user);
       // injectContext.currentUser = user;

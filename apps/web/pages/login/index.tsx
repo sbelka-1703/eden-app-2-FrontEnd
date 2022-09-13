@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
+import { FaDiscord } from "react-icons/fa";
 import { GridItemSix, GridItemThree, GridLayout } from "ui";
 
 import wave from "../../public/wave.gif";
@@ -60,7 +61,6 @@ export default LoginPage;
 
 import { IncomingMessage, ServerResponse } from "http";
 import { getSession, signIn } from "next-auth/react";
-import { FaDiscord } from "react-icons/fa";
 
 export async function getServerSideProps(ctx: {
   req: IncomingMessage;
