@@ -1,39 +1,42 @@
-import { useQuery } from "@apollo/client";
+// import { useQuery } from "@apollo/client";
 // import { UserContext } from "@context/eden";
-import { FIND_PROJECT } from "@graphql/eden";
-import type { NextPage } from "next";
-import { useRouter } from "next/router";
+// import { FIND_PROJECT } from "@graphql/eden";
+// import type { NextPage } from "next";
+// import { useRouter } from "next/router";
 // import { useContext } from "react";
 import {
+  AppUserLayout,
   Card,
   GridItemNine,
   GridItemThree,
   GridLayout,
-  UserProfileMenu,
+  // UserProfileMenu,
 } from "ui";
 
-const ProjectPage: NextPage = () => {
-  const router = useRouter();
-  const { projectId } = router.query;
+import type { NextPageWithLayout } from "../../_app";
+
+const ProjectPage: NextPageWithLayout = () => {
+  // const router = useRouter();
+  // const { projectId } = router.query;
   // const { currentUser } = useContext(UserContext);
 
   // if (currentUser) console.log("currentUser", currentUser);
 
-  const { data: dataProject } = useQuery(FIND_PROJECT, {
-    variables: {
-      fields: {
-        _id: projectId,
-      },
-    },
-    skip: !projectId,
-    context: { serviceName: "soilservice" },
-  });
+  // const { data: dataProject } = useQuery(FIND_PROJECT, {
+  //   variables: {
+  //     fields: {
+  //       _id: projectId,
+  //     },
+  //   },
+  //   skip: !projectId,
+  //   context: { serviceName: "soilservice" },
+  // });
 
-  if (dataProject) console.log("dataProject", dataProject.findProject);
+  // if (dataProject) console.log("dataProject", dataProject.findProject);
   return (
     <GridLayout>
       <GridItemThree>
-        <UserProfileMenu title={`Good Morning,`} />
+        {/* <UserProfileMenu title={`Good Morning,`} /> */}
       </GridItemThree>
       <GridItemNine>
         <Card shadow className="h-8/10 bg-white">
@@ -43,6 +46,8 @@ const ProjectPage: NextPage = () => {
     </GridLayout>
   );
 };
+
+ProjectPage.getLayout = (page) => <AppUserLayout>{page}</AppUserLayout>;
 
 export default ProjectPage;
 
