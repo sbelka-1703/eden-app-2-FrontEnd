@@ -116,12 +116,12 @@ const LaunchPage: NextPageWithLayout = () => {
     (member) => member?.phase === "shortlisted"
   );
 
-  const filteredMembers = members?.filter((member: Members) => {
-    debugger;
-    return !project?.team?.some(
-      (teamMember) => teamMember?.memberInfo?._id === member?._id
-    );
-  });
+  const filteredMembers = members?.filter(
+    (member: Members) =>
+      !project?.team?.some(
+        (teamMember) => teamMember?.memberInfo?._id === member?._id
+      )
+  );
 
   return (
     <LaunchProvider>
