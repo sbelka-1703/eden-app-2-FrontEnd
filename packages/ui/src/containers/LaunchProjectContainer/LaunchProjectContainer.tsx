@@ -1,7 +1,8 @@
 import { useMutation } from "@apollo/client";
 import { UPDATE_PROJECT } from "@graphql/eden";
+import { Project } from "@graphql/eden/generated";
 import { useRouter } from "next/router";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 
 import { TextBody, TextHeading3 } from "../../atoms";
 import { ProjectLayoutCard } from "../../cards";
@@ -12,7 +13,7 @@ export interface ILaunchProjectContainerProps {}
 
 export const LaunchProjectContainer = ({}: ILaunchProjectContainerProps) => {
   const router = useRouter();
-  const [project, setProject]: [any, Dispatch<SetStateAction<any>>] = useState({
+  const [project, setProject] = useState<Project | null>({
     title: undefined,
   });
 
@@ -22,7 +23,7 @@ export const LaunchProjectContainer = ({}: ILaunchProjectContainerProps) => {
     updateProject({
       variables: {
         fields: {
-          title: project.title,
+          title: project?.title,
         },
       },
       onCompleted(data) {
@@ -51,7 +52,15 @@ export const LaunchProjectContainer = ({}: ILaunchProjectContainerProps) => {
               <TextField
                 name="title"
                 placeholder="Start typing here"
-                onChange={(e) => setProject(e.target.value || null)}
+                onChange={(e) =>
+                  setProject(
+                    e.target.value
+                      ? {
+                          title: e.target.value,
+                        }
+                      : null
+                  )
+                }
               />
             </div>
             <div className="mb-3">
@@ -61,7 +70,7 @@ export const LaunchProjectContainer = ({}: ILaunchProjectContainerProps) => {
           </div>
           <div className="col-span-1">
             <TextBody className="mb-1">Preview</TextBody>
-            <ProjectLayoutCard />
+            {project && <ProjectLayoutCard project={project} />}
           </div>
         </section>
       </Card>

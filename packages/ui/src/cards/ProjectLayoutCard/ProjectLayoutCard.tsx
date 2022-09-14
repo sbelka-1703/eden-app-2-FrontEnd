@@ -2,12 +2,10 @@ import { Project } from "@graphql/eden/generated";
 import { Card, EmojiSelector, TextBody, TextHeading3 } from "ui";
 
 export interface ProjectLayoutCardProps {
-  project?: Project;
+  project: Project;
 }
 
 export const ProjectLayoutCard = ({ project }: ProjectLayoutCardProps) => {
-  console.log(project);
-
   return (
     <Card className="p-4" border>
       <TextBody className="mb-2">Your Project</TextBody>
@@ -15,7 +13,7 @@ export const ProjectLayoutCard = ({ project }: ProjectLayoutCardProps) => {
         <div className="mr-4">
           <EmojiSelector isDisabled />
         </div>
-        <TextHeading3>Project Name</TextHeading3>
+        <TextHeading3>{project.title}</TextHeading3>
       </div>
     </Card>
   );

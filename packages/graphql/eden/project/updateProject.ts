@@ -11,6 +11,14 @@ export const UPDATE_PROJECT = gql`
         title
         description
       }
+      team {
+        memberInfo {
+          _id
+          discordName
+        }
+        roleID
+        phase
+      }
     }
   }
 `;
