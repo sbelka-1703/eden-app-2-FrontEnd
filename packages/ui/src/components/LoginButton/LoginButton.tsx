@@ -1,11 +1,10 @@
-/* eslint-disable @next/next/no-img-element */
-import { useMutation, useQuery } from "@apollo/client";
-import { ADD_NEW_MEMBER, FIND_MEMBER } from "@graphql/eden";
+import { UserContext } from "@context/eden";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
-import { signIn, signOut, useSession } from "next-auth/react";
-import { Fragment, useEffect, useState } from "react";
+import { signIn, signOut } from "next-auth/react";
+import { Fragment, useContext } from "react";
+import { FaDiscord } from "react-icons/fa";
 import { Avatar } from "ui";
 
 export interface ILoginButtonProps {
@@ -14,54 +13,18 @@ export interface ILoginButtonProps {
 
 export const LoginButton = ({ inApp }: ILoginButtonProps) => {
   const router = useRouter();
-  const { data: session } = useSession();
-  const [memberCreated, setMemberCreated] = useState(false);
-
-  const { data: member, loading: memberLoading } = useQuery(FIND_MEMBER, {
-    variables: {
-      fields: {
-        _id: session?.user?.id,
-      },
-    },
-  });
-
-  useEffect(() => {
-    if (memberLoading === false) console.log("session========", member);
-  }, [member, memberLoading]);
-
-  const [addMember, {}] = useMutation(ADD_NEW_MEMBER);
-
-  useEffect(() => {
-    if (
-      memberCreated === false &&
-      member?.findMember === null &&
-      memberLoading === false
-    ) {
-      console.log("this is runnning");
-      addMember({
-        variables: {
-          fields: {
-            _id: session?.user?.id,
-            discordName: session?.user?.name,
-            discordAvatar: session?.user?.image,
-          },
-        },
-      });
-      setMemberCreated(true);
-      console.log("id created successfully");
-    }
-  }, [session, member?.findMember]);
+  const { currentUser, memberFound } = useContext(UserContext);
 
   return (
     <div className="top-16 z-50 w-56 text-right">
       <Menu as="div" className="relative inline-block text-left">
         <div>
-          {session ? (
+          {memberFound ? (
             <Menu.Button className="bg-soilGreen-700 hover:bg-soilGreen-500 inline-flex w-full justify-center rounded-full text-sm font-medium text-black/70 shadow hover:text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
               <div className="flex w-full justify-between">
-                <Avatar size={`xs`} src={session?.user?.image || ""} />
+                <Avatar size={`xs`} src={currentUser?.discordAvatar || ""} />
                 <div className={`mx-5 my-auto font-semibold`}>
-                  {session?.user ? session?.user?.name : "Login"}
+                  {currentUser?.discordName || ""}
                 </div>
                 <ChevronDownIcon
                   className="hover:black my-auto ml-2 mr-2 h-5 w-5 "
@@ -71,13 +34,15 @@ export const LoginButton = ({ inApp }: ILoginButtonProps) => {
             </Menu.Button>
           ) : (
             <button
+              className={`text-darkGreen flex rounded-full border border-blue-400 bg-white/50 p-1.5 font-medium hover:border-blue-600 hover:bg-white/60`}
               onClick={() => signIn("discord")}
-              className="bg-soilGreen-700 hover:bg-soilGreen-500 inline-flex w-full justify-center rounded-full text-sm font-medium text-black/70 shadow hover:text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
             >
-              <div className={`flex w-full justify-between`}>
-                <Avatar size={`xs`} src={``} />
-                <div className={`mx-5 my-auto font-semibold`}>{`Login`}</div>
-              </div>
+              <span className={`rounded-full bg-blue-600 p-1`}>
+                <FaDiscord size={`1em`} color={`#ffffff`} />
+              </span>
+              <span className={`my-auto pl-2 pr-4 text-sm`}>
+                Login with Discord
+              </span>
             </button>
           )}
         </div>

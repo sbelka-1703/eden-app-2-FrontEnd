@@ -1,5 +1,4 @@
 import { UserContext } from "@context/eden";
-// import { Project, Members, ProjectMemberType } from "@graphql/eden/generated";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 import { MdCreateNewFolder, MdFactCheck, MdPeopleAlt } from "react-icons/md";
