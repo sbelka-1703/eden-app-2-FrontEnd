@@ -4,6 +4,7 @@ export * from "./ChampionContainer";
 export * from "./ChampionRecruitContainer";
 export * from "./InviteContainer";
 export * from "./LaunchContainer";
+export * from "./LaunchProjectContainer";
 export * from "./MyProjectContainer";
 export * from "./OnboardPartyContainer";
 export * from "./ProfileContainer";
