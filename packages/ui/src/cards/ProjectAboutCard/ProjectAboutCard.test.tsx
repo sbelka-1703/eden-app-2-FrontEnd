@@ -1,13 +1,14 @@
+// import { render } from "../../../utils/jest-apollo";
 import { MockedProvider } from "@apollo/client/testing";
 import { render } from "@testing-library/react";
 
-import { ProjectLayoutCard } from ".";
+import { ProjectAboutCard } from ".";
 
-describe("ProjectLayoutCard", () => {
+describe("ProjectAboutCard", () => {
   it("renders without throwing", () => {
     const { container } = render(
       <MockedProvider>
-        <ProjectLayoutCard project={{ title: "title 1" }} />
+        <ProjectAboutCard />
       </MockedProvider>
     );
 

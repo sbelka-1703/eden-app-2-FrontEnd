@@ -82,7 +82,7 @@ export const UserProfileMenu = ({ title }: IUserProfileMenuProps) => {
           <MenuItem
             Icon={<MdCreateNewFolder size={25} />}
             FunctionName="Launch A Project"
-            onFunctionCallback={() => router.push(`/launch-project`)}
+            onFunctionCallback={() => router.push(`/launch`)}
           />
         </div>
       </div>
