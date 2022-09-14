@@ -8,11 +8,7 @@ import {
   RoleTemplate,
 } from "@graphql/eden/generated";
 import { useContext, useState } from "react";
-import {
-  Button,
-  RoleSelector,
-  Modal,
-} from "ui";
+import { Button, RoleSelector, Modal } from "ui";
 
 export interface RoleModalProps {
   roles?: Maybe<Array<Maybe<RoleTemplate>>>;
