@@ -10,6 +10,7 @@ export * from "./LoginButton";
 export * from "./ProgressStepper";
 export * from "./ProjectChampion";
 export * from "./ProjectInfo";
+export * from "./RoleList";
 export * from "./SearchSkill";
 export * from "./SkillList";
 export * from "./SocialMediaComponent";
