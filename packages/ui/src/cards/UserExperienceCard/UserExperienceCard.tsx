@@ -14,8 +14,8 @@ export const UserExperienceCard = ({}: UserExperienceCardlProps) => {
   const [title, setTitle] = useState("");
   return (
     <Card shadow className="p-0">
-      <div>
-        <p>Share relevant experiences!</p>
+      <div className="px-[170px] py-10 mx-auto">
+        <p className="text-3xl">Share relevant experiences!</p>
       </div>
       <div className="flex space-x-6">
         <div>
