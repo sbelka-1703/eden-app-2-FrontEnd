@@ -10,6 +10,7 @@ export interface IRoleSelectorProps {
   onSelect?: (val: Maybe<RoleTemplate>) => void;
   multiple?: boolean;
   roleSelected?: () => void;
+  removeLabel?: boolean;
 }
 
 export const RoleSelector = ({
@@ -18,6 +19,7 @@ export const RoleSelector = ({
   onSelect,
   multiple = false,
   roleSelected,
+  removeLabel,
 }: IRoleSelectorProps) => {
   const [query, setQuery] = useState(value || "");
 
@@ -41,9 +43,13 @@ export const RoleSelector = ({
 
   return (
     <Combobox as="div" value={query} onChange={(val: any) => handleSelect(val)}>
-      <Combobox.Label className="font-Inter block text-lg text-black">
-        TO GET STARTED, TELL US YOUR ROLE:
-      </Combobox.Label>
+      {removeLabel ? (
+        <Combobox.Label className="font-Inter block text-lg text-black">
+          TO GET STARTED, TELL US YOUR ROLE:
+        </Combobox.Label>
+      ) : (
+        <></>
+      )}
       <div className="relative mb-4">
         <Combobox.Button className="w-full rounded-lg border sm:text-sm">
           <Combobox.Input
