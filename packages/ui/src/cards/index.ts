@@ -5,6 +5,7 @@ export * from "./ProjectLayoutCard";
 export * from "./ProjectMatchCard";
 export * from "./ProjectRecommendedCard";
 export * from "./RoleCard";
+export * from "./RoleSmallCard";
 export * from "./SignUpCard";
 export * from "./SkillsCard";
 export * from "./UserCard";

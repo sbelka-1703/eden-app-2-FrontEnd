@@ -69,11 +69,17 @@ export const project: Project = {
       // skills: getSkills(Number(faker.random.numeric(1))),
       skills: [
         {
+          skillData: {
+            name: "React",
+          },
           comment: faker.lorem.sentences(1),
           level: faker.lorem.sentences(1),
           numEndorsement: String(faker.random.numeric(2)),
         },
         {
+          skillData: {
+            name: "JavaScript",
+          },
           comment: faker.lorem.sentences(1),
           level: faker.lorem.sentences(1),
           numEndorsement: String(faker.random.numeric(2)),
