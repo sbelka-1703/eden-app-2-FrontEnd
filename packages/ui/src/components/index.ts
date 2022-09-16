@@ -14,6 +14,7 @@ export * from "./RoleList";
 export * from "./SearchSkill";
 export * from "./SkillList";
 export * from "./SocialMediaComponent";
+export * from "./TeamAttributeChart";
 export * from "./SocialMediaInput";
 export * from "./UserProfileMenu";
 export * from "./UserWithDescription";
