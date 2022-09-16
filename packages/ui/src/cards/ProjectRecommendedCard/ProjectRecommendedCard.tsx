@@ -28,6 +28,7 @@ export const ProjectRecommendedCard = ({
   avatar,
 }: ProjectRecommendedCardProps) => {
   const { currentUser } = useContext(UserContext);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     if (currentUser?.projects && currentUser?.projects.length > 0 && project) {
@@ -44,11 +45,13 @@ export const ProjectRecommendedCard = ({
   const [addFavoriteProject, {}] = useMutation(SET_FAVORITE, {
     onCompleted({ addFavoriteProject }: Mutation) {
       if (!addFavoriteProject) console.log("addFavoriteProject is null");
+      setSubmitting(false);
     },
   });
 
   const [fav, updateFav] = useState(false);
   const onClickFav = () => {
+    setSubmitting(true);
     addFavoriteProject({
       variables: {
         fields: {
@@ -57,6 +60,7 @@ export const ProjectRecommendedCard = ({
           favorite: !fav,
         },
       },
+      context: { serviceName: "soilservice" },
     });
     updateFav(!fav);
   };
@@ -67,8 +71,12 @@ export const ProjectRecommendedCard = ({
     <Card shadow className="bg-white p-0">
       <div className="flex flex-col justify-between p-4">
         <div className="flex flex-row justify-between">
-          <Avatar src={avatar} size={`sm`} />
-          <Favorite favorite={fav} onFavorite={() => onClickFav()} />
+          <Avatar src={avatar} size={`sm`} isProject />
+          <Favorite
+            disabled={submitting}
+            favorite={fav}
+            onFavorite={() => onClickFav()}
+          />
         </div>
         <div className={`mt-6 w-full`}>
           <div className="flex h-full">

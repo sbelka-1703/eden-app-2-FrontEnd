@@ -1,10 +1,10 @@
-import { useQuery } from "@apollo/client";
-import { FIND_PROJECT, FIND_ROLE_TEMPLATES } from "@graphql/eden";
+// import { useQuery } from "@apollo/client";
+// import { FIND_PROJECT, FIND_ROLE_TEMPLATES } from "@graphql/eden";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import React from "react";
 import {
-  CandidateSelectionList,
+  // CandidateSelectionList,
   GridItemSix,
   GridItemThree,
   GridLayout,
@@ -14,34 +14,35 @@ const ProjectPage: NextPage = () => {
   const router = useRouter();
   const { _id } = router.query;
 
-  const { data: dataProject } = useQuery(FIND_PROJECT, {
-    variables: {
-      fields: {
-        _id,
-      },
-    },
-    context: { serviceName: "soilservice" },
-  });
+  console.log(_id);
 
-  // project data with shortlist
-  if (dataProject) console.log("dataProject", dataProject.findProject);
+  // const { data: dataProject } = useQuery(FIND_PROJECT, {
+  //   variables: {
+  //     fields: {
+  //       _id,
+  //     },
+  //   },
+  //   skip: !_id,
+  //   context: { serviceName: "soilservice" },
+  // });
 
-  const { data: dataRoles } = useQuery(FIND_ROLE_TEMPLATES, {
-    variables: {
-      fields: {},
-    },
-    context: { serviceName: "soilservice" },
-  });
+  // // project data with shortlist
+  // if (dataProject) console.log("dataProject", dataProject.findProject);
 
-  // role titles
-  if (dataRoles) console.log("dataSkills", dataRoles);
+  // const { data: dataRoles } = useQuery(FIND_ROLE_TEMPLATES, {
+  //   variables: {
+  //     fields: {},
+  //   },
+  //   context: { serviceName: "soilservice" },
+  // });
 
-  // TODO: tried matchMembersToSkills but wasn't returning empty array
+  // // role titles
+  // if (dataRoles) console.log("dataSkills", dataRoles);
 
   return (
     <GridLayout>
       <GridItemThree>
-        <CandidateSelectionList roles={dataRoles?.findRoleTemplates} />
+        3{/* <CandidateSelectionList roles={dataRoles?.findRoleTemplates} /> */}
       </GridItemThree>
       <GridItemSix>6</GridItemSix>
       <GridItemThree>3</GridItemThree>
@@ -50,3 +51,26 @@ const ProjectPage: NextPage = () => {
 };
 
 export default ProjectPage;
+
+import { IncomingMessage, ServerResponse } from "http";
+import { getSession } from "next-auth/react";
+
+export async function getServerSideProps(ctx: {
+  req: IncomingMessage;
+  res: ServerResponse;
+}) {
+  const session = await getSession(ctx);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: `/login`,
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}

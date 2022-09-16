@@ -45,6 +45,11 @@ export const FIND_MEMBER = gql`
           _id
           name
         }
+        level
+      }
+      memberRole {
+        _id
+        title
       }
     }
   }

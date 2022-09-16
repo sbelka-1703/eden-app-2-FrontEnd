@@ -1,16 +1,13 @@
 import { gql, useMutation } from "@apollo/client";
 import { LaunchContext, UserContext } from "@context/eden";
-import {
-  Mutation,
-  RoleTemplate,
-  ServerTemplate,
-} from "@graphql/eden/generated";
+import { Maybe, Mutation, Role, ServerTemplate } from "@graphql/eden/generated";
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import {
   Button,
   Card,
+  FormStepper,
   LaunchViewDescribe,
   LaunchViewLinks,
   LaunchViewName,
@@ -19,6 +16,7 @@ import {
   LaunchViewSuccess,
   LaunchViewVerify,
   Loading,
+  LaunchViewBudget,
 } from "ui";
 
 const LAUNCH_PROJECT = gql`
@@ -31,13 +29,22 @@ const LAUNCH_PROJECT = gql`
 
 export interface LaunchPageProps {
   servers: ServerTemplate[];
-  roles: RoleTemplate[];
+  roles: Maybe<Array<Maybe<Role>>>;
 }
 
 export const LaunchContainer = ({ servers, roles }: LaunchPageProps) => {
   const router = useRouter();
   const { currentUser } = useContext(UserContext);
-  const { projectName, projectDescription } = useContext(LaunchContext);
+  const {
+    projectName,
+    projectDescription,
+    projectRoles,
+    serverId,
+    githubUrl,
+    discordUrl,
+    notionUrl,
+    telegramUrl,
+  } = useContext(LaunchContext);
 
   const [currentIndex, setCurrentIndex] = useState(1);
   const maxSteps = 6;
@@ -48,6 +55,7 @@ export const LaunchContainer = ({ servers, roles }: LaunchPageProps) => {
   const [updateProject, {}] = useMutation(LAUNCH_PROJECT, {
     onCompleted({ updateProject }: Mutation) {
       if (!updateProject) console.log("updateProject is null");
+      // console.log("updateProject", updateProject);
       setCreatedProjectId(updateProject?._id as string);
       setCurrentIndex(maxSteps + 1);
       setSubmittingProject(false);
@@ -61,10 +69,31 @@ export const LaunchContainer = ({ servers, roles }: LaunchPageProps) => {
     updateProject({
       variables: {
         fields: {
-          serverID: "alpha-test",
+          serverID: serverId,
           champion: currentUser?._id,
           title: projectName,
           description: projectDescription,
+          role: projectRoles,
+          collaborationLinks: [
+            {
+              title: "github",
+              link: githubUrl,
+            },
+            {
+              title: "discord",
+              link: discordUrl,
+            },
+            {
+              title: "notion",
+              link: notionUrl,
+            },
+            {
+              title: "telegram",
+              link: telegramUrl,
+            },
+          ],
+          budget: { perHour: "", token: "", totalBudget: "" },
+          stepsJoinProject: ["step1", "step2", "step3"],
         },
       },
     });
@@ -81,7 +110,7 @@ export const LaunchContainer = ({ servers, roles }: LaunchPageProps) => {
       case 4:
         return <LaunchViewLinks servers={servers} />;
       case 5:
-        return <LaunchViewSteps />;
+        return <LaunchViewBudget />;
       case 6:
         return <LaunchViewVerify />;
       case 7:
@@ -97,8 +126,19 @@ export const LaunchContainer = ({ servers, roles }: LaunchPageProps) => {
         <Loading title={`Submitting...`} />
       ) : (
         <div className={`relative h-full`}>
-          launch step: {currentIndex}
+          <div className={`p-6`}>
+            {currentIndex <= maxSteps && (
+              <FormStepper
+                currentStep={currentIndex}
+                numberofSteps={maxSteps}
+              />
+            )}
+          </div>
+
+          {/* view window */}
           {LaunchView && LaunchView()}
+
+          {/* bottom navigation */}
           <div className={`absolute bottom-2 flex w-full justify-between p-6`}>
             <div>
               {currentIndex !== 1 && currentIndex !== maxSteps + 1 && (

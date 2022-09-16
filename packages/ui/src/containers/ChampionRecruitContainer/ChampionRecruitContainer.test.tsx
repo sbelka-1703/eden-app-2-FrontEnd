@@ -1,5 +1,5 @@
-import { render } from "@testing-library/react";
-
+import { render } from "../../../utils/jest-apollo";
+// import { render } from "@testing-library/react";
 import { ChampionRecruitContainer } from "./";
 
 describe("ChampionRecruitContainer", () => {

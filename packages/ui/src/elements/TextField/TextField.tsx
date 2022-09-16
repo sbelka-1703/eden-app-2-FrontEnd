@@ -6,7 +6,7 @@ export type TextFieldProps = {
   label?: string;
   value?: string;
   required?: boolean;
-  radius?: "default" | "rounded" | "pill";
+  radius?: "default" | "rounded" | "pill" | "pill-shadow";
   // eslint-disable-next-line no-unused-vars
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 } & InputHTMLAttributes<HTMLInputElement>;
@@ -26,6 +26,7 @@ export const TextField: React.FC<TextFieldProps> = ({
     "rounded-md": radius === "default",
     "rounded-lg": radius === "rounded",
     "rounded-full": radius === "pill",
+    "drop-shadow-md text-center rounded-full py-2": radius === "pill-shadow",
   });
 
   return (

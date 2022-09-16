@@ -1,11 +1,22 @@
-import { Project } from "@graphql/eden/generated";
+import { Maybe, Project, ProjectMemberType } from "@graphql/eden/generated";
 import { ProjectCard } from "ui";
 
 export interface ProjectListProps {
-  projects?: Project[];
+  projects?: Project[] | Maybe<ProjectMemberType>[];
+  applyButton?: boolean;
+  statusButton?: boolean;
+  inviteButton?: boolean;
+  favButton?: boolean;
 }
 
-export const ProjectList = ({ projects }: ProjectListProps) => {
+export const ProjectList = ({
+  projects,
+  applyButton,
+  statusButton,
+  inviteButton,
+  favButton,
+}: ProjectListProps) => {
+  // console.log("projects", projects);
   const projectType = (project: any) => {
     if (project.__typename === "Project") {
       return project;
@@ -17,7 +28,7 @@ export const ProjectList = ({ projects }: ProjectListProps) => {
   };
 
   return (
-    <div>
+    <div className={``}>
       {projects &&
         projects.map((project: any, index: number) => (
           <div key={index} className="my-4">
@@ -30,6 +41,10 @@ export const ProjectList = ({ projects }: ProjectListProps) => {
                   : null
               }
               position={project?.position || ""}
+              applyButton={applyButton}
+              statusButton={statusButton}
+              inviteButton={inviteButton}
+              favButton={favButton}
             />
           </div>
         ))}

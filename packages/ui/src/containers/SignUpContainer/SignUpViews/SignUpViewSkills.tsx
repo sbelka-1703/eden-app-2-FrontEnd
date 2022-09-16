@@ -6,6 +6,7 @@ export const SignUpViewSkills = () => {
       >
         ADD YOUR SKILLS AND SORT THEM BY LEVEL
       </div>
+      {/* <SearchBar /> */}
     </div>
   );
 };

@@ -1,5 +1,5 @@
-import { faker } from "@faker-js/faker";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { CurrentUserDecorator } from "storybook/.storybook/decorator";
 
 import { UserProfileMenu } from "./UserProfileMenu";
 
@@ -7,6 +7,7 @@ export default {
   title: "Components/UserProfileMenu",
   component: UserProfileMenu,
   argTypes: {},
+  decorators: [CurrentUserDecorator],
 } as ComponentMeta<typeof UserProfileMenu>;
 
 const Template: ComponentStory<typeof UserProfileMenu> = (args) => (
@@ -15,9 +16,5 @@ const Template: ComponentStory<typeof UserProfileMenu> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  currentUser: {
-    discordName: faker.internet.userName(),
-    discordAvatar: faker.internet.avatar(),
-  },
-  title: faker.name.fullName(),
+  title: "Good Morning,",
 };

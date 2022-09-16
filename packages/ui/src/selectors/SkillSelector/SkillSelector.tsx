@@ -45,7 +45,7 @@ export const SkillSelector = ({
   const skillIsSelected = (skill: ISkills) => {
     if (!selectedSkills) return false;
     return selectedSkills.some(
-      (selectedSkill: ISkills) => selectedSkill._id === skill._id
+      (selectedSkill: ISkills) => selectedSkill?._id === skill?._id
     );
   };
 
@@ -61,8 +61,14 @@ export const SkillSelector = ({
 
   const handleDeleteClick = (skill: ISkills) => {
     setSelectedSkills(
-      selectedSkills.filter((selected: ISkills) => selected._id !== skill._id)
+      selectedSkills.filter((selected: ISkills) => selected?._id !== skill?._id)
     );
+    onSetSkills &&
+      onSetSkills(
+        selectedSkills.filter(
+          (selectedSkill) => selectedSkill._id !== skill._id
+        )
+      );
   };
 
   // useCallback hook might be a better choice here
@@ -94,7 +100,9 @@ export const SkillSelector = ({
               >
                 <div className="flex h-full w-full items-center justify-between px-3">
                   <>
-                    <span className="mr-2 mb-px">{skill.name}</span>
+                    {skill?.name && (
+                      <span className="mr-2 mb-px">{skill.name}</span>
+                    )}
                     <XIcon
                       className="inline-block h-4 w-4 cursor-pointer text-slate-600 hover:text-slate-400"
                       aria-hidden="true"

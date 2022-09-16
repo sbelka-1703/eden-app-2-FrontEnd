@@ -1,11 +1,11 @@
-// eslint-disable-next-line camelcase
+/* eslint-disable camelcase */
 import { Maybe, SkillType_Member } from "@graphql/eden/generated";
 import React, { useEffect, useState } from "react";
 import { Badge, Card } from "ui";
 
 export interface SkillsCardProps {
-  // eslint-disable-next-line camelcase
-  skills?: Maybe<SkillType_Member>[];
+  skills?: Maybe<Maybe<SkillType_Member>[]>;
+  title?: string;
   shadow?: boolean;
   closeButton?: boolean;
   className?: string;
@@ -14,6 +14,7 @@ export interface SkillsCardProps {
 }
 export const SkillsCard: React.FC<SkillsCardProps> = ({
   skills,
+  title,
   shadow,
   closeButton,
   className = "p-0",
@@ -50,8 +51,14 @@ export const SkillsCard: React.FC<SkillsCardProps> = ({
 
   return (
     <Card shadow={shadow} className={`${className}`}>
+      {title && (
+        <div
+          className={`font-Inter pb-4 text-center text-lg uppercase text-zinc-500`}
+        >
+          {title}
+        </div>
+      )}
       <ul className="flex flex-wrap items-center justify-start">
-        {/* eslint-disable-next-line camelcase */}
         {skills?.map((skill: Maybe<SkillType_Member>, index: number) => (
           <li key={index} className="mb-1" onClick={() => handleOnClick(index)}>
             <Badge

@@ -5,24 +5,27 @@ import {
   FIND_ROLE_TEMPLATES,
   MATCH_MEMBERS_TO_SKILLS,
 } from "@graphql/eden";
-import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import {
+  AppUserLayout,
   CandidateSelectionList,
   ChampionRecruitContainer,
   GridItemSix,
   GridItemThree,
   GridLayout,
+  ShortlistList,
 } from "ui";
 
-const ProjectPage: NextPage = () => {
+import type { NextPageWithLayout } from "../../_app";
+
+const ProjectPage: NextPageWithLayout = () => {
   const router = useRouter();
   const { _id } = router.query;
-  const [selectMember, setSelectMember] = useState<string | null>(null);
+  const [selectMember, setSelectMember] = useState("");
   const [selectRole, setSelectSkills] = useState<string[]>([]);
 
-  const { data: dataMember } = useQuery(FIND_MEMBER, {
+  const { data: dataMember, refetch: refetchMember } = useQuery(FIND_MEMBER, {
     variables: {
       fields: {
         _id: selectMember,
@@ -35,17 +38,21 @@ const ProjectPage: NextPage = () => {
   // member data
   // if (dataMember) console.log("dataMember", dataMember);
 
-  const { data: dataProject } = useQuery(FIND_PROJECT, {
-    variables: {
-      fields: {
-        _id,
+  const { data: dataProject, refetch: refetchProject } = useQuery(
+    FIND_PROJECT,
+    {
+      variables: {
+        fields: {
+          _id,
+        },
       },
-    },
-    context: { serviceName: "soilservice" },
-  });
+      skip: !_id,
+      context: { serviceName: "soilservice" },
+    }
+  );
 
   // project data with shortlist
-  if (dataProject) console.log("dataProject", dataProject.findProject);
+  // if (dataProject) console.log("dataProject", dataProject.findProject);
 
   const { data: dataRoles } = useQuery(FIND_ROLE_TEMPLATES, {
     variables: {
@@ -69,13 +76,13 @@ const ProjectPage: NextPage = () => {
     context: { serviceName: "soilservice" },
   });
 
-  if (dataMemberWithSkills)
-    console.log(
-      "dataMemberWithSkills",
-      dataMemberWithSkills.matchMembersToSkills
-    );
+  // if (dataMemberWithSkills)
+  //   console.log(
+  //     "dataMemberWithSkills",
+  //     dataMemberWithSkills.matchMembersToSkills
+  //   );
 
-  console.log("selectRole", selectRole);
+  // if (selectRole) console.log("selectRole", selectRole);
 
   return (
     <GridLayout>
@@ -85,14 +92,51 @@ const ProjectPage: NextPage = () => {
           members={dataMemberWithSkills?.matchMembersToSkills}
           onSelectRole={(selectRole) => setSelectSkills(selectRole)}
           onSelectMember={(selectMember) => setSelectMember(selectMember)}
+          selectMember={selectMember}
         />
       </GridItemThree>
       <GridItemSix>
-        <ChampionRecruitContainer member={dataMember?.findMember} />
+        <ChampionRecruitContainer
+          project={dataProject?.findProject}
+          member={dataMember?.findMember}
+          refetchMember={refetchMember}
+          refetchProject={refetchProject}
+        />
       </GridItemSix>
-      <GridItemThree>shortlist</GridItemThree>
+      <GridItemThree>
+        <ShortlistList
+          project={dataProject?.findProject}
+          selectMember={selectMember}
+          onSelectMember={(selectMember) => setSelectMember(selectMember)}
+        />
+      </GridItemThree>
     </GridLayout>
   );
 };
 
+ProjectPage.getLayout = (page) => <AppUserLayout>{page}</AppUserLayout>;
+
 export default ProjectPage;
+
+import { IncomingMessage, ServerResponse } from "http";
+import { getSession } from "next-auth/react";
+
+export async function getServerSideProps(ctx: {
+  req: IncomingMessage;
+  res: ServerResponse;
+}) {
+  const session = await getSession(ctx);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: `/login`,
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}
