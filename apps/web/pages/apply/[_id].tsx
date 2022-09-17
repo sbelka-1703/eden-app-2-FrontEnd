@@ -1,14 +1,19 @@
 import { useQuery } from "@apollo/client";
 import { FIND_PROJECT } from "@graphql/eden";
-import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { Card, GridItemSix, GridItemThree, GridLayout } from "ui";
+import {
+  ApplyContainer,
+  AppUserLayout,
+  GridItemSix,
+  GridItemThree,
+  GridLayout,
+} from "ui";
 
-const ApplyPage: NextPage = () => {
+import type { NextPageWithLayout } from "../_app";
+
+const ApplyPage: NextPageWithLayout = () => {
   const router = useRouter();
   const { _id } = router.query;
-
-  console.log("_id", _id);
 
   const { data: dataProject } = useQuery(FIND_PROJECT, {
     variables: {
@@ -16,21 +21,46 @@ const ApplyPage: NextPage = () => {
         _id,
       },
     },
+    skip: !_id,
     context: { serviceName: "soilservice" },
   });
 
-  if (dataProject) console.log("dataProject", dataProject);
+  // if (dataProject) console.log("dataProject", dataProject.findProject);
+
   return (
     <GridLayout>
       <GridItemThree>how to apply</GridItemThree>
       <GridItemSix>
-        <Card shadow className="h-8/10 bg-white">
-          Magic Application
-        </Card>
+        <ApplyContainer project={dataProject?.findProject} />
       </GridItemSix>
       <GridItemThree>about the project</GridItemThree>
     </GridLayout>
   );
 };
 
+ApplyPage.getLayout = (page) => <AppUserLayout>{page}</AppUserLayout>;
+
 export default ApplyPage;
+
+import { IncomingMessage, ServerResponse } from "http";
+import { getSession } from "next-auth/react";
+
+export async function getServerSideProps(ctx: {
+  req: IncomingMessage;
+  res: ServerResponse;
+}) {
+  const session = await getSession(ctx);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: `/login`,
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}

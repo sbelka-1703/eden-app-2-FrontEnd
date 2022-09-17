@@ -1,18 +1,49 @@
+import { SignUpProvider } from "@context/eden";
 import type { NextPage } from "next";
-import { Card, GridItemSix, GridItemThree, GridLayout } from "ui";
+import Head from "next/head";
+import { GridItemSix, GridItemThree, GridLayout, SignUpContainer } from "ui";
 
 const SignUpPage: NextPage = () => {
   return (
-    <GridLayout>
-      <GridItemThree>left side</GridItemThree>
-      <GridItemSix>
-        <Card shadow className="h-8/10 bg-white">
-          content here
-        </Card>
-      </GridItemSix>
-      <GridItemThree>right side</GridItemThree>
-    </GridLayout>
+    <div className={`bg-background`}>
+      <Head>
+        <title>Eden protocol</title>
+      </Head>
+
+      <SignUpProvider>
+        <GridLayout>
+          <GridItemThree> </GridItemThree>
+          <GridItemSix>
+            <SignUpContainer />
+          </GridItemSix>
+          <GridItemThree> </GridItemThree>
+        </GridLayout>
+      </SignUpProvider>
+    </div>
   );
 };
 
 export default SignUpPage;
+
+import { IncomingMessage, ServerResponse } from "http";
+import { getSession } from "next-auth/react";
+
+export async function getServerSideProps(ctx: {
+  req: IncomingMessage;
+  res: ServerResponse;
+}) {
+  const session = await getSession(ctx);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: `/login`,
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}

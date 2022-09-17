@@ -1,33 +1,61 @@
-// import { useQuery } from "@apollo/client";
-import type { NextPage } from "next";
+import { UserContext } from "@context/eden";
 import { useContext } from "react";
-import {
-  Card,
-  GridItemSix,
-  GridItemThree,
-  GridLayout,
-  UserProfileMenu,
-} from "ui";
+import { AppUserMenuLayout, Card, ProjectList } from "ui";
 
-import { UserContext } from "../../context";
+import type { NextPageWithLayout } from "../_app";
 
-const MyProjectsPage: NextPage = () => {
+const MyProjectsPage: NextPageWithLayout = () => {
   const { currentUser } = useContext(UserContext);
 
-  if (currentUser) console.log("currentUser", currentUser);
+  const committedProjects = currentUser?.projects?.filter(
+    (project: any) => project.phase === "committed"
+  );
+
+  // console.log("committedProjects", committedProjects);
+
   return (
-    <GridLayout>
-      <GridItemThree>
-        <UserProfileMenu currentUser={currentUser} title={`Good Morning,`} />
-      </GridItemThree>
-      <GridItemSix>
-        <Card shadow className="h-8/10 bg-white">
-          content here
-        </Card>
-      </GridItemSix>
-      <GridItemThree>right side</GridItemThree>
-    </GridLayout>
+    <Card shadow className="h-8/10 bg-white p-6">
+      <div className={`text-2xl font-medium text-black/80`}>
+        My Active Projects
+        <span
+          className={`ml-2 inline-block flex-shrink-0 rounded-full px-2 py-0.5 text-sm font-medium `}
+          style={{ background: "rgba(186, 213, 240, 0.31)" }}
+        >
+          {committedProjects?.length}
+        </span>
+      </div>
+      <div className={`scrollbar-hide h-7/10 overflow-y-scroll`}>
+        <ProjectList projects={committedProjects} statusButton />
+      </div>
+    </Card>
   );
 };
 
+MyProjectsPage.getLayout = (page) => (
+  <AppUserMenuLayout>{page}</AppUserMenuLayout>
+);
+
 export default MyProjectsPage;
+
+import { IncomingMessage, ServerResponse } from "http";
+import { getSession } from "next-auth/react";
+
+export async function getServerSideProps(ctx: {
+  req: IncomingMessage;
+  res: ServerResponse;
+}) {
+  const session = await getSession(ctx);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: `/login`,
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}

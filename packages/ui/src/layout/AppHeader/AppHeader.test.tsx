@@ -1,7 +1,29 @@
+import { MockedProvider } from "@apollo/client/testing";
+import { FIND_MEMBER } from "@graphql/eden";
 import { render } from "@testing-library/react";
 import { SessionProvider } from "next-auth/react";
 
 import { AppHeader } from "./";
+
+const mocks = [
+  {
+    request: {
+      query: FIND_MEMBER,
+      variables: {
+        _id: "1",
+      },
+    },
+    result: {
+      data: {
+        findMember: {
+          _id: "1",
+          discordName: "Miral",
+          emailAddress: "miralsuthar@gmail.com",
+        },
+      },
+    },
+  },
+];
 
 describe("AppHeader", () => {
   it("renders without throwing", () => {
@@ -9,10 +31,12 @@ describe("AppHeader", () => {
       <SessionProvider
         session={{
           expires: "1",
-          user: { email: "a", name: "Miral", image: "c" },
+          user: { id: "1", email: "a", name: "Miral", image: "c" },
         }}
       >
-        <AppHeader />
+        <MockedProvider mocks={mocks}>
+          <AppHeader />
+        </MockedProvider>
       </SessionProvider>
     );
 

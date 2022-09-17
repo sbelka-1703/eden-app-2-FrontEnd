@@ -18,6 +18,7 @@ const getProjects = () =>
       percentage: Number(faker.random.numeric(2)),
       position: faker.hacker.ingverb(),
       favButton: true,
+      __typename: "Project",
     };
   });
 

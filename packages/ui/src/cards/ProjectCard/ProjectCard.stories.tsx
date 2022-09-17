@@ -1,5 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { getProject } from "storybook/mocks";
 
 import { ProjectCard } from "./ProjectCard";
 
@@ -15,8 +16,7 @@ const Template: ComponentStory<typeof ProjectCard> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  title: faker.company.name(),
-  description: faker.company.catchPhrase(),
+  project: getProject(),
   avatar: faker.internet.avatar(),
   position: faker.hacker.ingverb(),
   percentage: Number(faker.random.numeric(2)),

@@ -16,13 +16,24 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  Upload: any;
 };
 
-export enum CacheControlScope {
-  Private = "PRIVATE",
-  Public = "PUBLIC",
-}
+export type Epic = {
+  __typename?: "Epic";
+  _id?: Maybe<Scalars["ID"]>;
+  author?: Maybe<Members>;
+  champion?: Maybe<Members>;
+  channelDiscordlID?: Maybe<Scalars["String"]>;
+  description?: Maybe<Scalars["String"]>;
+  members?: Maybe<Array<Maybe<Members>>>;
+  name?: Maybe<Scalars["String"]>;
+  notifyUsers?: Maybe<Array<Maybe<Members>>>;
+  phase?: Maybe<PhaseEpicType>;
+  project?: Maybe<Project>;
+  serverID?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  task?: Maybe<Array<Maybe<ProjectUpdate>>>;
+  teams?: Maybe<Array<Maybe<Team>>>;
+};
 
 export type ErrorLog = {
   __typename?: "ErrorLog";
@@ -46,11 +57,13 @@ export type Members = {
   discordAvatar?: Maybe<Scalars["String"]>;
   discordName?: Maybe<Scalars["String"]>;
   discriminator?: Maybe<Scalars["String"]>;
+  gardenUpdate?: Maybe<GardenUpdateType>;
   hoursPerWeek?: Maybe<Scalars["Float"]>;
   interest?: Maybe<Scalars["String"]>;
   invitedBy?: Maybe<MembersSmallType>;
   links?: Maybe<Array<Maybe<LinkType>>>;
   network?: Maybe<Array<Maybe<Members>>>;
+  onbording?: Maybe<OnboardingType>;
   previusProjects?: Maybe<Array<Maybe<PreviusProjectsType>>>;
   projects?: Maybe<Array<Maybe<ProjectMemberType>>>;
   registeredAt?: Maybe<Scalars["String"]>;
@@ -73,22 +86,30 @@ export type Mutation = {
   addFavoriteProject?: Maybe<Members>;
   addNewMember?: Maybe<Members>;
   addSkillToMember?: Maybe<Members>;
+  addSkillsToMemberInRoom?: Maybe<Members>;
   approveOrRejectSkill?: Maybe<Skills>;
   approveTweet?: Maybe<Project>;
   changeTeamMember_Phase_Project?: Maybe<Project>;
   createApprovedSkill?: Maybe<Skills>;
+  createNewEpic?: Maybe<Epic>;
+  createNewRole?: Maybe<Role>;
   createNewTeam?: Maybe<Team>;
   createProjectUpdate?: Maybe<ProjectUpdate>;
+  createRoom?: Maybe<Rooms>;
   createSkill?: Maybe<Skills>;
   createSkills?: Maybe<Array<Maybe<Skills>>>;
   endorseAttribute?: Maybe<Members>;
+  enterRoom?: Maybe<Rooms>;
+  exitRoom?: Maybe<Rooms>;
   login: User;
   newTweetProject?: Maybe<TweetsProject>;
+  relatedSkills?: Maybe<Skills>;
   updateMember?: Maybe<Members>;
   updateProject?: Maybe<Project>;
   updateRoleTemplate?: Maybe<RoleTemplate>;
   updateServer?: Maybe<ServerTemplate>;
   updateSkillCategory?: Maybe<SkillCategory>;
+  updateSkillSubCategory?: Maybe<SkillSubCategory>;
 };
 
 export type MutationAddFavoriteProjectArgs = {
@@ -101,6 +122,10 @@ export type MutationAddNewMemberArgs = {
 
 export type MutationAddSkillToMemberArgs = {
   fields: AddSkillToMember_Input;
+};
+
+export type MutationAddSkillsToMemberInRoomArgs = {
+  fields?: InputMaybe<AddSkillsToMemberInRoomInput>;
 };
 
 export type MutationApproveOrRejectSkillArgs = {
@@ -119,12 +144,24 @@ export type MutationCreateApprovedSkillArgs = {
   fields?: InputMaybe<CreateApprovedSkillInput>;
 };
 
+export type MutationCreateNewEpicArgs = {
+  fields: CreateNewEpicInput;
+};
+
+export type MutationCreateNewRoleArgs = {
+  fields: CreateNewRoleInput;
+};
+
 export type MutationCreateNewTeamArgs = {
   fields: CreateNewTeamInput;
 };
 
 export type MutationCreateProjectUpdateArgs = {
   fields: CreateProjectUpdateInput;
+};
+
+export type MutationCreateRoomArgs = {
+  fields: CreateRoomInput;
 };
 
 export type MutationCreateSkillArgs = {
@@ -139,12 +176,24 @@ export type MutationEndorseAttributeArgs = {
   fields: EndorseAttributeInput;
 };
 
+export type MutationEnterRoomArgs = {
+  fields: EnterRoomInput;
+};
+
+export type MutationExitRoomArgs = {
+  fields: EnterRoomInput;
+};
+
 export type MutationLoginArgs = {
   fields: LoginInput;
 };
 
 export type MutationNewTweetProjectArgs = {
   fields: NewTweetProjectInput;
+};
+
+export type MutationRelatedSkillsArgs = {
+  fields?: InputMaybe<RelatedSkillsInput>;
 };
 
 export type MutationUpdateMemberArgs = {
@@ -167,6 +216,10 @@ export type MutationUpdateSkillCategoryArgs = {
   fields?: InputMaybe<UpdateSkillCategoryInput>;
 };
 
+export type MutationUpdateSkillSubCategoryArgs = {
+  fields?: InputMaybe<UpdateSkillSubCategoryInput>;
+};
+
 export type Project = {
   __typename?: "Project";
   _id?: Maybe<Scalars["ID"]>;
@@ -175,6 +228,8 @@ export type Project = {
   collaborationLinks?: Maybe<Array<Maybe<CollaborationLinksType>>>;
   dates?: Maybe<DatesType>;
   description?: Maybe<Scalars["String"]>;
+  gardenServerID?: Maybe<Scalars["String"]>;
+  garden_teams?: Maybe<Array<Maybe<Team>>>;
   role?: Maybe<Array<Maybe<RoleType>>>;
   serverID?: Maybe<Array<Maybe<Scalars["String"]>>>;
   stepsJoinProject?: Maybe<Array<Maybe<Scalars["String"]>>>;
@@ -187,13 +242,24 @@ export type ProjectUpdate = {
   __typename?: "ProjectUpdate";
   _id?: Maybe<Scalars["ID"]>;
   author?: Maybe<Members>;
+  champion?: Maybe<Members>;
   content?: Maybe<Scalars["String"]>;
+  deWorkLink?: Maybe<Scalars["String"]>;
+  deadline?: Maybe<Scalars["String"]>;
+  epic?: Maybe<Epic>;
   members?: Maybe<Array<Maybe<Members>>>;
+  notifyUsers?: Maybe<Array<Maybe<Members>>>;
+  phase?: Maybe<PhaseEpicType>;
+  priority?: Maybe<Scalars["Int"]>;
   projects?: Maybe<Project>;
   registeredAt?: Maybe<Scalars["String"]>;
+  role?: Maybe<Array<Maybe<Role>>>;
   serverID?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  task?: Maybe<ProjectUpdate>;
   team?: Maybe<Array<Maybe<Team>>>;
+  threadDiscordID?: Maybe<Scalars["String"]>;
   title?: Maybe<Scalars["String"]>;
+  token?: Maybe<Scalars["String"]>;
 };
 
 export type Query = {
@@ -203,6 +269,8 @@ export type Query = {
   findAllProjectsTeamsAnouncments?: Maybe<
     Array<Maybe<FindAllProjectsTeamsAnouncmentsOutput>>
   >;
+  findEpic?: Maybe<Array<Maybe<Epic>>>;
+  findGarden?: Maybe<Array<Maybe<FindGardenOutput>>>;
   findMember?: Maybe<Members>;
   findMembers?: Maybe<Array<Maybe<Members>>>;
   findProject?: Maybe<Project>;
@@ -212,15 +280,22 @@ export type Query = {
   findProjects_RequireSkill?: Maybe<Array<Maybe<Project>>>;
   findRoleTemplate?: Maybe<RoleTemplate>;
   findRoleTemplates?: Maybe<Array<Maybe<RoleTemplate>>>;
+  findRoles?: Maybe<Array<Maybe<Role>>>;
+  findRoom?: Maybe<Rooms>;
   findServers?: Maybe<Array<Maybe<ServerTemplate>>>;
   findSkill?: Maybe<Skills>;
   findSkillCategories?: Maybe<Array<Maybe<SkillCategory>>>;
   findSkillCategory?: Maybe<SkillCategory>;
+  findSkillSubCategories?: Maybe<Array<Maybe<SkillSubCategory>>>;
+  findSkillSubCategory?: Maybe<SkillSubCategory>;
   findSkills?: Maybe<Array<Maybe<Skills>>>;
   findTeams?: Maybe<Array<Maybe<Team>>>;
+  matchMembersToProject?: Maybe<Array<Maybe<MatchMembersToProjectOutput>>>;
   matchMembersToSkills?: Maybe<Array<Maybe<MatchMembersToSkillOutput>>>;
   matchMembersToUser?: Maybe<Array<Maybe<MatchMembersToUserOutput>>>;
   match_projectToUser?: Maybe<ProjectUserMatchType>;
+  members_autocomplete?: Maybe<Array<Maybe<Members>>>;
+  skills_autocomplete?: Maybe<Array<Maybe<Skills>>>;
   waitingToAproveSkills?: Maybe<Array<Maybe<Skills>>>;
 };
 
@@ -230,6 +305,14 @@ export type QueryAdminFindAllSkillsEveryStateArgs = {
 
 export type QueryFindAllProjectsTeamsAnouncmentsArgs = {
   fields?: InputMaybe<FindAllProjectsTeamsAnouncmentsInput>;
+};
+
+export type QueryFindEpicArgs = {
+  fields?: InputMaybe<FindEpicInput>;
+};
+
+export type QueryFindGardenArgs = {
+  fields?: InputMaybe<FindGardenInput>;
 };
 
 export type QueryFindMemberArgs = {
@@ -268,6 +351,14 @@ export type QueryFindRoleTemplatesArgs = {
   fields?: InputMaybe<FindRoleTemplatesInput>;
 };
 
+export type QueryFindRolesArgs = {
+  fields?: InputMaybe<FindRolesInput>;
+};
+
+export type QueryFindRoomArgs = {
+  fields?: InputMaybe<FindRoomsInput>;
+};
+
 export type QueryFindServersArgs = {
   fields?: InputMaybe<FindServersInput>;
 };
@@ -284,12 +375,24 @@ export type QueryFindSkillCategoryArgs = {
   fields?: InputMaybe<FindSkillCategoryInput>;
 };
 
+export type QueryFindSkillSubCategoriesArgs = {
+  fields?: InputMaybe<FindSkillSubCategoriesInput>;
+};
+
+export type QueryFindSkillSubCategoryArgs = {
+  fields?: InputMaybe<FindSkillSubCategoryInput>;
+};
+
 export type QueryFindSkillsArgs = {
   fields?: InputMaybe<FindSkillsInput>;
 };
 
 export type QueryFindTeamsArgs = {
   fields?: InputMaybe<FindTeamsInput>;
+};
+
+export type QueryMatchMembersToProjectArgs = {
+  fields?: InputMaybe<MatchMembersToProjectInput>;
 };
 
 export type QueryMatchMembersToSkillsArgs = {
@@ -304,8 +407,27 @@ export type QueryMatch_ProjectToUserArgs = {
   fields?: InputMaybe<Match_ProjectToUserInput>;
 };
 
+export type QueryMembers_AutocompleteArgs = {
+  fields?: InputMaybe<Members_AutocompleteInput>;
+};
+
+export type QuerySkills_AutocompleteArgs = {
+  fields?: InputMaybe<Skills_AutocompleteInput>;
+};
+
 export type QueryWaitingToAproveSkillsArgs = {
   fields?: InputMaybe<FindSkillsInput>;
+};
+
+export type Role = {
+  __typename?: "Role";
+  _id?: Maybe<Scalars["ID"]>;
+  description?: Maybe<Scalars["String"]>;
+  members?: Maybe<Array<Maybe<Members>>>;
+  name?: Maybe<Scalars["String"]>;
+  project?: Maybe<Project>;
+  serverID?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  teams?: Maybe<Array<Maybe<Team>>>;
 };
 
 export type RoleTemplate = {
@@ -314,6 +436,20 @@ export type RoleTemplate = {
   description?: Maybe<Scalars["String"]>;
   skills?: Maybe<Array<Maybe<Skills>>>;
   title?: Maybe<Scalars["String"]>;
+};
+
+export type RoleType_Garden = {
+  __typename?: "RoleType_garden";
+  announcement?: Maybe<Array<Maybe<ProjectUpdate>>>;
+  roleData?: Maybe<Role>;
+};
+
+export type Rooms = {
+  __typename?: "Rooms";
+  _id?: Maybe<Scalars["ID"]>;
+  members?: Maybe<Array<Maybe<Members>>>;
+  name?: Maybe<Scalars["String"]>;
+  registeredAt?: Maybe<Scalars["String"]>;
 };
 
 export type ServerTemplate = {
@@ -329,6 +465,20 @@ export type SkillCategory = {
   __typename?: "SkillCategory";
   _id?: Maybe<Scalars["ID"]>;
   description?: Maybe<Scalars["String"]>;
+  emoji?: Maybe<Scalars["String"]>;
+  id_lightcast?: Maybe<Scalars["String"]>;
+  name?: Maybe<Scalars["String"]>;
+  skills?: Maybe<Array<Maybe<Skills>>>;
+  subCategorySkill?: Maybe<Array<Maybe<SkillSubCategory>>>;
+};
+
+export type SkillSubCategory = {
+  __typename?: "SkillSubCategory";
+  _id?: Maybe<Scalars["ID"]>;
+  categorySkills?: Maybe<Array<Maybe<SkillCategory>>>;
+  description?: Maybe<Scalars["String"]>;
+  emoji?: Maybe<Scalars["String"]>;
+  id_lightcast?: Maybe<Scalars["String"]>;
   name?: Maybe<Scalars["String"]>;
   skills?: Maybe<Array<Maybe<Skills>>>;
 };
@@ -337,21 +487,48 @@ export type Skills = {
   __typename?: "Skills";
   _id?: Maybe<Scalars["ID"]>;
   authors?: Maybe<Array<Maybe<Members>>>;
+  categorySkills?: Maybe<Array<Maybe<SkillCategory>>>;
+  id_lightcast?: Maybe<Scalars["String"]>;
   members?: Maybe<Array<Maybe<Members>>>;
   name?: Maybe<Scalars["String"]>;
   registeredAt?: Maybe<Scalars["String"]>;
+  relatedSkills?: Maybe<Array<Maybe<Skills>>>;
   state?: Maybe<ApprovedSkillEnum>;
+  subCategorySkill?: Maybe<Array<Maybe<SkillSubCategory>>>;
   tweets?: Maybe<Array<Maybe<Scalars["String"]>>>;
+};
+
+export type Subscription = {
+  __typename?: "Subscription";
+  memberUpdated?: Maybe<Members>;
+  newSkillInRoom?: Maybe<Members>;
+  roomUpdated?: Maybe<Rooms>;
+};
+
+export type SubscriptionMemberUpdatedArgs = {
+  fields?: InputMaybe<FindMembersInput>;
+};
+
+export type SubscriptionNewSkillInRoomArgs = {
+  fields?: InputMaybe<FindRoomsInput>;
+};
+
+export type SubscriptionRoomUpdatedArgs = {
+  fields?: InputMaybe<FindRoomsInput>;
 };
 
 export type Team = {
   __typename?: "Team";
   _id?: Maybe<Scalars["ID"]>;
+  categoryDiscordlD?: Maybe<Scalars["String"]>;
   champion?: Maybe<Array<Maybe<Members>>>;
+  channelGeneralDiscordID?: Maybe<Scalars["String"]>;
   description?: Maybe<Scalars["String"]>;
+  epics?: Maybe<Array<Maybe<Epic>>>;
   members?: Maybe<Array<Maybe<Members>>>;
   name?: Maybe<Scalars["String"]>;
   projects?: Maybe<Project>;
+  roles?: Maybe<Array<Maybe<Role>>>;
   serverID?: Maybe<Array<Maybe<Scalars["String"]>>>;
 };
 
@@ -393,9 +570,17 @@ export type AddSkillToMember_Input = {
   skillID?: InputMaybe<Scalars["ID"]>;
 };
 
+export type AddSkillsToMemberInRoomInput = {
+  memberID?: InputMaybe<Scalars["ID"]>;
+  roomID?: InputMaybe<Scalars["ID"]>;
+  skills?: InputMaybe<Array<InputMaybe<SkillInput_Member>>>;
+};
+
 export type ApproveOrRejectSkillInput = {
   _id?: InputMaybe<Scalars["ID"]>;
+  categorySkills?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   state?: InputMaybe<ApprovedSkillEnum>;
+  subCategorySkill?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
 };
 
 export type ApproveTweetInput = {
@@ -480,9 +665,36 @@ export type CreateApprovedSkillInput = {
   name?: InputMaybe<Scalars["String"]>;
 };
 
+export type CreateNewEpicInput = {
+  _id?: InputMaybe<Scalars["ID"]>;
+  authorID?: InputMaybe<Scalars["String"]>;
+  championID?: InputMaybe<Scalars["String"]>;
+  channelDiscordlID?: InputMaybe<Scalars["String"]>;
+  description?: InputMaybe<Scalars["String"]>;
+  memberID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  name?: InputMaybe<Scalars["String"]>;
+  notifyUserID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  phase?: InputMaybe<PhaseEpicType>;
+  projectID?: InputMaybe<Scalars["ID"]>;
+  serverID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  teamID?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+};
+
+export type CreateNewRoleInput = {
+  _id?: InputMaybe<Scalars["ID"]>;
+  description?: InputMaybe<Scalars["String"]>;
+  memberID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  name?: InputMaybe<Scalars["String"]>;
+  projectID?: InputMaybe<Scalars["ID"]>;
+  serverID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  teamID?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+};
+
 export type CreateNewTeamInput = {
   _id?: InputMaybe<Scalars["ID"]>;
+  categoryDiscordlD?: InputMaybe<Scalars["String"]>;
   championID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  channelGeneralDiscordID?: InputMaybe<Scalars["String"]>;
   description?: InputMaybe<Scalars["String"]>;
   memberID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
   name?: InputMaybe<Scalars["String"]>;
@@ -493,12 +705,23 @@ export type CreateNewTeamInput = {
 export type CreateProjectUpdateInput = {
   _id?: InputMaybe<Scalars["ID"]>;
   authorID?: InputMaybe<Scalars["String"]>;
+  championID?: InputMaybe<Scalars["String"]>;
   content?: InputMaybe<Scalars["String"]>;
+  deWorkLink?: InputMaybe<Scalars["String"]>;
+  deadline?: InputMaybe<Scalars["String"]>;
+  epicID?: InputMaybe<Scalars["String"]>;
   memberID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  notifyUserID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  phase?: InputMaybe<PhaseEpicType>;
+  priority?: InputMaybe<Scalars["Int"]>;
   projectID?: InputMaybe<Scalars["String"]>;
+  roleID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
   serverID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  taskID?: InputMaybe<Scalars["String"]>;
   teamID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  threadDiscordID?: InputMaybe<Scalars["String"]>;
   title?: InputMaybe<Scalars["String"]>;
+  token?: InputMaybe<Scalars["String"]>;
 };
 
 export type CreateRoleInput = {
@@ -508,9 +731,17 @@ export type CreateRoleInput = {
   title?: InputMaybe<Scalars["String"]>;
 };
 
+export type CreateRoomInput = {
+  _id?: InputMaybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars["String"]>;
+};
+
 export type CreateSkillInput = {
+  categorySkills?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  id_lightcast?: InputMaybe<Scalars["String"]>;
   name?: InputMaybe<Scalars["String"]>;
   state?: InputMaybe<ApprovedSkillEnum>;
+  subCategorySkill?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
 };
 
 export type CreateSkillsInput = {
@@ -539,10 +770,16 @@ export type EndorseAttributeInput = {
   attribute?: InputMaybe<AttributesEnum>;
 };
 
+export type EnterRoomInput = {
+  memberID?: InputMaybe<Scalars["ID"]>;
+  roomID?: InputMaybe<Scalars["ID"]>;
+};
+
 export type FindAllProjectsTeamsAnouncmentsInput = {
   _id?: InputMaybe<Scalars["ID"]>;
   dateEnd?: InputMaybe<Scalars["String"]>;
   dateStart?: InputMaybe<Scalars["String"]>;
+  serverID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type FindAllProjectsTeamsAnouncmentsOutput = {
@@ -550,6 +787,27 @@ export type FindAllProjectsTeamsAnouncmentsOutput = {
   _id?: Maybe<Scalars["ID"]>;
   project?: Maybe<Project>;
   team?: Maybe<Array<Maybe<TeamsType>>>;
+};
+
+export type FindEpicInput = {
+  _id?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  projectID?: InputMaybe<Scalars["ID"]>;
+  serverID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  teamID?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+};
+
+export type FindGardenInput = {
+  _id?: InputMaybe<Scalars["ID"]>;
+  dateEnd?: InputMaybe<Scalars["String"]>;
+  dateStart?: InputMaybe<Scalars["String"]>;
+  serverID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type FindGardenOutput = {
+  __typename?: "findGardenOutput";
+  _id?: Maybe<Scalars["ID"]>;
+  project?: Maybe<Project>;
+  team?: Maybe<Array<Maybe<TeamsType_Garden>>>;
 };
 
 export type FindMemberInput = {
@@ -564,6 +822,7 @@ export type FindMembersInput = {
 
 export type FindProjectInput = {
   _id?: InputMaybe<Scalars["ID"]>;
+  gardenServerID?: InputMaybe<Scalars["String"]>;
   serverID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -573,12 +832,14 @@ export type FindProjectUpdatesInput = {
   dateStart?: InputMaybe<Scalars["String"]>;
   memberID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
   projectID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  roleID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
   serverID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
   teamID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type FindProjectsInput = {
   _id?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  gardenServerID?: InputMaybe<Scalars["String"]>;
   serverID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -600,19 +861,41 @@ export type FindRoleTemplatesInput = {
   _id?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
 };
 
+export type FindRolesInput = {
+  _id?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  projectID?: InputMaybe<Scalars["ID"]>;
+  serverID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  teamID?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+};
+
+export type FindRoomsInput = {
+  _id?: InputMaybe<Scalars["ID"]>;
+};
+
 export type FindServersInput = {
   _id?: InputMaybe<Scalars["ID"]>;
 };
 
 export type FindSkillCategoriesInput = {
   _id?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  id_lightcast?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
 };
 
 export type FindSkillCategoryInput = {
   _id?: InputMaybe<Scalars["ID"]>;
+  id_lightcast?: InputMaybe<Scalars["ID"]>;
 };
 
 export type FindSkillInput = {
+  _id?: InputMaybe<Scalars["ID"]>;
+  id_lightcast?: InputMaybe<Scalars["ID"]>;
+};
+
+export type FindSkillSubCategoriesInput = {
+  _id?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+};
+
+export type FindSkillSubCategoryInput = {
   _id?: InputMaybe<Scalars["ID"]>;
 };
 
@@ -624,6 +907,12 @@ export type FindTeamsInput = {
   _id?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   projectID?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   serverID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type GardenUpdateType = {
+  __typename?: "gardenUpdateType";
+  epic?: Maybe<Array<Maybe<Epic>>>;
+  task?: Maybe<Array<Maybe<ProjectUpdate>>>;
 };
 
 export enum LevelEnum {
@@ -647,6 +936,18 @@ export type LinkType = {
 export type LoginInput = {
   email?: InputMaybe<Scalars["String"]>;
   password?: InputMaybe<Scalars["String"]>;
+};
+
+export type MatchMembersToProjectInput = {
+  projectID?: InputMaybe<Scalars["ID"]>;
+  serverID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type MatchMembersToProjectOutput = {
+  __typename?: "matchMembersToProjectOutput";
+  commonSkills?: Maybe<Array<Maybe<Skills>>>;
+  matchPercentage?: Maybe<Scalars["Float"]>;
+  member?: Maybe<Members>;
 };
 
 export type MatchMembersToSkillInput = {
@@ -680,6 +981,10 @@ export type Match_ProjectToUserInput = {
   serverID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
+export type Members_AutocompleteInput = {
+  search?: InputMaybe<Scalars["String"]>;
+};
+
 export type NetworkInput = {
   endorcment?: InputMaybe<Array<InputMaybe<EndorcmentInput>>>;
   memberID?: InputMaybe<Scalars["ID"]>;
@@ -693,9 +998,26 @@ export type NewTweetProjectInput = {
   title?: InputMaybe<Scalars["String"]>;
 };
 
+export type OnboardingInput = {
+  percentage?: InputMaybe<Scalars["Int"]>;
+  signup?: InputMaybe<Scalars["Boolean"]>;
+};
+
+export type OnboardingType = {
+  __typename?: "onboardingType";
+  percentage?: Maybe<Scalars["Int"]>;
+  signup?: Maybe<Scalars["Boolean"]>;
+};
+
+export enum PhaseEpicType {
+  Archive = "archive",
+  Open = "open",
+}
+
 export enum PhaseType {
   Committed = "committed",
   Engaged = "engaged",
+  Invited = "invited",
   Rejected = "rejected",
   Shortlisted = "shortlisted",
 }
@@ -743,6 +1065,11 @@ export type ProjectUserMatchType = {
   projectData?: Maybe<Project>;
   skillsDontMatch?: Maybe<Array<Maybe<Skills>>>;
   skillsMatch?: Maybe<Array<Maybe<Skills>>>;
+};
+
+export type RelatedSkillsInput = {
+  _id?: InputMaybe<Scalars["ID"]>;
+  relatedSkills_id?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
 };
 
 export type RoleInput = {
@@ -816,6 +1143,10 @@ export type SkillsUpdateMemberInput = {
   skillID?: InputMaybe<Scalars["ID"]>;
 };
 
+export type Skills_AutocompleteInput = {
+  search?: InputMaybe<Scalars["String"]>;
+};
+
 export type TeamInput = {
   memberID?: InputMaybe<Scalars["String"]>;
   phase?: InputMaybe<PhaseType>;
@@ -832,6 +1163,12 @@ export type TeamType = {
 export type TeamsType = {
   __typename?: "teamsType";
   announcement?: Maybe<Array<Maybe<ProjectUpdate>>>;
+  teamData?: Maybe<Team>;
+};
+
+export type TeamsType_Garden = {
+  __typename?: "teamsType_garden";
+  role?: Maybe<Array<Maybe<RoleType_Garden>>>;
   teamData?: Maybe<Team>;
 };
 
@@ -867,6 +1204,7 @@ export type UpdateMemberInput = {
   hoursPerWeek?: InputMaybe<Scalars["Float"]>;
   interest?: InputMaybe<Scalars["String"]>;
   links?: InputMaybe<Array<InputMaybe<LinkInput>>>;
+  onbording?: InputMaybe<OnboardingInput>;
   previusProjects?: InputMaybe<Array<InputMaybe<PreviusProjectsInput>>>;
   serverID?: InputMaybe<Scalars["String"]>;
   skills?: InputMaybe<Array<InputMaybe<SkillInput_Member>>>;
@@ -880,8 +1218,9 @@ export type UpdateProjectInput = {
   collaborationLinks?: InputMaybe<Array<InputMaybe<CollaborationLinksInput>>>;
   dates?: InputMaybe<DatesInput>;
   description?: InputMaybe<Scalars["String"]>;
+  gardenServerID?: InputMaybe<Scalars["String"]>;
   role?: InputMaybe<Array<InputMaybe<RoleInput>>>;
-  serverID?: InputMaybe<Scalars["String"]>;
+  serverID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
   stepsJoinProject?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
   team?: InputMaybe<Array<InputMaybe<TeamInput>>>;
   title?: InputMaybe<Scalars["String"]>;
@@ -898,6 +1237,19 @@ export type UpdateServerInput = {
 export type UpdateSkillCategoryInput = {
   _id?: InputMaybe<Scalars["ID"]>;
   description?: InputMaybe<Scalars["String"]>;
+  emoji?: InputMaybe<Scalars["String"]>;
+  id_lightcast?: InputMaybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars["String"]>;
+  skills?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  subCategorySkill?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+};
+
+export type UpdateSkillSubCategoryInput = {
+  _id?: InputMaybe<Scalars["ID"]>;
+  categorySkills?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  description?: InputMaybe<Scalars["String"]>;
+  emoji?: InputMaybe<Scalars["String"]>;
+  id_lightcast?: InputMaybe<Scalars["String"]>;
   name?: InputMaybe<Scalars["String"]>;
   skills?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };

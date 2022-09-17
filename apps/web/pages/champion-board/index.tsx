@@ -1,25 +1,102 @@
-// import { useQuery } from "@apollo/client";
-// import { FIND_MEMBERS } from "@graphql/eden";
-import type { NextPage } from "next";
-import { GridItemNine, GridItemThree, GridLayout } from "ui";
+import { useQuery } from "@apollo/client";
+import { UserContext } from "@context/eden";
+import { FIND_PROJECT } from "@graphql/eden";
+import { useRouter } from "next/router";
+import { useContext, useState } from "react";
+import {
+  AppUserLayout,
+  Button,
+  ChampionContainer,
+  GridItemSix,
+  GridItemThree,
+  GridLayout,
+  SideNavProjectList,
+} from "ui";
 
-// TODO: commented out to get a basic query in place.  Talk to backend about a query for projects by member that they champion.
+import type { NextPageWithLayout } from "../_app";
 
-const ProjectPage: NextPage = () => {
-  // const { data: dataMembers } = useQuery(FIND_MEMBERS, {
-  //   variables: {
-  //     fields: {},
-  //   },
-  //   context: { serviceName: "soilservice" },
-  // });
+const ProjectPage: NextPageWithLayout = () => {
+  const router = useRouter();
+  const { currentUser } = useContext(UserContext);
+  const [selectProject, setSelectProject] = useState("");
 
-  // console.log("dataMembers", dataMembers);
+  // if (currentUser) console.log("currentUser", currentUser);
+
+  const { data: dataProject, refetch } = useQuery(FIND_PROJECT, {
+    variables: {
+      fields: {
+        _id: selectProject,
+      },
+    },
+    context: { serviceName: "soilservice" },
+    skip: !selectProject,
+  });
+
+  // if (dataProject) console.log("dataProject", dataProject?.findProject);
   return (
     <GridLayout>
-      <GridItemThree>3</GridItemThree>
-      <GridItemNine>9</GridItemNine>
+      <GridItemThree>
+        <div className={`text-lg font-medium text-black/60`}>
+          Hi there, champion!
+        </div>
+        <div className={`text-2xl font-medium text-black`}>YOUR PROJECTS</div>
+        <SideNavProjectList
+          projects={currentUser?.projects}
+          onSelectProject={(id) => setSelectProject(id)}
+        />
+      </GridItemThree>
+      <GridItemSix>
+        <ChampionContainer
+          project={dataProject?.findProject}
+          refetch={refetch}
+        />
+      </GridItemSix>
+      <GridItemThree>
+        {selectProject && (
+          <>
+            <div className={`text-center text-lg font-medium text-black/60`}>
+              Need to find more Members for your project?
+            </div>
+            <div className={`my-8 flex justify-center`}>
+              <Button
+                variant={`primary`}
+                onClick={() =>
+                  router.push(`/champion-board/recruit/${selectProject}`)
+                }
+              >
+                Recruit
+              </Button>
+            </div>
+          </>
+        )}
+      </GridItemThree>
     </GridLayout>
   );
 };
 
+ProjectPage.getLayout = (page) => <AppUserLayout>{page}</AppUserLayout>;
+
 export default ProjectPage;
+
+import { IncomingMessage, ServerResponse } from "http";
+import { getSession } from "next-auth/react";
+
+export async function getServerSideProps(ctx: {
+  req: IncomingMessage;
+  res: ServerResponse;
+}) {
+  const session = await getSession(ctx);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: `/login`,
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}

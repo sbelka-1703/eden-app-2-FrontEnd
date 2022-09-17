@@ -1,5 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { getMember } from "storybook/mocks";
 
 // import { ApolloDecorator } from "../../../../../apps/storybook/.storybook/decorator";
 import { CandidateSelectionList } from "./CandidateSelectionList";
@@ -12,59 +13,16 @@ export default {
 } as ComponentMeta<typeof CandidateSelectionList>;
 
 const Template: ComponentStory<typeof CandidateSelectionList> = (args) => (
-  <div className={`max-w-lg`}>
+  <div className={``}>
     <CandidateSelectionList {...args} />
   </div>
 );
-
-const skills = [
-  "3D",
-  "Solidity",
-  "Design",
-  "Fullstack",
-  "React",
-  "Node.js",
-  "Mentorship",
-  "Figma",
-  "Adobe",
-  "Tailwind",
-  "Leadership",
-];
 
 const getCandidates = () =>
   Array.from({ length: 6 }, () => {
     return {
       matchPercentage: faker.random.numeric(2),
-      member: {
-        _id: String(faker.random.numeric(5)),
-        discordAvatar: faker.internet.avatar(),
-        discordName: faker.internet.userName(),
-        bio: null,
-        skills: [
-          {
-            skillInfo: {
-              _id: Number(faker.random.numeric(5)),
-              name: faker.helpers.uniqueArray(skills, 1),
-              __typename: "Skills",
-            },
-          },
-          {
-            skillInfo: {
-              _id: Number(faker.random.numeric(5)),
-              name: faker.helpers.uniqueArray(skills, 1),
-              __typename: "Skills",
-            },
-          },
-          {
-            skillInfo: {
-              _id: Number(faker.random.numeric(5)),
-              name: faker.helpers.uniqueArray(skills, 1),
-              __typename: "Skills",
-            },
-          },
-        ],
-        __typename: "Members",
-      },
+      member: getMember(),
       __typename: "matchMembersToSkillOutput",
     };
   });

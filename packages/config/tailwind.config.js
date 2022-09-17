@@ -16,6 +16,7 @@ module.exports = {
         soilYellow: "#FFF268",
         soilBlue: "#88A9FF",
         soilGray: "#BCBCBC",
+        ColorF1F2FF: "#F1F2FF",
         soilGreen: {
           50: "#FFFFFF",
           100: "#FFFFFF",
@@ -30,6 +31,24 @@ module.exports = {
         },
       },
       fontSize: {
+        landingTitle: [
+          "192px",
+          {
+            letterSpacing: "0.02em",
+          },
+        ],
+        landingTitleSM: [
+          "128px",
+          {
+            letterSpacing: "0.02em",
+          },
+        ],
+        landingSubtitle: [
+          "72px",
+          {
+            letterSpacing: "0.02em",
+          },
+        ],
         soilHeading1: [
           "32px",
           {
@@ -83,5 +102,5 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [require("tailwind-scrollbar-hide")],
 };

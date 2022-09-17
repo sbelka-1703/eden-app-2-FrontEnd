@@ -14,6 +14,7 @@ const Template: ComponentStory<typeof AppHeader> = (args) => (
     session={{
       expires: "1",
       user: {
+        id: "1",
         email: "a",
         name: "Miral",
         image:

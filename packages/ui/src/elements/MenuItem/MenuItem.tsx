@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { Badge, Button } from "../../elements";
+
 export interface MenuItemProps {
   Icon?: ReactElement;
   FunctionName?: string;
@@ -16,17 +16,25 @@ export const MenuItem = ({
   return (
     <div
       className={
-        "flex-start flex w-full cursor-pointer flex-row p-2 hover:rounded-lg hover:bg-slate-100 hover:drop-shadow-xl"
+        "flex-start flex w-full cursor-pointer flex-row justify-between p-2 hover:rounded-lg hover:bg-slate-100 hover:drop-shadow-xl"
       }
       onClick={onFunctionCallback}
     >
-      <div className="px-2">{Icon}</div>
-      <div className="px-2 text-lg font-medium">{FunctionName}</div>
-      {counterBadge !== undefined && (
-        <div className="px-2">
-          <Badge colorRGB={"38, 138, 2"} text={`${counterBadge}`} />
-        </div>
-      )}
+      <div className={`flex`}>
+        <div className="px-2">{Icon}</div>
+        <div className="px-2 text-lg font-medium">{FunctionName}</div>
+      </div>
+      <div>
+        {counterBadge !== undefined && (
+          <div className="px-2">
+            <span
+              className={`bg-accentColor flex h-6 w-6 items-center justify-center rounded-full`}
+            >
+              {counterBadge}
+            </span>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

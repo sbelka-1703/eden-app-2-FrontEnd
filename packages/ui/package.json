@@ -11,16 +11,24 @@
     "clean-windows": "rd /s /q node_modules"
   },
   "devDependencies": {
+    "@context/eden": "*",
     "@faker-js/faker": "^7.4.0",
+    "@graphql/eden": "*",
     "@headlessui/react": "^1.6.6",
     "@heroicons/react": "^1.0.6",
     "@types/react": "18.0.15",
     "@types/react-dom": "^18.0.6",
     "clsx": "^1.2.1",
     "config": "*",
+    "emoji-picker-react": "^3.6.1",
     "eslint": "^8.20.0",
     "identity-obj-proxy": "^3.0.0",
+    "react-confetti": "^6.1.0",
+    "react-tooltip": "^4.2.21",
     "tsconfig": "*",
-    "typescript": "^4.7.4"
+    "typescript": "^4.7.4",
+    "react-multi-date-picker": "^3.3.0"
+  },
+  "dependencies": {
   }
 }

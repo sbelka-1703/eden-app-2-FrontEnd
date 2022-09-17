@@ -6,31 +6,54 @@ export const FIND_MEMBER_FULL = gql`
       _id
       discordAvatar
       discordName
-      skills {
-        level
-        skillInfo {
-          _id
-          name
-          registeredAt
-        }
+      bio
+      content {
+        interest
+        mostProud
+        showCaseAbility
       }
+      attributes {
+        Coordinator
+        Director
+        Helper
+        Inspirer
+        Motivator
+        Observer
+        Reformer
+        Supporter
+      }
+      archiveProjects
+      discriminator
+      hoursPerWeek
+      interest
+      timeZone
       projects {
-        favorite
-        champion
         phase
+        champion
+        favorite
         info {
           _id
-          title
           description
+          title
+          team {
+            phase
+          }
         }
       }
-      timeZone
-      bio
-      serverID
-      registeredAt
       links {
         name
         url
+      }
+      skills {
+        skillInfo {
+          _id
+          name
+        }
+        level
+      }
+      onbording {
+        percentage
+        signup
       }
     }
   }

@@ -1,4 +1,5 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { getPreviusProjects } from "storybook/mocks";
 
 import { UserInformationCard } from "./UserInformationCard";
 
@@ -14,8 +15,6 @@ const Template: ComponentStory<typeof UserInformationCard> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  title: "SCRUM MASTER",
-  description: "Sabre Corporation · Fulltime",
-  timeSpent: "Oct 2021 - Present (9 mos)",
+  previousProjects: getPreviusProjects(),
   isEditable: true,
 };

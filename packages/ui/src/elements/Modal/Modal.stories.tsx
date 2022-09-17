@@ -18,6 +18,7 @@ Default.args = {
   open: false,
   title: "Modal Title",
   children: "Modal Content",
+  closeOnEsc: true,
 };
 
 export const Open = Template.bind({});

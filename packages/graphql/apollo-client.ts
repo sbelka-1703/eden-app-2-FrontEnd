@@ -5,15 +5,20 @@ import {
   from,
   HttpLink,
   InMemoryCache,
+  split,
 } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
 import { RetryLink } from "@apollo/client/link/retry";
+import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
+import { createClient } from "graphql-ws";
+import { getMainDefinition } from "@apollo/client/utilities";
 
-// Soil API endpoint
-const SOIL_API_URL = "https://oasis-bot-test-deploy.herokuapp.com/graphql";
-const httpLinkSoil = new HttpLink({ uri: SOIL_API_URL, fetch });
+// Eden API endpoint
+const EDEN_API_WSS = process.env.NEXT_PUBLIC_GRAPHQL_WSS || "";
+const EDEN_API_URL = process.env.NEXT_PUBLIC_GRAPHQL_URL;
+const httpLinkEden = new HttpLink({ uri: EDEN_API_URL, fetch });
 
-const soilLink = new ApolloLink((operation, forward) => {
+const edenLink = new ApolloLink((operation, forward) => {
   // Use the setContext method to set the HTTP headers.
   operation.setContext({
     headers: {
@@ -24,12 +29,11 @@ const soilLink = new ApolloLink((operation, forward) => {
   return forward(operation);
 });
 
-// Neo API endpoint
-// TODO: NEED TO CHANGE TO NEO ENDPOINT
-const NEO_API_URL = "https://oasis-bot-test-deploy.herokuapp.com/graphql";
-const httpLinkNeo = new HttpLink({ uri: NEO_API_URL, fetch });
+// Extra API endpoint
+const EXTRA_API_URL = EDEN_API_URL;
+const httpLinkExtra = new HttpLink({ uri: EXTRA_API_URL, fetch });
 
-const neoLink = new ApolloLink((operation, forward) => {
+const extraLink = new ApolloLink((operation, forward) => {
   // Use the setContext method to set the HTTP headers.
   operation.setContext({
     headers: {
@@ -42,21 +46,84 @@ const neoLink = new ApolloLink((operation, forward) => {
 
 const directionalLink = new RetryLink().split(
   (operation) => operation.getContext().serviceName === "soilservice",
-  soilLink.concat(httpLinkSoil),
-  neoLink.concat(httpLinkNeo)
+  edenLink.concat(httpLinkEden),
+  extraLink.concat(httpLinkExtra)
 );
 
 const errorLink = onError(({ graphQLErrors }) => {
   if (graphQLErrors) graphQLErrors.map(({ message }) => console.log(message));
 });
 
+const wsLink =
+  typeof window !== "undefined"
+    ? new GraphQLWsLink(
+        createClient({
+          url: `${EDEN_API_WSS}`,
+        })
+      )
+    : null;
+
+const splitLink =
+  typeof window !== "undefined" && wsLink
+    ? split(
+        ({ query }) => {
+          const definition = getMainDefinition(query);
+          return (
+            definition.kind === "OperationDefinition" &&
+            definition.operation === "subscription"
+          );
+        },
+        wsLink,
+        directionalLink
+      )
+    : directionalLink;
+
 export const apolloClient = new ApolloClient({
-  link: from([errorLink, directionalLink]),
+  link: from([errorLink, splitLink]),
   cache: new InMemoryCache({
     typePolicies: {
       Query: {
-        fields: {},
+        fields: {
+          // freezes the cache
+          // findMember: {
+          //   keyArgs: ["_id"],
+          // },
+          // findMembers: {
+          //   keyArgs: ["_id"],
+          // },
+          // freezes the cache
+          // findProject: {
+          //   keyArgs: ["_id"],
+          // },
+          findProjects: {
+            keyArgs: ["_id"],
+          },
+          findSkills: {
+            keyArgs: ["_id"],
+          },
+          findRoom: {
+            keyArgs: ["_id"],
+          },
+        },
       },
     },
   }),
 });
+
+// const cacheMerge = (keyArgs: any) => {
+//   return {
+//     keyArgs: [keyArgs],
+//     merge(existing: any, incoming: any) {
+//       if (!existing) {
+//         return incoming;
+//       }
+//       const existingItems = existing.items;
+//       const incomingItems = incoming.items;
+
+//       return {
+//         items: existingItems.concat(incomingItems),
+//         // pageInfo: incoming.pageInfo,
+//       };
+//     },
+//   };
+// };
