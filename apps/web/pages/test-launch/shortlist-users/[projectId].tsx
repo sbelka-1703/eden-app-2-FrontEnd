@@ -80,7 +80,7 @@ const LaunchPage: NextPageWithLayout = () => {
     onCompleted(data) {
       if (!data.findProject) return;
       setProject(data.findProject);
-      setRoleModalOpen(project?.role?.length === 0);
+      setRoleModalOpen(data.findProject?.role?.length === 0);
     },
   });
 
