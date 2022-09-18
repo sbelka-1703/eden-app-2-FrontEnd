@@ -171,6 +171,10 @@ const LaunchPage: NextPageWithLayout = () => {
     });
   };
 
+  const handleAddRole = () => {
+    setRoleModalOpen(true);
+  };
+
   return (
     <LaunchProvider>
       {roleModalOpen && (
@@ -182,17 +186,22 @@ const LaunchPage: NextPageWithLayout = () => {
       )}
       <GridLayout>
         <GridItemThree>
-          {project && <ProjectLayoutCard project={project} />}
+          {project && (
+            <ProjectLayoutCard
+              project={project}
+              handleAddRole={handleAddRole}
+            />
+          )}
 
           {/* ----- to be removed ----- */}
-          <button
+          {/* <button
             className="bg-red-500"
             onClick={() => {
               setRoleModalOpen(true);
             }}
           >
             Add role
-          </button>
+          </button> */}
           {/* ------------------------- */}
           {member &&
             filteredMembers.map((_member: Members, index) => (
