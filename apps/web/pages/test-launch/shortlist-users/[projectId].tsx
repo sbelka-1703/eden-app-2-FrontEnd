@@ -8,7 +8,11 @@ import {
   GridItemThree,
   GridLayout,
   Loading,
+  MemberMatchCard,
+  MemberProfileCard,
   ProjectLayoutCard,
+  RoleList,
+  RoleModal,
   TextHeading3,
 } from "ui";
 
@@ -30,6 +34,17 @@ const LaunchPage: NextPageWithLayout = () => {
     // skip: !_id,
     context: { serviceName: "soilservice" },
   });
+
+  const { data: roles } = useQuery(FIND_ROLE_TEMPLATES, {
+    variables: {
+      fields: {},
+    },
+    context: { serviceName: "soilservice" },
+  });
+
+  useEffect(() => {
+    console.log("roles", roles);
+  }, [roles]);
 
   useQuery(FIND_MEMBERS, {
     variables: {
@@ -123,8 +138,18 @@ const LaunchPage: NextPageWithLayout = () => {
       )
   );
 
+  useEffect(() => {
+    console.log("roles========", project?.role);
+  }, [project]);
+
   return (
     <LaunchProvider>
+      {project?.role?.length === 0 && (
+        <RoleModal
+          openModal={project?.role?.length === 0}
+          roles={roles?.findRoleTemplates}
+        />
+      )}
       <GridLayout>
         <GridItemThree>
           {project && <ProjectLayoutCard project={project} />}
@@ -140,6 +165,7 @@ const LaunchPage: NextPageWithLayout = () => {
           >
             Add role
           </button>
+          <RoleList roles={project?.role!} />
           {/* ------------------------- */}
           {member &&
             filteredMembers.map((_member: Members, index) => (
@@ -186,27 +212,27 @@ const LaunchPage: NextPageWithLayout = () => {
                     <Loading />
                   )}
                 </Card>
-
-                {filteredMembers?.map((_member: Members, index) => (
-                  <p
-                    key={index}
-                    onClick={() =>
-                      router.push(
-                        `/test-launch/shortlist-users/${projectId}?roleId=${roleId}&memberId=${_member._id}`
-                      )
-                    }
-                    className="cursor-pointer"
-                  >
-                    {_member.discordName}
-                  </p>
-                ))}
+                {console.log(filteredMembers[0])}
+                <div className="grid grid-cols-3 gap-x-10 gap-y-10">
+                  {filteredMembers?.map((_member: Members, index) => (
+                    <MemberMatchCard
+                      key={index}
+                      onClick={() =>
+                        router.push(
+                          `/test-launch/shortlist-users/${projectId}?roleId=${roleId}&memberId=${_member._id}`
+                        )
+                      }
+                      member={_member}
+                    />
+                  ))}
+                </div>
               </>
             )}
           </GridItemNine>
         )}
         {!!member && (
           <GridItemSix>
-            <p>{member.discordName}</p>
+            {/* <p>{member.discordName}</p>
             <button
               className="bg-soilGreen-500"
               onClick={() => {
@@ -225,7 +251,19 @@ const LaunchPage: NextPageWithLayout = () => {
               }}
             >
               Back
-            </button>
+            </button> */}
+            <MemberProfileCard
+              member={member}
+              onClickNotNow={() => {
+                setMember(null);
+                router.push(
+                  `/test-launch/shortlist-users/${projectId}?roleId=${roleId}`
+                );
+              }}
+              onClickAddToList={() => {
+                handleShortlistMember();
+              }}
+            />
           </GridItemSix>
         )}
         <GridItemThree>
@@ -248,6 +286,7 @@ import {
   FIND_MEMBERS,
   FIND_PROJECT,
   FIND_ROLE_TEMPLATE,
+  FIND_ROLE_TEMPLATES,
   UPDATE_PROJECT,
 } from "@graphql/eden";
 import {
@@ -260,7 +299,7 @@ import {
 import { IncomingMessage, ServerResponse } from "http";
 import { useRouter } from "next/router";
 import { getSession } from "next-auth/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export async function getServerSideProps(ctx: {
   req: IncomingMessage;
