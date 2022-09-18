@@ -1,4 +1,3 @@
-import { faker } from "@faker-js/faker";
 import { Members } from "@graphql/eden/generated";
 import {
   AvailabilityComp,
@@ -11,20 +10,32 @@ import {
 
 export interface MemberProfileCardProps {
   member: Members;
+  onClickNotNow?: () => void;
+  onClickAddToList?: () => void;
 }
 
-export const MemberProfileCard = ({ member }: MemberProfileCardProps) => {
+export const MemberProfileCard = ({
+  member,
+  onClickNotNow,
+  onClickAddToList,
+}: MemberProfileCardProps) => {
   return (
     <Card
       border
-      className="border-soilGreen-700 flex w-max  flex-col items-center justify-center gap-5 p-10"
+      className="border-soilGreen-700 flex w-full  flex-col items-center justify-center gap-5 p-10"
     >
       <div className="flex items-center justify-center gap-5">
-        <Button variant="default" className="bg-soilYellow">
+        <Button
+          variant="default"
+          onClick={onClickNotNow}
+          className="bg-soilYellow"
+        >
           Not now
         </Button>
-        <Avatar size="lg" src={faker.internet.avatar()} />
-        <Button variant="primary">Add to list</Button>
+        <Avatar size="lg" src={member.discordAvatar!} />
+        <Button variant="primary" onClick={onClickAddToList}>
+          Add to list
+        </Button>
       </div>
       <h1 className="font-poppins text-darkGreen text-soilHeading2 font-medium">
         {member.discordName}
@@ -36,12 +47,12 @@ export const MemberProfileCard = ({ member }: MemberProfileCardProps) => {
       <p className="text-soilLabel text-soilGray font-poppins -mt-5 mb-2 font-medium uppercase">
         {member.memberRole?.title}
       </p>
-      <div className="flex items-start justify-center gap-20">
+      <div className="flex items-start justify-center ">
         <div className="flex flex-col items-start justify-center">
           <h1 className="text-soilHeading3 font-poppins font-medium">
             Short Bio
           </h1>
-          <p className="text-soilBody font-Inter w-[35rem] font-normal">
+          <p className="text-soilBody font-Inter w-8/12 font-normal">
             {member.bio}
           </p>
         </div>
@@ -54,7 +65,7 @@ export const MemberProfileCard = ({ member }: MemberProfileCardProps) => {
           </p>
         </div>
       </div>
-      <div className="flex w-full items-start justify-between">
+      <div className="flex w-full items-start justify-between gap-10">
         <div>
           <p className="mb-3 text-sm font-semibold tracking-widest subpixel-antialiased">
             Top skills

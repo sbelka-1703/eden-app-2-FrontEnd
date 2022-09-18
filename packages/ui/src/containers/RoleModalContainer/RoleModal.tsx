@@ -3,12 +3,12 @@ import { LaunchContext } from "@context/eden";
 import {
   Maybe,
   Role,
+  RoleTemplate,
   RoleType,
   SkillType_Member,
-  RoleTemplate,
 } from "@graphql/eden/generated";
 import { useContext, useState } from "react";
-import { Button, RoleSelector, Modal } from "ui";
+import { Button, Modal, RoleSelector } from "ui";
 
 export interface RoleModalProps {
   roles?: Maybe<Array<Maybe<RoleTemplate>>>;
@@ -63,14 +63,14 @@ export const RoleModal = ({
               </span>
             ) : (
               <span>
-                Welcome to Eden, a project/person matching protocol. We're here
+                {`Welcome to Eden, a project/person matching protocol. We're here
                 to help you find talent, that is tailored to your needs - please
-                tell us more about your project.
+                tell us more about your project.`}
               </span>
             )}
           </div>
           <div className={`my-2 text-sm text-slate-500`}>
-            Choose just one role for now, you'll be able to add more later.
+            {`Choose just one role for now, you'll be able to add more later.`}
           </div>
           <div className="flex flex-row justify-center justify-items-center">
             <div>

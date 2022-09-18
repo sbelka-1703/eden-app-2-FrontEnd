@@ -3,9 +3,9 @@ import { Maybe, Members, SkillType_Member } from "@graphql/eden/generated";
 import { Button, Card, MatchAvatar, SkillList, SocialMediaComp } from "ui";
 
 export interface MemberMatchCardProps {
-  percentage: string;
+  percentage?: string;
   member: Members;
-  requiredSkills: Maybe<SkillType_Member>[];
+  requiredSkills?: Maybe<SkillType_Member>[];
   onClick?: () => void;
 }
 
@@ -54,7 +54,7 @@ export const MemberMatchCard = ({
   return (
     <Card
       shadow={true}
-      className="relative flex w-max flex-col items-center justify-center p-5"
+      className="relative flex w-full flex-col items-center justify-center p-5"
     >
       <MatchAvatar src={member.discordAvatar!} percentage={percentage} />
       <h1 className="font-poppins text-darkGreen text-soilHeading2 font-medium">
@@ -67,26 +67,28 @@ export const MemberMatchCard = ({
         {member.memberRole?.title}
       </p>
       <SocialMediaComp links={member.links} size="20px" title="" />
-      <div className="mt-3 w-full self-start">
-        <p className="text-soilGray text-soilLabel font-Inter font-semibold">
-          MATCHING SKILLS
-        </p>
-        <div className="flex w-60 flex-wrap">
-          <SkillList
-            skills={matchedSkills(requiredSkills, mySkills, isSameSkills)}
-            colorRGB={getRandomColor()}
-          />
+      {requiredSkills && (
+        <div className="mt-3 w-full self-start">
+          <p className="text-soilGray text-soilLabel font-Inter font-semibold">
+            MATCHING SKILLS
+          </p>
+          <div className="flex w-60 flex-wrap">
+            <SkillList
+              skills={matchedSkills(requiredSkills, mySkills, isSameSkills)}
+              colorRGB={getRandomColor()}
+            />
+          </div>
+          <p className="text-soilGray text-soilLabel font-Inter mt-3 font-semibold">
+            MISSING SKILLS
+          </p>
+          <div className="flex w-60 flex-wrap">
+            <SkillList
+              skills={missingSkills(requiredSkills, mySkills, isSameSkills)}
+              colorRGB={"170, 170, 170, 0.12"}
+            />
+          </div>
         </div>
-        <p className="text-soilGray text-soilLabel font-Inter mt-3 font-semibold">
-          MISSING SKILLS
-        </p>
-        <div className="flex w-60 flex-wrap">
-          <SkillList
-            skills={missingSkills(requiredSkills, mySkills, isSameSkills)}
-            colorRGB={"170, 170, 170, 0.12"}
-          />
-        </div>
-      </div>
+      )}
       <Button className="absolute top-1 right-1" onClick={onClick}>
         More
       </Button>
