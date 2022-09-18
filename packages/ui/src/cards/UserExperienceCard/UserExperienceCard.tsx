@@ -1,20 +1,56 @@
+import React from "react";
 import { Card, Dropdown, TextField } from "../../elements";
-import { useState } from "react";
+import { useState, useReducer } from "react";
 import { TextArea } from "../../elements/TextAreaComponent";
 import { Calendar } from "../../components/CalendarComp";
+import { PreviusProjectsInput, Role } from "@graphql/eden/generated";
 export interface UserExperienceCardlProps {
   // avatar?: string;
   // title?: string;
   // description?: string;
   // onUpdateFavorite?: () => void;
   // onMoreInfoClick?: () => void;
+  handleSubmit: (val: any) => void;
 }
 
-export const UserExperienceCard = ({}: UserExperienceCardlProps) => {
+const initialState = {
+  description: "",
+  endDate: "",
+  link: "",
+  picture: "",
+  positionName: "",
+  startDate: "",
+  title: "",
+};
+
+function reducer(state, action): PreviusProjectsInput {
+  switch (action.type) {
+    case "editDescription":
+      return { description: e.target.value };
+    case "editEndDate":
+      return { endDate: e.target.value };
+    case "editLink":
+      return { link: e.target.value };
+    case "editPositionName":
+      return { positionName: e.target.value };
+    case "editStartDate":
+      return { startDate: e.target.value };
+    case "editTitle":
+      return { title: e.target.value };
+    default:
+      return state;
+  }
+}
+
+export const UserExperienceCard = ({
+  handleSubmit,
+}: UserExperienceCardlProps) => {
   const [title, setTitle] = useState("");
+  const [state, dispath] = useReducer(reducer, initialState);
+  const [description, setDescription] = useState<string | null>(null);
   return (
     <Card shadow className="p-0">
-      <div className="px-[170px] py-10 mx-auto">
+      <div className="mx-auto px-[170px] py-10">
         <p className="text-3xl">Share relevant experiences!</p>
       </div>
       <div className="flex space-x-6">
@@ -38,7 +74,9 @@ export const UserExperienceCard = ({}: UserExperienceCardlProps) => {
           <TextArea
             rows={9}
             placeholder="Type Role Desciption"
-            onChange={(val) => setTitle("")}
+            onChange={(e) => {
+              console.log(e.target.value);
+            }}
           />
         </div>
         <div className="space-y-1">
