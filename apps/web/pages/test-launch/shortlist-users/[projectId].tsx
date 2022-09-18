@@ -11,7 +11,6 @@ import {
   MemberMatchCard,
   MemberProfileCard,
   ProjectLayoutCard,
-  RoleList,
   RoleModal,
   TextHeading3,
 } from "ui";
