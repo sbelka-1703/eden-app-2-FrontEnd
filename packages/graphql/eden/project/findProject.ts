@@ -40,14 +40,14 @@ export const FIND_PROJECT = gql`
         title
         description
         archive
-        dateRangeEnd
-        dateRangeStart
-        hoursPerWeek
-        budget {
-          perHour
-          token
-          totalBudget
-        }
+        # dateRangeEnd
+        # dateRangeStart
+        # hoursPerWeek
+        # budget {
+        #   perHour
+        #   token
+        #   totalBudget
+        # }
         skills {
           skillData {
             _id

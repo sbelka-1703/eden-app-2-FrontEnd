@@ -24,6 +24,7 @@ const LaunchPage: NextPageWithLayout = () => {
   const [members, setMembers] = useState<Members[]>([]);
   const [member, setMember] = useState<Members | null>(null);
   const [project, setProject] = useState<Project | null>(null);
+  const [roleModalOpen, setRoleModalOpen] = useState<boolean>(false);
 
   const { data: roleData } = useQuery(FIND_ROLE_TEMPLATE, {
     variables: {
@@ -41,10 +42,6 @@ const LaunchPage: NextPageWithLayout = () => {
     },
     context: { serviceName: "soilservice" },
   });
-
-  useEffect(() => {
-    console.log("roles", roles);
-  }, [roles]);
 
   useQuery(FIND_MEMBERS, {
     variables: {
@@ -84,6 +81,7 @@ const LaunchPage: NextPageWithLayout = () => {
     onCompleted(data) {
       if (!data.findProject) return;
       setProject(data.findProject);
+      setRoleModalOpen(project?.role?.length === 0);
     },
   });
 
@@ -96,7 +94,7 @@ const LaunchPage: NextPageWithLayout = () => {
 
   const handleShortlistMember = () => {
     if (project?.team) {
-      const mappedProject: TeamType[] = project.team.map(
+      const mappedTeam: TeamType[] = project.team.map(
         (member: Maybe<TeamType>) => {
           return {
             memberID: member?.memberInfo?._id,
@@ -111,7 +109,7 @@ const LaunchPage: NextPageWithLayout = () => {
           fields: {
             _id: projectId,
             team: [
-              ...mappedProject,
+              ...mappedTeam,
               { memberID: memberId, roleID: roleId, phase: "shortlisted" },
             ],
           },
@@ -138,15 +136,48 @@ const LaunchPage: NextPageWithLayout = () => {
       )
   );
 
-  useEffect(() => {
-    console.log("roles========", project?.role);
-  }, [project]);
+  const handleSaveRole = (role: Maybe<RoleTemplate>) => {
+    const mappedRoles: RoleInput[] | undefined = project?.role?.map(
+      (_role: Maybe<RoleType>) => {
+        return {
+          _id: _role?._id,
+          // skills: _role?.skills,
+          title: _role?.title,
+        };
+      }
+    );
+
+    const mappedRole: RoleInput = {
+      _id: role?._id,
+      // skills: role?.skills,
+      title: role?.title,
+    };
+
+    updateProject({
+      variables: {
+        fields: {
+          _id: projectId,
+          role: mappedRoles ? [...mappedRoles, mappedRole] : [mappedRole],
+        },
+      },
+      context: { serviceName: "soilservice" },
+      onCompleted: () => {
+        // setMember(null);
+        router.push(
+          `/test-launch/shortlist-users/${projectId}${
+            roleId ? "" : `?roleId=${role?._id}`
+          }`
+        );
+      },
+    });
+  };
 
   return (
     <LaunchProvider>
-      {project?.role?.length === 0 && (
+      {roleModalOpen && (
         <RoleModal
-          openModal={project?.role?.length === 0}
+          onSubmit={handleSaveRole}
+          openModal={roleModalOpen}
           roles={roles?.findRoleTemplates}
         />
       )}
@@ -158,14 +189,11 @@ const LaunchPage: NextPageWithLayout = () => {
           <button
             className="bg-red-500"
             onClick={() => {
-              router.push(
-                `/test-launch/shortlist-users/${projectId}?roleId=63071da6d24f80a5f3173a55`
-              );
+              setRoleModalOpen(true);
             }}
           >
             Add role
           </button>
-          <RoleList roles={project?.role!} />
           {/* ------------------------- */}
           {member &&
             filteredMembers.map((_member: Members, index) => (
@@ -212,7 +240,6 @@ const LaunchPage: NextPageWithLayout = () => {
                     <Loading />
                   )}
                 </Card>
-                {console.log(filteredMembers[0])}
                 <div className="grid grid-cols-3 gap-x-10 gap-y-10">
                   {filteredMembers?.map((_member: Members, index) => (
                     <MemberMatchCard
@@ -232,26 +259,6 @@ const LaunchPage: NextPageWithLayout = () => {
         )}
         {!!member && (
           <GridItemSix>
-            {/* <p>{member.discordName}</p>
-            <button
-              className="bg-soilGreen-500"
-              onClick={() => {
-                handleShortlistMember();
-              }}
-            >
-              Shortlist
-            </button>
-            <button
-              className="bg-red-500"
-              onClick={() => {
-                setMember(null);
-                router.push(
-                  `/test-launch/shortlist-users/${projectId}?roleId=${roleId}`
-                );
-              }}
-            >
-              Back
-            </button> */}
             <MemberProfileCard
               member={member}
               onClickNotNow={() => {
@@ -294,12 +301,15 @@ import {
   Members,
   Mutation,
   Project,
+  RoleInput,
+  RoleTemplate,
+  RoleType,
   TeamType,
 } from "@graphql/eden/generated";
 import { IncomingMessage, ServerResponse } from "http";
 import { useRouter } from "next/router";
 import { getSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export async function getServerSideProps(ctx: {
   req: IncomingMessage;

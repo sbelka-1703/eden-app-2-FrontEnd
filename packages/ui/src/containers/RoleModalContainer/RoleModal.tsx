@@ -1,54 +1,27 @@
-/* eslint-disable camelcase */
-import { LaunchContext } from "@context/eden";
-import {
-  Maybe,
-  Role,
-  RoleTemplate,
-  RoleType,
-  SkillType_Member,
-} from "@graphql/eden/generated";
-import { useContext, useState } from "react";
+import { Maybe, RoleTemplate } from "@graphql/eden/generated";
+import { useState } from "react";
 import { Button, Modal, RoleSelector } from "ui";
 
 export interface RoleModalProps {
   roles?: Maybe<Array<Maybe<RoleTemplate>>>;
   openModal?: boolean;
   firstRoleAssigned?: boolean;
-  onSelectedRole?: (role: Maybe<RoleTemplate>) => void;
-  roleSelected?: () => void;
+  // eslint-disable-next-line no-unused-vars
+  onSubmit: (role: Maybe<RoleTemplate>) => void;
 }
 
 export const RoleModal = ({
   roles,
   openModal,
   firstRoleAssigned,
-  onSelectedRole,
-  roleSelected,
+  onSubmit,
 }: RoleModalProps) => {
-  const { projectRoles, setProjectRoles } = useContext(LaunchContext);
-  const [projectRole, setProjectRole] = useState<Maybe<Role> | null>(null);
-  const [skills, setSkills] = useState<Maybe<SkillType_Member>[]>([]);
+  const [selectedRole, setSelectedRole] = useState<Maybe<RoleTemplate> | null>(
+    null
+  );
 
-  const handleSaveRole = () => {
-    if (projectRole) {
-      const newProjectRole = {
-        _id: projectRole._id,
-        title: projectRole.name,
-        description: projectRole.description,
-        skills: skills.map((skill: Maybe<SkillType_Member>) => {
-          return {
-            _id: skill?.skillInfo?._id,
-            level: skill?.level,
-          };
-        }),
-      } as RoleType;
-
-      setProjectRoles([...(projectRoles as []), newProjectRole]);
-      setTimeout(() => {
-        setProjectRole(null);
-        setSkills([]);
-      }, 800);
-    }
+  const onSelect = (val: Maybe<RoleTemplate>) => {
+    setSelectedRole(val);
   };
 
   return (
@@ -79,16 +52,19 @@ export const RoleModal = ({
                 Who are you looking for?
               </div>
               <div className="">
-                <RoleSelector
-                  roles={roles ? roles : []}
-                  onSelect={onSelectedRole}
-                  roleSelected={roleSelected}
-                />
+                <RoleSelector roles={roles ? roles : []} onSelect={onSelect} />
               </div>
             </div>
           </div>
           <div className={`absolute bottom-2  flex w-full justify-center`}>
-            <Button variant={`primary`} onClick={() => handleSaveRole()}>
+            <Button
+              variant={`primary`}
+              onClick={() => {
+                if (!!selectedRole) {
+                  onSubmit(selectedRole);
+                }
+              }}
+            >
               Done
             </Button>
           </div>
