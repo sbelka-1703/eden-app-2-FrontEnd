@@ -23,7 +23,7 @@ const initialState = {
   title: "",
 };
 
-function reducer(state, action): PreviusProjectsInput {
+function reducer(state: PreviusProjectsInput, action: any): PreviusProjectsInput {
   switch (action.type) {
     case "HANDLE INPUT TEXT":
       return {
@@ -47,45 +47,16 @@ function reducer(state, action): PreviusProjectsInput {
   }
 }
 
+
 export const UserExperienceCard = ({
   handleSubmit,
 }: UserExperienceCardlProps) => {
   const [title, setTitle] = useState("");
   const [state, dispath] = useReducer(reducer, initialState);
   const [description, setDescription] = useState<string | null>(null);
-  const initialState = {
-    description: "",
-    endDate: "",
-    link: "",
-    picture: "",
-    positionName: "",
-    startDate: "",
-    title: "",
-  };
 
-  function reducer(state, action): PreviusProjectsInput {
-    switch (action.type) {
-      case "HANDLE INPUT TEXT":
-        return {
-          ...state,
-          [action.field]: action.payload,
-        };
-      // case "editDescription":
-      //   return { description: e.target.value };
-      // case "editEndDate":
-      //   return { endDate: e.target.value };
-      // case "editLink":
-      //   return { link: e.target.value };
-      // case "editPositionName":
-      //   return { positionName: e.target.value };
-      // case "editStartDate":
-      //   return { startDate: e.target.value };
-      // case "editTitle":
-      //   return { title: e.target.value };
-      default:
-        return state;
-    }
-  }
+
+
 
   const handleTextChange = (e) => {
     dispath({
