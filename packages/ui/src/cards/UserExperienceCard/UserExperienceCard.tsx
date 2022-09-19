@@ -25,18 +25,23 @@ const initialState = {
 
 function reducer(state, action): PreviusProjectsInput {
   switch (action.type) {
-    case "editDescription":
-      return { description: e.target.value };
-    case "editEndDate":
-      return { endDate: e.target.value };
-    case "editLink":
-      return { link: e.target.value };
-    case "editPositionName":
-      return { positionName: e.target.value };
-    case "editStartDate":
-      return { startDate: e.target.value };
-    case "editTitle":
-      return { title: e.target.value };
+    case "HANDLE INPUT TEXT":
+      return {
+        ...state,
+        [action.field]: action.payload,
+      };
+    // case "editDescription":
+    //   return { description: e.target.value };
+    // case "editEndDate":
+    //   return { endDate: e.target.value };
+    // case "editLink":
+    //   return { link: e.target.value };
+    // case "editPositionName":
+    //   return { positionName: e.target.value };
+    // case "editStartDate":
+    //   return { startDate: e.target.value };
+    // case "editTitle":
+    //   return { title: e.target.value };
     default:
       return state;
   }
@@ -48,6 +53,48 @@ export const UserExperienceCard = ({
   const [title, setTitle] = useState("");
   const [state, dispath] = useReducer(reducer, initialState);
   const [description, setDescription] = useState<string | null>(null);
+  const initialState = {
+    description: "",
+    endDate: "",
+    link: "",
+    picture: "",
+    positionName: "",
+    startDate: "",
+    title: "",
+  };
+
+  function reducer(state, action): PreviusProjectsInput {
+    switch (action.type) {
+      case "HANDLE INPUT TEXT":
+        return {
+          ...state,
+          [action.field]: action.payload,
+        };
+      // case "editDescription":
+      //   return { description: e.target.value };
+      // case "editEndDate":
+      //   return { endDate: e.target.value };
+      // case "editLink":
+      //   return { link: e.target.value };
+      // case "editPositionName":
+      //   return { positionName: e.target.value };
+      // case "editStartDate":
+      //   return { startDate: e.target.value };
+      // case "editTitle":
+      //   return { title: e.target.value };
+      default:
+        return state;
+    }
+  }
+
+  const handleTextChange = (e) => {
+    dispath({
+      type: '"HANDLE INPUT TEXT',
+      field: e.target.name,
+      payload: e.taget.value,
+    });
+    console.log(state);
+  };
   return (
     <Card shadow className="p-0">
       <div className="mx-auto px-[170px] py-10">
@@ -74,9 +121,7 @@ export const UserExperienceCard = ({
           <TextArea
             rows={9}
             placeholder="Type Role Desciption"
-            onChange={(e) => {
-              console.log(e.target.value);
-            }}
+            onChange={(e) => handleTextChange(e)}
           />
         </div>
         <div className="space-y-1">
