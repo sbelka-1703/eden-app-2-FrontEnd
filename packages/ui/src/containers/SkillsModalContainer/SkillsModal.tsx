@@ -2,7 +2,7 @@
 import { Maybe, SkillType_Member } from "@graphql/eden/generated";
 import { Button, Modal, SearchSkill, SkillList } from "ui";
 
-export interface ISkillSelectorProps {
+export interface ISkillsModalProps {
   isOpen: boolean;
   skills: Maybe<SkillType_Member>[];
   // add skills as argument in setSkills and handelAddSkills
@@ -10,12 +10,12 @@ export interface ISkillSelectorProps {
   handelAddSkills: () => void;
 }
 
-export const SkillSelector = ({
+export const SkillsModal = ({
   isOpen,
   skills,
   setSkills,
   handelAddSkills,
-}: ISkillSelectorProps) => {
+}: ISkillsModalProps) => {
   return (
     <div>
       <Modal open={isOpen}>

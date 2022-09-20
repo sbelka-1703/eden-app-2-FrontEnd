@@ -24,6 +24,7 @@ const LaunchPage: NextPageWithLayout = () => {
   const [member, setMember] = useState<Members | null>(null);
   const [project, setProject] = useState<Project | null>(null);
   const [roleModalOpen, setRoleModalOpen] = useState<boolean>(false);
+  const [skillsModalOpen, setSkillsModalOpen] = useState<boolean>(false);
   const [selectedRole, setSelectedRole] = useState<RoleType | null>(null);
 
   const { data: roleData } = useQuery(FIND_ROLE_TEMPLATE, {
@@ -194,6 +195,18 @@ const LaunchPage: NextPageWithLayout = () => {
           roles={roles?.findRoleTemplates}
         />
       )}
+      {skillsModalOpen && (
+        <SkillsModal
+          handelAddSkills={() => {
+            /**/
+          }}
+          isOpen={skillsModalOpen}
+          skills={[]}
+          setSkills={function (): void {
+            throw new Error("Function not implemented.");
+          }}
+        />
+      )}
       <GridLayout>
         <GridItemThree>
           {project && (
@@ -242,7 +255,11 @@ const LaunchPage: NextPageWithLayout = () => {
                           more later.
                         </p>
                       </div>
-                      <Button className="ml-auto" variant="primary">
+                      <Button
+                        className="ml-auto"
+                        variant="primary"
+                        onClick={() => setSkillsModalOpen(true)}
+                      >
                         Add skills
                       </Button>
                     </>
@@ -320,6 +337,7 @@ import { IncomingMessage, ServerResponse } from "http";
 import { useRouter } from "next/router";
 import { getSession } from "next-auth/react";
 import { useState } from "react";
+import { SkillsModal } from "ui/src/containers";
 
 export async function getServerSideProps(ctx: {
   req: IncomingMessage;

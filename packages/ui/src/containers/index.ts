@@ -9,5 +9,6 @@ export * from "./MyProjectContainer";
 export * from "./OnboardPartyContainer";
 export * from "./ProfileContainer";
 export * from "./ProjectsContainer";
-export * from "./SignUpContainer";
 export * from "./RoleModalContainer";
+export * from "./SignUpContainer";
+export * from "./SkillsModalContainer";
