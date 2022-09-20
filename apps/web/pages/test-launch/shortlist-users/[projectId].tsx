@@ -196,7 +196,6 @@ const LaunchPage: NextPageWithLayout = () => {
       )}
       <GridLayout>
         <GridItemThree>
-          {JSON.stringify(selectedRole)}
           {project && (
             <ProjectLayoutCard
               project={project}
