@@ -21,8 +21,8 @@ interface SkillListForRoleProps {
 const SkillListForRole: React.FC<SkillListForRoleProps> = ({
   skills,
   colorRGB,
-  closeButton = false,
-  handleOnClick,
+  // closeButton = false,
+  // handleOnClick,
 }) => {
   const [seeMore, setSeeMore] = useState(false);
 
