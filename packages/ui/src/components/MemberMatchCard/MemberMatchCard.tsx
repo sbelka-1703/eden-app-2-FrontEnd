@@ -1,6 +1,13 @@
 /* eslint-disable camelcase */
 import { Maybe, Members, SkillType_Member } from "@graphql/eden/generated";
-import { Button, Card, MatchAvatar, SkillList, SocialMediaComp } from "ui";
+import {
+  Button,
+  Card,
+  MatchAvatar,
+  SkillList,
+  SocialMediaComp,
+  TextHeading2,
+} from "ui";
 
 export interface MemberMatchCardProps {
   percentage?: string;
@@ -57,19 +64,17 @@ export const MemberMatchCard = ({
       className="relative flex w-full flex-col items-center justify-center bg-white p-5"
     >
       <MatchAvatar src={member.discordAvatar!} percentage={percentage} />
-      <h1 className="font-poppins text-darkGreen text-soilHeading2 font-medium">
+      <TextHeading2 className="font-poppins text-darkGreen font-medium">
         {member.discordName}{" "}
         {member.discriminator && (
           <span className="text-soilGray font-Inter text-xs font-semibold">
             #{member.discriminator}
           </span>
         )}
-      </h1>
-      {member.memberRole && (
-        <p className="text-soilLabel font-Inter mb-2 font-semibold uppercase">
-          {member.memberRole?.title}
-        </p>
-      )}
+      </TextHeading2>
+      <p className="text-soilLabel font-Inter mb-2 font-semibold uppercase">
+        {member.memberRole?.title}
+      </p>
       <SocialMediaComp links={member.links} size="20px" title="" />
       {requiredSkills && (
         <div className="mt-3 w-full self-start">
@@ -93,7 +98,7 @@ export const MemberMatchCard = ({
           </div>
         </div>
       )}
-      <Button className="absolute top-1 right-1" onClick={onClick}>
+      <Button className="absolute top-2 right-2" onClick={onClick} size="md">
         More
       </Button>
     </Card>
