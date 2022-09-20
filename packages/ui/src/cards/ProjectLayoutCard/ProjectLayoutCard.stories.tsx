@@ -10,7 +10,7 @@ export default {
 } as ComponentMeta<typeof ProjectLayoutCard>;
 
 const Template: ComponentStory<typeof ProjectLayoutCard> = (args) => (
-  <ProjectLayoutCard {...args} />
+  <ProjectLayoutCard {...args} showRoles />
 );
 
 export const Default = Template.bind({});

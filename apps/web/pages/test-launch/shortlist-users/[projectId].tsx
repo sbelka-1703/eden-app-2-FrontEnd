@@ -190,19 +190,9 @@ const LaunchPage: NextPageWithLayout = () => {
             <ProjectLayoutCard
               project={project}
               handleAddRole={handleAddRole}
+              showRoles
             />
           )}
-
-          {/* ----- to be removed ----- */}
-          {/* <button
-            className="bg-red-500"
-            onClick={() => {
-              setRoleModalOpen(true);
-            }}
-          >
-            Add role
-          </button> */}
-          {/* ------------------------- */}
           {member &&
             filteredMembers.map((_member: Members, index) => (
               <p

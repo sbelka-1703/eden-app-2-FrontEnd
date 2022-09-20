@@ -7,7 +7,7 @@ describe("ProjectLayoutCard", () => {
   it("renders without throwing", () => {
     const { container } = render(
       <MockedProvider>
-        <ProjectLayoutCard project={{ title: "title 1" }} />
+        <ProjectLayoutCard project={{ title: "title 1" }} showRoles />
       </MockedProvider>
     );
 

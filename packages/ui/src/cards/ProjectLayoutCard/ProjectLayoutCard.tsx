@@ -3,12 +3,14 @@ import { Card, EmojiSelector, RoleList, TextBody, TextHeading3 } from "ui";
 
 export interface ProjectLayoutCardProps {
   project?: Project;
+  showRoles?: boolean;
   onClick?: () => void;
   handleAddRole?: () => void;
 }
 
 export const ProjectLayoutCard = ({
   project,
+  showRoles = false,
   handleAddRole,
 }: ProjectLayoutCardProps) => {
   return (
@@ -20,10 +22,12 @@ export const ProjectLayoutCard = ({
         </div>
         <TextHeading3>{project?.title}</TextHeading3>
       </div>
-      <RoleList
-        handleAddRole={handleAddRole}
-        roles={project?.role ? project.role : []}
-      />
+      {showRoles && (
+        <RoleList
+          handleAddRole={handleAddRole}
+          roles={project?.role ? project.role : []}
+        />
+      )}
     </Card>
   );
 };
