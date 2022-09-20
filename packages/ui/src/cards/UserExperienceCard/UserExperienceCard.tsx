@@ -1,16 +1,10 @@
 import React from "react";
-import { Card, Dropdown, TextField } from "../../elements";
-import { useState, useReducer } from "react";
-import { TextArea } from "../../elements/TextAreaComponent";
-import { Calendar } from "../../components/CalendarComp";
+import { Card,TextField, TextArea, Calendar, Button } from "ui";
+import { useReducer } from "react";
 import { PreviusProjectsInput, Role } from "@graphql/eden/generated";
+
 export interface UserExperienceCardlProps {
-  // avatar?: string;
-  // title?: string;
-  // description?: string;
-  // onUpdateFavorite?: () => void;
-  // onMoreInfoClick?: () => void;
-  handleSubmit: (val: any) => void;
+  handleSubmit?: (val: any) => void;
 }
 
 const initialState = {
@@ -34,18 +28,10 @@ function reducer(
         ...state,
         [action.field]: action.payload,
       };
-    // case "editDescription":
-    //   return { description: state.description = action.payload };
     case "editEndDate":
       return { endDate: action.payload };
-    // case "editLink":
-    //   return { link: e.target.value };
-    // case "editPositionName":
-    //   return { positionName: e.target.value };
     case "editStartDate":
       return { startDate: action.payload };
-    // case "editTitle":
-    //   return { title: e.target.value };
     default:
       return state;
   }
@@ -54,12 +40,11 @@ function reducer(
 export const UserExperienceCard = ({
   handleSubmit,
 }: UserExperienceCardlProps) => {
-  const [title, setTitle] = useState("");
+
   const [state, dispath] = useReducer(reducer, initialState);
   // const [description, setDescription] = useState<string | null>(null);
 
-  const handleTextChange = (e) => {
-    
+  const handleTextChange = (e: any) => {
     dispath({
       type: "HANDLE INPUT TEXT",
       field: e.target.name,
@@ -69,41 +54,52 @@ export const UserExperienceCard = ({
   };
   return (
     <Card shadow className="p-0">
-      <div className="mx-auto px-[170px] py-10">
-        <p className="text-3xl">Share relevant experiences!</p>
-      </div>
-      <div className="flex space-x-6">
-        <div>
-          <TextField onChange={(val) => setTitle("")} placeholder="Position" />
-          <TextField
-            onChange={(e) => handleTextChange(e)}
-            placeholder="Company/project"
-            name="positionName"
-          />
-          <TextField
-            onChange={(e) => handleTextChange(e)}
-            placeholder="GitHub, .com"
-            name="gitHub"
-          />
-          <TextField
-            onChange={(val) => setTitle("")}
-            placeholder="LinkedIn, Upwork"
-            name="linkedInOrUpwork"
-          />
-          <Dropdown />
+      <div className=" flex flex-col items-center">
+        <div className=" py-10">
+          <p className="text-3xl">Share relevant experiences!</p>
         </div>
-        <div>
-          <TextArea
-            name="description"
-            rows={9}
-            placeholder="Type Role Desciption"
+        <div
+          className="flex w-full
+       justify-between"
+        >
+          <div>
+            <TextField
+              onChange={(e) => handleTextChange(e)}
+              placeholder="Position"
+              name="positionName"
+            />
+            <TextField
+              onChange={(e) => handleTextChange(e)}
+              placeholder="Company/project"
+              name="title"
+            />
+            <TextField
+              onChange={(e) => handleTextChange(e)}
+              placeholder="GitHub, .com"
+              name="gitHub"
+            />
+            <TextField
             onChange={(e) => handleTextChange(e)}
-          />
-        </div>
-        <div className="space-y-1">
-          {/* <Calendar  label="Start Date" onChange={(e) => dispath({type: 'editStartDate', payload: e.target.value})} /> */}
-          <Calendar  label="Start Date" onChange={(e) => handleTextChange(e)} />
-          <Calendar label="End Date" onChange={(e) => handleTextChange(e)} />
+              placeholder="LinkedIn, Upwork"
+              name="linkedInOrUpwork"
+            />
+          </div>
+          <div>
+            <TextArea
+              name="description"
+              rows={6}
+              placeholder="Type Role Desciption"
+              onChange={(e) => handleTextChange(e)}
+            />
+          </div>
+          <div className="flex flex-col items-center space-y-1">
+            <Button radius="rounded">DONE</Button>
+            <Calendar
+              label="Start Date"
+              onChange={(e) => handleTextChange(e)}
+            />
+            <Calendar label="End Date" onChange={(e) => handleTextChange(e)} />
+          </div>
         </div>
       </div>
     </Card>

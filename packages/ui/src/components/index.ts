@@ -15,3 +15,5 @@ export * from "./SocialMediaComponent";
 export * from "./SocialMediaInput";
 export * from "./UserProfileMenu";
 export * from "./UserWithDescription";
+export * from "./CalendarComp";
+
