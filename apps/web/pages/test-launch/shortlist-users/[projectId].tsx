@@ -24,6 +24,7 @@ const LaunchPage: NextPageWithLayout = () => {
   const [member, setMember] = useState<Members | null>(null);
   const [project, setProject] = useState<Project | null>(null);
   const [roleModalOpen, setRoleModalOpen] = useState<boolean>(false);
+  const [selectedRoleId, setSelectedRoleId] = useState<string | null>(null);
 
   const { data: roleData } = useQuery(FIND_ROLE_TEMPLATE, {
     variables: {
@@ -84,6 +85,19 @@ const LaunchPage: NextPageWithLayout = () => {
     },
   });
 
+  const { data: matchingMembers } = useQuery(MATCH_MEMBERS_TO_PROJECT_ROLE, {
+    variables: {
+      fields: {
+        projectRoleID: selectedRoleId,
+      },
+    },
+  });
+
+  useEffect(() => {
+    console.log("Matching members", matchingMembers);
+    console.log("project", project);
+  }, [project, matchingMembers]);
+
   const [updateProject, {}] = useMutation(UPDATE_PROJECT, {
     onCompleted({ updateProject }: Mutation) {
       if (!updateProject) console.log("updateProject is null");
@@ -135,20 +149,35 @@ const LaunchPage: NextPageWithLayout = () => {
       )
   );
 
-  const handleSaveRole = (role: Maybe<RoleTemplate>) => {
+  const { data: roleSkills } = useQuery(FIND_ROLE_TEMPLATE, {
+    variables: {
+      fields: {
+        _id: selectedRoleId,
+      },
+    },
+  });
+
+  const handleSaveRole = async (role: Maybe<RoleTemplate>) => {
+    console.log("selectedRole", role);
     const mappedRoles: RoleInput[] | undefined = project?.role?.map(
       (_role: Maybe<RoleType>) => {
         return {
           _id: _role?._id,
-          // skills: _role?.skills,
+          skills: _role?.skills,
           title: _role?.title,
         };
       }
     );
 
+    let skills: InputMaybe<InputMaybe<SkillRoleInput>[]> = [];
+
+    await roleSkills?.findRoleTemplate.skills.forEach((s: any) => {
+      skills!.push({ _id: s._id });
+    });
+
     const mappedRole: RoleInput = {
       _id: role?._id,
-      // skills: role?.skills,
+      skills: skills,
       title: role?.title,
     };
 
@@ -167,6 +196,7 @@ const LaunchPage: NextPageWithLayout = () => {
             roleId ? "" : `?roleId=${role?._id}`
           }`
         );
+        skills = [];
       },
     });
   };
@@ -179,6 +209,7 @@ const LaunchPage: NextPageWithLayout = () => {
     <LaunchProvider>
       {roleModalOpen && (
         <RoleModal
+          onRoleSelected={(_id) => setSelectedRoleId(_id)}
           onSubmit={handleSaveRole}
           openModal={roleModalOpen}
           roles={roles?.findRoleTemplates}
@@ -249,17 +280,20 @@ const LaunchPage: NextPageWithLayout = () => {
                   )}
                 </Card>
                 <div className="grid grid-cols-3 gap-x-10 gap-y-10">
-                  {filteredMembers?.map((_member: Members, index) => (
-                    <MemberMatchCard
-                      key={index}
-                      onClick={() =>
-                        router.push(
-                          `/test-launch/shortlist-users/${projectId}?roleId=${roleId}&memberId=${_member._id}`
-                        )
-                      }
-                      member={_member}
-                    />
-                  ))}
+                  {matchingMembers?.matchMembersToProjectRole?.map(
+                    (_member: any, index: number) => (
+                      <MemberMatchCard
+                        key={index}
+                        onClick={() =>
+                          router.push(
+                            `/test-launch/shortlist-users/${projectId}?roleId=${roleId}&memberId=${_member._id}`
+                          )
+                        }
+                        member={_member?.member}
+                        percentage={_member.matchPercentage}
+                      />
+                    )
+                  )}
                 </div>
               </>
             )}
@@ -302,9 +336,11 @@ import {
   FIND_PROJECT,
   FIND_ROLE_TEMPLATE,
   FIND_ROLE_TEMPLATES,
+  MATCH_MEMBERS_TO_PROJECT_ROLE,
   UPDATE_PROJECT,
 } from "@graphql/eden";
 import {
+  InputMaybe,
   Maybe,
   Members,
   Mutation,
@@ -312,12 +348,13 @@ import {
   RoleInput,
   RoleTemplate,
   RoleType,
+  SkillRoleInput,
   TeamType,
 } from "@graphql/eden/generated";
 import { IncomingMessage, ServerResponse } from "http";
 import { useRouter } from "next/router";
 import { getSession } from "next-auth/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export async function getServerSideProps(ctx: {
   req: IncomingMessage;
