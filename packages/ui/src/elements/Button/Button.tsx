@@ -19,11 +19,12 @@ export const Button = ({
   onClick,
 }: ButtonProps) => {
   const btnCls = clsx(
-    className,
     {
       "text-xs px-2": size === "sm",
+      "px-3": size === "md",
       "px-6": size === "lg",
     },
+    className,
     "py-1 font-Inter text-darkGreen flex font-medium",
     {
       "bg-accentColor text-soilGreen border-2 border-accentColor hover:border-darkGreen hover:bg-darkGreen hover:text-white":
