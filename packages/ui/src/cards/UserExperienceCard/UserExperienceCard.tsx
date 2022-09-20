@@ -1,5 +1,5 @@
 import React from "react";
-import { Card,TextField, TextArea, Calendar, Button } from "ui";
+import { Card, TextField, TextArea, Calendar, Button } from "ui";
 import { useReducer } from "react";
 import { PreviusProjectsInput, Role } from "@graphql/eden/generated";
 
@@ -40,7 +40,6 @@ function reducer(
 export const UserExperienceCard = ({
   handleSubmit,
 }: UserExperienceCardlProps) => {
-
   const [state, dispath] = useReducer(reducer, initialState);
   // const [description, setDescription] = useState<string | null>(null);
 
@@ -59,10 +58,9 @@ export const UserExperienceCard = ({
           <p className="text-3xl">Share relevant experiences!</p>
         </div>
         <div
-          className="flex w-full
-       justify-between"
+          className="flex w-full justify-between"
         >
-          <div>
+          <div className="w-full">
             <TextField
               onChange={(e) => handleTextChange(e)}
               placeholder="Position"
@@ -79,12 +77,12 @@ export const UserExperienceCard = ({
               name="gitHub"
             />
             <TextField
-            onChange={(e) => handleTextChange(e)}
+              onChange={(e) => handleTextChange(e)}
               placeholder="LinkedIn, Upwork"
               name="linkedInOrUpwork"
             />
           </div>
-          <div>
+          <div className="w-full">
             <TextArea
               name="description"
               rows={6}
@@ -92,7 +90,7 @@ export const UserExperienceCard = ({
               onChange={(e) => handleTextChange(e)}
             />
           </div>
-          <div className="flex flex-col items-center space-y-1">
+          <div className="flex flex-col items-center space-y-1 w-full">
             <Button radius="rounded">DONE</Button>
             <Calendar
               label="Start Date"
