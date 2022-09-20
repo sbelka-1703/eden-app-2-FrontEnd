@@ -6,6 +6,7 @@ export const FIND_MEMBERS = gql`
       _id
       discordAvatar
       discordName
+      discriminator
       bio
       skills {
         skillInfo {
@@ -25,6 +26,14 @@ export const FIND_MEMBERS = gql`
       hoursPerWeek
       interest
       timeZone
+      memberRole {
+        _id
+        title
+      }
+      links {
+        name
+        url
+      }
     }
   }
 `;

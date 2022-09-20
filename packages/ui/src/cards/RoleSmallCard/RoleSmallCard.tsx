@@ -2,7 +2,7 @@
 import { Maybe, RoleType, SkillRoleType } from "@graphql/eden/generated";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
 import React, { useState } from "react";
-import { Badge, Card } from "ui";
+import { Badge, Card, TextHeading3 } from "ui";
 
 export interface RoleSmallCardProps {
   role: Maybe<RoleType>;
@@ -21,8 +21,8 @@ interface SkillListForRoleProps {
 const SkillListForRole: React.FC<SkillListForRoleProps> = ({
   skills,
   colorRGB,
-  closeButton = false,
-  handleOnClick,
+  // closeButton = false,
+  // handleOnClick,
 }) => {
   const [seeMore, setSeeMore] = useState(false);
 
@@ -70,20 +70,20 @@ export const RoleSmallCard = ({
   onClick,
 }: RoleSmallCardProps) => {
   return (
-    <Card
-      border
-      focused={isSelected}
-      shadow
-      className="flex h-[7rem] flex-col items-start justify-start bg-white px-3 py-2"
-    >
-      <div onClick={onClick}>
-        <h1 className="text-soilHeading3 font-poppins font-medium">
+    <div onClick={onClick}>
+      <Card
+        border
+        focused={isSelected}
+        shadow
+        className="flex cursor-pointer flex-col items-start justify-start bg-white px-3 py-2"
+      >
+        <TextHeading3 className="font-poppins font-medium">
           {role?.title}
-        </h1>
+        </TextHeading3>
         <div>
           <SkillListForRole skills={skills} colorRGB="255, 255, 210" />
         </div>
-      </div>
-    </Card>
+      </Card>
+    </div>
   );
 };

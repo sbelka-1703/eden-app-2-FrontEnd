@@ -2,33 +2,50 @@
 import { Maybe, RoleType } from "@graphql/eden/generated";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
 import React, { useState } from "react";
-import { Button, RoleSmallCard } from "ui";
+import { Button, RoleSmallCard, TextBody } from "ui";
 
 export interface RoleListProps {
   roles: Maybe<Array<Maybe<RoleType>>>;
+  selectedRole?: Maybe<RoleType> | null;
   // eslint-disable-next-line no-unused-vars
   handleAddRole?: () => void;
+  // eslint-disable-next-line no-unused-vars
+  handleSelectRole?: (val: Maybe<RoleType>) => void;
 }
-export const RoleList: React.FC<RoleListProps> = ({ roles, handleAddRole }) => {
+export const RoleList: React.FC<RoleListProps> = ({
+  roles,
+  handleAddRole,
+  handleSelectRole,
+  selectedRole,
+}) => {
   const [seeMore, setSeeMore] = useState(false);
 
   const cards = roles?.map((role: Maybe<RoleType>, index: number) => (
-    <RoleSmallCard
-      key={index}
-      role={role}
-      isSelected={false}
-      skills={role?.skills ? role.skills : []}
-    />
+    <div key={index} className="col-span-1">
+      <RoleSmallCard
+        role={role}
+        isSelected={selectedRole?._id === role?._id}
+        skills={role?.skills ? role.skills : []}
+        onClick={() => {
+          if (handleSelectRole) handleSelectRole(role);
+        }}
+      />
+    </div>
   ));
 
   return (
     <div>
-      <div className="flex flex-wrap gap-2">
+      <div className="grid grid-cols-2 gap-2">
         {cards?.slice(0, 3)}
         {seeMore ? cards?.slice(3) : null}
-        <div className=" flex flex-row items-center justify-center">
-          <Button radius="rounded" variant="secondary" onClick={handleAddRole}>
-            <h1 className="text-soilBody">Add role</h1>
+        <div className="col-span-1">
+          <Button
+            radius="rounded"
+            variant="secondary"
+            onClick={handleAddRole}
+            className="mx-auto"
+          >
+            <TextBody>Add role</TextBody>
           </Button>
         </div>
       </div>
