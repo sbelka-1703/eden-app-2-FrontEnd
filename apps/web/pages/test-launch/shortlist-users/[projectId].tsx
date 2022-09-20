@@ -24,6 +24,7 @@ const LaunchPage: NextPageWithLayout = () => {
   const [member, setMember] = useState<Members | null>(null);
   const [project, setProject] = useState<Project | null>(null);
   const [roleModalOpen, setRoleModalOpen] = useState<boolean>(false);
+  const [selectedRole, setSelectedRole] = useState<RoleType | null>(null);
 
   const { data: roleData } = useQuery(FIND_ROLE_TEMPLATE, {
     variables: {
@@ -175,6 +176,15 @@ const LaunchPage: NextPageWithLayout = () => {
     setRoleModalOpen(true);
   };
 
+  const handleSelectRole = (role: Maybe<RoleType>) => {
+    if (role) {
+      setSelectedRole(role);
+      router.push(
+        `/test-launch/shortlist-users/${projectId}?roleId=${role._id}`
+      );
+    }
+  };
+
   return (
     <LaunchProvider>
       {roleModalOpen && (
@@ -186,10 +196,13 @@ const LaunchPage: NextPageWithLayout = () => {
       )}
       <GridLayout>
         <GridItemThree>
+          {JSON.stringify(selectedRole)}
           {project && (
             <ProjectLayoutCard
               project={project}
               handleAddRole={handleAddRole}
+              handleSelectRole={handleSelectRole}
+              selectedRole={selectedRole}
               showRoles
             />
           )}

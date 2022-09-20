@@ -1,17 +1,22 @@
-import { Project } from "@graphql/eden/generated";
+import { Maybe, Project, RoleType } from "@graphql/eden/generated";
 import { Card, EmojiSelector, RoleList, TextBody, TextHeading3 } from "ui";
 
 export interface ProjectLayoutCardProps {
   project?: Project;
   showRoles?: boolean;
+  selectedRole?: Maybe<RoleType> | null;
   onClick?: () => void;
   handleAddRole?: () => void;
+  // eslint-disable-next-line no-unused-vars
+  handleSelectRole?: (role: Maybe<RoleType>) => void;
 }
 
 export const ProjectLayoutCard = ({
   project,
   showRoles = false,
+  selectedRole,
   handleAddRole,
+  handleSelectRole,
 }: ProjectLayoutCardProps) => {
   return (
     <Card className="p-4" border>
@@ -25,7 +30,9 @@ export const ProjectLayoutCard = ({
       {showRoles && (
         <RoleList
           handleAddRole={handleAddRole}
+          handleSelectRole={handleSelectRole}
           roles={project?.role ? project.role : []}
+          selectedRole={selectedRole}
         />
       )}
     </Card>
