@@ -38,7 +38,7 @@ export const RoleList: React.FC<RoleListProps> = ({
       <div className="grid grid-cols-2 gap-2">
         {cards?.slice(0, 3)}
         {seeMore ? cards?.slice(3) : null}
-        <div className="col-span-1">
+        <div className="col-span-1 flex items-center justify-center">
           <Button
             radius="rounded"
             variant="secondary"

@@ -18,7 +18,7 @@ export const Card = ({
   const cardCls = clsx(`relative rounded-2xl ${className}`, {
     "shadow-cardShadow": shadow === true,
     "shadow-focusShadow": focused === true,
-    "border border-zinc-400": border === true,
+    "border border-zinc-400": border === true && focused !== true,
   });
 
   return <div className={cardCls}>{children}</div>;

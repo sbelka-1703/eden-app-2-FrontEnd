@@ -17,7 +17,7 @@ export const CandidateProfileCard = ({
   percentage,
 }: ICandidateProfileCardProps) => {
   return (
-    <Card className="bg-white p-3">
+    <Card className="scrollbar-hide overflow-scroll bg-white p-3">
       <div className={`flex	items-center gap-8`}>
         <MatchAvatar
           src={member?.discordAvatar!}
@@ -29,12 +29,16 @@ export const CandidateProfileCard = ({
             <span className="text-xl font-medium tracking-wide">
               {member?.discordName}
             </span>
-            <span className="ml-1 text-xs font-normal text-neutral-400">
-              {`#${member?.discriminator}`}
-            </span>
+            {member?.discriminator && (
+              <span className="ml-1 text-xs font-normal text-neutral-400">
+                {`#${member?.discriminator}`}
+              </span>
+            )}
           </div>
           <div>
-            <span className="text-xs uppercase tracking-wide">3D designer</span>
+            <span className="text-xs uppercase tracking-wide">
+              {member?.memberRole?.title}
+            </span>
           </div>
         </div>
       </div>
