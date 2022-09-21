@@ -24,7 +24,7 @@ export const MemberProfileCard = ({
   return (
     <Card
       border
-      className="border-soilGreen-700 flex w-full  flex-col items-center justify-center gap-5 p-10"
+      className="!border-accentColor flex w-full flex-col items-center justify-center gap-5 border-[2px] bg-white p-10"
     >
       <div className="flex items-center justify-center gap-5">
         <Button

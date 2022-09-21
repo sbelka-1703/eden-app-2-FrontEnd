@@ -87,7 +87,7 @@ module.exports = {
       boxShadow: {
         headerShadow: "0px 1px 15px 0px rgba(0, 0, 0, 0.15)",
         cardShadow: "0px 1px 4px 0px rgba(0, 0, 0, 0.15)",
-        focusShadow: "0px 0px 0px 3px #74FA6D",
+        focusShadow: "0px 0px 0px 2px #74FA6D",
       },
       height: {
         "1/10": "10vh",
