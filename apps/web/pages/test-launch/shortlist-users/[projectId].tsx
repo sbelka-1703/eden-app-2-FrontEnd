@@ -25,6 +25,7 @@ const LaunchPage: NextPageWithLayout = () => {
   const [project, setProject] = useState<Project | null>(null);
   const [roleModalOpen, setRoleModalOpen] = useState<boolean>(false);
   const [selectedRole, setSelectedRole] = useState<RoleType | null>(null);
+  const [selectedRoleId, setSelectedRoleId] = useState<string | null>(null);
 
   const { data: roleData } = useQuery(FIND_ROLE_TEMPLATE, {
     variables: {
@@ -85,18 +86,18 @@ const LaunchPage: NextPageWithLayout = () => {
     },
   });
 
-  const { data: matchingMembers } = useQuery(MATCH_MEMBERS_TO_PROJECT_ROLE, {
-    variables: {
-      fields: {
-        projectRoleID: selectedRoleId,
-      },
-    },
-  });
+  // const { data: matchingMembers } = useQuery(MATCH_MEMBERS_TO_PROJECT_ROLE, {
+  //   variables: {
+  //     fields: {
+  //       projectRoleID: selectedRoleId,
+  //     },
+  //   },
+  // });
 
-  useEffect(() => {
-    console.log("Matching members", matchingMembers);
-    console.log("project", project);
-  }, [project, matchingMembers]);
+  // useEffect(() => {
+  //   console.log("Matching members", matchingMembers);
+  //   console.log("project", project);
+  // }, [project, matchingMembers]);
 
   const [updateProject, {}] = useMutation(UPDATE_PROJECT, {
     onCompleted({ updateProject }: Mutation) {
@@ -161,19 +162,29 @@ const LaunchPage: NextPageWithLayout = () => {
     console.log("selectedRole", role);
     const mappedRoles: RoleInput[] | undefined = project?.role?.map(
       (_role: Maybe<RoleType>) => {
+        const skills = _role?.skills?.map((skill) => ({
+          _id: skill?.skillData?._id,
+        }));
+
         return {
           _id: _role?._id,
-          skills: _role?.skills,
+          skills: skills,
           title: _role?.title,
         };
       }
     );
 
+    console.log("mapped roles=========", mappedRoles);
+
+    console.log("role Selected id", selectedRoleId);
+
     let skills: InputMaybe<InputMaybe<SkillRoleInput>[]> = [];
 
     await roleSkills?.findRoleTemplate.skills.forEach((s: any) => {
-      skills!.push({ _id: s._id });
+      skills?.push({ _id: s._id });
     });
+
+    console.log("skills=======", roleSkills);
 
     const mappedRole: RoleInput = {
       _id: role?._id,
@@ -218,7 +229,7 @@ const LaunchPage: NextPageWithLayout = () => {
     <LaunchProvider>
       {roleModalOpen && (
         <RoleModal
-          onRoleSelected={(_id) => setSelectedRoleId(_id)}
+          onRoleSelected={setSelectedRoleId}
           onSubmit={handleSaveRole}
           openModal={roleModalOpen}
           roles={roles?.findRoleTemplates}
@@ -281,20 +292,18 @@ const LaunchPage: NextPageWithLayout = () => {
                   )}
                 </Card>
                 <div className="grid grid-cols-3 gap-x-10 gap-y-10">
-                  {matchingMembers?.matchMembersToProjectRole?.map(
-                    (_member: any, index: number) => (
-                      <MemberMatchCard
-                        key={index}
-                        onClick={() =>
-                          router.push(
-                            `/test-launch/shortlist-users/${projectId}?roleId=${roleId}&memberId=${_member._id}`
-                          )
-                        }
-                        member={_member?.member}
-                        percentage={_member.matchPercentage}
-                      />
-                    )
-                  )}
+                  {filteredMembers?.map((_member: any, index: number) => (
+                    <MemberMatchCard
+                      key={index}
+                      onClick={() =>
+                        router.push(
+                          `/test-launch/shortlist-users/${projectId}?roleId=${roleId}&memberId=${_member._id}`
+                        )
+                      }
+                      member={_member}
+                      percentage={_member.matchPercentage}
+                    />
+                  ))}
                 </div>
               </>
             )}
@@ -337,7 +346,7 @@ import {
   FIND_PROJECT,
   FIND_ROLE_TEMPLATE,
   FIND_ROLE_TEMPLATES,
-  MATCH_MEMBERS_TO_PROJECT_ROLE,
+  // MATCH_MEMBERS_TO_PROJECT_ROLE,
   UPDATE_PROJECT,
 } from "@graphql/eden";
 import {
@@ -355,7 +364,7 @@ import {
 import { IncomingMessage, ServerResponse } from "http";
 import { useRouter } from "next/router";
 import { getSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export async function getServerSideProps(ctx: {
   req: IncomingMessage;
