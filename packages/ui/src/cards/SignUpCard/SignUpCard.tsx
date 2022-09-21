@@ -162,7 +162,7 @@ const AddSkillsView = ({
       </div>
 
       <Modal open={showModal} closeOnEsc={false}>
-        <div className={`h-5/10 mt-8`}>
+        <div className={`h-5/10 mt-3`}>
           <SearchSkill
             levels={levels}
             skills={currentUser?.skills}
