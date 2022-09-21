@@ -24,7 +24,7 @@ export const MemberMatchCard = ({
 }: MemberMatchCardProps) => {
   const mySkills: Maybe<SkillType_Member>[] | undefined = [];
 
-  member.skills?.forEach((skill) => {
+  member?.skills?.forEach((skill) => {
     mySkills.push(skill);
   });
 
@@ -63,19 +63,19 @@ export const MemberMatchCard = ({
       shadow={true}
       className="relative flex w-full flex-col items-center justify-center bg-white p-5"
     >
-      <MatchAvatar src={member.discordAvatar!} percentage={percentage} />
+      <MatchAvatar src={member?.discordAvatar!} percentage={percentage} />
       <TextHeading2 className="font-poppins text-darkGreen font-medium">
-        {member.discordName}{" "}
-        {member.discriminator && (
+        {member?.discordName}{" "}
+        {member?.discriminator && (
           <span className="text-soilGray font-Inter text-xs font-semibold">
-            #{member.discriminator}
+            #{member?.discriminator}
           </span>
         )}
       </TextHeading2>
       <p className="text-soilLabel font-Inter mb-2 font-semibold uppercase">
-        {member.memberRole?.title}
+        {member?.memberRole?.title}
       </p>
-      <SocialMediaComp links={member.links} size="20px" title="" />
+      <SocialMediaComp links={member?.links} size="20px" title="" />
       {requiredSkills && (
         <div className="mt-3 w-full self-start">
           <p className="text-soilGray text-soilLabel font-Inter font-semibold">

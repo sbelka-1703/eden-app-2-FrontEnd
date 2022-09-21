@@ -28,6 +28,7 @@ const LaunchPage: NextPageWithLayout = () => {
   const [roleModalOpen, setRoleModalOpen] = useState<boolean>(false);
   const [skillsModalOpen, setSkillsModalOpen] = useState<boolean>(false);
   const [selectedRole, setSelectedRole] = useState<RoleType | null>(null);
+  const [selectedRoleId, setSelectedRoleId] = useState<string | null>(null);
 
   const { data: roleData } = useQuery(FIND_ROLE_TEMPLATE, {
     variables: {
@@ -88,6 +89,20 @@ const LaunchPage: NextPageWithLayout = () => {
     },
   });
 
+  const { data: matchingMembers } = useQuery(MATCH_MEMBERS_TO_SKILLS, {
+    variables: {
+      fields: {
+        skillsID: selectedRole?.skills?.flatMap(
+          (skill) => skill?.skillData?._id
+        ),
+      },
+    },
+  });
+
+  useEffect(() => {
+    console.log("matching members", matchingMembers?.matchSkillsToMembers);
+  }, [matchingMembers]);
+
   const [updateProject, {}] = useMutation(UPDATE_PROJECT, {
     onCompleted({ updateProject }: Mutation) {
       if (!updateProject) console.log("updateProject is null");
@@ -139,20 +154,45 @@ const LaunchPage: NextPageWithLayout = () => {
       )
   );
 
-  const handleSaveRole = (role: Maybe<RoleTemplate>) => {
+  const { data: roleSkills } = useQuery(FIND_ROLE_TEMPLATE, {
+    variables: {
+      fields: {
+        _id: selectedRoleId,
+      },
+    },
+  });
+
+  const handleSaveRole = async (role: Maybe<RoleTemplate>) => {
+    console.log("selectedRole", role);
     const mappedRoles: RoleInput[] | undefined = project?.role?.map(
       (_role: Maybe<RoleType>) => {
+        const skills = _role?.skills?.map((skill) => ({
+          _id: skill?.skillData?._id,
+        }));
+
         return {
           _id: _role?._id,
-          // skills: _role?.skills,
+          skills: skills,
           title: _role?.title,
         };
       }
     );
 
+    console.log("mapped roles=========", mappedRoles);
+
+    console.log("role Selected id", selectedRoleId);
+
+    let skills: InputMaybe<InputMaybe<SkillRoleInput>[]> = [];
+
+    await roleSkills?.findRoleTemplate.skills.forEach((s: any) => {
+      skills?.push({ _id: s._id });
+    });
+
+    console.log("skills=======", roleSkills);
+
     const mappedRole: RoleInput = {
       _id: role?._id,
-      // skills: role?.skills,
+      skills: skills,
       title: role?.title,
     };
 
@@ -171,6 +211,7 @@ const LaunchPage: NextPageWithLayout = () => {
             roleId ? "" : `?roleId=${role?._id}`
           }`
         );
+        skills = [];
       },
     });
   };
@@ -229,6 +270,7 @@ const LaunchPage: NextPageWithLayout = () => {
     <LaunchProvider>
       {roleModalOpen && (
         <RoleModal
+          onRoleSelected={setSelectedRoleId}
           onSubmit={handleSaveRole}
           openModal={roleModalOpen}
           roles={roles?.findRoleTemplates}
@@ -258,22 +300,24 @@ const LaunchPage: NextPageWithLayout = () => {
             />
           )}
           {member &&
-            filteredMembers.map((_member: Members, index) => (
-              <div
-                key={index}
-                onClick={() =>
-                  router.push(
-                    `/test-launch/shortlist-users/${projectId}?roleId=${roleId}&memberId=${_member._id}`
-                  )
-                }
-                className="mb-2 cursor-pointer"
-              >
-                <CandidateProfileCard
-                  member={_member}
-                  percentage={25}
-                ></CandidateProfileCard>
-              </div>
-            ))}
+            matchingMembers?.matchSkillsToMembers?.map(
+              (_member: any, index: number) => (
+                <div
+                  key={index}
+                  onClick={() =>
+                    router.push(
+                      `/test-launch/shortlist-users/${projectId}?roleId=${roleId}&memberId=${_member._id}`
+                    )
+                  }
+                  className="mb-2 cursor-pointer"
+                >
+                  <CandidateProfileCard
+                    member={_member.member}
+                    percentage={_member.matchPercentage}
+                  />
+                </div>
+              )
+            )}
         </GridItemThree>
         {!member && selectedRole && (
           <GridItemNine className="hide-scrollbar h-8/10 overflow-scroll">
@@ -309,21 +353,22 @@ const LaunchPage: NextPageWithLayout = () => {
                     <Loading />
                   )}
                 </Card>
-                <div
-                  className="grid grid-cols-3 gap-x-10 gap-y-10"
-                  key={selectedRole?._id}
-                >
-                  {filteredMembers?.map((_member: Members, index) => (
-                    <MemberMatchCard
-                      key={index}
-                      onClick={() =>
-                        router.push(
-                          `/test-launch/shortlist-users/${projectId}?roleId=${roleId}&memberId=${_member._id}`
-                        )
-                      }
-                      member={_member}
-                    />
-                  ))}
+                <div className="grid grid-cols-3 gap-x-10 gap-y-10">
+                  {matchingMembers?.matchSkillsToMembers?.map(
+                    (_member: any, index: number) => (
+                      <MemberMatchCard
+                        key={index}
+                        onClick={() =>
+                          router.push(
+                            `/test-launch/shortlist-users/${projectId}?roleId=${roleId}&memberId=${_member.member._id}`
+                          )
+                        }
+                        // requiredSkills={selectedRole?.skills}
+                        member={_member.member}
+                        percentage={_member.matchPercentage}
+                      />
+                    )
+                  )}
                 </div>
               </>
             )}
@@ -333,6 +378,7 @@ const LaunchPage: NextPageWithLayout = () => {
           <>
             <GridItemSix>
               <MemberProfileCard
+                percentage="65"
                 key={member._id}
                 member={member}
                 onClickNotNow={() => {
@@ -380,9 +426,11 @@ import {
   FIND_PROJECT,
   FIND_ROLE_TEMPLATE,
   FIND_ROLE_TEMPLATES,
+  MATCH_MEMBERS_TO_SKILLS,
   UPDATE_PROJECT,
 } from "@graphql/eden";
 import {
+  InputMaybe,
   Maybe,
   Members,
   Mutation,
@@ -390,6 +438,7 @@ import {
   RoleInput,
   RoleTemplate,
   RoleType,
+  SkillRoleInput,
   SkillRoleType,
   TeamInput,
   TeamType,

@@ -10,11 +10,13 @@ import {
 
 export interface MemberProfileCardProps {
   member: Members;
+  percentage: string;
   onClickNotNow?: () => void;
   onClickAddToList?: () => void;
 }
 
 export const MemberProfileCard = ({
+  percentage,
   member,
   onClickNotNow,
   onClickAddToList,
@@ -61,7 +63,7 @@ export const MemberProfileCard = ({
             Match
           </h1>
           <p className="text-soilPurple font-poppins text-4xl font-semibold">
-            65%
+            {percentage}%
           </p>
         </div>
       </div>
