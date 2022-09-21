@@ -14,6 +14,7 @@ import {
   ProjectLayoutCard,
   RoleModal,
   TextHeading3,
+  TextLabel,
 } from "ui";
 
 import type { NextPageWithLayout } from "../../_app";
@@ -95,12 +96,12 @@ const LaunchPage: NextPageWithLayout = () => {
   });
 
   const handleShortlistMember = () => {
-    if (project?.team) {
-      const mappedTeam: TeamType[] = project.team.map(
+    if (project?.team && roleId) {
+      const mappedTeam: TeamInput[] = project.team.map(
         (member: Maybe<TeamType>) => {
           return {
             memberID: member?.memberInfo?._id,
-            roleId: member?.roleID,
+            roleID: roleId as string,
             phase: member?.phase,
           };
         }
@@ -329,27 +330,40 @@ const LaunchPage: NextPageWithLayout = () => {
           </GridItemNine>
         )}
         {!!member && (
-          <GridItemSix>
-            <MemberProfileCard
-              key={member._id}
-              member={member}
-              onClickNotNow={() => {
-                setMember(null);
-                router.push(
-                  `/test-launch/shortlist-users/${projectId}?roleId=${roleId}`
-                );
-              }}
-              onClickAddToList={() => {
-                handleShortlistMember();
-              }}
-            />
-          </GridItemSix>
+          <>
+            <GridItemSix>
+              <MemberProfileCard
+                key={member._id}
+                member={member}
+                onClickNotNow={() => {
+                  setMember(null);
+                  router.push(
+                    `/test-launch/shortlist-users/${projectId}?roleId=${roleId}`
+                  );
+                }}
+                onClickAddToList={() => {
+                  handleShortlistMember();
+                }}
+              />
+            </GridItemSix>
+            <GridItemThree>
+              <div className="mb-3 text-center">
+                <TextLabel>Shortlisted for:</TextLabel>
+                <TextHeading3>{selectedRole?.title}</TextHeading3>
+              </div>
+              {shortlistedMembers
+                ?.filter((member) => member?.roleID === selectedRole?._id)
+                .map((member: Maybe<TeamType>, index) => (
+                  <div key={index} className="mb-2">
+                    <CandidateProfileCard
+                      member={member?.memberInfo}
+                      percentage={undefined}
+                    />
+                  </div>
+                ))}
+            </GridItemThree>
+          </>
         )}
-        <GridItemThree>
-          {shortlistedMembers?.map((member: any, index) => (
-            <p key={index}>{member.memberInfo.discordName}</p>
-          ))}
-        </GridItemThree>
       </GridLayout>
     </LaunchProvider>
   );
@@ -377,6 +391,7 @@ import {
   RoleTemplate,
   RoleType,
   SkillRoleType,
+  TeamInput,
   TeamType,
 } from "@graphql/eden/generated";
 import { IncomingMessage, ServerResponse } from "http";

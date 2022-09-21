@@ -22,7 +22,7 @@ export const CandidateProfileCard = ({
         <MatchAvatar
           src={member?.discordAvatar!}
           size="md"
-          percentage={round(Number(percentage), 1)}
+          percentage={percentage ? round(Number(percentage), 1) : undefined}
         />
         <div>
           <div>
