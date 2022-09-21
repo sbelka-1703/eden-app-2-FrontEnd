@@ -2,6 +2,7 @@ import { LaunchProvider } from "@context/eden";
 import {
   AppUserLayout,
   Button,
+  CandidateProfileCard,
   Card,
   GridItemNine,
   GridItemSix,
@@ -244,7 +245,7 @@ const LaunchPage: NextPageWithLayout = () => {
         />
       )}
       <GridLayout>
-        <GridItemThree>
+        <GridItemThree className="h-8/10 scrollbar-hide overflow-scroll">
           {project && (
             <ProjectLayoutCard
               key={roleId as string}
@@ -257,17 +258,20 @@ const LaunchPage: NextPageWithLayout = () => {
           )}
           {member &&
             filteredMembers.map((_member: Members, index) => (
-              <p
+              <div
                 key={index}
                 onClick={() =>
                   router.push(
                     `/test-launch/shortlist-users/${projectId}?roleId=${roleId}&memberId=${_member._id}`
                   )
                 }
-                className="cursor-pointer"
+                className="mb-2 cursor-pointer"
               >
-                {_member.discordName}
-              </p>
+                <CandidateProfileCard
+                  member={_member}
+                  percentage={25}
+                ></CandidateProfileCard>
+              </div>
             ))}
         </GridItemThree>
         {!member && selectedRole && (
@@ -327,6 +331,7 @@ const LaunchPage: NextPageWithLayout = () => {
         {!!member && (
           <GridItemSix>
             <MemberProfileCard
+              key={member._id}
               member={member}
               onClickNotNow={() => {
                 setMember(null);

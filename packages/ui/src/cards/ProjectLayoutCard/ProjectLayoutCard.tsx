@@ -19,7 +19,7 @@ export const ProjectLayoutCard = ({
   handleSelectRole,
 }: ProjectLayoutCardProps) => {
   return (
-    <Card className="bg-white p-4" border={!showRoles}>
+    <Card className="mb-3 bg-white p-4" border={!showRoles}>
       <TextBody className="mb-2">Your Project</TextBody>
       <div className="flex items-center pb-2">
         <div className="mr-4">

@@ -1,6 +1,5 @@
-import { Maybe, Members, ProjectMatchType } from "@graphql/eden/generated";
-import { useRouter } from "next/router";
-import { Avatar, Card } from "ui";
+import { Maybe, Members } from "@graphql/eden/generated";
+import { Card, MatchAvatar } from "ui";
 
 export interface ICandidateProfileCardProps {
   member?: Maybe<Members>;
@@ -17,20 +16,14 @@ export const CandidateProfileCard = ({
   member,
   percentage,
 }: ICandidateProfileCardProps) => {
-  const router = useRouter();
-
-  // console.log(project);
   return (
-    <Card shadow>
-      <div className={`flex	items-center justify-between self-center`}>
-        <div className={`relative`}>
-          <Avatar isProject />
-          <span
-            className={`text-soilPurple absolute mt-9 -ml-6 rounded-full bg-white px-1.5 text-xl font-semibold shadow-sm`}
-          >
-            {round(Number(percentage), 1)}%
-          </span>
-        </div>
+    <Card className="bg-white p-3">
+      <div className={`flex	items-center gap-8`}>
+        <MatchAvatar
+          src={member?.discordAvatar!}
+          size="md"
+          percentage={round(Number(percentage), 1)}
+        />
         <div>
           <div>
             <span className="text-xl font-medium tracking-wide">
