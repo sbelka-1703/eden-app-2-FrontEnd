@@ -1,3 +1,4 @@
+export * from "./CandidateProfileCard";
 export * from "./EditProfileOnboardPartyCard";
 export * from "./ProjectCard";
 export * from "./ProjectCardSmall";
