@@ -4,7 +4,9 @@ import { ProjectMatchList } from "./";
 
 describe("ProjectMatchList", () => {
   it("renders without throwing", () => {
-    const { container } = render(<ProjectMatchList projects={[]} />);
+    const { container } = render(
+      <ProjectMatchList onSelectedProject={() => console.log("test")} />
+    );
 
     expect(container).toBeInTheDocument();
   });

@@ -13,6 +13,7 @@ import {
   ProjectLayoutCard,
   RoleModal,
   TextHeading3,
+  CandidateProfileCard,
 } from "ui";
 
 import type { NextPageWithLayout } from "../../_app";
@@ -24,6 +25,7 @@ const LaunchPage: NextPageWithLayout = () => {
   const [member, setMember] = useState<Members | null>(null);
   const [project, setProject] = useState<Project | null>(null);
   const [roleModalOpen, setRoleModalOpen] = useState<boolean>(false);
+  const [skillsModalOpen, setSkillsModalOpen] = useState<boolean>(false);
   const [selectedRole, setSelectedRole] = useState<RoleType | null>(null);
   const [selectedRoleId, setSelectedRoleId] = useState<string | null>(null);
 
@@ -86,18 +88,19 @@ const LaunchPage: NextPageWithLayout = () => {
     },
   });
 
-  // const { data: matchingMembers } = useQuery(MATCH_MEMBERS_TO_PROJECT_ROLE, {
-  //   variables: {
-  //     fields: {
-  //       projectRoleID: selectedRoleId,
-  //     },
-  //   },
-  // });
+  const { data: matchingMembers } = useQuery(MATCH_MEMBERS_TO_SKILLS, {
+    variables: {
+      fields: {
+        skillsID: selectedRole?.skills?.flatMap(
+          (skill) => skill?.skillData?._id
+        ),
+      },
+    },
+  });
 
-  // useEffect(() => {
-  //   console.log("Matching members", matchingMembers);
-  //   console.log("project", project);
-  // }, [project, matchingMembers]);
+  useEffect(() => {
+    console.log("matching members", matchingMembers?.matchSkillsToMembers);
+  }, [matchingMembers]);
 
   const [updateProject, {}] = useMutation(UPDATE_PROJECT, {
     onCompleted({ updateProject }: Mutation) {
@@ -218,10 +221,47 @@ const LaunchPage: NextPageWithLayout = () => {
 
   const handleSelectRole = (role: Maybe<RoleType>) => {
     if (role) {
-      setSelectedRole(role);
       router.push(
         `/test-launch/shortlist-users/${projectId}?roleId=${role._id}`
       );
+    }
+  };
+
+  useEffect(() => {
+    setSelectedRole(
+      project?.role?.find((role) => role?._id === roleId) || null
+    );
+  }, [roleId, project]);
+
+  const handleSetSkills = (skills: SkillRoleType[]) => {
+    if (selectedRole && project) {
+      updateProject({
+        variables: {
+          fields: {
+            _id: projectId,
+            role: project?.role?.map((role: Maybe<RoleType>) => {
+              return role?._id === selectedRole._id
+                ? ({
+                    _id: role?._id,
+                    title: role?.title,
+                    skills: skills.map((skill) => ({
+                      _id: skill.skillData?._id,
+                      level: skill.level,
+                    })),
+                  } as RoleInput)
+                : ({
+                    _id: role?._id,
+                    title: role?.title,
+                    skills: role?.skills?.map((skill) => ({
+                      _id: skill?.skillData?._id,
+                      level: skill?.level,
+                    })),
+                  } as RoleInput);
+            }),
+          },
+        },
+        context: { serviceName: "soilservice" },
+      });
     }
   };
 
@@ -235,10 +275,22 @@ const LaunchPage: NextPageWithLayout = () => {
           roles={roles?.findRoleTemplates}
         />
       )}
+      {skillsModalOpen && project && (
+        <SkillsModal
+          key={project?._id || "no-id" + skillsModalOpen ? "open" : ""}
+          handelAddSkills={() => {
+            setSkillsModalOpen(false);
+          }}
+          isOpen={skillsModalOpen}
+          skills={selectedRole?.skills || []}
+          setSkills={handleSetSkills}
+        />
+      )}
       <GridLayout>
         <GridItemThree>
           {project && (
             <ProjectLayoutCard
+              key={roleId as string}
               project={project}
               handleAddRole={handleAddRole}
               handleSelectRole={handleSelectRole}
@@ -246,22 +298,36 @@ const LaunchPage: NextPageWithLayout = () => {
               showRoles
             />
           )}
-          {member &&
-            filteredMembers.map((_member: Members, index) => (
-              <p
-                key={index}
-                onClick={() =>
-                  router.push(
-                    `/test-launch/shortlist-users/${projectId}?roleId=${roleId}&memberId=${_member._id}`
-                  )
-                }
-                className="cursor-pointer"
-              >
-                {_member.discordName}
-              </p>
-            ))}
+          <div className="overflow-y-scroll">
+            {member &&
+              matchingMembers?.matchSkillsToMembers?.map(
+                (_member: any, index: number) => (
+                  // <p
+                  //   key={index}
+                  //   onClick={() =>
+                  //     router.push(
+                  //       `/test-launch/shortlist-users/${projectId}?roleId=${roleId}&memberId=${_member._id}`
+                  //     )
+                  //   }
+                  //   className="cursor-pointer"
+                  // >
+                  //   {_member.discordName}
+                  // </p>
+                  <CandidateProfileCard
+                    key={index}
+                    member={_member.member}
+                    percentage={_member.matchPercentage}
+                    onClick={() =>
+                      router.push(
+                        `/test-launch/shortlist-users/${projectId}?roleId=${roleId}&memberId=${_member.member._id}`
+                      )
+                    }
+                  />
+                )
+              )}
+          </div>
         </GridItemThree>
-        {!member && (
+        {!member && selectedRole && (
           <GridItemNine className="hide-scrollbar h-8/10 overflow-scroll">
             {roleId && (
               <>
@@ -283,7 +349,11 @@ const LaunchPage: NextPageWithLayout = () => {
                           more later.
                         </p>
                       </div>
-                      <Button className="ml-auto" variant="primary">
+                      <Button
+                        className="ml-auto"
+                        variant="primary"
+                        onClick={() => setSkillsModalOpen(true)}
+                      >
                         Add skills
                       </Button>
                     </>
@@ -292,18 +362,21 @@ const LaunchPage: NextPageWithLayout = () => {
                   )}
                 </Card>
                 <div className="grid grid-cols-3 gap-x-10 gap-y-10">
-                  {filteredMembers?.map((_member: any, index: number) => (
-                    <MemberMatchCard
-                      key={index}
-                      onClick={() =>
-                        router.push(
-                          `/test-launch/shortlist-users/${projectId}?roleId=${roleId}&memberId=${_member._id}`
-                        )
-                      }
-                      member={_member}
-                      percentage={_member.matchPercentage}
-                    />
-                  ))}
+                  {matchingMembers?.matchSkillsToMembers?.map(
+                    (_member: any, index: number) => (
+                      <MemberMatchCard
+                        key={index}
+                        onClick={() =>
+                          router.push(
+                            `/test-launch/shortlist-users/${projectId}?roleId=${roleId}&memberId=${_member.member._id}`
+                          )
+                        }
+                        // requiredSkills={selectedRole?.skills}
+                        member={_member.member}
+                        percentage={_member.matchPercentage}
+                      />
+                    )
+                  )}
                 </div>
               </>
             )}
@@ -319,6 +392,7 @@ const LaunchPage: NextPageWithLayout = () => {
                   `/test-launch/shortlist-users/${projectId}?roleId=${roleId}`
                 );
               }}
+              percentage="60"
               onClickAddToList={() => {
                 handleShortlistMember();
               }}
@@ -327,7 +401,11 @@ const LaunchPage: NextPageWithLayout = () => {
         )}
         <GridItemThree>
           {shortlistedMembers?.map((member: any, index) => (
-            <p key={index}>{member.memberInfo.discordName}</p>
+            <CandidateProfileCard
+              key={index}
+              member={member.member}
+              percentage={member.percentage}
+            />
           ))}
         </GridItemThree>
       </GridLayout>
@@ -346,7 +424,7 @@ import {
   FIND_PROJECT,
   FIND_ROLE_TEMPLATE,
   FIND_ROLE_TEMPLATES,
-  // MATCH_MEMBERS_TO_PROJECT_ROLE,
+  MATCH_MEMBERS_TO_SKILLS,
   UPDATE_PROJECT,
 } from "@graphql/eden";
 import {
@@ -359,12 +437,14 @@ import {
   RoleTemplate,
   RoleType,
   SkillRoleInput,
+  SkillRoleType,
   TeamType,
 } from "@graphql/eden/generated";
 import { IncomingMessage, ServerResponse } from "http";
 import { useRouter } from "next/router";
 import { getSession } from "next-auth/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { SkillsModal } from "ui/src/containers";
 
 export async function getServerSideProps(ctx: {
   req: IncomingMessage;

@@ -1,17 +1,16 @@
 /* eslint-disable camelcase */
 import { gql, useQuery } from "@apollo/client";
 import { UserContext } from "@context/eden";
-import { FIND_PROJECTS_RECOMMENDED } from "@graphql/eden";
+import { FIND_PROJECT } from "@graphql/eden";
 import Head from "next/head";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import {
   AppUserLayout,
   GridItemNine,
   GridItemThree,
   GridLayout,
-  ProjectMatchList,
-  SignUpCard,
-  UserProfileCard,
+  SignUpContainerMain,
+  SignUpContainerSide,
 } from "ui";
 
 import type { NextPageWithLayout } from "../../_app";
@@ -30,8 +29,43 @@ export const FIND_ROLES = gql`
   }
 `;
 
+export const MATCH_PROJECTS_TO_MEMBER = gql`
+  query ($fields: matchProjectsToMemberInput) {
+    matchProjectsToMember(fields: $fields) {
+      matchPercentage
+      matchProjectRoles {
+        matchPercentage
+        roleID
+        relatedSkills {
+          _id
+          name
+          relatedSkills {
+            _id
+            name
+          }
+        }
+      }
+      project {
+        _id
+        title
+        description
+        champion {
+          _id
+          discordName
+          discordAvatar
+        }
+      }
+      relatedSkills {
+        _id
+        name
+      }
+    }
+  }
+`;
+
 const SignUpTestPage: NextPageWithLayout = () => {
   const { currentUser } = useContext(UserContext);
+  const [selectProject, setSelectProject] = useState("");
 
   const { data: dataRoles } = useQuery(FIND_ROLES, {
     variables: {
@@ -40,8 +74,8 @@ const SignUpTestPage: NextPageWithLayout = () => {
     context: { serviceName: "soilservice" },
   });
 
-  const { data: dataProjectsRecommended, refetch } = useQuery(
-    FIND_PROJECTS_RECOMMENDED,
+  const { data: dataMatchedProjects, refetch: refetchMatch } = useQuery(
+    MATCH_PROJECTS_TO_MEMBER,
     {
       variables: {
         fields: {
@@ -53,9 +87,23 @@ const SignUpTestPage: NextPageWithLayout = () => {
     }
   );
 
-  // if (dataProjectsRecommended)
-  //   console.log(dataProjectsRecommended.findProjects_RecommendedToUser);
-  //   if (dataRoles) console.log("dataRoles", dataRoles);
+  // if (dataMatchedProjects)
+  //   console.log("dataMatchedProjects", dataMatchedProjects);
+
+  const { data: dataProject, refetch: refetchProject } = useQuery(
+    FIND_PROJECT,
+    {
+      variables: {
+        fields: {
+          _id: selectProject,
+        },
+      },
+      skip: !selectProject,
+      context: { serviceName: "soilservice" },
+    }
+  );
+
+  // if (dataProject) console.log("dataProject", dataProject);
 
   return (
     <div className={`bg-background`}>
@@ -65,22 +113,21 @@ const SignUpTestPage: NextPageWithLayout = () => {
 
       <GridLayout>
         <GridItemThree>
-          <UserProfileCard />
+          <SignUpContainerSide
+            matchedProjects={dataMatchedProjects?.matchProjectsToMember}
+            project={dataProject?.findProject}
+            onSelectedProject={(val) => setSelectProject(val)}
+          />
         </GridItemThree>
         <GridItemNine>
-          <div className={``}>
-            <SignUpCard
-              roles={dataRoles?.findRoleTemplates}
-              refetch={refetch}
-            />
-            <div className={"mt-6"}>
-              <ProjectMatchList
-                projects={
-                  dataProjectsRecommended?.findProjects_RecommendedToUser
-                }
-              />
-            </div>
-          </div>
+          <SignUpContainerMain
+            roles={dataRoles?.findRoleTemplates}
+            matchedProjects={dataMatchedProjects?.matchProjectsToMember}
+            project={dataProject?.findProject}
+            refetchMatch={refetchMatch}
+            refetchProject={refetchProject}
+            onSelectedProject={(val) => setSelectProject(val)}
+          />
         </GridItemNine>
       </GridLayout>
     </div>

@@ -8,6 +8,7 @@ export interface SkillListProps {
   skills: Maybe<SkillType_Member>[] | undefined;
   colorRGB?: string;
   closeButton?: boolean;
+  overflowNumber?: number;
   // eslint-disable-next-line no-unused-vars
   handleDeleteSkill?: (val: Maybe<SkillType_Member> | undefined) => void;
 }
@@ -15,6 +16,7 @@ export const SkillList: React.FC<SkillListProps> = ({
   skills,
   colorRGB,
   closeButton = false,
+  overflowNumber = 6,
   handleDeleteSkill,
 }) => {
   const [seeMore, setSeeMore] = useState(false);
@@ -38,10 +40,10 @@ export const SkillList: React.FC<SkillListProps> = ({
   return (
     <div>
       <div>
-        {badges?.slice(0, 6)}
-        {seeMore ? badges?.slice(6) : null}
+        {badges?.slice(0, overflowNumber)}
+        {seeMore ? badges?.slice(overflowNumber) : null}
       </div>
-      {badges && badges.length > 6 && (
+      {badges && badges.length > overflowNumber && (
         <p
           className="cursor-pointer text-center text-sm"
           onClick={() => setSeeMore(!seeMore)}

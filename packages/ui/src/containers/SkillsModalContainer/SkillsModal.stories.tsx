@@ -2,59 +2,59 @@ import { MockedProvider } from "@apollo/client/testing";
 import { FIND_ALL_CATEGORIES } from "@graphql/eden";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
-import { SkillSelector } from "./SkillSelector";
+import { SkillsModal } from "./SkillsModal";
 
 export default {
-  title: "Components/SkillSelector",
-  component: SkillSelector,
+  title: "Containers/SkillsModal",
+  component: SkillsModal,
   argTypes: {},
-} as ComponentMeta<typeof SkillSelector>;
+} as ComponentMeta<typeof SkillsModal>;
 
-const Template: ComponentStory<typeof SkillSelector> = (args) => (
-  <SkillSelector {...args} />
+const Template: ComponentStory<typeof SkillsModal> = (args) => (
+  <SkillsModal {...args} />
 );
 
 export const Default = Template.bind({});
 Default.args = {
   skills: [
     {
-      skillInfo: {
+      skillData: {
         _id: "1",
         name: "skill1",
       },
     },
     {
-      skillInfo: {
+      skillData: {
         _id: "2",
         name: "skill2",
       },
     },
     {
-      skillInfo: {
+      skillData: {
         _id: "3",
         name: "skill3",
       },
     },
     {
-      skillInfo: {
+      skillData: {
         _id: "4",
         name: "skill4",
       },
     },
     {
-      skillInfo: {
+      skillData: {
         _id: "5",
         name: "skill5",
       },
     },
     {
-      skillInfo: {
+      skillData: {
         _id: "6",
         name: "skill6",
       },
     },
     {
-      skillInfo: {
+      skillData: {
         _id: "7",
         name: "skill7",
       },
@@ -62,7 +62,7 @@ Default.args = {
   ],
   isOpen: true,
   handelAddSkills() {
-    console.log("SkillSelector HandelAddSkills");
+    console.log("SkillsModal HandelAddSkills");
   },
 };
 

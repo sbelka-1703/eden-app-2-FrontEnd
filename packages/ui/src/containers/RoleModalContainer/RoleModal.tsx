@@ -65,7 +65,9 @@ export const RoleModal = ({
               variant={`primary`}
               onClick={() => {
                 if (!!selectedRole) {
-                  onSubmit(selectedRole);
+                  setTimeout(() => {
+                    onSubmit(selectedRole);
+                  }, 1000);
                 }
               }}
             >

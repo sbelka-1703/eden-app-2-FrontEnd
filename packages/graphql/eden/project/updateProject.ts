@@ -10,6 +10,13 @@ export const UPDATE_PROJECT = gql`
         _id
         title
         description
+        skills {
+          skillData {
+            _id
+            name
+          }
+          level
+        }
       }
       team {
         memberInfo {

@@ -5,6 +5,7 @@ import { Avatar, Card } from "ui";
 export interface ICandidateProfileCardProps {
   member?: Maybe<Members>;
   percentage?: number;
+  onClick: () => void;
 }
 
 function round(value: number, precision: number) {
@@ -14,6 +15,7 @@ function round(value: number, precision: number) {
 }
 
 export const CandidateProfileCard = ({
+  onClick,
   member,
   percentage,
 }: ICandidateProfileCardProps) => {
@@ -22,7 +24,10 @@ export const CandidateProfileCard = ({
   // console.log(project);
   return (
     <Card shadow>
-      <div className={`flex	items-center justify-between self-center`}>
+      <div
+        className={`flex	cursor-pointer items-center justify-between self-center`}
+        onClick={onClick}
+      >
         <div className={`relative`}>
           <Avatar isProject />
           <span
