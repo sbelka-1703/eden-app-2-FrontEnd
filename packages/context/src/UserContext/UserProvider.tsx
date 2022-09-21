@@ -2,7 +2,7 @@ import { gql, useMutation, useQuery, useSubscription } from "@apollo/client";
 import { FIND_MEMBER_FULL, MEMBER_SUBSCRIPTION } from "@graphql/eden";
 import { Members, Mutation } from "@graphql/eden/generated";
 import { useSession } from "next-auth/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { UserContext } from "./UserContext";
 type userProfile = Members;
@@ -76,6 +76,14 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   });
 
   // if (dataMember) console.log("dataMember", dataMember.findMember);
+
+  useEffect(() => {
+    if (dataMember && process.env.NODE_ENV === "development") {
+      console.log(`==== currentUser ====`);
+      console.log(dataMember.findMember);
+      console.log(`==== ----------- ====`);
+    }
+  }, [dataMember]);
 
   const injectContext = {
     currentUser: dataMember?.findMember || undefined,

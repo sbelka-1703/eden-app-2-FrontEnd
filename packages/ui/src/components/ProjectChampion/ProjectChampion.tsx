@@ -14,7 +14,7 @@ export const ProjectChampion = ({ member }: IProjectChampion) => {
 
       <div className="mt-2 flex items-center">
         <div>
-          <Avatar src={member?.discordAvatar || ""} />
+          <Avatar size={`sm`} src={member?.discordAvatar || ""} />
         </div>
         <p className="pc-text ml-4">@{member?.discordName}</p>
       </div>

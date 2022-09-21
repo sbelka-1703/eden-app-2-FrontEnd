@@ -1,3 +1,4 @@
+// TODO: needs a test file
 /* eslint-disable camelcase */
 import { useMutation } from "@apollo/client";
 import { UserContext } from "@context/eden";
@@ -8,16 +9,15 @@ import {
   RoleTemplate,
   SkillType_Member,
 } from "@graphql/eden/generated";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BsArrowRight } from "react-icons/bs";
 import {
   Button,
   Modal,
-  RoleSelector,
+  RoleModal,
   SearchSkill,
   SkillsCard,
   TextHeading2,
-  TextHeading3,
 } from "ui";
 
 const levels = [
@@ -40,13 +40,24 @@ const levels = [
 ];
 
 export interface ISignUpCardProps {
-  roles: Maybe<Array<Maybe<RoleTemplate>>>;
+  roles?: Maybe<Array<Maybe<RoleTemplate>>>;
   refetch?: () => void;
 }
 
 export const SignUpCard = ({ roles, refetch }: ISignUpCardProps) => {
   const { currentUser } = useContext(UserContext);
   const [currentView, setCurrentView] = useState(1);
+  const [roleModalOpen, setRoleModalOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (currentUser?.memberRole) {
+      setCurrentView(2);
+      setRoleModalOpen(false);
+    } else {
+      setCurrentView(1);
+      setRoleModalOpen(true);
+    }
+  }, [currentUser]);
 
   const [updateMember] = useMutation(UPDATE_MEMBER, {
     onCompleted({ updateMember }: Mutation) {
@@ -57,23 +68,24 @@ export const SignUpCard = ({ roles, refetch }: ISignUpCardProps) => {
 
   return (
     <div className={`rounded-2xl bg-white px-8 py-6`}>
-      {currentView === 1 && (
-        <SelectRoleView
-          roles={roles}
-          onSelectedRole={(role) => {
-            if (!role?._id || !currentUser?._id) return;
-            updateMember({
-              variables: {
-                fields: {
-                  _id: currentUser?._id,
-                  memberRole: role?._id,
-                },
+      <RoleModal
+        onSubmit={(role) => {
+          if (!role?._id || !currentUser?._id) return;
+          updateMember({
+            variables: {
+              fields: {
+                _id: currentUser?._id,
+                memberRole: role?._id,
               },
-            });
-            setCurrentView(2);
-          }}
-        />
-      )}
+            },
+          });
+          setRoleModalOpen(false);
+          setCurrentView(2);
+        }}
+        openModal={roleModalOpen}
+        roles={roles}
+      />
+
       {currentView === 2 && (
         <AddSkillsView
           onSelectedSkills={(skills) => {
@@ -96,34 +108,6 @@ export const SignUpCard = ({ roles, refetch }: ISignUpCardProps) => {
         />
       )}
       {currentView === 3 && <ThankYouView />}
-    </div>
-  );
-};
-
-interface ISelectRoleViewProps {
-  roles: Maybe<Array<Maybe<RoleTemplate>>>;
-  // eslint-disable-next-line no-unused-vars
-  onSelectedRole: (role: Maybe<RoleTemplate>) => void;
-  roleSelected?: () => void;
-}
-
-const SelectRoleView = ({
-  roles,
-  onSelectedRole,
-  roleSelected,
-}: ISelectRoleViewProps) => {
-  return (
-    <div>
-      <TextHeading3>
-        Welcome to Eden, a project/person matching protocol. We’re here to help
-        you find opportunities, that are tailored for you - please tell us more
-        about yourself.
-      </TextHeading3>
-      <RoleSelector
-        roles={roles}
-        onSelect={onSelectedRole}
-        roleSelected={roleSelected}
-      />
     </div>
   );
 };
