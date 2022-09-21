@@ -69,7 +69,7 @@ export const Modal = ({
           >
             <div
               className={
-                "inline-block transform overflow-hidden rounded-lg bg-white p-2 text-left align-bottom shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6 sm:align-middle"
+                "relative z-30 inline-block overflow-hidden rounded-lg bg-white p-2 text-left align-bottom shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6 sm:align-middle"
               }
             >
               <div

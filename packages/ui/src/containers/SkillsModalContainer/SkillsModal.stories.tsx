@@ -18,43 +18,43 @@ export const Default = Template.bind({});
 Default.args = {
   skills: [
     {
-      skillInfo: {
+      skillData: {
         _id: "1",
         name: "skill1",
       },
     },
     {
-      skillInfo: {
+      skillData: {
         _id: "2",
         name: "skill2",
       },
     },
     {
-      skillInfo: {
+      skillData: {
         _id: "3",
         name: "skill3",
       },
     },
     {
-      skillInfo: {
+      skillData: {
         _id: "4",
         name: "skill4",
       },
     },
     {
-      skillInfo: {
+      skillData: {
         _id: "5",
         name: "skill5",
       },
     },
     {
-      skillInfo: {
+      skillData: {
         _id: "6",
         name: "skill6",
       },
     },
     {
-      skillInfo: {
+      skillData: {
         _id: "7",
         name: "skill7",
       },
