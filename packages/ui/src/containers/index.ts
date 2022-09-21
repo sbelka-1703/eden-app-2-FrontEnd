@@ -13,3 +13,4 @@ export * from "./RoleModalContainer";
 export * from "./SignUpContainer";
 export * from "./SignUpContainerMain";
 export * from "./SignUpContainerSide";
+export * from "./SkillsModalContainer";

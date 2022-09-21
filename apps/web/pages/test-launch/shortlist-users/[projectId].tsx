@@ -24,6 +24,7 @@ const LaunchPage: NextPageWithLayout = () => {
   const [member, setMember] = useState<Members | null>(null);
   const [project, setProject] = useState<Project | null>(null);
   const [roleModalOpen, setRoleModalOpen] = useState<boolean>(false);
+  const [skillsModalOpen, setSkillsModalOpen] = useState<boolean>(false);
   const [selectedRole, setSelectedRole] = useState<RoleType | null>(null);
 
   const { data: roleData } = useQuery(FIND_ROLE_TEMPLATE, {
@@ -178,10 +179,47 @@ const LaunchPage: NextPageWithLayout = () => {
 
   const handleSelectRole = (role: Maybe<RoleType>) => {
     if (role) {
-      setSelectedRole(role);
       router.push(
         `/test-launch/shortlist-users/${projectId}?roleId=${role._id}`
       );
+    }
+  };
+
+  useEffect(() => {
+    setSelectedRole(
+      project?.role?.find((role) => role?._id === roleId) || null
+    );
+  }, [roleId, project]);
+
+  const handleSetSkills = (skills: SkillRoleType[]) => {
+    if (selectedRole && project) {
+      updateProject({
+        variables: {
+          fields: {
+            _id: projectId,
+            role: project?.role?.map((role: Maybe<RoleType>) => {
+              return role?._id === selectedRole._id
+                ? ({
+                    _id: role?._id,
+                    title: role?.title,
+                    skills: skills.map((skill) => ({
+                      _id: skill.skillData?._id,
+                      level: skill.level,
+                    })),
+                  } as RoleInput)
+                : ({
+                    _id: role?._id,
+                    title: role?.title,
+                    skills: role?.skills?.map((skill) => ({
+                      _id: skill?.skillData?._id,
+                      level: skill?.level,
+                    })),
+                  } as RoleInput);
+            }),
+          },
+        },
+        context: { serviceName: "soilservice" },
+      });
     }
   };
 
@@ -194,10 +232,22 @@ const LaunchPage: NextPageWithLayout = () => {
           roles={roles?.findRoleTemplates}
         />
       )}
+      {skillsModalOpen && project && (
+        <SkillsModal
+          key={project?._id || "no-id" + skillsModalOpen ? "open" : ""}
+          handelAddSkills={() => {
+            setSkillsModalOpen(false);
+          }}
+          isOpen={skillsModalOpen}
+          skills={selectedRole?.skills || []}
+          setSkills={handleSetSkills}
+        />
+      )}
       <GridLayout>
         <GridItemThree>
           {project && (
             <ProjectLayoutCard
+              key={roleId as string}
               project={project}
               handleAddRole={handleAddRole}
               handleSelectRole={handleSelectRole}
@@ -220,7 +270,7 @@ const LaunchPage: NextPageWithLayout = () => {
               </p>
             ))}
         </GridItemThree>
-        {!member && (
+        {!member && selectedRole && (
           <GridItemNine className="hide-scrollbar h-8/10 overflow-scroll">
             {roleId && (
               <>
@@ -242,7 +292,11 @@ const LaunchPage: NextPageWithLayout = () => {
                           more later.
                         </p>
                       </div>
-                      <Button className="ml-auto" variant="primary">
+                      <Button
+                        className="ml-auto"
+                        variant="primary"
+                        onClick={() => setSkillsModalOpen(true)}
+                      >
                         Add skills
                       </Button>
                     </>
@@ -250,7 +304,10 @@ const LaunchPage: NextPageWithLayout = () => {
                     <Loading />
                   )}
                 </Card>
-                <div className="grid grid-cols-3 gap-x-10 gap-y-10">
+                <div
+                  className="grid grid-cols-3 gap-x-10 gap-y-10"
+                  key={selectedRole?._id}
+                >
                   {filteredMembers?.map((_member: Members, index) => (
                     <MemberMatchCard
                       key={index}
@@ -314,12 +371,14 @@ import {
   RoleInput,
   RoleTemplate,
   RoleType,
+  SkillRoleType,
   TeamType,
 } from "@graphql/eden/generated";
 import { IncomingMessage, ServerResponse } from "http";
 import { useRouter } from "next/router";
 import { getSession } from "next-auth/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { SkillsModal } from "ui/src/containers";
 
 export async function getServerSideProps(ctx: {
   req: IncomingMessage;
