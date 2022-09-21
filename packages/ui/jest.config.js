@@ -14,6 +14,8 @@ const config = {
     "./src/elements/index.ts",
     "./src/components/index.ts",
     "./src/components/*",
+    "./utils",
+    "./types",
     ".eslintrc.js",
     "jest.config.js",
     "tailwind.config.js",

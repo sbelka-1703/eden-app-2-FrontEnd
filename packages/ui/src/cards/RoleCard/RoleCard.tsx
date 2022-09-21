@@ -43,7 +43,7 @@ export const RoleCard = ({
               <div className="flex flex-row p-1">
                 <div>⏳</div>
                 <div className={`ml-3 mt-0.5 text-sm capitalize text-zinc-400`}>
-                  {role?.hoursPerWeek} hours/week
+                  hours/week
                 </div>
               </div>
               <div className="flex flex-row p-1">

@@ -3,6 +3,7 @@ import { gql, useMutation } from "@apollo/client";
 import { UserContext } from "@context/eden";
 import { UPDATE_MEMBER } from "@graphql/eden";
 import { Mutation, Project } from "@graphql/eden/generated";
+import { useRouter } from "next/router";
 import { useContext, useEffect, useRef, useState } from "react";
 import Confetti from "react-confetti";
 import { FaGithub, FaTelegram, FaTwitter } from "react-icons/fa";
@@ -46,6 +47,7 @@ export const ApplyByRoleContainer = ({
   project,
   refetch,
 }: IApplyByRoleContainerProps) => {
+  const router = useRouter();
   const { currentUser } = useContext(UserContext);
   const [submitting, setSubmitting] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -171,7 +173,9 @@ export const ApplyByRoleContainer = ({
           <div className={`my-6`}>
             <TextHeading1>Matching Open Roles</TextHeading1>
           </div>
-          <div className={`grid grid-cols-3 space-x-6 `}>
+          <div
+            className={`scrollbar-hide mt-8 grid max-h-72 grid-cols-1 gap-8 overflow-y-scroll px-6 sm:grid-cols-2 xl:grid-cols-3`}
+          >
             {project?.role?.map((role, index) => (
               <RoleCard
                 key={index}
@@ -292,7 +296,12 @@ export const ApplyByRoleContainer = ({
               <Confetti width={width} height={height} />
             </div>
             <div className={`flex justify-center`}>
-              <Button onClick={() => setShowModal(false)} disabled={submitting}>
+              <Button
+                onClick={() => {
+                  router.push(`/projects`);
+                }}
+                disabled={submitting}
+              >
                 Explort Projects
               </Button>
             </div>

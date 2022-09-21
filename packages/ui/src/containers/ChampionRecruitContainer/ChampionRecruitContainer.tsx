@@ -10,6 +10,7 @@ import {
   SkillsCard,
   SocialMediaComp,
   TabsSelector,
+  // TeamAttributeChart,
   UserInformationCard,
   UserWithDescription,
 } from "ui";
@@ -190,7 +191,7 @@ export const ChampionRecruitContainer = ({
                 <AvailabilityComp timePerWeek={member.hoursPerWeek || 0} />
               </div>
             </div>
-            <div>graph</div>
+            {/* <TeamAttributeChart members={member} /> */}
           </div>
         )}
         {activeTab === 1 && (
