@@ -6,6 +6,7 @@ export const FIND_MEMBER_FULL = gql`
       _id
       discordAvatar
       discordName
+      serverID
       bio
       content {
         interest

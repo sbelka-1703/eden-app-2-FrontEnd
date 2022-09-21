@@ -6,6 +6,7 @@ export const MEMBER_SUBSCRIPTION = gql`
       _id
       discordAvatar
       discordName
+      serverID
       bio
       content {
         interest

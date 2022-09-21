@@ -7,7 +7,7 @@ import {
   BioComponent,
   Button,
   Card,
-  // SearchSkill,
+  SearchSkill,
   SkillsCard,
   // SkillSelector,
   SocialMediaComp,
@@ -39,8 +39,6 @@ export const ProfileContainer = ({}: ProfileContainerProps) => {
   const { currentUser } = useContext(UserContext);
   const [isEditing, setIsEditing] = useState(false);
   const skills = currentUser?.skills as Maybe<SkillType_Member>[];
-
-  // console.log("currentUser", currentUser);
 
   if (!currentUser) return <div>you are not logged in</div>;
 
@@ -88,7 +86,10 @@ export const ProfileContainer = ({}: ProfileContainerProps) => {
               <div className={`col-span-9 space-y-4`}>
                 {currentUser.previusProjects?.map((project, index) => (
                   <div key={index} className={``}>
-                    <UserInformationCard previousProjects={project} />
+                    <UserInformationCard
+                      previousProjects={project}
+                      isEditable={isEditing}
+                    />
                   </div>
                 ))}
               </div>
@@ -116,6 +117,13 @@ export const ProfileContainer = ({}: ProfileContainerProps) => {
             </div>
           </div>
           <div className={`col-span-4 space-y-2`}>
+            {isEditing && (
+              <SearchSkill
+                levels={levels}
+                skills={currentUser?.skills}
+                setSkills={(val: any) => console.log("set skills", val)}
+              />
+            )}
             {levels.map((level, index: number) => {
               return (
                 <SkillsCard
