@@ -9,7 +9,7 @@ export interface RoleModalProps {
   // eslint-disable-next-line no-unused-vars
   onSubmit: (role: Maybe<RoleTemplate>) => void;
   // eslint-disable-next-line no-unused-vars
-  onRoleSelected: (_id: Maybe<string>) => void;
+  onRoleSelected?: (_id: Maybe<string>) => void;
 }
 
 export const RoleModal = ({
@@ -25,7 +25,7 @@ export const RoleModal = ({
 
   const onSelect = (val: Maybe<RoleTemplate>) => {
     setSelectedRole(val);
-    onRoleSelected(val?._id!);
+    onRoleSelected && onRoleSelected(val?._id!);
   };
 
   return (
