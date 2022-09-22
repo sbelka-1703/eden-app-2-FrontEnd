@@ -1,21 +1,15 @@
 import { UserContext } from "@context/eden";
-import {
-  MatchProjectsToMemberOutput,
-  Maybe,
-  RoleTemplate,
-} from "@graphql/eden/generated";
+import { MatchSkillsToProjectsOutput, Maybe } from "@graphql/eden/generated";
 import { useContext } from "react";
 import { Loading, ProjectMatchCard, TextHeading2 } from "ui";
 
 export interface IProjectMatchListProps {
-  roles?: Maybe<Array<Maybe<RoleTemplate>>>;
-  matchedProjects?: Maybe<Array<Maybe<MatchProjectsToMemberOutput>>>;
+  matchedProjects?: Maybe<Array<Maybe<MatchSkillsToProjectsOutput>>>;
   // eslint-disable-next-line no-unused-vars
   onSelectedProject: (projectID: string) => void;
 }
 
 export const ProjectMatchList = ({
-  roles,
   matchedProjects,
   onSelectedProject,
 }: IProjectMatchListProps) => {
@@ -39,7 +33,6 @@ export const ProjectMatchList = ({
           {matchedProjects?.map((matchProject, index: number) => (
             <ProjectMatchCard
               key={index}
-              roles={roles}
               matchProject={matchProject}
               onSelected={(project) =>
                 onSelectedProject(project?.project?._id || "")

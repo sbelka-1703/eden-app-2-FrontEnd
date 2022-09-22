@@ -63,6 +63,7 @@ export const SkillsCard: React.FC<SkillsCardProps> = ({
           <li key={index} className="mb-1" onClick={() => handleOnClick(index)}>
             <Badge
               colorRGB={getRandomColor()}
+              className={`font-Inter text-sm`}
               text={skill?.skillInfo?.name || "nothing"}
               closeButton={closeButton}
               onClose={() => handleOnClick(index)}

@@ -93,7 +93,7 @@ export const SearchSkill = ({
   return (
     <Combobox
       value={skills}
-      // @TODO remove this any
+      // TODO: remove this any
       onChange={(item: any) => {
         setIsOpen(item._id === item._id);
         setSelected(item._id || null);
@@ -135,7 +135,6 @@ export const SearchSkill = ({
         {skillLoading && isOpen && (
           <div className="absolute top-12 z-40 border-t border-gray-100 bg-white py-14 px-6 text-center text-sm sm:px-14">
             <Loading />
-            {/* <h1>Loading................</h1> */}
           </div>
         )}
 

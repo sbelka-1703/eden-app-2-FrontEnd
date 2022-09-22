@@ -15,7 +15,7 @@ import {
 
 import type { NextPageWithLayout } from "../../_app";
 
-export const FIND_ROLES = gql`
+const FIND_ROLES = gql`
   query ($fields: findRoleTemplatesInput) {
     findRoleTemplates(fields: $fields) {
       _id
@@ -29,19 +29,26 @@ export const FIND_ROLES = gql`
   }
 `;
 
-export const MATCH_PROJECTS_TO_MEMBER = gql`
-  query ($fields: matchProjectsToMemberInput) {
-    matchProjectsToMember(fields: $fields) {
+const MATCH_SKILLS_TO_PROJECTS = gql`
+  query ($fields: matchSkillsToProjectsInput) {
+    matchSkillsToProjects(fields: $fields) {
       matchPercentage
-      matchProjectRoles {
+      projectRoles {
         matchPercentage
-        roleID
-        relatedSkills {
+        commonSkills {
           _id
           name
-          relatedSkills {
-            _id
-            name
+        }
+        projectRole {
+          _id
+          description
+          title
+          skills {
+            level
+            skillData {
+              _id
+              name
+            }
           }
         }
       }
@@ -54,10 +61,6 @@ export const MATCH_PROJECTS_TO_MEMBER = gql`
           discordName
           discordAvatar
         }
-      }
-      relatedSkills {
-        _id
-        name
       }
     }
   }
@@ -74,12 +77,16 @@ const SignUpTestPage: NextPageWithLayout = () => {
     context: { serviceName: "soilservice" },
   });
 
+  const filterskillsfromcurrentuser = currentUser?.skills?.map(
+    (skill) => skill?.skillInfo?._id
+  );
+
   const { data: dataMatchedProjects, refetch: refetchMatch } = useQuery(
-    MATCH_PROJECTS_TO_MEMBER,
+    MATCH_SKILLS_TO_PROJECTS,
     {
       variables: {
         fields: {
-          memberID: currentUser?._id,
+          skillsID: filterskillsfromcurrentuser,
         },
       },
       skip: !currentUser,
@@ -88,7 +95,10 @@ const SignUpTestPage: NextPageWithLayout = () => {
   );
 
   // if (dataMatchedProjects)
-  //   console.log("dataMatchedProjects", dataMatchedProjects);
+  //   console.log(
+  //     "dataMatchedProjects",
+  //     dataMatchedProjects.matchSkillsToProjects
+  //   );
 
   const { data: dataProject, refetch: refetchProject } = useQuery(
     FIND_PROJECT,
@@ -114,7 +124,7 @@ const SignUpTestPage: NextPageWithLayout = () => {
       <GridLayout>
         <GridItemThree>
           <SignUpContainerSide
-            matchedProjects={dataMatchedProjects?.matchProjectsToMember}
+            matchedProjects={dataMatchedProjects?.matchSkillsToProjects}
             project={dataProject?.findProject}
             onSelectedProject={(val) => setSelectProject(val)}
           />
@@ -122,7 +132,7 @@ const SignUpTestPage: NextPageWithLayout = () => {
         <GridItemNine>
           <SignUpContainerMain
             roles={dataRoles?.findRoleTemplates}
-            matchedProjects={dataMatchedProjects?.matchProjectsToMember}
+            matchedProjects={dataMatchedProjects?.matchSkillsToProjects}
             project={dataProject?.findProject}
             refetchMatch={refetchMatch}
             refetchProject={refetchProject}

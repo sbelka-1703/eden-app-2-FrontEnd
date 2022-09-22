@@ -1,16 +1,14 @@
 import {
-  MatchProjectsToMemberOutput,
+  MatchSkillsToProjectsOutput,
   Maybe,
   Members,
-  RoleTemplate,
 } from "@graphql/eden/generated";
 import { Avatar, Badge, Button, Card, ProjectChampion, TextHeading3 } from "ui";
 
 export interface IProjectMatchCardProps {
-  roles?: Maybe<Array<Maybe<RoleTemplate>>>;
-  matchProject?: Maybe<MatchProjectsToMemberOutput>;
+  matchProject?: Maybe<MatchSkillsToProjectsOutput>;
   // eslint-disable-next-line no-unused-vars
-  onSelected: (project: Maybe<MatchProjectsToMemberOutput> | undefined) => void;
+  onSelected: (project: Maybe<MatchSkillsToProjectsOutput> | undefined) => void;
 }
 
 function round(value: number, precision: number) {
@@ -20,14 +18,9 @@ function round(value: number, precision: number) {
 }
 
 export const ProjectMatchCard = ({
-  roles,
   matchProject,
   onSelected,
 }: IProjectMatchCardProps) => {
-  const getRoleTitle = (roleID: string) => {
-    return roles?.find((role) => role?._id === roleID)?.title;
-  };
-
   return (
     <Card border>
       <div className={`flex justify-between`}>
@@ -56,10 +49,10 @@ export const ProjectMatchCard = ({
           🔎open Positions
         </div>
         <div className={`mt-2`}>
-          {matchProject?.matchProjectRoles?.map((role, index: number) => (
+          {matchProject?.projectRoles?.map((role, index: number) => (
             <Badge
               key={index}
-              text={getRoleTitle(role?.roleID || "") || ""}
+              text={role?.projectRole?.title || ""}
               colorRGB={`235,225,255`}
               className={`font-Inter text-sm`}
               cutText={20}

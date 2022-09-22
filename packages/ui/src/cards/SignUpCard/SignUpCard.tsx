@@ -162,13 +162,15 @@ const AddSkillsView = ({
       </div>
 
       <Modal open={showModal} closeOnEsc={false}>
-        <div className={`h-5/10 mt-3`}>
+        <div className={`h-7/10 mt-3`}>
           <SearchSkill
             levels={levels}
             skills={currentUser?.skills}
             setSkills={onSelectedSkills}
           />
-          <div className={`mt-4 grid grid-flow-col grid-rows-2 gap-4`}>
+          <div
+            className={`h-6/10 scrollbar-hide mt-4 grid grid-flow-col grid-rows-2 gap-4 overflow-y-scroll`}
+          >
             {levels.map((level, index: number) => {
               return (
                 <SkillsCard

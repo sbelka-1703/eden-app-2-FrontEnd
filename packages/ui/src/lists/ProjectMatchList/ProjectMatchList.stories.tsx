@@ -10,7 +10,7 @@ export default {
   argTypes: {},
 } as ComponentMeta<typeof ProjectMatchList>;
 
-export const getProjectArray = (total: number) =>
+const getProjectArray = (total: number) =>
   Array.from({ length: total }, () => findProjects_RecommendedToUser);
 
 const Template: ComponentStory<typeof ProjectMatchList> = (args) => (
@@ -19,5 +19,5 @@ const Template: ComponentStory<typeof ProjectMatchList> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  projects: getProjectArray(8),
+  matchedProjects: getProjectArray(8),
 };

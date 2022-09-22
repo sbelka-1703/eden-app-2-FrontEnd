@@ -2,15 +2,23 @@
 import { gql, useMutation } from "@apollo/client";
 import { UserContext } from "@context/eden";
 import { UPDATE_MEMBER } from "@graphql/eden";
-import { Mutation, Project } from "@graphql/eden/generated";
+import {
+  MatchSkillsToProjectsOutput,
+  Maybe,
+  Members,
+  Mutation,
+  Project,
+} from "@graphql/eden/generated";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useRef, useState } from "react";
-import Confetti from "react-confetti";
+import { useContext, useEffect, useState } from "react";
 import { FaGithub, FaTelegram, FaTwitter } from "react-icons/fa";
 import {
   Button,
+  ConfettiContainer,
   Dropdown,
   Modal,
+  NumberCircle,
+  ProjectChampion,
   ProjectInfo,
   RoleCard,
   TextArea,
@@ -40,11 +48,13 @@ const SET_FAVORITE = gql`
 
 export interface IApplyByRoleContainerProps {
   project?: Project;
+  matchedProjects?: Maybe<Array<Maybe<MatchSkillsToProjectsOutput>>>;
   refetch?: () => void;
 }
 
 export const ApplyByRoleContainer = ({
   project,
+  matchedProjects,
   refetch,
 }: IApplyByRoleContainerProps) => {
   const router = useRouter();
@@ -55,17 +65,6 @@ export const ApplyByRoleContainer = ({
   const [showModal, setShowModal] = useState(false);
   const [applied, setApplied] = useState(false);
 
-  const [height, setHeight] = useState(0);
-  const [width, setWidth] = useState(0);
-  const ref = useRef(null);
-
-  useEffect(() => {
-    // @ts-ignore
-    setWidth(ref.current?.clientWidth || 0);
-    // @ts-ignore
-    setHeight(ref.current?.clientHeight || 0);
-  }, []);
-
   const [profileBio, setProfileBio] = useState(currentUser?.bio || "");
   const [timezone, setTimezone] = useState(currentUser?.timeZone || "");
   const [hoursPerWeek, setHoursPerWeek] = useState(
@@ -74,6 +73,16 @@ export const ApplyByRoleContainer = ({
   const [twitterHandle, setTwitterHandle] = useState("");
   const [githubHandle, setGithubHandle] = useState("");
   const [telegramHandle, setTelegramHandle] = useState("");
+
+  useEffect(() => {
+    if (currentUser?.projects && currentUser?.projects.length > 0 && project) {
+      currentUser?.projects.forEach((element) => {
+        if (project?._id === element?.info?._id) {
+          setIsFavorite(element?.favorite || false);
+        }
+      });
+    }
+  }, [currentUser?.projects, project]);
 
   const [changeTeamMember_Phase_Project, {}] = useMutation(
     SET_APPLY_TO_PROJECT,
@@ -142,41 +151,79 @@ export const ApplyByRoleContainer = ({
     setApplied(true);
   };
 
+  // useEffect(() => {
+  //   if (matchedProjects) {
+  //     // find matched project by project id
+  //     const matchedProject = matchedProjects.find(
+  //       (matched) => matched?.project?._id === project?._id
+  //     );
+
+  //     console.log("matchedProject", matchedProject);
+  //   }
+  // }, [matchedProjects]);
+
+  // console.log("matchedProjects", matchedProjects);
+
+  const matchedProject = matchedProjects?.find(
+    (matched) => matched?.project?._id === project?._id
+  );
+
+  if (matchedProjects) console.log("matchedProjects", matchedProjects);
   // if (project) console.log(project);
+
+  const round = (num: number) => Math.round(num * 10) / 10;
+
   return (
-    <div
-      className={`text-darkGreen h-8/10 w-full rounded-2xl bg-white px-6 py-6`}
-    >
-      <ProjectInfo
-        project={project}
-        isFavoriteButton
-        onSwitchView={() => setIsRoleView(!isRoleView)}
-        isRoleView={isRoleView}
-        submitting={submitting}
-        isFavorite={isFavorite}
-        onSetFavorite={() => {
-          setSubmitting(true);
-          addFavoriteProject({
-            variables: {
-              fields: {
-                projectID: project?._id,
-                memberID: currentUser?._id,
-                favorite: !isFavorite,
-              },
-            },
-            context: { serviceName: "soilservice" },
-          });
-        }}
-      />
+    <div className={`h-8/10 w-full rounded-2xl bg-white px-6 py-6`}>
+      <div className={`grid grid-cols-3`}>
+        <div className={`col-span-2`}>
+          <ProjectInfo
+            project={project}
+            isFavoriteButton
+            onSwitchView={() => setIsRoleView(!isRoleView)}
+            isRoleView={isRoleView}
+            submitting={submitting}
+            isFavorite={isFavorite}
+            onSetFavorite={() => {
+              setSubmitting(true);
+              addFavoriteProject({
+                variables: {
+                  fields: {
+                    projectID: project?._id,
+                    memberID: currentUser?._id,
+                    favorite: !isFavorite,
+                  },
+                },
+                context: { serviceName: "soilservice" },
+              });
+            }}
+          />
+        </div>
+        <div>
+          {matchedProject && (
+            <div className={`mb-8 flex flex-col items-center px-4 last:pr-0`}>
+              <span>⚡ Match</span>
+              <span className={`text-soilPurple text-3xl font-semibold`}>
+                {round(matchedProject?.matchPercentage || 0)}%
+              </span>
+            </div>
+          )}
+          <ProjectChampion member={project?.champion as Members} />
+        </div>
+      </div>
+
       {isRoleView ? (
         <div>
-          <div className={`my-6`}>
+          <div className={`my-6 flex`}>
             <TextHeading1>Matching Open Roles</TextHeading1>
+            <span className={`my-auto pl-4`}>
+              <NumberCircle value={matchedProject?.projectRoles?.length || 0} />
+            </span>
           </div>
           <div
             className={`scrollbar-hide mt-8 grid max-h-72 grid-cols-1 gap-8 overflow-y-scroll px-6 sm:grid-cols-2 xl:grid-cols-3`}
           >
-            {project?.role?.map((role, index) => (
+            {matchedProject?.projectRoles?.map((role, index) => (
               <RoleCard
                 key={index}
                 role={role}
@@ -285,26 +332,26 @@ export const ApplyByRoleContainer = ({
             </div>
           </div>
         ) : (
-          <div ref={ref}>
-            <div className={`h-6/10 w-full`}>
-              <div
-                className={`text-darkGreen z-20 text-center text-4xl font-bold`}
-              >
-                YOU DID IT!
+          <div className={`h-7/10 relative -mt-8 w-full`}>
+            <ConfettiContainer>
+              <div className={`m-auto justify-center`}>
+                <div
+                  className={`text-darkGreen my-auto pt-32 text-center text-4xl font-bold`}
+                >
+                  YOU DID IT!
+                </div>
+                <div className={`absolute bottom-8 flex w-full justify-center`}>
+                  <Button
+                    onClick={() => {
+                      router.push(`/projects`);
+                    }}
+                    disabled={submitting}
+                  >
+                    Explore Projects
+                  </Button>
+                </div>
               </div>
-
-              <Confetti width={width} height={height} />
-            </div>
-            <div className={`flex justify-center`}>
-              <Button
-                onClick={() => {
-                  router.push(`/projects`);
-                }}
-                disabled={submitting}
-              >
-                Explort Projects
-              </Button>
-            </div>
+            </ConfettiContainer>
           </div>
         )}
       </Modal>
