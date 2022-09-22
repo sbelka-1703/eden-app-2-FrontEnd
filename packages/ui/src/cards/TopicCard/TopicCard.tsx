@@ -1,18 +1,9 @@
-import { Maybe, SkillType_Member } from "@graphql/eden/generated";
-import {  Card } from "ui";
+import React from "react";
+import { Card } from "ui";
 
-export interface TopicCardProps {
- 
-}
-export const TopicCard: TopicCardProps () => {
-    return (
-        <Card >
-         
-        </Card>
-      );
-}
- 
- 
+// export interface TopicCardProps {
 
- 
-
+// }
+export const TopicCard = ({}) => {
+  return <Card>HI</Card>;
+};
