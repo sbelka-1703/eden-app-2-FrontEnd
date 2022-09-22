@@ -23,4 +23,3 @@ export * from "./TeamAttributeChart";
 export * from "./UserProfileMenu";
 export * from "./UserWithDescription";
 export * from "./CalendarComp";
-

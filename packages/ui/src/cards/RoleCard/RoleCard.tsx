@@ -1,24 +1,23 @@
-import { Maybe, RoleType } from "@graphql/eden/generated";
+import { MatchProjectRoles, Maybe } from "@graphql/eden/generated";
 import { BsDot } from "react-icons/bs";
 import { MdArrowForward } from "react-icons/md";
-import { Card } from "ui";
+import { Badge, Card } from "ui";
 
 export interface RoleCardProps {
-  role?: Maybe<RoleType>;
-  percentage?: number;
+  role?: Maybe<MatchProjectRoles>;
   jds?: String[];
   openSeats?: string;
   onApply?: () => void;
 }
 
-export const RoleCard = ({
-  role,
-  percentage,
-  jds,
-  openSeats,
-  onApply,
-}: RoleCardProps) => {
+export const RoleCard = ({ role, jds, openSeats, onApply }: RoleCardProps) => {
   // console.log("role", role);
+
+  function round(value: number, precision: number) {
+    var multiplier = Math.pow(10, precision || 0);
+
+    return Math.round(value * multiplier) / multiplier;
+  }
 
   return (
     <Card border shadow className="bg-white p-0">
@@ -28,18 +27,29 @@ export const RoleCard = ({
             <span className="">
               <BsDot color="#D9D9D9" size={30} />
             </span>
-            <span>{role?.title}</span>
+            <span>{role?.projectRole?.title}</span>
           </div>
           <div className={`items-flex-start mt-1 flex h-full flex-row`}>
             <span className="text-2xl">⚡</span>
             <span className={`text-soilPurple text-2xl font-semibold`}>
-              {percentage}%
+              {round(Number(role?.matchPercentage), 1)}%
             </span>
           </div>
         </div>
         <div className={`mt-4 w-full`}>
           <div className="flex h-full">
-            <div className={`mr-auto ml-1`}>
+            <div className={`flex flex-wrap`}>
+              {role?.projectRole?.skills?.map((skill, index) => (
+                <Badge
+                  key={index}
+                  className={`mr-2 text-sm`}
+                  text={skill?.skillData?.name || ""}
+                  colorRGB={`235,225,255`}
+                />
+              ))}
+            </div>
+
+            {/* <div className={`mr-auto ml-1`}>
               <div className="flex flex-row p-1">
                 <div>⏳</div>
                 <div className={`ml-3 mt-0.5 text-sm capitalize text-zinc-400`}>
@@ -64,7 +74,7 @@ export const RoleCard = ({
                   Open Seats: {openSeats}
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

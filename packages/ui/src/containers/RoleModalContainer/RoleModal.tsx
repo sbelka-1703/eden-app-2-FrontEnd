@@ -10,12 +10,15 @@ export interface RoleModalProps {
   firstRoleAssigned?: boolean;
   // eslint-disable-next-line no-unused-vars
   onSubmit: (role: Maybe<RoleTemplate>) => void;
+  // eslint-disable-next-line no-unused-vars
+  onRoleSelected?: (_id: Maybe<string>) => void;
 }
 
 export const RoleModal = ({
   openModal,
   firstRoleAssigned,
   onSubmit,
+  onRoleSelected,
 }: RoleModalProps) => {
   const [selectedRole, setSelectedRole] = useState<Maybe<RoleTemplate> | null>(
     null
@@ -30,6 +33,7 @@ export const RoleModal = ({
 
   const onSelect = (val: Maybe<RoleTemplate>) => {
     setSelectedRole(val);
+    onRoleSelected && onRoleSelected(val?._id!);
   };
 
   return (
@@ -74,7 +78,9 @@ export const RoleModal = ({
               variant={`primary`}
               onClick={() => {
                 if (!!selectedRole) {
-                  onSubmit(selectedRole);
+                  setTimeout(() => {
+                    onSubmit(selectedRole);
+                  }, 1000);
                 }
               }}
             >

@@ -12,6 +12,14 @@ export type Scalars = {
   Float: number;
 };
 
+export type DistanceType = {
+  __typename?: 'DistanceType';
+  hop0?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  hop1?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  hop2?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  hop3?: Maybe<Array<Maybe<Scalars['ID']>>>;
+};
+
 export type Epic = {
   __typename?: 'Epic';
   _id?: Maybe<Scalars['ID']>;
@@ -41,11 +49,12 @@ export type ErrorLog = {
   user?: Maybe<User>;
 };
 
-export type MatchProjectRole = {
-  __typename?: 'MatchProjectRole';
-  matchPercentage?: Maybe<Scalars['Int']>;
-  relatedSkills?: Maybe<Array<Maybe<Skills>>>;
-  roleID?: Maybe<Scalars['ID']>;
+export type MatchType = {
+  __typename?: 'MatchType';
+  distanceMembers?: Maybe<DistanceType>;
+  distanceProjectRoles?: Maybe<DistanceType>;
+  recalculateMembers?: Maybe<Scalars['Boolean']>;
+  recalculateProjectRoles?: Maybe<Scalars['Boolean']>;
 };
 
 export type Members = {
@@ -335,7 +344,11 @@ export type Query = {
   matchMembersToProjectRole?: Maybe<Array<Maybe<MatchMembersToProjectRoleOutput>>>;
   matchMembersToSkills?: Maybe<Array<Maybe<MatchMembersToSkillOutput>>>;
   matchMembersToUser?: Maybe<Array<Maybe<MatchMembersToUserOutput>>>;
-  matchProjectsToMember?: Maybe<Array<Maybe<MatchProjectsToMemberOutput>>>;
+  matchPrepareSkillToMembers?: Maybe<Skills>;
+  matchPrepareSkillToProjectRoles?: Maybe<Skills>;
+  matchProjectsToMember?: Maybe<Array<Maybe<Project>>>;
+  matchSkillsToMembers?: Maybe<Array<Maybe<MatchMembersToSkillOutput>>>;
+  matchSkillsToProjects?: Maybe<Array<Maybe<MatchSkillsToProjectsOutput>>>;
   match_projectToUser?: Maybe<ProjectUserMatchType>;
   members_autocomplete?: Maybe<Array<Maybe<Members>>>;
   skills?: Maybe<PaginatedSkills>;
@@ -479,8 +492,28 @@ export type QueryMatchMembersToUserArgs = {
 };
 
 
+export type QueryMatchPrepareSkillToMembersArgs = {
+  fields?: InputMaybe<MatchPrepareSkillToMembersInput>;
+};
+
+
+export type QueryMatchPrepareSkillToProjectRolesArgs = {
+  fields?: InputMaybe<MatchPrepareSkillToProjectRolesInput>;
+};
+
+
 export type QueryMatchProjectsToMemberArgs = {
   fields?: InputMaybe<MatchProjectsToMemberInput>;
+};
+
+
+export type QueryMatchSkillsToMembersArgs = {
+  fields?: InputMaybe<MatchSkillsToMembersInput>;
+};
+
+
+export type QueryMatchSkillsToProjectsArgs = {
+  fields?: InputMaybe<MatchSkillsToProjectsInput>;
 };
 
 
@@ -578,6 +611,7 @@ export type Skills = {
   authors?: Maybe<Array<Maybe<Members>>>;
   categorySkills?: Maybe<Array<Maybe<SkillCategory>>>;
   id_lightcast?: Maybe<Scalars['String']>;
+  match?: Maybe<MatchType>;
   members?: Maybe<Array<Maybe<Members>>>;
   name?: Maybe<Scalars['String']>;
   registeredAt?: Maybe<Scalars['String']>;
@@ -1003,6 +1037,8 @@ export type FindSkillSubCategoryInput = {
 
 export type FindSkillsInput = {
   _id?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  recalculateMembers?: InputMaybe<Scalars['Boolean']>;
+  recalculateProjectRoles?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type FindSkillsInputPaginated = {
@@ -1096,17 +1132,51 @@ export type MatchMembersToUserOutput = {
   member?: Maybe<Members>;
 };
 
+export type MatchPrepareSkillToMembersInput = {
+  serverID?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  skillID?: InputMaybe<Scalars['ID']>;
+};
+
+export type MatchPrepareSkillToMembersOutput = {
+  __typename?: 'matchPrepareSkillToMembersOutput';
+  commonSkills?: Maybe<Array<Maybe<Skills>>>;
+  matchPercentage?: Maybe<Scalars['Float']>;
+  member?: Maybe<Members>;
+};
+
+export type MatchPrepareSkillToProjectRolesInput = {
+  serverID?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  skillID?: InputMaybe<Scalars['ID']>;
+};
+
+export type MatchProjectRoles = {
+  __typename?: 'matchProjectRoles';
+  commonSkills?: Maybe<Array<Maybe<Skills>>>;
+  matchPercentage?: Maybe<Scalars['Float']>;
+  projectRole?: Maybe<RoleType>;
+};
+
 export type MatchProjectsToMemberInput = {
   memberID?: InputMaybe<Scalars['ID']>;
   serverID?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
-export type MatchProjectsToMemberOutput = {
-  __typename?: 'matchProjectsToMemberOutput';
-  matchPercentage?: Maybe<Scalars['Int']>;
-  matchProjectRoles?: Maybe<Array<Maybe<MatchProjectRole>>>;
+export type MatchSkillsToMembersInput = {
+  serverID?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  skillsID?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+};
+
+export type MatchSkillsToProjectsInput = {
+  serverID?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  skillsID?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+};
+
+export type MatchSkillsToProjectsOutput = {
+  __typename?: 'matchSkillsToProjectsOutput';
+  commonSkills?: Maybe<Array<Maybe<Skills>>>;
+  matchPercentage?: Maybe<Scalars['Float']>;
   project?: Maybe<Project>;
-  relatedSkills?: Maybe<Array<Maybe<Skills>>>;
+  projectRoles?: Maybe<Array<Maybe<MatchProjectRoles>>>;
 };
 
 export type Match_ProjectToUserInput = {

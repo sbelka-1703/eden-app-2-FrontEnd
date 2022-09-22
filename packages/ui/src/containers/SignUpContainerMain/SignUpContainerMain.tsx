@@ -1,5 +1,5 @@
 import {
-  MatchProjectsToMemberOutput,
+  MatchSkillsToProjectsOutput,
   Maybe,
   Project,
   RoleTemplate,
@@ -8,7 +8,7 @@ import { ApplyByRoleContainer, ProjectMatchList, SignUpCard } from "ui";
 
 export interface ISignUpContainerMainProps {
   roles: Maybe<Array<Maybe<RoleTemplate>>>;
-  matchedProjects?: Maybe<Array<Maybe<MatchProjectsToMemberOutput>>>;
+  matchedProjects?: Maybe<Array<Maybe<MatchSkillsToProjectsOutput>>>;
   project?: Project;
   refetchMatch?: () => void;
   refetchProject?: () => void;
@@ -24,16 +24,20 @@ export const SignUpContainerMain = ({
   refetchProject,
   onSelectedProject,
 }: ISignUpContainerMainProps) => {
+  // console.log("project", project);
   return (
     <div className={``}>
       {project ? (
-        <ApplyByRoleContainer project={project} refetch={refetchProject} />
+        <ApplyByRoleContainer
+          project={project}
+          matchedProjects={matchedProjects}
+          refetch={refetchProject}
+        />
       ) : (
         <>
           <SignUpCard roles={roles} refetch={refetchMatch} />
           <div className={"mt-6"}>
             <ProjectMatchList
-              roles={roles}
               matchedProjects={matchedProjects}
               onSelectedProject={onSelectedProject}
             />

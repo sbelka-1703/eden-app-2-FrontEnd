@@ -1,5 +1,5 @@
 import {
-  MatchProjectsToMemberOutput,
+  MatchSkillsToProjectsOutput,
   Maybe,
   Project,
 } from "@graphql/eden/generated";
@@ -7,10 +7,16 @@ import { useState } from "react";
 import { Avatar, Card, UserProfileCard } from "ui";
 
 export interface ISignUpContainerSideProps {
-  matchedProjects?: Maybe<Array<Maybe<MatchProjectsToMemberOutput>>>;
+  matchedProjects?: Maybe<Array<Maybe<MatchSkillsToProjectsOutput>>>;
   project?: Project;
   // eslint-disable-next-line no-unused-vars
   onSelectedProject: (projectID: string) => void;
+}
+
+function round(value: number, precision: number) {
+  var multiplier = Math.pow(10, precision || 0);
+
+  return Math.round(value * multiplier) / multiplier;
 }
 
 export const SignUpContainerSide = ({
@@ -44,7 +50,7 @@ export const SignUpContainerSide = ({
                   <Avatar isProject size={`xs`} />
                   {matchProject?.matchPercentage && (
                     <p className="font-poppins absolute -mt-6 ml-5 rounded-full bg-white px-1 text-xs font-semibold text-[#9B67FF]">
-                      {matchProject?.matchPercentage}%
+                      {round(Number(matchProject?.matchPercentage), 0)}%
                     </p>
                   )}
                 </div>
