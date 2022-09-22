@@ -1,9 +1,9 @@
-import React from "react";
-import { Card, TextField, TextArea, Calendar, Button } from "ui";
+import { PreviusProjectsInput } from "@graphql/eden/generated";
 import { useReducer } from "react";
-import { PreviusProjectsInput, Role } from "@graphql/eden/generated";
+import { Button, Calendar, Card, TextArea, TextField } from "ui";
 
 export interface UserExperienceCardlProps {
+  // eslint-disable-next-line no-unused-vars
   handleSubmit?: (val: any) => void;
 }
 
@@ -37,9 +37,8 @@ function reducer(
   }
 }
 
-export const UserExperienceCard = ({
-  handleSubmit,
-}: UserExperienceCardlProps) => {
+export const UserExperienceCard = ({}: // handleSubmit,
+UserExperienceCardlProps) => {
   const [state, dispath] = useReducer(reducer, initialState);
   // const [description, setDescription] = useState<string | null>(null);
 
@@ -51,15 +50,14 @@ export const UserExperienceCard = ({
     });
     console.log("state ==>>", state);
   };
+
   return (
     <Card shadow className="p-0">
       <div className=" flex flex-col items-center">
         <div className=" py-10">
           <p className="text-3xl">Share relevant experiences!</p>
         </div>
-        <div
-          className="flex w-full justify-between"
-        >
+        <div className="flex w-full justify-between">
           <div className="w-full">
             <TextField
               onChange={(e) => handleTextChange(e)}
@@ -90,7 +88,7 @@ export const UserExperienceCard = ({
               onChange={(e) => handleTextChange(e)}
             />
           </div>
-          <div className="flex flex-col items-center space-y-1 w-full">
+          <div className="flex w-full flex-col items-center space-y-1">
             <Button radius="rounded">DONE</Button>
             <Calendar
               label="Start Date"
