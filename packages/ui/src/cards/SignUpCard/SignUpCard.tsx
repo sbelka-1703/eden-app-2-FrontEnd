@@ -194,7 +194,7 @@ const AddSkillsView = ({
             variant="primary"
             onClick={() => {
               setShowModal(false);
-              if (setCurrentView) setCurrentView(3);
+              // if (setCurrentView) setCurrentView(3);
             }}
           >
             Done
