@@ -1,5 +1,5 @@
-import { Maybe, RoleType } from "@graphql/eden/generated";
-import React, { useState } from "react";
+import { Project } from "@graphql/eden/generated";
+import React, { useReducer } from "react";
 
 import { LaunchProjectContext } from "./LaunchProjectContext";
 
@@ -7,37 +7,37 @@ export interface LaunchProjectProviderProps {
   children: React.ReactNode;
 }
 
+export enum ProjectActionKind {
+  // eslint-disable-next-line no-unused-vars
+  SET_NAME = "SET_NAME",
+}
+
+export interface ProjectAction {
+  type: ProjectActionKind;
+  payload: any;
+}
+
+function projectReducer(project: Project, action: ProjectAction) {
+  debugger;
+  switch (action.type) {
+    case ProjectActionKind.SET_NAME:
+      return { ...project, title: action.payload };
+    default:
+      throw new Error();
+  }
+}
+
 export const LaunchProjectProvider = ({
   children,
 }: LaunchProjectProviderProps) => {
-  const [projectName, setProjectName] = useState("");
-  const [projectDescription, setProjectDescription] = useState("");
-  const [projectRoles, setProjectRoles] = useState<
-    Maybe<Array<Maybe<RoleType>>>
-  >([]);
-  const [serverId, setServerId] = useState("");
-  const [githubUrl, setGithubUrl] = useState("");
-  const [discordUrl, setDiscordUrl] = useState("");
-  const [notionUrl, setNotionUrl] = useState("");
-  const [telegramUrl, setTelegramUrl] = useState("");
+  const [project, dispatchProject] = useReducer(projectReducer, {
+    __typename: "Project",
+    title: null,
+  });
 
   const injectContext = {
-    projectName,
-    setProjectName: (val: string) => setProjectName(val),
-    projectDescription,
-    setProjectDescription: (val: string) => setProjectDescription(val),
-    projectRoles,
-    setProjectRoles: (val: any) => setProjectRoles(val),
-    serverId,
-    setServerId: (val: string) => setServerId(val),
-    githubUrl,
-    setGithubUrl: (val: string) => setGithubUrl(val),
-    discordUrl,
-    setDiscordUrl: (val: string) => setDiscordUrl(val),
-    notionUrl,
-    setNotionUrl: (val: string) => setNotionUrl(val),
-    telegramUrl,
-    setTelegramUrl: (val: string) => setTelegramUrl(val),
+    project: project,
+    dispatchProject: dispatchProject,
   };
 
   return (

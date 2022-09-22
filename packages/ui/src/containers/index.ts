@@ -10,6 +10,7 @@ export * from "./OnboardPartyContainer";
 export * from "./ProfileContainer";
 export * from "./ProjectsContainer";
 export * from "./RoleModalContainer";
+export * from "./ShortlistContainer";
 export * from "./SignUpContainer";
 export * from "./SignUpContainerMain";
 export * from "./SignUpContainerSide";
