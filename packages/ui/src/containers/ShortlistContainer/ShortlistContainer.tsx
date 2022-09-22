@@ -4,7 +4,7 @@ import { MATCH_MEMBERS_TO_SKILLS } from "@graphql/eden";
 import { Members } from "@graphql/eden/generated";
 import { useContext } from "react";
 
-import { AddSkillsToRoleCard } from "../../components";
+import { AddSkillsToRoleCard, MemberMatchCard } from "../../components";
 import { Loading } from "../../elements";
 
 export interface IShortlistContainerProps {}
@@ -42,7 +42,27 @@ export const ShortlistContainer = ({}: IShortlistContainerProps) => {
           handleOpenSkillsModal={() => setOpenModal(LaunchProjectModal.SKILLS)}
         />
       )}
-      {!filteredMembers.length && selectedRole && <Loading />}
+      {selectedRole &&
+        (!filteredMembers.length ? (
+          <Loading />
+        ) : (
+          !!filteredMembers.length && (
+            <div className="grid grid-cols-3 gap-x-10 gap-y-10">
+              {matchingMembers?.matchSkillsToMembers?.map(
+                (_member: any, index: number) => (
+                  <MemberMatchCard
+                    key={index}
+                    onClick={() => {
+                      /**/
+                    }}
+                    member={_member.member}
+                    percentage={_member.matchPercentage}
+                  />
+                )
+              )}
+            </div>
+          )
+        ))}
     </>
   );
 };
