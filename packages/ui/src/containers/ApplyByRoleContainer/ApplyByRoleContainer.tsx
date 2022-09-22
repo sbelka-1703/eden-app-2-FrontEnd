@@ -151,25 +151,11 @@ export const ApplyByRoleContainer = ({
     setApplied(true);
   };
 
-  // useEffect(() => {
-  //   if (matchedProjects) {
-  //     // find matched project by project id
-  //     const matchedProject = matchedProjects.find(
-  //       (matched) => matched?.project?._id === project?._id
-  //     );
-
-  //     console.log("matchedProject", matchedProject);
-  //   }
-  // }, [matchedProjects]);
-
-  // console.log("matchedProjects", matchedProjects);
-
   const matchedProject = matchedProjects?.find(
     (matched) => matched?.project?._id === project?._id
   );
 
-  if (matchedProjects) console.log("matchedProjects", matchedProjects);
-  // if (project) console.log(project);
+  // if (matchedProjects) console.log("matchedProjects", matchedProjects);
 
   const round = (num: number) => Math.round(num * 10) / 10;
 

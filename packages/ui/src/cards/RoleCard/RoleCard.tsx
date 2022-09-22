@@ -1,7 +1,7 @@
 import { MatchProjectRoles, Maybe } from "@graphql/eden/generated";
 import { BsDot } from "react-icons/bs";
 import { MdArrowForward } from "react-icons/md";
-import { Card } from "ui";
+import { Badge, Card } from "ui";
 
 export interface RoleCardProps {
   role?: Maybe<MatchProjectRoles>;
@@ -38,7 +38,18 @@ export const RoleCard = ({ role, jds, openSeats, onApply }: RoleCardProps) => {
         </div>
         <div className={`mt-4 w-full`}>
           <div className="flex h-full">
-            <div className={`mr-auto ml-1`}>
+            <div className={`flex flex-wrap`}>
+              {role?.projectRole?.skills?.map((skill, index) => (
+                <Badge
+                  key={index}
+                  className={`mr-2 text-sm`}
+                  text={skill?.skillData?.name || ""}
+                  colorRGB={`235,225,255`}
+                />
+              ))}
+            </div>
+
+            {/* <div className={`mr-auto ml-1`}>
               <div className="flex flex-row p-1">
                 <div>⏳</div>
                 <div className={`ml-3 mt-0.5 text-sm capitalize text-zinc-400`}>
@@ -63,7 +74,7 @@ export const RoleCard = ({ role, jds, openSeats, onApply }: RoleCardProps) => {
                   Open Seats: {openSeats}
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
