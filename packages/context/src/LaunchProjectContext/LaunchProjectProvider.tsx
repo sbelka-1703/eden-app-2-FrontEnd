@@ -1,5 +1,5 @@
-import { Project } from "@graphql/eden/generated";
-import React, { useReducer } from "react";
+import { Project, RoleType } from "@graphql/eden/generated";
+import React, { useReducer, useState } from "react";
 
 import { LaunchProjectContext } from "./LaunchProjectContext";
 
@@ -10,6 +10,8 @@ export interface LaunchProjectProviderProps {
 export enum ProjectActionKind {
   // eslint-disable-next-line no-unused-vars
   SET_NAME = "SET_NAME",
+  // eslint-disable-next-line no-unused-vars
+  ADD_ROLE = "ADD_ROLE",
 }
 
 export interface ProjectAction {
@@ -17,11 +19,19 @@ export interface ProjectAction {
   payload: any;
 }
 
+export enum LaunchProjectModal {
+  // eslint-disable-next-line no-unused-vars
+  ROLE = "role",
+  // eslint-disable-next-line no-unused-vars
+  SKILLS = "skills",
+}
+
 function projectReducer(project: Project, action: ProjectAction) {
-  debugger;
   switch (action.type) {
     case ProjectActionKind.SET_NAME:
       return { ...project, title: action.payload };
+    case ProjectActionKind.ADD_ROLE:
+      return { ...project, role: [...project.role!, action.payload] };
     default:
       throw new Error();
   }
@@ -33,11 +43,18 @@ export const LaunchProjectProvider = ({
   const [project, dispatchProject] = useReducer(projectReducer, {
     __typename: "Project",
     title: null,
+    role: [],
   });
+  const [openModal, setOpenModal] = useState<LaunchProjectModal | null>(null);
+  const [selectedRole, setSelectedRole] = useState<RoleType | null>(null);
 
   const injectContext = {
     project: project,
     dispatchProject: dispatchProject,
+    openModal: openModal,
+    setOpenModal: setOpenModal,
+    selectedRole: selectedRole,
+    setSelectedRole: setSelectedRole,
   };
 
   return (

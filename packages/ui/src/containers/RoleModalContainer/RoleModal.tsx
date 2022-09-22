@@ -1,3 +1,5 @@
+import { useQuery } from "@apollo/client";
+import { FIND_ROLE_TEMPLATES } from "@graphql/eden";
 import { Maybe, RoleTemplate } from "@graphql/eden/generated";
 import { useState } from "react";
 import { Button, Modal, RoleSelector } from "ui";
@@ -11,7 +13,6 @@ export interface RoleModalProps {
 }
 
 export const RoleModal = ({
-  roles,
   openModal,
   firstRoleAssigned,
   onSubmit,
@@ -19,6 +20,13 @@ export const RoleModal = ({
   const [selectedRole, setSelectedRole] = useState<Maybe<RoleTemplate> | null>(
     null
   );
+
+  const { data: roles } = useQuery(FIND_ROLE_TEMPLATES, {
+    variables: {
+      fields: {},
+    },
+    context: { serviceName: "soilservice" },
+  });
 
   const onSelect = (val: Maybe<RoleTemplate>) => {
     setSelectedRole(val);
@@ -52,7 +60,12 @@ export const RoleModal = ({
                 Who are you looking for?
               </div>
               <div className="">
-                <RoleSelector roles={roles ? roles : []} onSelect={onSelect} />
+                {roles?.findRoleTemplates && (
+                  <RoleSelector
+                    roles={roles ? roles.findRoleTemplates : []}
+                    onSelect={onSelect}
+                  />
+                )}
               </div>
             </div>
           </div>
