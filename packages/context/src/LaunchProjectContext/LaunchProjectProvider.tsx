@@ -12,6 +12,8 @@ export enum ProjectActionKind {
   SET_NAME = "SET_NAME",
   // eslint-disable-next-line no-unused-vars
   ADD_ROLE = "ADD_ROLE",
+  // eslint-disable-next-line no-unused-vars
+  SET_ROLE_SKILLS = "SET_ROLE_SKILLS",
 }
 
 export interface ProjectAction {
@@ -32,6 +34,16 @@ function projectReducer(project: Project, action: ProjectAction) {
       return { ...project, title: action.payload };
     case ProjectActionKind.ADD_ROLE:
       return { ...project, role: [...project.role!, action.payload] };
+    case ProjectActionKind.SET_ROLE_SKILLS:
+      return {
+        ...project,
+        role: project.role?.map((role) => {
+          if (role?._id === action.payload._id) {
+            return action.payload;
+          }
+          return role;
+        }),
+      };
     default:
       throw new Error();
   }

@@ -12,13 +12,20 @@ import {
   RoleModal,
   ShortlistContainer,
   ShortlistSideContainer,
+  SkillsModal,
 } from "ui";
 
 import type { NextPageWithLayout } from "../../_app";
 
 const LaunchPage: NextPageWithLayout = () => {
-  const { project, dispatchProject, openModal, setOpenModal } =
-    useContext(LaunchProjectContext);
+  const {
+    project,
+    dispatchProject,
+    selectedRole,
+    setSelectedRole,
+    openModal,
+    setOpenModal,
+  } = useContext(LaunchProjectContext);
 
   const handleAddRole = (role: Maybe<RoleTemplate>) => {
     if (role) {
@@ -27,6 +34,7 @@ const LaunchPage: NextPageWithLayout = () => {
         _id: project?.role?.length.toString(),
         skills: role.skills?.map((skill: Maybe<Skills>) => ({
           skillData: {
+            _id: skill?._id,
             name: skill?.name,
           },
         })) as SkillRoleType[],
@@ -56,6 +64,23 @@ const LaunchPage: NextPageWithLayout = () => {
         <RoleModal
           openModal={openModal === LaunchProjectModal.ROLE}
           onSubmit={handleAddRole}
+        />
+      )}
+      {openModal === LaunchProjectModal.SKILLS && (
+        <SkillsModal
+          isOpen={openModal === LaunchProjectModal.SKILLS}
+          skills={selectedRole?.skills || []}
+          setSkills={function (skills: SkillRoleType[]): void {
+            dispatchProject!({
+              type: ProjectActionKind.SET_ROLE_SKILLS,
+              payload: {
+                ...selectedRole,
+                skills: skills,
+              },
+            });
+            setSelectedRole({ ...selectedRole, skills: skills });
+          }}
+          handelAddSkills={() => setOpenModal(null)}
         />
       )}
     </>
