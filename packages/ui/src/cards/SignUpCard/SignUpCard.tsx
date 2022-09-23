@@ -76,6 +76,9 @@ export const SignUpCard = ({ roles, refetch }: ISignUpCardProps) => {
               fields: {
                 _id: currentUser?._id,
                 memberRole: role?._id,
+                onbording: {
+                  signup: true,
+                },
               },
             },
           });
