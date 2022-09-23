@@ -1,5 +1,10 @@
 /* eslint-disable camelcase */
-import { Maybe, Members, SkillType_Member } from "@graphql/eden/generated";
+import {
+  Maybe,
+  Members,
+  SkillRoleType,
+  SkillType_Member,
+} from "@graphql/eden/generated";
 import {
   Button,
   Card,
@@ -12,7 +17,7 @@ import {
 export interface MemberMatchCardProps {
   percentage?: string;
   member: Members;
-  requiredSkills?: Maybe<SkillType_Member>[];
+  requiredSkills?: Maybe<SkillType_Member>[] | Maybe<Maybe<SkillRoleType>[]>;
   onClick?: () => void;
 }
 
@@ -28,21 +33,24 @@ export const MemberMatchCard = ({
     mySkills.push(skill);
   });
 
-  const isSameSkills = (
-    a: Maybe<SkillType_Member>,
-    b: Maybe<SkillType_Member>
-  ) => a?.skillInfo?.name === b?.skillInfo?.name;
+  const isSameSkills = (a: Maybe<SkillRoleType>, b: Maybe<SkillType_Member>) =>
+    a?.skillData?.name === b?.skillInfo?.name;
 
   const matchedSkills = (left: any, right: any, compareFunction: any) =>
-    left.filter((leftValue: any) =>
-      right.some((rightValue: any) => compareFunction(leftValue, rightValue))
-    );
-
+    left
+      .filter((leftValue: any) =>
+        right.some((rightValue: any) => compareFunction(leftValue, rightValue))
+      )
+      .map((skill: any) => ({ skillInfo: skill.skillData }));
   const missingSkills = (left: any, right: any, compareFunction: any) =>
-    left.filter(
-      (leftValue: any) =>
-        !right.some((rightValue: any) => compareFunction(leftValue, rightValue))
-    );
+    left
+      .filter(
+        (leftValue: any) =>
+          !right.some((rightValue: any) =>
+            compareFunction(leftValue, rightValue)
+          )
+      )
+      .map((skill: any) => ({ skillInfo: skill.skillData }));
 
   const getRandomColor = () => {
     const colors = [
@@ -60,7 +68,7 @@ export const MemberMatchCard = ({
 
   return (
     <Card
-      shadow={true}
+      border
       className="relative flex w-full flex-col items-center justify-center bg-white p-5"
     >
       <MatchAvatar src={member?.discordAvatar!} percentage={percentage} />

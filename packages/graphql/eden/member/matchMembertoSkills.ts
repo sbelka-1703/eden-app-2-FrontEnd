@@ -13,6 +13,13 @@ export const MATCH_MEMBERS_TO_SKILLS = gql`
           name
           url
         }
+        skills {
+          skillInfo {
+            _id
+            name
+          }
+          level
+        }
         memberRole {
           title
         }

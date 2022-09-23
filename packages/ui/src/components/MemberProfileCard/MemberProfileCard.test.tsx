@@ -47,7 +47,7 @@ const Member = {
 describe("MemberProfileCard", () => {
   it("renders without throwing", () => {
     const { container } = render(
-      <MemberProfileCard percentage="65" member={Member} />
+      <MemberProfileCard percentage={65} member={Member} />
     );
 
     expect(container).toBeInTheDocument();

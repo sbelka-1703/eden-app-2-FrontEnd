@@ -1,8 +1,6 @@
-import { useMutation } from "@apollo/client";
-import { UPDATE_PROJECT } from "@graphql/eden";
-import { Project } from "@graphql/eden/generated";
+import { LaunchProjectContext, ProjectActionKind } from "@context/eden";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useContext } from "react";
 
 import { TextBody, TextHeading3 } from "../../atoms";
 import { ProjectLayoutCard } from "../../cards";
@@ -13,23 +11,11 @@ export interface ILaunchProjectContainerProps {}
 
 export const LaunchProjectContainer = ({}: ILaunchProjectContainerProps) => {
   const router = useRouter();
-  const [project, setProject] = useState<Project | null>({
-    title: undefined,
-  });
 
-  const [updateProject] = useMutation(UPDATE_PROJECT, {});
+  const { project, dispatchProject } = useContext(LaunchProjectContext);
 
   const handleButtonClick = () => {
-    updateProject({
-      variables: {
-        fields: {
-          title: project?.title,
-        },
-      },
-      onCompleted(data) {
-        router.push(`/test-launch/shortlist-users/${data.updateProject._id}`);
-      },
-    });
+    router.push("/test-launch-2/shortlist-users");
   };
 
   return (
@@ -53,13 +39,10 @@ export const LaunchProjectContainer = ({}: ILaunchProjectContainerProps) => {
                 name="title"
                 placeholder="Start typing here"
                 onChange={(e) =>
-                  setProject(
-                    e.target.value
-                      ? {
-                          title: e.target.value,
-                        }
-                      : null
-                  )
+                  dispatchProject!({
+                    type: ProjectActionKind.SET_NAME,
+                    payload: e.target.value ? e.target.value : null,
+                  })
                 }
               />
             </div>

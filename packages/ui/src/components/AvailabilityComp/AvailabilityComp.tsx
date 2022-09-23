@@ -12,10 +12,9 @@ IAvailabilityCompProps) => {
       <div className="text-sm font-semibold tracking-widest subpixel-antialiased">
         AVAILABILITY
       </div>
-      <div className="mt-4 text-xl">
+      <div className="text-md mt-4">
         <div className={`flex flex-row font-normal tracking-wide`}>
-          <div>⏳</div>
-          <div>{`${timePerWeek} hrs\\week`}</div>
+          <span>⏳ {`${timePerWeek} hrs\\week`}</span>
         </div>
         {/* <div className={`flex flex-row p-1 font-normal tracking-wide`}>
           <div>💰</div>
