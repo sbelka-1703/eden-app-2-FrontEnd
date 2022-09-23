@@ -6,6 +6,7 @@ import {
 } from "@context/eden";
 import {
   AppUserLayout,
+  CandidateProfileCard,
   GridItemNine,
   GridItemSix,
   GridItemThree,
@@ -15,6 +16,8 @@ import {
   ShortlistMemberContainer,
   ShortlistSideContainer,
   SkillsModal,
+  TextHeading3,
+  TextLabel,
 } from "ui";
 
 import type { NextPageWithLayout } from "../../_app";
@@ -55,7 +58,6 @@ const LaunchPage: NextPageWithLayout = () => {
     <>
       <GridLayout>
         <GridItemThree className="h-8/10 scrollbar-hide overflow-scroll">
-          {JSON.stringify(project)}
           {project && <ShortlistSideContainer />}
         </GridItemThree>
 
@@ -64,9 +66,28 @@ const LaunchPage: NextPageWithLayout = () => {
             <ShortlistContainer />
           </GridItemNine>
         ) : (
-          <GridItemSix className="hide-scrollbar h-8/10 overflow-scroll">
-            <ShortlistMemberContainer />
-          </GridItemSix>
+          <>
+            <GridItemSix className="hide-scrollbar h-8/10 overflow-scroll">
+              <ShortlistMemberContainer />
+            </GridItemSix>
+            <GridItemThree>
+              <div className="mb-3 text-center">
+                <TextLabel>Shortlisted for:</TextLabel>
+                <TextHeading3>{selectedRole?.title}</TextHeading3>
+              </div>
+              {project?.team
+                ?.filter((member) => member?.phase === null)
+                ?.filter((member) => member?.roleID === selectedRole?._id)
+                .map((member: Maybe<TeamType>, index) => (
+                  <div key={index} className="mb-2">
+                    <CandidateProfileCard
+                      member={member?.memberInfo}
+                      percentage={undefined}
+                    />
+                  </div>
+                ))}
+            </GridItemThree>
+          </>
         )}
       </GridLayout>
       {openModal === LaunchProjectModal.ROLE && (
@@ -110,6 +131,7 @@ import {
   RoleType,
   SkillRoleType,
   Skills,
+  TeamType,
 } from "@graphql/eden/generated";
 import { IncomingMessage, ServerResponse } from "http";
 import { getSession } from "next-auth/react";

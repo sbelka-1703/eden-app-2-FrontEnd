@@ -378,7 +378,7 @@ const LaunchPage: NextPageWithLayout = () => {
           <>
             <GridItemSix>
               <MemberProfileCard
-                percentage="65"
+                percentage={65}
                 key={member._id}
                 member={member}
                 onClickNotNow={() => {

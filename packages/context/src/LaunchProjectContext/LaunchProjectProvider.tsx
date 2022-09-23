@@ -14,6 +14,8 @@ export enum ProjectActionKind {
   ADD_ROLE = "ADD_ROLE",
   // eslint-disable-next-line no-unused-vars
   SET_ROLE_SKILLS = "SET_ROLE_SKILLS",
+  // eslint-disable-next-line no-unused-vars
+  SHORTLIST_MEMBER = "SHORTLIST_MEMBER",
 }
 
 export interface ProjectAction {
@@ -28,7 +30,7 @@ export enum LaunchProjectModal {
   SKILLS = "skills",
 }
 
-function projectReducer(project: Project, action: ProjectAction) {
+function projectReducer(project: Project, action: ProjectAction): Project {
   switch (action.type) {
     case ProjectActionKind.SET_NAME:
       return { ...project, title: action.payload };
@@ -44,6 +46,18 @@ function projectReducer(project: Project, action: ProjectAction) {
           return role;
         }),
       };
+    case ProjectActionKind.SHORTLIST_MEMBER:
+      return {
+        ...project,
+        team: [
+          ...project.team!,
+          {
+            memberInfo: action.payload.member,
+            roleID: action.payload.roleId,
+            phase: null,
+          },
+        ],
+      };
     default:
       throw new Error();
   }
@@ -54,8 +68,9 @@ export const LaunchProjectProvider = ({
 }: LaunchProjectProviderProps) => {
   const [project, dispatchProject] = useReducer(projectReducer, {
     __typename: "Project",
-    title: null,
+    title: "",
     role: [],
+    team: [],
   });
   const [openModal, setOpenModal] = useState<LaunchProjectModal | null>(null);
   const [selectedRole, setSelectedRole] = useState<RoleType | null>(null);
