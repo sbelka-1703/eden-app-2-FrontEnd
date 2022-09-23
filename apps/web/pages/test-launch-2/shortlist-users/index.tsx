@@ -33,6 +33,26 @@ const LaunchPage: NextPageWithLayout = () => {
     setOpenModal,
   } = useContext(LaunchProjectContext);
 
+  const { data: matchingMembers } = useQuery(MATCH_MEMBERS_TO_SKILLS, {
+    variables: {
+      fields: {
+        skillsID: selectedRole?.skills?.flatMap(
+          (skill) => skill?.skillData?._id
+        ),
+      },
+    },
+    skip: !selectedRole,
+    context: { serviceName: "soilservice" },
+  });
+
+  const filteredMembers: Members[] =
+    matchingMembers?.matchSkillsToMembers?.filter(
+      (member: Members) =>
+        !project?.team?.some(
+          (teamMember) => teamMember?.memberInfo?._id === member?._id
+        )
+    ) || [];
+
   const handleAddRole = (role: Maybe<RoleTemplate>) => {
     if (role) {
       const mappedRole = {
@@ -58,12 +78,14 @@ const LaunchPage: NextPageWithLayout = () => {
     <>
       <GridLayout>
         <GridItemThree className="h-8/10 scrollbar-hide overflow-scroll">
-          {project && <ShortlistSideContainer />}
+          {project && (
+            <ShortlistSideContainer matchingMembers={filteredMembers} />
+          )}
         </GridItemThree>
 
         {!selectedMemberId ? (
           <GridItemNine className="hide-scrollbar h-8/10 overflow-scroll">
-            <ShortlistContainer />
+            <ShortlistContainer matchingMembers={filteredMembers} />
           </GridItemNine>
         ) : (
           <>
@@ -125,8 +147,11 @@ LaunchPage.getLayout = (page) => (
 
 export default LaunchPage;
 
+import { useQuery } from "@apollo/client";
+import { MATCH_MEMBERS_TO_SKILLS } from "@graphql/eden";
 import {
   Maybe,
+  Members,
   RoleTemplate,
   RoleType,
   SkillRoleType,

@@ -1,42 +1,23 @@
-import { useQuery } from "@apollo/client";
 import { LaunchProjectContext, LaunchProjectModal } from "@context/eden";
-import { MATCH_MEMBERS_TO_SKILLS } from "@graphql/eden";
 import { Members } from "@graphql/eden/generated";
 import { useContext } from "react";
 
 import { AddSkillsToRoleCard, MemberMatchCard } from "../../components";
 import { Loading } from "../../elements";
 
-export interface IShortlistContainerProps {}
+export interface IShortlistContainerProps {
+  matchingMembers: Members[];
+}
 
-export const ShortlistContainer = ({}: IShortlistContainerProps) => {
+export const ShortlistContainer = ({
+  matchingMembers,
+}: IShortlistContainerProps) => {
   const {
-    project,
     selectedRole,
     setOpenModal,
     setSelectedMemberId,
     setSelectedMemberPercentage,
   } = useContext(LaunchProjectContext);
-
-  const { data: matchingMembers } = useQuery(MATCH_MEMBERS_TO_SKILLS, {
-    variables: {
-      fields: {
-        skillsID: selectedRole?.skills?.flatMap(
-          (skill) => skill?.skillData?._id
-        ),
-      },
-    },
-    skip: !selectedRole,
-    context: { serviceName: "soilservice" },
-  });
-
-  const filteredMembers =
-    matchingMembers?.matchSkillsToMembers?.filter(
-      (member: Members) =>
-        !project?.team?.some(
-          (teamMember) => teamMember?.memberInfo?._id === member?._id
-        )
-    ) || [];
 
   function handleSelectMember(member: any, percentage: number) {
     setSelectedMemberPercentage(percentage);
@@ -47,32 +28,27 @@ export const ShortlistContainer = ({}: IShortlistContainerProps) => {
     <>
       {selectedRole && (
         <AddSkillsToRoleCard
-          numberOfMembers={filteredMembers.length}
+          numberOfMembers={matchingMembers.length}
           roleTitle={selectedRole?.title || ""}
           handleOpenSkillsModal={() => setOpenModal(LaunchProjectModal.SKILLS)}
         />
       )}
       {selectedRole &&
-        (!filteredMembers.length ? (
+        (!matchingMembers.length ? (
           <Loading />
         ) : (
-          !!filteredMembers.length && (
+          !!matchingMembers.length && (
             <div className="grid grid-cols-3 gap-x-10 gap-y-10">
-              {matchingMembers?.matchSkillsToMembers?.map(
-                (_member: any, index: number) => (
-                  <MemberMatchCard
-                    key={index}
-                    onClick={() => {
-                      handleSelectMember(
-                        _member.member,
-                        _member.matchPercentage
-                      );
-                    }}
-                    member={_member.member}
-                    percentage={_member.matchPercentage}
-                  />
-                )
-              )}
+              {matchingMembers.map((_member: any, index: number) => (
+                <MemberMatchCard
+                  key={index}
+                  onClick={() => {
+                    handleSelectMember(_member.member, _member.matchPercentage);
+                  }}
+                  member={_member.member}
+                  percentage={_member.matchPercentage}
+                />
+              ))}
             </div>
           )
         ))}
