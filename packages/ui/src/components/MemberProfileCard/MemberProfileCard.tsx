@@ -10,7 +10,7 @@ import {
 
 export interface MemberProfileCardProps {
   member: Members;
-  percentage: string;
+  percentage: number | null | undefined;
   onClickNotNow?: () => void;
   onClickAddToList?: () => void;
 }
@@ -58,14 +58,16 @@ export const MemberProfileCard = ({
             {member.bio}
           </p>
         </div>
-        <div>
-          <h1 className="text-soilHeading3 font-poppins text-soilGray font-medium">
-            Match
-          </h1>
-          <p className="text-soilPurple font-poppins text-4xl font-semibold">
-            {percentage}%
-          </p>
-        </div>
+        {percentage && (
+          <div>
+            <h1 className="text-soilHeading3 font-poppins text-soilGray font-medium">
+              Match
+            </h1>
+            <p className="text-soilPurple font-poppins text-4xl font-semibold">
+              {Math.round(percentage)}%
+            </p>
+          </div>
+        )}
       </div>
       <div className="flex w-full items-start justify-between gap-10">
         <div>

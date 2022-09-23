@@ -59,6 +59,10 @@ export const LaunchProjectProvider = ({
   });
   const [openModal, setOpenModal] = useState<LaunchProjectModal | null>(null);
   const [selectedRole, setSelectedRole] = useState<RoleType | null>(null);
+  const [selectedMemberId, setSelectedMemberId] = useState<string | null>(null);
+  const [selectedMemberPercentage, setSelectedMemberPercentage] = useState<
+    number | null
+  >(null);
 
   const injectContext = {
     project: project,
@@ -67,6 +71,10 @@ export const LaunchProjectProvider = ({
     setOpenModal: setOpenModal,
     selectedRole: selectedRole,
     setSelectedRole: setSelectedRole,
+    selectedMemberId: selectedMemberId,
+    setSelectedMemberId: setSelectedMemberId,
+    selectedMemberPercentage: selectedMemberPercentage,
+    setSelectedMemberPercentage: setSelectedMemberPercentage,
   };
 
   return (

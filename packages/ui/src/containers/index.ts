@@ -12,6 +12,7 @@ export * from "./ProfileContainer";
 export * from "./ProjectsContainer";
 export * from "./RoleModalContainer";
 export * from "./ShortlistContainer";
+export * from "./ShortlistMemberContainer";
 export * from "./ShortlistSideContainer";
 export * from "./SignUpContainer";
 export * from "./SignUpContainerMain";

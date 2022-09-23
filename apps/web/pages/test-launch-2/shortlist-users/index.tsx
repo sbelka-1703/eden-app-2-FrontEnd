@@ -7,10 +7,12 @@ import {
 import {
   AppUserLayout,
   GridItemNine,
+  GridItemSix,
   GridItemThree,
   GridLayout,
   RoleModal,
   ShortlistContainer,
+  ShortlistMemberContainer,
   ShortlistSideContainer,
   SkillsModal,
 } from "ui";
@@ -22,6 +24,7 @@ const LaunchPage: NextPageWithLayout = () => {
     project,
     dispatchProject,
     selectedRole,
+    selectedMemberId,
     setSelectedRole,
     openModal,
     setOpenModal,
@@ -56,9 +59,15 @@ const LaunchPage: NextPageWithLayout = () => {
           {project && <ShortlistSideContainer />}
         </GridItemThree>
 
-        <GridItemNine className="hide-scrollbar h-8/10 overflow-scroll">
-          <ShortlistContainer />
-        </GridItemNine>
+        {!selectedMemberId ? (
+          <GridItemNine className="hide-scrollbar h-8/10 overflow-scroll">
+            <ShortlistContainer />
+          </GridItemNine>
+        ) : (
+          <GridItemSix className="hide-scrollbar h-8/10 overflow-scroll">
+            <ShortlistMemberContainer />
+          </GridItemSix>
+        )}
       </GridLayout>
       {openModal === LaunchProjectModal.ROLE && (
         <RoleModal

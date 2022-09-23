@@ -10,8 +10,13 @@ import { Loading } from "../../elements";
 export interface IShortlistContainerProps {}
 
 export const ShortlistContainer = ({}: IShortlistContainerProps) => {
-  const { project, selectedRole, openModal, setOpenModal } =
-    useContext(LaunchProjectContext);
+  const {
+    project,
+    selectedRole,
+    setOpenModal,
+    setSelectedMemberId,
+    setSelectedMemberPercentage,
+  } = useContext(LaunchProjectContext);
 
   const { data: matchingMembers } = useQuery(MATCH_MEMBERS_TO_SKILLS, {
     variables: {
@@ -22,6 +27,7 @@ export const ShortlistContainer = ({}: IShortlistContainerProps) => {
       },
     },
     skip: !selectedRole,
+    context: { serviceName: "soilservice" },
   });
 
   const filteredMembers =
@@ -32,9 +38,13 @@ export const ShortlistContainer = ({}: IShortlistContainerProps) => {
         )
     ) || [];
 
+  function handleSelectMember(member: any, percentage: number) {
+    setSelectedMemberPercentage(percentage);
+    setSelectedMemberId(member._id);
+  }
+
   return (
     <>
-      {openModal}
       {selectedRole && (
         <AddSkillsToRoleCard
           numberOfMembers={filteredMembers.length}
@@ -53,7 +63,10 @@ export const ShortlistContainer = ({}: IShortlistContainerProps) => {
                   <MemberMatchCard
                     key={index}
                     onClick={() => {
-                      /**/
+                      handleSelectMember(
+                        _member.member,
+                        _member.matchPercentage
+                      );
                     }}
                     member={_member.member}
                     percentage={_member.matchPercentage}

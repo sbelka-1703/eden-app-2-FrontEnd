@@ -9,6 +9,10 @@ export interface LaunchProjectContextType {
   setOpenModal?: any;
   selectedRole?: RoleType | null;
   setSelectedRole?: any;
+  selectedMemberId?: string | null;
+  setSelectedMemberId?: any;
+  selectedMemberPercentage?: number | null;
+  setSelectedMemberPercentage?: any;
 }
 
 export const LaunchProjectContext = createContext<LaunchProjectContextType>({});
