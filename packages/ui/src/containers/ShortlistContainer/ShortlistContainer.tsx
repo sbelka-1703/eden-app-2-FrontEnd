@@ -1,12 +1,11 @@
 import { LaunchProjectContext, LaunchProjectModal } from "@context/eden";
-import { Members } from "@graphql/eden/generated";
 import { useContext } from "react";
 
 import { AddSkillsToRoleCard, MemberMatchCard } from "../../components";
 import { Loading } from "../../elements";
 
 export interface IShortlistContainerProps {
-  matchingMembers: Members[];
+  matchingMembers: any[];
 }
 
 export const ShortlistContainer = ({

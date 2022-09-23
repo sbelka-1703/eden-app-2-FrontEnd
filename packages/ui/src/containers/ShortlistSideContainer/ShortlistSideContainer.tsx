@@ -1,11 +1,10 @@
 import { LaunchProjectContext, LaunchProjectModal } from "@context/eden";
-import { Members } from "@graphql/eden/generated";
 import { useContext } from "react";
 
 import { CandidateProfileCard, ProjectLayoutCard } from "../../cards";
 
 export interface IShortlistSideContainerProps {
-  matchingMembers: Members[];
+  matchingMembers: any[];
 }
 
 export const ShortlistSideContainer = ({
@@ -17,6 +16,8 @@ export const ShortlistSideContainer = ({
     selectedRole,
     setSelectedRole,
     selectedMemberId,
+    setSelectedMemberId,
+    setSelectedMemberPercentage,
   } = useContext(LaunchProjectContext);
 
   return (
@@ -30,10 +31,18 @@ export const ShortlistSideContainer = ({
       />
       {selectedMemberId &&
         matchingMembers.map((member: any, index) => (
-          <div key={index} className="mb-2">
+          <div
+            key={index}
+            className="mb-2 cursor-pointer"
+            onClick={() => {
+              setSelectedMemberId(member?.member?._id);
+              setSelectedMemberPercentage(member?.matchPercentage);
+            }}
+          >
             <CandidateProfileCard
               member={member.member}
               percentage={undefined}
+              selected={selectedMemberId === member.member._id}
             />
           </div>
         ))}

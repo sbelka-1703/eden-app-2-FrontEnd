@@ -47,10 +47,10 @@ const LaunchPage: NextPageWithLayout = () => {
 
   const filteredMembers: Members[] =
     matchingMembers?.matchSkillsToMembers?.filter(
-      (member: Members) =>
-        !project?.team?.some(
-          (teamMember) => teamMember?.memberInfo?._id === member?._id
-        )
+      (member: any) =>
+        !project?.team?.some((teamMember) => {
+          return teamMember?.memberInfo?._id === member?.member?._id;
+        })
     ) || [];
 
   const handleAddRole = (role: Maybe<RoleTemplate>) => {
@@ -90,9 +90,9 @@ const LaunchPage: NextPageWithLayout = () => {
         ) : (
           <>
             <GridItemSix className="hide-scrollbar h-8/10 overflow-scroll">
-              <ShortlistMemberContainer />
+              <ShortlistMemberContainer matchingMembers={filteredMembers} />
             </GridItemSix>
-            <GridItemThree>
+            <GridItemThree className="hide-scrollbar h-8/10 overflow-scroll">
               <div className="mb-3 text-center">
                 <TextLabel>Shortlisted for:</TextLabel>
                 <TextHeading3>{selectedRole?.title}</TextHeading3>

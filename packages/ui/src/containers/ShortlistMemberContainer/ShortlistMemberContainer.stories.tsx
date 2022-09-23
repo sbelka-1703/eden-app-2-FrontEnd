@@ -13,4 +13,6 @@ const Template: ComponentStory<typeof ShortlistMemberContainer> = (args) => (
 );
 
 export const Default = Template.bind({});
-Default.args = {};
+Default.args = {
+  matchingMembers: [],
+};

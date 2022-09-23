@@ -3,7 +3,9 @@ import { ShortlistMemberContainer } from ".";
 
 describe("ShortlistMemberContainer", () => {
   it("renders without throwing", () => {
-    const { container } = render(<ShortlistMemberContainer />);
+    const { container } = render(
+      <ShortlistMemberContainer matchingMembers={[]} />
+    );
 
     expect(container).toBeInTheDocument();
   });
