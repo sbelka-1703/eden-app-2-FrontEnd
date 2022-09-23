@@ -71,8 +71,15 @@ const LaunchPage: NextPageWithLayout = () => {
         type: ProjectActionKind.ADD_ROLE,
       });
       setOpenModal(null);
+      setSelectedRole(mappedRole);
     }
   };
+
+  useEffect(() => {
+    if (!project?.role?.length) {
+      setOpenModal(LaunchProjectModal.ROLE);
+    }
+  }, []);
 
   return (
     <>
@@ -160,7 +167,7 @@ import {
 } from "@graphql/eden/generated";
 import { IncomingMessage, ServerResponse } from "http";
 import { getSession } from "next-auth/react";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 export async function getServerSideProps(ctx: {
   req: IncomingMessage;
