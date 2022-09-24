@@ -30,6 +30,7 @@ export const SkillsModal = ({
         level: skill?.level,
       } as SkillType_Member)
   );
+
   const handleSetSkills = (_skills: SkillType_Member[]) => {
     const _mappedSkills = _skills.map(
       (skill: SkillType_Member) =>
@@ -41,6 +42,24 @@ export const SkillsModal = ({
           level: skill?.level,
         } as SkillRoleType)
     );
+
+    setSkills(_mappedSkills);
+  };
+  const handleDeleteSkills = (_skill: SkillType_Member) => {
+    const _mappedSkills = mappedSkills
+      .filter((skill) => {
+        return skill.skillInfo?._id !== _skill.skillInfo?._id;
+      })
+      .map(
+        (skill: SkillType_Member) =>
+          ({
+            skillData: {
+              _id: skill?.skillInfo?._id,
+              name: skill?.skillInfo?.name,
+            },
+            level: skill?.level,
+          } as SkillRoleType)
+      );
 
     setSkills(_mappedSkills);
   };
@@ -65,8 +84,9 @@ export const SkillsModal = ({
           <div className={`mt-4 grid grid-flow-col grid-rows-2 gap-4`}>
             <SkillList
               colorRGB="214,254,255"
-              // add Skills
               skills={mappedSkills}
+              closeButton
+              handleDeleteSkill={handleDeleteSkills}
             />
           </div>
         </div>
