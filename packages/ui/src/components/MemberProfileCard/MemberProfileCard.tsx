@@ -24,7 +24,7 @@ export const MemberProfileCard = ({
   return (
     <Card
       border
-      className="!border-accentColor flex w-full flex-col items-center justify-center gap-5 border-[2px] bg-white p-10"
+      className="scrollbar-hide !border-accentColor h-full w-full overflow-y-scroll border-[2px] bg-white p-10"
     >
       <div className="flex items-center justify-center gap-5">
         <Button
@@ -39,18 +39,20 @@ export const MemberProfileCard = ({
           Add to list
         </Button>
       </div>
-      <h1 className="font-poppins text-darkGreen text-soilHeading2 font-medium">
-        {member.discordName}
-        {member.discriminator && (
-          <span className="text-soilGray font-Inter text-xs font-semibold">
-            #{member.discriminator}
-          </span>
-        )}
-      </h1>
-      <p className="text-soilLabel text-soilGray font-poppins -mt-5 mb-2 font-medium uppercase">
-        {member.memberRole?.title}
-      </p>
-      <div className="flex items-start justify-center ">
+      <div className="mb-4 flex flex-col items-center">
+        <h1 className="font-poppins text-darkGreen text-soilHeading2 font-medium">
+          {member.discordName}
+          {member.discriminator && (
+            <span className="text-soilGray font-Inter text-xs font-semibold">
+              #{member.discriminator}
+            </span>
+          )}
+        </h1>
+        <p className="text-soilLabel text-soilGray font-poppins font-medium uppercase">
+          {member.memberRole?.title}
+        </p>
+      </div>
+      <div className="mb-4 flex items-start justify-center">
         <div className="flex flex-col items-start justify-center">
           <h1 className="text-soilHeading3 font-poppins font-medium">
             Short Bio
@@ -61,8 +63,8 @@ export const MemberProfileCard = ({
         </div>
         {percentage && (
           <div>
-            <h1 className="text-soilHeading3 font-poppins text-soilGray font-medium">
-              Match
+            <h1 className="text-soilHeading3 font-poppins text-soilGray -ml-2 font-medium">
+              ⚡️Match
             </h1>
             <p className="text-soilPurple font-poppins text-4xl font-semibold">
               {Math.round(percentage)}%

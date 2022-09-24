@@ -1,10 +1,13 @@
 import { Maybe, Members } from "@graphql/eden/generated";
+import { XIcon } from "@heroicons/react/outline";
 import { Card, MatchAvatar } from "ui";
 
 export interface ICandidateProfileCardProps {
   member?: Maybe<Members>;
   percentage?: number;
   selected?: boolean;
+  closeButton?: boolean;
+  handleDelete?: any;
 }
 
 function round(value: number, precision: number) {
@@ -17,10 +20,12 @@ export const CandidateProfileCard = ({
   member,
   percentage,
   selected = false,
+  closeButton,
+  handleDelete,
 }: ICandidateProfileCardProps) => {
   return (
     <Card
-      className="scrollbar-hide overflow-scroll bg-white p-3"
+      className="scrollbar-hide relative overflow-scroll bg-white p-3"
       focused={selected}
     >
       <div className={`flex	items-center gap-8`}>
@@ -45,6 +50,13 @@ export const CandidateProfileCard = ({
               {member?.memberRole?.title}
             </span>
           </div>
+          {closeButton && handleDelete && (
+            <XIcon
+              className="inline-block h-4 w-4 cursor-pointer text-slate-600 hover:text-slate-400"
+              aria-hidden="true"
+              onClick={() => handleDelete(member)}
+            />
+          )}
         </div>
       </div>
     </Card>

@@ -75,6 +75,16 @@ const LaunchPage: NextPageWithLayout = () => {
     }
   };
 
+  function handleRemoveShortlistMember(member: Maybe<TeamType>) {
+    dispatchProject!({
+      payload: {
+        member: member,
+        roleId: selectedRole?._id,
+      },
+      type: ProjectActionKind.REMOVE_SHORTLIST_MEMBER,
+    });
+  }
+
   useEffect(() => {
     if (!project?.role?.length) {
       setOpenModal(LaunchProjectModal.ROLE);
@@ -91,15 +101,15 @@ const LaunchPage: NextPageWithLayout = () => {
         </GridItemThree>
 
         {!selectedMemberId ? (
-          <GridItemNine className="hide-scrollbar h-8/10 overflow-scroll">
+          <GridItemNine className="scrollbar-hide h-8/10 overflow-scroll">
             <ShortlistContainer matchingMembers={filteredMembers} />
           </GridItemNine>
         ) : (
           <>
-            <GridItemSix className="hide-scrollbar h-8/10 overflow-scroll">
+            <GridItemSix className="h-8/10 overflow-scroll">
               <ShortlistMemberContainer matchingMembers={filteredMembers} />
             </GridItemSix>
-            <GridItemThree className="hide-scrollbar h-8/10 overflow-scroll">
+            <GridItemThree className="scrollbar-hide h-8/10 overflow-scroll">
               <div className="mb-3 text-center">
                 <TextLabel>Shortlisted for:</TextLabel>
                 <TextHeading3>{selectedRole?.title}</TextHeading3>
@@ -112,6 +122,8 @@ const LaunchPage: NextPageWithLayout = () => {
                     <CandidateProfileCard
                       member={member?.memberInfo}
                       percentage={undefined}
+                      closeButton
+                      handleDelete={() => handleRemoveShortlistMember(member)}
                     />
                   </div>
                 ))}

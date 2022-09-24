@@ -11,12 +11,12 @@ export interface IEmojiSelectorProps {
 
 export const EmojiSelector = ({
   isDisabled,
-  emoji,
+  emoji = "👋",
   onSelection,
   size = 60,
 }: IEmojiSelectorProps) => {
   const [showEmojiSelector, setShowEmojiSelector] = useState(false);
-  const [selectedEmoji, setSelectedEmoji] = useState("👋");
+  const [selectedEmoji, setSelectedEmoji] = useState(emoji);
   const Picker = dynamic(() => import("emoji-picker-react"), {
     ssr: false,
   });

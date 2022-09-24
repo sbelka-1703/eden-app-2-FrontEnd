@@ -12,6 +12,7 @@ export const ShortlistSideContainer = ({
 }: IShortlistSideContainerProps) => {
   const {
     project,
+    projectEmoji,
     setOpenModal,
     selectedRole,
     setSelectedRole,
@@ -24,8 +25,17 @@ export const ShortlistSideContainer = ({
     <>
       <ProjectLayoutCard
         project={project}
-        handleAddRole={() => setOpenModal(LaunchProjectModal.ROLE)}
-        handleSelectRole={(role) => setSelectedRole(role)}
+        emoji={projectEmoji}
+        handleAddRole={() => {
+          setOpenModal(LaunchProjectModal.ROLE);
+          setSelectedMemberId(null);
+          setSelectedMemberPercentage(null);
+        }}
+        handleSelectRole={(role) => {
+          setSelectedRole(role);
+          setSelectedMemberId(null);
+          setSelectedMemberPercentage(null);
+        }}
         selectedRole={selectedRole}
         showRoles
       />
@@ -41,9 +51,20 @@ export const ShortlistSideContainer = ({
           >
             <CandidateProfileCard
               member={member.member}
-              percentage={undefined}
+              percentage={member.matchPercentage}
               selected={selectedMemberId === member.member._id}
             />
+
+            {/* ------ this is a UI test, do not remove yet :) ------ */}
+            {/* <UserCard
+              member={{
+                ...member.member,
+                skills: member.member.skills.slice(0, 2),
+              }}
+              percentage={member.matchPercentage}
+              focused={selectedMemberId === member.member._id}
+            /> */}
+            {/* ---------------------------------------------------- */}
           </div>
         ))}
     </>
