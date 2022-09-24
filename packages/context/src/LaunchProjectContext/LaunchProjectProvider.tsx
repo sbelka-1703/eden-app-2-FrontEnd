@@ -82,6 +82,7 @@ export const LaunchProjectProvider = ({
     role: [],
     team: [],
   });
+  const [projectEmoji, setProjectEmoji] = useState<string>();
   const [openModal, setOpenModal] = useState<LaunchProjectModal | null>(null);
   const [selectedRole, setSelectedRole] = useState<RoleType | null>(null);
   const [selectedMemberId, setSelectedMemberId] = useState<string | null>(null);
@@ -92,6 +93,8 @@ export const LaunchProjectProvider = ({
   const injectContext = {
     project: project,
     dispatchProject: dispatchProject,
+    projectEmoji,
+    setProjectEmoji,
     openModal: openModal,
     setOpenModal: setOpenModal,
     selectedRole: selectedRole,
