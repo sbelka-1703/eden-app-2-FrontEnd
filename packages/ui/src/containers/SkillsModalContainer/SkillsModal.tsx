@@ -45,10 +45,10 @@ export const SkillsModal = ({
 
     setSkills(_mappedSkills);
   };
-  const handleDeleteSkills = (_skill: SkillType_Member) => {
+  const handleDeleteSkills = (_skill: Maybe<SkillType_Member> | undefined) => {
     const _mappedSkills = mappedSkills
       .filter((skill) => {
-        return skill.skillInfo?._id !== _skill.skillInfo?._id;
+        return skill.skillInfo?._id !== _skill?.skillInfo?._id;
       })
       .map(
         (skill: SkillType_Member) =>
