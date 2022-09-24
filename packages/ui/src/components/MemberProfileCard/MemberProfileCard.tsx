@@ -10,7 +10,7 @@ import {
 
 export interface MemberProfileCardProps {
   member: Members;
-  percentage: string;
+  percentage: number | null | undefined;
   onClickNotNow?: () => void;
   onClickAddToList?: () => void;
 }
@@ -41,10 +41,11 @@ export const MemberProfileCard = ({
       </div>
       <h1 className="font-poppins text-darkGreen text-soilHeading2 font-medium">
         {member.discordName}
-        <span className="text-soilGray font-Inter text-xs font-semibold">
-          {" "}
-          #{member.discriminator}
-        </span>
+        {member.discriminator && (
+          <span className="text-soilGray font-Inter text-xs font-semibold">
+            #{member.discriminator}
+          </span>
+        )}
       </h1>
       <p className="text-soilLabel text-soilGray font-poppins -mt-5 mb-2 font-medium uppercase">
         {member.memberRole?.title}
@@ -58,24 +59,30 @@ export const MemberProfileCard = ({
             {member.bio}
           </p>
         </div>
-        <div>
-          <h1 className="text-soilHeading3 font-poppins text-soilGray font-medium">
-            Match
-          </h1>
-          <p className="text-soilPurple font-poppins text-4xl font-semibold">
-            {percentage}%
-          </p>
-        </div>
+        {percentage && (
+          <div>
+            <h1 className="text-soilHeading3 font-poppins text-soilGray font-medium">
+              Match
+            </h1>
+            <p className="text-soilPurple font-poppins text-4xl font-semibold">
+              {Math.round(percentage)}%
+            </p>
+          </div>
+        )}
       </div>
-      <div className="flex w-full items-start justify-between gap-10">
-        <div>
+      <div className="flex w-full items-start justify-between gap-6">
+        <div className="w-3/4">
           <p className="mb-3 text-sm font-semibold tracking-widest subpixel-antialiased">
             Top skills
           </p>
           <SkillList skills={member.skills!} colorRGB={"155, 103, 255, 0.44"} />
         </div>
-        <SocialMediaComp title="Socials" links={member.links} />
-        <AvailabilityComp seed="1700" timePerWeek={member.hoursPerWeek!} />
+        {!!member.links?.length && (
+          <SocialMediaComp title="Socials" links={member.links} size="1.8rem" />
+        )}
+        {member.hoursPerWeek && (
+          <AvailabilityComp seed="1700" timePerWeek={member.hoursPerWeek!} />
+        )}
       </div>
     </Card>
   );

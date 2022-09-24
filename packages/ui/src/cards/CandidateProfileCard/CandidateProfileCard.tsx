@@ -4,6 +4,7 @@ import { Card, MatchAvatar } from "ui";
 export interface ICandidateProfileCardProps {
   member?: Maybe<Members>;
   percentage?: number;
+  selected?: boolean;
 }
 
 function round(value: number, precision: number) {
@@ -15,9 +16,13 @@ function round(value: number, precision: number) {
 export const CandidateProfileCard = ({
   member,
   percentage,
+  selected = false,
 }: ICandidateProfileCardProps) => {
   return (
-    <Card className="scrollbar-hide overflow-scroll bg-white p-3">
+    <Card
+      className="scrollbar-hide overflow-scroll bg-white p-3"
+      focused={selected}
+    >
       <div className={`flex	items-center gap-8`}>
         <MatchAvatar
           src={member?.discordAvatar!}

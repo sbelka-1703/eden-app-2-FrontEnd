@@ -1,6 +1,8 @@
+export * from "./AddSkillsToRoleCard";
 export * from "./AvailabilityComp";
 export * from "./AvatarList";
 export * from "./BioComponent";
+export * from "./CalendarComp";
 export * from "./CalendarComp";
 export * from "./CollectionOfUsers";
 export * from "./Endorsements";
@@ -22,4 +24,3 @@ export * from "./SocialMediaInput";
 export * from "./TeamAttributeChart";
 export * from "./UserProfileMenu";
 export * from "./UserWithDescription";
-export * from "./CalendarComp";

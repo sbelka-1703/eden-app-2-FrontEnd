@@ -18,7 +18,10 @@ export const MatchAvatar = ({
       <div className="absolute bottom-1 -right-4 rounded-full bg-white py-1 px-1">
         {percentage && (
           <p className="font-poppins text-lg font-semibold text-[#9B67FF]">
-            {percentage}%
+            {typeof percentage === "number"
+              ? Math.round(percentage)
+              : percentage}
+            %
           </p>
         )}
       </div>

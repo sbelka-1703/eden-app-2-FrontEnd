@@ -2,7 +2,7 @@ import { useQuery } from "@apollo/client";
 import { UserContext } from "@context/eden";
 import { FIND_PROJECTS_RECOMMENDED } from "@graphql/eden";
 import Head from "next/head";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 import { useContext } from "react";
 import {
   AppHeader,
@@ -23,13 +23,13 @@ export const AppUserMenuLayout = ({
   children,
   recommnededSidebar = true,
 }: IAppUserMenuLayoutProps) => {
-  const router = useRouter();
+  // const router = useRouter();
   const { currentUser } = useContext(UserContext);
 
   // if (currentUser) console.log("currentUser", currentUser);
-  if (currentUser) {
-    if (!currentUser?.onbording?.signup) router.push(`/signup`);
-  }
+  // if (currentUser) {
+  //   if (!currentUser?.onbording?.signup) router.push(`/signup`);
+  // }
 
   const { data: dataProjectsRecommended } = useQuery(
     FIND_PROJECTS_RECOMMENDED,
