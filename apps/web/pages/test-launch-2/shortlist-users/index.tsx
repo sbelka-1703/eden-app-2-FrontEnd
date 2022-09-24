@@ -6,6 +6,7 @@ import {
 } from "@context/eden";
 import {
   AppUserLayout,
+  Button,
   CandidateProfileCard,
   GridItemNine,
   GridItemSix,
@@ -102,6 +103,13 @@ const LaunchPage: NextPageWithLayout = () => {
                     />
                   </div>
                 ))}
+              <Button
+                className="mx-auto"
+                variant="primary"
+                onClick={() => setOpenModal(LaunchProjectModal.ROLE_DETAIL)}
+              >
+                Invite to apply
+              </Button>
             </GridItemThree>
           </>
         )}

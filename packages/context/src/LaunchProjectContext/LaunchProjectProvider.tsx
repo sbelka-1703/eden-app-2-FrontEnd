@@ -30,6 +30,8 @@ export enum LaunchProjectModal {
   ROLE = "role",
   // eslint-disable-next-line no-unused-vars
   SKILLS = "skills",
+  // eslint-disable-next-line no-unused-vars
+  ROLE_DETAIL = "role etail",
 }
 
 function projectReducer(project: Project, action: ProjectAction): Project {

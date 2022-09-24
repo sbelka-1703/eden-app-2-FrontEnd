@@ -72,6 +72,7 @@ export const ShortlistModalContainer = ({}: IShortlistModalContainerProps) => {
           handelAddSkills={() => setOpenModal(null)}
         />
       )}
+      {openModal === LaunchProjectModal.ROLE_DETAIL && <></>}
     </>
   );
 };
