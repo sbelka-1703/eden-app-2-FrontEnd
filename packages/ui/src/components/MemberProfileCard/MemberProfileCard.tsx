@@ -52,7 +52,7 @@ export const MemberProfileCard = ({
           {member.memberRole?.title}
         </p>
       </div>
-      <div className="mb-4 flex items-start justify-center">
+      <div className="mb-4 flex items-start justify-between">
         <div className="flex flex-col items-start justify-center">
           <h1 className="text-soilHeading3 font-poppins font-medium">
             Short Bio
@@ -62,7 +62,7 @@ export const MemberProfileCard = ({
           </p>
         </div>
         {percentage && (
-          <div>
+          <div className="mr-12">
             <h1 className="text-soilHeading3 font-poppins text-soilGray -ml-2 font-medium">
               ⚡️Match
             </h1>
