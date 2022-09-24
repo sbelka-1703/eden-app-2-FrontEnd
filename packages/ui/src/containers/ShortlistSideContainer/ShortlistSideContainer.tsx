@@ -24,8 +24,16 @@ export const ShortlistSideContainer = ({
     <>
       <ProjectLayoutCard
         project={project}
-        handleAddRole={() => setOpenModal(LaunchProjectModal.ROLE)}
-        handleSelectRole={(role) => setSelectedRole(role)}
+        handleAddRole={() => {
+          setOpenModal(LaunchProjectModal.ROLE);
+          setSelectedMemberId(null);
+          setSelectedMemberPercentage(null);
+        }}
+        handleSelectRole={(role) => {
+          setSelectedRole(role);
+          setSelectedMemberId(null);
+          setSelectedMemberPercentage(null);
+        }}
         selectedRole={selectedRole}
         showRoles
       />
