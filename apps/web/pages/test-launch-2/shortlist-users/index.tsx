@@ -75,6 +75,16 @@ const LaunchPage: NextPageWithLayout = () => {
     }
   };
 
+  function handleRemoveShortlistMember(member: Maybe<TeamType>) {
+    dispatchProject!({
+      payload: {
+        member: member,
+        roleId: selectedRole?._id,
+      },
+      type: ProjectActionKind.REMOVE_SHORTLIST_MEMBER,
+    });
+  }
+
   useEffect(() => {
     if (!project?.role?.length) {
       setOpenModal(LaunchProjectModal.ROLE);
@@ -112,6 +122,8 @@ const LaunchPage: NextPageWithLayout = () => {
                     <CandidateProfileCard
                       member={member?.memberInfo}
                       percentage={undefined}
+                      closeButton
+                      handleDelete={() => handleRemoveShortlistMember(member)}
                     />
                   </div>
                 ))}

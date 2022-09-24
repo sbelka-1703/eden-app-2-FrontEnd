@@ -16,6 +16,8 @@ export enum ProjectActionKind {
   SET_ROLE_SKILLS = "SET_ROLE_SKILLS",
   // eslint-disable-next-line no-unused-vars
   SHORTLIST_MEMBER = "SHORTLIST_MEMBER",
+  // eslint-disable-next-line no-unused-vars
+  REMOVE_SHORTLIST_MEMBER = "REMOVE_SHORTLIST_MEMBER",
 }
 
 export interface ProjectAction {
@@ -57,6 +59,14 @@ function projectReducer(project: Project, action: ProjectAction): Project {
             phase: null,
           },
         ],
+      };
+    case ProjectActionKind.REMOVE_SHORTLIST_MEMBER:
+      return {
+        ...project,
+        team: project.team?.filter(
+          (member) =>
+            member?.memberInfo?._id !== action.payload.member.memberInfo._id
+        ),
       };
     default:
       throw new Error();
