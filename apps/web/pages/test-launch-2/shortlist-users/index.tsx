@@ -91,15 +91,15 @@ const LaunchPage: NextPageWithLayout = () => {
         </GridItemThree>
 
         {!selectedMemberId ? (
-          <GridItemNine className="hide-scrollbar h-8/10 overflow-scroll">
+          <GridItemNine className="scrollbar-hide h-8/10 overflow-scroll">
             <ShortlistContainer matchingMembers={filteredMembers} />
           </GridItemNine>
         ) : (
           <>
-            <GridItemSix className="hide-scrollbar h-8/10 overflow-scroll">
+            <GridItemSix className="scrollbar-hide h-8/10 overflow-scroll">
               <ShortlistMemberContainer matchingMembers={filteredMembers} />
             </GridItemSix>
-            <GridItemThree className="hide-scrollbar h-8/10 overflow-scroll">
+            <GridItemThree className="scrollbar-hide h-8/10 overflow-scroll">
               <div className="mb-3 text-center">
                 <TextLabel>Shortlisted for:</TextLabel>
                 <TextHeading3>{selectedRole?.title}</TextHeading3>

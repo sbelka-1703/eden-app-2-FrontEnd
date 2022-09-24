@@ -320,7 +320,7 @@ const LaunchPage: NextPageWithLayout = () => {
             )}
         </GridItemThree>
         {!member && selectedRole && (
-          <GridItemNine className="hide-scrollbar h-8/10 overflow-scroll">
+          <GridItemNine className="scrollbar-hide h-8/10 overflow-scroll">
             {roleId && (
               <>
                 <Card className="mb-8 flex items-center bg-white p-6">
