@@ -3,6 +3,7 @@ import { Card, EmojiSelector, RoleList, TextBody, TextHeading3 } from "ui";
 
 export interface ProjectLayoutCardProps {
   project?: Project;
+  emoji?: string;
   showRoles?: boolean;
   selectedRole?: Maybe<RoleType> | null;
   onClick?: () => void;
@@ -13,6 +14,7 @@ export interface ProjectLayoutCardProps {
 
 export const ProjectLayoutCard = ({
   project,
+  emoji,
   showRoles = false,
   selectedRole,
   handleAddRole,
@@ -23,7 +25,7 @@ export const ProjectLayoutCard = ({
       <TextBody className="mb-2">Your Project</TextBody>
       <div className="flex items-center pb-2">
         <div className="mr-4">
-          <EmojiSelector isDisabled />
+          <EmojiSelector isDisabled emoji={emoji} />
         </div>
         <TextHeading3>{project?.title}</TextHeading3>
       </div>

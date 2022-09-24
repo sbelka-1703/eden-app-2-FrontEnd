@@ -16,6 +16,8 @@ export enum ProjectActionKind {
   SET_ROLE_SKILLS = "SET_ROLE_SKILLS",
   // eslint-disable-next-line no-unused-vars
   SHORTLIST_MEMBER = "SHORTLIST_MEMBER",
+  // eslint-disable-next-line no-unused-vars
+  REMOVE_SHORTLIST_MEMBER = "REMOVE_SHORTLIST_MEMBER",
 }
 
 export interface ProjectAction {
@@ -58,6 +60,14 @@ function projectReducer(project: Project, action: ProjectAction): Project {
           },
         ],
       };
+    case ProjectActionKind.REMOVE_SHORTLIST_MEMBER:
+      return {
+        ...project,
+        team: project.team?.filter(
+          (member) =>
+            member?.memberInfo?._id !== action.payload.member.memberInfo._id
+        ),
+      };
     default:
       throw new Error();
   }
@@ -72,6 +82,7 @@ export const LaunchProjectProvider = ({
     role: [],
     team: [],
   });
+  const [projectEmoji, setProjectEmoji] = useState<string>();
   const [openModal, setOpenModal] = useState<LaunchProjectModal | null>(null);
   const [selectedRole, setSelectedRole] = useState<RoleType | null>(null);
   const [selectedMemberId, setSelectedMemberId] = useState<string | null>(null);
@@ -82,6 +93,8 @@ export const LaunchProjectProvider = ({
   const injectContext = {
     project: project,
     dispatchProject: dispatchProject,
+    projectEmoji,
+    setProjectEmoji,
     openModal: openModal,
     setOpenModal: setOpenModal,
     selectedRole: selectedRole,
