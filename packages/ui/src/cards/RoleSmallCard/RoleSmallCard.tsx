@@ -41,10 +41,10 @@ const SkillListForRole: React.FC<SkillListForRoleProps> = ({
   return (
     <div>
       <div>
-        {badges?.slice(0, 6)}
-        {seeMore ? badges?.slice(6) : null}
+        {badges?.slice(0, 3)}
+        {seeMore ? badges?.slice(3) : null}
       </div>
-      {badges && badges.length > 6 && (
+      {badges && badges.length > 3 && (
         <p
           className="cursor-pointer text-center text-sm"
           onClick={() => setSeeMore(!seeMore)}
