@@ -106,7 +106,7 @@ const LaunchPage: NextPageWithLayout = () => {
           </GridItemNine>
         ) : (
           <>
-            <GridItemSix className="scrollbar-hide h-8/10 overflow-scroll">
+            <GridItemSix className="h-8/10 overflow-scroll">
               <ShortlistMemberContainer matchingMembers={filteredMembers} />
             </GridItemSix>
             <GridItemThree className="scrollbar-hide h-8/10 overflow-scroll">
