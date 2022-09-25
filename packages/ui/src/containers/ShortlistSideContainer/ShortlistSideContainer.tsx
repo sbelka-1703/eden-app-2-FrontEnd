@@ -31,6 +31,10 @@ export const ShortlistSideContainer = ({
           setSelectedMemberId(null);
           setSelectedMemberPercentage(null);
         }}
+        handleEditRole={(id: string) => {
+          setSelectedRole(project?.role?.find((role) => role?._id === id));
+          setOpenModal(LaunchProjectModal.SKILLS);
+        }}
         handleSelectRole={(role) => {
           setSelectedRole(role);
           setSelectedMemberId(null);

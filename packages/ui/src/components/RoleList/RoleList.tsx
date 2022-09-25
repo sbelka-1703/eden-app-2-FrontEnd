@@ -11,12 +11,15 @@ export interface RoleListProps {
   // eslint-disable-next-line no-unused-vars
   handleAddRole?: () => void;
   // eslint-disable-next-line no-unused-vars
+  handleEditRole?: (id: string) => void;
+  // eslint-disable-next-line no-unused-vars
   handleSelectRole?: (val: Maybe<RoleType>) => void;
 }
 export const RoleList: React.FC<RoleListProps> = ({
   roles,
   handleAddRole,
   handleSelectRole,
+  handleEditRole,
   selectedRole,
   members,
 }) => {
@@ -31,6 +34,7 @@ export const RoleList: React.FC<RoleListProps> = ({
         onClick={() => {
           if (handleSelectRole) handleSelectRole(role);
         }}
+        handleEdit={() => handleEditRole!(role?._id!)}
         avatars={
           members
             ?.filter((member) => member?.roleID === role?._id)
