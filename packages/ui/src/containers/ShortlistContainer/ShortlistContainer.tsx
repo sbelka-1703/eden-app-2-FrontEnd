@@ -1,4 +1,5 @@
 import { LaunchProjectContext, LaunchProjectModal } from "@context/eden";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import { useContext } from "react";
 
 import { TextHeading3 } from "../../atoms";
@@ -17,6 +18,8 @@ export const ShortlistContainer = ({
     setOpenModal,
     setSelectedMemberId,
     setSelectedMemberPercentage,
+    matchMembersPage,
+    setMatchMembersPage,
   } = useContext(LaunchProjectContext);
 
   function handleSelectMember(member: any, percentage: number) {
@@ -43,7 +46,7 @@ export const ShortlistContainer = ({
                 <TextHeading3 className="mb-4">
                   {selectedRole.title} matches:
                 </TextHeading3>
-                <div className="grid grid-cols-3 gap-x-10 gap-y-10">
+                <div className="mb-4 grid grid-cols-3 gap-x-10 gap-y-10">
                   {matchingMembers.map((_member: any, index: number) => (
                     <MemberMatchCard
                       key={index}
@@ -59,6 +62,32 @@ export const ShortlistContainer = ({
                     />
                   ))}
                 </div>
+                <section className="flex justify-evenly">
+                  {!!matchMembersPage && matchMembersPage > 0 && (
+                    <span
+                      className="text-soilGray group cursor-pointer hover:text-slate-400"
+                      onClick={() => setMatchMembersPage(matchMembersPage - 1)}
+                    >
+                      <ChevronLeftIcon
+                        width={16}
+                        className="mr-1 -mt-1 inline"
+                      />
+                      Previous
+                    </span>
+                  )}
+                  {!!matchingMembers.length && (
+                    <span
+                      className="text-soilGray group cursor-pointer hover:text-slate-400"
+                      onClick={() => setMatchMembersPage(matchMembersPage + 1)}
+                    >
+                      Next
+                      <ChevronRightIcon
+                        width={16}
+                        className="ml-1 -mt-1 inline"
+                      />
+                    </span>
+                  )}
+                </section>
               </>
             )
           )}
