@@ -1,5 +1,6 @@
 import { Members } from "@graphql/eden/generated";
 import { ChevronLeftIcon } from "@heroicons/react/outline";
+import { CheckCircleIcon, CheckIcon } from "@heroicons/react/solid";
 import {
   AvailabilityComp,
   Avatar,
@@ -49,8 +50,9 @@ export const MemberProfileCard = ({
           <Button
             variant="primary"
             onClick={onClickAddToList}
-            className="absolute -right-36 top-5 flex w-28 justify-center !px-2"
+            className="absolute -right-36 top-5 flex w-32 items-center justify-center !px-2 !pl-1"
           >
+            <CheckCircleIcon width={20} className="mr-1" />
             Add to list
           </Button>
         </div>
