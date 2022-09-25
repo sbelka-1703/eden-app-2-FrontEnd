@@ -25,7 +25,7 @@ const AdminPanel: NextPageWithLayout = () => {
     Maybe<SkillType_Member>[]
   >([]);
 
-  useQuery(FIND_ROLE_TEMPLATES, {
+  const { loading, error, data, refetch } = useQuery(FIND_ROLE_TEMPLATES, {
     variables: {
       fields: {
         _id: null,
@@ -61,7 +61,8 @@ const AdminPanel: NextPageWithLayout = () => {
     } else if (
       selectedRole &&
       selectedRole?.title &&
-      selectedRole?.title?.length !== 0
+      selectedRole?.title?.length !== 0 &&
+      selectedSkills.length > 0
     ) {
       updateRole({
         variables: {
@@ -77,6 +78,7 @@ const AdminPanel: NextPageWithLayout = () => {
         },
       });
     }
+    refetch({ fields: { _id: null } });
   };
 
   interface IRoleSelectorProps {
@@ -165,7 +167,7 @@ const AdminPanel: NextPageWithLayout = () => {
                     <span className={`flex truncate font-medium`}>
                       {query}
                       <span
-                        className={`block truncate pl-2 font-medium text-gray-500`}
+                        className={`block truncate pl-2 font-medium text-white`}
                       >
                         Add Role
                       </span>
@@ -181,6 +183,14 @@ const AdminPanel: NextPageWithLayout = () => {
 
   if (!currentUser) {
     return <h1> Please Login </h1>;
+  }
+
+  if (loading) {
+    return <h1> loading </h1>;
+  }
+
+  if (error) {
+    return <h1> Error {error.message} </h1>;
   }
 
   return (
