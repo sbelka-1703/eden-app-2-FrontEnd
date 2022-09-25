@@ -1,6 +1,7 @@
 import { faker } from "@faker-js/faker";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
+import { AvatarProps } from "../../elements";
 import { AvatarList } from "./AvatarList";
 
 export default {
@@ -32,7 +33,8 @@ const avatars = [
     alt: "avatar",
   },
   { src: faker.internet.avatar(), size: "md", alt: "avatar" },
-];
+] as AvatarProps[];
+
 Default.args = {
   avatars,
 };

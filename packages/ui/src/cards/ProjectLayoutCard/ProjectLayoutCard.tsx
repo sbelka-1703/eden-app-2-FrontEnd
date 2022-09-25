@@ -35,6 +35,7 @@ export const ProjectLayoutCard = ({
           handleSelectRole={handleSelectRole}
           roles={project?.role ? project.role : []}
           selectedRole={selectedRole}
+          members={project?.team?.filter((member) => !member?.phase)}
         />
       )}
     </Card>

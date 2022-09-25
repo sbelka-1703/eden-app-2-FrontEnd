@@ -2,11 +2,12 @@
 import { Maybe, RoleType, SkillRoleType } from "@graphql/eden/generated";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
 import React, { useState } from "react";
-import { Badge, Card, TextHeading3 } from "ui";
+import { AvatarList, AvatarProps, Badge, Card, TextHeading3 } from "ui";
 
 export interface RoleSmallCardProps {
   role: Maybe<RoleType>;
   skills?: Maybe<SkillRoleType>[];
+  avatars?: AvatarProps[];
   isSelected: boolean;
   onClick?: () => void;
 }
@@ -66,6 +67,7 @@ const SkillListForRole: React.FC<SkillListForRoleProps> = ({
 export const RoleSmallCard = ({
   role,
   skills,
+  avatars,
   isSelected,
   onClick,
 }: RoleSmallCardProps) => {
@@ -75,14 +77,21 @@ export const RoleSmallCard = ({
         border
         focused={isSelected}
         shadow
-        className="flex cursor-pointer flex-col items-start justify-start bg-white px-3 py-2"
+        className="overflow-hidden bg-white p-0"
       >
-        <TextHeading3 className="font-poppins font-medium">
-          {role?.title}
-        </TextHeading3>
-        <div>
-          <SkillListForRole skills={skills} colorRGB="255, 255, 210" />
+        <div className="flex cursor-pointer flex-col items-start justify-start px-3 py-2">
+          <TextHeading3 className="font-poppins font-medium">
+            {role?.title}
+          </TextHeading3>
+          <div>
+            <SkillListForRole skills={skills} colorRGB="255, 255, 210" />
+          </div>
         </div>
+        {avatars && (
+          <div className="scrollbar-hide overflow-x-scroll px-2">
+            <AvatarList avatars={avatars} />
+          </div>
+        )}
       </Card>
     </div>
   );
