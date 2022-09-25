@@ -381,12 +381,12 @@ const LaunchPage: NextPageWithLayout = () => {
                 percentage={65}
                 key={member._id}
                 member={member}
-                onClickNotNow={() => {
-                  setMember(null);
-                  router.push(
-                    `/test-launch/shortlist-users/${projectId}?roleId=${roleId}`
-                  );
-                }}
+                // onClickNotNow={() => {
+                //   setMember(null);
+                //   router.push(
+                //     `/test-launch/shortlist-users/${projectId}?roleId=${roleId}`
+                //   );
+                // }}
                 onClickAddToList={() => {
                   handleShortlistMember();
                 }}
