@@ -1,7 +1,7 @@
-import { UserContext } from "@context/eden";
+// import { UserContext } from "@context/eden";
 import Head from "next/head";
-import { useRouter } from "next/router";
-import { useContext } from "react";
+// import { useRouter } from "next/router";
+// import { useContext } from "react";
 import { AppHeader } from "ui";
 
 interface IAppUserLayoutProps {
@@ -9,13 +9,13 @@ interface IAppUserLayoutProps {
 }
 
 export const AppUserLayout = ({ children }: IAppUserLayoutProps) => {
-  const router = useRouter();
-  const { currentUser } = useContext(UserContext);
+  // const router = useRouter();
+  // const { currentUser } = useContext(UserContext);
 
   // if (currentUser) console.log("currentUser", currentUser);
-  if (currentUser) {
-    if (!currentUser?.onbording?.signup) router.push(`/signup`);
-  }
+  // if (currentUser) {
+  //   if (!currentUser?.onbording?.signup) router.push(`/signup`);
+  // }
 
   return (
     <>
