@@ -1,14 +1,17 @@
 /* eslint-disable camelcase */
-import { Maybe, RoleType } from "@graphql/eden/generated";
+import { Maybe, RoleType, TeamType } from "@graphql/eden/generated";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
 import React, { useState } from "react";
-import { Button, RoleSmallCard, TextBody } from "ui";
+import { AvatarProps, Button, RoleSmallCard, TextBody } from "ui";
 
 export interface RoleListProps {
   roles: Maybe<Array<Maybe<RoleType>>>;
+  members?: Maybe<TeamType>[];
   selectedRole?: Maybe<RoleType> | null;
   // eslint-disable-next-line no-unused-vars
   handleAddRole?: () => void;
+  // eslint-disable-next-line no-unused-vars
+  handleEditRole?: (id: string) => void;
   // eslint-disable-next-line no-unused-vars
   handleSelectRole?: (val: Maybe<RoleType>) => void;
 }
@@ -16,7 +19,9 @@ export const RoleList: React.FC<RoleListProps> = ({
   roles,
   handleAddRole,
   handleSelectRole,
+  handleEditRole,
   selectedRole,
+  members,
 }) => {
   const [seeMore, setSeeMore] = useState(false);
 
@@ -29,6 +34,16 @@ export const RoleList: React.FC<RoleListProps> = ({
         onClick={() => {
           if (handleSelectRole) handleSelectRole(role);
         }}
+        handleEdit={() => handleEditRole!(role?._id!)}
+        avatars={
+          members
+            ?.filter((member) => member?.roleID === role?._id)
+            .map((member) => ({
+              src: member?.memberInfo?.discordAvatar,
+              size: "xs",
+              alt: member?.memberInfo?.discordName,
+            })) as unknown as AvatarProps[]
+        }
       />
     </div>
   ));
