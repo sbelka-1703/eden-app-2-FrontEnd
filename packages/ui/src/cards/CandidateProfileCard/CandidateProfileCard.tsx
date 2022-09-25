@@ -25,7 +25,7 @@ export const CandidateProfileCard = ({
 }: ICandidateProfileCardProps) => {
   return (
     <Card
-      className="scrollbar-hide relative overflow-scroll bg-white p-3"
+      className="scrollbar-hide relative relative overflow-scroll bg-white p-3"
       focused={selected}
     >
       <div className={`flex	items-center gap-8`}>
@@ -52,7 +52,8 @@ export const CandidateProfileCard = ({
           </div>
           {closeButton && handleDelete && (
             <XIcon
-              className="inline-block h-4 w-4 cursor-pointer text-slate-600 hover:text-slate-400"
+              className="absolute top-4 right-4 cursor-pointer text-slate-600 hover:text-slate-400"
+              width={20}
               aria-hidden="true"
               onClick={() => handleDelete(member)}
             />

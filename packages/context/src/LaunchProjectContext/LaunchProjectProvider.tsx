@@ -91,6 +91,7 @@ export const LaunchProjectProvider = ({
   const [selectedMemberPercentage, setSelectedMemberPercentage] = useState<
     number | null
   >(null);
+  const [matchMembersPage, setMatchMembersPage] = useState<number>(0);
 
   const injectContext = {
     project: project,
@@ -105,6 +106,8 @@ export const LaunchProjectProvider = ({
     setSelectedMemberId: setSelectedMemberId,
     selectedMemberPercentage: selectedMemberPercentage,
     setSelectedMemberPercentage: setSelectedMemberPercentage,
+    matchMembersPage: matchMembersPage,
+    setMatchMembersPage: setMatchMembersPage,
   };
 
   return (

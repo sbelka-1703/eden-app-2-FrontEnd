@@ -29,6 +29,7 @@ const LaunchPage: NextPageWithLayout = () => {
     selectedRole,
     selectedMemberId,
     setOpenModal,
+    matchMembersPage,
   } = useContext(LaunchProjectContext);
 
   const { data: matchingMembers } = useQuery(MATCH_MEMBERS_TO_SKILLS, {
@@ -37,6 +38,8 @@ const LaunchPage: NextPageWithLayout = () => {
         skillsID: selectedRole?.skills?.flatMap(
           (skill) => skill?.skillData?._id
         ),
+        page: matchMembersPage,
+        limit: 9,
       },
     },
     skip: !selectedRole,
