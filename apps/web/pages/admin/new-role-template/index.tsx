@@ -20,12 +20,13 @@ import type { NextPageWithLayout } from "../../_app";
 const AdminPanel: NextPageWithLayout = () => {
   const { currentUser } = useContext(UserContext);
   const [roles, setRoles] = useState([]);
+  const [deletedSkill, setDeletedSkill] = useState<boolean>(false);
   const [selectedRole, setSelectedRole] = useState<Maybe<RoleTemplate>>();
   const [selectedSkills, setSelectedSkills] = useState<
     Maybe<SkillType_Member>[]
   >([]);
 
-  useQuery(FIND_ROLE_TEMPLATES, {
+  const { loading, error, refetch } = useQuery(FIND_ROLE_TEMPLATES, {
     variables: {
       fields: {
         _id: null,
@@ -38,11 +39,13 @@ const AdminPanel: NextPageWithLayout = () => {
 
   const [updateRole] = useMutation(UPDATE_ROLE_TEMPLATE);
 
-  const handelAddNewRole = () => {
-    console.log("selectedRole ", selectedRole);
-    console.log("selectedSkills ", selectedSkills);
-    if (selectedRole && selectedRole?._id && selectedSkills.length > 0) {
-      updateRole({
+  const handelAddNewRole = async () => {
+    if (
+      selectedRole &&
+      selectedRole?._id &&
+      (selectedSkills.length > 0 || deletedSkill)
+    ) {
+      await updateRole({
         variables: {
           fields: {
             _id: selectedRole._id,
@@ -55,15 +58,17 @@ const AdminPanel: NextPageWithLayout = () => {
         onCompleted: (data) => {
           setSelectedRole(null);
           setSelectedSkills([]);
+          setDeletedSkill(false);
           console.log(data);
         },
       });
     } else if (
       selectedRole &&
       selectedRole?.title &&
-      selectedRole?.title?.length !== 0
+      selectedRole?.title?.length !== 0 &&
+      selectedSkills.length > 0
     ) {
-      updateRole({
+      await updateRole({
         variables: {
           fields: {
             title: selectedRole?.title,
@@ -77,6 +82,7 @@ const AdminPanel: NextPageWithLayout = () => {
         },
       });
     }
+    refetch({ fields: { _id: null } });
   };
 
   interface IRoleSelectorProps {
@@ -165,7 +171,7 @@ const AdminPanel: NextPageWithLayout = () => {
                     <span className={`flex truncate font-medium`}>
                       {query}
                       <span
-                        className={`block truncate pl-2 font-medium text-gray-500`}
+                        className={`block truncate pl-2 font-medium text-white`}
                       >
                         Add Role
                       </span>
@@ -181,6 +187,14 @@ const AdminPanel: NextPageWithLayout = () => {
 
   if (!currentUser) {
     return <h1> Please Login </h1>;
+  }
+
+  if (loading) {
+    return <h1> loading </h1>;
+  }
+
+  if (error) {
+    return <h1> Error {error.message} </h1>;
   }
 
   return (
@@ -209,6 +223,7 @@ const AdminPanel: NextPageWithLayout = () => {
             ]}
           />
           <SkillList
+            closeButton={true}
             skills={selectedRole?.skills?.map((skill) => {
               return {
                 skillInfo: {
@@ -218,9 +233,31 @@ const AdminPanel: NextPageWithLayout = () => {
               };
             })}
             colorRGB={"254,214,200"}
+            handleDeleteSkill={(skill: any) => {
+              const tempSkills = selectedRole?.skills?.filter((roleSkill) => {
+                return roleSkill?._id !== skill.skillInfo._id;
+              });
+              const tempRole = JSON.parse(JSON.stringify(selectedRole));
+
+              tempRole!.skills = tempSkills;
+
+              setSelectedRole(tempRole);
+              setDeletedSkill(true);
+            }}
           />
           {selectedSkills.length > 0 && <h1>New Selected Skills</h1>}
-          <SkillList skills={selectedSkills} colorRGB={"254,214,150"} />
+          <SkillList
+            closeButton={true}
+            skills={selectedSkills}
+            colorRGB={"254,214,150"}
+            handleDeleteSkill={(skill: any) => {
+              const tempSkills = selectedSkills.filter((selectedSkill) => {
+                return selectedSkill?.skillInfo?._id !== skill.skillInfo._id;
+              });
+
+              setSelectedSkills(tempSkills);
+            }}
+          />
         </>
       </GridItemFour>
       <GridItemFour>
