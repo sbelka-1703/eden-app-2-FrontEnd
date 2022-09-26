@@ -26,7 +26,7 @@ const AdminPanel: NextPageWithLayout = () => {
     Maybe<SkillType_Member>[]
   >([]);
 
-  const { loading, error, data, refetch } = useQuery(FIND_ROLE_TEMPLATES, {
+  const { loading, error, refetch } = useQuery(FIND_ROLE_TEMPLATES, {
     variables: {
       fields: {
         _id: null,
