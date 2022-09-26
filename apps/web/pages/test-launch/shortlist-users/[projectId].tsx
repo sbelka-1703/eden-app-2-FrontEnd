@@ -13,6 +13,7 @@ import {
   MemberProfileCard,
   ProjectLayoutCard,
   RoleModal,
+  SkillsModal,
   TextHeading3,
   TextLabel,
 } from "ui";
@@ -447,7 +448,6 @@ import { IncomingMessage, ServerResponse } from "http";
 import { useRouter } from "next/router";
 import { getSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { SkillsModal } from "ui/src/containers";
 
 export async function getServerSideProps(ctx: {
   req: IncomingMessage;
