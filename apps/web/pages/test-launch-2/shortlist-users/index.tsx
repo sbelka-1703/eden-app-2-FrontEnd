@@ -109,7 +109,7 @@ const LaunchPage: NextPageWithLayout = () => {
               <Button
                 className="mx-auto"
                 variant="primary"
-                onClick={() => setOpenModal(LaunchProjectModal.ROLE_DETAIL)}
+                onClick={() => setOpenModal(LaunchProjectModal.CONGRATULATIONS)}
               >
                 Invite to apply
               </Button>
