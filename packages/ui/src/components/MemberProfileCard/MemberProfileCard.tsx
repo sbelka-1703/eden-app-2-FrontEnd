@@ -1,4 +1,6 @@
 import { Members } from "@graphql/eden/generated";
+import { ChevronLeftIcon } from "@heroicons/react/outline";
+import { CheckCircleIcon } from "@heroicons/react/solid";
 import {
   AvailabilityComp,
   Avatar,
@@ -11,14 +13,16 @@ import {
 export interface MemberProfileCardProps {
   member: Members;
   percentage: number | null | undefined;
-  onClickNotNow?: () => void;
+  // onClickNotNow?: () => void;
+  onClickBack?: () => void;
   onClickAddToList?: () => void;
 }
 
 export const MemberProfileCard = ({
   percentage,
   member,
-  onClickNotNow,
+  // onClickNotNow,
+  onClickBack,
   onClickAddToList,
 }: MemberProfileCardProps) => {
   return (
@@ -26,18 +30,32 @@ export const MemberProfileCard = ({
       border
       className="scrollbar-hide !border-accentColor h-full w-full overflow-y-scroll border-[2px] bg-white p-10"
     >
-      <div className="flex items-center justify-center gap-5">
-        <Button
+      <span
+        onClick={onClickBack}
+        className="text-soilGray group absolute left-4 top-4 cursor-pointer"
+      >
+        <ChevronLeftIcon className="mr-1 -mt-1 inline" width={20} />
+        <span className="group-hover:underline">Grid view</span>
+      </span>
+      <div className="flex w-full justify-center">
+        {/* <Button
           variant="default"
           onClick={onClickNotNow}
           className="bg-soilYellow"
         >
           Not now
-        </Button>
-        <Avatar size="lg" src={member.discordAvatar!} />
-        <Button variant="primary" onClick={onClickAddToList}>
-          Add to list
-        </Button>
+        </Button> */}
+        <div className="relative">
+          <Avatar size="lg" src={member.discordAvatar!} />
+          <Button
+            variant="primary"
+            onClick={onClickAddToList}
+            className="absolute -right-36 top-5 flex w-32 items-center justify-center !px-2 !pl-1"
+          >
+            <CheckCircleIcon width={20} className="mr-1" />
+            Add to list
+          </Button>
+        </div>
       </div>
       <div className="mb-4 flex flex-col items-center">
         <h1 className="font-poppins text-darkGreen text-soilHeading2 font-medium">
@@ -52,7 +70,7 @@ export const MemberProfileCard = ({
           {member.memberRole?.title}
         </p>
       </div>
-      <div className="mb-4 flex items-start justify-center">
+      <div className="mb-4 flex items-start justify-between">
         <div className="flex flex-col items-start justify-center">
           <h1 className="text-soilHeading3 font-poppins font-medium">
             Short Bio
@@ -62,7 +80,7 @@ export const MemberProfileCard = ({
           </p>
         </div>
         {percentage && (
-          <div>
+          <div className="mr-12">
             <h1 className="text-soilHeading3 font-poppins text-soilGray -ml-2 font-medium">
               ⚡️Match
             </h1>

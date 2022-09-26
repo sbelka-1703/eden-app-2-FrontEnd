@@ -50,7 +50,6 @@ export const LaunchProjectContainer = ({}: ILaunchProjectContainerProps) => {
             <div className="mb-3">
               <TextBody>Choose emoji for your project</TextBody>
             </div>
-            asdasdasd{projectEmoji}asdasdasd
             <EmojiSelector onSelection={(value) => setProjectEmoji(value)} />
           </div>
           <div className="col-span-1">

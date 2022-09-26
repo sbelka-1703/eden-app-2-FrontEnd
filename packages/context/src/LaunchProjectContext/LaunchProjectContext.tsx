@@ -15,6 +15,10 @@ export interface LaunchProjectContextType {
   setSelectedMemberId?: any;
   selectedMemberPercentage?: number | null;
   setSelectedMemberPercentage?: any;
+  matchMembersPage: number;
+  setMatchMembersPage?: any;
 }
 
-export const LaunchProjectContext = createContext<LaunchProjectContextType>({});
+export const LaunchProjectContext = createContext<LaunchProjectContextType>({
+  matchMembersPage: 0,
+});

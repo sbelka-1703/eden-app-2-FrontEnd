@@ -57,12 +57,16 @@ export const ShortlistMemberContainer = ({
             percentage={selectedMemberPercentage}
             key={selectedMember?._id}
             member={selectedMember}
-            onClickNotNow={() => {
-              setSelectedMemberId(null);
-              setSelectedMemberPercentage(null);
-            }}
+            // onClickNotNow={() => {
+            //   setSelectedMemberId(null);
+            //   setSelectedMemberPercentage(null);
+            // }}
             onClickAddToList={() => {
               handleShortlistMember();
+            }}
+            onClickBack={() => {
+              setSelectedMemberId(null);
+              setSelectedMemberPercentage(null);
             }}
           />
         ) : (

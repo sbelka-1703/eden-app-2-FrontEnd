@@ -9,6 +9,8 @@ export interface ProjectLayoutCardProps {
   onClick?: () => void;
   handleAddRole?: () => void;
   // eslint-disable-next-line no-unused-vars
+  handleEditRole?: (id: string) => void;
+  // eslint-disable-next-line no-unused-vars
   handleSelectRole?: (role: Maybe<RoleType>) => void;
 }
 
@@ -18,6 +20,7 @@ export const ProjectLayoutCard = ({
   showRoles = false,
   selectedRole,
   handleAddRole,
+  handleEditRole,
   handleSelectRole,
 }: ProjectLayoutCardProps) => {
   return (
@@ -32,9 +35,11 @@ export const ProjectLayoutCard = ({
       {showRoles && (
         <RoleList
           handleAddRole={handleAddRole}
+          handleEditRole={handleEditRole}
           handleSelectRole={handleSelectRole}
           roles={project?.role ? project.role : []}
           selectedRole={selectedRole}
+          members={project?.team?.filter((member) => !member?.phase)}
         />
       )}
     </Card>

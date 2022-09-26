@@ -30,6 +30,8 @@ export enum LaunchProjectModal {
   ROLE = "role",
   // eslint-disable-next-line no-unused-vars
   SKILLS = "skills",
+  // eslint-disable-next-line no-unused-vars
+  ROLE_DETAIL = "role etail",
 }
 
 function projectReducer(project: Project, action: ProjectAction): Project {
@@ -89,6 +91,7 @@ export const LaunchProjectProvider = ({
   const [selectedMemberPercentage, setSelectedMemberPercentage] = useState<
     number | null
   >(null);
+  const [matchMembersPage, setMatchMembersPage] = useState<number>(0);
 
   const injectContext = {
     project: project,
@@ -103,6 +106,8 @@ export const LaunchProjectProvider = ({
     setSelectedMemberId: setSelectedMemberId,
     selectedMemberPercentage: selectedMemberPercentage,
     setSelectedMemberPercentage: setSelectedMemberPercentage,
+    matchMembersPage: matchMembersPage,
+    setMatchMembersPage: setMatchMembersPage,
   };
 
   return (

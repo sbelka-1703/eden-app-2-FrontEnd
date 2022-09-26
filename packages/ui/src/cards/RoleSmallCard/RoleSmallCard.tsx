@@ -1,14 +1,17 @@
 /* eslint-disable camelcase */
 import { Maybe, RoleType, SkillRoleType } from "@graphql/eden/generated";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
+import { PencilIcon } from "@heroicons/react/solid";
 import React, { useState } from "react";
-import { Badge, Card, TextHeading3 } from "ui";
+import { AvatarList, AvatarProps, Badge, Card, TextHeading3 } from "ui";
 
 export interface RoleSmallCardProps {
   role: Maybe<RoleType>;
   skills?: Maybe<SkillRoleType>[];
+  avatars?: AvatarProps[];
   isSelected: boolean;
   onClick?: () => void;
+  handleEdit?: (() => void) | undefined;
 }
 
 interface SkillListForRoleProps {
@@ -66,7 +69,9 @@ const SkillListForRole: React.FC<SkillListForRoleProps> = ({
 export const RoleSmallCard = ({
   role,
   skills,
+  avatars,
   isSelected,
+  handleEdit,
   onClick,
 }: RoleSmallCardProps) => {
   return (
@@ -75,14 +80,31 @@ export const RoleSmallCard = ({
         border
         focused={isSelected}
         shadow
-        className="flex cursor-pointer flex-col items-start justify-start bg-white px-3 py-2"
+        className="overflow-hidden bg-white p-0"
       >
-        <TextHeading3 className="font-poppins font-medium">
-          {role?.title}
-        </TextHeading3>
-        <div>
-          <SkillListForRole skills={skills} colorRGB="255, 255, 210" />
+        <div className="flex cursor-pointer flex-col items-start justify-start px-3 py-2">
+          {handleEdit && (
+            <PencilIcon
+              width={20}
+              className="text-soilGray absolute right-1 top-2 cursor-pointer hover:text-slate-400"
+              onClick={(e) => {
+                e.preventDefault();
+                handleEdit!();
+              }}
+            />
+          )}
+          <TextHeading3 className="font-poppins font-medium">
+            {role?.title}
+          </TextHeading3>
+          <div>
+            <SkillListForRole skills={skills} colorRGB="255, 255, 210" />
+          </div>
         </div>
+        {avatars && (
+          <div className="scrollbar-hide overflow-x-scroll px-2">
+            <AvatarList avatars={avatars} />
+          </div>
+        )}
       </Card>
     </div>
   );
