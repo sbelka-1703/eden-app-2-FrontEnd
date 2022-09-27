@@ -4,7 +4,7 @@ import { findRoleTemplates } from "storybook/mocks";
 import { RoleModal } from "./RoleModal";
 
 export default {
-  title: "Containers/RoleModal",
+  title: "Modals/RoleModal",
   component: RoleModal,
   argTypes: {},
 } as ComponentMeta<typeof RoleModal>;
