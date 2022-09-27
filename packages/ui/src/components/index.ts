@@ -1,4 +1,3 @@
-export * from "./AddSkillsToRoleCard";
 export * from "./AvailabilityComp";
 export * from "./AvatarList";
 export * from "./BioComponent";
