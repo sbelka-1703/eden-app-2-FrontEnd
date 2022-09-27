@@ -5,7 +5,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { SkillsModal } from "./SkillsModal";
 
 export default {
-  title: "Containers/SkillsModal",
+  title: "Modals/SkillsModal",
   component: SkillsModal,
   argTypes: {},
 } as ComponentMeta<typeof SkillsModal>;
