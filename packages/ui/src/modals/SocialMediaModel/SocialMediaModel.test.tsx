@@ -2,13 +2,13 @@
 import { MockedProvider } from "@apollo/client/testing";
 import { render } from "@testing-library/react";
 
-import { SocialMediaProfileCard } from ".";
+import { SocialMediaModel } from ".";
 
-describe("SocialMediaProfileCard", () => {
+describe("SocialMediaModel", () => {
   it("renders without throwing", () => {
     const { container } = render(
       <MockedProvider>
-        <SocialMediaProfileCard />
+        <SocialMediaModel />
       </MockedProvider>
     );
 
