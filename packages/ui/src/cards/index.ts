@@ -13,3 +13,4 @@ export * from "./UserCard";
 export * from "./UserInformationCard";
 export * from "./UserProfileCard";
 export * from "./AddSkillsToRoleCard";
+export * from "./MemberMatchCard";
