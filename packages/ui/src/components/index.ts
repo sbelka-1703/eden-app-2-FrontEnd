@@ -9,7 +9,6 @@ export * from "./EndorsementsCarousel";
 export * from "./Expandable";
 export * from "./FormStepper";
 export * from "./LoginButton";
-export * from "./MemberProfileCard";
 export * from "./ProgressStepper";
 export * from "./ProjectChampion";
 export * from "./ProjectInfo";
