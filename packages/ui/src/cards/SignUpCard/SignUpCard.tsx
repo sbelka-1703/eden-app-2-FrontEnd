@@ -16,7 +16,7 @@ import {
   Modal,
   RoleModal,
   SearchSkill,
-  SkillsCard,
+  SkillList,
   TextHeading2,
 } from "ui";
 
@@ -46,15 +46,15 @@ export interface ISignUpCardProps {
 
 export const SignUpCard = ({ roles, refetch }: ISignUpCardProps) => {
   const { currentUser } = useContext(UserContext);
-  const [currentView, setCurrentView] = useState(1);
+  const [showSkillsView, setShowSkillsView] = useState(false);
   const [roleModalOpen, setRoleModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     if (currentUser?.memberRole) {
-      setCurrentView(2);
+      setShowSkillsView(true);
       setRoleModalOpen(false);
     } else {
-      setCurrentView(1);
+      setShowSkillsView(false);
       setRoleModalOpen(true);
     }
   }, [currentUser]);
@@ -83,15 +83,16 @@ export const SignUpCard = ({ roles, refetch }: ISignUpCardProps) => {
             },
           });
           setRoleModalOpen(false);
-          setCurrentView(2);
+          setShowSkillsView(true);
         }}
         openModal={roleModalOpen}
         roles={roles}
       />
 
-      {currentView === 2 && (
+      {showSkillsView && (
         <AddSkillsView
           onSelectedSkills={(skills) => {
+            console.log(skills);
             if (!currentUser?._id) return;
             updateMember({
               variables: {
@@ -107,28 +108,31 @@ export const SignUpCard = ({ roles, refetch }: ISignUpCardProps) => {
               },
             });
           }}
-          setCurrentView={setCurrentView}
         />
       )}
-      {currentView === 3 && <ThankYouView />}
     </div>
   );
 };
 
+const skillLevelArray = ["Learning", "Mid", "Junior", "Senior"];
+const rgbArray = [`235,225,255`, "209,247,196", "254,214,150", "254,214,200"];
+
 interface IAddSkillsViewProps {
   // eslint-disable-next-line no-unused-vars
   onSelectedSkills: (skills: Maybe<SkillType_Member>[]) => void;
-  // eslint-disable-next-line no-unused-vars
-  setCurrentView?: (val: number) => void;
 }
 
-const AddSkillsView = ({
-  onSelectedSkills,
-  setCurrentView,
-}: IAddSkillsViewProps) => {
+const AddSkillsView = ({ onSelectedSkills }: IAddSkillsViewProps) => {
   const { currentUser } = useContext(UserContext);
 
   const [showModal, setShowModal] = useState(false);
+  const [userSkills, setUserSkills] = useState<Maybe<SkillType_Member>[]>([]);
+
+  useEffect(() => {
+    if (currentUser?.skills?.length) {
+      setUserSkills(currentUser.skills);
+    }
+  }, [currentUser]);
 
   const filterSkills = (
     skills: Maybe<Maybe<SkillType_Member>[]>,
@@ -147,9 +151,9 @@ const AddSkillsView = ({
           <div className={`font-Inter text-sm text-zinc-500`}>
             Eden is built to deliver tailored macthes wirh opportunities in the
             DAO. Fill out your profile to uncover Eden power.{" "}
-            <span className={`text-soilBlue flex cursor-pointer`}>
+            {/* <span className={`text-soilBlue flex cursor-pointer`}>
               Get started <BsArrowRight className={`my-auto ml-2`} />
-            </span>
+            </span> */}
           </div>
         </div>
         <div className={`col-span-1 `}>
@@ -168,7 +172,7 @@ const AddSkillsView = ({
         <div className={`h-7/10 mt-3`}>
           <SearchSkill
             levels={levels}
-            skills={currentUser?.skills}
+            skills={userSkills}
             setSkills={onSelectedSkills}
           />
           <div
@@ -176,18 +180,34 @@ const AddSkillsView = ({
           >
             {levels.map((level, index: number) => {
               return (
-                <SkillsCard
-                  key={index}
-                  skills={
-                    filterSkills(
-                      currentUser?.skills as Maybe<Maybe<SkillType_Member>[]>,
-                      `${level.level}`
-                    ) as Maybe<Maybe<SkillType_Member>[]>
-                  }
-                  title={level.title}
-                  shadow={true}
-                  className={`p-2`}
-                />
+                <div key={index}>
+                  <div
+                    className={`pb-2 text-center font-medium text-slate-500`}
+                  >
+                    {skillLevelArray[index]}
+                  </div>
+                  <SkillList
+                    closeButton={true}
+                    skills={
+                      filterSkills(
+                        userSkills as Maybe<SkillType_Member>[],
+                        `${level.level}`
+                      ) as Maybe<SkillType_Member>[]
+                    }
+                    colorRGB={rgbArray[index]}
+                    handleDeleteSkill={(skill: any) => {
+                      console.log(skill);
+                      const tempSkills = userSkills.filter((selectedSkill) => {
+                        return (
+                          selectedSkill?.skillInfo?._id !== skill.skillInfo._id
+                        );
+                      });
+
+                      onSelectedSkills(tempSkills as Maybe<SkillType_Member>[]);
+                      setUserSkills(tempSkills as Maybe<SkillType_Member>[]);
+                    }}
+                  />
+                </div>
               );
             })}
           </div>
@@ -197,31 +217,12 @@ const AddSkillsView = ({
             variant="primary"
             onClick={() => {
               setShowModal(false);
-              // if (setCurrentView) setCurrentView(3);
             }}
           >
             Done
           </Button>
         </div>
       </Modal>
-    </div>
-  );
-};
-
-const ThankYouView = () => {
-  return (
-    <div>
-      <TextHeading2>
-        Thanks for filling out your skills! Now you can see a percentge match
-        with the project - looks interesting? Try to apply!
-      </TextHeading2>
-      <div className={`font-Inter text-sm text-zinc-500`}>
-        Eden is built to deliver tailored macthes wirh opportunities in the DAO.
-        Fill out your profile to uncover Eden power.{" "}
-        <span className={`text-soilBlue flex cursor-pointer`}>
-          Get started <BsArrowRight className={`my-auto ml-2`} />
-        </span>
-      </div>
     </div>
   );
 };

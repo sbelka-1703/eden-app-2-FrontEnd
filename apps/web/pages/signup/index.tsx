@@ -87,6 +87,8 @@ const SignUpTestPage: NextPageWithLayout = () => {
       variables: {
         fields: {
           skillsID: filterskillsfromcurrentuser,
+          limit: 20,
+          page: 0,
         },
       },
       skip: !currentUser,
@@ -157,10 +159,12 @@ export async function getServerSideProps(ctx: {
 }) {
   const session = await getSession(ctx);
 
+  const url = ctx.req.url?.replace("/", "");
+
   if (!session) {
     return {
       redirect: {
-        destination: `/login`,
+        destination: `/login?redirect=${url}`,
         permanent: false,
       },
     };

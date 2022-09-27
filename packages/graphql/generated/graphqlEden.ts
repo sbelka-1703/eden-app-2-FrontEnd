@@ -1162,11 +1162,15 @@ export type MatchProjectsToMemberInput = {
 };
 
 export type MatchSkillsToMembersInput = {
+  limit?: InputMaybe<Scalars['Int']>;
+  page?: InputMaybe<Scalars['Int']>;
   serverID?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   skillsID?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
 };
 
 export type MatchSkillsToProjectsInput = {
+  limit?: InputMaybe<Scalars['Int']>;
+  page?: InputMaybe<Scalars['Int']>;
   serverID?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   skillsID?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
 };
