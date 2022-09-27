@@ -11,7 +11,12 @@ import {
   Skills,
 } from "@graphql/eden/generated";
 import { useContext } from "react";
-import { CongratulationsModal, RoleModal, SkillsModal } from "ui";
+import {
+  CongratulationsModal,
+  ProjectInfoModal,
+  RoleModal,
+  SkillsModal,
+} from "ui";
 
 export interface IShortlistModalContainerProps {}
 
@@ -70,6 +75,14 @@ export const ShortlistModalContainer = ({}: IShortlistModalContainerProps) => {
             setSelectedRole({ ...selectedRole, skills: skills });
           }}
           handelAddSkills={() => setOpenModal(null)}
+        />
+      )}
+      {openModal === LaunchProjectModal.PROJECT_INFO && (
+        <ProjectInfoModal
+          openModal
+          onSubmit={() => {
+            /**/
+          }}
         />
       )}
       {openModal === LaunchProjectModal.CONGRATULATIONS && (
