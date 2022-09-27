@@ -77,7 +77,8 @@ const AdminPanelToAddNewSubCatagory: NextPageWithLayout = () => {
           },
         },
       });
-      await updateSkillCategory({
+      // eslint-disable-next-line no-unused-vars
+      const { data: finalData } = await updateSkillCategory({
         variables: {
           fields: {
             _id: selectedCategory._id,
@@ -119,7 +120,8 @@ const AdminPanelToAddNewSubCatagory: NextPageWithLayout = () => {
       });
       const tempSubCategory = data.updateSkillSubCategory;
 
-      await updateSkillCategory({
+      // eslint-disable-next-line no-unused-vars
+      const { data: finalData } = await updateSkillCategory({
         variables: {
           fields: {
             _id: selectedCategory._id,
@@ -179,7 +181,8 @@ const AdminPanelToAddNewSubCatagory: NextPageWithLayout = () => {
 
       const tempSubCategory = skillSubCat.updateSkillSubCategory;
 
-      await updateSkillCategory({
+      // eslint-disable-next-line no-unused-vars
+      const { data: finalData } = await updateSkillCategory({
         variables: {
           fields: {
             _id: tempCategory._id,
@@ -203,7 +206,7 @@ const AdminPanelToAddNewSubCatagory: NextPageWithLayout = () => {
     setSelectedSkills([]);
     setNewCategory(false);
     setNewSubCategory(false);
-    await refetch({ fields: { _id: null } });
+    await refetch();
   };
 
   if (!currentUser) {
@@ -239,6 +242,7 @@ const AdminPanelToAddNewSubCatagory: NextPageWithLayout = () => {
             }}
             value={selectedCategory?.name || undefined}
           />
+          {selectedCategory === null && <h1>Category Not Selected</h1>}
         </GridItemFour>
         <GridItemFour>
           <>
@@ -256,6 +260,16 @@ const AdminPanelToAddNewSubCatagory: NextPageWithLayout = () => {
                   setNewSubCategory(true);
                 }
               }}
+            />
+            <SkillList
+              colorRGB="148,104,154"
+              skills={selectedCategory?.subCategorySkill?.map((subCat) => {
+                return {
+                  skillInfo: {
+                    name: subCat?.name,
+                  },
+                };
+              })}
             />
           </>
         </GridItemFour>
@@ -323,10 +337,12 @@ const AdminPanelToAddNewSubCatagory: NextPageWithLayout = () => {
             />
           </>
         </GridItemFour>
+        <GridItemFour>
+          <Button onClick={handleUpdateCategory} variant="primary" size="lg">
+            Update Category
+          </Button>
+        </GridItemFour>
       </GridLayout>
-      <Button onClick={handleUpdateCategory} variant="primary" size="lg">
-        Update Category
-      </Button>
     </div>
   );
 };
