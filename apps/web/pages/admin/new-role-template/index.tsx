@@ -17,7 +17,7 @@ import {
 
 import type { NextPageWithLayout } from "../../_app";
 
-const AdminPanel: NextPageWithLayout = () => {
+const AdminPanelToAddNewRole: NextPageWithLayout = () => {
   const { currentUser } = useContext(UserContext);
   const [roles, setRoles] = useState([]);
   const [deletedSkill, setDeletedSkill] = useState<boolean>(false);
@@ -262,13 +262,15 @@ const AdminPanel: NextPageWithLayout = () => {
       </GridItemFour>
       <GridItemFour>
         <Button onClick={handelAddNewRole} variant="primary" size="lg">
-          Add New Role
+          Save
         </Button>
       </GridItemFour>
     </GridLayout>
   );
 };
 
-AdminPanel.getLayout = (page) => <AppPublicLayout>{page}</AppPublicLayout>;
+AdminPanelToAddNewRole.getLayout = (page) => (
+  <AppPublicLayout>{page}</AppPublicLayout>
+);
 
-export default AdminPanel;
+export default AdminPanelToAddNewRole;
