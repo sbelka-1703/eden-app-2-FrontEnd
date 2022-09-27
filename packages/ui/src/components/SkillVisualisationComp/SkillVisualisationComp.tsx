@@ -39,7 +39,8 @@ export const SkillVisualisationComp: React.FC<SkillVisualisationCompProps> = ({
             radius="boxed"
             checked={selectSenior}
             onChange={() => setSelectSenior(!selectSenior)}
-            colorRGB="191, 255, 140"
+            bgColorRGB="224, 242, 211"
+            brColorRGB="191, 255, 140"
           />
         </div>
         <div>
@@ -48,7 +49,8 @@ export const SkillVisualisationComp: React.FC<SkillVisualisationCompProps> = ({
             radius="boxed"
             checked={selectMid}
             onChange={() => setSelectMid(!selectMid)}
-            colorRGB="255, 169, 241"
+            bgColorRGB="250, 207, 243"
+            brColorRGB="255, 169, 241"
           />
         </div>
         <div>
@@ -57,7 +59,8 @@ export const SkillVisualisationComp: React.FC<SkillVisualisationCompProps> = ({
             radius="boxed"
             checked={selectJunior}
             onChange={() => setSelectJunior(!selectJunior)}
-            colorRGB="186, 230, 255"
+            bgColorRGB="210, 237, 252"
+            brColorRGB="186, 230, 255"
           />
         </div>
         <div>
@@ -66,7 +69,8 @@ export const SkillVisualisationComp: React.FC<SkillVisualisationCompProps> = ({
             radius="boxed"
             checked={selectLearning}
             onChange={() => setSelectLearning(!selectLearning)}
-            colorRGB="255, 208, 43"
+            bgColorRGB="250, 234, 175"
+            brColorRGB="255, 208, 43"
           />
         </div>
       </div>

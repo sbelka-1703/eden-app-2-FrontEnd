@@ -7,7 +7,8 @@ export type CheckBoxProps = {
   checked?: boolean;
   required?: boolean;
   radius?: "default" | "rounded" | "pill" | "boxed";
-  colorRGB?: string;
+  bgColorRGB?: string;
+  brColorRGB?: string;
   // eslint-disable-next-line no-unused-vars
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 } & InputHTMLAttributes<HTMLInputElement>;
@@ -18,7 +19,8 @@ export const CheckBox: React.FC<CheckBoxProps> = ({
   checked,
   required,
   radius = "default",
-  colorRGB = "",
+  bgColorRGB = "",
+  brColorRGB = "",
   onChange,
 }) => {
   const inputCls = clsx("font-Inter text-soilBody flex", {
@@ -31,7 +33,14 @@ export const CheckBox: React.FC<CheckBoxProps> = ({
     <div className={`w-fit`}>
       <div
         className={`mt-1 flex ${inputCls}`}
-        style={colorRGB ? { background: `rgba(${colorRGB})` } : {}}
+        style={
+          bgColorRGB
+            ? {
+                background: `rgba(${bgColorRGB})`,
+                border: `4px solid rgba(${brColorRGB})`,
+              }
+            : {}
+        }
       >
         <input
           id={name}
