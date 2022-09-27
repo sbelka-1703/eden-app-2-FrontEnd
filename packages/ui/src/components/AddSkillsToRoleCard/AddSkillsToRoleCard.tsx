@@ -7,6 +7,7 @@ export interface IAddSkillsToRoleCardProps {
 }
 
 export const AddSkillsToRoleCard = ({
+  // eslint-disable-next-line no-unused-vars
   numberOfMembers,
   roleTitle,
   handleOpenSkillsModal,
@@ -15,7 +16,7 @@ export const AddSkillsToRoleCard = ({
     <Card className="mb-8 flex items-center bg-white p-6">
       <div className="w-3/4">
         <TextHeading3>
-          {`You’re looking at all ${numberOfMembers} ${roleTitle} candidates in
+          {`You’re looking at ${roleTitle} candidates in
                     Developer DAO. Please add desired skills to get best
                     results.`}
         </TextHeading3>

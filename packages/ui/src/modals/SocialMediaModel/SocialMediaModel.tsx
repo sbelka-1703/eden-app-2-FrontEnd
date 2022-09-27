@@ -7,15 +7,15 @@ import { Button, Modal, TextField, TextArea } from "ui";
 import { AiFillGithub } from "react-icons/ai";
 import { FaDiscord } from "react-icons/fa";
 
-export interface ISocialMediaProfileCardProps {
+export interface ISocialMediaModelProps {
   onSubmit?: () => void;
   showModal?: boolean;
 }
 
-export const SocialMediaProfileCard = ({
+export const SocialMediaModel = ({
   onSubmit,
   showModal,
-}: ISocialMediaProfileCardProps) => {
+}: ISocialMediaModelProps) => {
   return (
     <Modal open={showModal} closeOnEsc={false}>
       <div className={`h-7/10 w-full px-2`}>
