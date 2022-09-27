@@ -41,6 +41,7 @@ const AdminPanelToAddNewSubCatagory: NextPageWithLayout = () => {
   const [deletedSkill, setDeletedSkill] = useState<boolean>(false);
   const [newCategory, setNewCategory] = useState<boolean>(false);
   const [newSubCategory, setNewSubCategory] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { loading, error, refetch } = useQuery(FIND_SKILL_CATEGORIES, {
     variables: {
@@ -57,6 +58,7 @@ const AdminPanelToAddNewSubCatagory: NextPageWithLayout = () => {
   const [updateSkillSubCategory] = useMutation(UPDATE_SKILL_SUB_CATEGORY);
 
   const handleUpdateCategory = async () => {
+    setIsLoading(true);
     if (
       selectedCategory &&
       selectedSubCategory &&
@@ -207,13 +209,14 @@ const AdminPanelToAddNewSubCatagory: NextPageWithLayout = () => {
     setNewCategory(false);
     setNewSubCategory(false);
     await refetch();
+    setIsLoading(false);
   };
 
   if (!currentUser) {
     return <h1> Please Login </h1>;
   }
 
-  if (loading) {
+  if (loading || isLoading) {
     return <h1> loading </h1>;
   }
 
@@ -242,7 +245,6 @@ const AdminPanelToAddNewSubCatagory: NextPageWithLayout = () => {
             }}
             value={selectedCategory?.name || undefined}
           />
-          {selectedCategory === null && <h1>Category Not Selected</h1>}
         </GridItemFour>
         <GridItemFour>
           <>
