@@ -3,7 +3,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import { useContext } from "react";
 
 import { TextHeading3 } from "../../atoms";
-import { AddSkillsToRoleCard, MemberMatchCard } from "../../components";
+import { AddSkillsToRoleCard, MemberMatchCard } from "../../cards";
 import { Card, Loading } from "../../elements";
 
 export interface IShortlistContainerProps {
