@@ -23,7 +23,7 @@ import {
 } from "ui";
 
 import type { NextPageWithLayout } from "../../_app";
-import { SkillCategorySelector, SkillSubCategorySelector } from "./utils";
+import { SkillCategorySelector, SkillSubCategorySelector } from "./_utils";
 
 const AdminPanelToAddNewSubCatagory: NextPageWithLayout = () => {
   const { currentUser } = useContext(UserContext);
