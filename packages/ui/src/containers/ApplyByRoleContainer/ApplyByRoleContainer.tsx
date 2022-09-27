@@ -125,11 +125,11 @@ export const ApplyByRoleContainer = ({
           links: [
             {
               name: "twitter",
-              url: "https://twitter.com/" + twitterHandle,
+              url: twitterHandle ? `https://twitter.com/${twitterHandle}` : "",
             },
             {
               name: "github",
-              url: "https://github.com/" + githubHandle,
+              url: githubHandle ? `https://github.com/${githubHandle}` : "",
             },
             {
               name: "telegram",
@@ -155,7 +155,12 @@ export const ApplyByRoleContainer = ({
     (matched) => matched?.project?._id === project?._id
   );
 
-  // if (matchedProjects) console.log("matchedProjects", matchedProjects);
+  // if (project) console.log("project", project);
+
+  const zeroMatchedProjects = project?.role?.filter(
+    // @ts-ignore
+    (role) => role?._id !== matchedProject?.projectRoles[0]?.projectRole?._id
+  );
 
   const round = (num: number) => Math.round(num * 10) / 10;
 
@@ -212,7 +217,16 @@ export const ApplyByRoleContainer = ({
             {matchedProject?.projectRoles?.map((role, index) => (
               <RoleCard
                 key={index}
+                role={role?.projectRole}
+                percentage={role?.matchPercentage || 0}
+                onApply={() => setShowModal(true)}
+              />
+            ))}
+            {zeroMatchedProjects?.map((role, index) => (
+              <RoleCard
+                key={index}
                 role={role}
+                percentage={0}
                 onApply={() => setShowModal(true)}
               />
             ))}

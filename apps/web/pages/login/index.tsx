@@ -63,15 +63,18 @@ import { IncomingMessage, ServerResponse } from "http";
 import { getSession, signIn } from "next-auth/react";
 
 export async function getServerSideProps(ctx: {
+  query: any;
   req: IncomingMessage;
   res: ServerResponse;
 }) {
   const session = await getSession(ctx);
 
+  const { redirect } = ctx.query;
+
   if (session) {
     return {
       redirect: {
-        destination: `/projects`,
+        destination: redirect ? `/${redirect}` : `/projects`,
         permanent: false,
       },
     };
