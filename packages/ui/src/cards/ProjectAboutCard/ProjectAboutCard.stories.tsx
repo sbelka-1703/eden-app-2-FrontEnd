@@ -1,5 +1,6 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { getProject } from "storybook/mocks";
+
 import { ProjectAboutCard } from "./ProjectAboutCard";
 
 export default {

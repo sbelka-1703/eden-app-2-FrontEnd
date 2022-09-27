@@ -2,7 +2,7 @@
 
 public builds of both environments can be found at:
 
-[Webapp](https://eden-foundation.vercel.app/)
+[Webapp](https://eden-foundation2.vercel.app/)
 
 [Storybook](https://eden-foundation-storybook.vercel.app/)
 
