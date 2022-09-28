@@ -1,8 +1,9 @@
 import { faker } from "@faker-js/faker";
 import { render } from "@testing-library/react";
-import { DateCardProps } from "../../elements/Date";
+import { getProject } from "storybook/mocks";
+import { DateCardProps } from "ui";
 
-import { OpenOrClosed, ProjectStatusCard } from "./";
+import { ProjectStatusCard } from "./";
 
 const kickOffDate: DateCardProps = {
   type: "secondary",
@@ -41,10 +42,9 @@ describe("ProjectStatusCard", () => {
   it("renders without throwing", () => {
     const { container } = render(
       <ProjectStatusCard
+        project={getProject()}
         projectImg={faker.internet.avatar()}
-        projectName={faker.company.name()}
         roleName="BackEnd Developer"
-        status={OpenOrClosed.OPEN}
         appliedDateData={appliedDate}
         kickoffDateData={kickOffDate}
         progressSteps={progressSteps}

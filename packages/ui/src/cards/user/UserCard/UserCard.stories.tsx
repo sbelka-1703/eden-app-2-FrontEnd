@@ -5,7 +5,7 @@ import { getMember } from "storybook/mocks";
 import { UserCard } from "./UserCard";
 
 export default {
-  title: "Cards/UserCard",
+  title: "Cards/User/UserCard",
   component: UserCard,
   argTypes: {},
 } as ComponentMeta<typeof UserCard>;

@@ -1,16 +1,16 @@
 import { Maybe, PreviusProjectsType } from "@graphql/eden/generated";
+import { useState } from "react";
 import { FiEdit3 } from "react-icons/fi";
 import { IoIosExpand } from "react-icons/io";
 import {
-  Card,
-  Modal,
   Button,
-  TextField,
-  TextArea,
   Calendar,
+  Card,
   CheckBox,
+  Modal,
+  TextArea,
+  TextField,
 } from "ui";
-import { useState } from "react";
 
 export interface UserInformationCardProps {
   previousProjects?: Maybe<PreviusProjectsType>;
@@ -24,6 +24,7 @@ export const UserInformationCard = ({
   const [showExpandModal, setShowExpandModal] = useState(false);
   const [showEditModal, setshowEditModal] = useState(false);
   const [toggleEndDate, setToggleEndDate] = useState(false);
+
   if (!previousProjects) {
     return null;
   }

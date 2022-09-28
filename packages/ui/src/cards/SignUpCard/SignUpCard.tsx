@@ -150,7 +150,7 @@ const AddSkillsView = ({ onSelectedSkills }: IAddSkillsViewProps) => {
           </TextHeading2>
           <div className={`font-Inter text-sm text-zinc-500`}>
             Eden is built to deliver tailored macthes wirh opportunities in the
-            DAO. Fill out your profile to uncover Eden power.{" "}
+            DAO. Fill out your profile to uncover Eden power.
             {/* <span className={`text-soilBlue flex cursor-pointer`}>
               Get started <BsArrowRight className={`my-auto ml-2`} />
             </span> */}

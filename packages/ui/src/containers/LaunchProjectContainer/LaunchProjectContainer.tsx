@@ -1,11 +1,15 @@
 import { LaunchProjectContext, ProjectActionKind } from "@context/eden";
 import { useRouter } from "next/router";
 import { useContext } from "react";
-
-import { TextBody, TextHeading3 } from "../../atoms";
-import { ProjectLayoutCard } from "../../cards";
-import { Button, Card, TextField } from "../../elements";
-import { EmojiSelector } from "../../selectors";
+import {
+  Button,
+  Card,
+  EmojiSelector,
+  ProjectLayoutCard,
+  TextBody,
+  TextField,
+  TextHeading3,
+} from "ui";
 
 export interface ILaunchProjectContainerProps {}
 

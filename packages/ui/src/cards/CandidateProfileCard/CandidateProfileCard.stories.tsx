@@ -1,11 +1,12 @@
 /* eslint-disable camelcase */
+import { faker } from "@faker-js/faker";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { getMember } from "storybook/mocks";
-import { faker } from "@faker-js/faker";
+
 import { CandidateProfileCard } from "./CandidateProfileCard";
 
 export default {
-  title: "Cards/Project/CandidateProfileCard",
+  title: "Cards/CandidateProfileCard",
   component: CandidateProfileCard,
   argTypes: {},
 } as ComponentMeta<typeof CandidateProfileCard>;

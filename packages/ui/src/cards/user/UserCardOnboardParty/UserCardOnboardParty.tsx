@@ -1,10 +1,16 @@
 /* eslint-disable camelcase */
 import { Maybe, Members, SkillType_Member } from "@graphql/eden/generated";
-import { Avatar, Card, ProgressBarGeneric, TextHeading3, TextLabel } from "ui";
+import {
+  Avatar,
+  Card,
+  NumberCircle,
+  ProgressBarGeneric,
+  SkillList,
+  TextHeading3,
+  TextLabel,
+} from "ui";
 
-import { getUserProgress } from "../../../utils/user-progress";
-import { SkillList } from "../../components/SkillList";
-import { NumberCircle } from "../../elements/NumberCircle";
+import { getUserProgress } from "../../../../utils/user-progress";
 
 export interface UserCardOnboardPartyProps {
   member: Members;

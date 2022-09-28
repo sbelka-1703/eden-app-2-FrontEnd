@@ -4,7 +4,7 @@ import { getPreviusProjects } from "storybook/mocks";
 import { UserInformationCard } from "./UserInformationCard";
 
 export default {
-  title: "Cards/UserInformationCard",
+  title: "Cards/User/UserInformationCard",
   component: UserInformationCard,
   argTypes: {},
 } as ComponentMeta<typeof UserInformationCard>;
