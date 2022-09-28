@@ -4,9 +4,11 @@ import { InputHTMLAttributes } from "react";
 export type CheckBoxProps = {
   name?: string;
   label?: string;
-  value?: string;
+  checked?: boolean;
   required?: boolean;
-  radius?: "default" | "rounded" | "pill";
+  radius?: "default" | "rounded" | "pill" | "boxed";
+  bgColorRGB?: string;
+  brColorRGB?: string;
   // eslint-disable-next-line no-unused-vars
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 } & InputHTMLAttributes<HTMLInputElement>;
@@ -14,38 +16,46 @@ export type CheckBoxProps = {
 export const CheckBox: React.FC<CheckBoxProps> = ({
   name,
   label,
-  value,
+  checked,
   required,
   radius = "default",
-  autoComplete,
-  placeholder,
+  bgColorRGB = "",
+  brColorRGB = "",
   onChange,
 }) => {
-  const inputCls = clsx("py-1 px-4 font-Inter text-soilBody flex", {
-    "rounded-md": radius === "default",
-    "rounded-lg": radius === "rounded",
-    "rounded-full": radius === "pill",
+  const inputCls = clsx("font-Inter text-soilBody flex", {
+    "py-1 px-4 rounded-md": radius === "default",
+    "py-1 px-4 rounded-lg": radius === "rounded",
+    "py-1 px-4 rounded-full": radius === "pill",
+    "p-1.5 rounded-md": radius === "boxed",
   });
-
   return (
-    <div className={`w-full`}>
-      <div className={"mt-1 flex"}>
+    <div className={`w-fit`}>
+      <div
+        className={`mt-1 flex ${inputCls}`}
+        style={
+          bgColorRGB
+            ? {
+                background: `rgba(${bgColorRGB})`,
+                border: `4px solid rgba(${brColorRGB})`,
+              }
+            : {}
+        }
+      >
         <input
           id={name}
           name={name}
-          value={value}
           type="checkbox"
           required={required}
-          autoComplete={autoComplete}
-          placeholder={placeholder}
           onChange={(e) => {
             onChange(e);
           }}
+          checked={checked}
           className={`${inputCls} shadow-sm`}
         />
         <label
           htmlFor={name}
-          className={"ml-2 text-sm font-medium text-gray-700"}
+          className={"ml-2 text-sm font-semibold tracking-wider text-gray-700"}
         >
           {label}
         </label>

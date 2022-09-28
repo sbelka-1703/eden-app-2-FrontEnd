@@ -17,6 +17,10 @@ module.exports = {
         soilBlue: "#88A9FF",
         soilGray: "#BCBCBC",
         ColorF1F2FF: "#F1F2FF",
+        colorFFD02B: "#FFD02B",
+        colorBFFF8C: "#BFFF8C",
+        colorFFA9F1: "#FFA9F1",
+        colorBAE6FF: "#BAE6FF",
         soilGreen: {
           50: "#FFFFFF",
           100: "#FFFFFF",
