@@ -1,12 +1,11 @@
 /* eslint-disable camelcase */
 import { Maybe, SkillType_Member } from "@graphql/eden/generated";
-import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
-import React, { useEffect, useState } from "react";
+// import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
+import React, { useState } from "react";
 import { CheckBox, SkillList } from "ui";
 
 export interface SkillVisualisationCompProps {
   skills: any[];
-  // eslint-disable-next-line no-unused-vars
 }
 export const SkillVisualisationComp: React.FC<SkillVisualisationCompProps> = ({
   skills,

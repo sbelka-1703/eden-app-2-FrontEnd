@@ -29,6 +29,7 @@ export const CheckBox: React.FC<CheckBoxProps> = ({
     "py-1 px-4 rounded-full": radius === "pill",
     "p-1.5 rounded-md": radius === "boxed",
   });
+
   return (
     <div className={`w-fit`}>
       <div
