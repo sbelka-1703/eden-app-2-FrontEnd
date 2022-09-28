@@ -14,9 +14,9 @@ export const FIND_SKILL_CATEGORIES = gql`
         _id
         name
         skills {
-        name
-        _id
-      }
+          name
+          _id
+        }
       }
     }
   }

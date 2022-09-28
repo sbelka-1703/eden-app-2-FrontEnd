@@ -1,8 +1,10 @@
 import { faker } from "@faker-js/faker";
 import { PhaseType, Project } from "@graphql/eden/generated";
 
-import { phase } from "./data";
+import { phase, skills } from "./data";
 import { getMember } from "./MembersMock";
+
+const level = ["learning", "junior", "mid", "senior"];
 
 export const randomTeamType = () =>
   Array.from({ length: 40 }, () => {
@@ -20,6 +22,16 @@ export const randomTeam = () =>
       champion: getMember(),
       name: faker.name.firstName(),
       description: faker.lorem.paragraph(),
+    };
+  });
+
+export const getProjectSkills = (total: number) =>
+  Array.from({ length: total }, () => {
+    return {
+      skillData: faker.helpers.uniqueArray(skills, 1)[0],
+      comment: faker.lorem.sentences(1),
+      level: faker.helpers.uniqueArray(level, 1)[0],
+      numEndorsement: String(faker.random.numeric(2)),
     };
   });
 
@@ -57,60 +69,19 @@ export const project: Project = {
     {
       _id: String(faker.random.numeric(5)),
       archive: false,
-      budget: {
-        perHour: faker.finance.amount(0, 100, 2),
-        token: faker.finance.amount(0, 100, 2),
-        totalBudget: faker.finance.amount(0, 100, 2),
-      },
-      dateRangeEnd: "1662161995158",
-      dateRangeStart: "1662161995158",
       description: faker.lorem.sentences(5),
-      hoursPerWeek: Number(faker.random.numeric(2)),
-      // skills: getSkills(Number(faker.random.numeric(1))),
-      skills: [
-        {
-          skillData: {
-            name: "React",
-          },
-          comment: faker.lorem.sentences(1),
-          level: faker.lorem.sentences(1),
-          numEndorsement: String(faker.random.numeric(2)),
-        },
-        {
-          skillData: {
-            name: "JavaScript",
-          },
-          comment: faker.lorem.sentences(1),
-          level: faker.lorem.sentences(1),
-          numEndorsement: String(faker.random.numeric(2)),
-        },
-      ],
+      skills: getProjectSkills(
+        faker.datatype.number({ min: 2, max: 36, precision: 1 })
+      ),
       title: faker.name.firstName(),
     },
     {
       _id: String(faker.random.numeric(5)),
       archive: false,
-      budget: {
-        perHour: faker.finance.amount(0, 100, 2),
-        token: faker.finance.amount(0, 100, 2),
-        totalBudget: faker.finance.amount(0, 100, 2),
-      },
-      dateRangeEnd: "1662161995158",
-      dateRangeStart: "1662161995158",
       description: faker.lorem.sentences(5),
-      hoursPerWeek: Number(faker.random.numeric(2)),
-      skills: [
-        {
-          comment: faker.lorem.sentences(1),
-          level: faker.lorem.sentences(1),
-          numEndorsement: String(faker.random.numeric(2)),
-        },
-        {
-          comment: faker.lorem.sentences(1),
-          level: faker.lorem.sentences(1),
-          numEndorsement: String(faker.random.numeric(2)),
-        },
-      ],
+      skills: getProjectSkills(
+        faker.datatype.number({ min: 2, max: 36, precision: 1 })
+      ),
       title: faker.name.firstName(),
     },
   ],

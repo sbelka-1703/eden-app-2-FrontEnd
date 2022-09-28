@@ -1,8 +1,7 @@
 import { Members } from "@graphql/eden/generated";
-import { Card, TextHeading3 } from "ui";
+import { Card, TextHeading3, UserCardOnboardParty } from "ui";
 
 import { getUserProgress } from "../../../utils/user-progress";
-import { UserCardOnboardParty } from "../../cards/UserCardOnboardParty";
 
 export interface OnboardPartyContainerProps {
   members: Members[];

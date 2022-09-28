@@ -1,12 +1,6 @@
-import {
-  Maybe,
-  Members,
-  Mutation,
-  Project,
-  ProjectMatchType,
-} from "@graphql/eden/generated";
+import { Members, Project } from "@graphql/eden/generated";
 import { useRouter } from "next/router";
-import { Avatar, Card, ProjectChampion, ReadMore } from "ui";
+import { Card, ProjectChampion, ReadMore } from "ui";
 export interface ProjectAboutCardProps {
   project?: Project;
   projectOneLiner?: string;

@@ -1,7 +1,8 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { faker } from "@faker-js/faker";
+import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { getSkills } from "storybook/mocks";
+
 import { SkillVisualisationComp } from "./SkillVisualisationComp";
-import { getSkills } from "../../../../../apps/storybook/mocks";
 export default {
   title: "Components/SkillVisualisationComp",
   component: SkillVisualisationComp,
