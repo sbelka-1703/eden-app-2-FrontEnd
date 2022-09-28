@@ -27,7 +27,7 @@
     "husky": "^8.0.0",
     "prettier": "latest",
     "prettier-plugin-tailwindcss": "^0.1.13",
-    "turbo": "latest"
+    "turbo": "^1.5.4"
   },
   "engines": {
     "npm": ">=7.0.0",
