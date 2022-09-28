@@ -109,7 +109,9 @@ const LaunchPage: NextPageWithLayout = () => {
               <Button
                 className="mx-auto"
                 variant="primary"
-                onClick={() => setOpenModal(LaunchProjectModal.PROJECT_INFO)}
+                onClick={() =>
+                  setOpenModal(LaunchProjectModal.SHORTLISTED_PREVIEW)
+                }
               >
                 Invite to apply
               </Button>

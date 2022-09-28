@@ -14,6 +14,7 @@ import { useContext } from "react";
 import {
   CongratulationsModal,
   RoleModal,
+  ShortlistMemberModal,
   SkillsModal,
   SocialMediaModel,
 } from "ui";
@@ -75,6 +76,16 @@ export const ShortlistModalContainer = ({}: IShortlistModalContainerProps) => {
             setSelectedRole({ ...selectedRole, skills: skills });
           }}
           handelAddSkills={() => setOpenModal(null)}
+        />
+      )}
+      {openModal === LaunchProjectModal.SHORTLISTED_PREVIEW && (
+        <ShortlistMemberModal
+          isModalOpen={openModal === LaunchProjectModal.SHORTLISTED_PREVIEW}
+          roles={project?.role || []}
+          members={project?.team!}
+          onClickNext={() => {
+            setOpenModal(LaunchProjectModal.PROJECT_INFO);
+          }}
         />
       )}
       {openModal === LaunchProjectModal.PROJECT_INFO && (
