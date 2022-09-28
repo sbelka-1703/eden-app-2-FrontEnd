@@ -16,7 +16,7 @@
     "@graphql/eden": "*",
     "@headlessui/react": "^1.6.6",
     "@heroicons/react": "^1.0.6",
-    "@types/react": "18.0.15",
+    "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
     "chart.js": "^3.9.1",
     "clsx": "^1.2.1",
@@ -26,11 +26,10 @@
     "identity-obj-proxy": "^3.0.0",
     "react-chartjs-2": "^4.3.1",
     "react-confetti": "^6.1.0",
+    "react-multi-date-picker": "^3.3.0",
     "react-tooltip": "^4.2.21",
     "tsconfig": "*",
-    "typescript": "^4.7.4",
-    "react-multi-date-picker": "^3.3.0"
+    "typescript": "^4.8.4"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
