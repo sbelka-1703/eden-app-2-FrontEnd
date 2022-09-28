@@ -1,14 +1,14 @@
 // TODO: needs a test file
 /* eslint-disable camelcase */
 
-import { useContext, useEffect, useState } from "react";
-import { SiNotion } from "react-icons/si";
-import { Button, Modal, TextField, TextArea } from "ui";
+import { useState } from "react";
 import { AiFillGithub } from "react-icons/ai";
-import { FaDiscord } from "react-icons/fa";
+import { FaTwitter } from "react-icons/fa";
+import { Button, Modal, TextArea, TextField } from "ui";
 
 export interface ISocialMediaModelProps {
-  onSubmit?: () => void;
+  // eslint-disable-next-line no-unused-vars
+  onSubmit?: (val: any) => void;
   showModal?: boolean;
 }
 
@@ -16,13 +16,34 @@ export const SocialMediaModel = ({
   onSubmit,
   showModal,
 }: ISocialMediaModelProps) => {
+  const [description, setDescription] = useState("");
+  const [bio, setBio] = useState("");
+
+  const [links, setLinks] = useState<{
+    github: string | null;
+    twitter: string | null;
+  }>({
+    github: null,
+    twitter: null,
+  });
+
+  const handleSubmit = () => {
+    const data = {
+      bio: bio,
+      description: description,
+      links: links,
+    };
+
+    onSubmit!(data);
+  };
+
   return (
     <Modal open={showModal} closeOnEsc={false}>
       <div className={`h-7/10 w-full px-2`}>
         <div className="flex flex-col ">
           <div className="flex content-center	items-center justify-center justify-items-center">
             <span className="text-base font-semibold tracking-wide">
-              Let's finish up your project profile before we launch it!
+              Let&lsquo;s finish up your project profile before we launch it!
             </span>
           </div>
           <div className="mt-5 flex flex-row content-end justify-between justify-items-stretch">
@@ -33,9 +54,10 @@ export const SocialMediaModel = ({
                 </span>
                 <TextField
                   // value={String(previousProjects.title)}
-                  onChange={(e) => console.log(e.target.value)}
+                  onChange={(e) => setBio(e.target.value)}
                   placeholder="Start typing here"
                   radius="rounded"
+                  maxLength={100}
                 />
               </div>
               <div className="mt-3">
@@ -43,14 +65,11 @@ export const SocialMediaModel = ({
                   Short description:
                 </span>
                 <TextArea
-                  name="bio"
+                  name="description"
                   placeholder={`Start typing here`}
                   rows={5}
                   className="border-1 text-xs"
-                  debounceTime={2000}
-                  onChange={() => {
-                    console.log("sss");
-                  }}
+                  onChange={(e) => setDescription(e.target.value)}
                   maxLength={280}
                 />
               </div>
@@ -80,25 +99,29 @@ export const SocialMediaModel = ({
                   <div>
                     <TextField
                       // value={String(previousProjects.title)}
-                      onChange={(e) => console.log(e.target.value)}
-                      placeholder="Github Id"
+                      onChange={(e) =>
+                        setLinks({ ...links, github: e.target.value })
+                      }
+                      placeholder="Github url"
                       radius="rounded"
                     />
                   </div>
                 </div>
                 <div className="mt-2 flex flex-row content-center items-center justify-between">
-                  <FaDiscord size={25} />
+                  <FaTwitter size={25} />
 
                   <div>
                     <TextField
                       // value={String(previousProjects.title)}
-                      onChange={(e) => console.log(e.target.value)}
-                      placeholder="Discord Id"
+                      onChange={(e) =>
+                        setLinks({ ...links, twitter: e.target.value })
+                      }
+                      placeholder="Twitter url"
                       radius="rounded"
                     />
                   </div>
                 </div>
-                <div className="mt-2 flex flex-row content-center items-center justify-between">
+                {/* <div className="mt-2 flex flex-row content-center items-center justify-between">
                   <SiNotion size={25} />
 
                   <div className="ml-2">
@@ -109,7 +132,7 @@ export const SocialMediaModel = ({
                       radius="rounded"
                     />
                   </div>
-                </div>
+                </div> */}
                 {/* <div className="mt-1 flex flex-row content-center items-center justify-between">
                 <AiFillGithub size={25} />
 
@@ -127,11 +150,11 @@ export const SocialMediaModel = ({
           </div>
         </div>
       </div>
-      <div className={`bottom-2 mt-8  flex w-full justify-between`}>
-        <Button variant={`default`} onClick={() => console.log("asas")}>
+      <div className={`bottom-2 mt-8  flex w-full justify-center`}>
+        {/* <Button variant={`default`} onClick={() => console.log("asas")}>
           Go to role page
-        </Button>
-        <Button variant={`default`} onClick={() => console.log("asas")}>
+        </Button> */}
+        <Button variant={`default`} onClick={handleSubmit}>
           All done !
         </Button>
       </div>

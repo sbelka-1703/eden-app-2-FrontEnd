@@ -13,9 +13,9 @@ import {
 import { useContext } from "react";
 import {
   CongratulationsModal,
-  ProjectInfoModal,
   RoleModal,
   SkillsModal,
+  SocialMediaModel,
 } from "ui";
 
 export interface IShortlistModalContainerProps {}
@@ -78,10 +78,17 @@ export const ShortlistModalContainer = ({}: IShortlistModalContainerProps) => {
         />
       )}
       {openModal === LaunchProjectModal.PROJECT_INFO && (
-        <ProjectInfoModal
-          openModal
-          onSubmit={() => {
-            /**/
+        <SocialMediaModel
+          showModal
+          onSubmit={(val: any) => {
+            dispatchProject!({
+              type: ProjectActionKind.SET_EXTRA_DATA,
+              payload: {
+                bio: val.bio,
+                description: val.description,
+                links: val.links,
+              },
+            });
           }}
         />
       )}

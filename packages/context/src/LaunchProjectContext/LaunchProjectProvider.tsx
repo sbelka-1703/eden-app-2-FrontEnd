@@ -18,6 +18,8 @@ export enum ProjectActionKind {
   SHORTLIST_MEMBER = "SHORTLIST_MEMBER",
   // eslint-disable-next-line no-unused-vars
   REMOVE_SHORTLIST_MEMBER = "REMOVE_SHORTLIST_MEMBER",
+  // eslint-disable-next-line no-unused-vars
+  SET_EXTRA_DATA = "SET_EXTRA_DATA",
 }
 
 export interface ProjectAction {
@@ -73,6 +75,27 @@ function projectReducer(project: Project, action: ProjectAction): Project {
           (member) =>
             member?.memberInfo?._id !== action.payload.member.memberInfo._id
         ),
+      };
+    case ProjectActionKind.SET_EXTRA_DATA:
+      const links = [];
+
+      if (action.payload.links.twitter) {
+        links.push({
+          link: action.payload.links.twitter,
+          title: "twitter",
+        });
+      }
+      if (action.payload.links.github) {
+        links.push({
+          link: action.payload.links.github,
+          title: "github",
+        });
+      }
+
+      return {
+        ...project,
+        description: action.payload.description,
+        collaborationLinks: links,
       };
     default:
       throw new Error();
