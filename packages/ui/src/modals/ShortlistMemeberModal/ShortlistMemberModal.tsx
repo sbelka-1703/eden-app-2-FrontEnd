@@ -6,7 +6,7 @@ export interface ShortlistMemberModal {
   isModalOpen: boolean;
   roles: Maybe<Array<Maybe<RoleType>>>;
   members: any;
-  onClickNext: () => void;
+  onClickNext?: () => void;
 }
 
 export const ShortlistMemberModal = ({

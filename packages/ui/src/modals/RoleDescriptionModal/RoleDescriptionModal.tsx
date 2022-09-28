@@ -4,8 +4,8 @@ import { Avatar, Button, Dropdown, Modal, TextArea, TextHeading3 } from "ui";
 export interface RoleDescriptionModalInterface {
   isModalOpen: boolean;
   roles: any;
-  setDescription: any;
-  setResponsibilites: any;
+  setDescription?: any;
+  setResponsibilites?: any;
 }
 
 export const RoleDescriptionModal = ({
