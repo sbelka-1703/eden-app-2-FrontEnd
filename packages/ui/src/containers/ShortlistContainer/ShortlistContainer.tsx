@@ -1,10 +1,13 @@
 import { LaunchProjectContext, LaunchProjectModal } from "@context/eden";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import { useContext } from "react";
-
-import { TextHeading3 } from "../../atoms";
-import { AddSkillsToRoleCard, MemberMatchCard } from "../../components";
-import { Card, Loading } from "../../elements";
+import {
+  AddSkillsToRoleCard,
+  Card,
+  Loading,
+  MemberMatchCard,
+  TextHeading3,
+} from "ui";
 
 export interface IShortlistContainerProps {
   matchingMembers: any[];

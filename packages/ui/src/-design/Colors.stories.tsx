@@ -75,6 +75,10 @@ const BrandColors = [
     name: "soilGray",
     description: "secondary",
   },
+  {
+    name: "colorFFD02B",
+    description: "primary",
+  },
 ];
 
 const Brand = () => {

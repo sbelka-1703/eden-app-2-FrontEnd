@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { FaDiscord } from "react-icons/fa";
-import { GridItemSix, GridItemThree, GridLayout } from "ui";
+import { GridItemEight, GridItemTwo, GridLayout } from "ui";
 
 import wave from "../../public/wave.gif";
 
@@ -20,8 +20,23 @@ const LoginPage: NextPage = () => {
       </Head>
 
       <GridLayout>
-        <GridItemThree> </GridItemThree>
-        <GridItemSix>
+        <GridItemTwo> </GridItemTwo>
+        <GridItemEight>
+          <div className={` flex`}>
+            <h1
+              className={`font-poppins text-accentColor text-landingTitleSM lg:text-landingTitle mt-4 text-6xl font-bold tracking-tight sm:mt-5 lg:mt-6`}
+            >
+              eden
+            </h1>
+            <div
+              className={`lg:text-landingSubtitle pl-2 text-left text-2xl font-bold text-white `}
+            >
+              <div className={`mt-6 lg:mt-20`}>prot</div>
+              <div className={`-mt-3 lg:mt-8`}>
+                ocol<span className={`text-accentColor`}>.</span>
+              </div>
+            </div>
+          </div>
           <div
             className={`h-5/10 relative w-full rounded-3xl border-2 border-white p-6 shadow-lg`}
             style={{
@@ -50,8 +65,8 @@ const LoginPage: NextPage = () => {
               </button>
             </div>
           </div>
-        </GridItemSix>
-        <GridItemThree> </GridItemThree>
+        </GridItemEight>
+        <GridItemTwo> </GridItemTwo>
       </GridLayout>
     </div>
   );
@@ -63,15 +78,18 @@ import { IncomingMessage, ServerResponse } from "http";
 import { getSession, signIn } from "next-auth/react";
 
 export async function getServerSideProps(ctx: {
+  query: any;
   req: IncomingMessage;
   res: ServerResponse;
 }) {
   const session = await getSession(ctx);
 
+  const { redirect } = ctx.query;
+
   if (session) {
     return {
       redirect: {
-        destination: `/projects`,
+        destination: redirect ? `/${redirect}` : `/projects`,
         permanent: false,
       },
     };

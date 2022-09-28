@@ -25,7 +25,7 @@ export const CandidateProfileCard = ({
 }: ICandidateProfileCardProps) => {
   return (
     <Card
-      className="scrollbar-hide relative relative overflow-scroll bg-white p-3"
+      className="scrollbar-hide relative overflow-scroll bg-white p-3"
       focused={selected}
     >
       <div className={`flex	items-center gap-8`}>

@@ -15,6 +15,14 @@ export const GridLayout: FC<Props> = ({ children, className = "" }) => {
   );
 };
 
+export const GridItemTwo: FC<Props> = ({ children, className = "" }) => {
+  return (
+    <div className={`col-span-12 md:col-span-12 lg:col-span-2 ${className}`}>
+      {children}
+    </div>
+  );
+};
+
 export const GridItemThree: FC<Props> = ({ children, className = "" }) => {
   return (
     <div className={`col-span-12 md:col-span-12 lg:col-span-3 ${className}`}>

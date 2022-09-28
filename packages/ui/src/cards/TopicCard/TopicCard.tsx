@@ -12,7 +12,7 @@ export const TopicCard = ({}) => {
           <TextHeading2>
             Topic #1: Viability of the $CODE token in the long run
           </TextHeading2>
-          <hr className="h-[4px] pb-6 w-50"></hr>
+          <hr className="w-50 h-[4px] pb-6"></hr>
         </div>
         <TextBody>
           <div className="pb-4">
