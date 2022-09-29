@@ -1,7 +1,7 @@
-import { faker } from "@faker-js/faker";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { getProject } from "storybook/mocks";
 
-import { OpenOrClosed, ProjectStatusCard } from "./ProjectStatusCard";
+import { ProjectStatusCard } from "./ProjectStatusCard";
 
 export default {
   title: "Cards/Project/ProjectStatusCard",
@@ -15,10 +15,8 @@ const Template: ComponentStory<typeof ProjectStatusCard> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  projectImg: faker.internet.avatar(),
-  projectName: faker.company.name(),
+  project: getProject(),
   roleName: "BackEnd Developer",
-  status: OpenOrClosed.OPEN,
   appliedDateData: {
     type: "primary",
     dayOfMonth: 22,

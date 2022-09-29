@@ -9,6 +9,10 @@ import { SessionProvider } from "next-auth/react";
 import type { ReactElement, ReactNode } from "react";
 import * as React from "react";
 
+// import { IS_DEVELOPMENT } from "../constants";
+
+export { reportWebVitals } from "next-axiom";
+
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   // eslint-disable-next-line no-unused-vars
   getLayout?: (page: ReactElement) => ReactNode;
@@ -23,6 +27,8 @@ const App = ({
   pageProps: { session, ...pageProps },
 }: AppPropsWithLayout) => {
   const getLayout = Component.getLayout ?? ((page) => page);
+
+  // console.log(IS_DEVELOPMENT ? "development" : "production");
 
   return (
     <SessionProvider session={session}>

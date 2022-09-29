@@ -4,7 +4,7 @@ import { getMember } from "storybook/mocks";
 import { UserCardOnboardParty } from "./UserCardOnboardParty";
 
 export default {
-  title: "Cards/UserCardOnboardParty",
+  title: "Cards/User/UserCardOnboardParty",
   component: UserCardOnboardParty,
   argTypes: {},
 } as ComponentMeta<typeof UserCardOnboardParty>;

@@ -1,11 +1,10 @@
-// import { faker } from "@faker-js/faker";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { CurrentUserDecorator } from "storybook/.storybook/decorator";
 
 import { UserProfileCard } from "./UserProfileCard";
 
 export default {
-  title: "Cards/UserProfileCard",
+  title: "Cards/User/UserProfileCard",
   component: UserProfileCard,
   argTypes: {},
   decorators: [CurrentUserDecorator],

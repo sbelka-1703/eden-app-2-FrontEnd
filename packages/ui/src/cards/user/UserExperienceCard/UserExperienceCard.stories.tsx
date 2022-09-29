@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { UserExperienceCard } from "./UserExperienceCard";
 
 export default {
-  title: "Cards/UserExperienceCard",
+  title: "Cards/User/UserExperienceCard",
   component: UserExperienceCard,
   argTypes: {},
 } as ComponentMeta<typeof UserExperienceCard>;
