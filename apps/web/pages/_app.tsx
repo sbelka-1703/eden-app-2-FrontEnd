@@ -11,7 +11,7 @@ import { SessionProvider } from "next-auth/react";
 import type { ReactElement, ReactNode } from "react";
 import * as React from "react";
 
-import { IS_DEVELOPMENT, IS_PRODUCTION } from "../constants";
+import { IS_DEVELOPMENT } from "../constants";
 // import * as ga from "../lib/ga";
 
 export { reportWebVitals } from "next-axiom";
