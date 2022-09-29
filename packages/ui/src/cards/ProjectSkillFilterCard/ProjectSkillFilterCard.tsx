@@ -54,7 +54,7 @@ export const ProjectSkillFilterCard: React.FC<ProjectSkillFilterCardProps> = ({
           />
         </div>
         <div>
-          <SkillVisualisationComp skills={skills} />
+          <SkillVisualisationComp skills={skills!} />
         </div>
         <div>
           <div>
