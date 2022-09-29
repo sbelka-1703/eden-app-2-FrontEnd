@@ -20,9 +20,8 @@ export const RoleModal = ({
   onSubmit,
   onRoleSelected,
 }: RoleModalProps) => {
-  const [selectedRole, setSelectedRole] = useState<Maybe<RoleTemplate> | null>(
-    null
-  );
+  const [selectedRole, setSelectedRole] =
+    useState<Maybe<RoleTemplate> | null>(null);
 
   const { data: roles } = useQuery(FIND_ROLE_TEMPLATES, {
     variables: {
