@@ -5,6 +5,14 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**", ".next/**"]
     },
+    "build:alpha": {
+      "dependsOn": ["^build:alpha"],
+      "outputs": ["dist/**", ".next/**"]
+    },
+    "build:storybook": {
+      "dependsOn": ["^build:storybook"],
+      "outputs": ["storybook-static/**"]
+    },
     "test": {
       "outputs": ["coverage/**"],
       "dependsOn": []
@@ -14,6 +22,9 @@
       "outputs": []
     },
     "dev": {
+      "cache": false
+    },
+    "dev:alpha": {
       "cache": false
     },
     "sb": {
