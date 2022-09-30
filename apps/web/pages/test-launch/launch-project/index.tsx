@@ -7,7 +7,7 @@ import {
   GridLayout,
   LaunchProjectContainer,
   UserProfileMenu,
-} from "ui";
+} from "@eden/package-ui";
 
 import type { NextPageWithLayout } from "../../_app";
 

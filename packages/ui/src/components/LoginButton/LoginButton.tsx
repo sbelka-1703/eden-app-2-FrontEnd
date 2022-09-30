@@ -1,11 +1,11 @@
 import { UserContext } from "@eden/package-context";
+import { Avatar } from "@eden/package-ui";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
 import { signIn, signOut } from "next-auth/react";
 import { Fragment, useContext } from "react";
 import { FaDiscord } from "react-icons/fa";
-import { Avatar } from "ui";
 
 export interface ILoginButtonProps {
   inApp?: boolean;

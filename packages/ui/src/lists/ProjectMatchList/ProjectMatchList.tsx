@@ -3,8 +3,8 @@ import {
   MatchSkillsToProjectsOutput,
   Maybe,
 } from "@eden/package-graphql/generated";
+import { Loading, ProjectMatchCard, TextHeading2 } from "@eden/package-ui";
 import { useContext } from "react";
-import { Loading, ProjectMatchCard, TextHeading2 } from "ui";
 
 export interface IProjectMatchListProps {
   matchedProjects?: Maybe<Array<Maybe<MatchSkillsToProjectsOutput>>>;

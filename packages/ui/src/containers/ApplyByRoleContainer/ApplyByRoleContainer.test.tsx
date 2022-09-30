@@ -1,5 +1,3 @@
-import React from "react";
-
 import { render } from "../../../utils/jest-apollo";
 import { ApplyByRoleContainer } from "./";
 

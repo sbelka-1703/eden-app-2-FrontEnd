@@ -4,7 +4,11 @@ import {
   Project,
   RoleTemplate,
 } from "@eden/package-graphql/generated";
-import { ApplyByRoleContainer, ProjectMatchList, SignUpCard } from "ui";
+import {
+  ApplyByRoleContainer,
+  ProjectMatchList,
+  SignUpCard,
+} from "@eden/package-ui";
 
 export interface ISignUpContainerMainProps {
   roles: Maybe<Array<Maybe<RoleTemplate>>>;

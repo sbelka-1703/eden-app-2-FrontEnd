@@ -1,5 +1,5 @@
 import { Maybe, ProjectMatchType } from "@eden/package-graphql/generated";
-import { ProjectRecommendedCard } from "ui";
+import { ProjectRecommendedCard } from "@eden/package-ui";
 
 export interface RecommendedListProps {
   projects?: Maybe<Array<Maybe<ProjectMatchType>>>;

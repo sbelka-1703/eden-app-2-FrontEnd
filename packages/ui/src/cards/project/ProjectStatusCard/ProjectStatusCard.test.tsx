@@ -1,7 +1,7 @@
+import { DateCardProps } from "@eden/package-ui";
 import { faker } from "@faker-js/faker";
 import { render } from "@testing-library/react";
 import { getProject } from "storybook/mocks";
-import { DateCardProps } from "ui";
 
 import { ProjectStatusCard } from "./";
 

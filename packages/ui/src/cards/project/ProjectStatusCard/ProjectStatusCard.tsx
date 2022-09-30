@@ -1,6 +1,4 @@
 import { Project } from "@eden/package-graphql/generated";
-import { useState } from "react";
-import { BsArrowRight } from "react-icons/bs";
 import {
   Avatar,
   Button,
@@ -9,7 +7,9 @@ import {
   DateCardProps,
   ProgressStep,
   ProgressStepper,
-} from "ui";
+} from "@eden/package-ui";
+import { useState } from "react";
+import { BsArrowRight } from "react-icons/bs";
 
 export interface ProjectStatusCardProps {
   project?: Project;

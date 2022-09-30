@@ -2,8 +2,6 @@
 import { gql, useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
 import { FIND_PROJECT } from "@eden/package-graphql";
-import Head from "next/head";
-import { useContext, useState } from "react";
 import {
   AppUserLayout,
   GridItemNine,
@@ -11,7 +9,9 @@ import {
   GridLayout,
   SignUpContainerMain,
   SignUpContainerSide,
-} from "ui";
+} from "@eden/package-ui";
+import Head from "next/head";
+import { useContext, useState } from "react";
 
 import type { NextPageWithLayout } from "../_app";
 

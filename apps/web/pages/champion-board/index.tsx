@@ -1,8 +1,6 @@
 import { useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
 import { FIND_PROJECT } from "@eden/package-graphql";
-import { useRouter } from "next/router";
-import { useContext, useState } from "react";
 import {
   AppUserLayout,
   Button,
@@ -11,7 +9,9 @@ import {
   GridItemThree,
   GridLayout,
   SideNavProjectList,
-} from "ui";
+} from "@eden/package-ui";
+import { useRouter } from "next/router";
+import { useContext, useState } from "react";
 
 import type { NextPageWithLayout } from "../_app";
 

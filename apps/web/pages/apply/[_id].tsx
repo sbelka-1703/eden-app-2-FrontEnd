@@ -1,13 +1,13 @@
 import { useQuery } from "@apollo/client";
 import { FIND_PROJECT } from "@eden/package-graphql";
-import { useRouter } from "next/router";
 import {
   ApplyContainer,
   AppUserLayout,
   GridItemSix,
   GridItemThree,
   GridLayout,
-} from "ui";
+} from "@eden/package-ui";
+import { useRouter } from "next/router";
 
 import type { NextPageWithLayout } from "../_app";
 

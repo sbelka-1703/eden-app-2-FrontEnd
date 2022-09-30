@@ -1,4 +1,4 @@
-import { Button, Card, TextHeading3 } from "ui";
+import { Button, Card, TextHeading3 } from "@eden/package-ui";
 
 export interface IAddSkillsToRoleCardProps {
   numberOfMembers: number;

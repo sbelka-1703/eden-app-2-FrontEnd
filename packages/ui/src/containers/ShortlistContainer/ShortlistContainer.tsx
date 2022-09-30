@@ -2,15 +2,15 @@ import {
   LaunchProjectContext,
   LaunchProjectModal,
 } from "@eden/package-context";
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
-import { useContext } from "react";
 import {
   AddSkillsToRoleCard,
   Card,
   Loading,
   MemberMatchCard,
   TextHeading3,
-} from "ui";
+} from "@eden/package-ui";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
+import { useContext } from "react";
 
 export interface IShortlistContainerProps {
   matchingMembers: any[];

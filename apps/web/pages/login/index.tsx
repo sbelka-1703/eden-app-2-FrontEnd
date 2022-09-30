@@ -1,8 +1,8 @@
+import { GridItemEight, GridItemTwo, GridLayout } from "@eden/package-ui";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { FaDiscord } from "react-icons/fa";
-import { GridItemEight, GridItemTwo, GridLayout } from "ui";
 
 import wave from "../../public/wave.gif";
 

@@ -1,6 +1,6 @@
 import { LaunchContext } from "@eden/package-context";
+import { BioComponent, SocialMediaComp } from "@eden/package-ui";
 import { useContext } from "react";
-import { BioComponent, SocialMediaComp } from "ui";
 
 export const LaunchViewVerify = () => {
   const { projectName, projectDescription } = useContext(LaunchContext);

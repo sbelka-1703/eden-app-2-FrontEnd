@@ -1,6 +1,10 @@
 import { Maybe, RoleType } from "@eden/package-graphql/generated";
-import React from "react";
-import { Button, CandidateProfileCard, Modal, TextHeading2 } from "ui";
+import {
+  Button,
+  CandidateProfileCard,
+  Modal,
+  TextHeading2,
+} from "@eden/package-ui";
 
 export interface ShortlistMemberModal {
   isModalOpen: boolean;

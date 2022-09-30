@@ -10,6 +10,7 @@ import {
   Avatar,
   Card,
   Dropdown,
+  NumberCircle,
   ProgressBarGeneric,
   SearchSkill,
   SkillList,
@@ -17,10 +18,9 @@ import {
   TextArea,
   TextHeading3,
   TextLabel,
-} from "ui";
+} from "@eden/package-ui";
 
 import { getUserProgress } from "../../../utils/user-progress";
-import { NumberCircle } from "../../elements/NumberCircle";
 
 export interface EditProfileOnboardPartyCardProps {
   currentUser: Members;

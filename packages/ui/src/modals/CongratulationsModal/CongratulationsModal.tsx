@@ -1,5 +1,10 @@
+import {
+  Button,
+  ConfettiContainer,
+  Modal,
+  TextHeading3,
+} from "@eden/package-ui";
 import { useRouter } from "next/router";
-import { Button, ConfettiContainer, Modal, TextHeading3 } from "ui";
 
 export interface CongratulationsModalProps {
   openModal?: boolean;

@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import { Maybe, SkillType_Member } from "@eden/package-graphql/generated";
+import { Badge, Card } from "@eden/package-ui";
 import React, { useEffect, useState } from "react";
-import { Badge, Card } from "ui";
 
 export interface SkillsCardProps {
   skills?: Maybe<Maybe<SkillType_Member>[]>;

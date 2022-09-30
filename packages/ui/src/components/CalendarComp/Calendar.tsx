@@ -1,13 +1,14 @@
-import { useState, useRef } from "react";
+import { Button } from "@eden/package-ui";
+import { useRef, useState } from "react";
+import { MdEditCalendar } from "react-icons/md";
 import DatePicker, { DateObject } from "react-multi-date-picker";
 import TimePicker from "react-multi-date-picker/plugins/time_picker";
-import { Button } from "ui";
-import { MdEditCalendar } from "react-icons/md";
 export interface ICalendarProps {
   label?: string;
   onlyMonthPicker?: boolean;
   onlyYearPicker?: boolean;
   timePicker?: boolean;
+  // eslint-disable-next-line no-unused-vars
   onChange?: (data: DateObject) => void;
   onOpen?: () => void;
   onClose?: () => void;
@@ -34,7 +35,8 @@ export const Calendar = ({
   const datePickerRef: any = useRef();
 
   const onSelectDate = (dateValue: DateObject) => {
-    let dateAssign = dateValue?.toDate().toLocaleDateString().toString();
+    const dateAssign = dateValue?.toDate().toLocaleDateString().toString();
+
     setInputValue(dateAssign);
     if (onChange) {
       onChange(dateValue);
@@ -60,6 +62,7 @@ export const Calendar = ({
       </Button>
     );
   };
+
   return (
     <div>
       <DatePicker

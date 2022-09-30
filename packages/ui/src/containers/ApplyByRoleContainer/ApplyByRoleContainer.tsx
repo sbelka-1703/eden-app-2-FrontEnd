@@ -9,9 +9,6 @@ import {
   Mutation,
   Project,
 } from "@eden/package-graphql/generated";
-import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
-import { FaGithub, FaTelegram, FaTwitter } from "react-icons/fa";
 import {
   Button,
   ConfettiContainer,
@@ -26,7 +23,10 @@ import {
   TextHeading1,
   TextHeading2,
   TextHeading3,
-} from "ui";
+} from "@eden/package-ui";
+import { useRouter } from "next/router";
+import { useContext, useEffect, useState } from "react";
+import { FaGithub, FaTelegram, FaTwitter } from "react-icons/fa";
 
 import { timezones } from "../../../constants";
 

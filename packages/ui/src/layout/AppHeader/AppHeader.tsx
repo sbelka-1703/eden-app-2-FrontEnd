@@ -1,6 +1,6 @@
-import Link from "next/link";
 // import { useRouter } from "next/router";
-import { LoginButton } from "ui";
+import { LoginButton } from "@eden/package-ui";
+import Link from "next/link";
 
 export interface IAppHeaderProps {
   logoLink?: string;

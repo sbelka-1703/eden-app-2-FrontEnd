@@ -9,8 +9,6 @@ import {
   RoleTemplate,
   SkillType_Member,
 } from "@eden/package-graphql/generated";
-import { useContext, useEffect, useState } from "react";
-import { BsArrowRight } from "react-icons/bs";
 import {
   Button,
   Modal,
@@ -18,7 +16,9 @@ import {
   SearchSkill,
   SkillList,
   TextHeading2,
-} from "ui";
+} from "@eden/package-ui";
+import { useContext, useEffect, useState } from "react";
+import { BsArrowRight } from "react-icons/bs";
 
 const levels = [
   {

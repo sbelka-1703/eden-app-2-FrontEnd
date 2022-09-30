@@ -1,7 +1,7 @@
 import { Skills } from "@eden/package-graphql/generated";
+import { Dropdown } from "@eden/package-ui";
 import { XIcon } from "@heroicons/react/outline";
 import { useEffect, useState } from "react";
-import { Dropdown } from "ui";
 
 // const skills = [
 //   { _id: 1, name: "Skill 1" },

@@ -12,7 +12,7 @@ import {
   SkillList,
   SocialMediaComp,
   TextHeading2,
-} from "ui";
+} from "@eden/package-ui";
 
 export interface MemberMatchCardProps {
   percentage?: string;

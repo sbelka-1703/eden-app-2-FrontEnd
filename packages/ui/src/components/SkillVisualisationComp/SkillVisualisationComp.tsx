@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
 import { Maybe, SkillType_Member } from "@eden/package-graphql/generated";
+import { CheckBox, SkillList } from "@eden/package-ui";
 // import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
-import React, { useState } from "react";
-import { CheckBox, SkillList } from "ui";
+import { useState } from "react";
 
 export interface SkillVisualisationCompProps {
   skills: any[];

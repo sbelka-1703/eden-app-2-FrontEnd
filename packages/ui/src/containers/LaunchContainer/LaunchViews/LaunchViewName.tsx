@@ -1,6 +1,6 @@
 import { LaunchContext } from "@eden/package-context";
+import { TextField } from "@eden/package-ui";
 import { useContext } from "react";
-import { TextField } from "ui";
 
 export const LaunchViewName = () => {
   const { projectName, setProjectName } = useContext(LaunchContext);

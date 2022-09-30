@@ -1,5 +1,5 @@
+import { Avatar, Card, TextField } from "@eden/package-ui";
 import { useState } from "react";
-import { Card, TextField, Avatar } from "ui";
 
 export interface TopicCommentInputCard {
   src?: string;
@@ -11,6 +11,7 @@ export const TopicCommentInputCard = ({
   userName,
 }: TopicCommentInputCard) => {
   const [comment, setComment] = useState("");
+
   return (
     <Card shadow={true} className="flex items-center p-4">
       <div className="flex flex-col items-center">
@@ -19,6 +20,7 @@ export const TopicCommentInputCard = ({
       </div>
       <div className="ml-2 self-end">
         <TextField
+          value={comment}
           onChange={(e) => {
             setComment(e.target.value);
           }}

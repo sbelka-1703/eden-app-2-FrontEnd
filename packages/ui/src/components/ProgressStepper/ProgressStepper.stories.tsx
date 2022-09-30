@@ -31,6 +31,7 @@ const steps = [
     completed: false,
   },
 ];
+
 Default.args = {
   steps,
 };

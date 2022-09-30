@@ -3,7 +3,14 @@ import {
   Maybe,
   Members,
 } from "@eden/package-graphql/generated";
-import { Avatar, Badge, Button, Card, ProjectChampion, TextHeading3 } from "ui";
+import {
+  Avatar,
+  Badge,
+  Button,
+  Card,
+  ProjectChampion,
+  TextHeading3,
+} from "@eden/package-ui";
 
 export interface IProjectMatchCardProps {
   matchProject?: Maybe<MatchSkillsToProjectsOutput>;

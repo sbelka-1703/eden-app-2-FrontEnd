@@ -1,13 +1,13 @@
 /* eslint-disable camelcase */
 import { Maybe, SkillType_Member } from "@eden/package-graphql/generated";
-import React from "react";
 import {
   Card,
   SearchSkill,
   SkillVisualisationComp,
   SwitchButton,
   TextField,
-} from "ui";
+} from "@eden/package-ui";
+
 const levels = [
   {
     title: "learning",

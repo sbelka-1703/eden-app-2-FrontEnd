@@ -1,5 +1,5 @@
 const withTM = require("next-transpile-modules")([
-  "ui",
+  "@eden/package-ui",
   "@eden/package-context",
 ]);
 

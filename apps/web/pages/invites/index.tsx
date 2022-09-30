@@ -1,6 +1,6 @@
 import { UserContext } from "@eden/package-context";
+import { AppUserMenuLayout, Card, ProjectList } from "@eden/package-ui";
 import { useContext } from "react";
-import { AppUserMenuLayout, Card, ProjectList } from "ui";
 
 import type { NextPageWithLayout } from "../_app";
 
