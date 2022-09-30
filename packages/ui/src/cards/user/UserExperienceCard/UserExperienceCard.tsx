@@ -1,4 +1,4 @@
-import { PreviusProjectsInput } from "@graphql/eden/generated";
+import { PreviusProjectsInput } from "@eden/package-graphql/generated";
 import { useReducer } from "react";
 import { Button, Calendar, Card, TextArea, TextField } from "ui";
 

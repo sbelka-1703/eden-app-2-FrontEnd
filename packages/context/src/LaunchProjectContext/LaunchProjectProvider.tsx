@@ -1,4 +1,4 @@
-import { Project, RoleType } from "@graphql/eden/generated";
+import { Project, RoleType } from "@eden/package-graphql/generated";
 import React, { useReducer, useState } from "react";
 
 import { LaunchProjectContext } from "./LaunchProjectContext";
@@ -92,8 +92,9 @@ export const LaunchProjectProvider = ({
   const [openModal, setOpenModal] = useState<LaunchProjectModal | null>(null);
   const [selectedRole, setSelectedRole] = useState<RoleType | null>(null);
   const [selectedMemberId, setSelectedMemberId] = useState<string | null>(null);
-  const [selectedMemberPercentage, setSelectedMemberPercentage] =
-    useState<number | null>(null);
+  const [selectedMemberPercentage, setSelectedMemberPercentage] = useState<
+    number | null
+  >(null);
   const [matchMembersPage, setMatchMembersPage] = useState<number>(0);
 
   const injectContext = {

@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable camelcase */
+import { Maybe, SkillType_Member } from "@eden/package-graphql/generated";
+import React from "react";
 import {
-  TextField,
-  SwitchButton,
   Card,
   SearchSkill,
   SkillVisualisationComp,
+  SwitchButton,
+  TextField,
 } from "ui";
-import { Maybe, SkillType_Member } from "@graphql/eden/generated";
 const levels = [
   {
     title: "learning",

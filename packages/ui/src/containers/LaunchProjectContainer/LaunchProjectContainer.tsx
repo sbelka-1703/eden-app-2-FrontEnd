@@ -1,4 +1,4 @@
-import { LaunchProjectContext, ProjectActionKind } from "@context/eden";
+import { LaunchProjectContext, ProjectActionKind } from "@eden/package-context";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 import {

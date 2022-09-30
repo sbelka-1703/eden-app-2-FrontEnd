@@ -1,4 +1,4 @@
-// import { UserContext } from "@context/eden";
+// import { UserContext } from "@eden/package-context";
 import Head from "next/head";
 // import { useRouter } from "next/router";
 // import { useContext } from "react";

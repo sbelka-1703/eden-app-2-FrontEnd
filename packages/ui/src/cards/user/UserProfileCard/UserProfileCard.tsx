@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
-import { UserContext } from "@context/eden";
-import { Maybe, SkillType_Member } from "@graphql/eden/generated";
+import { UserContext } from "@eden/package-context";
+import { Maybe, SkillType_Member } from "@eden/package-graphql/generated";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
 import { useContext, useState } from "react";
 import { Avatar, NumberCircle, SkillList, TextLabel } from "ui";

@@ -1,4 +1,4 @@
-import { RoleTemplate } from "@graphql/eden/generated";
+import { RoleTemplate } from "@eden/package-graphql/generated";
 import { useEffect, useState } from "react";
 import { AiOutlineDoubleLeft, AiOutlineDoubleRight } from "react-icons/ai";
 

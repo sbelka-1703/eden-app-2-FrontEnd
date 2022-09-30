@@ -1,4 +1,4 @@
-import { SignUpContext, UserContext } from "@context/eden";
+import { SignUpContext, UserContext } from "@eden/package-context";
 import { useContext } from "react";
 import { Avatar, TextArea } from "ui";
 

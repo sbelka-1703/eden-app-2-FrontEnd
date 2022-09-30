@@ -1,4 +1,4 @@
-import { LaunchProvider } from "@context/eden";
+import { LaunchProvider } from "@eden/package-context";
 import {
   AppUserLayout,
   Card,

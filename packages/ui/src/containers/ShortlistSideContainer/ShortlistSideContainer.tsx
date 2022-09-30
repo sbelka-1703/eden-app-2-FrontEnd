@@ -1,4 +1,7 @@
-import { LaunchProjectContext, LaunchProjectModal } from "@context/eden";
+import {
+  LaunchProjectContext,
+  LaunchProjectModal,
+} from "@eden/package-context";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import { useContext } from "react";
 import { CandidateProfileCard, Loading, ProjectLayoutCard } from "ui";

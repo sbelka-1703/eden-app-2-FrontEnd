@@ -1,7 +1,11 @@
 /* eslint-disable camelcase */
 import { useQuery } from "@apollo/client";
-import { FIND_ROLE_TEMPLATES } from "@graphql/eden";
-import { Maybe, Members, SkillType_Member } from "@graphql/eden/generated";
+import { FIND_ROLE_TEMPLATES } from "@eden/package-graphql";
+import {
+  Maybe,
+  Members,
+  SkillType_Member,
+} from "@eden/package-graphql/generated";
 import {
   Avatar,
   Card,

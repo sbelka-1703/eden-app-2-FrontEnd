@@ -1,5 +1,5 @@
 import { ApolloProvider } from "@apollo/client";
-import { apolloClient } from "@graphql/eden";
+import { apolloClient } from "@eden/package-graphql";
 import { render, RenderOptions } from "@testing-library/react";
 import React, { FC, ReactElement } from "react";
 

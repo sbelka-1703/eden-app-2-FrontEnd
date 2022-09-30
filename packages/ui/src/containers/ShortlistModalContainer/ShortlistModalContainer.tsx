@@ -2,14 +2,14 @@ import {
   LaunchProjectContext,
   LaunchProjectModal,
   ProjectActionKind,
-} from "@context/eden";
+} from "@eden/package-context";
 import {
   Maybe,
   RoleTemplate,
   RoleType,
   SkillRoleType,
   Skills,
-} from "@graphql/eden/generated";
+} from "@eden/package-graphql/generated";
 import { useContext } from "react";
 import {
   CongratulationsModal,

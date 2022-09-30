@@ -2,7 +2,7 @@ import {
   MatchSkillsToProjectsOutput,
   Maybe,
   Members,
-} from "@graphql/eden/generated";
+} from "@eden/package-graphql/generated";
 import { Avatar, Badge, Button, Card, ProjectChampion, TextHeading3 } from "ui";
 
 export interface IProjectMatchCardProps {

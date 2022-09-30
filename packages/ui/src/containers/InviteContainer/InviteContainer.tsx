@@ -1,6 +1,6 @@
 import { gql, useMutation } from "@apollo/client";
-import { UserContext } from "@context/eden";
-import { Project } from "@graphql/eden/generated";
+import { UserContext } from "@eden/package-context";
+import { Project } from "@eden/package-graphql/generated";
 // import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";

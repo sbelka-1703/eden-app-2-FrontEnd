@@ -1,4 +1,4 @@
-import { UserContext } from "@context/eden";
+import { UserContext } from "@eden/package-context";
 import React, { useContext, useState } from "react";
 
 import { SignUpContext } from "./SignUpContext";

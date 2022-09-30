@@ -4,7 +4,7 @@ import {
   Members,
   SkillRoleType,
   SkillType_Member,
-} from "@graphql/eden/generated";
+} from "@eden/package-graphql/generated";
 import {
   Button,
   Card,

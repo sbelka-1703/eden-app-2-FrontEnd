@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
+    "@eden/package-config": "*",
     "@storybook/addon-a11y": "^6.5.12",
     "@storybook/addon-actions": "^6.5.12",
     "@storybook/addon-essentials": "^6.5.12",
@@ -26,7 +27,6 @@
     "@storybook/react": "^6.5.12",
     "autoprefixer": "^10.4.12",
     "babel-loader": "^8.2.5",
-    "config": "*",
     "postcss": "^8.4.16",
     "postcss-loader": "^7.0.1",
     "storybook-addon-apollo-client": "^4.0.12",

@@ -1,6 +1,6 @@
 import { gql, useMutation } from "@apollo/client";
-import { SignUpContext, UserContext } from "@context/eden";
-import { Mutation } from "@graphql/eden/generated";
+import { SignUpContext, UserContext } from "@eden/package-context";
+import { Mutation } from "@eden/package-graphql/generated";
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";

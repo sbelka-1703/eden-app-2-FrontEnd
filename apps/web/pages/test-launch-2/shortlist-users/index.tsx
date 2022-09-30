@@ -3,7 +3,7 @@ import {
   LaunchProjectModal,
   LaunchProjectProvider,
   ProjectActionKind,
-} from "@context/eden";
+} from "@eden/package-context";
 import {
   AppUserLayout,
   Button,
@@ -131,8 +131,8 @@ LaunchPage.getLayout = (page) => (
 export default LaunchPage;
 
 import { useQuery } from "@apollo/client";
-import { MATCH_MEMBERS_TO_SKILLS } from "@graphql/eden";
-import { Maybe, Members, TeamType } from "@graphql/eden/generated";
+import { MATCH_MEMBERS_TO_SKILLS } from "@eden/package-graphql";
+import { Maybe, Members, TeamType } from "@eden/package-graphql/generated";
 import { IncomingMessage, ServerResponse } from "http";
 import { getSession } from "next-auth/react";
 import { useContext, useEffect } from "react";

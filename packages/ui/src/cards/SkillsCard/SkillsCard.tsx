@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { Maybe, SkillType_Member } from "@graphql/eden/generated";
+import { Maybe, SkillType_Member } from "@eden/package-graphql/generated";
 import React, { useEffect, useState } from "react";
 import { Badge, Card } from "ui";
 

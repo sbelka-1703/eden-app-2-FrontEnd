@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
-import { LaunchContext } from "@context/eden";
-import { ServerTemplate } from "@graphql/eden/generated";
+import { LaunchContext } from "@eden/package-context";
+import { ServerTemplate } from "@eden/package-graphql/generated";
 import { useContext } from "react";
 import {
   FaDiscord,

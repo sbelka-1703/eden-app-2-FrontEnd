@@ -1,17 +1,17 @@
 /* eslint-disable camelcase */
 import { useMutation, useQuery } from "@apollo/client";
-import { UserContext } from "@context/eden";
+import { UserContext } from "@eden/package-context";
 import {
   FIND_SKILL_CATEGORIES,
   UPDATE_SKILL_CATEGORY,
   UPDATE_SKILL_SUB_CATEGORY,
-} from "@graphql/eden";
+} from "@eden/package-graphql";
 import {
   Maybe,
   SkillCategory,
   SkillSubCategory,
   SkillType_Member,
-} from "@graphql/eden/generated";
+} from "@eden/package-graphql/generated";
 import { Combobox } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import { useContext, useState } from "react";

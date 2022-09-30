@@ -4,7 +4,7 @@ import {
   FIND_PROJECT,
   FIND_ROLE_TEMPLATES,
   MATCH_MEMBERS_TO_SKILLS,
-} from "@graphql/eden";
+} from "@eden/package-graphql";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import {

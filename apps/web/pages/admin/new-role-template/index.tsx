@@ -1,8 +1,15 @@
 /* eslint-disable camelcase */
 import { useMutation, useQuery } from "@apollo/client";
-import { UserContext } from "@context/eden";
-import { FIND_ROLE_TEMPLATES, UPDATE_ROLE_TEMPLATE } from "@graphql/eden";
-import { Maybe, RoleTemplate, SkillType_Member } from "@graphql/eden/generated";
+import { UserContext } from "@eden/package-context";
+import {
+  FIND_ROLE_TEMPLATES,
+  UPDATE_ROLE_TEMPLATE,
+} from "@eden/package-graphql";
+import {
+  Maybe,
+  RoleTemplate,
+  SkillType_Member,
+} from "@eden/package-graphql/generated";
 import { Combobox } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import { useContext, useState } from "react";

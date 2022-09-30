@@ -1,4 +1,4 @@
-import { SignUpProvider } from "@context/eden";
+import { SignUpProvider } from "@eden/package-context";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { CurrentUserDecorator } from "storybook/.storybook/decorator";
 

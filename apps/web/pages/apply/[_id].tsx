@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import { FIND_PROJECT } from "@graphql/eden";
+import { FIND_PROJECT } from "@eden/package-graphql";
 import { useRouter } from "next/router";
 import {
   ApplyContainer,

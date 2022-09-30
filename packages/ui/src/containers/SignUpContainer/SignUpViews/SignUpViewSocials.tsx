@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import { SignUpContext } from "@context/eden";
+import { SignUpContext } from "@eden/package-context";
 import { useContext } from "react";
 import {
   // FaDiscord,

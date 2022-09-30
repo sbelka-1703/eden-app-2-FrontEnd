@@ -3,7 +3,7 @@ import {
   Maybe,
   SkillRoleType,
   SkillType_Member,
-} from "@graphql/eden/generated";
+} from "@eden/package-graphql/generated";
 import { Button, Modal, SearchSkill, SkillList } from "ui";
 
 export interface ISkillsModalProps {

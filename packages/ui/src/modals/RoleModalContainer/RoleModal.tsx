@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
-import { FIND_ROLE_TEMPLATES } from "@graphql/eden";
-import { Maybe, RoleTemplate } from "@graphql/eden/generated";
+import { FIND_ROLE_TEMPLATES } from "@eden/package-graphql";
+import { Maybe, RoleTemplate } from "@eden/package-graphql/generated";
 import { useState } from "react";
 import { Button, Modal, RoleSelector } from "ui";
 
@@ -20,8 +20,9 @@ export const RoleModal = ({
   onSubmit,
   onRoleSelected,
 }: RoleModalProps) => {
-  const [selectedRole, setSelectedRole] =
-    useState<Maybe<RoleTemplate> | null>(null);
+  const [selectedRole, setSelectedRole] = useState<Maybe<RoleTemplate> | null>(
+    null
+  );
 
   const { data: roles } = useQuery(FIND_ROLE_TEMPLATES, {
     variables: {

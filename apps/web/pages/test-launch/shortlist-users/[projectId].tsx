@@ -1,4 +1,4 @@
-import { LaunchProvider } from "@context/eden";
+import { LaunchProvider } from "@eden/package-context";
 import {
   AppUserLayout,
   Button,
@@ -429,7 +429,7 @@ import {
   FIND_ROLE_TEMPLATES,
   MATCH_MEMBERS_TO_SKILLS,
   UPDATE_PROJECT,
-} from "@graphql/eden";
+} from "@eden/package-graphql";
 import {
   InputMaybe,
   Maybe,
@@ -443,7 +443,7 @@ import {
   SkillRoleType,
   TeamInput,
   TeamType,
-} from "@graphql/eden/generated";
+} from "@eden/package-graphql/generated";
 import { IncomingMessage, ServerResponse } from "http";
 import { useRouter } from "next/router";
 import { getSession } from "next-auth/react";
