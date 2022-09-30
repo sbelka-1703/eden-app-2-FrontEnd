@@ -9,6 +9,7 @@ export type TextFieldProps = {
   radius?: "default" | "rounded" | "pill" | "pill-shadow";
   // eslint-disable-next-line no-unused-vars
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder?: string;
 } & InputHTMLAttributes<HTMLInputElement>;
 
 export const TextField: React.FC<TextFieldProps> = ({
