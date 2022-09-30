@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  ProgressStep,
-  ProgressStepper,
-} from "../../components/ProgressStepper";
-import {
   TextField,
   SwitchButton,
   Card,

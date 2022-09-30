@@ -1,9 +1,8 @@
 import { faker } from "@faker-js/faker";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { getSkills } from "../../../../../apps/storybook/mocks";
+import { getSkills } from "storybook/mocks";
 import { ProjectSkillFilterCard } from "./ProjectSkillFilterCard";
-import { MockedProvider } from "@apollo/client/testing";
-import { FIND_ALL_CATEGORIES } from "@graphql/eden";
+
 export default {
   title: "Cards/Project/ProjectSkillFilterCard",
   component: ProjectSkillFilterCard,
