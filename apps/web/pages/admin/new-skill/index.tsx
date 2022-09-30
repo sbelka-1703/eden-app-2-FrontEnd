@@ -6,7 +6,7 @@ import {
   FIND_SKILL,
   FIND_SKILL_CATEGORIES,
   RELATED_SKILLS,
-} from "@eden/package-graphql//eden";
+} from "@eden/package-graphql/eden";
 import {
   Maybe,
   RoleTemplate,
@@ -15,11 +15,6 @@ import {
   SkillSubCategory,
   SkillType_Member,
 } from "@eden/package-graphql/generated";
-import { Combobox } from "@headlessui/react";
-import { ChevronDownIcon } from "@heroicons/react/solid";
-import _ from "lodash";
-import Head from "next/head";
-import { useContext, useEffect, useState } from "react";
 import {
   AppHeader,
   Button,
@@ -32,7 +27,12 @@ import {
   SearchSkill,
   SkillList,
   TextBody,
-} from "ui";
+} from "@eden/package-ui";
+import { Combobox } from "@headlessui/react";
+import { ChevronDownIcon } from "@heroicons/react/solid";
+import _ from "lodash";
+import Head from "next/head";
+import { useContext, useEffect, useState } from "react";
 
 import type { NextPageWithLayout } from "../../_app";
 
