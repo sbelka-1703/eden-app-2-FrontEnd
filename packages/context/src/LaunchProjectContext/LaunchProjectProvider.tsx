@@ -20,6 +20,8 @@ export enum ProjectActionKind {
   REMOVE_SHORTLIST_MEMBER = "REMOVE_SHORTLIST_MEMBER",
   // eslint-disable-next-line no-unused-vars
   SET_EXTRA_DATA = "SET_EXTRA_DATA",
+  // eslint-disable-next-line no-unused-vars
+  SET_ROLES = "SET_ROLES",
 }
 
 export interface ProjectAction {
@@ -36,6 +38,8 @@ export enum LaunchProjectModal {
   ROLE_DETAIL = "role detail",
   // eslint-disable-next-line no-unused-vars
   SHORTLISTED_PREVIEW = "shortlisted preview",
+  // eslint-disable-next-line no-unused-vars
+  ROLE_DESCRIPTION = "role description",
   // eslint-disable-next-line no-unused-vars
   PROJECT_INFO = "project info",
   // eslint-disable-next-line no-unused-vars
@@ -98,6 +102,12 @@ function projectReducer(project: Project, action: ProjectAction): Project {
         ...project,
         description: action.payload.description,
         collaborationLinks: links,
+      };
+
+    case ProjectActionKind.SET_ROLES:
+      return {
+        ...project,
+        role: action.payload,
       };
     default:
       throw new Error();

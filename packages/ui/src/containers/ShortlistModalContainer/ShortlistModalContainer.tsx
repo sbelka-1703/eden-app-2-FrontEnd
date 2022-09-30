@@ -13,6 +13,7 @@ import {
 import { useContext } from "react";
 import {
   CongratulationsModal,
+  RoleDescriptionModal,
   RoleModal,
   ShortlistMemberModal,
   SkillsModal,
@@ -84,6 +85,19 @@ export const ShortlistModalContainer = ({}: IShortlistModalContainerProps) => {
           roles={project?.role || []}
           members={project?.team!}
           onClickNext={() => {
+            setOpenModal(LaunchProjectModal.ROLE_DESCRIPTION);
+          }}
+        />
+      )}
+      {openModal === LaunchProjectModal.ROLE_DESCRIPTION && (
+        <RoleDescriptionModal
+          isModalOpen={openModal === LaunchProjectModal.ROLE_DESCRIPTION}
+          roles={project?.role || []}
+          handleSubmit={function (val: any): void {
+            dispatchProject!({
+              type: ProjectActionKind.SET_ROLES,
+              payload: val,
+            });
             setOpenModal(LaunchProjectModal.PROJECT_INFO);
           }}
         />
