@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
 import { Maybe, SkillType_Member } from "@eden/package-graphql/generated";
+import { Badge } from "@eden/package-ui";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
-import React, { useState } from "react";
-import { Badge } from "ui";
+import { useState } from "react";
 
 export interface SkillListProps {
   skills: Maybe<SkillType_Member>[] | undefined;

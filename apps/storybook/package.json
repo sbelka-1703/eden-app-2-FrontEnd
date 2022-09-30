@@ -11,7 +11,7 @@
     "clean-windows": "rd /s /q node_modules"
   },
   "dependencies": {
-    "ui": "*"
+    "@eden/package-ui": "*"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",

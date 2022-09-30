@@ -1,5 +1,5 @@
 import { Project } from "@eden/package-graphql/generated";
-import { UserCard } from "ui";
+import { UserCard } from "@eden/package-ui";
 
 export interface ShortlistListProps {
   project?: Project;

@@ -10,13 +10,13 @@ import {
   SkillRoleType,
   Skills,
 } from "@eden/package-graphql/generated";
-import { useContext } from "react";
 import {
   CongratulationsModal,
   ProjectInfoModal,
   RoleModal,
   SkillsModal,
-} from "ui";
+} from "@eden/package-ui";
+import { useContext } from "react";
 
 export interface IShortlistModalContainerProps {}
 

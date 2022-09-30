@@ -1,5 +1,4 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import React from "react";
 import { getProject } from "storybook/mocks";
 
 import { ApplyByRoleContainer } from "./";

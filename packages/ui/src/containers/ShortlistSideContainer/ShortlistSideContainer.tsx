@@ -2,9 +2,13 @@ import {
   LaunchProjectContext,
   LaunchProjectModal,
 } from "@eden/package-context";
+import {
+  CandidateProfileCard,
+  Loading,
+  ProjectLayoutCard,
+} from "@eden/package-ui";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import { useContext } from "react";
-import { CandidateProfileCard, Loading, ProjectLayoutCard } from "ui";
 
 export interface IShortlistSideContainerProps {
   matchingMembers: any[];

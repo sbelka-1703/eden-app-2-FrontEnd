@@ -4,7 +4,7 @@ import {
   SkillRoleType,
   SkillType_Member,
 } from "@eden/package-graphql/generated";
-import { Button, Modal, SearchSkill, SkillList } from "ui";
+import { Button, Modal, SearchSkill, SkillList } from "@eden/package-ui";
 
 export interface ISkillsModalProps {
   isOpen: boolean;

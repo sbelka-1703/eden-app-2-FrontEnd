@@ -10,9 +10,6 @@ import {
   RoleTemplate,
   SkillType_Member,
 } from "@eden/package-graphql/generated";
-import { Combobox } from "@headlessui/react";
-import { ChevronDownIcon } from "@heroicons/react/solid";
-import { useContext, useState } from "react";
 import {
   AppPublicLayout,
   Button,
@@ -20,7 +17,10 @@ import {
   GridLayout,
   SearchSkill,
   SkillList,
-} from "ui";
+} from "@eden/package-ui";
+import { Combobox } from "@headlessui/react";
+import { ChevronDownIcon } from "@heroicons/react/solid";
+import { useContext, useState } from "react";
 
 import type { NextPageWithLayout } from "../../_app";
 

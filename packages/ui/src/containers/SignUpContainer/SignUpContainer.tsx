@@ -1,9 +1,6 @@
 import { gql, useMutation } from "@apollo/client";
 import { SignUpContext, UserContext } from "@eden/package-context";
 import { Mutation } from "@eden/package-graphql/generated";
-import { useRouter } from "next/router";
-import { useContext, useState } from "react";
-import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import {
   Button,
   Card,
@@ -16,7 +13,10 @@ import {
   SignUpViewSocials,
   SignUpViewSuccess,
   SignUpViewXP,
-} from "ui";
+} from "@eden/package-ui";
+import { useRouter } from "next/router";
+import { useContext, useState } from "react";
+import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 
 const UPDATE_MEMBER = gql`
   mutation ($fields: updateMemberInput!) {

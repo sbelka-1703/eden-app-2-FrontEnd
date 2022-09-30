@@ -6,9 +6,6 @@ import {
   Role,
   ServerTemplate,
 } from "@eden/package-graphql/generated";
-import { useRouter } from "next/router";
-import { useContext, useState } from "react";
-import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import {
   Button,
   Card,
@@ -22,7 +19,10 @@ import {
   LaunchViewSuccess,
   LaunchViewVerify,
   Loading,
-} from "ui";
+} from "@eden/package-ui";
+import { useRouter } from "next/router";
+import { useContext, useState } from "react";
+import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 
 const LAUNCH_PROJECT = gql`
   mutation ($fields: updateProjectInput!) {

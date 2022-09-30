@@ -6,9 +6,9 @@ import {
   Skills,
   SkillType_Member,
 } from "@eden/package-graphql/generated";
+import { Button } from "@eden/package-ui";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 import { useState } from "react";
-import { Button } from "ui";
 
 type LevelProp = {
   title: string;

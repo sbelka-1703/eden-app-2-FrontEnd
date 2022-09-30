@@ -12,7 +12,7 @@ import {
   SkillList,
   TextHeading3,
   TextLabel,
-} from "ui";
+} from "@eden/package-ui";
 
 import { getUserProgress } from "../../../../utils/user-progress";
 

@@ -1,9 +1,6 @@
 import { useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
 import { FIND_PROJECTS_RECOMMENDED } from "@eden/package-graphql";
-import Head from "next/head";
-// import { useRouter } from "next/router";
-import { useContext } from "react";
 import {
   AppHeader,
   GridItemNine,
@@ -12,7 +9,10 @@ import {
   GridLayout,
   RecommendedList,
   UserProfileMenu,
-} from "ui";
+} from "@eden/package-ui";
+import Head from "next/head";
+// import { useRouter } from "next/router";
+import { useContext } from "react";
 
 export interface IAppUserMenuLayoutProps {
   children: React.ReactNode;

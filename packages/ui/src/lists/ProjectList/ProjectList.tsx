@@ -3,7 +3,7 @@ import {
   Project,
   ProjectMemberType,
 } from "@eden/package-graphql/generated";
-import { ProjectCard } from "ui";
+import { ProjectCard } from "@eden/package-ui";
 
 export interface ProjectListProps {
   projects?: Project[] | Maybe<ProjectMemberType>[];

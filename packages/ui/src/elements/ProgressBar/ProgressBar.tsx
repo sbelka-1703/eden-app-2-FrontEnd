@@ -9,9 +9,11 @@ export const ProgressBar = ({
   currentDayCount = 50,
 }: ProgressBarProps) => {
   const [progressBarWidthFraction, setProgressBarWidthFraction] = useState(0);
+
   useEffect(() => {
     if (totalDays != 0 && currentDayCount != 0) {
       const reminderProgress = (currentDayCount / totalDays) * 100;
+
       setProgressBarWidthFraction(reminderProgress);
     }
   }, [totalDays, currentDayCount]);

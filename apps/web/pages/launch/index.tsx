@@ -6,7 +6,7 @@ import {
   GridItemThree,
   GridLayout,
   LaunchContainer,
-} from "ui";
+} from "@eden/package-ui";
 
 import type { NextPageWithLayout } from "../_app";
 

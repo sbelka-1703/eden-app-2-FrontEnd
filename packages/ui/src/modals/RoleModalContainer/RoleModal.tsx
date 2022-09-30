@@ -1,8 +1,8 @@
 import { useQuery } from "@apollo/client";
 import { FIND_ROLE_TEMPLATES } from "@eden/package-graphql";
 import { Maybe, RoleTemplate } from "@eden/package-graphql/generated";
+import { Button, Modal, RoleSelector } from "@eden/package-ui";
 import { useState } from "react";
-import { Button, Modal, RoleSelector } from "ui";
 
 export interface RoleModalProps {
   roles?: Maybe<Array<Maybe<RoleTemplate>>>;

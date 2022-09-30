@@ -1,11 +1,8 @@
 // TODO: needs a test file
-/* eslint-disable camelcase */
-
-import { useContext, useEffect, useState } from "react";
-import { SiNotion } from "react-icons/si";
-import { Button, Modal, TextField, TextArea } from "ui";
+import { Button, Modal, TextArea, TextField } from "@eden/package-ui";
 import { AiFillGithub } from "react-icons/ai";
 import { FaDiscord } from "react-icons/fa";
+import { SiNotion } from "react-icons/si";
 
 export interface ISocialMediaModelProps {
   onSubmit?: () => void;
@@ -13,7 +10,7 @@ export interface ISocialMediaModelProps {
 }
 
 export const SocialMediaModel = ({
-  onSubmit,
+  // onSubmit,
   showModal,
 }: ISocialMediaModelProps) => {
   return (
@@ -22,7 +19,7 @@ export const SocialMediaModel = ({
         <div className="flex flex-col ">
           <div className="flex content-center	items-center justify-center justify-items-center">
             <span className="text-base font-semibold tracking-wide">
-              Let's finish up your project profile before we launch it!
+              Let'sfinish up your project profile before we launch it!
             </span>
           </div>
           <div className="mt-5 flex flex-row content-end justify-between justify-items-stretch">

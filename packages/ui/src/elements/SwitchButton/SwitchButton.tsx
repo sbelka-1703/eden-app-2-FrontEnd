@@ -2,6 +2,7 @@ import "./styles.css";
 export interface SwitchButtonProps {
   name?: string;
   label?: string;
+  // eslint-disable-next-line no-unused-vars
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 

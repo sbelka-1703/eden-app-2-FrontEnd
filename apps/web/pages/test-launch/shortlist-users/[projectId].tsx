@@ -16,7 +16,7 @@ import {
   SkillsModal,
   TextHeading3,
   TextLabel,
-} from "ui";
+} from "@eden/package-ui";
 
 import type { NextPageWithLayout } from "../../_app";
 

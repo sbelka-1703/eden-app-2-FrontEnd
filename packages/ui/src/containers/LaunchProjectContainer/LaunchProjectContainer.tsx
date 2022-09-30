@@ -1,6 +1,4 @@
 import { LaunchProjectContext, ProjectActionKind } from "@eden/package-context";
-import { useRouter } from "next/router";
-import { useContext } from "react";
 import {
   Button,
   Card,
@@ -9,7 +7,9 @@ import {
   TextBody,
   TextField,
   TextHeading3,
-} from "ui";
+} from "@eden/package-ui";
+import { useRouter } from "next/router";
+import { useContext } from "react";
 
 export interface ILaunchProjectContainerProps {}
 

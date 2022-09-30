@@ -1,4 +1,4 @@
-import { Card, TextBody, TextHeading2 } from "ui";
+import { Card, TextBody, TextHeading2 } from "@eden/package-ui";
 
 // export interface TopicCardProps {
 

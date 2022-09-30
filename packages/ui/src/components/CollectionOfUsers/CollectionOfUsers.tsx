@@ -1,6 +1,6 @@
 import "./styles.css";
 
-import { UserWithDescription } from "../UserWithDescription";
+import { UserWithDescription } from "@eden/package-ui";
 
 export interface ICollectionOfUsers {
   title?: string;

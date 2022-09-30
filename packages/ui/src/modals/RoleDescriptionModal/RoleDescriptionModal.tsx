@@ -1,5 +1,12 @@
-import React, { useState } from "react";
-import { Avatar, Button, Dropdown, Modal, TextArea, TextHeading3 } from "ui";
+import {
+  Avatar,
+  Button,
+  Dropdown,
+  Modal,
+  TextArea,
+  TextHeading3,
+} from "@eden/package-ui";
+import { useState } from "react";
 
 export interface RoleDescriptionModalInterface {
   isModalOpen: boolean;

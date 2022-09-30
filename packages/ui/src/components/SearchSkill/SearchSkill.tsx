@@ -7,11 +7,11 @@ import {
 } from "@eden/package-graphql";
 // eslint-disable-next-line camelcase
 import { Maybe, SkillType_Member } from "@eden/package-graphql/generated";
+import { Expandable, Loading } from "@eden/package-ui";
 import { Combobox } from "@headlessui/react";
 import { EmojiSadIcon } from "@heroicons/react/outline";
 import { SearchIcon } from "@heroicons/react/solid";
 import { useEffect, useMemo, useState } from "react";
-import { Expandable, Loading } from "ui";
 
 type LevelProp = {
   title: string;

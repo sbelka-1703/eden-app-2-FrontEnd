@@ -1,8 +1,8 @@
 import { UserContext } from "@eden/package-context";
+import { Avatar, MenuItem } from "@eden/package-ui";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 import { MdCreateNewFolder, MdFactCheck, MdPeopleAlt } from "react-icons/md";
-import { Avatar, MenuItem } from "ui";
 
 export interface IUserProfileMenuProps {
   title?: string;

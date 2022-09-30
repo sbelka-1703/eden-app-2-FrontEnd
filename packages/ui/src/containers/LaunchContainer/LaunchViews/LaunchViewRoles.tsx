@@ -6,8 +6,15 @@ import {
   RoleType,
   SkillType_Member,
 } from "@eden/package-graphql/generated";
+import {
+  Button,
+  Card,
+  Dropdown,
+  Modal,
+  SearchSkill,
+  SkillsCard,
+} from "@eden/package-ui";
 import { useContext, useState } from "react";
-import { Button, Card, Dropdown, Modal, SearchSkill, SkillsCard } from "ui";
 
 const levels = [
   {

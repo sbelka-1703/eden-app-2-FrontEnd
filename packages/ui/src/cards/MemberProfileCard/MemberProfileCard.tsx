@@ -1,6 +1,4 @@
 import { Members } from "@eden/package-graphql/generated";
-import { ChevronLeftIcon } from "@heroicons/react/outline";
-import { CheckCircleIcon } from "@heroicons/react/solid";
 import {
   AvailabilityComp,
   Avatar,
@@ -8,7 +6,9 @@ import {
   Card,
   SkillList,
   SocialMediaComp,
-} from "ui";
+} from "@eden/package-ui";
+import { ChevronLeftIcon } from "@heroicons/react/outline";
+import { CheckCircleIcon } from "@heroicons/react/solid";
 
 export interface MemberProfileCardProps {
   member: Members;

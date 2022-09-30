@@ -1,9 +1,9 @@
 /* eslint-disable camelcase */
 import { UserContext } from "@eden/package-context";
 import { Maybe, SkillType_Member } from "@eden/package-graphql/generated";
+import { Avatar, NumberCircle, SkillList, TextLabel } from "@eden/package-ui";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
 import { useContext, useState } from "react";
-import { Avatar, NumberCircle, SkillList, TextLabel } from "ui";
 
 export interface IUserProfileCardProps {}
 
