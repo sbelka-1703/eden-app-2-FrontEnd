@@ -1,4 +1,4 @@
-import { Members } from "@graphql/eden/generated";
+import { Members } from "@eden/package-graphql/generated";
 import { Card, TextHeading3, UserCardOnboardParty } from "ui";
 
 import { getUserProgress } from "../../../utils/user-progress";

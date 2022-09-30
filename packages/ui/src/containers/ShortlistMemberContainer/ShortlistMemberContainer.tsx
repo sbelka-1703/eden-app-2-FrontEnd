@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
-import { LaunchProjectContext, ProjectActionKind } from "@context/eden";
-import { FIND_MEMBER } from "@graphql/eden";
+import { LaunchProjectContext, ProjectActionKind } from "@eden/package-context";
+import { FIND_MEMBER } from "@eden/package-graphql";
 import { useContext } from "react";
 import { Loading, MemberProfileCard } from "ui";
 

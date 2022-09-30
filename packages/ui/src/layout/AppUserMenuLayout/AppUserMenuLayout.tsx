@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
-import { UserContext } from "@context/eden";
-import { FIND_PROJECTS_RECOMMENDED } from "@graphql/eden";
+import { UserContext } from "@eden/package-context";
+import { FIND_PROJECTS_RECOMMENDED } from "@eden/package-graphql";
 import Head from "next/head";
 // import { useRouter } from "next/router";
 import { useContext } from "react";

@@ -1,4 +1,4 @@
-import { Maybe, RoleType } from "@graphql/eden/generated";
+import { Maybe, RoleType } from "@eden/package-graphql/generated";
 import { createContext, Dispatch } from "react";
 
 export interface LaunchContextType {

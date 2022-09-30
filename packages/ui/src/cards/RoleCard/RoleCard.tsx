@@ -1,4 +1,4 @@
-import { Maybe, RoleType } from "@graphql/eden/generated";
+import { Maybe, RoleType } from "@eden/package-graphql/generated";
 import { BsDot } from "react-icons/bs";
 import { MdArrowForward } from "react-icons/md";
 import { Badge, Card } from "ui";

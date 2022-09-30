@@ -1,4 +1,4 @@
-import { Members } from "@graphql/eden/generated";
+import { Members } from "@eden/package-graphql/generated";
 import { ChevronLeftIcon } from "@heroicons/react/outline";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 import {

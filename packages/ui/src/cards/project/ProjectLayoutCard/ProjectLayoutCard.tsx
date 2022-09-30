@@ -1,4 +1,4 @@
-import { Maybe, Project, RoleType } from "@graphql/eden/generated";
+import { Maybe, Project, RoleType } from "@eden/package-graphql/generated";
 import { Card, EmojiSelector, RoleList, TextBody, TextHeading3 } from "ui";
 
 export interface ProjectLayoutCardProps {

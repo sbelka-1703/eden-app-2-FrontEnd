@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
-import { UserContext } from "@context/eden";
-import { FIND_PROJECT } from "@graphql/eden";
+import { UserContext } from "@eden/package-context";
+import { FIND_PROJECT } from "@eden/package-graphql";
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
 import {

@@ -1,11 +1,11 @@
 /* eslint-disable camelcase */
-import { LaunchContext } from "@context/eden";
+import { LaunchContext } from "@eden/package-context";
 import {
   Maybe,
   Role,
   RoleType,
   SkillType_Member,
-} from "@graphql/eden/generated";
+} from "@eden/package-graphql/generated";
 import { useContext, useState } from "react";
 import { Button, Card, Dropdown, Modal, SearchSkill, SkillsCard } from "ui";
 

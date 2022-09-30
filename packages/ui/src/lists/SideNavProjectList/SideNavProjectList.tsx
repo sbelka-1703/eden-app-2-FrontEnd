@@ -1,4 +1,4 @@
-import { Maybe, ProjectMemberType } from "@graphql/eden/generated";
+import { Maybe, ProjectMemberType } from "@eden/package-graphql/generated";
 import { useEffect, useState } from "react";
 import { ProjectCardSmall } from "ui";
 

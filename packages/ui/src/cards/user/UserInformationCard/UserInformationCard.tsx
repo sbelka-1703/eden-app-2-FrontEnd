@@ -1,4 +1,4 @@
-import { Maybe, PreviusProjectsType } from "@graphql/eden/generated";
+import { Maybe, PreviusProjectsType } from "@eden/package-graphql/generated";
 import { useState } from "react";
 import { FiEdit3 } from "react-icons/fi";
 import { IoIosExpand } from "react-icons/io";

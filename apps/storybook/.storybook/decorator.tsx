@@ -1,11 +1,11 @@
 import { Story } from "@storybook/react";
-import { UserContext } from "@context/eden";
+import { UserContext } from "@eden/package-context";
 import { SessionProvider } from "next-auth/react";
 
 import { ApolloProvider } from "@apollo/client";
-import { apolloClient } from "@graphql/eden";
+import { apolloClient } from "@eden/package-graphql";
 import { getMember } from "../mocks";
-import { Members } from "@graphql/eden/generated";
+import { Members } from "@eden/package-graphql/generated";
 
 /**
  * A storybook decorator which wraps components in a mock apollo context.

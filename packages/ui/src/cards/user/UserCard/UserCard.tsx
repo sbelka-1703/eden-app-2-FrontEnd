@@ -1,5 +1,5 @@
 import { gql, useMutation } from "@apollo/client";
-import { Maybe, Members } from "@graphql/eden/generated";
+import { Maybe, Members } from "@eden/package-graphql/generated";
 import { useState } from "react";
 import { Avatar, Badge, Button, Card } from "ui";
 

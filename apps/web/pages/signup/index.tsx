@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import { gql, useQuery } from "@apollo/client";
-import { UserContext } from "@context/eden";
-import { FIND_PROJECT } from "@graphql/eden";
+import { UserContext } from "@eden/package-context";
+import { FIND_PROJECT } from "@eden/package-graphql";
 import Head from "next/head";
 import { useContext, useState } from "react";
 import {

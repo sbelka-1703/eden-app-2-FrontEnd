@@ -1,5 +1,5 @@
+import { Maybe, ProjectMemberType } from "@eden/package-graphql/generated";
 import { faker } from "@faker-js/faker";
-import { Maybe, ProjectMemberType } from "@graphql/eden/generated";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { getProject } from "storybook/mocks";
 

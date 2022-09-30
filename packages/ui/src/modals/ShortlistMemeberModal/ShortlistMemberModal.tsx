@@ -1,4 +1,4 @@
-import { Maybe, RoleType } from "@graphql/eden/generated";
+import { Maybe, RoleType } from "@eden/package-graphql/generated";
 import React from "react";
 import { Button, CandidateProfileCard, Modal, TextHeading2 } from "ui";
 

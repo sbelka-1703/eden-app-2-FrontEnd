@@ -1,4 +1,4 @@
-import { Project } from "@graphql/eden/generated";
+import { Project } from "@eden/package-graphql/generated";
 import { useState } from "react";
 import { BsArrowRight } from "react-icons/bs";
 import {

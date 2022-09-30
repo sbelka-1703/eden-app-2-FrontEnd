@@ -3,7 +3,7 @@ import {
   MatchMembersToSkillOutput,
   Maybe,
   RoleTemplate,
-} from "@graphql/eden/generated";
+} from "@eden/package-graphql/generated";
 import { useEffect, useState } from "react";
 import { RoleCandidateSelector, UserCard } from "ui";
 

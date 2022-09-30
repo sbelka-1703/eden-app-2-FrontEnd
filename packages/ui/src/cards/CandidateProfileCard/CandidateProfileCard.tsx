@@ -1,4 +1,4 @@
-import { Maybe, Members } from "@graphql/eden/generated";
+import { Maybe, Members } from "@eden/package-graphql/generated";
 import { XIcon } from "@heroicons/react/outline";
 import { Card, MatchAvatar } from "ui";
 

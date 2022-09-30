@@ -12,8 +12,8 @@
   },
   "dependencies": {
     "@apollo/client": "^3.6.9",
-    "@context/eden": "*",
-    "@graphql/eden": "*",
+    "@eden/package-context": "*",
+    "@eden/package-graphql": "*",
     "graphql": "^16.6.0",
     "next": "12.2.0",
     "next-auth": "^4.12.0",
@@ -25,16 +25,16 @@
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
+    "@eden/package-config": "*",
+    "@eden/package-tsconfig": "*",
     "@types/node": "^18.7.23",
     "@types/react": "^18.0.21",
     "autoprefixer": "^10.4.12",
-    "config": "*",
     "eslint": "^8.24.0",
     "next-transpile-modules": "9.0.0",
     "postcss": "^8.4.16",
     "tailwind-scrollbar-hide": "^1.1.7",
     "tailwindcss": "^3.1.7",
-    "tsconfig": "*",
     "typescript": "^4.8.4"
   }
 }

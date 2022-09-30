@@ -1,5 +1,5 @@
 import { gql, useMutation } from "@apollo/client";
-import { Members, Project, TeamType } from "@graphql/eden/generated";
+import { Members, Project, TeamType } from "@eden/package-graphql/generated";
 import { useEffect, useState } from "react";
 import {
   AvailabilityComp,

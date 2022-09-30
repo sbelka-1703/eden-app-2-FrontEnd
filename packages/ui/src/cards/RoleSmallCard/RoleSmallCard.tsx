@@ -1,5 +1,9 @@
 /* eslint-disable camelcase */
-import { Maybe, RoleType, SkillRoleType } from "@graphql/eden/generated";
+import {
+  Maybe,
+  RoleType,
+  SkillRoleType,
+} from "@eden/package-graphql/generated";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
 import { PencilIcon } from "@heroicons/react/solid";
 import React, { useState } from "react";

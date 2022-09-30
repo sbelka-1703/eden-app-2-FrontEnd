@@ -23,7 +23,7 @@
     "codegen:eden": "turbo run codegen:eden"
   },
   "devDependencies": {
-    "config": "*",
+    "@eden/package-config": "*",
     "husky": "^8.0.0",
     "prettier": "latest",
     "prettier-plugin-tailwindcss": "^0.1.13",

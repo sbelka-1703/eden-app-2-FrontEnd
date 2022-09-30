@@ -3,7 +3,7 @@ import {
   Maybe,
   Project,
   RoleTemplate,
-} from "@graphql/eden/generated";
+} from "@eden/package-graphql/generated";
 import { ApplyByRoleContainer, ProjectMatchList, SignUpCard } from "ui";
 
 export interface ISignUpContainerMainProps {

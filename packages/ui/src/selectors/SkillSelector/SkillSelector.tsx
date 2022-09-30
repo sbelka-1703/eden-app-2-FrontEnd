@@ -1,4 +1,4 @@
-import { Skills } from "@graphql/eden/generated";
+import { Skills } from "@eden/package-graphql/generated";
 import { XIcon } from "@heroicons/react/outline";
 import { useEffect, useState } from "react";
 import { Dropdown } from "ui";

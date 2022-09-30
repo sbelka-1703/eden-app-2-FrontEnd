@@ -1,4 +1,4 @@
-import { Members, Project } from "@graphql/eden/generated";
+import { Members, Project } from "@eden/package-graphql/generated";
 import { useState } from "react";
 import { TabsSelector, UserCard, UserWithDescription } from "ui";
 

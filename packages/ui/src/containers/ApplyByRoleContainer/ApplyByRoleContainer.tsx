@@ -1,14 +1,14 @@
 /* eslint-disable camelcase */
 import { gql, useMutation } from "@apollo/client";
-import { UserContext } from "@context/eden";
-import { UPDATE_MEMBER } from "@graphql/eden";
+import { UserContext } from "@eden/package-context";
+import { UPDATE_MEMBER } from "@eden/package-graphql";
 import {
   MatchSkillsToProjectsOutput,
   Maybe,
   Members,
   Mutation,
   Project,
-} from "@graphql/eden/generated";
+} from "@eden/package-graphql/generated";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import { FaGithub, FaTelegram, FaTwitter } from "react-icons/fa";

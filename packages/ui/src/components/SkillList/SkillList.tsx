@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { Maybe, SkillType_Member } from "@graphql/eden/generated";
+import { Maybe, SkillType_Member } from "@eden/package-graphql/generated";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
 import React, { useState } from "react";
 import { Badge } from "ui";

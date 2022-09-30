@@ -1,4 +1,4 @@
-import { Project } from "@graphql/eden/generated";
+import { Project } from "@eden/package-graphql/generated";
 import HeartIcon from "@heroicons/react/outline/HeartIcon";
 import { BsArrowRight } from "react-icons/bs";
 import { Avatar, Button } from "ui";

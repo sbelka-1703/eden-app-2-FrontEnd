@@ -1,4 +1,4 @@
-import { LaunchProvider } from "@context/eden";
+import { LaunchProvider } from "@eden/package-context";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { LaunchContainer } from "./LaunchContainer";

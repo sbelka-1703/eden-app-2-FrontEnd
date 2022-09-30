@@ -1,4 +1,4 @@
-import { Maybe, RoleTemplate } from "@graphql/eden/generated";
+import { Maybe, RoleTemplate } from "@eden/package-graphql/generated";
 
 import { render } from "../../../utils/jest-apollo";
 import { RoleModal } from ".";

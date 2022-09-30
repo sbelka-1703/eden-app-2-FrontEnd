@@ -1,4 +1,4 @@
-import { UserContext } from "@context/eden";
+import { UserContext } from "@eden/package-context";
 import { useContext } from "react";
 import { AppUserMenuLayout, Card, ProjectList } from "ui";
 

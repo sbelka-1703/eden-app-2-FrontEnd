@@ -1,4 +1,4 @@
-import { LaunchContext } from "@context/eden";
+import { LaunchContext } from "@eden/package-context";
 import { useContext } from "react";
 import { TextArea } from "ui";
 

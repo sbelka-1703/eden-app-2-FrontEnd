@@ -1,4 +1,4 @@
-import { Members } from "@graphql/eden/generated";
+import { Members } from "@eden/package-graphql/generated";
 
 export const getUserProgress = (user: Members) => {
   let progress = 0;

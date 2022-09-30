@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
-import { UserContext } from "@context/eden";
-import { Maybe, SkillType_Member } from "@graphql/eden/generated";
+import { UserContext } from "@eden/package-context";
+import { Maybe, SkillType_Member } from "@eden/package-graphql/generated";
 import { useContext, useState } from "react";
 import { AiOutlineCheck } from "react-icons/ai";
 import {
