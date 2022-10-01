@@ -1,4 +1,1 @@
-module.exports = {
-  root: true,
-  extends: ["@eden/package-config/.eslintrc"],
-};
+module.exports = require("@eden/package-config/.eslintrc");
