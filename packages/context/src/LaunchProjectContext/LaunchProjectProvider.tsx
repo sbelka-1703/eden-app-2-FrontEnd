@@ -43,6 +43,8 @@ export enum LaunchProjectModal {
   // eslint-disable-next-line no-unused-vars
   PROJECT_INFO = "project info",
   // eslint-disable-next-line no-unused-vars
+  SAVING_PROJECT = "saving project",
+  // eslint-disable-next-line no-unused-vars
   CONGRATULATIONS = "congratulations",
 }
 
@@ -118,7 +120,6 @@ export const LaunchProjectProvider = ({
   children,
 }: LaunchProjectProviderProps) => {
   const [project, dispatchProject] = useReducer(projectReducer, {
-    __typename: "Project",
     title: "",
     role: [],
     team: [],
@@ -131,6 +132,7 @@ export const LaunchProjectProvider = ({
     number | null
   >(null);
   const [matchMembersPage, setMatchMembersPage] = useState<number>(0);
+  const [submitting, setSubmitting] = useState<boolean>(false);
 
   const injectContext = {
     project: project,
@@ -147,6 +149,8 @@ export const LaunchProjectProvider = ({
     setSelectedMemberPercentage: setSelectedMemberPercentage,
     matchMembersPage: matchMembersPage,
     setMatchMembersPage: setMatchMembersPage,
+    submitting: submitting,
+    setSubmitting: setSubmitting,
   };
 
   return (

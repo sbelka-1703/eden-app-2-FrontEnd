@@ -1,20 +1,24 @@
+import { useMutation } from "@apollo/client";
 import {
   LaunchProjectContext,
   LaunchProjectModal,
   ProjectActionKind,
 } from "@context/eden";
+import { UPDATE_PROJECT } from "@graphql/eden";
 import {
   Maybe,
+  Mutation,
   RoleTemplate,
   RoleType,
   SkillRoleType,
   Skills,
 } from "@graphql/eden/generated";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import {
   CongratulationsModal,
   RoleDescriptionModal,
   RoleModal,
+  SavingProjectModal,
   ShortlistMemberModal,
   SkillsModal,
   SocialMediaModel,
@@ -30,7 +34,46 @@ export const ShortlistModalContainer = ({}: IShortlistModalContainerProps) => {
     selectedRole,
     setSelectedRole,
     setOpenModal,
+    submitting,
+    setSubmitting,
   } = useContext(LaunchProjectContext);
+
+  const [updateProject, {}] = useMutation(UPDATE_PROJECT, {
+    onCompleted({ updateProject }: Mutation) {
+      if (!updateProject) console.log("updateProject is null");
+      console.log(updateProject);
+    },
+  });
+
+  useEffect(() => {
+    if (submitting) {
+      setOpenModal(LaunchProjectModal.SAVING_PROJECT);
+      updateProject({
+        variables: {
+          fields: {
+            title: "asdadsd",
+            // role: project?.role?.map((role) => ({
+            //   ...role,
+            //   skills: role?.skills?.map((skill) => ({
+            //     _id: skill?.skillData?._id,
+            //     level: skill?.level,
+            //   })),
+            // })),
+            // team: project?.team?.map((member) => ({
+            //   memberID: member?.memberInfo?._id,
+            //   roleID: member?.roleID,
+            //   phase: "shortlisted",
+            // })),
+          },
+        },
+        context: { serviceName: "soilservice" },
+        onCompleted: () => {
+          setOpenModal(LaunchProjectModal.SAVING_PROJECT);
+          setSubmitting(false);
+        },
+      });
+    }
+  }, [submitting]);
 
   const handleAddRole = (role: Maybe<RoleTemplate>) => {
     if (role) {
@@ -114,8 +157,12 @@ export const ShortlistModalContainer = ({}: IShortlistModalContainerProps) => {
                 links: val.links,
               },
             });
+            setSubmitting(true);
           }}
         />
+      )}
+      {openModal === LaunchProjectModal.SAVING_PROJECT && (
+        <SavingProjectModal openModal />
       )}
       {openModal === LaunchProjectModal.CONGRATULATIONS && (
         <CongratulationsModal openModal />
