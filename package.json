@@ -21,7 +21,7 @@
     "build": "turbo run build --filter=web...",
     "build:alpha": "turbo run build --filter=@eden/app-alpha...",
     "build:storybook": "turbo run build:storybook --filter=storybook...",
-    "build-storybook": "yarn workspace storybook build-storybook",
+    "build-storybook": "turbo run build:storybook --filter=storybook...",
     "prepare": "husky install",
     "codegen:eden": "turbo run codegen:eden"
   },
