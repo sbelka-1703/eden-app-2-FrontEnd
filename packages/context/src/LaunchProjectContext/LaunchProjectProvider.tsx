@@ -1,4 +1,4 @@
-import { Project, RoleType } from "@graphql/eden/generated";
+import { Project, RoleType } from "@eden/package-graphql/generated";
 import React, { useReducer, useState } from "react";
 
 import { LaunchProjectContext } from "./LaunchProjectContext";

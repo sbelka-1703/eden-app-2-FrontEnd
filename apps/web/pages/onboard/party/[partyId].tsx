@@ -1,16 +1,18 @@
 /* eslint-disable camelcase */
 import { gql, useMutation, useQuery, useSubscription } from "@apollo/client";
-import { UserContext } from "@context/eden";
+import { UserContext } from "@eden/package-context";
 import {
   ENTER_ROOM,
   FIND_ROOM,
   MEMBER_UPDATED,
   ROOM_UPDATED,
   UPDATE_MEMBER,
-} from "@graphql/eden";
-import { Maybe, Members, SkillType_Member } from "@graphql/eden/generated";
-import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
+} from "@eden/package-graphql";
+import {
+  Maybe,
+  Members,
+  SkillType_Member,
+} from "@eden/package-graphql/generated";
 import {
   AppPublicLayout,
   EditProfileOnboardPartyCard,
@@ -18,7 +20,9 @@ import {
   GridItemThree,
   GridLayout,
   OnboardPartyContainer,
-} from "ui";
+} from "@eden/package-ui";
+import { useRouter } from "next/router";
+import { useContext, useEffect, useState } from "react";
 
 import type { NextPageWithLayout } from "../../_app";
 

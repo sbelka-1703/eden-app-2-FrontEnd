@@ -1,6 +1,6 @@
-import { LaunchContext } from "@context/eden";
+import { LaunchContext } from "@eden/package-context";
+import { TextArea } from "@eden/package-ui";
 import { useContext } from "react";
-import { TextArea } from "ui";
 
 export const LaunchViewDescribe = () => {
   const { projectDescription, setProjectDescription } =

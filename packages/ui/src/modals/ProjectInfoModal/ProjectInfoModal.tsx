@@ -1,4 +1,10 @@
-import { Button, Modal, TextArea, TextBody, TextHeading3 } from "ui";
+import {
+  Button,
+  Modal,
+  TextArea,
+  TextBody,
+  TextHeading3,
+} from "@eden/package-ui";
 
 export interface ProjectInfoModalProps {
   openModal?: boolean;

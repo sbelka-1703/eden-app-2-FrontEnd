@@ -1,4 +1,4 @@
-import { Modal, TextHeading2 } from "ui";
+import { Modal, TextHeading2 } from "@eden/package-ui";
 
 export interface SavingProjectModalProps {
   openModal?: boolean;

@@ -1,5 +1,9 @@
 /* eslint-disable camelcase */
-import { Maybe, Members, SkillType_Member } from "@graphql/eden/generated";
+import {
+  Maybe,
+  Members,
+  SkillType_Member,
+} from "@eden/package-graphql/generated";
 import {
   Avatar,
   Card,
@@ -8,7 +12,7 @@ import {
   SkillList,
   TextHeading3,
   TextLabel,
-} from "ui";
+} from "@eden/package-ui";
 
 import { getUserProgress } from "../../../../utils/user-progress";
 

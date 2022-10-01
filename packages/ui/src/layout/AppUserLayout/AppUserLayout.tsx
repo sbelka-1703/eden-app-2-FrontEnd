@@ -1,8 +1,8 @@
-// import { UserContext } from "@context/eden";
-import Head from "next/head";
+// import { UserContext } from "@eden/package-context";
 // import { useRouter } from "next/router";
 // import { useContext } from "react";
-import { AppHeader } from "ui";
+import { AppHeader } from "@eden/package-ui";
+import Head from "next/head";
 
 interface IAppUserLayoutProps {
   children: React.ReactNode;

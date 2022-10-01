@@ -1,9 +1,11 @@
 import { gql, useMutation } from "@apollo/client";
-import { LaunchContext, UserContext } from "@context/eden";
-import { Maybe, Mutation, Role, ServerTemplate } from "@graphql/eden/generated";
-import { useRouter } from "next/router";
-import { useContext, useState } from "react";
-import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
+import { LaunchContext, UserContext } from "@eden/package-context";
+import {
+  Maybe,
+  Mutation,
+  Role,
+  ServerTemplate,
+} from "@eden/package-graphql/generated";
 import {
   Button,
   Card,
@@ -17,7 +19,10 @@ import {
   LaunchViewSuccess,
   LaunchViewVerify,
   Loading,
-} from "ui";
+} from "@eden/package-ui";
+import { useRouter } from "next/router";
+import { useContext, useState } from "react";
+import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 
 const LAUNCH_PROJECT = gql`
   mutation ($fields: updateProjectInput!) {

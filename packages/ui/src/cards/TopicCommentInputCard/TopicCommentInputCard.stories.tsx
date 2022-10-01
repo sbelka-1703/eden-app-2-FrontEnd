@@ -1,6 +1,7 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { TopicCommentInputCard } from "./TopicCommentInputCard";
 import { faker } from "@faker-js/faker";
+import { ComponentMeta, ComponentStory } from "@storybook/react";
+
+import { TopicCommentInputCard } from "./TopicCommentInputCard";
 
 export default {
   title: "Cards/TopicCommentInputCard",

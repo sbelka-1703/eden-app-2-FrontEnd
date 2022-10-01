@@ -1,4 +1,4 @@
-import { LaunchProjectProvider } from "@context/eden";
+import { LaunchProjectProvider } from "@eden/package-context";
 import {
   AppUserLayout,
   Card,
@@ -7,7 +7,7 @@ import {
   GridLayout,
   LaunchProjectContainer,
   UserProfileMenu,
-} from "ui";
+} from "@eden/package-ui";
 
 import type { NextPageWithLayout } from "../_app";
 

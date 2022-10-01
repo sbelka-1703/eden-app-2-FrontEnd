@@ -1,5 +1,5 @@
+import { Card } from "@eden/package-ui";
 import { FiEdit3 } from "react-icons/fi";
-import { Card } from "ui";
 export interface IBioComponentProps {
   title?: string;
   description?: string;

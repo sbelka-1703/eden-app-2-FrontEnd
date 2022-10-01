@@ -1,6 +1,6 @@
-import { Members, Project } from "@graphql/eden/generated";
+import { Members, Project } from "@eden/package-graphql/generated";
+import { Card, ProjectChampion, ReadMore } from "@eden/package-ui";
 import { useRouter } from "next/router";
-import { Card, ProjectChampion, ReadMore } from "ui";
 export interface ProjectAboutCardProps {
   project?: Project;
   projectOneLiner?: string;

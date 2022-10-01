@@ -1,4 +1,4 @@
-import { Card } from "ui";
+import { Card } from "@eden/package-ui";
 
 export interface ProjectActivityCardProps {
   date?: string;

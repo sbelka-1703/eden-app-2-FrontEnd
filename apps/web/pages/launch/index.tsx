@@ -1,12 +1,12 @@
 import { gql, useQuery } from "@apollo/client";
-import { LaunchProvider } from "@context/eden";
+import { LaunchProvider } from "@eden/package-context";
 import {
   AppUserLayout,
   GridItemSix,
   GridItemThree,
   GridLayout,
   LaunchContainer,
-} from "ui";
+} from "@eden/package-ui";
 
 import type { NextPageWithLayout } from "../_app";
 

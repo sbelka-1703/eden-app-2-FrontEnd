@@ -1,4 +1,4 @@
-import { AttributesType } from "@graphql/eden/generated";
+import { AttributesType } from "@eden/package-graphql/generated";
 import {
   Chart as ChartJS,
   Filler,

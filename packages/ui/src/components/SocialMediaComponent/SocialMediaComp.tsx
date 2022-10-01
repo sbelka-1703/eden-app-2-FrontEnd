@@ -1,4 +1,4 @@
-import { LinkType, Maybe } from "@graphql/eden/generated";
+import { LinkType, Maybe } from "@eden/package-graphql/generated";
 import { useEffect, useState } from "react";
 import {
   FaDiscord,

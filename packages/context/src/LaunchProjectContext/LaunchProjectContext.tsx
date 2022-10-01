@@ -1,4 +1,4 @@
-import { Project, RoleType } from "@graphql/eden/generated";
+import { Project, RoleType } from "@eden/package-graphql/generated";
 import { createContext } from "react";
 
 import { LaunchProjectModal, ProjectAction } from "./LaunchProjectProvider";

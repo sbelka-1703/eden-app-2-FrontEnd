@@ -1,6 +1,6 @@
-import { SignUpContext } from "@context/eden";
+import { SignUpContext } from "@eden/package-context";
+import { TextArea } from "@eden/package-ui";
 import { useContext } from "react";
-import { TextArea } from "ui";
 
 export const SignUpViewShare = () => {
   const {

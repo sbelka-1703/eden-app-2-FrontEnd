@@ -1,10 +1,8 @@
 // TODO: needs a test file
-/* eslint-disable camelcase */
-
+import { Button, Modal, TextArea, TextField } from "@eden/package-ui";
 import { useState } from "react";
 import { AiFillGithub } from "react-icons/ai";
 import { FaTwitter } from "react-icons/fa";
-import { Button, Modal, TextArea, TextField } from "ui";
 
 export interface ISocialMediaModelProps {
   // eslint-disable-next-line no-unused-vars

@@ -1,6 +1,6 @@
 import { gql, useMutation, useQuery, useSubscription } from "@apollo/client";
-import { FIND_MEMBER_FULL, MEMBER_SUBSCRIPTION } from "@graphql/eden";
-import { Members, Mutation } from "@graphql/eden/generated";
+import { FIND_MEMBER_FULL, MEMBER_SUBSCRIPTION } from "@eden/package-graphql";
+import { Members, Mutation } from "@eden/package-graphql/generated";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 

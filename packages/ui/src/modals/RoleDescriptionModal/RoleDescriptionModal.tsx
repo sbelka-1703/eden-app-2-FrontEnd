@@ -1,6 +1,12 @@
-import { RoleType } from "@graphql/eden/generated";
-import React, { useState } from "react";
-import { Avatar, Button, Modal, TextArea, TextHeading3 } from "ui";
+import { RoleType } from "@eden/package-graphql/generated";
+import {
+  Avatar,
+  Button,
+  Modal,
+  TextArea,
+  TextHeading3,
+} from "@eden/package-ui";
+import { useState } from "react";
 
 export interface RoleDescriptionModalInterface {
   isModalOpen: boolean;

@@ -1,9 +1,19 @@
 /* eslint-disable camelcase */
-import { Maybe, RoleType, SkillRoleType } from "@graphql/eden/generated";
+import {
+  Maybe,
+  RoleType,
+  SkillRoleType,
+} from "@eden/package-graphql/generated";
+import {
+  AvatarList,
+  AvatarProps,
+  Badge,
+  Card,
+  TextHeading3,
+} from "@eden/package-ui";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
 import { PencilIcon } from "@heroicons/react/solid";
 import React, { useState } from "react";
-import { AvatarList, AvatarProps, Badge, Card, TextHeading3 } from "ui";
 
 export interface RoleSmallCardProps {
   role: Maybe<RoleType>;

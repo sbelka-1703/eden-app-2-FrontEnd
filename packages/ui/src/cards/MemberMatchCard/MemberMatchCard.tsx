@@ -4,7 +4,7 @@ import {
   Members,
   SkillRoleType,
   SkillType_Member,
-} from "@graphql/eden/generated";
+} from "@eden/package-graphql/generated";
 import {
   Button,
   Card,
@@ -12,7 +12,7 @@ import {
   SkillList,
   SocialMediaComp,
   TextHeading2,
-} from "ui";
+} from "@eden/package-ui";
 
 export interface MemberMatchCardProps {
   percentage?: string;

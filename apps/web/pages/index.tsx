@@ -1,8 +1,8 @@
+import { Button } from "@eden/package-ui";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { FaTwitter } from "react-icons/fa";
-import { Button } from "ui";
 
 import landingLogo from "../public/landing-logo.png";
 

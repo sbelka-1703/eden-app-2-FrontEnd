@@ -1,16 +1,14 @@
 // TODO: needs a test file
 /* eslint-disable camelcase */
 import { useMutation } from "@apollo/client";
-import { UserContext } from "@context/eden";
-import { UPDATE_MEMBER } from "@graphql/eden";
+import { UserContext } from "@eden/package-context";
+import { UPDATE_MEMBER } from "@eden/package-graphql";
 import {
   Maybe,
   Mutation,
   RoleTemplate,
   SkillType_Member,
-} from "@graphql/eden/generated";
-import { useContext, useEffect, useState } from "react";
-import { BsArrowRight } from "react-icons/bs";
+} from "@eden/package-graphql/generated";
 import {
   Button,
   Modal,
@@ -18,7 +16,9 @@ import {
   SearchSkill,
   SkillList,
   TextHeading2,
-} from "ui";
+} from "@eden/package-ui";
+import { useContext, useEffect, useState } from "react";
+import { BsArrowRight } from "react-icons/bs";
 
 const levels = [
   {

@@ -3,8 +3,8 @@ import {
   LaunchProjectContext,
   LaunchProjectModal,
   ProjectActionKind,
-} from "@context/eden";
-import { UPDATE_PROJECT } from "@graphql/eden";
+} from "@eden/package-context";
+import { UPDATE_PROJECT } from "@eden/package-graphql";
 import {
   Maybe,
   Mutation,
@@ -12,8 +12,7 @@ import {
   RoleType,
   SkillRoleType,
   Skills,
-} from "@graphql/eden/generated";
-import { useContext, useEffect } from "react";
+} from "@eden/package-graphql/generated";
 import {
   CongratulationsModal,
   RoleDescriptionModal,
@@ -22,7 +21,8 @@ import {
   ShortlistMemberModal,
   SkillsModal,
   SocialMediaModel,
-} from "ui";
+} from "@eden/package-ui";
+import { useContext, useEffect } from "react";
 
 export interface IShortlistModalContainerProps {}
 

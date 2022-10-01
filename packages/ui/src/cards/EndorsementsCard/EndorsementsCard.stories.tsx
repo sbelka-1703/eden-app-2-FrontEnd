@@ -100,6 +100,7 @@ const endorsements = [
     ],
   },
 ];
+
 Default.args = {
   endorsements: endorsements,
   shadow: true,

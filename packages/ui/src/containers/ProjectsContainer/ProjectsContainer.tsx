@@ -1,5 +1,5 @@
+import { ProjectList, TabsSelector } from "@eden/package-ui";
 import { useEffect, useState } from "react";
-import { ProjectList, TabsSelector } from "ui";
 
 const tabs = ["All Projects", "Favourites", "Recommended"];
 

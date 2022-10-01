@@ -1,6 +1,6 @@
 import "./style.css";
 
-import { Endorsements } from "ui";
+import { Endorsements } from "@eden/package-ui";
 
 export interface IEndorsementsCarousel {
   _id?: string;
