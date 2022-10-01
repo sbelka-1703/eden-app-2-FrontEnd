@@ -1,0 +1,35 @@
+{
+  "name": "@eden/package-util",
+  "version": "0.0.0",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "dist/**"
+  ],
+  "private": true,
+  "scripts": {
+    "build": "tsup src/index.tsx --format esm,cjs --dts --external react",
+    "dev": "tsup src/index.tsx --format esm,cjs --watch --dts --external react",
+    "lint": "eslint src/*.ts*",
+    "clean": "rm -rf node_modules",
+    "clean-windows": "rd /s /q node_modules"
+  },
+  "devDependencies": {
+    "@eden/package-config": "*",
+    "@eden/package-graphql": "*",
+    "@eden/package-tsconfig": "*",
+    "@testing-library/react": "13.3.0",
+    "@types/node": "^18.6.1",
+    "@types/react": "18.0.15",
+    "@types/react-dom": "^18.0.6",
+    "eslint": "^8.20.0",
+    "tsup": "^6.2.3",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {},
+  "publishConfig": {
+    "access": "public"
+  }
+}

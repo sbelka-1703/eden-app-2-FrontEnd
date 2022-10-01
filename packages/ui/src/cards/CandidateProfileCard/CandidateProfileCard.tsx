@@ -1,5 +1,6 @@
 import { Maybe, Members } from "@eden/package-graphql/generated";
 import { Card, MatchAvatar } from "@eden/package-ui";
+import { round } from "@eden/package-util";
 import { XIcon } from "@heroicons/react/outline";
 
 export interface ICandidateProfileCardProps {
@@ -8,12 +9,6 @@ export interface ICandidateProfileCardProps {
   selected?: boolean;
   closeButton?: boolean;
   handleDelete?: any;
-}
-
-function round(value: number, precision: number) {
-  var multiplier = Math.pow(10, precision || 0);
-
-  return Math.round(value * multiplier) / multiplier;
 }
 
 export const CandidateProfileCard = ({

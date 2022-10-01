@@ -4,6 +4,7 @@ import {
   Project,
 } from "@eden/package-graphql/generated";
 import { Avatar, Card, UserProfileCard } from "@eden/package-ui";
+import { round } from "@eden/package-util";
 import { useState } from "react";
 
 export interface ISignUpContainerSideProps {
@@ -11,12 +12,6 @@ export interface ISignUpContainerSideProps {
   project?: Project;
   // eslint-disable-next-line no-unused-vars
   onSelectedProject: (projectID: string) => void;
-}
-
-function round(value: number, precision: number) {
-  var multiplier = Math.pow(10, precision || 0);
-
-  return Math.round(value * multiplier) / multiplier;
 }
 
 export const SignUpContainerSide = ({

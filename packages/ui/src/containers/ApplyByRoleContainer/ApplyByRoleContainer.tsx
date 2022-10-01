@@ -24,6 +24,7 @@ import {
   TextHeading2,
   TextHeading3,
 } from "@eden/package-ui";
+import { round } from "@eden/package-util";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import { FaGithub, FaTelegram, FaTwitter } from "react-icons/fa";
@@ -162,8 +163,6 @@ export const ApplyByRoleContainer = ({
     (role) => role?._id !== matchedProject?.projectRoles[0]?.projectRole?._id
   );
 
-  const round = (num: number) => Math.round(num * 10) / 10;
-
   return (
     <div className={`h-8/10 w-full rounded-2xl bg-white px-6 py-6`}>
       <div className={`grid grid-cols-3`}>
@@ -195,7 +194,7 @@ export const ApplyByRoleContainer = ({
             <div className={`mb-8 flex flex-col items-center px-4 last:pr-0`}>
               <span>⚡ Match</span>
               <span className={`text-soilPurple text-3xl font-semibold`}>
-                {round(matchedProject?.matchPercentage || 0)}%
+                {round(Number(matchedProject?.matchPercentage), 1) || 0}%
               </span>
             </div>
           )}

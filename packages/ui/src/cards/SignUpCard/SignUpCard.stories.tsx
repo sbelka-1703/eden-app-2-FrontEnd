@@ -1,5 +1,5 @@
+import { findRoleTemplates } from "@eden/package-mock";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { findRoleTemplates } from "storybook/mocks";
 
 import { SignUpCard } from "./SignUpCard";
 

@@ -1,6 +1,5 @@
 import { faker } from "@faker-js/faker";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { getProject } from "storybook/mocks";
 
 import { ReadMore } from "./ReadMore";
 

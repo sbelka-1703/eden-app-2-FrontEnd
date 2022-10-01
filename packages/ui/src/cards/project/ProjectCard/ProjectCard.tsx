@@ -2,6 +2,7 @@ import { gql, useMutation } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
 import { Mutation, Project } from "@eden/package-graphql/generated";
 import { Avatar, Badge, Button, Card, Favorite } from "@eden/package-ui";
+import { round } from "@eden/package-util";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import { BsArrowRight } from "react-icons/bs";
@@ -75,8 +76,6 @@ export const ProjectCard = ({
 
   if (!project) return null;
 
-  const round = (num: number) => Math.round(num * 10) / 10;
-
   return (
     <Card border focused={focused} className="px-4 py-4">
       <div className="flex justify-between">
@@ -107,7 +106,7 @@ export const ProjectCard = ({
               >
                 <span>⚡ Match</span>
                 <span className={`text-soilPurple text-3xl font-semibold`}>
-                  {round(percentage)}%
+                  {round(Number(percentage), 1)}%
                 </span>
               </div>
             )}

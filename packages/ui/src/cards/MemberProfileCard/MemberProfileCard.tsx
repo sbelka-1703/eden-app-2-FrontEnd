@@ -7,6 +7,7 @@ import {
   SkillList,
   SocialMediaComp,
 } from "@eden/package-ui";
+import { round } from "@eden/package-util";
 import { ChevronLeftIcon } from "@heroicons/react/outline";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 
@@ -85,7 +86,7 @@ export const MemberProfileCard = ({
               ⚡️Match
             </h1>
             <p className="text-soilPurple font-poppins text-4xl font-semibold">
-              {Math.round(percentage)}%
+              {round(Number(percentage), 1)}%
             </p>
           </div>
         )}
