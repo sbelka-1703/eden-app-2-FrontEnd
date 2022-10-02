@@ -15,7 +15,6 @@
     "@eden/package-context": "*",
     "@eden/package-graphql": "*",
     "@eden/package-ui": "*",
-    "@eden/package-util": "*",
     "graphql": "^16.6.0",
     "next": "12.2.0",
     "next-auth": "^4.12.0",

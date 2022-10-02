@@ -7,9 +7,10 @@ import {
   SkillList,
   SocialMediaComp,
 } from "@eden/package-ui";
-import { round } from "@eden/package-util";
 import { ChevronLeftIcon } from "@heroicons/react/outline";
 import { CheckCircleIcon } from "@heroicons/react/solid";
+
+import { round } from "../../../utils";
 
 export interface MemberProfileCardProps {
   member: Members;

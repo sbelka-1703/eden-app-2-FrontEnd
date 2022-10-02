@@ -11,7 +11,8 @@ import {
   ProjectChampion,
   TextHeading3,
 } from "@eden/package-ui";
-import { round } from "@eden/package-util";
+
+import { round } from "../../../../utils";
 
 export interface IProjectMatchCardProps {
   matchProject?: Maybe<MatchSkillsToProjectsOutput>;

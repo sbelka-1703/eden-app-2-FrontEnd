@@ -15,7 +15,6 @@
     "@eden/package-graphql": "*",
     "@eden/package-mock": "*",
     "@eden/package-tsconfig": "*",
-    "@eden/package-util": "*",
     "@faker-js/faker": "^7.4.0",
     "@headlessui/react": "^1.6.6",
     "@heroicons/react": "^1.0.6",
@@ -32,7 +31,5 @@
     "react-tooltip": "^4.2.21",
     "typescript": "^4.8.4"
   },
-  "dependencies": {
-    "@eden/package-util": "*"
-  }
+  "dependencies": {}
 }

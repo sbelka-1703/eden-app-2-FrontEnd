@@ -2,10 +2,11 @@ import { gql, useMutation } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
 import { Mutation, Project } from "@eden/package-graphql/generated";
 import { Avatar, Badge, Button, Card, Favorite } from "@eden/package-ui";
-import { round } from "@eden/package-util";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import { BsArrowRight } from "react-icons/bs";
+
+import { round } from "../../../../utils";
 
 const SET_FAVORITE = gql`
   mutation ($fields: addFavoriteProjectInput!) {

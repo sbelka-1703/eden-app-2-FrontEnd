@@ -1,7 +1,8 @@
 import { Maybe, Members } from "@eden/package-graphql/generated";
 import { Card, MatchAvatar } from "@eden/package-ui";
-import { round } from "@eden/package-util";
 import { XIcon } from "@heroicons/react/outline";
+
+import { round } from "../../../utils";
 
 export interface ICandidateProfileCardProps {
   member?: Maybe<Members>;

@@ -24,12 +24,12 @@ import {
   TextHeading2,
   TextHeading3,
 } from "@eden/package-ui";
-import { round } from "@eden/package-util";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import { FaGithub, FaTelegram, FaTwitter } from "react-icons/fa";
 
 import { timezones } from "../../../constants";
+import { round } from "../../../utils";
 
 const SET_APPLY_TO_PROJECT = gql`
   mutation ($fields: changeTeamMember_Phase_ProjectInput!) {

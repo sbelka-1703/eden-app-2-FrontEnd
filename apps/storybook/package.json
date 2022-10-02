@@ -18,7 +18,6 @@
     "@babel/core": "^7.19.3",
     "@eden/package-config": "*",
     "@eden/package-mock": "*",
-    "@eden/package-util": "*",
     "@storybook/addon-a11y": "^6.5.12",
     "@storybook/addon-actions": "^6.5.12",
     "@storybook/addon-essentials": "^6.5.12",

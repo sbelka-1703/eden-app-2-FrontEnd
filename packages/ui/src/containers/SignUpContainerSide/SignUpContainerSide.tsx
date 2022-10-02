@@ -4,8 +4,9 @@ import {
   Project,
 } from "@eden/package-graphql/generated";
 import { Avatar, Card, UserProfileCard } from "@eden/package-ui";
-import { round } from "@eden/package-util";
 import { useState } from "react";
+
+import { round } from "../../../utils";
 
 export interface ISignUpContainerSideProps {
   matchedProjects?: Maybe<Array<Maybe<MatchSkillsToProjectsOutput>>>;

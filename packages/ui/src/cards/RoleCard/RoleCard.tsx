@@ -1,8 +1,9 @@
 import { Maybe, RoleType } from "@eden/package-graphql/generated";
 import { Badge, Card } from "@eden/package-ui";
-import { round } from "@eden/package-util";
 import { BsDot } from "react-icons/bs";
 import { MdArrowForward } from "react-icons/md";
+
+import { round } from "../../../utils";
 
 export interface RoleCardProps {
   role?: Maybe<RoleType>;
