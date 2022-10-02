@@ -58,6 +58,9 @@ export const ShortlistModalContainer = ({}: IShortlistModalContainerProps) => {
             role: project?.role?.map((role) => ({
               title: role?.title,
               description: role?.description,
+              openPositions: role?.openPositions,
+              hoursPerWeek: role?.hoursPerWeek,
+              keyRosponsibilities: role?.keyRosponsibilities,
               skills: role?.skills?.map((skill) => ({
                 _id: skill?.skillData?._id,
                 level: skill?.level,

@@ -92,7 +92,9 @@ export const Modal = ({
                 <div className={"mt-3 w-full sm:mt-0"}>
                   <Dialog.Title
                     as="h3"
-                    className={"text-lg font-medium leading-6 text-gray-900"}
+                    className={`text-lg font-medium leading-6 text-gray-900 ${
+                      closeOnEsc ? "mr-12" : ""
+                    }`}
                   >
                     {title}
                   </Dialog.Title>

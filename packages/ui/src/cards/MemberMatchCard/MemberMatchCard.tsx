@@ -89,7 +89,7 @@ export const MemberMatchCard = ({
           <p className="text-soilGray text-soilLabel font-Inter font-semibold">
             MATCHING SKILLS
           </p>
-          <div className="flex w-60 flex-wrap">
+          <div className="flex w-full flex-wrap">
             <SkillList
               skills={matchedSkills(requiredSkills, mySkills, isSameSkills)}
               colorRGB={getRandomColor()}
@@ -98,7 +98,7 @@ export const MemberMatchCard = ({
           <p className="text-soilGray text-soilLabel font-Inter mt-3 font-semibold">
             MISSING SKILLS
           </p>
-          <div className="flex w-60 flex-wrap">
+          <div className="flex w-full flex-wrap">
             <SkillList
               skills={missingSkills(requiredSkills, mySkills, isSameSkills)}
               colorRGB={"170, 170, 170, 0.12"}

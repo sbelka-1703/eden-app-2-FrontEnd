@@ -15,6 +15,8 @@ import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
 import { PencilIcon } from "@heroicons/react/solid";
 import React, { useState } from "react";
 
+import { trimParentheses } from "../../../utils/trim-parentheses";
+
 export interface RoleSmallCardProps {
   role: Maybe<RoleType>;
   skills?: Maybe<SkillRoleType>[];
@@ -43,7 +45,7 @@ const SkillListForRole: React.FC<SkillListForRoleProps> = ({
     (skill: Maybe<SkillRoleType> | undefined, index: number) => (
       <Badge
         key={index}
-        text={skill?.skillData?.name || ""}
+        text={trimParentheses(skill?.skillData?.name || "")}
         colorRGB={colorRGB}
         className={`font-Inter text-sm`}
         cutText={16}
