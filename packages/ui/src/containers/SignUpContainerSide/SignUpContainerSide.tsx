@@ -6,17 +6,13 @@ import {
 import { Avatar, Card, UserProfileCard } from "@eden/package-ui";
 import { useState } from "react";
 
+import { round } from "../../../utils";
+
 export interface ISignUpContainerSideProps {
   matchedProjects?: Maybe<Array<Maybe<MatchSkillsToProjectsOutput>>>;
   project?: Project;
   // eslint-disable-next-line no-unused-vars
   onSelectedProject: (projectID: string) => void;
-}
-
-function round(value: number, precision: number) {
-  var multiplier = Math.pow(10, precision || 0);
-
-  return Math.round(value * multiplier) / multiplier;
 }
 
 export const SignUpContainerSide = ({

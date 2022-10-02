@@ -106,13 +106,17 @@ const LaunchPage: NextPageWithLayout = () => {
                     />
                   </div>
                 ))}
-              <Button
-                className="mx-auto"
-                variant="primary"
-                onClick={() => setOpenModal(LaunchProjectModal.PROJECT_INFO)}
-              >
-                Invite to apply
-              </Button>
+              {project?.team?.some((member) => member?.phase === null) && (
+                <Button
+                  className="mx-auto"
+                  variant="primary"
+                  onClick={() =>
+                    setOpenModal(LaunchProjectModal.SHORTLISTED_PREVIEW)
+                  }
+                >
+                  Invite to apply
+                </Button>
+              )}
             </GridItemThree>
           </>
         )}

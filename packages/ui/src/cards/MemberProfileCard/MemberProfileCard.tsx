@@ -10,6 +10,8 @@ import {
 import { ChevronLeftIcon } from "@heroicons/react/outline";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 
+import { round } from "../../../utils";
+
 export interface MemberProfileCardProps {
   member: Members;
   percentage: number | null | undefined;
@@ -85,7 +87,7 @@ export const MemberProfileCard = ({
               ⚡️Match
             </h1>
             <p className="text-soilPurple font-poppins text-4xl font-semibold">
-              {Math.round(percentage)}%
+              {round(Number(percentage), 1)}%
             </p>
           </div>
         )}

@@ -1,0 +1,24 @@
+{
+  "name": "@eden/package-mock",
+  "version": "0.0.0",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "private": true,
+  "scripts": {
+    "lint": "eslint src/*.ts*",
+    "clean": "rm -rf node_modules",
+    "clean-windows": "rd /s /q node_modules"
+  },
+  "devDependencies": {
+    "@apollo/client": "^3.6.9",
+    "@eden/package-config": "*",
+    "@eden/package-graphql": "*",
+    "@eden/package-tsconfig": "*",
+    "@types/node": "^18.6.1",
+    "@types/react": "18.0.15",
+    "@types/react-dom": "^18.0.6",
+    "eslint": "^8.20.0",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {}
+}

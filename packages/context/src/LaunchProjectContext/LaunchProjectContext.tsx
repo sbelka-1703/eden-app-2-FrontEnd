@@ -17,6 +17,8 @@ export interface LaunchProjectContextType {
   setSelectedMemberPercentage?: any;
   matchMembersPage: number;
   setMatchMembersPage?: any;
+  submitting?: boolean;
+  setSubmitting?: any;
 }
 
 export const LaunchProjectContext = createContext<LaunchProjectContextType>({

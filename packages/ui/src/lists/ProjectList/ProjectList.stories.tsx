@@ -1,6 +1,6 @@
 // import { faker } from "@faker-js/faker";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { getProjectArray } from "storybook/mocks";
+import { getProjectArray } from "@eden/package-mock";
 
 import { ProjectList } from "./ProjectList";
 
