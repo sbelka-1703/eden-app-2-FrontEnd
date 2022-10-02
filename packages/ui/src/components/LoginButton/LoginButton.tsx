@@ -21,10 +21,6 @@ const menuItems = [
     href: "/applications",
   },
   {
-    name: "Invites",
-    href: "/invites",
-  },
-  {
     name: "My Projects",
     href: "/my-projects",
   },
