@@ -42,7 +42,13 @@ export const ShortlistContainer = ({
           handleOpenSkillsModal={() => setOpenModal(LaunchProjectModal.SKILLS)}
         />
       )}
-      {selectedRole && (
+
+      {selectedRole && !selectedRole?.skills?.length && (
+        <TextHeading3 className="mt-12 text-center">
+          Add some skills to see matching candidates
+        </TextHeading3>
+      )}
+      {selectedRole && selectedRole?.skills?.length! > 0 && (
         <Card className="bg-white px-10 py-4">
           {!matchingMembers.length ? (
             <Loading />
