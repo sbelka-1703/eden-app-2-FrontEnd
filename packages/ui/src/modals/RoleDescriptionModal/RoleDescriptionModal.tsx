@@ -142,7 +142,9 @@ export const RoleDescriptionModal = ({
                 /> */}
               </div>
               <div className="w-full">
-                <label className="text-sm font-medium text-gray-700"></label>
+                <label className="text-sm font-medium text-gray-700">
+                  Open positions
+                </label>
                 <div className="w-5/12">
                   <Dropdown
                     radius="rounded"
