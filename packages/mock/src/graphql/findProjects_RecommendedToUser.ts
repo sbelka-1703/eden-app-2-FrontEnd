@@ -2,16 +2,14 @@
 import { Maybe, ProjectMatchType } from "@eden/package-graphql/generated";
 import { faker } from "@faker-js/faker";
 
+import { getMember } from "../MembersMock";
+
 export const findProjects_RecommendedToUser: Maybe<ProjectMatchType> = {
   projectData: {
     _id: String(faker.random.numeric(5)),
     description: faker.lorem.paragraph(),
     title: faker.commerce.productName(),
-    champion: {
-      _id: String(faker.random.numeric(5)),
-      discordName: faker.internet.userName(),
-      discordAvatar: faker.image.image(),
-    },
+    champion: getMember(),
   },
   role: {
     _id: String(faker.random.numeric(5)),
