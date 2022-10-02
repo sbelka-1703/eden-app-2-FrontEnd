@@ -3,6 +3,8 @@ import { Badge, Card } from "@eden/package-ui";
 import { BsDot } from "react-icons/bs";
 import { MdArrowForward } from "react-icons/md";
 
+import { round } from "../../../utils";
+
 export interface RoleCardProps {
   role?: Maybe<RoleType>;
   percentage?: number;
@@ -19,12 +21,6 @@ export const RoleCard = ({
   onApply,
 }: RoleCardProps) => {
   // console.log("role", role);
-
-  function round(value: number, precision: number) {
-    var multiplier = Math.pow(10, precision || 0);
-
-    return Math.round(value * multiplier) / multiplier;
-  }
 
   return (
     <Card border shadow className="bg-white p-0">

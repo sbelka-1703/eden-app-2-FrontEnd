@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
-import { faker } from "@faker-js/faker";
 import { Maybe, ProjectMatchType } from "@eden/package-graphql/generated";
+import { faker } from "@faker-js/faker";
 
 export const findProjects_RecommendedToUser: Maybe<ProjectMatchType> = {
   projectData: {
