@@ -1,7 +1,7 @@
+import { RoleType } from "@eden/package-graphql/generated";
 import {
   Avatar,
   Button,
-  Dropdown,
   Modal,
   TextArea,
   TextHeading3,
@@ -11,17 +11,41 @@ import { useState } from "react";
 export interface RoleDescriptionModalInterface {
   isModalOpen: boolean;
   roles: any;
-  setDescription?: any;
-  setResponsibilites?: any;
+  // eslint-disable-next-line no-unused-vars
+  handleSubmit: (val: any) => void;
 }
 
 export const RoleDescriptionModal = ({
   roles,
   isModalOpen,
-  setDescription,
-  setResponsibilites,
+  handleSubmit,
 }: RoleDescriptionModalInterface) => {
   const [selectedRole, setSelectedRole] = useState({ title: null, _id: null });
+  const [modifiedRoles, setModifiedRoles] = useState(roles);
+
+  const handleChangeDescription = (e: any) => {
+    const newRoles = modifiedRoles.map((role: RoleType) => {
+      if (role._id !== selectedRole._id) return role;
+      return {
+        ...role,
+        description: e.target.value,
+      };
+    });
+
+    setModifiedRoles(newRoles);
+  };
+
+  // const handleChangeResponsibility = (e: any) => {
+  //   const newRoles = modifiedRoles.map((role: RoleType) => {
+  //     if (role._id !== selectedRole._id) return role;
+  //     return {
+  //       ...role,
+  //       responsibility: e.target.value,
+  //     };
+  //   });
+
+  //   setModifiedRoles(newRoles);
+  // };
 
   return (
     <Modal
@@ -58,7 +82,13 @@ export const RoleDescriptionModal = ({
             <div className="h-full w-full">
               <p>Describe the role:</p>
               <TextArea
-                onChange={(e) => setDescription(e.target.value)}
+                key={selectedRole._id}
+                value={
+                  modifiedRoles.find(
+                    (role: any) => selectedRole._id === role._id
+                  )?.description
+                }
+                onChange={handleChangeDescription}
                 className="h-full"
                 rows={10}
                 height={"100%"}
@@ -66,7 +96,7 @@ export const RoleDescriptionModal = ({
               />
             </div>
             <div className="flex flex-col items-start justify-start">
-              <div className="flex w-11/12 items-end justify-center gap-2">
+              {/* <div className="flex w-11/12 items-end justify-center gap-2">
                 <Dropdown
                   radius="rounded"
                   placeholder="Hours"
@@ -106,12 +136,17 @@ export const RoleDescriptionModal = ({
                   onChange={(e) => setResponsibilites(e.target.value)}
                   placeholder="start typing here"
                 />
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
       </div>
-      <Button className="mx-auto mt-4">All done!</Button>
+      <Button
+        className="mx-auto mt-4"
+        onClick={() => handleSubmit(modifiedRoles)}
+      >
+        All done!
+      </Button>
     </Modal>
   );
 };

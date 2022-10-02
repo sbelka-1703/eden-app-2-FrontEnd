@@ -1,4 +1,4 @@
-import { Maybe, RoleType } from "@eden/package-graphql/generated";
+import { Maybe, RoleType, TeamType } from "@eden/package-graphql/generated";
 import {
   Button,
   CandidateProfileCard,
@@ -9,7 +9,7 @@ import {
 export interface ShortlistMemberModal {
   isModalOpen: boolean;
   roles: Maybe<Array<Maybe<RoleType>>>;
-  members: any;
+  members: Maybe<Maybe<TeamType>[]>;
   onClickNext?: () => void;
 }
 
@@ -29,7 +29,7 @@ export const ShortlistMemberModal = ({
         {roles?.map((role, index) => (
           <div
             key={index}
-            className="h-full border-r-2 border-gray-300 text-center"
+            className="h-full border-r-2 border-gray-300 text-center last:border-none"
           >
             <TextHeading2 className="mb-2 border-b-2 border-gray-300">
               {role?.title}
@@ -39,7 +39,7 @@ export const ShortlistMemberModal = ({
               .map((member: any) => (
                 <div
                   key={member?.memberInfo?._id}
-                  className="mx-4 mb-2 rounded-lg border-[2px] border-gray-400"
+                  className="mb-2 h-full rounded-lg border-[2px] border-gray-400"
                 >
                   <CandidateProfileCard
                     member={member?.memberInfo}

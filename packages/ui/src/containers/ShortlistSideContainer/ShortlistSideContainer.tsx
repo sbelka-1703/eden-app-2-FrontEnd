@@ -66,7 +66,7 @@ export const ShortlistSideContainer = ({
               <CandidateProfileCard
                 member={member.member}
                 percentage={member.matchPercentage}
-                selected={selectedMemberId === member.member._id}
+                selected={selectedMemberId === member.member?._id}
               />
 
               {/* ------ this is a UI test, do not remove yet :) ------ */}
