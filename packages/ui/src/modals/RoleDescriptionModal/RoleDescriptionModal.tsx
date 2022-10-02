@@ -2,9 +2,11 @@ import { RoleType } from "@eden/package-graphql/generated";
 import {
   Avatar,
   Button,
+  Dropdown,
   Modal,
   TextArea,
   TextHeading3,
+  TextLabel,
 } from "@eden/package-ui";
 import { useState } from "react";
 
@@ -35,17 +37,41 @@ export const RoleDescriptionModal = ({
     setModifiedRoles(newRoles);
   };
 
-  // const handleChangeResponsibility = (e: any) => {
-  //   const newRoles = modifiedRoles.map((role: RoleType) => {
-  //     if (role._id !== selectedRole._id) return role;
-  //     return {
-  //       ...role,
-  //       responsibility: e.target.value,
-  //     };
-  //   });
+  const handleChangeResponsibility = (val: any) => {
+    const newRoles = modifiedRoles.map((role: RoleType) => {
+      if (role._id !== selectedRole._id) return role;
+      return {
+        ...role,
+        keyRosponsibilities: val,
+      };
+    });
 
-  //   setModifiedRoles(newRoles);
-  // };
+    setModifiedRoles(newRoles);
+  };
+
+  const handleChangeHoursPerWeek = (val: any) => {
+    const newRoles = modifiedRoles.map((role: RoleType) => {
+      if (role._id !== selectedRole._id) return role;
+      return {
+        ...role,
+        hoursPerWeek: Number(val.name),
+      };
+    });
+
+    setModifiedRoles(newRoles);
+  };
+
+  const handleChangeOpenPositions = (val: any) => {
+    const newRoles = modifiedRoles.map((role: RoleType) => {
+      if (role._id !== selectedRole._id) return role;
+      return {
+        ...role,
+        openPositions: Number(val.name),
+      };
+    });
+
+    setModifiedRoles(newRoles);
+  };
 
   return (
     <Modal
@@ -96,7 +122,7 @@ export const RoleDescriptionModal = ({
               />
             </div>
             <div className="flex flex-col items-start justify-start">
-              {/* <div className="flex w-11/12 items-end justify-center gap-2">
+              <div className="flex w-11/12 items-center justify-center gap-2">
                 <Dropdown
                   radius="rounded"
                   placeholder="Hours"
@@ -107,15 +133,17 @@ export const RoleDescriptionModal = ({
                     { _id: 3, name: "30" },
                     { _id: 4, name: "40" },
                   ]}
-                />
-                <Dropdown
+                  onSelect={handleChangeHoursPerWeek}
+                />{" "}
+                <TextLabel className="ml-1 -mb-3">hours/week</TextLabel>
+                {/* <Dropdown
                   radius="rounded"
                   placeholder="week/month"
                   items={[
                     { _id: 1, name: "week" },
                     { _id: 2, name: "month" },
                   ]}
-                />
+                /> */}
               </div>
               <div className="w-6/12">
                 <Dropdown
@@ -128,15 +156,16 @@ export const RoleDescriptionModal = ({
                     { _id: 2, name: "3" },
                     { _id: 2, name: "4" },
                   ]}
+                  onSelect={handleChangeOpenPositions}
                 />
               </div>
               <div className="w-11/12">
                 <p>Key responsibilities</p>
                 <TextArea
-                  onChange={(e) => setResponsibilites(e.target.value)}
+                  onChange={(e) => handleChangeResponsibility(e.target.value)}
                   placeholder="start typing here"
                 />
-              </div> */}
+              </div>
             </div>
           </div>
         </div>
