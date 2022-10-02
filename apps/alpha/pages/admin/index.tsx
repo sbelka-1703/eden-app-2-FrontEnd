@@ -1,30 +1,6 @@
 /* eslint-disable camelcase */
-import { gql, useMutation, useQuery, useSubscription } from "@apollo/client";
-import { UserContext } from "@eden/package-context";
-import {
-  ENTER_ROOM,
-  FIND_ROOM,
-  MEMBER_UPDATED,
-  ROOM_UPDATED,
-  UPDATE_MEMBER,
-} from "@eden/package-graphql";
-import {
-  Maybe,
-  Members,
-  SkillType_Member,
-} from "@eden/package-graphql/generated";
-import {
-  AppPublicLayout,
-  Button,
-  EditProfileOnboardPartyCard,
-  GridItemFour,
-  GridItemNine,
-  GridItemThree,
-  GridLayout,
-  OnboardPartyContainer,
-} from "@eden/package-ui";
+import { GridItemFour, GridLayout } from "@eden/package-ui";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
 
 import type { NextPageWithLayout } from "../_app";
 
