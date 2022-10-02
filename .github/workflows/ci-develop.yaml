@@ -1,0 +1,37 @@
+name: CI - Develop
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  test-lint-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 16
+      - name: Restore node modules cache
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
+      - name: Install Dependencies
+        run: yarn install
+      - name: Lint code
+        run: yarn lint
+      - name: Test code
+        run: yarn test
+      - name: Build storybook
+        run: yarn build:storybook
+      - name: Build alpha
+        run: yarn build:alpha
+      - name: Build web
+        run: yarn build
