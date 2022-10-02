@@ -37,15 +37,15 @@ export const SocialMediaModel = ({
 
   return (
     <Modal open={showModal} closeOnEsc={false}>
-      <div className={`h-7/10 w-full px-2`}>
-        <div className="flex flex-col ">
-          <div className="flex content-center	items-center justify-center justify-items-center">
+      <div className={`h-7/10 flex w-full flex-col justify-start px-2`}>
+        <div>
+          <div className="mb-5">
             <span className="text-base font-semibold tracking-wide">
               Let&lsquo;s finish up your project profile before we launch it!
             </span>
           </div>
-          <div className="mt-5 flex flex-row content-end justify-between justify-items-stretch">
-            <div>
+          <div className="grid grid-cols-2 gap-10">
+            <div className="col-span-1">
               <div>
                 <span className="text-sm font-semibold tracking-wide">
                   One liner:
@@ -90,11 +90,11 @@ export const SocialMediaModel = ({
                   />
                 </div>
               </div> */}
-              <div className="flex flex-col">
+              <div className="col-span-1 flex flex-col">
                 <div className="mt-1 flex flex-row content-center items-center justify-between">
-                  <AiFillGithub size={25} />
+                  <AiFillGithub size={25} className="mr-2" />
 
-                  <div>
+                  <div className="w-full">
                     <TextField
                       // value={String(previousProjects.title)}
                       onChange={(e) =>
@@ -106,9 +106,9 @@ export const SocialMediaModel = ({
                   </div>
                 </div>
                 <div className="mt-2 flex flex-row content-center items-center justify-between">
-                  <FaTwitter size={25} />
+                  <FaTwitter size={25} className="mr-2" />
 
-                  <div>
+                  <div className="w-full">
                     <TextField
                       // value={String(previousProjects.title)}
                       onChange={(e) =>
@@ -147,14 +147,14 @@ export const SocialMediaModel = ({
             </div>
           </div>
         </div>
-      </div>
-      <div className={`bottom-2 mt-8  flex w-full justify-center`}>
-        {/* <Button variant={`default`} onClick={() => console.log("asas")}>
+        <div className={`bottom-2 mt-auto flex w-full justify-center`}>
+          {/* <Button variant={`default`} onClick={() => console.log("asas")}>
           Go to role page
         </Button> */}
-        <Button variant={`default`} onClick={handleSubmit}>
-          All done !
-        </Button>
+          <Button variant={`default`} onClick={handleSubmit}>
+            All done !
+          </Button>
+        </div>
       </div>
     </Modal>
   );
