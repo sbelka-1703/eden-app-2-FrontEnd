@@ -1,6 +1,5 @@
 import { RoleType } from "@eden/package-graphql/generated";
 import {
-  Avatar,
   Button,
   Dropdown,
   Modal,
