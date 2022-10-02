@@ -20,7 +20,7 @@ export const LaunchProjectContainer = ({}: ILaunchProjectContainerProps) => {
     useContext(LaunchProjectContext);
 
   const handleButtonClick = () => {
-    router.push("/test-launch-2/shortlist-users");
+    router.push("/launch-project/shortlist");
   };
 
   return (
