@@ -51,25 +51,56 @@ export const ShortlistModalContainer = ({}: IShortlistModalContainerProps) => {
       updateProject({
         variables: {
           fields: {
-            title: "asdadsd",
-            // role: project?.role?.map((role) => ({
-            //   ...role,
-            //   skills: role?.skills?.map((skill) => ({
-            //     _id: skill?.skillData?._id,
-            //     level: skill?.level,
-            //   })),
-            // })),
-            // team: project?.team?.map((member) => ({
-            //   memberID: member?.memberInfo?._id,
-            //   roleID: member?.roleID,
-            //   phase: "shortlisted",
-            // })),
+            title: project?.title,
+            description: project?.description,
+            descriptionOneLine: project?.descriptionOneLine,
+            emoji: project?.emoji,
+            role: project?.role?.map((role) => ({
+              title: role?.title,
+              description: role?.description,
+              skills: role?.skills?.map((skill) => ({
+                _id: skill?.skillData?._id,
+                level: skill?.level,
+              })),
+            })),
+            collaborationLinks: project?.collaborationLinks,
           },
         },
         context: { serviceName: "soilservice" },
-        onCompleted: () => {
-          setOpenModal(LaunchProjectModal.SAVING_PROJECT);
+        onCompleted: (data) => {
+          updateProject({
+            variables: {
+              fields: {
+                _id: data.updateProject?._id,
+                team: project?.team?.map((member) => ({
+                  memberID: member?.memberInfo?._id,
+                  roleID: data.updateProject?.role?.find(
+                    (role) =>
+                      project.role?.find((role) => member?.roleID === role?._id)
+                        ?.title === role?.title
+                  )?._id,
+                  phase: "shortlisted",
+                })),
+              },
+            },
+            context: { serviceName: "soilservice" },
+            onCompleted: () => {
+              setOpenModal(LaunchProjectModal.CONGRATULATIONS);
+              setSubmitting(false);
+            },
+            onError: (error) => {
+              console.log(error);
+
+              setSubmitting(false);
+              setOpenModal(null);
+            },
+          });
+        },
+        onError: (error) => {
+          console.log(error);
+
           setSubmitting(false);
+          setOpenModal(null);
         },
       });
     }
@@ -152,8 +183,8 @@ export const ShortlistModalContainer = ({}: IShortlistModalContainerProps) => {
             dispatchProject!({
               type: ProjectActionKind.SET_EXTRA_DATA,
               payload: {
-                bio: val.bio,
                 description: val.description,
+                descriptionOneLine: val.bio,
                 links: val.links,
               },
             });

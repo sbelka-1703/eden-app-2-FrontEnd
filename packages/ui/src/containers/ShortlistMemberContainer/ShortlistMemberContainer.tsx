@@ -30,10 +30,10 @@ export const ShortlistMemberContainer = ({
     });
 
     const newMatchingMembers = matchingMembers.filter(
-      (member) => member.member._id !== selectedMember._id
+      (member) => member.member?._id !== selectedMember._id
     );
 
-    setSelectedMemberId(newMatchingMembers[0].member._id);
+    setSelectedMemberId(newMatchingMembers[0].member?._id);
     setSelectedMemberPercentage(newMatchingMembers[0].percentage);
   }
 
