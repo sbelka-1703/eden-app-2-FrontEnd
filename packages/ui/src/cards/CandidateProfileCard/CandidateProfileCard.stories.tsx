@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
+import { getMember } from "@eden/package-mock";
 import { faker } from "@faker-js/faker";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { getMember } from "storybook/mocks";
 
 import { CandidateProfileCard } from "./CandidateProfileCard";
 

@@ -2,7 +2,7 @@
   "name": "@eden/package-config",
   "version": "0.0.0",
   "main": "index.js",
-  "license": "MIT",
+  "private": true,
   "files": [
     "eslint-preset.js",
     "./jest/jest-preset.js"

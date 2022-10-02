@@ -1,5 +1,5 @@
-import { faker } from "@faker-js/faker";
 import { PhaseType } from "@eden/package-graphql/generated";
+import { faker } from "@faker-js/faker";
 
 import { phase, skills } from "./data";
 

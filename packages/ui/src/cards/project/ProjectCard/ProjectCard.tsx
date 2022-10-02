@@ -6,6 +6,8 @@ import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import { BsArrowRight } from "react-icons/bs";
 
+import { round } from "../../../../utils";
+
 const SET_FAVORITE = gql`
   mutation ($fields: addFavoriteProjectInput!) {
     addFavoriteProject(fields: $fields) {
@@ -75,8 +77,6 @@ export const ProjectCard = ({
 
   if (!project) return null;
 
-  const round = (num: number) => Math.round(num * 10) / 10;
-
   return (
     <Card border focused={focused} className="px-4 py-4">
       <div className="flex justify-between">
@@ -107,7 +107,7 @@ export const ProjectCard = ({
               >
                 <span>⚡ Match</span>
                 <span className={`text-soilPurple text-3xl font-semibold`}>
-                  {round(percentage)}%
+                  {round(Number(percentage), 1)}%
                 </span>
               </div>
             )}

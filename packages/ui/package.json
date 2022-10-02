@@ -3,7 +3,6 @@
   "version": "0.0.0",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
-  "license": "MIT",
   "scripts": {
     "lint": "eslint src/*.ts*",
     "test": "jest",
@@ -14,6 +13,7 @@
     "@eden/package-config": "*",
     "@eden/package-context": "*",
     "@eden/package-graphql": "*",
+    "@eden/package-mock": "*",
     "@eden/package-tsconfig": "*",
     "@faker-js/faker": "^7.4.0",
     "@headlessui/react": "^1.6.6",

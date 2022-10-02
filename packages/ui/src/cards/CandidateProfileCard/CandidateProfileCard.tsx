@@ -2,18 +2,14 @@ import { Maybe, Members } from "@eden/package-graphql/generated";
 import { Card, MatchAvatar } from "@eden/package-ui";
 import { XIcon } from "@heroicons/react/outline";
 
+import { round } from "../../../utils";
+
 export interface ICandidateProfileCardProps {
   member?: Maybe<Members>;
   percentage?: number;
   selected?: boolean;
   closeButton?: boolean;
   handleDelete?: any;
-}
-
-function round(value: number, precision: number) {
-  var multiplier = Math.pow(10, precision || 0);
-
-  return Math.round(value * multiplier) / multiplier;
 }
 
 export const CandidateProfileCard = ({

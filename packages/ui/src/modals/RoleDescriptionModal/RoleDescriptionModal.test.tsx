@@ -24,6 +24,9 @@ describe("ProjectInfoModal", () => {
             title: "Backend",
           },
         ]}
+        handleSubmit={function (): void {
+          throw new Error("Function not implemented.");
+        }}
       />
     );
 

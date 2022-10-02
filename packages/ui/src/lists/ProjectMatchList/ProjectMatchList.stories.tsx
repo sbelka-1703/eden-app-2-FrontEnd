@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { findProjects_RecommendedToUser } from "storybook/mocks";
+import { findProjects_RecommendedToUser } from "@eden/package-mock";
 
 import { ProjectMatchList } from "./ProjectMatchList";
 
