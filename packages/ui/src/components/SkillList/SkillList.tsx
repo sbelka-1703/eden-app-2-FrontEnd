@@ -4,6 +4,8 @@ import { Badge } from "@eden/package-ui";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
 import { useState } from "react";
 
+import { trimParentheses } from "../../../utils/trim-parentheses";
+
 export interface SkillListProps {
   skills: Maybe<SkillType_Member>[] | undefined;
   colorRGB?: string;
@@ -25,7 +27,7 @@ export const SkillList: React.FC<SkillListProps> = ({
     (skill: Maybe<SkillType_Member> | undefined, index: number) => (
       <Badge
         key={index}
-        text={skill?.skillInfo?.name || ""}
+        text={trimParentheses(skill?.skillInfo?.name || "")}
         colorRGB={colorRGB}
         className={`font-Inter text-sm`}
         closeButton={closeButton}
