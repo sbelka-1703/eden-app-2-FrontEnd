@@ -1,5 +1,10 @@
 /* eslint-disable camelcase */
-import { Button, GridItemFour, GridLayout } from "@eden/package-ui";
+import {
+  AppPublicLayout,
+  Button,
+  GridItemFour,
+  GridLayout,
+} from "@eden/package-ui";
 import { useRouter } from "next/router";
 
 import type { NextPageWithLayout } from "../_app";
