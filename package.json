@@ -15,7 +15,7 @@
     "test": "yarn workspace @eden/package-ui test",
     "test:coverage": "yarn workspace @eden/package-ui test --coverage",
     "test:watch": "yarn workspace @eden/package-ui test --watch",
-    "test:turbo": "turbo run test",
+    "test:turbo": "turbo run test --filter=@eden/package-ui",
     "clean": "turbo run clean",
     "clean-windows": "turbo run clean-windows",
     "build": "turbo run build --filter=web...",
