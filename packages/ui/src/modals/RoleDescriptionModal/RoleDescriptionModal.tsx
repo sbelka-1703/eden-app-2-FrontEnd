@@ -78,7 +78,7 @@ export const RoleDescriptionModal = ({
       title="Please add description & detail of the role for people to have more context when they're invited to apply!"
     >
       <div className="grid grid-cols-5 gap-8 pt-2">
-        <div className="col-span-1 w-max pt-4">
+        <div className="col-span-1 pt-4">
           {roles.map((role: any) => (
             <div
               key={role._id}
