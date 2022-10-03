@@ -70,12 +70,15 @@ export const ProjectSkillFilterCard: React.FC<ProjectSkillFilterCardProps> = ({
         <div>
           <div>
             <div className="mt-3">
-              <div className="text-lg	font-normal	tracking-wide">
+              <span className="text-md tracking-wide">
+                Desired availability of the contributor:
+              </span>
+              {/* <div className="text-lg	font-normal	tracking-wide">
                 How much time can you devote?
               </div>
               <div className="text-sm	font-light tracking-wide text-slate-500">
                 You can always edit this information in the settings
-              </div>
+              </div> */}
               <div className="flex flex-row content-center items-center">
                 <div className="w-24">
                   <TextField
@@ -93,12 +96,15 @@ export const ProjectSkillFilterCard: React.FC<ProjectSkillFilterCardProps> = ({
           </div>
           <div>
             <div className="mt-3">
-              <div className="text-lg	font-normal	tracking-wide">
+              <span className="text-md tracking-wide">
+                Set the rewards for the contributor:
+              </span>
+              {/* <div className="text-lg	font-normal	tracking-wide">
                 Do you expect to be rewarded?
               </div>
               <div className="text-sm	font-light tracking-wide text-slate-500">
                 You can always edit this information in the settings
-              </div>
+              </div> */}
               <div className="flex w-full flex-row content-center items-center">
                 <div className="mr-2 w-2/3">
                   <TextField

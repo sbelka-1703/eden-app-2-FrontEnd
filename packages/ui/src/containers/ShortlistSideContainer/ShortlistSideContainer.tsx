@@ -3,6 +3,7 @@ import {
   LaunchProjectModal,
   ProjectActionKind,
 } from "@eden/package-context";
+import { SkillRoleType } from "@eden/package-graphql/generated";
 import {
   CandidateProfileCard,
   Loading,
@@ -33,6 +34,17 @@ export const ShortlistSideContainer = ({
     matchMembersPage,
     setMatchMembersPage,
   } = useContext(LaunchProjectContext);
+
+  const handleSetSkills = (skills: SkillRoleType[]) => {
+    dispatchProject!({
+      type: ProjectActionKind.SET_ROLE_SKILLS,
+      payload: {
+        ...selectedRole,
+        skills: skills,
+      },
+    });
+    setSelectedRole({ ...selectedRole, skills: skills });
+  };
 
   const handleSetHoursPerWeek = (e: any) => {
     const newRoles = project?.role?.map((role) => {
@@ -147,10 +159,11 @@ export const ShortlistSideContainer = ({
           <Loading />
         ))}
 
-      <p>jjjjjj{JSON.stringify(project?.role)}kkkkk</p>
-      {!selectedMemberId && (
+      {!selectedMemberId && selectedRole && (
         <ProjectSkillFilterCard
+          key={selectedRole?._id}
           skills={selectedRole?.skills || []}
+          handleSetSkills={handleSetSkills}
           handleSetHoursPerWeek={handleSetHoursPerWeek}
           handleSetBudget={handleSetBudget}
         />

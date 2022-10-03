@@ -5,7 +5,6 @@ import {
   Modal,
   TextArea,
   TextHeading3,
-  TextLabel,
 } from "@eden/package-ui";
 import { useState } from "react";
 
@@ -48,17 +47,17 @@ export const RoleDescriptionModal = ({
     setModifiedRoles(newRoles);
   };
 
-  const handleChangeHoursPerWeek = (val: any) => {
-    const newRoles = modifiedRoles.map((role: RoleType) => {
-      if (role._id !== selectedRole._id) return role;
-      return {
-        ...role,
-        hoursPerWeek: Number(val.name),
-      };
-    });
+  // const handleChangeHoursPerWeek = (val: any) => {
+  //   const newRoles = modifiedRoles.map((role: RoleType) => {
+  //     if (role._id !== selectedRole._id) return role;
+  //     return {
+  //       ...role,
+  //       hoursPerWeek: Number(val.name),
+  //     };
+  //   });
 
-    setModifiedRoles(newRoles);
-  };
+  //   setModifiedRoles(newRoles);
+  // };
 
   const handleChangeOpenPositions = (val: any) => {
     const newRoles = modifiedRoles.map((role: RoleType) => {
@@ -118,7 +117,7 @@ export const RoleDescriptionModal = ({
               />
             </div>
             <div className="flex flex-col items-start justify-start">
-              <div className="flex items-center justify-center gap-2">
+              {/* <div className="flex items-center justify-center gap-2">
                 <Dropdown
                   radius="rounded"
                   placeholder="Hours"
@@ -132,15 +131,15 @@ export const RoleDescriptionModal = ({
                   onSelect={handleChangeHoursPerWeek}
                 />{" "}
                 <TextLabel className="ml-1 -mb-3">hours/week</TextLabel>
-                {/* <Dropdown
+                <Dropdown
                   radius="rounded"
                   placeholder="week/month"
                   items={[
                     { _id: 1, name: "week" },
                     { _id: 2, name: "month" },
                   ]}
-                /> */}
-              </div>
+                />
+              </div> */}
               <div className="w-full">
                 <label className="text-sm font-medium text-gray-700">
                   Open positions

@@ -18,15 +18,15 @@ export const SkillVisualisationComp: React.FC<SkillVisualisationCompProps> = ({
     (skill: Maybe<SkillType_Member>) => skill?.level === "senior"
   );
   const midSkills: Maybe<SkillType_Member>[] | undefined = skills?.filter(
-    (skill: Maybe<SkillType_Member>) => skill?.level !== "mid"
+    (skill: Maybe<SkillType_Member>) => skill?.level === "mid"
   );
 
   const juniorSkills: Maybe<SkillType_Member>[] | undefined = skills?.filter(
-    (skill: Maybe<SkillType_Member>) => skill?.level !== "junior"
+    (skill: Maybe<SkillType_Member>) => skill?.level === "junior"
   );
 
   const learningSkills: Maybe<SkillType_Member>[] | undefined = skills?.filter(
-    (skill: Maybe<SkillType_Member>) => skill?.level !== "learning"
+    (skill: Maybe<SkillType_Member>) => skill?.level === "learning"
   );
 
   return (

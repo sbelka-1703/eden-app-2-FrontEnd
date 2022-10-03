@@ -1,14 +1,5 @@
-import {
-  LaunchProjectContext,
-  LaunchProjectModal,
-} from "@eden/package-context";
-import {
-  AddSkillsToRoleCard,
-  Card,
-  Loading,
-  MemberMatchCard,
-  TextHeading3,
-} from "@eden/package-ui";
+import { LaunchProjectContext } from "@eden/package-context";
+import { Card, Loading, MemberMatchCard, TextHeading3 } from "@eden/package-ui";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import { useContext } from "react";
 
@@ -21,7 +12,6 @@ export const ShortlistContainer = ({
 }: IShortlistContainerProps) => {
   const {
     selectedRole,
-    setOpenModal,
     setSelectedMemberId,
     setSelectedMemberPercentage,
     matchMembersPage,
@@ -35,13 +25,13 @@ export const ShortlistContainer = ({
 
   return (
     <>
-      {selectedRole && (
+      {/* {selectedRole && (
         <AddSkillsToRoleCard
           numberOfMembers={matchingMembers.length}
           roleTitle={selectedRole?.title || ""}
           handleOpenSkillsModal={() => setOpenModal(LaunchProjectModal.SKILLS)}
         />
-      )}
+      )} */}
 
       {selectedRole && !selectedRole?.skills?.length && (
         <TextHeading3 className="mt-12 text-center">
