@@ -44,3 +44,7 @@ jest.mock("@testing-library/react", () => {
 
   return jest.requireActual(packages[reactVersion]);
 });
+
+jest.mock("react-chartjs-2", () => ({
+  Radar: () => null,
+}));
