@@ -1,11 +1,15 @@
 /* eslint-disable camelcase */
-import { Maybe, SkillType_Member } from "@eden/package-graphql/generated";
+import {
+  Maybe,
+  SkillRoleType,
+  SkillType_Member,
+} from "@eden/package-graphql/generated";
 import { CheckBox, SkillList } from "@eden/package-ui";
 // import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
 import { useState } from "react";
 
 export interface SkillVisualisationCompProps {
-  skills: any[];
+  skills: SkillRoleType[];
 }
 export const SkillVisualisationComp: React.FC<SkillVisualisationCompProps> = ({
   skills,
@@ -14,20 +18,31 @@ export const SkillVisualisationComp: React.FC<SkillVisualisationCompProps> = ({
   const [selectMid, setSelectMid] = useState(true);
   const [selectJunior, setSelectJunior] = useState(true);
   const [selectLearning, setSelectLearning] = useState(true);
-  const seniorSkills: Maybe<SkillType_Member>[] | undefined = skills?.filter(
-    (skill: Maybe<SkillType_Member>) => skill?.level === "senior"
+
+  const mappedSkills = skills.map(
+    (skill: SkillRoleType) =>
+      ({
+        skillInfo: skill?.skillData,
+        level: skill?.level,
+      } as SkillType_Member)
   );
-  const midSkills: Maybe<SkillType_Member>[] | undefined = skills?.filter(
-    (skill: Maybe<SkillType_Member>) => skill?.level === "mid"
+  const seniorSkills: Maybe<SkillType_Member>[] | undefined =
+    mappedSkills?.filter(
+      (skill: Maybe<SkillType_Member>) => skill?.level === "senior"
+    );
+  const midSkills: Maybe<SkillType_Member>[] | undefined = mappedSkills?.filter(
+    (skill: Maybe<SkillType_Member>) => skill?.level === "mid" || !skill?.level
   );
 
-  const juniorSkills: Maybe<SkillType_Member>[] | undefined = skills?.filter(
-    (skill: Maybe<SkillType_Member>) => skill?.level === "junior"
-  );
+  const juniorSkills: Maybe<SkillType_Member>[] | undefined =
+    mappedSkills?.filter(
+      (skill: Maybe<SkillType_Member>) => skill?.level === "junior"
+    );
 
-  const learningSkills: Maybe<SkillType_Member>[] | undefined = skills?.filter(
-    (skill: Maybe<SkillType_Member>) => skill?.level === "learning"
-  );
+  const learningSkills: Maybe<SkillType_Member>[] | undefined =
+    mappedSkills?.filter(
+      (skill: Maybe<SkillType_Member>) => skill?.level === "learning"
+    );
 
   return (
     <div>
