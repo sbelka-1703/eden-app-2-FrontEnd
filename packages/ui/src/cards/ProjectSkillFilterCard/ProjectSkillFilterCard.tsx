@@ -1,5 +1,9 @@
 /* eslint-disable camelcase */
-import { Maybe, SkillType_Member } from "@eden/package-graphql/generated";
+import {
+  Maybe,
+  SkillRoleType,
+  SkillType_Member,
+} from "@eden/package-graphql/generated";
 import {
   Card,
   SearchSkill,
@@ -43,10 +47,36 @@ export const ProjectSkillFilterCard: React.FC<ProjectSkillFilterCardProps> = ({
 }) => {
   const [unpaid, setUnpaid] = useState(false);
 
+  const mappedSkills = skills.map(
+    (skill: Maybe<SkillRoleType>) =>
+      ({
+        skillInfo: {
+          _id: skill?.skillData?._id,
+          name: skill?.skillData?.name,
+        },
+        level: skill?.level,
+      } as SkillType_Member)
+  );
+
   const handleUnpaid = (e: any) => {
     setUnpaid(e.target.checked);
     if (e.target.checked) handleSetBudget!({ perHour: "0", token: "" });
     if (!e.target.checked) handleSetBudget!({ perHour: "0", token: "" });
+  };
+
+  const _handleSetSkills = (_skills: SkillType_Member[]) => {
+    const _mappedSkills = _skills.map(
+      (skill: SkillType_Member) =>
+        ({
+          skillData: {
+            _id: skill?.skillInfo?._id,
+            name: skill?.skillInfo?.name,
+          },
+          level: skill?.level,
+        } as SkillRoleType)
+    );
+
+    handleSetSkills(_mappedSkills);
   };
 
   return (
@@ -60,8 +90,8 @@ export const ProjectSkillFilterCard: React.FC<ProjectSkillFilterCardProps> = ({
         <div className="mt-2">
           <SearchSkill
             levels={levels}
-            skills={skills as Maybe<Maybe<SkillType_Member>[]>}
-            setSkills={handleSetSkills}
+            skills={mappedSkills as Maybe<Maybe<SkillType_Member>[]>}
+            setSkills={_handleSetSkills}
           />
         </div>
         <div>
