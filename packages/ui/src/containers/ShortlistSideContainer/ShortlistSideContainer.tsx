@@ -1,6 +1,7 @@
 import {
   LaunchProjectContext,
   LaunchProjectModal,
+  ProjectActionKind,
 } from "@eden/package-context";
 import {
   CandidateProfileCard,
@@ -9,6 +10,8 @@ import {
 } from "@eden/package-ui";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import { useContext } from "react";
+
+import { ProjectSkillFilterCard } from "../../cards/ProjectSkillFilterCard";
 
 export interface IShortlistSideContainerProps {
   matchingMembers: any[];
@@ -19,6 +22,7 @@ export const ShortlistSideContainer = ({
 }: IShortlistSideContainerProps) => {
   const {
     project,
+    dispatchProject,
     projectEmoji,
     setOpenModal,
     selectedRole,
@@ -29,6 +33,42 @@ export const ShortlistSideContainer = ({
     matchMembersPage,
     setMatchMembersPage,
   } = useContext(LaunchProjectContext);
+
+  const handleSetHoursPerWeek = (e: any) => {
+    const newRoles = project?.role?.map((role) => {
+      if (role?._id !== selectedRole?._id) return role;
+      if (role?._id === selectedRole?._id)
+        return {
+          ...selectedRole,
+          hoursPerWeek: Number(e.target.value),
+        };
+    });
+
+    dispatchProject!({
+      payload: newRoles,
+      type: ProjectActionKind.SET_ROLES,
+    });
+  };
+
+  const handleSetBudget = (val: any) => {
+    const newRoles = project?.role?.map((role) => {
+      if (role?._id !== selectedRole?._id) return role;
+      if (role?._id === selectedRole?._id) {
+        return {
+          ...role,
+          budget: {
+            ...role?.budget,
+            ...val,
+          },
+        };
+      }
+    });
+
+    dispatchProject!({
+      payload: newRoles,
+      type: ProjectActionKind.SET_ROLES,
+    });
+  };
 
   return (
     <>
@@ -106,6 +146,15 @@ export const ShortlistSideContainer = ({
         ) : (
           <Loading />
         ))}
+
+      <p>jjjjjj{JSON.stringify(project?.role)}kkkkk</p>
+      {!selectedMemberId && (
+        <ProjectSkillFilterCard
+          skills={selectedRole?.skills || []}
+          handleSetHoursPerWeek={handleSetHoursPerWeek}
+          handleSetBudget={handleSetBudget}
+        />
+      )}
     </>
   );
 };

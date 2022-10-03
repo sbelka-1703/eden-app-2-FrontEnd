@@ -10,6 +10,7 @@ export type TextFieldProps = {
   // eslint-disable-next-line no-unused-vars
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
+  disabled?: boolean;
 } & InputHTMLAttributes<HTMLInputElement>;
 
 export const TextField: React.FC<TextFieldProps> = ({
@@ -22,6 +23,7 @@ export const TextField: React.FC<TextFieldProps> = ({
   autoComplete,
   placeholder,
   onChange,
+  disabled = false,
 }) => {
   const inputCls = clsx("py-1 px-4 font-Inter text-soilBody flex", {
     "rounded-md": radius === "default",
@@ -50,7 +52,8 @@ export const TextField: React.FC<TextFieldProps> = ({
           onChange={(e) => {
             onChange(e);
           }}
-          className={`${inputCls} focus:border-accentColor focus:ring-soilGreen-500 block w-full border border-zinc-400/50 py-1 px-2 text-base shadow-sm focus:outline-transparent focus:ring focus:ring-opacity-50`}
+          className={`${inputCls} focus:border-accentColor focus:ring-soilGreen-500 block w-full border border-zinc-400/50 py-1 px-2 text-base shadow-sm focus:outline-transparent focus:ring focus:ring-opacity-50 disabled:text-slate-300`}
+          disabled={disabled}
         />
       </div>
     </div>
