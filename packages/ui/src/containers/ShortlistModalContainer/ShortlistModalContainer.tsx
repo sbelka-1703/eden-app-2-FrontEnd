@@ -12,6 +12,7 @@ import {
   RoleType,
   SkillRoleType,
   Skills,
+  UpdateProjectInput,
 } from "@eden/package-graphql/generated";
 import {
   CongratulationsModal,
@@ -61,13 +62,17 @@ export const ShortlistModalContainer = ({}: IShortlistModalContainerProps) => {
               openPositions: role?.openPositions,
               hoursPerWeek: role?.hoursPerWeek,
               keyRosponsibilities: role?.keyRosponsibilities,
+              budget: {
+                token: role?.budget?.token,
+                perHour: role?.budget?.perHour,
+              },
               skills: role?.skills?.map((skill) => ({
                 _id: skill?.skillData?._id,
                 level: skill?.level,
               })),
             })),
             collaborationLinks: project?.collaborationLinks,
-          },
+          } as UpdateProjectInput,
         },
         context: { serviceName: "soilservice" },
         onCompleted: (data) => {
