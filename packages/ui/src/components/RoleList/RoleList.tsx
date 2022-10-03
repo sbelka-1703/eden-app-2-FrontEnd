@@ -65,9 +65,9 @@ export const RoleList: React.FC<RoleListProps> = ({
           </Button>
         </div>
       </div>
-      {cards && cards.length > 4 && (
+      {cards && cards.length >= 4 && (
         <p
-          className="cursor-pointer text-center text-sm"
+          className="mt-2 cursor-pointer text-center text-sm"
           onClick={() => setSeeMore(!seeMore)}
         >
           {`see ${seeMore ? "less" : "more"} roles`}
