@@ -40,10 +40,10 @@ export const ShortlistContainer = ({
       )}
       {selectedRole && selectedRole?.skills?.length! > 0 && (
         <Card className="bg-white px-10 py-4">
-          {!matchingMembers.length ? (
+          {!matchingMembers ? (
             <Loading />
           ) : (
-            !!matchingMembers.length && (
+            !!matchingMembers && (
               <>
                 <TextHeading3 className="mb-4">
                   {selectedRole.title} matches:
