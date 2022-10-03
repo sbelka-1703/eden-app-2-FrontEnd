@@ -24,25 +24,30 @@ export const CheckBox: React.FC<CheckBoxProps> = ({
   onChange,
 }) => {
   const inputCls = clsx("font-Inter text-soilBody flex", {
-    "py-1 px-4 rounded-md": radius === "default",
-    "py-1 px-4 rounded-lg": radius === "rounded",
-    "py-1 px-4 rounded-full": radius === "pill",
-    "p-1.5 rounded-md": radius === "boxed",
+    "py-1 px-1 rounded-md": radius === "default",
+    "py-1 px-1 rounded-lg": radius === "rounded",
+    "py-1 px-1 rounded-full": radius === "pill",
+    "py-1 px-0.5 rounded-md": radius === "boxed",
   });
 
   return (
-    <div className={`w-fit`}>
-      <div
-        className={`mt-1 flex ${inputCls}`}
+    <div className={`mr-1 w-fit`}>
+      <label
+        className={`mt-1 flex cursor-pointer ${inputCls}`}
         style={
           bgColorRGB
             ? {
                 background: `rgba(${bgColorRGB})`,
-                border: `4px solid rgba(${brColorRGB})`,
+                border: `1px solid rgba(${brColorRGB})`,
               }
             : {}
         }
       >
+        <span
+          className={"mr-1 text-xs font-semibold tracking-wider text-gray-700"}
+        >
+          {label}
+        </span>
         <input
           id={name}
           name={name}
@@ -54,13 +59,7 @@ export const CheckBox: React.FC<CheckBoxProps> = ({
           checked={checked}
           className={`${inputCls} shadow-sm`}
         />
-        <label
-          htmlFor={name}
-          className={"ml-2 text-sm font-semibold tracking-wider text-gray-700"}
-        >
-          {label}
-        </label>
-      </div>
+      </label>
     </div>
   );
 };

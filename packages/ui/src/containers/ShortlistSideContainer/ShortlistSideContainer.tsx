@@ -1,7 +1,9 @@
 import {
   LaunchProjectContext,
   LaunchProjectModal,
+  ProjectActionKind,
 } from "@eden/package-context";
+import { SkillRoleType } from "@eden/package-graphql/generated";
 import {
   CandidateProfileCard,
   Loading,
@@ -9,6 +11,8 @@ import {
 } from "@eden/package-ui";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import { useContext } from "react";
+
+import { ProjectSkillFilterCard } from "../../cards/ProjectSkillFilterCard";
 
 export interface IShortlistSideContainerProps {
   matchingMembers: any[];
@@ -19,6 +23,7 @@ export const ShortlistSideContainer = ({
 }: IShortlistSideContainerProps) => {
   const {
     project,
+    dispatchProject,
     projectEmoji,
     setOpenModal,
     selectedRole,
@@ -29,6 +34,53 @@ export const ShortlistSideContainer = ({
     matchMembersPage,
     setMatchMembersPage,
   } = useContext(LaunchProjectContext);
+
+  const handleSetSkills = (skills: SkillRoleType[]) => {
+    dispatchProject!({
+      type: ProjectActionKind.SET_ROLE_SKILLS,
+      payload: {
+        ...selectedRole,
+        skills: skills,
+      },
+    });
+    setSelectedRole({ ...selectedRole, skills: skills });
+  };
+
+  const handleSetHoursPerWeek = (e: any) => {
+    const newRoles = project?.role?.map((role) => {
+      if (role?._id !== selectedRole?._id) return role;
+      if (role?._id === selectedRole?._id)
+        return {
+          ...selectedRole,
+          hoursPerWeek: Number(e.target.value),
+        };
+    });
+
+    dispatchProject!({
+      payload: newRoles,
+      type: ProjectActionKind.SET_ROLES,
+    });
+  };
+
+  const handleSetBudget = (val: any) => {
+    const newRoles = project?.role?.map((role) => {
+      if (role?._id !== selectedRole?._id) return role;
+      if (role?._id === selectedRole?._id) {
+        return {
+          ...role,
+          budget: {
+            ...role?.budget,
+            ...val,
+          },
+        };
+      }
+    });
+
+    dispatchProject!({
+      payload: newRoles,
+      type: ProjectActionKind.SET_ROLES,
+    });
+  };
 
   return (
     <>
@@ -106,6 +158,16 @@ export const ShortlistSideContainer = ({
         ) : (
           <Loading />
         ))}
+
+      {!selectedMemberId && selectedRole && (
+        <ProjectSkillFilterCard
+          key={selectedRole?._id}
+          skills={selectedRole?.skills || []}
+          handleSetSkills={handleSetSkills}
+          handleSetHoursPerWeek={handleSetHoursPerWeek}
+          handleSetBudget={handleSetBudget}
+        />
+      )}
     </>
   );
 };

@@ -19,6 +19,7 @@ export const RoleList: React.FC<RoleListProps> = ({
   roles,
   handleAddRole,
   handleSelectRole,
+  // eslint-disable-next-line no-unused-vars
   handleEditRole,
   selectedRole,
   members,
@@ -30,11 +31,11 @@ export const RoleList: React.FC<RoleListProps> = ({
       <RoleSmallCard
         role={role}
         isSelected={selectedRole?._id === role?._id}
-        skills={role?.skills ? role.skills : []}
+        // skills={role?.skills ? role.skills : []}
         onClick={() => {
           if (handleSelectRole) handleSelectRole(role);
         }}
-        handleEdit={() => handleEditRole!(role?._id!)}
+        // handleEdit={() => handleEditRole!(role?._id!)}
         avatars={
           members
             ?.filter((member) => member?.roleID === role?._id)

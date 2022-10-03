@@ -18,15 +18,15 @@ export const SkillVisualisationComp: React.FC<SkillVisualisationCompProps> = ({
     (skill: Maybe<SkillType_Member>) => skill?.level === "senior"
   );
   const midSkills: Maybe<SkillType_Member>[] | undefined = skills?.filter(
-    (skill: Maybe<SkillType_Member>) => skill?.level !== "mid"
+    (skill: Maybe<SkillType_Member>) => skill?.level === "mid"
   );
 
   const juniorSkills: Maybe<SkillType_Member>[] | undefined = skills?.filter(
-    (skill: Maybe<SkillType_Member>) => skill?.level !== "junior"
+    (skill: Maybe<SkillType_Member>) => skill?.level === "junior"
   );
 
   const learningSkills: Maybe<SkillType_Member>[] | undefined = skills?.filter(
-    (skill: Maybe<SkillType_Member>) => skill?.level !== "learning"
+    (skill: Maybe<SkillType_Member>) => skill?.level === "learning"
   );
 
   return (
@@ -34,6 +34,7 @@ export const SkillVisualisationComp: React.FC<SkillVisualisationCompProps> = ({
       <div className="flex flex-row justify-between">
         <div>
           <CheckBox
+            name="senior"
             label="SENIOR"
             radius="boxed"
             checked={selectSenior}
@@ -44,7 +45,8 @@ export const SkillVisualisationComp: React.FC<SkillVisualisationCompProps> = ({
         </div>
         <div>
           <CheckBox
-            label="MID LEVEL"
+            name="mid level"
+            label="MID"
             radius="boxed"
             checked={selectMid}
             onChange={() => setSelectMid(!selectMid)}
@@ -54,6 +56,7 @@ export const SkillVisualisationComp: React.FC<SkillVisualisationCompProps> = ({
         </div>
         <div>
           <CheckBox
+            name="junior"
             label="JUNIOR"
             radius="boxed"
             checked={selectJunior}
@@ -64,6 +67,7 @@ export const SkillVisualisationComp: React.FC<SkillVisualisationCompProps> = ({
         </div>
         <div>
           <CheckBox
+            name="learning"
             label="LEARNING"
             radius="boxed"
             checked={selectLearning}
