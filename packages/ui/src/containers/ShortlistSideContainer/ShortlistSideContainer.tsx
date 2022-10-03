@@ -162,6 +162,8 @@ export const ShortlistSideContainer = ({
       {!selectedMemberId && selectedRole && (
         <ProjectSkillFilterCard
           key={selectedRole?._id}
+          selectedRole={selectedRole}
+          roles={project?.role || []}
           skills={selectedRole?.skills || []}
           handleSetSkills={handleSetSkills}
           handleSetHoursPerWeek={handleSetHoursPerWeek}

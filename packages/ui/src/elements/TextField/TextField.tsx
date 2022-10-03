@@ -5,6 +5,7 @@ export type TextFieldProps = {
   name?: string;
   label?: string;
   value?: string;
+  defaultValue?: string;
   required?: boolean;
   radius?: "default" | "rounded" | "pill" | "pill-shadow";
   // eslint-disable-next-line no-unused-vars
@@ -17,6 +18,7 @@ export const TextField: React.FC<TextFieldProps> = ({
   name,
   label,
   value,
+  defaultValue,
   type = "text",
   required,
   radius = "default",
@@ -45,6 +47,7 @@ export const TextField: React.FC<TextFieldProps> = ({
           id={name}
           name={name}
           value={value}
+          defaultValue={defaultValue}
           type={type}
           required={required}
           autoComplete={autoComplete}
