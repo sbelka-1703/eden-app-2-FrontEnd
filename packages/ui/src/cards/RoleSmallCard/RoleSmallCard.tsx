@@ -108,9 +108,11 @@ export const RoleSmallCard = ({
           <TextHeading3 className="font-poppins font-medium">
             {role?.title}
           </TextHeading3>
-          <div>
-            <SkillListForRole skills={skills} colorRGB="255, 255, 210" />
-          </div>
+          {skills && (
+            <div>
+              <SkillListForRole skills={skills} colorRGB="255, 255, 210" />
+            </div>
+          )}
         </div>
         {avatars && (
           <div className="scrollbar-hide overflow-x-scroll px-2">
