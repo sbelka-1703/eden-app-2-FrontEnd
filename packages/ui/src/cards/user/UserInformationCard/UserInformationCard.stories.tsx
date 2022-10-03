@@ -1,5 +1,5 @@
+import { getPreviusProjects } from "@eden/package-mock";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { getPreviusProjects } from "storybook/mocks";
 
 import { UserInformationCard } from "./UserInformationCard";
 

@@ -11,7 +11,7 @@
     },
     "build:storybook": {
       "dependsOn": ["^build:storybook"],
-      "outputs": ["storybook-static/**"]
+      "outputs": ["dist/**", "storybook-static/**"]
     },
     "test": {
       "outputs": ["coverage/**"],

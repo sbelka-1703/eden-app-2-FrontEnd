@@ -1,6 +1,6 @@
+import { getMember } from "@eden/package-mock";
 import { faker } from "@faker-js/faker";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { getMember } from "storybook/mocks";
 
 import { UserCard } from "./UserCard";
 

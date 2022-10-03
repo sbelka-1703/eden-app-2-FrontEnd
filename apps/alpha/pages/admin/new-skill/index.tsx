@@ -493,7 +493,7 @@ const AdminPanelToAddNewSkill: NextPageWithLayout = () => {
           <div className="flex cursor-pointer flex-col items-start justify-start px-3 py-2">
             <TextBody>
               {role?.title && role?.title?.length > 10
-                ? role?.title?.slice(0, 9) + "..."
+                ? role?.title?.slice(0, 20) + "..."
                 : role?.title}
             </TextBody>
           </div>
