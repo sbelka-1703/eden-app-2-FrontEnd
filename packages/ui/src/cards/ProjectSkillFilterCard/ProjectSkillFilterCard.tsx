@@ -41,6 +41,7 @@ export interface ProjectSkillFilterCardProps {
   // eslint-disable-next-line no-unused-vars
   handleSetHoursPerWeek?: (val: any) => void;
   handleSetBudget?: any;
+  handleDeleteSkill?: any;
 }
 export const ProjectSkillFilterCard: React.FC<ProjectSkillFilterCardProps> = ({
   selectedRole,
@@ -49,6 +50,7 @@ export const ProjectSkillFilterCard: React.FC<ProjectSkillFilterCardProps> = ({
   handleSetSkills,
   handleSetHoursPerWeek,
   handleSetBudget,
+  handleDeleteSkill,
 }) => {
   const [unpaid, setUnpaid] = useState(false);
 
@@ -100,7 +102,10 @@ export const ProjectSkillFilterCard: React.FC<ProjectSkillFilterCardProps> = ({
           />
         </div>
         <div>
-          <SkillVisualisationComp skills={skills!} />
+          <SkillVisualisationComp
+            skills={skills!}
+            handleDeleteSkill={handleDeleteSkill}
+          />
         </div>
         <div>
           <div>
