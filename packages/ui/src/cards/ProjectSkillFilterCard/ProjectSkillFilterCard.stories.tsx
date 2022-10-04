@@ -17,4 +17,5 @@ const Template: ComponentStory<typeof ProjectSkillFilterCard> = (args) => (
 export const Default = Template.bind({});
 Default.args = {
   skills: getSkills(faker.datatype.number({ min: 2, max: 15, precision: 1 })),
+  roles: [],
 };
