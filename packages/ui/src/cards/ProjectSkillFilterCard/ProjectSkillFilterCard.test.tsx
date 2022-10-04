@@ -3,7 +3,9 @@ import { ProjectSkillFilterCard } from ".";
 
 describe("ProjectSkillFilterCard", () => {
   it("renders without throwing", () => {
-    const { container } = render(<ProjectSkillFilterCard skills={[]} />);
+    const { container } = render(
+      <ProjectSkillFilterCard skills={[]} roles={[]} />
+    );
 
     expect(container).toBeInTheDocument();
   });

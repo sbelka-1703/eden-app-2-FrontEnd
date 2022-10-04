@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import {
   Maybe,
+  RoleType,
   SkillRoleType,
   SkillType_Member,
 } from "@eden/package-graphql/generated";
@@ -33,17 +34,23 @@ const levels = [
 ];
 
 export interface ProjectSkillFilterCardProps {
+  selectedRole?: RoleType;
+  roles: any[];
   skills: any[];
   handleSetSkills?: any;
   // eslint-disable-next-line no-unused-vars
   handleSetHoursPerWeek?: (val: any) => void;
   handleSetBudget?: any;
+  handleDeleteSkill?: any;
 }
 export const ProjectSkillFilterCard: React.FC<ProjectSkillFilterCardProps> = ({
+  selectedRole,
+  roles,
   skills,
   handleSetSkills,
   handleSetHoursPerWeek,
   handleSetBudget,
+  handleDeleteSkill,
 }) => {
   const [unpaid, setUnpaid] = useState(false);
 
@@ -95,7 +102,10 @@ export const ProjectSkillFilterCard: React.FC<ProjectSkillFilterCardProps> = ({
           />
         </div>
         <div>
-          <SkillVisualisationComp skills={skills!} />
+          <SkillVisualisationComp
+            skills={skills!}
+            handleDeleteSkill={handleDeleteSkill}
+          />
         </div>
         <div>
           <div>
@@ -116,6 +126,10 @@ export const ProjectSkillFilterCard: React.FC<ProjectSkillFilterCardProps> = ({
                     placeholder="0"
                     radius="rounded"
                     type="number"
+                    defaultValue={
+                      roles.find((role: any) => role._id === selectedRole?._id)
+                        ?.hoursPerWeek
+                    }
                     onChange={handleSetHoursPerWeek!}
                   />
                 </div>
@@ -143,7 +157,13 @@ export const ProjectSkillFilterCard: React.FC<ProjectSkillFilterCardProps> = ({
                     placeholder="0"
                     radius="rounded"
                     type="number"
-                    defaultValue={unpaid ? "0" : ""}
+                    defaultValue={
+                      unpaid
+                        ? ""
+                        : roles.find(
+                            (role: RoleType) => role._id === selectedRole?._id
+                          )?.budget?.perHour
+                    }
                     onChange={(e) =>
                       handleSetBudget({ perHour: e.target.value })
                     }
@@ -157,7 +177,13 @@ export const ProjectSkillFilterCard: React.FC<ProjectSkillFilterCardProps> = ({
                     placeholder="token"
                     radius="rounded"
                     type="text"
-                    defaultValue={""}
+                    defaultValue={
+                      unpaid
+                        ? ""
+                        : roles.find(
+                            (role: RoleType) => role._id === selectedRole?._id
+                          )?.budget?.token
+                    }
                     onChange={(e) => handleSetBudget({ token: e.target.value })}
                     disabled={unpaid}
                   />

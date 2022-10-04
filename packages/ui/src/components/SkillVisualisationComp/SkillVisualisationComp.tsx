@@ -10,9 +10,12 @@ import { useState } from "react";
 
 export interface SkillVisualisationCompProps {
   skills: SkillRoleType[];
+  // eslint-disable-next-line no-unused-vars
+  handleDeleteSkill?: (skill: any) => void;
 }
 export const SkillVisualisationComp: React.FC<SkillVisualisationCompProps> = ({
   skills,
+  handleDeleteSkill,
 }) => {
   const [selectSenior, setSelectSenior] = useState(true);
   const [selectMid, setSelectMid] = useState(true);
@@ -96,6 +99,8 @@ export const SkillVisualisationComp: React.FC<SkillVisualisationCompProps> = ({
         <div>
           {selectSenior && seniorSkills.length > 0 && (
             <SkillList
+              closeButton
+              handleDeleteSkill={handleDeleteSkill}
               skills={seniorSkills}
               colorRGB="191, 255, 140"
               overflowNumber={15}
@@ -105,6 +110,8 @@ export const SkillVisualisationComp: React.FC<SkillVisualisationCompProps> = ({
         <div className="mt-1">
           {selectMid && midSkills.length > 0 && (
             <SkillList
+              closeButton
+              handleDeleteSkill={handleDeleteSkill}
               skills={midSkills}
               colorRGB="255, 169, 241"
               overflowNumber={15}
@@ -114,6 +121,8 @@ export const SkillVisualisationComp: React.FC<SkillVisualisationCompProps> = ({
         <div className="mt-1">
           {selectJunior && juniorSkills.length > 0 && (
             <SkillList
+              closeButton
+              handleDeleteSkill={handleDeleteSkill}
               skills={juniorSkills}
               colorRGB="186, 230, 255"
               overflowNumber={15}
@@ -123,6 +132,8 @@ export const SkillVisualisationComp: React.FC<SkillVisualisationCompProps> = ({
         <div className="mt-1">
           {selectLearning && learningSkills.length > 0 && (
             <SkillList
+              closeButton
+              handleDeleteSkill={handleDeleteSkill}
               skills={learningSkills}
               colorRGB="255, 208, 43"
               overflowNumber={15}

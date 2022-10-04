@@ -3,7 +3,9 @@ import {
   Button,
   Dropdown,
   Modal,
+  SwitchButton,
   TextArea,
+  TextField,
   TextHeading3,
 } from "@eden/package-ui";
 import { useState } from "react";
@@ -22,6 +24,7 @@ export const RoleDescriptionModal = ({
 }: RoleDescriptionModalInterface) => {
   const [selectedRole, setSelectedRole] = useState({ title: null, _id: null });
   const [modifiedRoles, setModifiedRoles] = useState(roles);
+  const [unpaid, setUnpaid] = useState(false);
 
   const handleChangeDescription = (e: any) => {
     const newRoles = modifiedRoles.map((role: RoleType) => {
@@ -47,17 +50,17 @@ export const RoleDescriptionModal = ({
     setModifiedRoles(newRoles);
   };
 
-  // const handleChangeHoursPerWeek = (val: any) => {
-  //   const newRoles = modifiedRoles.map((role: RoleType) => {
-  //     if (role._id !== selectedRole._id) return role;
-  //     return {
-  //       ...role,
-  //       hoursPerWeek: Number(val.name),
-  //     };
-  //   });
+  const handleSetHoursPerWeek = (e: any) => {
+    const newRoles = modifiedRoles.map((role: RoleType) => {
+      if (role._id !== selectedRole._id) return role;
+      return {
+        ...role,
+        hoursPerWeek: Number(e.target.value),
+      };
+    });
 
-  //   setModifiedRoles(newRoles);
-  // };
+    setModifiedRoles(newRoles);
+  };
 
   const handleChangeOpenPositions = (val: any) => {
     const newRoles = modifiedRoles.map((role: RoleType) => {
@@ -69,6 +72,29 @@ export const RoleDescriptionModal = ({
     });
 
     setModifiedRoles(newRoles);
+  };
+
+  const handleSetBudget = (val: any) => {
+    const newRoles = modifiedRoles?.map((role: RoleType) => {
+      if (role?._id !== selectedRole?._id) return role;
+      if (role?._id === selectedRole?._id) {
+        return {
+          ...role,
+          budget: {
+            ...role?.budget,
+            ...val,
+          },
+        };
+      }
+    });
+
+    setModifiedRoles(newRoles);
+  };
+
+  const handleUnpaid = (e: any) => {
+    setUnpaid(e.target.checked);
+    if (e.target.checked) handleSetBudget!({ perHour: "0", token: "" });
+    if (!e.target.checked) handleSetBudget!({ perHour: "0", token: "" });
   };
 
   return (
@@ -92,7 +118,10 @@ export const RoleDescriptionModal = ({
             </div>
           ))}
         </div>
-        <div className="border-soilGreen-600 col-span-4 rounded-lg border-2 p-4">
+        <div
+          className="border-soilGreen-600 col-span-4 rounded-lg border-2 p-4"
+          key={selectedRole?._id}
+        >
           <TextHeading3>{selectedRole?.title}</TextHeading3>
           <div className="relative flex w-full items-start justify-center gap-5">
             {selectedRole._id === null && (
@@ -117,29 +146,25 @@ export const RoleDescriptionModal = ({
               />
             </div>
             <div className="flex flex-col items-start justify-start">
-              {/* <div className="flex items-center justify-center gap-2">
-                <Dropdown
-                  radius="rounded"
-                  placeholder="Hours"
-                  label="Availability"
-                  items={[
-                    { _id: 1, name: "10" },
-                    { _id: 2, name: "20" },
-                    { _id: 3, name: "30" },
-                    { _id: 4, name: "40" },
-                  ]}
-                  onSelect={handleChangeHoursPerWeek}
-                />{" "}
-                <TextLabel className="ml-1 -mb-3">hours/week</TextLabel>
-                <Dropdown
-                  radius="rounded"
-                  placeholder="week/month"
-                  items={[
-                    { _id: 1, name: "week" },
-                    { _id: 2, name: "month" },
-                  ]}
-                />
-              </div> */}
+              <div className="flex items-center justify-center gap-2">
+                <div className="flex flex-row content-center items-center">
+                  <div className="w-24">
+                    <TextField
+                      name="hoursPerWeek"
+                      placeholder="0"
+                      radius="rounded"
+                      type="number"
+                      onChange={handleSetHoursPerWeek!}
+                      defaultValue={
+                        modifiedRoles.find(
+                          (role: any) => role._id === selectedRole._id
+                        )?.hoursPerWeek
+                      }
+                    />
+                  </div>
+                  <span className="font-sm ml-2">hours/week</span>
+                </div>
+              </div>
               <div className="w-full">
                 <label className="text-sm font-medium text-gray-700">
                   Open positions
@@ -154,13 +179,73 @@ export const RoleDescriptionModal = ({
                       { _id: 2, name: "3" },
                       { _id: 2, name: "4" },
                     ]}
+                    value={
+                      modifiedRoles.find(
+                        (role: any) => role._id === selectedRole._id
+                      )?.openPositions
+                    }
                     onSelect={handleChangeOpenPositions}
                   />
                 </div>
               </div>
+              <span className="text-md tracking-wide">
+                Set the rewards for the contributor:
+              </span>
+              <div className="flex w-full flex-row content-center items-center">
+                <div className="mr-2 w-2/3">
+                  <TextField
+                    key={"" + unpaid}
+                    name="budget"
+                    placeholder="0"
+                    radius="rounded"
+                    type="number"
+                    defaultValue={
+                      unpaid
+                        ? ""
+                        : modifiedRoles.find(
+                            (role: RoleType) => role._id === selectedRole?._id
+                          )?.budget?.perHour
+                    }
+                    onChange={(e) => {
+                      handleSetBudget({ perHour: e.target.value });
+                    }}
+                    disabled={unpaid}
+                  />
+                </div>
+                <div className="w-1/3">
+                  <TextField
+                    key={"" + unpaid}
+                    name="token"
+                    placeholder="token"
+                    radius="rounded"
+                    type="text"
+                    defaultValue={
+                      unpaid
+                        ? ""
+                        : modifiedRoles.find(
+                            (role: RoleType) => role._id === selectedRole?._id
+                          )?.budget?.token
+                    }
+                    onChange={(e) => handleSetBudget({ token: e.target.value })}
+                    disabled={unpaid}
+                  />
+                </div>
+              </div>
+              <div className="mt-3">
+                <SwitchButton
+                  name="unpaid"
+                  label="Unpaid"
+                  onChange={handleUnpaid}
+                />
+              </div>
               <div>
                 <p>Key responsibilities</p>
                 <TextArea
+                  value={
+                    modifiedRoles.find(
+                      (role: RoleType) => role._id === selectedRole?._id
+                    )?.keyRosponsibilities
+                  }
                   onChange={(e) => handleChangeResponsibility(e.target.value)}
                   placeholder="start typing here"
                 />
