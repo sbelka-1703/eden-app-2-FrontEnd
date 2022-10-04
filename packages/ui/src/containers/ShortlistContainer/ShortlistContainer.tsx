@@ -5,10 +5,12 @@ import { useContext } from "react";
 
 export interface IShortlistContainerProps {
   matchingMembers: any[];
+  overflow?: boolean;
 }
 
 export const ShortlistContainer = ({
   matchingMembers,
+  overflow = false,
 }: IShortlistContainerProps) => {
   const {
     selectedRole,
@@ -40,14 +42,16 @@ export const ShortlistContainer = ({
       )}
       {selectedRole && selectedRole?.skills?.length! > 0 && (
         <Card className="bg-white px-10 py-4">
-          {!matchingMembers.length ? (
+          {!matchingMembers ? (
             <Loading />
           ) : (
-            !!matchingMembers.length && (
+            !!matchingMembers && (
               <>
-                <TextHeading3 className="mb-4">
-                  {selectedRole.title} matches:
-                </TextHeading3>
+                {!overflow && (
+                  <TextHeading3 className="mb-4">
+                    {selectedRole.title} matches:
+                  </TextHeading3>
+                )}
                 <div className="mb-4 grid grid-cols-3 gap-x-10 gap-y-10">
                   {matchingMembers.map((_member: any, index: number) => (
                     <MemberMatchCard
@@ -64,6 +68,11 @@ export const ShortlistContainer = ({
                     />
                   ))}
                 </div>
+                {overflow && (
+                  <TextHeading3 className="mb-4">
+                    There are no more matching candidates
+                  </TextHeading3>
+                )}
                 <section className="flex justify-evenly">
                   {!!matchMembersPage && matchMembersPage > 0 && (
                     <span
@@ -77,7 +86,7 @@ export const ShortlistContainer = ({
                       Previous
                     </span>
                   )}
-                  {!!matchingMembers.length && (
+                  {!!matchingMembers.length && !overflow && (
                     <span
                       className="text-soilGray group cursor-pointer hover:text-slate-400"
                       onClick={() => setMatchMembersPage(matchMembersPage + 1)}

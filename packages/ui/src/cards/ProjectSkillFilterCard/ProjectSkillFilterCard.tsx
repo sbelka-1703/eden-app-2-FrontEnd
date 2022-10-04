@@ -1,5 +1,10 @@
 /* eslint-disable camelcase */
-import { Maybe, SkillType_Member } from "@eden/package-graphql/generated";
+import {
+  Maybe,
+  RoleType,
+  SkillRoleType,
+  SkillType_Member,
+} from "@eden/package-graphql/generated";
 import {
   Card,
   SearchSkill,
@@ -29,24 +34,56 @@ const levels = [
 ];
 
 export interface ProjectSkillFilterCardProps {
+  selectedRole?: RoleType;
+  roles: any[];
   skills: any[];
   handleSetSkills?: any;
   // eslint-disable-next-line no-unused-vars
   handleSetHoursPerWeek?: (val: any) => void;
   handleSetBudget?: any;
+  handleDeleteSkill?: any;
 }
 export const ProjectSkillFilterCard: React.FC<ProjectSkillFilterCardProps> = ({
+  selectedRole,
+  roles,
   skills,
   handleSetSkills,
   handleSetHoursPerWeek,
   handleSetBudget,
+  handleDeleteSkill,
 }) => {
   const [unpaid, setUnpaid] = useState(false);
+
+  const mappedSkills = skills.map(
+    (skill: Maybe<SkillRoleType>) =>
+      ({
+        skillInfo: {
+          _id: skill?.skillData?._id,
+          name: skill?.skillData?.name,
+        },
+        level: skill?.level,
+      } as SkillType_Member)
+  );
 
   const handleUnpaid = (e: any) => {
     setUnpaid(e.target.checked);
     if (e.target.checked) handleSetBudget!({ perHour: "0", token: "" });
     if (!e.target.checked) handleSetBudget!({ perHour: "0", token: "" });
+  };
+
+  const _handleSetSkills = (_skills: SkillType_Member[]) => {
+    const _mappedSkills = _skills.map(
+      (skill: SkillType_Member) =>
+        ({
+          skillData: {
+            _id: skill?.skillInfo?._id,
+            name: skill?.skillInfo?.name,
+          },
+          level: skill?.level,
+        } as SkillRoleType)
+    );
+
+    handleSetSkills(_mappedSkills);
   };
 
   return (
@@ -60,12 +97,15 @@ export const ProjectSkillFilterCard: React.FC<ProjectSkillFilterCardProps> = ({
         <div className="mt-2">
           <SearchSkill
             levels={levels}
-            skills={skills as Maybe<Maybe<SkillType_Member>[]>}
-            setSkills={handleSetSkills}
+            skills={mappedSkills as Maybe<Maybe<SkillType_Member>[]>}
+            setSkills={_handleSetSkills}
           />
         </div>
         <div>
-          <SkillVisualisationComp skills={skills!} />
+          <SkillVisualisationComp
+            skills={skills!}
+            handleDeleteSkill={handleDeleteSkill}
+          />
         </div>
         <div>
           <div>
@@ -86,6 +126,10 @@ export const ProjectSkillFilterCard: React.FC<ProjectSkillFilterCardProps> = ({
                     placeholder="0"
                     radius="rounded"
                     type="number"
+                    defaultValue={
+                      roles.find((role: any) => role._id === selectedRole?._id)
+                        ?.hoursPerWeek
+                    }
                     onChange={handleSetHoursPerWeek!}
                   />
                 </div>
@@ -113,7 +157,13 @@ export const ProjectSkillFilterCard: React.FC<ProjectSkillFilterCardProps> = ({
                     placeholder="0"
                     radius="rounded"
                     type="number"
-                    defaultValue={unpaid ? "0" : ""}
+                    defaultValue={
+                      unpaid
+                        ? ""
+                        : roles.find(
+                            (role: RoleType) => role._id === selectedRole?._id
+                          )?.budget?.perHour
+                    }
                     onChange={(e) =>
                       handleSetBudget({ perHour: e.target.value })
                     }
@@ -127,7 +177,13 @@ export const ProjectSkillFilterCard: React.FC<ProjectSkillFilterCardProps> = ({
                     placeholder="token"
                     radius="rounded"
                     type="text"
-                    defaultValue={""}
+                    defaultValue={
+                      unpaid
+                        ? ""
+                        : roles.find(
+                            (role: RoleType) => role._id === selectedRole?._id
+                          )?.budget?.token
+                    }
                     onChange={(e) => handleSetBudget({ token: e.target.value })}
                     disabled={unpaid}
                   />

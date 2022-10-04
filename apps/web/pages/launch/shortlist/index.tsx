@@ -52,7 +52,7 @@ const LaunchPage: NextPageWithLayout = () => {
         !project?.team?.some((teamMember) => {
           return teamMember?.memberInfo?._id === member?.member?._id;
         })
-    ) || [];
+    );
 
   function handleRemoveShortlistMember(member: Maybe<TeamType>) {
     dispatchProject!({
@@ -81,7 +81,10 @@ const LaunchPage: NextPageWithLayout = () => {
 
         {!selectedMemberId ? (
           <GridItemNine className="scrollbar-hide h-8/10 overflow-scroll">
-            <ShortlistContainer matchingMembers={filteredMembers} />
+            <ShortlistContainer
+              matchingMembers={filteredMembers}
+              overflow={matchingMembers?.matchSkillsToMembers!.length < 9}
+            />
           </GridItemNine>
         ) : (
           <>

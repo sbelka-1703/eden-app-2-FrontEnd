@@ -3,7 +3,11 @@ import {
   LaunchProjectModal,
   ProjectActionKind,
 } from "@eden/package-context";
-import { SkillRoleType } from "@eden/package-graphql/generated";
+import {
+  SkillRoleType,
+  // eslint-disable-next-line camelcase
+  SkillType_Member,
+} from "@eden/package-graphql/generated";
 import {
   CandidateProfileCard,
   Loading,
@@ -44,6 +48,22 @@ export const ShortlistSideContainer = ({
       },
     });
     setSelectedRole({ ...selectedRole, skills: skills });
+  };
+
+  // eslint-disable-next-line camelcase
+  const handleDeleteSkill = (_skill: SkillType_Member) => {
+    const filteredSkills = selectedRole?.skills?.filter(
+      (skill) => skill?.skillData?._id !== _skill.skillInfo?._id
+    );
+
+    dispatchProject!({
+      type: ProjectActionKind.SET_ROLE_SKILLS,
+      payload: {
+        ...selectedRole,
+        skills: filteredSkills,
+      },
+    });
+    setSelectedRole({ ...selectedRole, skills: filteredSkills });
   };
 
   const handleSetHoursPerWeek = (e: any) => {
@@ -162,10 +182,13 @@ export const ShortlistSideContainer = ({
       {!selectedMemberId && selectedRole && (
         <ProjectSkillFilterCard
           key={selectedRole?._id}
+          selectedRole={selectedRole}
+          roles={project?.role || []}
           skills={selectedRole?.skills || []}
           handleSetSkills={handleSetSkills}
           handleSetHoursPerWeek={handleSetHoursPerWeek}
           handleSetBudget={handleSetBudget}
+          handleDeleteSkill={handleDeleteSkill}
         />
       )}
     </>

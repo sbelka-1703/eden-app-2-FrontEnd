@@ -1,33 +1,51 @@
 /* eslint-disable camelcase */
-import { Maybe, SkillType_Member } from "@eden/package-graphql/generated";
+import {
+  Maybe,
+  SkillRoleType,
+  SkillType_Member,
+} from "@eden/package-graphql/generated";
 import { CheckBox, SkillList } from "@eden/package-ui";
 // import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
 import { useState } from "react";
 
 export interface SkillVisualisationCompProps {
-  skills: any[];
+  skills: SkillRoleType[];
+  // eslint-disable-next-line no-unused-vars
+  handleDeleteSkill?: (skill: any) => void;
 }
 export const SkillVisualisationComp: React.FC<SkillVisualisationCompProps> = ({
   skills,
+  handleDeleteSkill,
 }) => {
   const [selectSenior, setSelectSenior] = useState(true);
   const [selectMid, setSelectMid] = useState(true);
   const [selectJunior, setSelectJunior] = useState(true);
   const [selectLearning, setSelectLearning] = useState(true);
-  const seniorSkills: Maybe<SkillType_Member>[] | undefined = skills?.filter(
-    (skill: Maybe<SkillType_Member>) => skill?.level === "senior"
+
+  const mappedSkills = skills.map(
+    (skill: SkillRoleType) =>
+      ({
+        skillInfo: skill?.skillData,
+        level: skill?.level,
+      } as SkillType_Member)
   );
-  const midSkills: Maybe<SkillType_Member>[] | undefined = skills?.filter(
-    (skill: Maybe<SkillType_Member>) => skill?.level === "mid"
+  const seniorSkills: Maybe<SkillType_Member>[] | undefined =
+    mappedSkills?.filter(
+      (skill: Maybe<SkillType_Member>) => skill?.level === "senior"
+    );
+  const midSkills: Maybe<SkillType_Member>[] | undefined = mappedSkills?.filter(
+    (skill: Maybe<SkillType_Member>) => skill?.level === "mid" || !skill?.level
   );
 
-  const juniorSkills: Maybe<SkillType_Member>[] | undefined = skills?.filter(
-    (skill: Maybe<SkillType_Member>) => skill?.level === "junior"
-  );
+  const juniorSkills: Maybe<SkillType_Member>[] | undefined =
+    mappedSkills?.filter(
+      (skill: Maybe<SkillType_Member>) => skill?.level === "junior"
+    );
 
-  const learningSkills: Maybe<SkillType_Member>[] | undefined = skills?.filter(
-    (skill: Maybe<SkillType_Member>) => skill?.level === "learning"
-  );
+  const learningSkills: Maybe<SkillType_Member>[] | undefined =
+    mappedSkills?.filter(
+      (skill: Maybe<SkillType_Member>) => skill?.level === "learning"
+    );
 
   return (
     <div>
@@ -81,6 +99,8 @@ export const SkillVisualisationComp: React.FC<SkillVisualisationCompProps> = ({
         <div>
           {selectSenior && seniorSkills.length > 0 && (
             <SkillList
+              closeButton
+              handleDeleteSkill={handleDeleteSkill}
               skills={seniorSkills}
               colorRGB="191, 255, 140"
               overflowNumber={15}
@@ -90,6 +110,8 @@ export const SkillVisualisationComp: React.FC<SkillVisualisationCompProps> = ({
         <div className="mt-1">
           {selectMid && midSkills.length > 0 && (
             <SkillList
+              closeButton
+              handleDeleteSkill={handleDeleteSkill}
               skills={midSkills}
               colorRGB="255, 169, 241"
               overflowNumber={15}
@@ -99,6 +121,8 @@ export const SkillVisualisationComp: React.FC<SkillVisualisationCompProps> = ({
         <div className="mt-1">
           {selectJunior && juniorSkills.length > 0 && (
             <SkillList
+              closeButton
+              handleDeleteSkill={handleDeleteSkill}
               skills={juniorSkills}
               colorRGB="186, 230, 255"
               overflowNumber={15}
@@ -108,6 +132,8 @@ export const SkillVisualisationComp: React.FC<SkillVisualisationCompProps> = ({
         <div className="mt-1">
           {selectLearning && learningSkills.length > 0 && (
             <SkillList
+              closeButton
+              handleDeleteSkill={handleDeleteSkill}
               skills={learningSkills}
               colorRGB="255, 208, 43"
               overflowNumber={15}
