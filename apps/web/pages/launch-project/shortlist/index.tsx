@@ -52,7 +52,7 @@ const LaunchPage: NextPageWithLayout = () => {
         !project?.team?.some((teamMember) => {
           return teamMember?.memberInfo?._id === member?.member?._id;
         })
-    ) || [];
+    );
 
   function handleRemoveShortlistMember(member: Maybe<TeamType>) {
     dispatchProject!({
