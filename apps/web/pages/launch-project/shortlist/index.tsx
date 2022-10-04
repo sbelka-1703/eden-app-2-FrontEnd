@@ -81,7 +81,10 @@ const LaunchPage: NextPageWithLayout = () => {
 
         {!selectedMemberId ? (
           <GridItemNine className="scrollbar-hide h-8/10 overflow-scroll">
-            <ShortlistContainer matchingMembers={filteredMembers} />
+            <ShortlistContainer
+              matchingMembers={filteredMembers}
+              overflow={matchingMembers?.matchSkillsToMembers!.length < 9}
+            />
           </GridItemNine>
         ) : (
           <>
