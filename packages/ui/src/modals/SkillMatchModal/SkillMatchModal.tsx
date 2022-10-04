@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { Modal } from "@eden/package-ui";
+import { Modal, Charts } from "@eden/package-ui";
 import { useState } from "react";
 import { Maybe, RoleType, TeamType } from "@eden/package-graphql/generated";
 
@@ -26,39 +26,15 @@ export const SkillMatchModal: React.FC<SkillMatchModalProps> = ({
   matchingPercentage,
 }) => {
   const [unpaid, setUnpaid] = useState(false);
-  const data = [
-    {
-      name: "Page A",
-      percentage: 2400,
-    },
-    {
-      name: "Page B",
-      percentage: 1398,
-    },
-    {
-      name: "Page C",
-      percentage: 9800,
-    },
-    {
-      name: "Page D",
-      percentage: 3908,
-    },
-    {
-      name: "Page E",
-      percentage: 4800,
-    },
-    {
-      name: "Page F",
-      percentage: 3800,
-    },
-    {
-      name: "Page G",
-      percentage: 4300,
-    },
-  ];
   return (
     <Modal open={isModalOpen}>
-      <div>{/* <Charts data={chartData} /> */}</div>
+      <div>
+        <Charts
+          data={chartData!}
+          color="#FF7E5C"
+          title="Skill Match Percentage"
+        />
+      </div>
       <div className="p-4">
         <div className="items-between flex flex-row content-between justify-between">
           <div className="flex flex-row">
