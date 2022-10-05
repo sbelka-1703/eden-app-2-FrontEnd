@@ -13,6 +13,25 @@ export const parameters = {
       date: /Date$/,
     },
   },
+  options: {
+    storySort: {
+      method: "alphabetical",
+      order: [
+        "Design System",
+        "Cards",
+        ["Project", "User"],
+        "Components",
+        "Containers",
+        "Elements",
+        "Layout",
+        "Lists",
+        "Modals",
+        "Selectors",
+        "*",
+        "Archive",
+      ],
+    },
+  },
   // controls: { expanded: true },
   // viewMode: 'docs',
 };
