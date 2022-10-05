@@ -49,6 +49,14 @@ export type ErrorLog = {
   user?: Maybe<User>;
 };
 
+export type MatchPercentage = {
+  __typename?: 'MatchPercentage';
+  budgetPercentage?: Maybe<Scalars['Float']>;
+  hoursPercentage?: Maybe<Scalars['Float']>;
+  skillTotalPercentage?: Maybe<Scalars['Float']>;
+  totalPercentage?: Maybe<Scalars['Float']>;
+};
+
 export type MatchType = {
   __typename?: 'MatchType';
   distanceMembers?: Maybe<DistanceType>;
@@ -624,6 +632,13 @@ export type Skills = {
   tweets?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
+export type SkillsPercentage = {
+  __typename?: 'SkillsPercentage';
+  info?: Maybe<Skills>;
+  percentage100?: Maybe<Scalars['Float']>;
+  percentageReal?: Maybe<Scalars['Float']>;
+};
+
 export type SortBySkill = {
   direction?: InputMaybe<SortDirection>;
   field?: InputMaybe<SortableSkillFields>;
@@ -1120,9 +1135,9 @@ export type MatchMembersToSkillInput = {
 
 export type MatchMembersToSkillOutput = {
   __typename?: 'matchMembersToSkillOutput';
-  commonSkills?: Maybe<Array<Maybe<Skills>>>;
-  matchPercentage?: Maybe<Scalars['Float']>;
+  matchPercentage?: Maybe<MatchPercentage>;
   member?: Maybe<Members>;
+  skillsPercentage?: Maybe<Array<Maybe<SkillsPercentage>>>;
 };
 
 export type MatchMembersToUserInput = {
@@ -1167,6 +1182,8 @@ export type MatchProjectsToMemberInput = {
 };
 
 export type MatchSkillsToMembersInput = {
+  budgetAmount?: InputMaybe<Scalars['Float']>;
+  hoursPerWeek?: InputMaybe<Scalars['Int']>;
   limit?: InputMaybe<Scalars['Int']>;
   page?: InputMaybe<Scalars['Int']>;
   serverID?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
