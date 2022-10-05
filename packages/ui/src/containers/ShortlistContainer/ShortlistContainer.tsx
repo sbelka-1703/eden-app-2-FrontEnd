@@ -59,11 +59,11 @@ export const ShortlistContainer = ({
                       onClick={() => {
                         handleSelectMember(
                           _member.member,
-                          _member.matchPercentage
+                          _member.matchPercentage.totalPercentage
                         );
                       }}
                       member={_member.member}
-                      percentage={_member.matchPercentage}
+                      percentage={_member.matchPercentage.totalPercentage}
                       requiredSkills={selectedRole.skills}
                     />
                   ))}

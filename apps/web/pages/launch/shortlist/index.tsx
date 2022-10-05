@@ -38,6 +38,14 @@ const LaunchPage: NextPageWithLayout = () => {
         skillsID: selectedRole?.skills?.flatMap(
           (skill) => skill?.skillData?._id
         ),
+        hoursPerWeek:
+          project?.role?.find((role) => role?._id === selectedRole?._id)
+            ?.hoursPerWeek || null,
+        budgetAmount:
+          Number(
+            project?.role?.find((role) => role?._id === selectedRole?._id)
+              ?.budget?.perHour
+          ) || null,
         page: matchMembersPage,
         limit: 9,
       },

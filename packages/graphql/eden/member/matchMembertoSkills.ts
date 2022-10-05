@@ -3,7 +3,6 @@ import { gql } from "@apollo/client";
 export const MATCH_MEMBERS_TO_SKILLS = gql`
   query MatchSkillsToMembers($fields: matchSkillsToMembersInput) {
     matchSkillsToMembers(fields: $fields) {
-      matchPercentage
       member {
         _id
         discordName
@@ -23,6 +22,20 @@ export const MATCH_MEMBERS_TO_SKILLS = gql`
         memberRole {
           title
         }
+      }
+      skillsPercentage {
+        info {
+          _id
+          name
+        }
+        percentage100
+        percentageReal
+      }
+      matchPercentage {
+        totalPercentage
+        skillTotalPercentage
+        hoursPercentage
+        budgetPercentage
       }
     }
   }
