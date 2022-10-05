@@ -31,5 +31,8 @@
     "react-tooltip": "^4.2.21",
     "typescript": "^4.8.4"
   },
-  "dependencies": {}
+  "dependencies": {
+    "chart.js": "^3.9.1",
+    "react-chartjs-2": "^4.3.1"
+  }
 }
