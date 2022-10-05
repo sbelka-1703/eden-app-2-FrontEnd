@@ -6,7 +6,10 @@ import Document, {
   NextScript,
 } from "next/document";
 
-const appUrl = `https://eden-foundation.vercel.app/`;
+const appUrl =
+  process.env.NEXT_PUBLIC_ENV_BRANCH === "develop"
+    ? `https://eden-foundation-develop.vercel.app/`
+    : `https://edenprotocol.app/`;
 const title = process.env.NEXT_PUBLIC_ENV_BRANCH
   ? `Eden protocol - ${process.env.NEXT_PUBLIC_ENV_BRANCH}`
   : `Eden protocol`;
