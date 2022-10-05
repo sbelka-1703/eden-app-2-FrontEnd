@@ -8,7 +8,7 @@ import {
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
-  title: "Design-System/Typography",
+  title: "Design System/Typography",
 };
 
 export const Typography = () => {

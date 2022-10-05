@@ -10,7 +10,7 @@ import {
   FaTwitter,
 } from "react-icons/fa";
 
-import { timezones } from "../../../../constants";
+import { timezones } from "../../../../../constants";
 
 export const SignUpViewSocials = () => {
   const {

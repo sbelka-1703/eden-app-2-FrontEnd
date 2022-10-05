@@ -90,6 +90,17 @@ export const LoginButton = ({ inApp }: ILoginButtonProps) => {
             <div className="px-1 py-1">
               {inApp && (
                 <>
+                  <div className={`flex p-2`}>
+                    <Avatar
+                      size={`sm`}
+                      src={currentUser?.discordAvatar || ""}
+                    />
+                    <div
+                      className={`font-Inter my-auto ml-4 text-lg font-semibold`}
+                    >
+                      {currentUser?.discordName}
+                    </div>
+                  </div>
                   {menuItems.map((item, index) => (
                     <Menu.Item key={index}>
                       {({ active }) => (
