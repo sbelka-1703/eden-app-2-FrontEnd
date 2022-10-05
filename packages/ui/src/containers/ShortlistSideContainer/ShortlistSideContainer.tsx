@@ -133,12 +133,14 @@ export const ShortlistSideContainer = ({
                 className="mb-2 cursor-pointer"
                 onClick={() => {
                   setSelectedMemberId(member?.member?._id);
-                  setSelectedMemberPercentage(member?.matchPercentage);
+                  setSelectedMemberPercentage(
+                    member?.matchPercentage.totalPercentage
+                  );
                 }}
               >
                 <CandidateProfileCard
                   member={member.member}
-                  percentage={member.matchPercentage}
+                  percentage={member.matchPercentage.totalPercentage}
                   selected={selectedMemberId === member.member?._id}
                 />
 
@@ -148,7 +150,7 @@ export const ShortlistSideContainer = ({
                 ...member.member,
                 skills: member.member.skills.slice(0, 2),
               }}
-              percentage={member.matchPercentage}
+              percentage={member.matchPercentage.totalPercentage}
               focused={selectedMemberId === member.member._id}
             /> */}
                 {/* ---------------------------------------------------- */}
