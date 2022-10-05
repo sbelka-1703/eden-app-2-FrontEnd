@@ -29,16 +29,29 @@ export const FIND_MEMBER_FULL = gql`
       interest
       timeZone
       projects {
-        phase
         champion
+        phase
         favorite
         info {
           _id
-          description
           title
-          team {
-            phase
+          description
+          emoji
+          descriptionOneLine
+          backColorEmoji
+          role {
+            _id
+            title
+            description
           }
+          dates {
+            kickOff
+            complition
+          }
+        }
+        role {
+          _id
+          title
         }
       }
       links {

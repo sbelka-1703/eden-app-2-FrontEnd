@@ -12,7 +12,7 @@ export const UserProfileMenu = ({ title }: IUserProfileMenuProps) => {
   const router = useRouter();
   const { currentUser } = useContext(UserContext);
 
-  console.log(router.route);
+  // console.log(router.route);
 
   // console.log("currentUser", currentUser);
 
@@ -56,41 +56,41 @@ export const UserProfileMenu = ({ title }: IUserProfileMenuProps) => {
             Icon={<MdPeopleAlt size={25} />}
             FunctionName="Find Projects"
             onFunctionCallback={() => router.push(`/projects`)}
-            active={router.route === "/projects"}
+            active={router?.route === "/projects"}
           />
           <MenuItem
             Icon={<MdFactCheck size={25} />}
             FunctionName="Active Applications"
             counterBadge={engagedProjects?.length || 0}
             onFunctionCallback={() => router.push(`/applications`)}
-            active={router.route === "/applications"}
+            active={router?.route === "/applications"}
           />
           <MenuItem
             Icon={<MdFactCheck size={25} />}
             FunctionName="Invites"
             counterBadge={invitedProjects?.length || 0}
             onFunctionCallback={() => router.push(`/invites`)}
-            active={router.route === "/invites"}
+            active={router?.route === "/invites"}
           />
           <MenuItem
             Icon={<MdCreateNewFolder size={25} />}
             FunctionName="My Projects"
             counterBadge={committedProjects?.length || 0}
             onFunctionCallback={() => router.push(`/my-projects`)}
-            active={router.route === "/my-projects"}
+            active={router?.route === "/my-projects"}
           />
           <MenuItem
             Icon={<MdCreateNewFolder size={25} />}
             FunctionName="Champion Projects"
             counterBadge={championProjects?.length || 0}
             onFunctionCallback={() => router.push(`/champion-board`)}
-            active={router.route === "/champion-board"}
+            active={router?.route === "/champion-board"}
           />
           <MenuItem
             Icon={<MdCreateNewFolder size={25} />}
             FunctionName="Launch A Project"
             onFunctionCallback={() => router.push(`/launch`)}
-            active={router.route === "/launch"}
+            active={router?.route === "/launch"}
           />
         </div>
       </div>
