@@ -1,11 +1,42 @@
-import { UserContext } from "@context/eden";
+import { UserContext } from "@eden/package-context";
+import { Avatar } from "@eden/package-ui";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
 import { signIn, signOut } from "next-auth/react";
 import { Fragment, useContext } from "react";
 import { FaDiscord } from "react-icons/fa";
-import { Avatar } from "ui";
+
+const menuItems = [
+  {
+    name: "🛠   Edit my profile",
+    href: "/profile",
+  },
+  {
+    name: "⭐️  Find a project",
+    href: "/projects",
+  },
+  {
+    name: "🎯  Active applications",
+    href: "/applications",
+  },
+  {
+    name: "My Projects",
+    href: "/my-projects",
+  },
+  {
+    name: "Invites",
+    href: "/invites",
+  },
+  {
+    name: "Champion Projects",
+    href: "/champion-board",
+  },
+  {
+    name: "Launch A Project",
+    href: "/launch",
+  },
+];
 
 export interface ILoginButtonProps {
   inApp?: boolean;
@@ -58,18 +89,33 @@ export const LoginButton = ({ inApp }: ILoginButtonProps) => {
           <Menu.Items className="text-semibold absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
             <div className="px-1 py-1">
               {inApp && (
-                <Menu.Item>
-                  {({ active }) => (
-                    <button
-                      onClick={() => router.push(`/profile`)}
-                      className={`${
-                        active ? "bg-zinc-700 text-white" : "text-gray-900"
-                      } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                <>
+                  <div className={`flex p-2`}>
+                    <Avatar
+                      size={`sm`}
+                      src={currentUser?.discordAvatar || ""}
+                    />
+                    <div
+                      className={`font-Inter my-auto ml-4 text-lg font-semibold`}
                     >
-                      Profile
-                    </button>
-                  )}
-                </Menu.Item>
+                      {currentUser?.discordName}
+                    </div>
+                  </div>
+                  {menuItems.map((item, index) => (
+                    <Menu.Item key={index}>
+                      {({ active }) => (
+                        <button
+                          onClick={() => router.push(item.href)}
+                          className={`${
+                            active ? "bg-zinc-700 text-white" : "text-gray-900"
+                          } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                        >
+                          {item.name}
+                        </button>
+                      )}
+                    </Menu.Item>
+                  ))}
+                </>
               )}
               <Menu.Item>
                 {({ active }) => (

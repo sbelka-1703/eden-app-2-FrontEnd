@@ -1,17 +1,14 @@
 /* eslint-disable camelcase */
 import { gql, useMutation } from "@apollo/client";
-import { UserContext } from "@context/eden";
-import { UPDATE_MEMBER } from "@graphql/eden";
+import { UserContext } from "@eden/package-context";
+import { UPDATE_MEMBER } from "@eden/package-graphql";
 import {
   MatchSkillsToProjectsOutput,
   Maybe,
   Members,
   Mutation,
   Project,
-} from "@graphql/eden/generated";
-import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
-import { FaGithub, FaTelegram, FaTwitter } from "react-icons/fa";
+} from "@eden/package-graphql/generated";
 import {
   Button,
   ConfettiContainer,
@@ -26,9 +23,13 @@ import {
   TextHeading1,
   TextHeading2,
   TextHeading3,
-} from "ui";
+} from "@eden/package-ui";
+import { useRouter } from "next/router";
+import { useContext, useEffect, useState } from "react";
+import { FaGithub, FaTelegram, FaTwitter } from "react-icons/fa";
 
 import { timezones } from "../../../constants";
+import { round } from "../../../utils";
 
 const SET_APPLY_TO_PROJECT = gql`
   mutation ($fields: changeTeamMember_Phase_ProjectInput!) {
@@ -162,8 +163,6 @@ export const ApplyByRoleContainer = ({
     (role) => role?._id !== matchedProject?.projectRoles[0]?.projectRole?._id
   );
 
-  const round = (num: number) => Math.round(num * 10) / 10;
-
   return (
     <div className={`h-8/10 w-full rounded-2xl bg-white px-6 py-6`}>
       <div className={`grid grid-cols-3`}>
@@ -195,7 +194,7 @@ export const ApplyByRoleContainer = ({
             <div className={`mb-8 flex flex-col items-center px-4 last:pr-0`}>
               <span>⚡ Match</span>
               <span className={`text-soilPurple text-3xl font-semibold`}>
-                {round(matchedProject?.matchPercentage || 0)}%
+                {round(Number(matchedProject?.matchPercentage), 1) || 0}%
               </span>
             </div>
           )}

@@ -1,5 +1,5 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { getMember } from "storybook/mocks";
+import { getMember } from "@eden/package-mock";
 
 import { OnboardPartyContainer } from "./OnboardPartyContainer";
 

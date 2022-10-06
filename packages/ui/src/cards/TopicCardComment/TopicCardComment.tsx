@@ -1,5 +1,4 @@
-import React from "react";
-import { Card, TextBody, Avatar } from "ui";
+import { Avatar, Card, TextBody } from "@eden/package-ui";
 import { MdReply } from "react-icons/md";
 
 export interface TopicCardCommentProps {

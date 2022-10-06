@@ -1,5 +1,5 @@
 import { MockedProvider } from "@apollo/client/testing";
-import { FIND_SKILL_BY_CATEGORIES } from "@graphql/eden";
+import { FIND_SKILL_BY_CATEGORIES } from "@eden/package-graphql";
 import { render } from "@testing-library/react";
 
 import { Expandable } from ".";

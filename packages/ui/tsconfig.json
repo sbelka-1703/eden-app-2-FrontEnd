@@ -1,5 +1,5 @@
 {
-  "extends": "tsconfig/react-library.json",
+  "extends": "@eden/package-tsconfig/react-library.json",
   "include": [".", "../config/jest/setup.ts"],
   "exclude": ["dist", "build", "node_modules"]
 }

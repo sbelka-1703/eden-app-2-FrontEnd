@@ -1,4 +1,4 @@
-import { Avatar } from "ui";
+import { Avatar } from "@eden/package-ui";
 
 export interface IUserWithDescriptionProps {
   avatarSrc?: string;

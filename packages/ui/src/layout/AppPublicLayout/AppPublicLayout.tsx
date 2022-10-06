@@ -1,5 +1,5 @@
+import { AppHeader } from "@eden/package-ui";
 import Head from "next/head";
-import { AppHeader } from "ui";
 
 export interface IAppPublicLayoutProps {
   children: React.ReactNode;

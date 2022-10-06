@@ -1,8 +1,8 @@
 import { useQuery } from "@apollo/client";
-import { LaunchProjectContext, ProjectActionKind } from "@context/eden";
-import { FIND_MEMBER } from "@graphql/eden";
+import { LaunchProjectContext, ProjectActionKind } from "@eden/package-context";
+import { FIND_MEMBER } from "@eden/package-graphql";
+import { Loading, MemberProfileCard } from "@eden/package-ui";
 import { useContext } from "react";
-import { Loading, MemberProfileCard } from "ui";
 
 export interface IShortlistMemberContainerProps {
   matchingMembers: any[];
@@ -30,10 +30,10 @@ export const ShortlistMemberContainer = ({
     });
 
     const newMatchingMembers = matchingMembers.filter(
-      (member) => member.member._id !== selectedMember._id
+      (member) => member.member?._id !== selectedMember._id
     );
 
-    setSelectedMemberId(newMatchingMembers[0].member._id);
+    setSelectedMemberId(newMatchingMembers[0].member?._id);
     setSelectedMemberPercentage(newMatchingMembers[0].percentage);
   }
 

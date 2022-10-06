@@ -1,5 +1,5 @@
+import { getMember } from "@eden/package-mock";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { getMember } from "storybook/mocks";
 
 import { ChampionRecruitContainer } from "./ChampionRecruitContainer";
 

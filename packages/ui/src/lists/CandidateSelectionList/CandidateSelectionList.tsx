@@ -3,9 +3,9 @@ import {
   MatchMembersToSkillOutput,
   Maybe,
   RoleTemplate,
-} from "@graphql/eden/generated";
+} from "@eden/package-graphql/generated";
+import { RoleCandidateSelector, UserCard } from "@eden/package-ui";
 import { useEffect, useState } from "react";
-import { RoleCandidateSelector, UserCard } from "ui";
 
 export interface ICandidateSelectionListProps {
   roles?: RoleTemplate[];

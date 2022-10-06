@@ -1,5 +1,5 @@
-import { Project } from "@graphql/eden/generated";
-import { Avatar, Card, ProgressBar } from "ui";
+import { Project } from "@eden/package-graphql/generated";
+import { Avatar, Card, ProgressBar } from "@eden/package-ui";
 
 export interface ProjectCardSmallProps {
   project?: Project;

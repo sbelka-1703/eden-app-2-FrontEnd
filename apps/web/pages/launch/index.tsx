@@ -1,79 +1,36 @@
-import { gql, useQuery } from "@apollo/client";
-import { LaunchProvider } from "@context/eden";
+import { LaunchProjectProvider } from "@eden/package-context";
 import {
   AppUserLayout,
-  GridItemSix,
+  Card,
+  GridItemNine,
   GridItemThree,
   GridLayout,
-  LaunchContainer,
-} from "ui";
+  LaunchProjectContainer,
+  UserProfileMenu,
+} from "@eden/package-ui";
 
 import type { NextPageWithLayout } from "../_app";
 
-export const FIND_SERVERS = gql`
-  query ($fields: findServersInput) {
-    findServers(fields: $fields) {
-      _id
-      name
-    }
-  }
-`;
-
-// export const FIND_ROLES = gql`
-//   query ($fields: findRoleTemplatesInput) {
-//     findRoleTemplates(fields: $fields) {
-//       _id
-//       title
-//     }
-//   }
-// `;
-
-export const FIND_ROLES = gql`
-  query ($fields: findRolesInput) {
-    findRoles(fields: $fields) {
-      _id
-      description
-      name
-    }
-  }
-`;
-
 const LaunchPage: NextPageWithLayout = () => {
-  const { data: dataServers } = useQuery(FIND_SERVERS, {
-    variables: {
-      fields: {},
-    },
-    context: { serviceName: "soilservice" },
-  });
-
-  // if (dataServers) console.log("dataServers", dataServers);
-
-  const { data: dataRoles } = useQuery(FIND_ROLES, {
-    variables: {
-      fields: {},
-    },
-    context: { serviceName: "soilservice" },
-  });
-
-  // if (dataRoles) console.log("dataRoles", dataRoles);
-
   return (
-    <LaunchProvider>
-      <GridLayout>
-        <GridItemThree> </GridItemThree>
-        <GridItemSix>
-          <LaunchContainer
-            servers={dataServers?.findServers}
-            roles={dataRoles?.findRoles}
-          />
-        </GridItemSix>
-        <GridItemThree> </GridItemThree>
-      </GridLayout>
-    </LaunchProvider>
+    <GridLayout>
+      <GridItemThree>
+        <Card className="bg-white p-6">
+          <UserProfileMenu title={`Good Morning,`} />
+        </Card>
+      </GridItemThree>
+      <GridItemNine>
+        <LaunchProjectContainer />
+      </GridItemNine>
+    </GridLayout>
   );
 };
 
-LaunchPage.getLayout = (page) => <AppUserLayout>{page}</AppUserLayout>;
+LaunchPage.getLayout = (page) => (
+  <AppUserLayout>
+    <LaunchProjectProvider>{page}</LaunchProjectProvider>
+  </AppUserLayout>
+);
 
 export default LaunchPage;
 
@@ -86,10 +43,12 @@ export async function getServerSideProps(ctx: {
 }) {
   const session = await getSession(ctx);
 
+  const url = ctx.req.url?.replace("/", "");
+
   if (!session) {
     return {
       redirect: {
-        destination: `/login`,
+        destination: `/login?redirect=${url}`,
         permanent: false,
       },
     };

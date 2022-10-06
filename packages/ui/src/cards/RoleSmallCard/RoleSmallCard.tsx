@@ -1,9 +1,21 @@
 /* eslint-disable camelcase */
-import { Maybe, RoleType, SkillRoleType } from "@graphql/eden/generated";
+import {
+  Maybe,
+  RoleType,
+  SkillRoleType,
+} from "@eden/package-graphql/generated";
+import {
+  AvatarList,
+  AvatarProps,
+  Badge,
+  Card,
+  TextHeading3,
+} from "@eden/package-ui";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
 import { PencilIcon } from "@heroicons/react/solid";
 import React, { useState } from "react";
-import { AvatarList, AvatarProps, Badge, Card, TextHeading3 } from "ui";
+
+import { trimParentheses } from "../../../utils/trim-parentheses";
 
 export interface RoleSmallCardProps {
   role: Maybe<RoleType>;
@@ -33,7 +45,7 @@ const SkillListForRole: React.FC<SkillListForRoleProps> = ({
     (skill: Maybe<SkillRoleType> | undefined, index: number) => (
       <Badge
         key={index}
-        text={skill?.skillData?.name || ""}
+        text={trimParentheses(skill?.skillData?.name || "")}
         colorRGB={colorRGB}
         className={`font-Inter text-sm`}
         cutText={16}
@@ -75,12 +87,12 @@ export const RoleSmallCard = ({
   onClick,
 }: RoleSmallCardProps) => {
   return (
-    <div onClick={onClick}>
+    <div className="flex h-full w-full items-center" onClick={onClick}>
       <Card
         border
         focused={isSelected}
         shadow
-        className="overflow-hidden bg-white p-0"
+        className="w-full overflow-hidden bg-white p-0"
       >
         <div className="flex cursor-pointer flex-col items-start justify-start px-3 py-2">
           {handleEdit && (
@@ -93,12 +105,14 @@ export const RoleSmallCard = ({
               }}
             />
           )}
-          <TextHeading3 className="font-poppins font-medium">
+          <TextHeading3 className="font-poppins text-sm font-semibold">
             {role?.title}
           </TextHeading3>
-          <div>
-            <SkillListForRole skills={skills} colorRGB="255, 255, 210" />
-          </div>
+          {skills && (
+            <div>
+              <SkillListForRole skills={skills} colorRGB="255, 255, 210" />
+            </div>
+          )}
         </div>
         {avatars && (
           <div className="scrollbar-hide overflow-x-scroll px-2">

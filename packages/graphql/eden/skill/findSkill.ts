@@ -11,6 +11,10 @@ export const FIND_SKILL = gql`
         discordAvatar
         discriminator
       }
+      relatedSkills {
+        _id
+        name
+      }
     }
   }
 `;

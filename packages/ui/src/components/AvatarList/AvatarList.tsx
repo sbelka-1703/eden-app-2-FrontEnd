@@ -1,5 +1,4 @@
-import React from "react";
-import { Avatar, AvatarProps } from "ui";
+import { Avatar, AvatarProps } from "@eden/package-ui";
 
 export interface AvatarListProps {
   avatars: AvatarProps[];

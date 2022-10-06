@@ -1,4 +1,4 @@
-import { Maybe } from "@graphql/eden/generated";
+import { Maybe } from "@eden/package-graphql/generated";
 import { Combobox } from "@headlessui/react";
 import { SelectorIcon } from "@heroicons/react/solid";
 import clsx from "clsx";
@@ -87,9 +87,9 @@ export const Dropdown = ({
 
         <Combobox.Options className="absolute z-40 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
           {filteredItems && filteredItems.length === 0 && query !== "" ? (
-            <div className="relative cursor-default select-none py-2 px-4 text-gray-700">
+            <span className="relative cursor-default select-none py-2 px-4 text-gray-700">
               Nothing found.
-            </div>
+            </span>
           ) : (
             filteredItems &&
             filteredItems?.map((item: IItems, index: number) => (

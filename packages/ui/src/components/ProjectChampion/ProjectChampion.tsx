@@ -1,7 +1,7 @@
 import "./style.css";
 
-import { Members } from "@graphql/eden/generated";
-import { Avatar } from "ui";
+import { Members } from "@eden/package-graphql/generated";
+import { Avatar } from "@eden/package-ui";
 
 export interface IProjectChampion {
   member: Members;

@@ -1,5 +1,9 @@
-import { Maybe, Project, ProjectMemberType } from "@graphql/eden/generated";
-import { ProjectCard } from "ui";
+import {
+  Maybe,
+  Project,
+  ProjectMemberType,
+} from "@eden/package-graphql/generated";
+import { ProjectCard } from "@eden/package-ui";
 
 export interface ProjectListProps {
   projects?: Project[] | Maybe<ProjectMemberType>[];

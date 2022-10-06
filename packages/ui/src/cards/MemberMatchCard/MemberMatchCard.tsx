@@ -4,7 +4,7 @@ import {
   Members,
   SkillRoleType,
   SkillType_Member,
-} from "@graphql/eden/generated";
+} from "@eden/package-graphql/generated";
 import {
   Button,
   Card,
@@ -12,7 +12,7 @@ import {
   SkillList,
   SocialMediaComp,
   TextHeading2,
-} from "ui";
+} from "@eden/package-ui";
 
 export interface MemberMatchCardProps {
   percentage?: string;
@@ -89,7 +89,7 @@ export const MemberMatchCard = ({
           <p className="text-soilGray text-soilLabel font-Inter font-semibold">
             MATCHING SKILLS
           </p>
-          <div className="flex w-60 flex-wrap">
+          <div className="flex w-full flex-wrap">
             <SkillList
               skills={matchedSkills(requiredSkills, mySkills, isSameSkills)}
               colorRGB={getRandomColor()}
@@ -98,7 +98,7 @@ export const MemberMatchCard = ({
           <p className="text-soilGray text-soilLabel font-Inter mt-3 font-semibold">
             MISSING SKILLS
           </p>
-          <div className="flex w-60 flex-wrap">
+          <div className="flex w-full flex-wrap">
             <SkillList
               skills={missingSkills(requiredSkills, mySkills, isSameSkills)}
               colorRGB={"170, 170, 170, 0.12"}

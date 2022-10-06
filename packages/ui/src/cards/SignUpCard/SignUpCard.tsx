@@ -1,16 +1,14 @@
 // TODO: needs a test file
 /* eslint-disable camelcase */
 import { useMutation } from "@apollo/client";
-import { UserContext } from "@context/eden";
-import { UPDATE_MEMBER } from "@graphql/eden";
+import { UserContext } from "@eden/package-context";
+import { UPDATE_MEMBER } from "@eden/package-graphql";
 import {
   Maybe,
   Mutation,
   RoleTemplate,
   SkillType_Member,
-} from "@graphql/eden/generated";
-import { useContext, useEffect, useState } from "react";
-import { BsArrowRight } from "react-icons/bs";
+} from "@eden/package-graphql/generated";
 import {
   Button,
   Modal,
@@ -18,7 +16,9 @@ import {
   SearchSkill,
   SkillList,
   TextHeading2,
-} from "ui";
+} from "@eden/package-ui";
+import { useContext, useEffect, useState } from "react";
+import { BsArrowRight } from "react-icons/bs";
 
 const levels = [
   {
@@ -150,7 +150,7 @@ const AddSkillsView = ({ onSelectedSkills }: IAddSkillsViewProps) => {
           </TextHeading2>
           <div className={`font-Inter text-sm text-zinc-500`}>
             Eden is built to deliver tailored macthes wirh opportunities in the
-            DAO. Fill out your profile to uncover Eden power.{" "}
+            DAO. Fill out your profile to uncover Eden power.
             {/* <span className={`text-soilBlue flex cursor-pointer`}>
               Get started <BsArrowRight className={`my-auto ml-2`} />
             </span> */}

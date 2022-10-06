@@ -1,11 +1,12 @@
 import { Story } from "@storybook/react";
-import { UserContext } from "@context/eden";
+import { UserContext } from "@eden/package-context";
 import { SessionProvider } from "next-auth/react";
 
 import { ApolloProvider } from "@apollo/client";
-import { apolloClient } from "@graphql/eden";
-import { getMember } from "../mocks";
-import { Members } from "@graphql/eden/generated";
+import { apolloClient } from "@eden/package-graphql";
+import { getMember } from "@eden/package-mock";
+import { Members } from "@eden/package-graphql/generated";
+import React from "react";
 
 /**
  * A storybook decorator which wraps components in a mock apollo context.
@@ -24,6 +25,7 @@ export const ApolloDecorator = (Story: Story) => {
 
 const injectContext = {
   currentUser: getMember(),
+  memberFound: true,
   setCurrentUser: (user: Members) => {
     console.log("setCurrentUser", user);
     // injectContext.currentUser = user;

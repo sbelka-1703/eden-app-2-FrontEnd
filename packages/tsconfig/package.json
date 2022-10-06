@@ -1,11 +1,12 @@
 {
-  "name": "tsconfig",
+  "name": "@eden/package-tsconfig",
   "version": "0.0.0",
   "private": true,
   "main": "index.js",
   "files": [
     "base.json",
     "nextjs.json",
+    "node16.json",
     "react-library.json"
   ]
 }

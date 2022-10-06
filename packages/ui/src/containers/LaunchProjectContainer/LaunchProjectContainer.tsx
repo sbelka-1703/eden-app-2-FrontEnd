@@ -1,6 +1,4 @@
-import { LaunchProjectContext, ProjectActionKind } from "@context/eden";
-import { useRouter } from "next/router";
-import { useContext } from "react";
+import { LaunchProjectContext, ProjectActionKind } from "@eden/package-context";
 import {
   Button,
   Card,
@@ -9,7 +7,9 @@ import {
   TextBody,
   TextField,
   TextHeading3,
-} from "ui";
+} from "@eden/package-ui";
+import { useRouter } from "next/router";
+import { useContext } from "react";
 
 export interface ILaunchProjectContainerProps {}
 
@@ -20,7 +20,7 @@ export const LaunchProjectContainer = ({}: ILaunchProjectContainerProps) => {
     useContext(LaunchProjectContext);
 
   const handleButtonClick = () => {
-    router.push("/test-launch-2/shortlist-users");
+    router.push("/launch/shortlist");
   };
 
   return (

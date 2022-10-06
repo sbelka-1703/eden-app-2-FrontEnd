@@ -14,12 +14,12 @@ const Template: ComponentStory<typeof LoginButton> = () => {
     <SessionProvider
       session={{
         expires: "1",
-        user: {
-          email: "a",
-          name: "Miral",
-          image:
-            "https://pbs.twimg.com/profile_images/1513838045589430277/4Pxad6DL_400x400.jpg",
-        },
+        // user: {
+        //   email: "a",
+        //   name: "Miral",
+        //   image:
+        //     "https://pbs.twimg.com/profile_images/1513838045589430277/4Pxad6DL_400x400.jpg",
+        // },
       }}
     >
       <LoginButton />

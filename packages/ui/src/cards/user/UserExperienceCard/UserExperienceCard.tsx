@@ -1,6 +1,6 @@
-import { PreviusProjectsInput } from "@graphql/eden/generated";
+import { PreviusProjectsInput } from "@eden/package-graphql/generated";
+import { Button, Calendar, Card, TextArea, TextField } from "@eden/package-ui";
 import { useReducer } from "react";
-import { Button, Calendar, Card, TextArea, TextField } from "ui";
 
 export interface UserExperienceCardlProps {
   // eslint-disable-next-line no-unused-vars

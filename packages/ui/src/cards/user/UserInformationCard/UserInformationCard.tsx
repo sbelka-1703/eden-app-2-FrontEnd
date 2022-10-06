@@ -1,7 +1,4 @@
-import { Maybe, PreviusProjectsType } from "@graphql/eden/generated";
-import { useState } from "react";
-import { FiEdit3 } from "react-icons/fi";
-import { IoIosExpand } from "react-icons/io";
+import { Maybe, PreviusProjectsType } from "@eden/package-graphql/generated";
 import {
   Button,
   Calendar,
@@ -10,7 +7,10 @@ import {
   Modal,
   TextArea,
   TextField,
-} from "ui";
+} from "@eden/package-ui";
+import { useState } from "react";
+import { FiEdit3 } from "react-icons/fi";
+import { IoIosExpand } from "react-icons/io";
 
 export interface UserInformationCardProps {
   previousProjects?: Maybe<PreviusProjectsType>;

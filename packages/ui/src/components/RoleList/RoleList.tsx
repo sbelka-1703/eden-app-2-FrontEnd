@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
-import { Maybe, RoleType, TeamType } from "@graphql/eden/generated";
+import { Maybe, RoleType, TeamType } from "@eden/package-graphql/generated";
+import { AvatarProps, Button, RoleSmallCard, TextBody } from "@eden/package-ui";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
 import React, { useState } from "react";
-import { AvatarProps, Button, RoleSmallCard, TextBody } from "ui";
 
 export interface RoleListProps {
   roles: Maybe<Array<Maybe<RoleType>>>;
@@ -19,6 +19,7 @@ export const RoleList: React.FC<RoleListProps> = ({
   roles,
   handleAddRole,
   handleSelectRole,
+  // eslint-disable-next-line no-unused-vars
   handleEditRole,
   selectedRole,
   members,
@@ -30,11 +31,11 @@ export const RoleList: React.FC<RoleListProps> = ({
       <RoleSmallCard
         role={role}
         isSelected={selectedRole?._id === role?._id}
-        skills={role?.skills ? role.skills : []}
+        // skills={role?.skills ? role.skills : []}
         onClick={() => {
           if (handleSelectRole) handleSelectRole(role);
         }}
-        handleEdit={() => handleEditRole!(role?._id!)}
+        // handleEdit={() => handleEditRole!(role?._id!)}
         avatars={
           members
             ?.filter((member) => member?.roleID === role?._id)
@@ -64,9 +65,9 @@ export const RoleList: React.FC<RoleListProps> = ({
           </Button>
         </div>
       </div>
-      {cards && cards.length > 4 && (
+      {cards && cards.length >= 4 && (
         <p
-          className="cursor-pointer text-center text-sm"
+          className="mt-2 cursor-pointer text-center text-sm"
           onClick={() => setSeeMore(!seeMore)}
         >
           {`see ${seeMore ? "less" : "more"} roles`}

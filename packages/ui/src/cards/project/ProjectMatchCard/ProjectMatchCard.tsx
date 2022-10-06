@@ -2,19 +2,22 @@ import {
   MatchSkillsToProjectsOutput,
   Maybe,
   Members,
-} from "@graphql/eden/generated";
-import { Avatar, Badge, Button, Card, ProjectChampion, TextHeading3 } from "ui";
+} from "@eden/package-graphql/generated";
+import {
+  Avatar,
+  Badge,
+  Button,
+  Card,
+  ProjectChampion,
+  TextHeading3,
+} from "@eden/package-ui";
+
+import { round } from "../../../../utils";
 
 export interface IProjectMatchCardProps {
   matchProject?: Maybe<MatchSkillsToProjectsOutput>;
   // eslint-disable-next-line no-unused-vars
   onSelected: (project: Maybe<MatchSkillsToProjectsOutput> | undefined) => void;
-}
-
-function round(value: number, precision: number) {
-  var multiplier = Math.pow(10, precision || 0);
-
-  return Math.round(value * multiplier) / multiplier;
 }
 
 export const ProjectMatchCard = ({

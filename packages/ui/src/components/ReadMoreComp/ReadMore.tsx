@@ -11,6 +11,7 @@ export const ReadMore = ({
 }: IReadMoreProps) => {
   const [showReadMore, setShowReadMore] = useState(false);
   const [toggleReadMore, setToggleReadMore] = useState(false);
+
   useEffect(() => {
     if (characterLimit < description?.length) {
       setShowReadMore(true);
@@ -29,6 +30,7 @@ export const ReadMore = ({
   const truncateDescriptions = (desc: string) => {
     if (showReadMore) {
       const showedString = truncateString(desc, characterLimit);
+
       return showedString;
     } else {
       return desc;
@@ -38,6 +40,7 @@ export const ReadMore = ({
     setToggleReadMore(true);
     setShowReadMore(false);
   };
+
   return (
     <div className="flex-col">
       <div className={`desc text-base text-zinc-400`}>

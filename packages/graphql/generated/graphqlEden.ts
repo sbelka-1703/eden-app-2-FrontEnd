@@ -49,6 +49,14 @@ export type ErrorLog = {
   user?: Maybe<User>;
 };
 
+export type MatchPercentage = {
+  __typename?: 'MatchPercentage';
+  budgetPercentage?: Maybe<Scalars['Float']>;
+  hoursPercentage?: Maybe<Scalars['Float']>;
+  skillTotalPercentage?: Maybe<Scalars['Float']>;
+  totalPercentage?: Maybe<Scalars['Float']>;
+};
+
 export type MatchType = {
   __typename?: 'MatchType';
   distanceMembers?: Maybe<DistanceType>;
@@ -275,11 +283,14 @@ export type PaginatedSkills = {
 export type Project = {
   __typename?: 'Project';
   _id?: Maybe<Scalars['ID']>;
+  backColorEmoji?: Maybe<Scalars['String']>;
   budget?: Maybe<BudgetType>;
   champion?: Maybe<Members>;
   collaborationLinks?: Maybe<Array<Maybe<CollaborationLinksType>>>;
   dates?: Maybe<DatesType>;
   description?: Maybe<Scalars['String']>;
+  descriptionOneLine?: Maybe<Scalars['String']>;
+  emoji?: Maybe<Scalars['String']>;
   gardenServerID?: Maybe<Scalars['String']>;
   garden_teams?: Maybe<Array<Maybe<Team>>>;
   role?: Maybe<Array<Maybe<RoleType>>>;
@@ -621,6 +632,13 @@ export type Skills = {
   tweets?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
+export type SkillsPercentage = {
+  __typename?: 'SkillsPercentage';
+  info?: Maybe<Skills>;
+  percentage100?: Maybe<Scalars['Float']>;
+  percentageReal?: Maybe<Scalars['Float']>;
+};
+
 export type SortBySkill = {
   direction?: InputMaybe<SortDirection>;
   field?: InputMaybe<SortableSkillFields>;
@@ -756,6 +774,7 @@ export type AttributesType = {
 
 export type BudgetInput = {
   perHour?: InputMaybe<Scalars['String']>;
+  perMonth?: InputMaybe<Scalars['String']>;
   token?: InputMaybe<Scalars['String']>;
   totalBudget?: InputMaybe<Scalars['String']>;
 };
@@ -763,6 +782,7 @@ export type BudgetInput = {
 export type BudgetType = {
   __typename?: 'budgetType';
   perHour?: Maybe<Scalars['String']>;
+  perMonth?: Maybe<Scalars['String']>;
   token?: Maybe<Scalars['String']>;
   totalBudget?: Maybe<Scalars['String']>;
 };
@@ -1115,9 +1135,9 @@ export type MatchMembersToSkillInput = {
 
 export type MatchMembersToSkillOutput = {
   __typename?: 'matchMembersToSkillOutput';
-  commonSkills?: Maybe<Array<Maybe<Skills>>>;
-  matchPercentage?: Maybe<Scalars['Float']>;
+  matchPercentage?: Maybe<MatchPercentage>;
   member?: Maybe<Members>;
+  skillsPercentage?: Maybe<Array<Maybe<SkillsPercentage>>>;
 };
 
 export type MatchMembersToUserInput = {
@@ -1162,6 +1182,8 @@ export type MatchProjectsToMemberInput = {
 };
 
 export type MatchSkillsToMembersInput = {
+  budgetAmount?: InputMaybe<Scalars['Float']>;
+  hoursPerWeek?: InputMaybe<Scalars['Int']>;
   limit?: InputMaybe<Scalars['Int']>;
   page?: InputMaybe<Scalars['Int']>;
   serverID?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -1289,6 +1311,8 @@ export type RoleInput = {
   dateRangeStart?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
   hoursPerWeek?: InputMaybe<Scalars['Int']>;
+  keyRosponsibilities?: InputMaybe<Scalars['String']>;
+  openPositions?: InputMaybe<Scalars['Int']>;
   skills?: InputMaybe<Array<InputMaybe<SkillRoleInput>>>;
   title?: InputMaybe<Scalars['String']>;
 };
@@ -1297,7 +1321,13 @@ export type RoleType = {
   __typename?: 'roleType';
   _id?: Maybe<Scalars['ID']>;
   archive?: Maybe<Scalars['Boolean']>;
+  budget?: Maybe<BudgetType>;
+  dateRangeEnd?: Maybe<Scalars['String']>;
+  dateRangeStart?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
+  hoursPerWeek?: Maybe<Scalars['Int']>;
+  keyRosponsibilities?: Maybe<Scalars['String']>;
+  openPositions?: Maybe<Scalars['Int']>;
   skills?: Maybe<Array<Maybe<SkillRoleType>>>;
   title?: Maybe<Scalars['String']>;
 };
@@ -1438,11 +1468,14 @@ export type UpdateMemberInput = {
 
 export type UpdateProjectInput = {
   _id?: InputMaybe<Scalars['ID']>;
+  backColorEmoji?: InputMaybe<Scalars['String']>;
   budget?: InputMaybe<BudgetInput>;
   champion?: InputMaybe<Scalars['String']>;
   collaborationLinks?: InputMaybe<Array<InputMaybe<CollaborationLinksInput>>>;
   dates?: InputMaybe<DatesInput>;
   description?: InputMaybe<Scalars['String']>;
+  descriptionOneLine?: InputMaybe<Scalars['String']>;
+  emoji?: InputMaybe<Scalars['String']>;
   gardenServerID?: InputMaybe<Scalars['String']>;
   role?: InputMaybe<Array<InputMaybe<RoleInput>>>;
   serverID?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;

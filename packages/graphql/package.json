@@ -1,9 +1,8 @@
 {
-  "name": "@graphql/eden",
+  "name": "@eden/package-graphql",
   "version": "0.0.0",
   "main": "index.ts",
-  "license": "MIT",
-  "files": [],
+  "private": true,
   "scripts": {
     "clean": "rm -rf node_modules",
     "clean-windows": "rd /s /q node_modules",
@@ -17,6 +16,7 @@
     "graphql-ws": "^5.10.1"
   },
   "devDependencies": {
+    "@eden/package-tsconfig": "*",
     "@graphql-codegen/cli": "^2.11.6",
     "@graphql-codegen/fragment-matcher": "^3.3.1",
     "@graphql-codegen/typescript": "^2.7.3",
@@ -26,6 +26,6 @@
     "eslint": "^8.8.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
-    "tsconfig": "*"
+    "typescript": "^4.8.4"
   }
 }

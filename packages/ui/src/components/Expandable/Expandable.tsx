@@ -1,10 +1,14 @@
+/* eslint-disable camelcase */
 import { useQuery } from "@apollo/client";
-import { FIND_SKILL_BY_CATEGORIES } from "@graphql/eden";
-// eslint-disable-next-line camelcase
-import { Maybe, Skills, SkillType_Member } from "@graphql/eden/generated";
+import { FIND_SKILL_BY_CATEGORIES } from "@eden/package-graphql";
+import {
+  Maybe,
+  Skills,
+  SkillType_Member,
+} from "@eden/package-graphql/generated";
+import { Button } from "@eden/package-ui";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 import { useState } from "react";
-import { Button } from "ui";
 
 type LevelProp = {
   title: string;
@@ -13,7 +17,6 @@ type LevelProp = {
 
 type ExpandableProps = {
   category: string;
-  // eslint-disable-next-line camelcase
   skills?: Maybe<SkillType_Member>[];
   allSkills?: Skills[];
   isOpen?: boolean;

@@ -1,4 +1,4 @@
-import { Members } from "@graphql/eden/generated";
+import { Members } from "@eden/package-graphql/generated";
 import { createContext, Dispatch } from "react";
 
 type userProfile = Members;

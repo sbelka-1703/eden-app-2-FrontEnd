@@ -1,8 +1,11 @@
 import { useQuery } from "@apollo/client";
-import { UserContext } from "@context/eden";
-import { FIND_PROJECTS, FIND_PROJECTS_RECOMMENDED } from "@graphql/eden";
+import { UserContext } from "@eden/package-context";
+import {
+  FIND_PROJECTS,
+  FIND_PROJECTS_RECOMMENDED,
+} from "@eden/package-graphql";
+import { AppUserMenuLayout, ProjectsContainer } from "@eden/package-ui";
 import { useContext } from "react";
-import { AppUserMenuLayout, ProjectsContainer } from "ui";
 
 import type { NextPageWithLayout } from "../_app";
 

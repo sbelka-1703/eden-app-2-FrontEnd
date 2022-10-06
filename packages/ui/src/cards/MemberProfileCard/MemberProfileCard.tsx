@@ -1,6 +1,4 @@
-import { Members } from "@graphql/eden/generated";
-import { ChevronLeftIcon } from "@heroicons/react/outline";
-import { CheckCircleIcon } from "@heroicons/react/solid";
+import { Members } from "@eden/package-graphql/generated";
 import {
   AvailabilityComp,
   Avatar,
@@ -8,7 +6,11 @@ import {
   Card,
   SkillList,
   SocialMediaComp,
-} from "ui";
+} from "@eden/package-ui";
+import { ChevronLeftIcon } from "@heroicons/react/outline";
+import { CheckCircleIcon } from "@heroicons/react/solid";
+
+import { round } from "../../../utils";
 
 export interface MemberProfileCardProps {
   member: Members;
@@ -85,7 +87,7 @@ export const MemberProfileCard = ({
               ⚡️Match
             </h1>
             <p className="text-soilPurple font-poppins text-4xl font-semibold">
-              {Math.round(percentage)}%
+              {round(Number(percentage), 1)}%
             </p>
           </div>
         )}

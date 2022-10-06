@@ -1,6 +1,6 @@
 import "./styles.css";
 
-import { UserWithDescription } from "ui";
+import { UserWithDescription } from "@eden/package-ui";
 
 export interface IEndorsements {
   endorsement?: string;

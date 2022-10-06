@@ -4,9 +4,7 @@ import {
   FIND_PROJECT,
   FIND_ROLE_TEMPLATES,
   MATCH_MEMBERS_TO_SKILLS,
-} from "@graphql/eden";
-import { useRouter } from "next/router";
-import { useState } from "react";
+} from "@eden/package-graphql";
 import {
   AppUserLayout,
   CandidateSelectionList,
@@ -15,7 +13,9 @@ import {
   GridItemThree,
   GridLayout,
   ShortlistList,
-} from "ui";
+} from "@eden/package-ui";
+import { useRouter } from "next/router";
+import { useState } from "react";
 
 import type { NextPageWithLayout } from "../../_app";
 

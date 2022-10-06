@@ -1,24 +1,19 @@
-import { LaunchProjectContext, LaunchProjectModal } from "@context/eden";
+import { LaunchProjectContext } from "@eden/package-context";
+import { Card, Loading, MemberMatchCard, TextHeading3 } from "@eden/package-ui";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import { useContext } from "react";
-import {
-  AddSkillsToRoleCard,
-  Card,
-  Loading,
-  MemberMatchCard,
-  TextHeading3,
-} from "ui";
 
 export interface IShortlistContainerProps {
   matchingMembers: any[];
+  overflow?: boolean;
 }
 
 export const ShortlistContainer = ({
   matchingMembers,
+  overflow = false,
 }: IShortlistContainerProps) => {
   const {
     selectedRole,
-    setOpenModal,
     setSelectedMemberId,
     setSelectedMemberPercentage,
     matchMembersPage,
@@ -32,23 +27,31 @@ export const ShortlistContainer = ({
 
   return (
     <>
-      {selectedRole && (
+      {/* {selectedRole && (
         <AddSkillsToRoleCard
           numberOfMembers={matchingMembers.length}
           roleTitle={selectedRole?.title || ""}
           handleOpenSkillsModal={() => setOpenModal(LaunchProjectModal.SKILLS)}
         />
+      )} */}
+
+      {selectedRole && !selectedRole?.skills?.length && (
+        <TextHeading3 className="mt-12 text-center">
+          Add some skills to see matching candidates
+        </TextHeading3>
       )}
-      {selectedRole && (
+      {selectedRole && selectedRole?.skills?.length! > 0 && (
         <Card className="bg-white px-10 py-4">
-          {!matchingMembers.length ? (
+          {!matchingMembers ? (
             <Loading />
           ) : (
-            !!matchingMembers.length && (
+            !!matchingMembers && (
               <>
-                <TextHeading3 className="mb-4">
-                  {selectedRole.title} matches:
-                </TextHeading3>
+                {!overflow && (
+                  <TextHeading3 className="mb-4">
+                    {selectedRole.title} matches:
+                  </TextHeading3>
+                )}
                 <div className="mb-4 grid grid-cols-3 gap-x-10 gap-y-10">
                   {matchingMembers.map((_member: any, index: number) => (
                     <MemberMatchCard
@@ -56,15 +59,20 @@ export const ShortlistContainer = ({
                       onClick={() => {
                         handleSelectMember(
                           _member.member,
-                          _member.matchPercentage
+                          _member.matchPercentage.totalPercentage
                         );
                       }}
                       member={_member.member}
-                      percentage={_member.matchPercentage}
+                      percentage={_member.matchPercentage.totalPercentage}
                       requiredSkills={selectedRole.skills}
                     />
                   ))}
                 </div>
+                {overflow && (
+                  <TextHeading3 className="mb-4">
+                    There are no more matching candidates
+                  </TextHeading3>
+                )}
                 <section className="flex justify-evenly">
                   {!!matchMembersPage && matchMembersPage > 0 && (
                     <span
@@ -78,7 +86,7 @@ export const ShortlistContainer = ({
                       Previous
                     </span>
                   )}
-                  {!!matchingMembers.length && (
+                  {!!matchingMembers.length && !overflow && (
                     <span
                       className="text-soilGray group cursor-pointer hover:text-slate-400"
                       onClick={() => setMatchMembersPage(matchMembersPage + 1)}

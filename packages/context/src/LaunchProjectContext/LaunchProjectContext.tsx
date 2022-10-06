@@ -1,4 +1,4 @@
-import { Project, RoleType } from "@graphql/eden/generated";
+import { Project, RoleType } from "@eden/package-graphql/generated";
 import { createContext } from "react";
 
 import { LaunchProjectModal, ProjectAction } from "./LaunchProjectProvider";
@@ -17,6 +17,8 @@ export interface LaunchProjectContextType {
   setSelectedMemberPercentage?: any;
   matchMembersPage: number;
   setMatchMembersPage?: any;
+  submitting?: boolean;
+  setSubmitting?: any;
 }
 
 export const LaunchProjectContext = createContext<LaunchProjectContextType>({

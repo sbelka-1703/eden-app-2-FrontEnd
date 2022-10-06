@@ -1,5 +1,5 @@
 import { MockedProvider } from "@apollo/client/testing";
-import { FIND_MEMBER } from "@graphql/eden";
+import { FIND_MEMBER } from "@eden/package-graphql";
 import { render } from "@testing-library/react";
 import { SessionProvider } from "next-auth/react";
 

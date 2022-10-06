@@ -8,3 +8,5 @@ export * from "./updateSkillCategory";
 export * from "./updateSkillSubCategory";
 export * from "./findAllMainCategories";
 export * from "./findSubCategoriesOfCategories";
+export * from "./createSkill";
+export * from "./relatedSkills";

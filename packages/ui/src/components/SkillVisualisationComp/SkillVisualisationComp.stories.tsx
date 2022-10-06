@@ -1,6 +1,6 @@
+import { getSkills } from "@eden/package-mock";
 import { faker } from "@faker-js/faker";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { getSkills } from "storybook/mocks";
 
 import { SkillVisualisationComp } from "./SkillVisualisationComp";
 export default {

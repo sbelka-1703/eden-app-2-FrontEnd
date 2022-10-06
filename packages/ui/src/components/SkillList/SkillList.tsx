@@ -1,8 +1,10 @@
 /* eslint-disable camelcase */
-import { Maybe, SkillType_Member } from "@graphql/eden/generated";
+import { Maybe, SkillType_Member } from "@eden/package-graphql/generated";
+import { Badge } from "@eden/package-ui";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
-import React, { useState } from "react";
-import { Badge } from "ui";
+import { useState } from "react";
+
+import { trimParentheses } from "../../../utils/trim-parentheses";
 
 export interface SkillListProps {
   skills: Maybe<SkillType_Member>[] | undefined;
@@ -25,7 +27,7 @@ export const SkillList: React.FC<SkillListProps> = ({
     (skill: Maybe<SkillType_Member> | undefined, index: number) => (
       <Badge
         key={index}
-        text={skill?.skillInfo?.name || ""}
+        text={trimParentheses(skill?.skillInfo?.name || "")}
         colorRGB={colorRGB}
         className={`font-Inter text-sm`}
         closeButton={closeButton}

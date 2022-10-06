@@ -1,4 +1,4 @@
-import { Project, RoleType } from "@graphql/eden/generated";
+import { Project, RoleType } from "@eden/package-graphql/generated";
 import React, { useReducer, useState } from "react";
 
 import { LaunchProjectContext } from "./LaunchProjectContext";
@@ -18,6 +18,10 @@ export enum ProjectActionKind {
   SHORTLIST_MEMBER = "SHORTLIST_MEMBER",
   // eslint-disable-next-line no-unused-vars
   REMOVE_SHORTLIST_MEMBER = "REMOVE_SHORTLIST_MEMBER",
+  // eslint-disable-next-line no-unused-vars
+  SET_EXTRA_DATA = "SET_EXTRA_DATA",
+  // eslint-disable-next-line no-unused-vars
+  SET_ROLES = "SET_ROLES",
 }
 
 export interface ProjectAction {
@@ -33,7 +37,13 @@ export enum LaunchProjectModal {
   // eslint-disable-next-line no-unused-vars
   ROLE_DETAIL = "role detail",
   // eslint-disable-next-line no-unused-vars
+  SHORTLISTED_PREVIEW = "shortlisted preview",
+  // eslint-disable-next-line no-unused-vars
+  ROLE_DESCRIPTION = "role description",
+  // eslint-disable-next-line no-unused-vars
   PROJECT_INFO = "project info",
+  // eslint-disable-next-line no-unused-vars
+  SAVING_PROJECT = "saving project",
   // eslint-disable-next-line no-unused-vars
   CONGRATULATIONS = "congratulations",
 }
@@ -74,6 +84,33 @@ function projectReducer(project: Project, action: ProjectAction): Project {
             member?.memberInfo?._id !== action.payload.member.memberInfo._id
         ),
       };
+    case ProjectActionKind.SET_EXTRA_DATA:
+      const links = [];
+
+      if (action.payload.links.twitter) {
+        links.push({
+          link: action.payload.links.twitter,
+          title: "twitter",
+        });
+      }
+      if (action.payload.links.github) {
+        links.push({
+          link: action.payload.links.github,
+          title: "github",
+        });
+      }
+
+      return {
+        ...project,
+        description: action.payload.description,
+        collaborationLinks: links,
+      };
+
+    case ProjectActionKind.SET_ROLES:
+      return {
+        ...project,
+        role: action.payload,
+      };
     default:
       throw new Error();
   }
@@ -83,7 +120,6 @@ export const LaunchProjectProvider = ({
   children,
 }: LaunchProjectProviderProps) => {
   const [project, dispatchProject] = useReducer(projectReducer, {
-    __typename: "Project",
     title: "",
     role: [],
     team: [],
@@ -96,6 +132,7 @@ export const LaunchProjectProvider = ({
     number | null
   >(null);
   const [matchMembersPage, setMatchMembersPage] = useState<number>(0);
+  const [submitting, setSubmitting] = useState<boolean>(false);
 
   const injectContext = {
     project: project,
@@ -112,6 +149,8 @@ export const LaunchProjectProvider = ({
     setSelectedMemberPercentage: setSelectedMemberPercentage,
     matchMembersPage: matchMembersPage,
     setMatchMembersPage: setMatchMembersPage,
+    submitting: submitting,
+    setSubmitting: setSubmitting,
   };
 
   return (

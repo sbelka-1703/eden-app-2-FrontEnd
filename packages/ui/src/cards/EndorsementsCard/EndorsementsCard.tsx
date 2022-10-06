@@ -1,5 +1,4 @@
-import React from "react";
-import { AvatarList, AvatarProps, Card } from "ui";
+import { AvatarList, AvatarProps, Card } from "@eden/package-ui";
 
 type EndorsedSkill = {
   name: string;

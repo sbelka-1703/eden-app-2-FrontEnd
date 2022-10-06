@@ -1,5 +1,11 @@
-import { Maybe, Project, RoleType } from "@graphql/eden/generated";
-import { Card, EmojiSelector, RoleList, TextBody, TextHeading3 } from "ui";
+import { Maybe, Project, RoleType } from "@eden/package-graphql/generated";
+import {
+  Card,
+  EmojiSelector,
+  RoleList,
+  TextBody,
+  TextHeading3,
+} from "@eden/package-ui";
 
 export interface ProjectLayoutCardProps {
   project?: Project;
@@ -26,7 +32,7 @@ export const ProjectLayoutCard = ({
   return (
     <Card className="mb-3 bg-white p-4" border={!showRoles}>
       <TextBody className="mb-2">Your Project</TextBody>
-      <div className="flex items-center pb-2">
+      <div className="mb-4 flex items-center">
         <div className="mr-4">
           <EmojiSelector isDisabled emoji={emoji} />
         </div>

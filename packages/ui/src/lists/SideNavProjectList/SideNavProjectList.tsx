@@ -1,6 +1,6 @@
-import { Maybe, ProjectMemberType } from "@graphql/eden/generated";
+import { Maybe, ProjectMemberType } from "@eden/package-graphql/generated";
+import { ProjectCardSmall } from "@eden/package-ui";
 import { useEffect, useState } from "react";
-import { ProjectCardSmall } from "ui";
 
 export interface SideNavProjectListProps {
   projects?: Maybe<Array<Maybe<ProjectMemberType>>>;
