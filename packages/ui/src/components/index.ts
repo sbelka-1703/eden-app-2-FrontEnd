@@ -3,6 +3,8 @@ export * from "./AvatarList";
 export * from "./BioComponent";
 export * from "./CalendarComp";
 export * from "./CalendarComp";
+export * from "./CategoryExpandable";
+export * from "./CategorySearchSkill";
 export * from "./CollectionOfUsers";
 export * from "./Endorsements";
 export * from "./EndorsementsCarousel";
