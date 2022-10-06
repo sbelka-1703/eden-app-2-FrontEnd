@@ -1,11 +1,12 @@
 import { gql, useMutation } from "@apollo/client";
 import { SignUpContext, UserContext } from "@eden/package-context";
 import { Mutation } from "@eden/package-graphql/generated";
+import { Button, Card, FormStepper, Loading } from "@eden/package-ui";
+import { useRouter } from "next/router";
+import { useContext, useState } from "react";
+import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
+
 import {
-  Button,
-  Card,
-  FormStepper,
-  Loading,
   SignUpViewBio,
   SignUpViewConfirm,
   SignUpViewShare,
@@ -13,10 +14,7 @@ import {
   SignUpViewSocials,
   SignUpViewSuccess,
   SignUpViewXP,
-} from "@eden/package-ui";
-import { useRouter } from "next/router";
-import { useContext, useState } from "react";
-import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
+} from "./";
 
 const UPDATE_MEMBER = gql`
   mutation ($fields: updateMemberInput!) {
@@ -39,7 +37,6 @@ export const SignUpContainer = ({}: SignUpContainerProps) => {
     timezone,
     twitterHandle,
     githubHandle,
-    discordHandle,
     telegramHandle,
   } = useContext(SignUpContext);
 
@@ -77,15 +74,11 @@ export const SignUpContainer = ({}: SignUpContainerProps) => {
           links: [
             {
               name: "twitter",
-              url: "https://twitter.com/" + twitterHandle,
+              url: twitterHandle ? `https://twitter.com/${twitterHandle}` : "",
             },
             {
               name: "github",
-              url: "https://github.com/" + githubHandle,
-            },
-            {
-              name: "discord",
-              url: discordHandle,
+              url: githubHandle ? `https://github.com/${githubHandle}` : "",
             },
             {
               name: "telegram",

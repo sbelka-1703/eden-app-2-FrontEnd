@@ -3,6 +3,7 @@ import { UserContext } from "@eden/package-context";
 import { FIND_PROJECTS_RECOMMENDED } from "@eden/package-graphql";
 import {
   AppHeader,
+  Card,
   GridItemNine,
   GridItemSix,
   GridItemThree,
@@ -54,7 +55,9 @@ export const AppUserMenuLayout = ({
         <main className="flex flex-grow">
           <GridLayout>
             <GridItemThree>
-              <UserProfileMenu title={`Good Morning,`} />
+              <Card className="bg-white p-6">
+                <UserProfileMenu title={`Good Morning,`} />
+              </Card>
             </GridItemThree>
             {recommnededSidebar ? (
               <>
