@@ -1,10 +1,14 @@
 // eslint-disable-next-line camelcase
 import { useQuery } from "@apollo/client";
-import { FIND_SUBCATEGORIES_OF_CATEGORIES } from "@graphql/eden";
-// eslint-disable-next-line camelcase
-import { Maybe, Skills, SkillType_Member } from "@graphql/eden/generated";
-import React, { useEffect, useState } from "react";
-import { Expandable } from "ui";
+import { FIND_SUBCATEGORIES_OF_CATEGORIES } from "@eden/package-graphql";
+import {
+  Maybe,
+  Skills,
+  // eslint-disable-next-line camelcase
+  SkillType_Member,
+} from "@eden/package-graphql/generated";
+import { Expandable } from "@eden/package-ui/src";
+import { useEffect, useState } from "react";
 
 type LevelProp = {
   title: string;
@@ -20,6 +24,7 @@ type ExpandableProps = {
   selected: string | null;
   setSkills?: any;
   setIsOpen?: any;
+  dataSkills: any;
   setSelected?: any;
   id: string;
   query: string;
@@ -32,10 +37,10 @@ export const CategoryExpandable = ({
   skills,
   isOpen,
   selected,
-  allSkills,
   setSkills,
   setIsOpen,
   setSelected,
+  dataSkills,
   id,
   levels,
   query,
@@ -73,7 +78,13 @@ export const CategoryExpandable = ({
     console.log("selected id", idSelected);
     console.log("fetchedSubCategories", fetchedSubCategories);
   }, [idSelected, fetchedSubCategories]);
-
+  useEffect(() => {
+    query !== "" &&
+      console.log(
+        "searched sub categories",
+        dataSkills?.skills_autocomplete[0]
+      );
+  }, [query, dataSkills]);
   return (
     <div className="w-full">
       <div
@@ -83,7 +94,7 @@ export const CategoryExpandable = ({
             setIdSelected(id);
           }
         }}
-        className="flex w-full cursor-pointer items-center justify-between bg-[#EDF2F7] px-3 py-2 text-sm"
+        className="flex w-full cursor-pointer items-center justify-between bg-[#b7b7b7] px-3 py-2 text-sm"
       >
         {category}
         <p className="text-xs font-medium underline">
@@ -91,7 +102,10 @@ export const CategoryExpandable = ({
         </p>
       </div>
       {isExandingOpen &&
-        fetchedSubCategories?.map((s: any, index) => (
+        (query === ""
+          ? fetchedSubCategories
+          : dataSkills.skills_autocomplete[0].subCategorySkill
+        )?.map((s: any, index) => (
           <Expandable
             query={query}
             category={s.name}

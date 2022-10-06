@@ -1,12 +1,15 @@
 import { useQuery } from "@apollo/client";
-import { FIND_ALL_MAIN_CATEGORIES, SKILLS_AUTOCOMPLETE } from "@graphql/eden";
+import {
+  FIND_ALL_MAIN_CATEGORIES,
+  SKILLS_AUTOCOMPLETE,
+} from "@eden/package-graphql";
 // eslint-disable-next-line camelcase
-import { Maybe, SkillType_Member } from "@graphql/eden/generated";
+import { Maybe, SkillType_Member } from "@eden/package-graphql/generated";
+import { CategoryExpandable, Loading } from "@eden/package-ui/src";
 import { Combobox } from "@headlessui/react";
 import { EmojiSadIcon } from "@heroicons/react/outline";
 import { SearchIcon } from "@heroicons/react/solid";
-import React, { useEffect, useMemo, useState } from "react";
-import { CategoryExpandable, Expandable, Loading } from "ui";
+import { useEffect, useMemo, useState } from "react";
 
 type LevelProp = {
   title: string;
@@ -69,8 +72,8 @@ export const CategorySearchSkill = ({
   const groups = filteredItems?.reduce((groups: any, item: any) => {
     return {
       ...groups,
-      [item.subCategorySkill[0].name!]: [
-        ...(groups[item.subCategorySkill[0].name!] || []),
+      [item.categorySkills[0].name!]: [
+        ...(groups[item.categorySkills[0].name!] || []),
         item,
       ],
     };
@@ -150,9 +153,9 @@ export const CategorySearchSkill = ({
                 // @ts-ignore
                 id={id[0]._id}
                 skills={skills!}
-                allSkills={query !== "" && dataSkills.skills_autocomplete}
                 isOpen={isOpen}
                 selected={selected}
+                dataSkills={dataSkills}
                 setIsOpen={setIsOpen}
                 setSkills={setSkills}
                 key={category}

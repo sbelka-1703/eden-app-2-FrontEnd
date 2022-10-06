@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { CategorySearchSkill } from "ui";
+import { CategorySearchSkill } from "@eden/package-ui/src";
+import { useState } from "react";
 
 const SkillTest = () => {
   const [skills, setSkills] = useState([]);
