@@ -1,7 +1,7 @@
 // import { PhaseType } from "@eden/package-graphql/generated";
 import { faker } from "@faker-js/faker";
 // import { phase } from "./data";
-import { getMember } from "./MembersMock";
+import { getMember, getSkills } from "./MembersMock";
 // import { getProject, randomTeam } from "./ProjectMock";
 
 export const randomPercentage = (): number => {
@@ -15,9 +15,16 @@ export const getMatchPercentage = () => ({
   budgetPercentage: randomPercentage(),
 });
 
+export const getSkillsPercentage = () => ({
+  info: getSkills(faker.datatype.number({ min: 2, max: 36, precision: 1 })),
+  percentage100: getMatchPercentage(),
+  percentageReal: getMatchPercentage(),
+});
+
 export const matchSkillsToMembers = () => ({
   matchPercentage: getMatchPercentage(),
   members: getMember(),
+  skillsPercentage: getSkillsPercentage(),
 });
 
 // export const matchMembersToProjectRole = () => ({
