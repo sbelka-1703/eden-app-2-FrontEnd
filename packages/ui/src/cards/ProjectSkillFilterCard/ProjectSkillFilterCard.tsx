@@ -7,7 +7,7 @@ import {
 } from "@eden/package-graphql/generated";
 import {
   Card,
-  SearchSkill,
+  CategorySearchSkill,
   SkillVisualisationComp,
   SwitchButton,
   TextField,
@@ -97,7 +97,7 @@ export const ProjectSkillFilterCard: React.FC<ProjectSkillFilterCardProps> = ({
           </span>
         </div>
         <div className="mt-2">
-          <SearchSkill
+          <CategorySearchSkill
             levels={levels}
             skills={mappedSkills as Maybe<Maybe<SkillType_Member>[]>}
             setSkills={_handleSetSkills}
