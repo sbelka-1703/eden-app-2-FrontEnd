@@ -10,6 +10,10 @@ export const SKILLS_AUTOCOMPLETE = gql`
         _id
         name
       }
+      categorySkills {
+        _id
+        name
+      }
     }
   }
 `;

@@ -56,7 +56,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
     ? dataRoomSubscription.roomUpdated.members.map(
         (member: Members) => member._id
       )
-    : dataRoom?.findRoom.members.map((member: Members) => member._id);
+    : dataRoom?.findRoom?.members.map((member: Members) => member._id);
 
   useSubscription(MEMBER_UPDATED, {
     variables: {
@@ -76,7 +76,9 @@ const OnboardPartyPage: NextPageWithLayout = () => {
     },
   });
 
-  const [enterRoom] = useMutation(ENTER_ROOM, {});
+  const [enterRoom] = useMutation(ENTER_ROOM, {
+    errorPolicy: "ignore",
+  });
 
   useEffect(() => {
     // if user logged in and not in party, add currentUser to party

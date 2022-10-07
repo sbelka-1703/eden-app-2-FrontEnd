@@ -4,7 +4,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { LaunchContainer } from "./LaunchContainer";
 
 export default {
-  title: "Containers/LaunchContainer",
+  title: "Archive/Containers/LaunchContainer",
   component: LaunchContainer,
   argTypes: {},
 } as ComponentMeta<typeof LaunchContainer>;

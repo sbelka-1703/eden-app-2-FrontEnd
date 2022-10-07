@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
-  title: "Design-System/Colors",
+  title: "Design System/Colors",
 };
 
 const colors = [

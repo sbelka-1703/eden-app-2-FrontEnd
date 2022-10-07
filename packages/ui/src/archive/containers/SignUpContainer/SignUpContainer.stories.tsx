@@ -2,10 +2,10 @@ import { SignUpProvider } from "@eden/package-context";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { CurrentUserDecorator } from "storybook/.storybook/decorator";
 
-import { SignUpContainer } from "./SignUpContainer";
+import { SignUpContainer } from "./";
 
 export default {
-  title: "Containers/SignUpContainer",
+  title: "Archive/Containers/SignUpContainer",
   component: SignUpContainer,
   argTypes: {},
   decorators: [CurrentUserDecorator],
