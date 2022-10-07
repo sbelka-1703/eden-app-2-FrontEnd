@@ -48,6 +48,11 @@ export const FIND_MEMBER_FULL = gql`
             kickOff
             complition
           }
+          champion {
+            _id
+            discordName
+            discordAvatar
+          }
         }
         role {
           _id
