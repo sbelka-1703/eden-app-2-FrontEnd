@@ -1,13 +1,11 @@
-// TODO: Create a test file for this component //
-
 import { useQuery } from "@apollo/client";
 import {
-  FIND_ALL_CATEGORIES,
+  FIND_ALL_MAIN_CATEGORIES,
   SKILLS_AUTOCOMPLETE,
 } from "@eden/package-graphql";
 // eslint-disable-next-line camelcase
 import { Maybe, SkillType_Member } from "@eden/package-graphql/generated";
-import { Expandable, Loading } from "@eden/package-ui/src";
+import { CategoryExpandable, Loading } from "@eden/package-ui/src";
 import { Combobox } from "@headlessui/react";
 import { EmojiSadIcon } from "@heroicons/react/outline";
 import { SearchIcon } from "@heroicons/react/solid";
@@ -18,18 +16,18 @@ type LevelProp = {
   level: string;
 };
 
-export interface SearchSkillProps {
+export interface SearchCategorySkillProps {
   // eslint-disable-next-line camelcase
   skills: Maybe<Maybe<SkillType_Member>[]> | undefined;
   setSkills: any;
   levels: LevelProp[];
 }
 
-export const SearchSkill = ({
+export const CategorySearchSkill = ({
   skills,
   setSkills,
   levels,
-}: SearchSkillProps) => {
+}: SearchCategorySkillProps) => {
   const [query, setQuery] = useState<string>("");
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -48,21 +46,22 @@ export const SearchSkill = ({
     }
   );
 
-  const { data: AllSkillsData, loading: AllSkillsDataLoading } =
-    useQuery(FIND_ALL_CATEGORIES);
+  const { data: AllSkillsData, loading: ALLSkillsDataLoading } = useQuery(
+    FIND_ALL_MAIN_CATEGORIES
+  );
 
   const AllCategoery: any = useMemo(() => [], []);
 
   useEffect(() => {
-    if (AllSkillsData && AllSkillsDataLoading === false) {
-      AllSkillsData.findSkillSubCategories.forEach((skill: any) => {
+    if (AllSkillsData && ALLSkillsDataLoading === false) {
+      AllSkillsData.findSkillCategories.forEach((skill: any) => {
         AllCategoery.push({
           _id: skill._id,
           category: skill.name,
         });
       });
     }
-  }, [AllSkillsData, AllSkillsDataLoading]);
+  }, [AllSkillsData, ALLSkillsDataLoading]);
 
   const filteredItems = dataSkills
     ? dataSkills.skills_autocomplete?.filter((item: any) => {
@@ -73,8 +72,8 @@ export const SearchSkill = ({
   const groups = filteredItems?.reduce((groups: any, item: any) => {
     return {
       ...groups,
-      [item.subCategorySkill[0].name!]: [
-        ...(groups[item.subCategorySkill[0].name!] || []),
+      [item.categorySkills[0].name!]: [
+        ...(groups[item.categorySkills[0].name!] || []),
         item,
       ],
     };
@@ -92,7 +91,6 @@ export const SearchSkill = ({
       setSelected(dataSkills[0]._id);
     }
   }, [dataSkills]);
-
   return (
     <Combobox
       value={skills}
@@ -149,21 +147,21 @@ export const SearchSkill = ({
             {Object.entries(
               query === "" && inFocus ? allSkillGroup : groups!
             ).map(([category, id], index) => (
-              <Expandable
+              <CategoryExpandable
                 query={query}
                 category={category}
                 // @ts-ignore
                 id={id[0]._id}
                 skills={skills!}
-                allSkills={query !== "" && dataSkills.skills_autocomplete}
                 isOpen={isOpen}
                 selected={selected}
+                dataSkills={dataSkills}
                 setIsOpen={setIsOpen}
                 setSkills={setSkills}
                 key={category}
                 setSelected={setSelected}
-                // setExpanding={(e: boolean) => setInFocus(e)}
                 levels={levels}
+                // setExpanding={(e: boolean) => setInFocus(e)}
                 isExpandingOpenByDefault={query == "" ? false : !index}
               />
             ))}
