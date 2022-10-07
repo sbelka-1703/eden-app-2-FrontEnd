@@ -62,11 +62,6 @@ export const CategoryExpandable = ({
       }
     );
 
-    console.log(
-      "allSubCategoryId",
-      allSubCategoriesbyId?.findSkillCategory.subCategorySkill
-    );
-
     return allSubCategoriesbyId
       ? allSubCategoriesbyId?.findSkillCategory.subCategorySkill
       : [];
@@ -105,7 +100,7 @@ export const CategoryExpandable = ({
         (query === ""
           ? fetchedSubCategories
           : dataSkills.skills_autocomplete[0].subCategorySkill
-        )?.map((s: any, index) => (
+        )?.map((s: any, index: number) => (
           <Expandable
             query={query}
             category={s.name}
