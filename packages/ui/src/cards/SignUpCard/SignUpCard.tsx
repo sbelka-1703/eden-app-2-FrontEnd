@@ -46,28 +46,29 @@ export interface ISignUpCardProps {
 
 export const SignUpCard = ({ roles, refetch }: ISignUpCardProps) => {
   const { currentUser } = useContext(UserContext);
-  const [showSkillsView, setShowSkillsView] = useState(false);
-  const [roleModalOpen, setRoleModalOpen] = useState<boolean>(false);
+  // const [showSkillsView, setShowSkillsView] = useState(false);
+  const [roleModalOpen, setRoleModalOpen] = useState<boolean>(true);
 
-  useEffect(() => {
-    if (currentUser?.memberRole) {
-      setShowSkillsView(true);
-      setRoleModalOpen(false);
-    } else {
-      setShowSkillsView(false);
-      setRoleModalOpen(true);
-    }
-  }, [currentUser]);
+  // useEffect(() => {
+  //   if (currentUser?.memberRole) {
+  //     setShowSkillsView(true);
+  //     setRoleModalOpen(false);
+  //   } else {
+  //     setShowSkillsView(false);
+  //     setRoleModalOpen(true);
+  //   }
+  // }, [currentUser]);
 
   const [updateMember] = useMutation(UPDATE_MEMBER, {
     onCompleted({ updateMember }: Mutation) {
-      if (!updateMember) console.log("addFavoriteProject is null");
+      if (!updateMember) console.log("updateMember is null");
       refetch?.();
     },
   });
 
   return (
-    <div className={`rounded-2xl bg-white px-8 py-6`}>
+    <>
+      {/* <div className={`rounded-2xl bg-white px-8 py-6`}> */}
       <RoleModal
         onSubmit={(role) => {
           if (!role?._id || !currentUser?._id) return;
@@ -83,13 +84,13 @@ export const SignUpCard = ({ roles, refetch }: ISignUpCardProps) => {
             },
           });
           setRoleModalOpen(false);
-          setShowSkillsView(true);
+          // setShowSkillsView(true);
         }}
         openModal={roleModalOpen}
         roles={roles}
       />
 
-      {showSkillsView && (
+      {/* {showSkillsView && (
         <AddSkillsView
           onSelectedSkills={(skills) => {
             console.log(skills);
@@ -109,8 +110,9 @@ export const SignUpCard = ({ roles, refetch }: ISignUpCardProps) => {
             });
           }}
         />
-      )}
-    </div>
+      )} */}
+      {/* </div> */}
+    </>
   );
 };
 
@@ -122,6 +124,7 @@ interface IAddSkillsViewProps {
   onSelectedSkills: (skills: Maybe<SkillType_Member>[]) => void;
 }
 
+// eslint-disable-next-line no-unused-vars
 const AddSkillsView = ({ onSelectedSkills }: IAddSkillsViewProps) => {
   const { currentUser } = useContext(UserContext);
 
