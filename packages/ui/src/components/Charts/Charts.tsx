@@ -9,14 +9,14 @@
 //   LabelList,
 // } from "recharts";
 import {
-  Chart as ChartJS,
   CategoryScale,
+  Chart as ChartJS,
+  Legend,
   LinearScale,
-  PointElement,
   LineElement,
+  PointElement,
   Title,
   Tooltip,
-  Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 
@@ -93,9 +93,11 @@ export const Charts = ({ data, title, color, width, height }: IChartsProps) => {
     const labels = propData?.map((data: any) => {
       return data.name;
     });
+
     const dataValue = propData?.map((data: any) => {
       return data.percentage;
     });
+
     console.log(dataValue);
     const chartD = {
       labels: labels,
@@ -108,8 +110,10 @@ export const Charts = ({ data, title, color, width, height }: IChartsProps) => {
         },
       ],
     };
+
     return chartD;
   };
+
   return (
     // <LineChart
     //   width={700}

@@ -1,14 +1,14 @@
 import React from "react";
 
 export interface DateCardProps {
-  type: "primary" | "secondary";
-  dayOfMonth: number;
-  month: string;
-  year: number;
+  type?: "primary" | "secondary";
+  dayOfMonth?: number;
+  month?: string;
+  year?: number;
 }
 
 export const Date: React.FC<DateCardProps> = ({
-  type,
+  type = "primary",
   dayOfMonth,
   month,
   year,
