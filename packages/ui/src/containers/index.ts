@@ -14,6 +14,7 @@ export * from "./ShortlistContainer";
 export * from "./ShortlistMemberContainer";
 export * from "./ShortlistModalContainer";
 export * from "./ShortlistSideContainer";
+export * from "./ShortlistSideContainerTest";
 export * from "./SignUpContainer";
 export * from "./SignUpContainerMain";
 export * from "./SignUpContainerSide";
