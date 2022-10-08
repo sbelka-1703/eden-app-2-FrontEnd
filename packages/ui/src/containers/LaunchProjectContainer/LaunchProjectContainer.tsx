@@ -16,8 +16,7 @@ export interface ILaunchProjectContainerProps {}
 export const LaunchProjectContainer = ({}: ILaunchProjectContainerProps) => {
   const router = useRouter();
 
-  const { project, dispatchProject, projectEmoji, setProjectEmoji } =
-    useContext(LaunchProjectContext);
+  const { project, dispatchProject } = useContext(LaunchProjectContext);
 
   const handleButtonClick = () => {
     router.push("/launch/shortlist");
@@ -54,12 +53,22 @@ export const LaunchProjectContainer = ({}: ILaunchProjectContainerProps) => {
             <div className="mb-3">
               <TextBody>Choose emoji for your project</TextBody>
             </div>
-            <EmojiSelector onSelection={(value) => setProjectEmoji(value)} />
+            <EmojiSelector
+              onSelection={(value) =>
+                dispatchProject!({
+                  type: ProjectActionKind.SET_EMOJI,
+                  payload: value,
+                })
+              }
+            />
           </div>
           <div className="col-span-1">
             <TextBody className="mb-1">Preview</TextBody>
             {project && (
-              <ProjectLayoutCard project={project} emoji={projectEmoji} />
+              <ProjectLayoutCard
+                project={project}
+                emoji={project?.emoji || undefined}
+              />
             )}
           </div>
         </section>

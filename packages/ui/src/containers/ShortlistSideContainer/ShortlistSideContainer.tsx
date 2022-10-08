@@ -27,7 +27,6 @@ export const ShortlistSideContainer = ({
   const {
     project,
     dispatchProject,
-    projectEmoji,
     setOpenModal,
     selectedRole,
     setSelectedRole,
@@ -105,7 +104,7 @@ export const ShortlistSideContainer = ({
     <>
       <ProjectLayoutCard
         project={project}
-        emoji={projectEmoji}
+        emoji={project?.emoji || undefined}
         handleAddRole={() => {
           setOpenModal(LaunchProjectModal.ROLE);
           setSelectedMemberId(null);
