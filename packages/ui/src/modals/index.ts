@@ -6,3 +6,4 @@ export * from "./SavingProjectModal";
 export * from "./ShortlistMemeberModal";
 export * from "./SkillsModalContainer";
 export * from "./SocialMediaModel";
+export * from "./SkillMatchModal";

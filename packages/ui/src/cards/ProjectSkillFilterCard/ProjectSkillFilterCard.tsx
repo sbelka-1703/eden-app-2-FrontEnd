@@ -7,7 +7,7 @@ import {
 } from "@eden/package-graphql/generated";
 import {
   Card,
-  SearchSkill,
+  CategorySearchSkill,
   SkillVisualisationComp,
   SwitchButton,
   TextField,
@@ -42,6 +42,7 @@ export interface ProjectSkillFilterCardProps {
   handleSetHoursPerWeek?: (val: any) => void;
   handleSetBudget?: any;
   handleDeleteSkill?: any;
+  cardTypeProject?: boolean;
 }
 export const ProjectSkillFilterCard: React.FC<ProjectSkillFilterCardProps> = ({
   selectedRole,
@@ -51,6 +52,7 @@ export const ProjectSkillFilterCard: React.FC<ProjectSkillFilterCardProps> = ({
   handleSetHoursPerWeek,
   handleSetBudget,
   handleDeleteSkill,
+  cardTypeProject = true,
 }) => {
   const [unpaid, setUnpaid] = useState(false);
 
@@ -95,7 +97,7 @@ export const ProjectSkillFilterCard: React.FC<ProjectSkillFilterCardProps> = ({
           </span>
         </div>
         <div className="mt-2">
-          <SearchSkill
+          <CategorySearchSkill
             levels={levels}
             skills={mappedSkills as Maybe<Maybe<SkillType_Member>[]>}
             setSkills={_handleSetSkills}
@@ -110,15 +112,20 @@ export const ProjectSkillFilterCard: React.FC<ProjectSkillFilterCardProps> = ({
         <div>
           <div>
             <div className="mt-3">
-              <span className="text-md tracking-wide">
-                Desired availability of the contributor:
-              </span>
-              {/* <div className="text-lg	font-normal	tracking-wide">
-                How much time can you devote?
-              </div>
-              <div className="text-sm	font-light tracking-wide text-slate-500">
-                You can always edit this information in the settings
-              </div> */}
+              {cardTypeProject ? (
+                <span className="text-md tracking-wide">
+                  Desired availability of the contributor:
+                </span>
+              ) : (
+                <>
+                  <div className="text-lg	font-normal	tracking-wide">
+                    How much time can you devote?
+                  </div>
+                  <div className="text-sm	font-light tracking-wide text-slate-500">
+                    You can always edit this information in the settings
+                  </div>
+                </>
+              )}
               <div className="flex flex-row content-center items-center">
                 <div className="w-24">
                   <TextField
@@ -140,55 +147,63 @@ export const ProjectSkillFilterCard: React.FC<ProjectSkillFilterCardProps> = ({
           </div>
           <div>
             <div className="mt-3">
-              <span className="text-md tracking-wide">
-                Set the rewards for the contributor:
-              </span>
-              {/* <div className="text-lg	font-normal	tracking-wide">
-                Do you expect to be rewarded?
-              </div>
-              <div className="text-sm	font-light tracking-wide text-slate-500">
-                You can always edit this information in the settings
-              </div> */}
-              <div className="flex w-full flex-row content-center items-center">
-                <div className="mr-2 w-2/3">
-                  <TextField
-                    key={"" + unpaid}
-                    name="budget"
-                    placeholder="0"
-                    radius="rounded"
-                    type="number"
-                    defaultValue={
-                      unpaid
-                        ? ""
-                        : roles.find(
-                            (role: RoleType) => role._id === selectedRole?._id
-                          )?.budget?.perHour
-                    }
-                    onChange={(e) =>
-                      handleSetBudget({ perHour: e.target.value })
-                    }
-                    disabled={unpaid}
-                  />
-                </div>
-                <div className="w-1/3">
-                  <TextField
-                    key={"" + unpaid}
-                    name="token"
-                    placeholder="token"
-                    radius="rounded"
-                    type="text"
-                    defaultValue={
-                      unpaid
-                        ? ""
-                        : roles.find(
-                            (role: RoleType) => role._id === selectedRole?._id
-                          )?.budget?.token
-                    }
-                    onChange={(e) => handleSetBudget({ token: e.target.value })}
-                    disabled={unpaid}
-                  />
-                </div>
-                {/* <div className="ml-3 w-24">
+              {cardTypeProject ? (
+                <span className="text-md tracking-wide">
+                  Set the rewards for the contributor:
+                </span>
+              ) : (
+                <>
+                  {/* <div className="text-lg	font-normal	tracking-wide">
+                    Do you expect to be rewarded?
+                  </div>
+                  <div className="text-sm	font-light tracking-wide text-slate-500">
+                    You can always edit this information in the settings
+                  </div> */}
+                </>
+              )}
+              {cardTypeProject && (
+                <div className="flex w-full flex-row content-center items-center">
+                  <div className="mr-2 w-2/3">
+                    <TextField
+                      key={"" + unpaid}
+                      name="budget"
+                      placeholder="0"
+                      radius="rounded"
+                      type="number"
+                      defaultValue={
+                        unpaid
+                          ? ""
+                          : roles.find(
+                              (role: RoleType) => role._id === selectedRole?._id
+                            )?.budget?.perHour
+                      }
+                      onChange={(e) =>
+                        handleSetBudget({ perHour: e.target.value })
+                      }
+                      disabled={unpaid}
+                    />
+                  </div>
+                  <div className="w-1/3">
+                    <TextField
+                      key={"" + unpaid}
+                      name="token"
+                      placeholder="token"
+                      radius="rounded"
+                      type="text"
+                      defaultValue={
+                        unpaid
+                          ? ""
+                          : roles.find(
+                              (role: RoleType) => role._id === selectedRole?._id
+                            )?.budget?.token
+                      }
+                      onChange={(e) =>
+                        handleSetBudget({ token: e.target.value })
+                      }
+                      disabled={unpaid}
+                    />
+                  </div>
+                  {/* <div className="ml-3 w-24">
                   <TextField
                     name="timeDevoted"
                     placeholder="0"
@@ -197,7 +212,8 @@ export const ProjectSkillFilterCard: React.FC<ProjectSkillFilterCardProps> = ({
                     onChange={() => console.log("sass")}
                   />
                 </div> */}
-              </div>
+                </div>
+              )}
               <div className="flex flex-col">
                 {/* <div className="mt-3">
                   <SwitchButton
@@ -206,13 +222,15 @@ export const ProjectSkillFilterCard: React.FC<ProjectSkillFilterCardProps> = ({
                     onChange={() => console.log("ass")}
                   />
                 </div> */}
-                <div className="mt-3">
-                  <SwitchButton
-                    name="unpaid"
-                    label="Unpaid"
-                    onChange={handleUnpaid}
-                  />
-                </div>
+                {cardTypeProject && (
+                  <div className="mt-3">
+                    <SwitchButton
+                      name="unpaid"
+                      label="Unpaid"
+                      onChange={handleUnpaid}
+                    />
+                  </div>
+                )}
               </div>
             </div>
             <div></div>

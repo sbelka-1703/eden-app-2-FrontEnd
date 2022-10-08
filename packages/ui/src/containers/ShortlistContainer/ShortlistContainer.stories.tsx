@@ -1,3 +1,4 @@
+import { getMatchingMemberArray } from "@eden/package-mock";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { ShortlistContainer } from "./ShortlistContainer";
@@ -14,5 +15,5 @@ const Template: ComponentStory<typeof ShortlistContainer> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  matchingMembers: [],
+  matchingMembers: getMatchingMemberArray(10),
 };

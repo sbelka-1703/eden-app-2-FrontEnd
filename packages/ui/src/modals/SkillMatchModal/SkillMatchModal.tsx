@@ -2,17 +2,18 @@
 // import { Maybe, RoleType, TeamType } from "@eden/package-graphql/generated";
 import { Charts, Modal } from "@eden/package-ui";
 import { useState } from "react";
-
+import { SkillsPercentage } from "@eden/package-graphql/generated";
 export interface SkillMatchModalProps {
   isModalOpen?: boolean;
-  chartData?: Array<any>;
+  chartData?: Array<SkillsPercentage> | any;
   budget?: number;
   avaiability?: number;
-  projectCost?: string;
-  yourCost?: string;
+  projectCost?: number;
+  yourCost?: number;
   projectHr?: number;
   yourHr?: number;
   matchingPercentage?: number;
+  onCloseModal: () => void;
 }
 export const SkillMatchModal: React.FC<SkillMatchModalProps> = ({
   isModalOpen,
@@ -24,11 +25,12 @@ export const SkillMatchModal: React.FC<SkillMatchModalProps> = ({
   projectHr,
   yourHr,
   matchingPercentage,
+  onCloseModal,
 }) => {
   const [unpaid, setUnpaid] = useState(false);
 
   return (
-    <Modal open={isModalOpen}>
+    <Modal open={isModalOpen} onClose={onCloseModal}>
       <div>
         <Charts
           data={chartData!}
@@ -42,7 +44,7 @@ export const SkillMatchModal: React.FC<SkillMatchModalProps> = ({
             <div className="flex flex-col content-between items-start justify-start">
               <div>
                 <div className="text-3xl font-semibold text-amber-500">
-                  {budget} %
+                  {Math.round(Number(budget))} %
                 </div>
                 <div className="text-base font-semibold text-amber-500">
                   Budget
@@ -50,7 +52,7 @@ export const SkillMatchModal: React.FC<SkillMatchModalProps> = ({
               </div>
               <div className="mt-2">
                 <div className="text-3xl font-semibold text-amber-500">
-                  {avaiability} %
+                  {Math.round(Number(avaiability))} %
                 </div>
                 <div className="text-base font-semibold text-amber-500">
                   Avaiability
@@ -58,7 +60,7 @@ export const SkillMatchModal: React.FC<SkillMatchModalProps> = ({
               </div>
               <div className="mt-2">
                 <div className="text-3xl font-semibold text-amber-500">
-                  {avaiability} %
+                  {Math.round(Number(avaiability))} %
                 </div>
                 <div className="text-base font-semibold text-amber-500">
                   Something
@@ -73,7 +75,7 @@ export const SkillMatchModal: React.FC<SkillMatchModalProps> = ({
                   </span>
                   <span className="text-base font-medium tracking-wide">
                     {" "}
-                    {projectCost}/hour
+                    {`${projectCost} USDC/hour`}
                   </span>
                 </div>
                 <div>
@@ -82,7 +84,7 @@ export const SkillMatchModal: React.FC<SkillMatchModalProps> = ({
                   </span>
                   <span className="text-base font-medium tracking-wide">
                     {" "}
-                    {yourCost}/hour
+                    {`${yourCost} USDC/hour`}
                   </span>
                 </div>
               </div>
@@ -112,7 +114,7 @@ export const SkillMatchModal: React.FC<SkillMatchModalProps> = ({
             <div className="flex flex-col content-center items-center justify-center">
               <div className="border-soilPurple flex content-center items-center justify-center rounded-full border-4 px-8 py-11">
                 <span className="text-soilPurple text-3xl font-semibold">
-                  {matchingPercentage}%
+                  {Math.round(Number(matchingPercentage))}%
                 </span>
               </div>
             </div>

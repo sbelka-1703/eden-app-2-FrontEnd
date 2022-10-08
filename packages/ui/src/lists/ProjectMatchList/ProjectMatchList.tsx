@@ -3,7 +3,7 @@ import {
   MatchSkillsToProjectsOutput,
   Maybe,
 } from "@eden/package-graphql/generated";
-import { Loading, ProjectMatchCard, TextHeading2 } from "@eden/package-ui";
+import { Loading, ProjectMatchCard, TextHeading3 } from "@eden/package-ui";
 import { useContext } from "react";
 
 export interface IProjectMatchListProps {
@@ -21,12 +21,13 @@ export const ProjectMatchList = ({
   // if (matchedProjects) console.log("matchedProjects", matchedProjects);
 
   return (
-    <div className={`h-6/10 flex flex-col rounded-2xl bg-white py-6`}>
+    <div className={`h-9/10 flex flex-col rounded-2xl bg-white py-6`}>
       <div className={`px-6`}>
         {currentUser?.memberRole?.title && (
-          <TextHeading2>
-            All projects for the role {currentUser?.memberRole?.title}
-          </TextHeading2>
+          <TextHeading3>
+            Project matches
+            {/* All projects for the role {currentUser?.memberRole?.title} */}
+          </TextHeading3>
         )}
       </div>
       {matchedProjects ? (
