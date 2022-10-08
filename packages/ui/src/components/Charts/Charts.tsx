@@ -95,7 +95,7 @@ export const Charts = ({ data, title, color, width, height }: IChartsProps) => {
     });
 
     const dataValue = propData?.map((data: any) => {
-      return data.percentageReal;
+      return data.percentage100;
     });
 
     const chartD = {
