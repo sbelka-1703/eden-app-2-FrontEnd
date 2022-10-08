@@ -19,9 +19,9 @@ import {
   Tooltip,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-
+import { SkillsPercentage } from "@eden/package-graphql/generated";
 export interface IChartsProps {
-  data: Array<any>;
+  data: Array<SkillsPercentage> | any;
   color?: string;
   title?: string;
   width?: number;
@@ -89,16 +89,15 @@ export const Charts = ({ data, title, color, width, height }: IChartsProps) => {
     },
   };
 
-  const chartData = (propData: Array<any>) => {
+  const chartData = (propData: Array<SkillsPercentage>) => {
     const labels = propData?.map((data: any) => {
-      return data.name;
+      return data.info.name;
     });
 
     const dataValue = propData?.map((data: any) => {
-      return data.percentage;
+      return data.percentageReal;
     });
 
-    console.log(dataValue);
     const chartD = {
       labels: labels,
       datasets: [
