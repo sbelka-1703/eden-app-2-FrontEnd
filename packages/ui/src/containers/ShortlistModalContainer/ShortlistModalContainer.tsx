@@ -3,6 +3,7 @@ import {
   LaunchProjectContext,
   LaunchProjectModal,
   ProjectActionKind,
+  UserContext,
 } from "@eden/package-context";
 import { UPDATE_PROJECT } from "@eden/package-graphql";
 import {
@@ -38,6 +39,7 @@ export const ShortlistModalContainer = ({}: IShortlistModalContainerProps) => {
     submitting,
     setSubmitting,
   } = useContext(LaunchProjectContext);
+  const { currentUser } = useContext(UserContext);
 
   const [updateProject, {}] = useMutation(UPDATE_PROJECT, {
     onCompleted({ updateProject }: Mutation) {
@@ -53,6 +55,7 @@ export const ShortlistModalContainer = ({}: IShortlistModalContainerProps) => {
         variables: {
           fields: {
             title: project?.title,
+            champion: currentUser?._id,
             description: project?.description,
             descriptionOneLine: project?.descriptionOneLine,
             emoji: project?.emoji,
