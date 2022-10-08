@@ -2,9 +2,9 @@ import { LaunchProjectContext } from "@eden/package-context";
 import { Card, Loading, MemberMatchCard, TextHeading3 } from "@eden/package-ui";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import { useContext } from "react";
-
+import { MatchMembersToSkillOutput } from "@eden/package-graphql/generated";
 export interface IShortlistContainerProps {
-  matchingMembers: any[];
+  matchingMembers: MatchMembersToSkillOutput[] | any;
   overflow?: boolean;
 }
 
@@ -19,7 +19,6 @@ export const ShortlistContainer = ({
     matchMembersPage,
     setMatchMembersPage,
   } = useContext(LaunchProjectContext);
-
   function handleSelectMember(member: any, percentage: number) {
     setSelectedMemberPercentage(percentage);
     setSelectedMemberId(member._id);
@@ -65,6 +64,7 @@ export const ShortlistContainer = ({
                       member={_member.member}
                       percentage={_member.matchPercentage.totalPercentage}
                       requiredSkills={selectedRole.skills}
+                      matchedMember={_member}
                     />
                   ))}
                 </div>
