@@ -16,7 +16,7 @@ import {
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import { useContext } from "react";
 
-import { ProjectSkillFilterCard } from "../../cards/ProjectSkillFilterCard";
+import { ProjectSkillFilterCard } from "../../../cards/ProjectSkillFilterCard";
 
 export interface IShortlistSideContainerTestProps {
   matchingMembers: any[];

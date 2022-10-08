@@ -13,6 +13,7 @@ export * from "./ShortlistContainer";
 export * from "./ShortlistMemberContainer";
 export * from "./ShortlistModalContainer";
 export * from "./ShortlistSideContainer";
-export * from "./ShortlistSideContainerTest";
 export * from "./SignUpContainerMain";
 export * from "./SignUpContainerSide";
+export * from "./test/ShortlistModalContainerTest";
+export * from "./test/ShortlistSideContainerTest";
