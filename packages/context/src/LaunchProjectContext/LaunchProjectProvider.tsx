@@ -11,6 +11,10 @@ export enum ProjectActionKind {
   // eslint-disable-next-line no-unused-vars
   SET_NAME = "SET_NAME",
   // eslint-disable-next-line no-unused-vars
+  SET_EMOJI = "SET_EMOJI",
+  // eslint-disable-next-line no-unused-vars
+  SET_EMOJI_COLOR = "SET_EMOJI_COLOR",
+  // eslint-disable-next-line no-unused-vars
   ADD_ROLE = "ADD_ROLE",
   // eslint-disable-next-line no-unused-vars
   SET_ROLE_SKILLS = "SET_ROLE_SKILLS",
@@ -52,6 +56,10 @@ function projectReducer(project: Project, action: ProjectAction): Project {
   switch (action.type) {
     case ProjectActionKind.SET_NAME:
       return { ...project, title: action.payload };
+    case ProjectActionKind.SET_EMOJI_COLOR:
+      return { ...project, backColorEmoji: action.payload };
+    case ProjectActionKind.SET_EMOJI:
+      return { ...project, emoji: action.payload };
     case ProjectActionKind.ADD_ROLE:
       return { ...project, role: [...project.role!, action.payload] };
     case ProjectActionKind.SET_ROLE_SKILLS:
@@ -103,6 +111,7 @@ function projectReducer(project: Project, action: ProjectAction): Project {
       return {
         ...project,
         description: action.payload.description,
+        descriptionOneLine: action.payload.descriptionOneLine,
         collaborationLinks: links,
       };
 
@@ -121,10 +130,10 @@ export const LaunchProjectProvider = ({
 }: LaunchProjectProviderProps) => {
   const [project, dispatchProject] = useReducer(projectReducer, {
     title: "",
+    emoji: "👋",
     role: [],
     team: [],
   });
-  const [projectEmoji, setProjectEmoji] = useState<string>();
   const [openModal, setOpenModal] = useState<LaunchProjectModal | null>(null);
   const [selectedRole, setSelectedRole] = useState<RoleType | null>(null);
   const [selectedMemberId, setSelectedMemberId] = useState<string | null>(null);
@@ -137,8 +146,6 @@ export const LaunchProjectProvider = ({
   const injectContext = {
     project: project,
     dispatchProject: dispatchProject,
-    projectEmoji,
-    setProjectEmoji,
     openModal: openModal,
     setOpenModal: setOpenModal,
     selectedRole: selectedRole,
