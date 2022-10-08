@@ -8,18 +8,10 @@ import { round } from "../../../utils";
 export interface RoleCardProps {
   role?: Maybe<RoleType>;
   percentage?: number;
-  jds?: String[];
-  openSeats?: string;
   onApply?: () => void;
 }
 
-export const RoleCard = ({
-  role,
-  percentage = 0,
-  // jds,
-  // openSeats,
-  onApply,
-}: RoleCardProps) => {
+export const RoleCard = ({ role, percentage = 0, onApply }: RoleCardProps) => {
   // console.log("role", role);
 
   return (
@@ -39,48 +31,42 @@ export const RoleCard = ({
             </span>
           </div>
         </div>
-        <div className={`mt-4 h-20 w-full`}>
+        <div className={`mt-4 w-full`}>
+          <div className={`flex flex-wrap`}>
+            {role?.skills?.map((skill, index) => (
+              <div key={index}>
+                {index < 5 && (
+                  <Badge
+                    className={`mr-2 text-sm`}
+                    text={skill?.skillData?.name || ""}
+                    colorRGB={`235,225,255`}
+                  />
+                )}
+              </div>
+            ))}
+          </div>
           <div className="flex">
-            <div className={`flex flex-wrap`}>
-              {role?.skills?.map((skill, index) => (
-                <div key={index}>
-                  {index < 5 && (
-                    <Badge
-                      className={`mr-2 text-sm`}
-                      text={skill?.skillData?.name || ""}
-                      colorRGB={`235,225,255`}
-                    />
-                  )}
-                </div>
-              ))}
-            </div>
-
-            {/* <div className={`mr-auto ml-1`}>
+            <div className={`mr-auto ml-1`}>
               <div className="flex flex-row p-1">
                 <div>⏳</div>
                 <div className={`ml-3 mt-0.5 text-sm capitalize text-zinc-400`}>
-                  hours/week
+                  {role?.hoursPerWeek} hours/week
                 </div>
               </div>
               <div className="flex flex-row p-1">
                 <div>💼</div>
                 <div className={`ml-3 text-sm text-zinc-400`}>
-                  {jds?.map((jd, index) => {
-                    return (
-                      <div className="my-1.5" key={index}>
-                        {jd}
-                      </div>
-                    );
-                  })}
+                  <div className={``}>{role?.description}</div>
+                  <div className={`my-1.5`}>{role?.keyRosponsibilities}</div>
                 </div>
               </div>
               <div className="flex flex-row p-1">
                 <div>📌</div>
                 <div className={`ml-3 mt-0.5 text-sm text-zinc-400`}>
-                  Open Seats: {openSeats}
+                  Open Seats: {role?.openPositions}
                 </div>
               </div>
-            </div> */}
+            </div>
           </div>
         </div>
       </div>

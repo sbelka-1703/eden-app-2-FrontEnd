@@ -1,4 +1,5 @@
 import { AppUserSubmenuLayout, ProfileContainer } from "@eden/package-ui";
+import { FaUserAlt, FaUserEdit } from "react-icons/fa";
 
 import type { NextPageWithLayout } from "../_app";
 
@@ -6,8 +7,21 @@ const ProfilePage: NextPageWithLayout = () => {
   return <ProfileContainer />;
 };
 
+const submenu = [
+  {
+    Icon: <FaUserAlt size={20} />,
+    FunctionName: "My Profile",
+    onFunctionCallback: () => console.log(`change view`),
+  },
+  {
+    Icon: <FaUserEdit size={25} />,
+    FunctionName: "Edit Profile",
+    onFunctionCallback: () => console.log(`change view`),
+  },
+];
+
 ProfilePage.getLayout = (page) => (
-  <AppUserSubmenuLayout>{page}</AppUserSubmenuLayout>
+  <AppUserSubmenuLayout submenu={submenu}>{page}</AppUserSubmenuLayout>
 );
 
 export default ProfilePage;
