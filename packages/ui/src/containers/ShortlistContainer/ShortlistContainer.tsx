@@ -86,7 +86,7 @@ export const ShortlistContainer = ({
                       Previous
                     </span>
                   )}
-                  {!!matchingMembers.length && !overflow && (
+                  {!overflow && (
                     <span
                       className="text-soilGray group cursor-pointer hover:text-slate-400"
                       onClick={() => setMatchMembersPage(matchMembersPage + 1)}
