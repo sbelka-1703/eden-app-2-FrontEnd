@@ -105,6 +105,7 @@ export const ShortlistSideContainer = ({
       <ProjectLayoutCard
         project={project}
         emoji={project?.emoji || undefined}
+        bgColor={project?.backColorEmoji || undefined}
         handleAddRole={() => {
           setOpenModal(LaunchProjectModal.ROLE);
           setSelectedMemberId(null);

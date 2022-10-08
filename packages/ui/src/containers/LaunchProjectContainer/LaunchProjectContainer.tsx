@@ -61,6 +61,22 @@ export const LaunchProjectContainer = ({}: ILaunchProjectContainerProps) => {
                 })
               }
             />
+            <div className="mt-4 mb-3">
+              <TextBody>Choose color for your project</TextBody>
+            </div>
+            <div className="flex h-[60px] w-[60px] cursor-pointer items-center overflow-hidden rounded-full border-none">
+              <input
+                type="color"
+                className="-m-2 h-[100px] w-[100px]"
+                defaultValue={"#e8e8e8"}
+                onChange={(e) =>
+                  dispatchProject!({
+                    type: ProjectActionKind.SET_EMOJI_COLOR,
+                    payload: e.target.value,
+                  })
+                }
+              />
+            </div>
           </div>
           <div className="col-span-1">
             <TextBody className="mb-1">Preview</TextBody>
@@ -68,6 +84,7 @@ export const LaunchProjectContainer = ({}: ILaunchProjectContainerProps) => {
               <ProjectLayoutCard
                 project={project}
                 emoji={project?.emoji || undefined}
+                bgColor={project?.backColorEmoji || undefined}
               />
             )}
           </div>

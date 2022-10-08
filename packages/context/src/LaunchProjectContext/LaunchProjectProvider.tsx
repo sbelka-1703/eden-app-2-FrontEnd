@@ -13,6 +13,8 @@ export enum ProjectActionKind {
   // eslint-disable-next-line no-unused-vars
   SET_EMOJI = "SET_EMOJI",
   // eslint-disable-next-line no-unused-vars
+  SET_EMOJI_COLOR = "SET_EMOJI_COLOR",
+  // eslint-disable-next-line no-unused-vars
   ADD_ROLE = "ADD_ROLE",
   // eslint-disable-next-line no-unused-vars
   SET_ROLE_SKILLS = "SET_ROLE_SKILLS",
@@ -54,6 +56,8 @@ function projectReducer(project: Project, action: ProjectAction): Project {
   switch (action.type) {
     case ProjectActionKind.SET_NAME:
       return { ...project, title: action.payload };
+    case ProjectActionKind.SET_EMOJI_COLOR:
+      return { ...project, backColorEmoji: action.payload };
     case ProjectActionKind.SET_EMOJI:
       return { ...project, emoji: action.payload };
     case ProjectActionKind.ADD_ROLE:

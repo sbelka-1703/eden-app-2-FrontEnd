@@ -59,6 +59,7 @@ export const ShortlistModalContainer = ({}: IShortlistModalContainerProps) => {
             description: project?.description,
             descriptionOneLine: project?.descriptionOneLine,
             emoji: project?.emoji,
+            backColorEmoji: project?.backColorEmoji,
             role: project?.role?.map((role) => ({
               title: role?.title,
               description: role?.description,
