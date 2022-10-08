@@ -72,6 +72,14 @@ export default function Web() {
                         🚀 Find Projects
                       </Button>
                     </div>
+                    <div className="mt-3 ml-8 sm:mt-0">
+                      <Button
+                        variant={`primary`}
+                        onClick={() => router.push(`/launch`)}
+                      >
+                        🚀 Create Project
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </div>

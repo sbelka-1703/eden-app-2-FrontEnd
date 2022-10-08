@@ -7,8 +7,10 @@ import {
 import {
   ApplyByRoleContainer,
   ProjectMatchList,
-  SignUpCard,
+  // SignUpCard,
+  SignUpRoleSelectCard,
 } from "@eden/package-ui";
+import { useState } from "react";
 
 export interface ISignUpContainerMainProps {
   roles: Maybe<Array<Maybe<RoleTemplate>>>;
@@ -29,6 +31,9 @@ export const SignUpContainerMain = ({
   onSelectedProject,
 }: ISignUpContainerMainProps) => {
   // console.log("project", project);
+
+  const [roleSelected, setRoleSelected] = useState(false);
+
   return (
     <div className={``}>
       {project ? (
@@ -39,13 +44,20 @@ export const SignUpContainerMain = ({
         />
       ) : (
         <>
-          <SignUpCard roles={roles} refetch={refetchMatch} />
-          <div className={"h-9/10"}>
-            <ProjectMatchList
-              matchedProjects={matchedProjects}
-              onSelectedProject={onSelectedProject}
+          {!roleSelected ? (
+            <SignUpRoleSelectCard
+              roles={roles}
+              refetch={refetchMatch}
+              onNext={() => setRoleSelected(true)}
             />
-          </div>
+          ) : (
+            <div className={"h-9/10"}>
+              <ProjectMatchList
+                matchedProjects={matchedProjects}
+                onSelectedProject={onSelectedProject}
+              />
+            </div>
+          )}
         </>
       )}
     </div>
