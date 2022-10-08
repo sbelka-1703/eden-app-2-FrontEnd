@@ -107,6 +107,7 @@ function projectReducer(project: Project, action: ProjectAction): Project {
       return {
         ...project,
         description: action.payload.description,
+        descriptionOneLine: action.payload.descriptionOneLine,
         collaborationLinks: links,
       };
 
