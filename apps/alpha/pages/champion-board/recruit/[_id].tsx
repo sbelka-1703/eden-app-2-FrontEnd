@@ -98,7 +98,7 @@ const ProjectPage: NextPageWithLayout = () => {
 };
 
 ProjectPage.getLayout = (page) => (
-  <AppUserSubmenuLayout submenu={false}>{page}</AppUserSubmenuLayout>
+  <AppUserSubmenuLayout showSubmenu={false}>{page}</AppUserSubmenuLayout>
 );
 
 export default ProjectPage;

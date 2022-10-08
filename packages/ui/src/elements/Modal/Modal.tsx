@@ -37,6 +37,7 @@ export const Modal = ({
             onCloseModal();
           }
           if (closeOnEsc) setIsOpen(false);
+          onClose!();
         }}
       >
         <div
@@ -90,7 +91,10 @@ export const Modal = ({
                     className={
                       "rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none"
                     }
-                    onClick={() => setIsOpen(false)}
+                    onClick={() => {
+                      setIsOpen(false);
+                      onClose!();
+                    }}
                   >
                     <span className={"sr-only"}>Close</span>
                     <XIcon className={"h-6 w-6"} aria-hidden="true" />

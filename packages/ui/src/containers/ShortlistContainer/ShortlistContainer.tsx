@@ -1,5 +1,14 @@
-import { LaunchProjectContext } from "@eden/package-context";
-import { Card, Loading, MemberMatchCard, TextHeading3 } from "@eden/package-ui";
+import {
+  LaunchProjectContext,
+  LaunchProjectModal,
+} from "@eden/package-context";
+import {
+  Button,
+  Card,
+  Loading,
+  MemberMatchCard,
+  TextHeading3,
+} from "@eden/package-ui";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import { useContext } from "react";
 import { MatchMembersToSkillOutput } from "@eden/package-graphql/generated";
@@ -13,11 +22,13 @@ export const ShortlistContainer = ({
   overflow = false,
 }: IShortlistContainerProps) => {
   const {
+    project,
     selectedRole,
     setSelectedMemberId,
     setSelectedMemberPercentage,
     matchMembersPage,
     setMatchMembersPage,
+    setOpenModal,
   } = useContext(LaunchProjectContext);
   function handleSelectMember(member: any, percentage: number) {
     setSelectedMemberPercentage(percentage);
@@ -47,9 +58,25 @@ export const ShortlistContainer = ({
             !!matchingMembers && (
               <>
                 {!overflow && (
-                  <TextHeading3 className="mb-4">
-                    {selectedRole.title} matches:
-                  </TextHeading3>
+                  <section className="flex">
+                    <TextHeading3 className="mb-4">
+                      {selectedRole.title} matches:
+                    </TextHeading3>
+                    {project?.team?.some(
+                      (member) => member?.phase === null
+                    ) && (
+                      <div className="ml-auto">
+                        <Button
+                          variant="primary"
+                          onClick={() =>
+                            setOpenModal(LaunchProjectModal.SHORTLISTED_PREVIEW)
+                          }
+                        >
+                          Invite to apply
+                        </Button>
+                      </div>
+                    )}
+                  </section>
                 )}
                 <div className="mb-4 grid grid-cols-3 gap-x-10 gap-y-10">
                   {matchingMembers.map((_member: any, index: number) => (
@@ -69,9 +96,25 @@ export const ShortlistContainer = ({
                   ))}
                 </div>
                 {overflow && (
-                  <TextHeading3 className="mb-4">
-                    There are no more matching candidates
-                  </TextHeading3>
+                  <section className="flex">
+                    <TextHeading3 className="mb-4">
+                      There are no more matching candidates
+                    </TextHeading3>
+                    {project?.team?.some(
+                      (member) => member?.phase === null
+                    ) && (
+                      <div className="ml-auto">
+                        <Button
+                          variant="primary"
+                          onClick={() =>
+                            setOpenModal(LaunchProjectModal.SHORTLISTED_PREVIEW)
+                          }
+                        >
+                          Invite to apply
+                        </Button>
+                      </div>
+                    )}
+                  </section>
                 )}
                 <section className="flex justify-evenly">
                   {!!matchMembersPage && matchMembersPage > 0 && (
@@ -86,7 +129,7 @@ export const ShortlistContainer = ({
                       Previous
                     </span>
                   )}
-                  {!!matchingMembers.length && !overflow && (
+                  {!overflow && (
                     <span
                       className="text-soilGray group cursor-pointer hover:text-slate-400"
                       onClick={() => setMatchMembersPage(matchMembersPage + 1)}

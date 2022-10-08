@@ -10,12 +10,14 @@ import Head from "next/head";
 
 export interface IAppUserSubmenuLayoutProps {
   children: React.ReactNode;
-  submenu?: boolean;
+  showSubmenu?: boolean;
+  submenu?: any;
 }
 
 export const AppUserSubmenuLayout = ({
   children,
-  submenu = true,
+  showSubmenu = true,
+  submenu,
 }: IAppUserSubmenuLayoutProps) => {
   return (
     <>
@@ -25,11 +27,11 @@ export const AppUserSubmenuLayout = ({
       <div className="bg-background flex h-screen min-w-0 flex-col lg:overflow-y-hidden">
         <AppHeader logoLink={`/projects`} inApp />
         <main className="flex flex-grow">
-          {submenu ? (
+          {showSubmenu ? (
             <GridLayout>
               <GridItemThree>
                 <Card className="bg-white p-6">
-                  <SubmenuSelector title={`Good Morning,`} />
+                  <SubmenuSelector title={`Good Morning,`} submenu={submenu} />
                 </Card>
               </GridItemThree>
 

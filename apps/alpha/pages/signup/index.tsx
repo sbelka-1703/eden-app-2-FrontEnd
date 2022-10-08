@@ -41,8 +41,11 @@ const MATCH_SKILLS_TO_PROJECTS = gql`
         }
         projectRole {
           _id
-          description
           title
+          description
+          openPositions
+          keyRosponsibilities
+          hoursPerWeek
           skills {
             level
             skillData {
@@ -87,7 +90,7 @@ const SignUpTestPage: NextPageWithLayout = () => {
       variables: {
         fields: {
           skillsID: filterskillsfromcurrentuser,
-          limit: 20,
+          limit: 40,
           page: 0,
         },
       },
