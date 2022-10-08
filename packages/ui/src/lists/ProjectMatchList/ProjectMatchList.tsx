@@ -10,27 +10,29 @@ export interface IProjectMatchListProps {
   matchedProjects?: Maybe<Array<Maybe<MatchSkillsToProjectsOutput>>>;
   // eslint-disable-next-line no-unused-vars
   onSelectedProject: (projectID: string) => void;
+  loadingProject?: boolean;
+  // eslint-disable-next-line no-unused-vars
+  onViewProject: (val: boolean) => void;
 }
 
 export const ProjectMatchList = ({
   matchedProjects,
   onSelectedProject,
+  loadingProject,
+  onViewProject,
 }: IProjectMatchListProps) => {
   const { currentUser } = useContext(UserContext);
 
   // if (matchedProjects) console.log("matchedProjects", matchedProjects);
 
   return (
-    <div className={`h-9/10 flex flex-col rounded-2xl bg-white py-6`}>
+    <div className={`h-85 flex flex-col rounded-2xl bg-white py-6`}>
       <div className={`px-6`}>
         {currentUser?.memberRole?.title && (
-          <TextHeading3>
-            Project matches
-            {/* All projects for the role {currentUser?.memberRole?.title} */}
-          </TextHeading3>
+          <TextHeading3>Project matches</TextHeading3>
         )}
       </div>
-      {matchedProjects ? (
+      {matchedProjects && !loadingProject ? (
         <div
           className={`scrollbar-hide mt-8 grid grow grid-cols-1 gap-8 overflow-y-scroll px-6 sm:grid-cols-2 xl:grid-cols-3`}
         >
@@ -38,9 +40,10 @@ export const ProjectMatchList = ({
             <ProjectMatchCard
               key={index}
               matchProject={matchProject}
-              onSelected={(project) =>
-                onSelectedProject(project?.project?._id || "")
-              }
+              onSelected={(project) => {
+                onSelectedProject(project?.project?._id || "");
+                onViewProject(true);
+              }}
             />
           ))}
         </div>

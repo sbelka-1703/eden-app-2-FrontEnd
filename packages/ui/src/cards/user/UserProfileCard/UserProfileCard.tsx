@@ -1,30 +1,14 @@
-/* eslint-disable camelcase */
 import { UserContext } from "@eden/package-context";
-// import { Maybe, SkillType_Member } from "@eden/package-graphql/generated";
-// import { Avatar, NumberCircle, SkillList, TextLabel } from "@eden/package-ui";
 import { Avatar, Card, TextLabel } from "@eden/package-ui";
-// import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
-// import { useContext, useState } from "react";
 import { useContext } from "react";
 
 export interface IUserProfileCardProps {}
 
 export const UserProfileCard = ({}: IUserProfileCardProps) => {
   const { currentUser } = useContext(UserContext);
-  // const [isExpanded, setIsExpanded] = useState(false);
-
-  // const learningSkills: Maybe<SkillType_Member>[] | undefined =
-  //   currentUser?.skills?.filter(
-  //     (skill: Maybe<SkillType_Member>) => skill?.level === "learning"
-  //   );
-
-  // const skilledSkills: Maybe<SkillType_Member>[] | undefined =
-  //   currentUser?.skills?.filter(
-  //     (skill: Maybe<SkillType_Member>) => skill?.level !== "learning"
-  //   );
 
   return (
-    <Card className="mb-3 bg-white p-4">
+    <Card className="bg-white p-4">
       <div className={``}>
         <div className={` font-poppins text-xl font-medium`}>Your Profile</div>
         <div className={`my-3 flex`}>
@@ -42,47 +26,6 @@ export const UserProfileCard = ({}: IUserProfileCardProps) => {
           </div>
         </div>
       </div>
-
-      {/* {isExpanded && (
-        <div className={`h-6/10 scrollbar-hide overflow-y-scroll px-6`}>
-          <div className="my-2 flex items-center space-x-2">
-            <TextLabel>LEARNING</TextLabel>
-            {learningSkills && <NumberCircle value={learningSkills?.length} />}
-          </div>
-          {learningSkills && (
-            <SkillList
-              overflowNumber={4}
-              skills={learningSkills}
-              colorRGB="209,247,196"
-            />
-          )}
-          <div className="my-2 flex items-center space-x-2">
-            <TextLabel>SKILLED</TextLabel>
-            {skilledSkills && <NumberCircle value={skilledSkills?.length} />}
-          </div>
-          {skilledSkills && (
-            <SkillList
-              overflowNumber={4}
-              skills={skilledSkills}
-              colorRGB="235,225,255"
-            />
-          )}
-        </div>
-      )} */}
-      {/* <button
-        className={`font-Inter w-full text-sm text-zinc-600`}
-        onClick={() => setIsExpanded(!isExpanded)}
-      >
-        {isExpanded ? (
-          <span>
-            Hide <ChevronUpIcon width={16} className="ml-2 inline" />
-          </span>
-        ) : (
-          <span>
-            Show more <ChevronDownIcon width={16} className="ml-2 inline" />
-          </span>
-        )}
-      </button> */}
     </Card>
   );
 };

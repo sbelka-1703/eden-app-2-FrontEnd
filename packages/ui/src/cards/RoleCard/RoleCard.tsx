@@ -31,7 +31,7 @@ export const RoleCard = ({ role, percentage = 0, onApply }: RoleCardProps) => {
             </span>
           </div>
         </div>
-        <div className={`mt-4 w-full`}>
+        <div className={`mt-4 w-full flex-grow`}>
           <div className={`flex flex-wrap`}>
             {role?.skills?.map((skill, index) => (
               <div key={index}>
