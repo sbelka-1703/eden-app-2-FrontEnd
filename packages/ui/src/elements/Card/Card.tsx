@@ -17,7 +17,7 @@ export const Card = ({
 }: CardProps) => {
   const cardCls = clsx(`relative rounded-2xl ${className}`, {
     "shadow-cardShadow": shadow === true,
-    "border-[2px] border-accentColor": focused === true,
+    "shadow-focusShadow border-0": focused === true,
     "border border-zinc-400": border === true && focused !== true,
   });
 

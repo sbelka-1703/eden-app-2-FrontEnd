@@ -20,6 +20,10 @@ export interface ISignUpContainerMainProps {
   refetchProject?: () => void;
   // eslint-disable-next-line no-unused-vars
   onSelectedProject: (projectID: string) => void;
+  loadingProject?: boolean;
+  viewProject?: boolean;
+  // eslint-disable-next-line no-unused-vars
+  onViewProject: (val: boolean) => void;
 }
 
 export const SignUpContainerMain = ({
@@ -29,6 +33,9 @@ export const SignUpContainerMain = ({
   refetchMatch,
   refetchProject,
   onSelectedProject,
+  loadingProject,
+  viewProject,
+  onViewProject,
 }: ISignUpContainerMainProps) => {
   // console.log("project", project);
 
@@ -36,11 +43,13 @@ export const SignUpContainerMain = ({
 
   return (
     <div className={``}>
-      {project ? (
+      {viewProject ? (
         <ApplyByRoleContainer
           project={project}
           matchedProjects={matchedProjects}
           refetch={refetchProject}
+          loadingProject={loadingProject}
+          onViewProject={onViewProject}
         />
       ) : (
         <>
@@ -51,10 +60,13 @@ export const SignUpContainerMain = ({
               onNext={() => setRoleSelected(true)}
             />
           ) : (
-            <div className={"h-9/10"}>
+            <div className={`h-85`}>
               <ProjectMatchList
                 matchedProjects={matchedProjects}
                 onSelectedProject={onSelectedProject}
+                loadingProject={loadingProject}
+                // eslint-disable-next-line no-unused-vars
+                onViewProject={(val: boolean) => onViewProject(val)}
               />
             </div>
           )}

@@ -11,8 +11,10 @@ import {
 } from "@eden/package-graphql/generated";
 import {
   Button,
+  Card,
   ConfettiContainer,
   Dropdown,
+  Loading,
   Modal,
   NumberCircle,
   ProjectChampion,
@@ -51,12 +53,17 @@ export interface IApplyByRoleContainerProps {
   project?: Project;
   matchedProjects?: Maybe<Array<Maybe<MatchSkillsToProjectsOutput>>>;
   refetch?: () => void;
+  loadingProject?: boolean;
+  // eslint-disable-next-line no-unused-vars
+  onViewProject: (val: boolean) => void;
 }
 
 export const ApplyByRoleContainer = ({
   project,
   matchedProjects,
   refetch,
+  loadingProject,
+  onViewProject,
 }: IApplyByRoleContainerProps) => {
   const router = useRouter();
   const { currentUser } = useContext(UserContext);
@@ -163,8 +170,23 @@ export const ApplyByRoleContainer = ({
     (role) => role?._id !== matchedProject?.projectRoles[0]?.projectRole?._id
   );
 
+  if (loadingProject)
+    return (
+      <Card className={`h-85 bg-white px-6 py-6`}>
+        <Loading />
+      </Card>
+    );
+
   return (
-    <div className={`h-8/10 w-full rounded-2xl bg-white px-6 py-6`}>
+    <Card className={`h-85 bg-white px-6 py-4`}>
+      <div className={`flex justify-end`}>
+        <button
+          onClick={() => onViewProject(false)}
+          className={`text-slate-500 underline`}
+        >
+          grid view
+        </button>
+      </div>
       <div className={`grid grid-cols-3`}>
         <div className={`col-span-2`}>
           <ProjectInfo
@@ -203,15 +225,15 @@ export const ApplyByRoleContainer = ({
       </div>
 
       {isRoleView ? (
-        <div>
-          <div className={`my-6 flex`}>
+        <div className={`h-5/10 flex flex-col`}>
+          <div className={`my-4 flex`}>
             <TextHeading1>Matching Open Roles</TextHeading1>
             <span className={`my-auto pl-4`}>
               <NumberCircle value={matchedProject?.projectRoles?.length || 0} />
             </span>
           </div>
           <div
-            className={`scrollbar-hide mt-8 grid max-h-72 grid-cols-1 gap-8 overflow-y-scroll px-6 sm:grid-cols-2 xl:grid-cols-3`}
+            className={`scrollbar-hide grid grow grid-cols-1 gap-8 overflow-y-scroll px-6 sm:grid-cols-2 xl:grid-cols-3`}
           >
             {matchedProject?.projectRoles?.map((role, index) => (
               <RoleCard
@@ -238,7 +260,12 @@ export const ApplyByRoleContainer = ({
           </div>
         </div>
       )}
-      <Modal open={showModal} closeOnEsc={false}>
+      <Modal
+        open={showModal}
+        onClose={() => {
+          setShowModal(false);
+        }}
+      >
         {!applied ? (
           <div className={``}>
             <TextHeading2>
@@ -354,6 +381,6 @@ export const ApplyByRoleContainer = ({
           </div>
         )}
       </Modal>
-    </div>
+    </Card>
   );
 };
