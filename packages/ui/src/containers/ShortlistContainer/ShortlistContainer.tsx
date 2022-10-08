@@ -96,9 +96,25 @@ export const ShortlistContainer = ({
                   ))}
                 </div>
                 {overflow && (
-                  <TextHeading3 className="mb-4">
-                    There are no more matching candidates
-                  </TextHeading3>
+                  <section className="flex">
+                    <TextHeading3 className="mb-4">
+                      There are no more matching candidates
+                    </TextHeading3>
+                    {project?.team?.some(
+                      (member) => member?.phase === null
+                    ) && (
+                      <div className="ml-auto">
+                        <Button
+                          variant="primary"
+                          onClick={() =>
+                            setOpenModal(LaunchProjectModal.SHORTLISTED_PREVIEW)
+                          }
+                        >
+                          Invite to apply
+                        </Button>
+                      </div>
+                    )}
+                  </section>
                 )}
                 <section className="flex justify-evenly">
                   {!!matchMembersPage && matchMembersPage > 0 && (
