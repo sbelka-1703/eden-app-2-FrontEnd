@@ -71,6 +71,7 @@ const ProjectPage: NextPageWithLayout = () => {
       fields: {
         skillsID: selectRole,
       },
+      limit: 9,
     },
     skip: !selectRole || selectRole.length === 0,
     context: { serviceName: "soilservice" },

@@ -1,29 +1,31 @@
 /* eslint-disable camelcase */
 import { UserContext } from "@eden/package-context";
-import { Maybe, SkillType_Member } from "@eden/package-graphql/generated";
-import { Avatar, NumberCircle, SkillList, TextLabel } from "@eden/package-ui";
-import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
-import { useContext, useState } from "react";
+// import { Maybe, SkillType_Member } from "@eden/package-graphql/generated";
+// import { Avatar, NumberCircle, SkillList, TextLabel } from "@eden/package-ui";
+import { Avatar, Card, TextLabel } from "@eden/package-ui";
+// import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
+// import { useContext, useState } from "react";
+import { useContext } from "react";
 
 export interface IUserProfileCardProps {}
 
 export const UserProfileCard = ({}: IUserProfileCardProps) => {
   const { currentUser } = useContext(UserContext);
-  const [isExpanded, setIsExpanded] = useState(false);
+  // const [isExpanded, setIsExpanded] = useState(false);
 
-  const learningSkills: Maybe<SkillType_Member>[] | undefined =
-    currentUser?.skills?.filter(
-      (skill: Maybe<SkillType_Member>) => skill?.level === "learning"
-    );
+  // const learningSkills: Maybe<SkillType_Member>[] | undefined =
+  //   currentUser?.skills?.filter(
+  //     (skill: Maybe<SkillType_Member>) => skill?.level === "learning"
+  //   );
 
-  const skilledSkills: Maybe<SkillType_Member>[] | undefined =
-    currentUser?.skills?.filter(
-      (skill: Maybe<SkillType_Member>) => skill?.level !== "learning"
-    );
+  // const skilledSkills: Maybe<SkillType_Member>[] | undefined =
+  //   currentUser?.skills?.filter(
+  //     (skill: Maybe<SkillType_Member>) => skill?.level !== "learning"
+  //   );
 
   return (
-    <div className={`text-darkGreen rounded-2xl border bg-white py-6`}>
-      <div className={`px-6`}>
+    <Card className="mb-3 bg-white p-4">
+      <div className={``}>
         <div className={` font-poppins text-xl font-medium`}>Your Profile</div>
         <div className={`my-3 flex`}>
           <div>
@@ -41,7 +43,7 @@ export const UserProfileCard = ({}: IUserProfileCardProps) => {
         </div>
       </div>
 
-      {isExpanded && (
+      {/* {isExpanded && (
         <div className={`h-6/10 scrollbar-hide overflow-y-scroll px-6`}>
           <div className="my-2 flex items-center space-x-2">
             <TextLabel>LEARNING</TextLabel>
@@ -66,8 +68,8 @@ export const UserProfileCard = ({}: IUserProfileCardProps) => {
             />
           )}
         </div>
-      )}
-      <button
+      )} */}
+      {/* <button
         className={`font-Inter w-full text-sm text-zinc-600`}
         onClick={() => setIsExpanded(!isExpanded)}
       >
@@ -80,7 +82,7 @@ export const UserProfileCard = ({}: IUserProfileCardProps) => {
             Show more <ChevronDownIcon width={16} className="ml-2 inline" />
           </span>
         )}
-      </button>
-    </div>
+      </button> */}
+    </Card>
   );
 };

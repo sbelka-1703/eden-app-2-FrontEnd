@@ -40,7 +40,7 @@ export const SignUpContainerMain = ({
       ) : (
         <>
           <SignUpCard roles={roles} refetch={refetchMatch} />
-          <div className={"mt-6"}>
+          <div className={"h-9/10"}>
             <ProjectMatchList
               matchedProjects={matchedProjects}
               onSelectedProject={onSelectedProject}
