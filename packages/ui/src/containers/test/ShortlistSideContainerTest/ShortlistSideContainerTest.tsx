@@ -125,7 +125,7 @@ export const ShortlistSideContainerTest = ({
         showRoles
       />
       {selectedMemberId &&
-        (!!matchingMembers.length ? (
+        (!!matchingMembers?.length ? (
           <>
             {matchingMembers.map((member: any, index) => (
               <div
@@ -166,7 +166,7 @@ export const ShortlistSideContainerTest = ({
                   Previous
                 </span>
               )}
-              {!!matchingMembers.length && (
+              {!!matchingMembers?.length && (
                 <span
                   className="text-soilGray group cursor-pointer hover:text-slate-400"
                   onClick={() => setMatchMembersPage(matchMembersPage + 1)}
