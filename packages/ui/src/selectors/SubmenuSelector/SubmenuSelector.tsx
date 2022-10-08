@@ -1,14 +1,16 @@
 import { UserContext } from "@eden/package-context";
 import { Avatar, MenuItem } from "@eden/package-ui";
 import { useContext } from "react";
-import { MdPeopleAlt } from "react-icons/md";
 
 export interface ISubmenuSelectorProps {
   title?: string;
+  submenu?: any;
 }
 
-export const SubmenuSelector = ({ title }: ISubmenuSelectorProps) => {
+export const SubmenuSelector = ({ title, submenu }: ISubmenuSelectorProps) => {
   const { currentUser } = useContext(UserContext);
+
+  // console.log(submenu);
 
   return (
     <div className={`desc flex-col`}>
@@ -22,12 +24,14 @@ export const SubmenuSelector = ({ title }: ISubmenuSelectorProps) => {
         </div>
         <hr className="mb-2 text-slate-300" />
         <div>
-          <MenuItem
-            Icon={<MdPeopleAlt size={25} />}
-            FunctionName="Submenu Item"
-            onFunctionCallback={() => console.log(`change view`)}
-            // active={router?.route === "/projects"}
-          />
+          {submenu?.map((item: any, index: number) => (
+            <MenuItem
+              key={index}
+              Icon={item.Icon}
+              FunctionName={item.FunctionName}
+              onFunctionCallback={item.onFunctionCallback}
+            />
+          ))}
         </div>
       </div>
     </div>
