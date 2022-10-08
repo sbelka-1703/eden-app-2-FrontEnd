@@ -7,6 +7,7 @@ export type ModalProps = {
   children?: React.ReactNode;
   open?: boolean;
   closeOnEsc?: boolean;
+  onClose?: () => void;
 };
 
 export const Modal = ({
@@ -14,6 +15,7 @@ export const Modal = ({
   children,
   open = false,
   closeOnEsc = true,
+  onClose,
 }: ModalProps) => {
   const [isOpen, setIsOpen] = useState(open);
 
@@ -21,12 +23,19 @@ export const Modal = ({
     setIsOpen(open);
   }, [open]);
 
+  const onCloseModal = () => {
+    if (onClose) onClose();
+  };
+
   return (
     <Transition show={isOpen} as={Fragment}>
       <Dialog
         as="div"
         className={"fixed inset-0 z-10 overflow-y-auto"}
         onClose={() => {
+          if (onClose) {
+            onCloseModal();
+          }
           if (closeOnEsc) setIsOpen(false);
         }}
       >
