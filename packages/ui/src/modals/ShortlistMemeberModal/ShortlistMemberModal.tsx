@@ -11,6 +11,7 @@ export interface ShortlistMemberModal {
   roles: Maybe<Array<Maybe<RoleType>>>;
   members: Maybe<Maybe<TeamType>[]>;
   onClickNext?: () => void;
+  onClose?: () => void;
 }
 
 export const ShortlistMemberModal = ({
@@ -18,11 +19,13 @@ export const ShortlistMemberModal = ({
   roles,
   members,
   onClickNext,
+  onClose,
 }: ShortlistMemberModal) => {
   return (
     <Modal
       open={isModalOpen}
       title="Almost done! Review your roles & people you want to invite!"
+      onClose={onClose!}
     >
       <TextHeading2 className="w-max "></TextHeading2>
       <div className="border-soilGray flex items-start justify-center">
