@@ -24,16 +24,3 @@ export const matchSkillsToMembers = () => ({
   members: getMember(),
   skillsPercentage: getSkillsPercentage(),
 });
-
-// export const matchMembersToProjectRole = () => ({
-//     _id: String(faker.random.numeric(5)),
-//     name: faker.name.firstName(),
-//     desciption: faker.lorem.sentences(5),
-//     phase: faker.helpers.arrayElements(phase, 1)[0] as PhaseType,
-//     champion: getMember(),
-//     serverID: faker.random.numeric(12),
-//     project: getProject(),
-//     teams: randomTeam(),
-//     author: getMember(),
-//     channelDiscordlID: faker.random.numeric(18),
-//   });
