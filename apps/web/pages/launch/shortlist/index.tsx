@@ -77,7 +77,6 @@ const LaunchPage: NextPageWithLayout = () => {
       setOpenModal(LaunchProjectModal.ROLE);
     }
   }, []);
-
   return (
     <>
       <GridLayout>
