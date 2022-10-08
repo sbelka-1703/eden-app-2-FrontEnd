@@ -6,6 +6,9 @@ export const FIND_PROJECT = gql`
       _id
       title
       description
+      descriptionOneLine
+      emoji
+      backColorEmoji
       champion {
         _id
         discordName
@@ -41,14 +44,17 @@ export const FIND_PROJECT = gql`
         title
         description
         archive
-        # dateRangeEnd
-        # dateRangeStart
-        # hoursPerWeek
-        # budget {
-        #   perHour
-        #   token
-        #   totalBudget
-        # }
+        keyRosponsibilities
+        openPositions
+        dateRangeStart
+        dateRangeEnd
+        hoursPerWeek
+        budget {
+          totalBudget
+          token
+          perHour
+          perMonth
+        }
         skills {
           skillData {
             _id

@@ -169,6 +169,9 @@ export const ShortlistModalContainer = ({}: IShortlistModalContainerProps) => {
           onClickNext={() => {
             setOpenModal(LaunchProjectModal.ROLE_DESCRIPTION);
           }}
+          onClose={() => {
+            setOpenModal(null);
+          }}
         />
       )}
       {openModal === LaunchProjectModal.ROLE_DESCRIPTION && (

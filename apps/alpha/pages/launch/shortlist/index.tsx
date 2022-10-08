@@ -15,7 +15,8 @@ import {
   ShortlistContainer,
   ShortlistMemberContainer,
   ShortlistModalContainer,
-  ShortlistSideContainer,
+  // ShortlistSideContainer,
+  ShortlistSideContainerTest,
   TextHeading3,
   TextLabel,
 } from "@eden/package-ui";
@@ -77,12 +78,13 @@ const LaunchPage: NextPageWithLayout = () => {
       setOpenModal(LaunchProjectModal.ROLE);
     }
   }, []);
+
   return (
     <>
       <GridLayout>
         <GridItemThree className="h-8/10 scrollbar-hide overflow-scroll">
           {project && (
-            <ShortlistSideContainer matchingMembers={filteredMembers} />
+            <ShortlistSideContainerTest matchingMembers={filteredMembers} />
           )}
         </GridItemThree>
 
