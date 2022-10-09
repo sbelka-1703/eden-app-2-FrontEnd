@@ -7,7 +7,6 @@ import {
 import {
   ApplyByRoleContainer,
   ProjectMatchList,
-  // SignUpCard,
   SignUpRoleSelectCard,
 } from "@eden/package-ui";
 import { useState } from "react";
@@ -42,7 +41,7 @@ export const SignUpContainerMain = ({
   const [roleSelected, setRoleSelected] = useState(false);
 
   return (
-    <div className={``}>
+    <div className={`h-85`}>
       {viewProject ? (
         <ApplyByRoleContainer
           project={project}
@@ -60,7 +59,7 @@ export const SignUpContainerMain = ({
               onNext={() => setRoleSelected(true)}
             />
           ) : (
-            <div className={`h-85`}>
+            <div className={``}>
               <ProjectMatchList
                 matchedProjects={matchedProjects}
                 onSelectedProject={onSelectedProject}

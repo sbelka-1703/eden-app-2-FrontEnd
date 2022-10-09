@@ -5,9 +5,14 @@ import { useContext } from "react";
 export interface ISubmenuSelectorProps {
   title?: string;
   submenu?: any;
+  activeIndex?: number;
 }
 
-export const SubmenuSelector = ({ title, submenu }: ISubmenuSelectorProps) => {
+export const SubmenuSelector = ({
+  title,
+  submenu,
+  activeIndex,
+}: ISubmenuSelectorProps) => {
   const { currentUser } = useContext(UserContext);
 
   // console.log(submenu);
@@ -30,6 +35,7 @@ export const SubmenuSelector = ({ title, submenu }: ISubmenuSelectorProps) => {
               Icon={item.Icon}
               FunctionName={item.FunctionName}
               onFunctionCallback={item.onFunctionCallback}
+              active={activeIndex === index}
             />
           ))}
         </div>

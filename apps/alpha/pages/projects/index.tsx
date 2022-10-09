@@ -4,7 +4,14 @@
 //   FIND_PROJECTS,
 //   FIND_PROJECTS_RECOMMENDED,
 // } from "@eden/package-graphql";
-import { AppUserSubmenuLayout } from "@eden/package-ui";
+import {
+  AppUserSubmenuLayout,
+  Card,
+  // GridItemNine,
+  GridItemSix,
+  GridItemThree,
+  GridLayout,
+} from "@eden/package-ui";
 
 // import { useContext } from "react";
 import type { NextPageWithLayout } from "../_app";
@@ -36,21 +43,33 @@ const ProjectsPage: NextPageWithLayout = () => {
   //     }
   //   );
 
-  return null;
+  return (
+    <GridLayout>
+      <GridItemThree>
+        <div className={`h-85 flex flex-col gap-4`}>
+          <Card className="flex flex-grow bg-blue-300 p-6"></Card>
+          <Card className="flex flex-grow bg-white p-6"></Card>
+        </div>
+      </GridItemThree>
+      <GridItemSix>
+        <Card className="h-85 bg-white p-6"></Card>
+      </GridItemSix>
+      <GridItemThree>
+        <Card className="bg-white p-6"></Card>
+      </GridItemThree>
 
-  //   return (
-  //     <ProjectsContainer
-  //       allProjects={dataProjectsAll?.findProjects}
-  //       favouriteProjects={currentUser?.projects}
-  //       recommendedProjects={
-  //         dataProjectsRecommended?.findProjects_RecommendedToUser
-  //       }
-  //     />
-  //   );
+      {/* <GridItemNine>
+        <Card className="bg-white p-6"></Card>
+      </GridItemNine>
+      <GridItemThree>
+        <Card className="bg-white p-6"></Card>
+      </GridItemThree> */}
+    </GridLayout>
+  );
 };
 
 ProjectsPage.getLayout = (page) => (
-  <AppUserSubmenuLayout>{page}</AppUserSubmenuLayout>
+  <AppUserSubmenuLayout showSubmenu={false}>{page}</AppUserSubmenuLayout>
 );
 
 export default ProjectsPage;
