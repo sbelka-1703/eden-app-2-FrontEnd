@@ -19,15 +19,19 @@ export const getProjectRole = () => ({
   budget: project.budget,
 });
 
-// export const getProjectRoles = () => ({
-//   matchPercentage: randomPercentage(),
-
-//   commonSkills: getSkills(5),
-// });
+export const getProjectRoles = () => {
+  Array.from({ length: 10 }, () => {
+    return {
+      matchPercentage: randomPercentage(),
+      projectRole: getProjectRole(),
+      commonSkills: getSkills(5),
+    };
+  });
+};
 
 export const MatchSkillsToProjects = () => ({
   matchPercentage: randomPercentage(),
   project: getProject(),
   commonSkills: getSkills(10),
-  //   projectRoles: getProjectRoles()
+  projectRoles: getProjectRoles(),
 });
