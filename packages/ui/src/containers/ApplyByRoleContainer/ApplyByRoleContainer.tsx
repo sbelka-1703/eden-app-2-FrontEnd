@@ -178,7 +178,7 @@ export const ApplyByRoleContainer = ({
     );
 
   return (
-    <Card className={`h-85 bg-white px-6 py-4`}>
+    <Card className={`h-85 flex flex-col bg-white px-6 py-4`}>
       <div className={`flex justify-end`}>
         <button
           onClick={() => onViewProject(false)}
@@ -223,17 +223,19 @@ export const ApplyByRoleContainer = ({
           <ProjectChampion member={project?.champion as Members} />
         </div>
       </div>
+      {isRoleView && (
+        <div className={`my-4 flex`}>
+          <TextHeading1>Matching Open Roles</TextHeading1>
+          <span className={`my-auto pl-4`}>
+            <NumberCircle value={matchedProject?.projectRoles?.length || 0} />
+          </span>
+        </div>
+      )}
 
       {isRoleView ? (
-        <div className={`h-5/10 flex flex-col`}>
-          <div className={`my-4 flex`}>
-            <TextHeading1>Matching Open Roles</TextHeading1>
-            <span className={`my-auto pl-4`}>
-              <NumberCircle value={matchedProject?.projectRoles?.length || 0} />
-            </span>
-          </div>
+        <div className={`scrollbar-hide flex flex-grow overflow-y-scroll`}>
           <div
-            className={`scrollbar-hide grid grow grid-cols-1 gap-8 overflow-y-scroll px-6 sm:grid-cols-2 xl:grid-cols-3`}
+            className={`grid grow grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-3`}
           >
             {matchedProject?.projectRoles?.map((role, index) => (
               <RoleCard
