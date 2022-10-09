@@ -3,6 +3,7 @@ export * from "./ProjectInfoModal";
 export * from "./RoleDescriptionModal";
 export * from "./RoleModalContainer";
 export * from "./SavingProjectModal";
+export * from "./SendMessageToUserModal";
 export * from "./ShortlistMemeberModal";
 export * from "./SkillsModalContainer";
 export * from "./SocialMediaModel";
