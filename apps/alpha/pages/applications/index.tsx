@@ -1,6 +1,7 @@
 import { UserContext } from "@eden/package-context";
 import { AppUserSubmenuLayout, Card } from "@eden/package-ui";
 import { useContext } from "react";
+import { FaUserAlt, FaUserEdit } from "react-icons/fa";
 
 import type { NextPageWithLayout } from "../_app";
 
@@ -40,8 +41,31 @@ const ApplicationsPage: NextPageWithLayout = () => {
   );
 };
 
+const submenu = [
+  {
+    Icon: <FaUserAlt size={20} />,
+    FunctionName: "Active projects",
+    onFunctionCallback: () => console.log(`change view`),
+  },
+  {
+    Icon: <FaUserEdit size={25} />,
+    FunctionName: "Active applications",
+    onFunctionCallback: () => console.log(`change view`),
+  },
+  {
+    Icon: <FaUserAlt size={20} />,
+    FunctionName: "invited",
+    onFunctionCallback: () => console.log(`change view`),
+  },
+  {
+    Icon: <FaUserEdit size={25} />,
+    FunctionName: "rejected",
+    onFunctionCallback: () => console.log(`change view`),
+  },
+];
+
 ApplicationsPage.getLayout = (page) => (
-  <AppUserSubmenuLayout>{page}</AppUserSubmenuLayout>
+  <AppUserSubmenuLayout submenu={submenu}>{page}</AppUserSubmenuLayout>
 );
 
 export default ApplicationsPage;

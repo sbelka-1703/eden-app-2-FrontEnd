@@ -33,7 +33,7 @@ const AdminPage: NextPageWithLayout = () => {
       <GridItemFour>
         <Button
           variant="primary"
-          onClick={() => router.push("./admin/new-category")}
+          onClick={() => router.push("./admin/new-sub-category")}
         >
           Update Categories
         </Button>
