@@ -2,24 +2,32 @@
 import { faker } from "@faker-js/faker";
 
 import { randomPercentage } from "./MatchSkillsToMembersMock";
+import { getSkills } from "./MembersMock";
+import { getProject, project } from "./ProjectMock";
 
-// import { phase } from "./data";
-// import { getMember } from "./MembersMock";
-// import { getProject, randomTeam } from "./ProjectMock";
+export const getProjectRole = () => ({
+  _id: project._id,
+  title: project.title,
+  description: project.description,
+  keyRosponsibilities: faker.lorem.lines(),
+  openPositions: faker.datatype.number({ min: 1, max: 100, precision: 1 }),
+  skills: getSkills(5),
+  archive: faker.datatype.boolean(),
+  dateRangeStart: "1662161995158",
+  dateRangeEnd: "1662161995158",
+  hoursPerWeek: faker.datatype.number({ min: 1, max: 168, precision: 1 }),
+  budget: project.budget,
+});
+
+// export const getProjectRoles = () => ({
+//   matchPercentage: randomPercentage(),
+
+//   commonSkills: getSkills(5),
+// });
 
 export const MatchSkillsToProjects = () => ({
   matchPercentage: randomPercentage(),
+  project: getProject(),
+  commonSkills: getSkills(10),
+  //   projectRoles: getProjectRoles()
 });
-
-// export const getEpic = () => ({
-//   _id: String(faker.random.numeric(5)),
-//   name: faker.name.firstName(),
-//   desciption: faker.lorem.sentences(5),
-//   phase: faker.helpers.arrayElements(phase, 1)[0] as PhaseType,
-//   champion: getMember(),
-//   serverID: faker.random.numeric(12),
-//   project: getProject(),
-//   teams: randomTeam(),
-//   author: getMember(),
-//   channelDiscordlID: faker.random.numeric(18),
-// });
