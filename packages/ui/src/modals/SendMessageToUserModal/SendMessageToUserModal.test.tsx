@@ -6,9 +6,6 @@ describe("SendMessageToUserModal", () => {
     const { container } = render(
       <SendMessageToUserModal
         openModal
-        sender="Milo"
-        senderId={3787}
-        receiver="MelonMusk"
         onSubmit={function (message: string): void {
           console.log(message);
 
