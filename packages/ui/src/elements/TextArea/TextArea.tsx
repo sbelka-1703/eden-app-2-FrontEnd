@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { debounce } from "lodash";
-import { InputHTMLAttributes } from "react";
+import type { CSSProperties, InputHTMLAttributes } from "react";
 
 export type TextAreaProps = {
   name?: string;
@@ -10,6 +10,7 @@ export type TextAreaProps = {
   maxLength?: number;
   debounceTime?: number;
   className?: string;
+  customStyle?: CSSProperties;
   // eslint-disable-next-line no-unused-vars
   onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 } & InputHTMLAttributes<HTMLTextAreaElement>;
@@ -25,6 +26,7 @@ export const TextArea: React.FC<TextAreaProps> = ({
   debounceTime = 0,
   className = "",
   onChange,
+  customStyle,
 }) => {
   const debouncedOnChange = debounce((e: any) => {
     onChange(e);
@@ -60,6 +62,7 @@ export const TextArea: React.FC<TextAreaProps> = ({
           className={`${inputCls} focus:border-accentColor focus:ring-soilGreen-500 block w-full resize-none border border-zinc-400/50 py-1 px-2 text-base focus:outline-transparent focus:ring focus:ring-opacity-50`}
           style={{
             boxShadow: "0px 1px 4px rgba(0, 0, 0, 0.15)",
+            ...customStyle,
           }}
         />
       </div>
