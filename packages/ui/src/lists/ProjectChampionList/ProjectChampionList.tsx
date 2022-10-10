@@ -6,22 +6,25 @@ import {
   TextBody,
   TextHeading3,
 } from "@eden/package-ui";
+import { useRouter } from "next/router";
 import { useContext } from "react";
 
 export const ProjectChampionList = () => {
   const { currentUser } = useContext(UserContext);
+  const router = useRouter();
   const champions = currentUser?.projects?.filter(
     (project) => project?.champion
   );
 
   return (
     <>
-      {champions?.map((item, index) => (
+      {champions?.map((item) => (
         <Card
           key={item?.info?._id}
-          className={`bg-white p-6 mb-${
-            index === champions.length - 1 ? 0 : 4
-          }`}
+          className={`bg-gray-50 p-6 `}
+          onClick={() =>
+            router.push(`/champion-board/recruit/${item?.info?._id}`)
+          }
         >
           <div className="flex items-center">
             <div
