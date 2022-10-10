@@ -4,7 +4,6 @@ import { useState } from "react";
 
 export interface ChampionMatchContainerProps {
   project?: Project;
-  refetch?: () => void;
 }
 
 const ActiveTabMembers = (teamMembers: any) => {
@@ -24,7 +23,6 @@ const ActiveTabMembers = (teamMembers: any) => {
 
 export const ChampionMatchContainer = ({
   project,
-  refetch,
 }: ChampionMatchContainerProps) => {
   const [activeTab, setActiveTab] = useState(0);
   const tabs = ["New Match", "Applied", "Invited", "Accepted", "Rejected"];
