@@ -4,7 +4,7 @@ import { CurrentUserDecorator } from "storybook/.storybook/decorator";
 import { ProjectChampionList } from "./ProjectChampionList";
 
 export default {
-  title: "Components/ProjectChampionList",
+  title: "Lists/ProjectChampionList",
   component: ProjectChampionList,
   argTypes: {},
   decorators: [CurrentUserDecorator],

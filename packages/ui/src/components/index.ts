@@ -14,7 +14,6 @@ export * from "./FormStepper";
 export * from "./LoginButton";
 export * from "./ProgressStepper";
 export * from "./ProjectChampion";
-export * from "./ProjectChampionList";
 export * from "./ProjectInfo";
 export * from "./ReadMoreComp";
 export * from "./RoleList";

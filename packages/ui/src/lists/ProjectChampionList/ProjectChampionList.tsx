@@ -1,5 +1,11 @@
 import { UserContext } from "@eden/package-context";
-import { Card, NumberCircle, TextBody, TextHeading3 } from "@eden/package-ui";
+import {
+  Avatar,
+  Card,
+  NumberCircle,
+  TextBody,
+  TextHeading3,
+} from "@eden/package-ui";
 import { useContext } from "react";
 
 export const ProjectChampionList = () => {
@@ -22,7 +28,7 @@ export const ProjectChampionList = () => {
               className="flex h-24 w-24 items-center justify-center rounded-full text-5xl"
               style={{ backgroundColor: item?.info?.backColorEmoji || "#FFF" }}
             >
-              {item?.info?.emoji}
+              {item?.info?.emoji ? item?.info?.emoji : <Avatar isProject />}
             </div>
             <div className="ml-8 flex flex-col justify-between">
               <TextHeading3 className="mb-2">{item?.info?.title}</TextHeading3>
