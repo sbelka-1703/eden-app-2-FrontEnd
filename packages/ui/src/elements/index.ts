@@ -13,6 +13,6 @@ export * from "./Modal";
 export * from "./NumberCircle";
 export * from "./ProgressBar";
 export * from "./ProgressBarGeneric";
-export * from "./TextAreaComponent";
-export * from "./TextField";
 export * from "./SwitchButton";
+export * from "./TextArea";
+export * from "./TextField";

@@ -7,7 +7,6 @@ import {
 import {
   ApplyByRoleContainer,
   ProjectMatchList,
-  // SignUpCard,
   SignUpRoleSelectCard,
 } from "@eden/package-ui";
 import { useState } from "react";
@@ -20,6 +19,10 @@ export interface ISignUpContainerMainProps {
   refetchProject?: () => void;
   // eslint-disable-next-line no-unused-vars
   onSelectedProject: (projectID: string) => void;
+  loadingProject?: boolean;
+  viewProject?: boolean;
+  // eslint-disable-next-line no-unused-vars
+  onViewProject: (val: boolean) => void;
 }
 
 export const SignUpContainerMain = ({
@@ -29,18 +32,23 @@ export const SignUpContainerMain = ({
   refetchMatch,
   refetchProject,
   onSelectedProject,
+  loadingProject,
+  viewProject,
+  onViewProject,
 }: ISignUpContainerMainProps) => {
   // console.log("project", project);
 
   const [roleSelected, setRoleSelected] = useState(false);
 
   return (
-    <div className={``}>
-      {project ? (
+    <div className={`h-85`}>
+      {viewProject ? (
         <ApplyByRoleContainer
           project={project}
           matchedProjects={matchedProjects}
           refetch={refetchProject}
+          loadingProject={loadingProject}
+          onViewProject={onViewProject}
         />
       ) : (
         <>
@@ -51,10 +59,13 @@ export const SignUpContainerMain = ({
               onNext={() => setRoleSelected(true)}
             />
           ) : (
-            <div className={"h-9/10"}>
+            <div className={``}>
               <ProjectMatchList
                 matchedProjects={matchedProjects}
                 onSelectedProject={onSelectedProject}
+                loadingProject={loadingProject}
+                // eslint-disable-next-line no-unused-vars
+                onViewProject={(val: boolean) => onViewProject(val)}
               />
             </div>
           )}
