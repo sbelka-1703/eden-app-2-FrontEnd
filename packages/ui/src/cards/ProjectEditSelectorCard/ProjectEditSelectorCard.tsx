@@ -30,21 +30,11 @@ export const ProjectEditSelectorCard = ({
 }: ProjectEditSelectorCardProps) => {
   if (!project) return null;
 
-  console.log("project", project);
-
-  const engagedProjects = project?.team?.filter(
-    (project: any) => project.phase === "engaged"
-  );
-  // const ComplitionDate = format(
-  //   new Date(Number(project?.dates?.complition)),
-  //   "MMM do"
-  // );
   const ComplitionDate = new Date(Number(project?.dates?.complition));
   const KickOff = new Date(Number(project?.dates?.kickOff));
   const daysLeft = differenceInBusinessDays(KickOff, ComplitionDate);
 
   const onSelectRole = (data: any) => {
-    console.log(data);
     if (onSelect) onSelect(data);
   };
   return (
@@ -99,7 +89,7 @@ export const ProjectEditSelectorCard = ({
           <></>
         )}
       </div>
-      <div className="flex flex-row">
+      <div className="grid grid-cols-2 overflow-hidden">
         {project.role?.map((data) => (
           <div
             className="shadow-cardShadow  hover:border-accentColor m-2 rounded-2xl border-[2px] border border-zinc-400 p-6"
