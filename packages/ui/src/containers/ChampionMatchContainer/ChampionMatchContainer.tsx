@@ -1,9 +1,5 @@
 import { TeamType, Project } from "@eden/package-graphql/generated";
-import {
-  TabsSelector,
-  MemberMatchCard,
-  UserWithDescription,
-} from "@eden/package-ui";
+import { TabsSelector, MemberMatchCard } from "@eden/package-ui";
 import { useState } from "react";
 
 export interface ChampionMatchContainerProps {
@@ -15,7 +11,7 @@ const ActiveTabMembers = (teamMembers: any) => {
   return (
     <div className={`mb-4 grid grid-cols-3 gap-x-10 gap-y-10`}>
       {teamMembers &&
-        teamMembers?.teamMembers.map((member: any, index: number) => {
+        teamMembers?.teamMembers?.map((member: any, index: number) => {
           return (
             <div key={index} className={`m-2`}>
               <MemberMatchCard member={member.memberInfo} percentage={"44"} />
