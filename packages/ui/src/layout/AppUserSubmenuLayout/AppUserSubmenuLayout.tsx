@@ -10,12 +10,16 @@ import Head from "next/head";
 
 export interface IAppUserSubmenuLayoutProps {
   children: React.ReactNode;
-  submenu?: boolean;
+  showSubmenu?: boolean;
+  submenu?: any;
+  activeIndex?: number;
 }
 
 export const AppUserSubmenuLayout = ({
   children,
-  submenu = true,
+  showSubmenu = true,
+  submenu,
+  activeIndex,
 }: IAppUserSubmenuLayoutProps) => {
   return (
     <>
@@ -23,13 +27,17 @@ export const AppUserSubmenuLayout = ({
         <title>Eden protocol</title>
       </Head>
       <div className="bg-background flex h-screen min-w-0 flex-col lg:overflow-y-hidden">
-        <AppHeader logoLink={`/projects`} inApp />
+        <AppHeader logoLink={`/signup`} inApp />
         <main className="flex flex-grow">
-          {submenu ? (
+          {showSubmenu ? (
             <GridLayout>
               <GridItemThree>
                 <Card className="bg-white p-6">
-                  <SubmenuSelector title={`Good Morning,`} />
+                  <SubmenuSelector
+                    title={`Good Morning,`}
+                    submenu={submenu}
+                    activeIndex={activeIndex}
+                  />
                 </Card>
               </GridItemThree>
 

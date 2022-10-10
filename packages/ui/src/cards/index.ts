@@ -7,6 +7,6 @@ export * from "./project";
 export * from "./ProjectSkillFilterCard";
 export * from "./RoleCard";
 export * from "./RoleSmallCard";
-export * from "./SignUpCard";
+export * from "./SignUpRoleSelectCard";
 export * from "./SkillsCard";
 export * from "./user";

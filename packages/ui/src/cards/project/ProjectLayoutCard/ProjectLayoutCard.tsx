@@ -10,6 +10,7 @@ import {
 export interface ProjectLayoutCardProps {
   project?: Project;
   emoji?: string;
+  bgColor?: string;
   showRoles?: boolean;
   selectedRole?: Maybe<RoleType> | null;
   onClick?: () => void;
@@ -23,6 +24,7 @@ export interface ProjectLayoutCardProps {
 export const ProjectLayoutCard = ({
   project,
   emoji,
+  bgColor = "#e8e8e8",
   showRoles = false,
   selectedRole,
   handleAddRole,
@@ -34,7 +36,7 @@ export const ProjectLayoutCard = ({
       <TextBody className="mb-2">Your Project</TextBody>
       <div className="mb-4 flex items-center">
         <div className="mr-4">
-          <EmojiSelector isDisabled emoji={emoji} />
+          <EmojiSelector isDisabled emoji={emoji} bgColor={bgColor} />
         </div>
         <TextHeading3>{project?.title}</TextHeading3>
       </div>

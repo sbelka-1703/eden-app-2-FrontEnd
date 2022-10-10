@@ -15,6 +15,4 @@ const Template: ComponentStory<typeof UserProfileCard> = (args) => (
 );
 
 export const Default = Template.bind({});
-Default.args = {
-  role: "Scrum Master",
-};
+Default.args = {};

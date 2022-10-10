@@ -16,8 +16,7 @@ export interface ILaunchProjectContainerProps {}
 export const LaunchProjectContainer = ({}: ILaunchProjectContainerProps) => {
   const router = useRouter();
 
-  const { project, dispatchProject, projectEmoji, setProjectEmoji } =
-    useContext(LaunchProjectContext);
+  const { project, dispatchProject } = useContext(LaunchProjectContext);
 
   const handleButtonClick = () => {
     router.push("/launch/shortlist");
@@ -54,12 +53,39 @@ export const LaunchProjectContainer = ({}: ILaunchProjectContainerProps) => {
             <div className="mb-3">
               <TextBody>Choose emoji for your project</TextBody>
             </div>
-            <EmojiSelector onSelection={(value) => setProjectEmoji(value)} />
+            <EmojiSelector
+              onSelection={(value) =>
+                dispatchProject!({
+                  type: ProjectActionKind.SET_EMOJI,
+                  payload: value,
+                })
+              }
+            />
+            <div className="mt-4 mb-3">
+              <TextBody>Choose color for your project</TextBody>
+            </div>
+            <div className="flex h-[60px] w-[60px] cursor-pointer items-center overflow-hidden rounded-full border-none">
+              <input
+                type="color"
+                className="-m-2 h-[100px] w-[100px]"
+                defaultValue={"#e8e8e8"}
+                onChange={(e) =>
+                  dispatchProject!({
+                    type: ProjectActionKind.SET_EMOJI_COLOR,
+                    payload: e.target.value,
+                  })
+                }
+              />
+            </div>
           </div>
           <div className="col-span-1">
             <TextBody className="mb-1">Preview</TextBody>
             {project && (
-              <ProjectLayoutCard project={project} emoji={projectEmoji} />
+              <ProjectLayoutCard
+                project={project}
+                emoji={project?.emoji || undefined}
+                bgColor={project?.backColorEmoji || undefined}
+              />
             )}
           </div>
         </section>

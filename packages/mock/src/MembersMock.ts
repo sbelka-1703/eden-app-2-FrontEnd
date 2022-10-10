@@ -54,7 +54,16 @@ export const getMemberProject = () => ({
     {
       _id: String(faker.random.numeric(5)),
       description: faker.lorem.sentences(5),
+      descriptionOneLine: faker.lorem.sentence(),
+      emoji: "👨‍🎨",
+      backColorEmoji: "#F5F5F5",
       title: faker.name.firstName(),
+      team: {
+        phase: faker.helpers.arrayElements(phase, 1)[0] as PhaseType,
+        memberInfo: {
+          _id: String(faker.random.numeric(5)),
+        },
+      },
       dates: {
         complition: "1662161995158",
         kickOff: "1662161895158",
@@ -97,3 +106,43 @@ export const getMember = () =>
     skills: getSkills(faker.datatype.number({ min: 2, max: 36, precision: 1 })),
     timeZone: faker.address.timeZone(),
   } as any);
+
+export const getSkillsPercentage = () => ({
+  info: {
+    _id: String(faker.random.numeric(5)),
+    name: faker.helpers.uniqueArray(skills, 1)[0],
+  },
+  percentage100: 100,
+  percentageReal: faker.datatype.number({ min: 10, max: 90, precision: 1 }),
+});
+
+export const getSkillsPercentageArray = (total: number) =>
+  Array.from({ length: total }, () => getSkillsPercentage());
+
+export const getMatchingMember = (totalSkills: number) =>
+  ({
+    _id: String(faker.random.numeric(5)),
+    member: getMember(),
+    skillsPercentage: getSkillsPercentageArray(totalSkills),
+    matchPercentage: {
+      totalPercentage: faker.datatype.number({
+        min: 10,
+        max: 90,
+        precision: 1,
+      }),
+      skillTotalPercentage: 100,
+      hoursPercentage: faker.datatype.number({
+        min: 10,
+        max: 90,
+        precision: 1,
+      }),
+      budgetPercentage: faker.datatype.number({
+        min: 10,
+        max: 90,
+        precision: 1,
+      }),
+    },
+  } as any);
+
+export const getMatchingMemberArray = (total: number) =>
+  Array.from({ length: total }, () => getMatchingMember(5));

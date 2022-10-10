@@ -5,7 +5,6 @@ import {
   MatchSkillsToProjectsOutput,
   Maybe,
   Mutation,
-  Project,
   SkillRoleType,
 } from "@eden/package-graphql/generated";
 import {
@@ -20,15 +19,15 @@ import { round } from "../../../utils";
 
 export interface ISignUpContainerSideProps {
   matchedProjects?: Maybe<Array<Maybe<MatchSkillsToProjectsOutput>>>;
-  project?: Project;
   // eslint-disable-next-line no-unused-vars
   onSelectedProject: (projectID: string) => void;
+  viewProject?: boolean;
 }
 
 export const SignUpContainerSide = ({
   matchedProjects,
-  project,
   onSelectedProject,
+  viewProject,
 }: ISignUpContainerSideProps) => {
   const { currentUser } = useContext(UserContext);
 
@@ -45,16 +44,15 @@ export const SignUpContainerSide = ({
   });
 
   return (
-    <div className={`h-9/10`}>
+    <Card className={`h-85 flex flex-col gap-4`}>
       <UserProfileCard />
-      <div className={`my-4`}></div>
-      <div className={`h-6/10 scrollbar-hide  overflow-y-scroll`}>
-        {project ? (
-          <div className={``}>
+      {viewProject ? (
+        <Card className={`scrollbar-hide flex flex-grow overflow-y-scroll`}>
+          <div className={`my-1 flex flex-col gap-3`}>
             {matchedProjects?.map((matchProject, index: number) => (
               <button
                 key={index}
-                className={`my-2 flex w-full px-1`}
+                className={`flex w-full px-1`}
                 onClick={() => {
                   onSelectedProject(matchProject?.project?._id || "");
                   setSelectedProject(matchProject?.project?._id || "");
@@ -62,7 +60,7 @@ export const SignUpContainerSide = ({
               >
                 <Card
                   focused={matchProject?.project?._id === selectedProject}
-                  className={`flex w-full  bg-white p-4`}
+                  className={`flex w-full bg-white p-4`}
                 >
                   <div className={`relative`}>
                     <Avatar isProject size={`xs`} />
@@ -82,7 +80,11 @@ export const SignUpContainerSide = ({
               </button>
             ))}
           </div>
-        ) : (
+        </Card>
+      ) : (
+        <Card
+          className={`scrollbar-hide flex flex-grow overflow-y-scroll bg-white`}
+        >
           <ProjectSkillFilterCard
             cardTypeProject={false}
             roles={[]}
@@ -124,8 +126,8 @@ export const SignUpContainerSide = ({
               console.log("val", val);
             }}
           />
-        )}
-      </div>
-    </div>
+        </Card>
+      )}
+    </Card>
   );
 };

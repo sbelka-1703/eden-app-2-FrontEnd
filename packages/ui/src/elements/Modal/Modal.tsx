@@ -7,6 +7,7 @@ export type ModalProps = {
   children?: React.ReactNode;
   open?: boolean;
   closeOnEsc?: boolean;
+  onClose?: () => void;
 };
 
 export const Modal = ({
@@ -14,6 +15,7 @@ export const Modal = ({
   children,
   open = false,
   closeOnEsc = true,
+  onClose,
 }: ModalProps) => {
   const [isOpen, setIsOpen] = useState(open);
 
@@ -21,13 +23,21 @@ export const Modal = ({
     setIsOpen(open);
   }, [open]);
 
+  const onCloseModal = () => {
+    if (onClose) onClose();
+  };
+
   return (
     <Transition show={isOpen} as={Fragment}>
       <Dialog
         as="div"
         className={"fixed inset-0 z-10 overflow-y-auto"}
         onClose={() => {
+          if (onClose) {
+            onCloseModal();
+          }
           if (closeOnEsc) setIsOpen(false);
+          onClose!();
         }}
       >
         <div
@@ -81,7 +91,10 @@ export const Modal = ({
                     className={
                       "rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none"
                     }
-                    onClick={() => setIsOpen(false)}
+                    onClick={() => {
+                      setIsOpen(false);
+                      onClose!();
+                    }}
                   >
                     <span className={"sr-only"}>Close</span>
                     <XIcon className={"h-6 w-6"} aria-hidden="true" />

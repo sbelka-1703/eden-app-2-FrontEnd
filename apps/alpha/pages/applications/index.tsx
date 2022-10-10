@@ -1,11 +1,36 @@
 import { UserContext } from "@eden/package-context";
 import { AppUserSubmenuLayout, Card } from "@eden/package-ui";
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import { FaUserAlt, FaUserEdit } from "react-icons/fa";
 
 import type { NextPageWithLayout } from "../_app";
 
 const ApplicationsPage: NextPageWithLayout = () => {
   const { currentUser } = useContext(UserContext);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const submenu = [
+    {
+      Icon: <FaUserAlt size={20} />,
+      FunctionName: "Active projects",
+      onFunctionCallback: () => setActiveIndex(0),
+    },
+    {
+      Icon: <FaUserEdit size={25} />,
+      FunctionName: "Active applications",
+      onFunctionCallback: () => setActiveIndex(1),
+    },
+    {
+      Icon: <FaUserAlt size={20} />,
+      FunctionName: "invited",
+      onFunctionCallback: () => setActiveIndex(2),
+    },
+    {
+      Icon: <FaUserEdit size={25} />,
+      FunctionName: "rejected",
+      onFunctionCallback: () => setActiveIndex(3),
+    },
+  ];
 
   const engagedProjects = currentUser?.projects?.filter(
     (project: any) => project.phase === "engaged"
@@ -32,17 +57,28 @@ const ApplicationsPage: NextPageWithLayout = () => {
   console.log("invitedProjects", rejectedProjects);
 
   return (
-    <Card shadow className="h-8/10 bg-white p-6">
-      <div className={`text-2xl font-medium text-black/80`}>
-        Active Applications
-      </div>
-    </Card>
+    <AppUserSubmenuLayout submenu={submenu} activeIndex={activeIndex}>
+      <Card shadow className="h-85 bg-white p-6">
+        {activeIndex === 0 && (
+          <div className={`text-2xl font-medium text-black/80`}>
+            Active Projects
+          </div>
+        )}
+        {activeIndex === 1 && (
+          <div className={`text-2xl font-medium text-black/80`}>
+            Active Applications
+          </div>
+        )}
+        {activeIndex === 2 && (
+          <div className={`text-2xl font-medium text-black/80`}>Invited</div>
+        )}
+        {activeIndex === 3 && (
+          <div className={`text-2xl font-medium text-black/80`}>Rejected</div>
+        )}
+      </Card>
+    </AppUserSubmenuLayout>
   );
 };
-
-ApplicationsPage.getLayout = (page) => (
-  <AppUserSubmenuLayout>{page}</AppUserSubmenuLayout>
-);
 
 export default ApplicationsPage;
 
