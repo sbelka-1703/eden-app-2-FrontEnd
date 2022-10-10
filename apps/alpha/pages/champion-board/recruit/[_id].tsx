@@ -8,9 +8,11 @@ import {
 import {
   AppUserSubmenuLayout,
   Card,
+  ChampionMatchContainer,
   GridItemNine,
   GridItemThree,
   GridLayout,
+  ProjectEditSelectorCard,
 } from "@eden/package-ui";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -83,14 +85,17 @@ const ProjectPage: NextPageWithLayout = () => {
     <GridLayout>
       <GridItemThree>
         <Card shadow className="h-8/10 bg-white p-6">
-          <div className={`text-2xl font-medium text-black/80`}>
-            project role selector here
-          </div>
+          <ProjectEditSelectorCard
+            project={dataProject.findProject}
+            emoji="🔥"
+            totalDays={30}
+            currentDayCount={10}
+          />
         </Card>
       </GridItemThree>
       <GridItemNine>
-        <Card shadow className="h-8/10 bg-white p-6">
-          <div className={`text-2xl font-medium text-black/80`}>tabs here</div>
+        <Card shadow className="h-8/10 overflow-auto bg-white p-6">
+          <ChampionMatchContainer project={dataProject.findProject} />
         </Card>
       </GridItemNine>
     </GridLayout>

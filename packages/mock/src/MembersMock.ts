@@ -50,26 +50,44 @@ export const getMemberProject = () => ({
   champion: faker.datatype.boolean(),
   favorite: faker.datatype.boolean(),
   phase: faker.helpers.arrayElements(phase, 1)[0] as PhaseType,
-  info: [
-    {
-      _id: String(faker.random.numeric(5)),
-      description: faker.lorem.sentences(5),
-      descriptionOneLine: faker.lorem.sentence(),
-      emoji: "👨‍🎨",
-      backColorEmoji: "#F5F5F5",
-      title: faker.name.firstName(),
-      team: {
+  info: {
+    _id: String(faker.random.numeric(5)),
+    description: faker.lorem.sentences(5),
+    descriptionOneLine: faker.lorem.sentence(),
+    emoji: "👨‍🎨",
+    backColorEmoji: "#F5F5F5",
+    title: faker.name.firstName(),
+    team: [
+      {
         phase: faker.helpers.arrayElements(phase, 1)[0] as PhaseType,
         memberInfo: {
           _id: String(faker.random.numeric(5)),
         },
       },
-      dates: {
-        complition: "1662161995158",
-        kickOff: "1662161895158",
+      {
+        phase: faker.helpers.arrayElements(phase, 1)[0] as PhaseType,
+        memberInfo: {
+          _id: String(faker.random.numeric(5)),
+        },
       },
+      {
+        phase: faker.helpers.arrayElements(phase, 1)[0] as PhaseType,
+        memberInfo: {
+          _id: String(faker.random.numeric(5)),
+        },
+      },
+      {
+        phase: faker.helpers.arrayElements(phase, 1)[0] as PhaseType,
+        memberInfo: {
+          _id: String(faker.random.numeric(5)),
+        },
+      },
+    ],
+    dates: {
+      complition: "1662161995158",
+      kickOff: "1662161895158",
     },
-  ],
+  },
 });
 
 export const getMemberProjectArray = (total: number) =>

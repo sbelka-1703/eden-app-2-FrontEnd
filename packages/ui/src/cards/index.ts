@@ -10,3 +10,4 @@ export * from "./RoleSmallCard";
 export * from "./SignUpRoleSelectCard";
 export * from "./SkillsCard";
 export * from "./user";
+export * from "./ProjectEditSelectorCard";

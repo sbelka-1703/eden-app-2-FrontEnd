@@ -17,3 +17,4 @@ export * from "./SignUpContainerMain";
 export * from "./SignUpContainerSide";
 export * from "./test/ShortlistModalContainerTest";
 export * from "./test/ShortlistSideContainerTest";
+export * from "./ChampionMatchContainer";
