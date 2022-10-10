@@ -8,10 +8,10 @@ import {
 import {
   AppUserSubmenuLayout,
   Card,
+  ChampionMatchContainer,
   GridItemNine,
   GridItemThree,
   GridLayout,
-  ChampionMatchContainer,
   ProjectEditSelectorCard,
 } from "@eden/package-ui";
 import { useRouter } from "next/router";
