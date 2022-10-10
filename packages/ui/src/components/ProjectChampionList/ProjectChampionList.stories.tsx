@@ -11,7 +11,13 @@ export default {
 } as ComponentMeta<typeof ProjectChampionList>;
 
 const Template: ComponentStory<typeof ProjectChampionList> = () => {
-  return <ProjectChampionList />;
+  return (
+    <div className="bg-gray-300 p-6">
+      <div className="w-2/5">
+        <ProjectChampionList />
+      </div>
+    </div>
+  );
 };
 
 export const Default = Template.bind({});
