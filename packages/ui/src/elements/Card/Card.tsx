@@ -6,7 +6,6 @@ export interface CardProps {
   focused?: boolean;
   border?: boolean;
   className?: string;
-  onClick?: () => void;
 }
 
 export const Card = ({
@@ -15,18 +14,12 @@ export const Card = ({
   focused = false,
   border = false,
   className = "p-6",
-  onClick,
 }: CardProps) => {
   const cardCls = clsx(`relative rounded-2xl ${className}`, {
     "shadow-cardShadow": shadow === true,
     "shadow-focusShadow border-0": focused === true,
     "border border-zinc-400": border === true && focused !== true,
-    "cursor-pointer": !!onClick,
   });
 
-  return (
-    <div className={cardCls} onClick={onClick}>
-      {children}
-    </div>
-  );
+  return <div className={cardCls}>{children}</div>;
 };
