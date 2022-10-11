@@ -1,40 +1,21 @@
-import { UserContext } from "@eden/package-context";
-import { AppUserSubmenuLayout, Card } from "@eden/package-ui";
-import { useRouter } from "next/router";
-import { useContext } from "react";
+import {
+  AppUserSubmenuLayout,
+  Card,
+  ProjectChampionList,
+} from "@eden/package-ui";
 
 import type { NextPageWithLayout } from "../_app";
 
-const ProjectPage: NextPageWithLayout = () => {
-  const router = useRouter();
-  const { currentUser } = useContext(UserContext);
-
-  const championProjects = currentUser?.projects?.filter(
-    (project: any) => project.champion
-  );
-
-  console.log("championProjects", championProjects);
-
-  return (
-    <Card shadow className="h-8/10 bg-white p-6">
-      <div className={`text-2xl font-medium text-black/80`}>
-        List of Champion Projects
-      </div>
-      <div className={`grid grid-cols-1`}>
-        {championProjects?.map((item, index) => (
-          <button
-            key={index}
-            onClick={() =>
-              router.push(`/champion-board/recruit/${item?.info?._id}`)
-            }
-          >
-            <Card>{item?.info?.title}</Card>
-          </button>
-        ))}
-      </div>
-    </Card>
-  );
-};
+const ProjectPage: NextPageWithLayout = () => (
+  <Card shadow className="bg-white p-6">
+    <div className={`mb-4 text-2xl font-medium text-black/80`}>
+      List of Champion Projects
+    </div>
+    <div className="grid gap-8 lg:grid-cols-2">
+      <ProjectChampionList />
+    </div>
+  </Card>
+);
 
 ProjectPage.getLayout = (page) => (
   <AppUserSubmenuLayout>{page}</AppUserSubmenuLayout>
