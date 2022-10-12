@@ -14,18 +14,19 @@ import {
   GridLayout,
   ProjectEditSelectorCard,
 } from "@eden/package-ui";
-import { LaunchProjectContext } from "@eden/package-context";
+// import { LaunchProjectContext } from "@eden/package-context";
 import { useRouter } from "next/router";
-import { useState, useContext } from "react";
+
+// import { useContext, useState } from "react";
 import type { NextPageWithLayout } from "../../_app";
 
 const ProjectPage: NextPageWithLayout = () => {
   const router = useRouter();
   const { _id } = router.query;
-  const [selectMember, setSelectMember] = useState("");
+  // const [selectMember, setSelectMember] = useState("");
 
-  const { project, selectedRole, matchMembersPage } =
-    useContext(LaunchProjectContext);
+  // const { matchMembersPage, project, selectedRole } =
+  //   useContext(LaunchProjectContext);
 
   // const { data: dataMember, refetch: refetchMember } = useQuery(FIND_MEMBER, {
   //   variables: {
@@ -36,30 +37,6 @@ const ProjectPage: NextPageWithLayout = () => {
   //   skip: !selectMember,
   //   context: { serviceName: "soilservice" },
   // });
-
-  // // member data
-  // if (dataMember) console.log("dataMember", dataMember);
-  const { data: matchingMembers } = useQuery(MATCH_MEMBERS_TO_SKILLS, {
-    variables: {
-      fields: {
-        skillsID: selectedRole?.skills?.flatMap(
-          (skill) => skill?.skillData?._id
-        ),
-        hoursPerWeek:
-          project?.role?.find((role) => role?._id === selectedRole?._id)
-            ?.hoursPerWeek || null,
-        budgetAmount:
-          Number(
-            project?.role?.find((role) => role?._id === selectedRole?._id)
-              ?.budget?.perHour
-          ) || null,
-        page: matchMembersPage,
-        limit: 9,
-      },
-    },
-    skip: !selectedRole,
-    context: { serviceName: "soilservice" },
-  });
 
   const { data: dataProject, refetch: refetchProject } = useQuery(
     FIND_PROJECT,
@@ -74,14 +51,33 @@ const ProjectPage: NextPageWithLayout = () => {
     }
   );
 
+  // const { data: matchingMembers } = useQuery(MATCH_MEMBERS_TO_SKILLS, {
+  //   variables: {
+  //     fields: {
+  //       skillsID: selectedRole?.skills?.flatMap(
+  //         (skill) => skill?.skillData?._id
+  //       ),
+  //       hoursPerWeek:
+  //         project?.role?.find((role) => role?._id === selectedRole?._id)
+  //           ?.hoursPerWeek || null,
+  //       budgetAmount:
+  //         Number(
+  //           project?.role?.find((role) => role?._id === selectedRole?._id)
+  //             ?.budget?.perHour
+  //         ) || null,
+  //       page: matchMembersPage,
+  //       limit: 9,
+  //     },
+  //   },
+  //   skip: !selectedRole,
+  //   context: { serviceName: "soilservice" },
+  // });
+
   // project data with shortlist
   if (dataProject) console.log("dataProject", dataProject);
-  else {
-    return null;
-  }
-  if (matchingMembers) console.log("matchingMembers", matchingMembers);
+  // if (matchingMembers) console.log("matchingMembers", matchingMembers);
 
-  if (selectedRole) console.log("selectRole", selectedRole);
+  // if (selectedRole) console.log("selectRole", selectedRole);
 
   return (
     <GridLayout>
