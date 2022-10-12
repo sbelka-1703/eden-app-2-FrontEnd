@@ -11,6 +11,7 @@ export * from "./Endorsements";
 export * from "./EndorsementsCarousel";
 export * from "./Expandable";
 export * from "./FormStepper";
+export * from "./GreenStepper";
 export * from "./LoginButton";
 export * from "./ProgressStepper";
 export * from "./ProjectChampion";
