@@ -75,6 +75,9 @@ const ProjectPage: NextPageWithLayout = () => {
 
   // project data with shortlist
   if (dataProject) console.log("dataProject", dataProject);
+  else {
+    return null;
+  }
   // if (matchingMembers) console.log("matchingMembers", matchingMembers);
 
   // if (selectedRole) console.log("selectRole", selectedRole);
@@ -84,11 +87,11 @@ const ProjectPage: NextPageWithLayout = () => {
       <GridItemThree>
         <Card shadow className="h-8/10 bg-white p-6">
           <ProjectEditSelectorCard
-            project={dataProject.findProject}
-            emoji={dataProject.findProject.emoji}
-            totalDays={dataProject.findProject.dates.kickOff}
-            currentDayCount={dataProject.findProject.dates.complition}
-            backgroundColor={dataProject.findProject.backColorEmoji}
+            project={dataProject?.findProject}
+            emoji={dataProject?.findProject?.emoji}
+            totalDays={dataProject?.findProject?.dates?.kickOff}
+            currentDayCount={dataProject?.findProject?.dates?.complition}
+            backgroundColor={dataProject?.findProject?.backColorEmoji}
           />
         </Card>
       </GridItemThree>
