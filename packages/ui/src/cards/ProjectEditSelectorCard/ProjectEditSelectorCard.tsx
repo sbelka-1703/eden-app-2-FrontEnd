@@ -14,6 +14,7 @@ export interface ProjectEditSelectorCardProps {
   emoji?: string;
   totalDays?: number;
   currentDayCount?: number;
+  backgroundColor?: string;
   onEdit?: () => void;
   onBack?: () => void;
   onSelect?: (data: any) => void;
@@ -27,6 +28,7 @@ export const ProjectEditSelectorCard = ({
   onBack,
   onEdit,
   onSelect,
+  backgroundColor,
 }: ProjectEditSelectorCardProps) => {
   if (!project) return null;
 
@@ -62,7 +64,11 @@ export const ProjectEditSelectorCard = ({
       </div>
       <div className="mt-2 flex w-full">
         <div>
-          <EmojiSelector isDisabled emoji={emoji} />
+          {emoji ? (
+            <EmojiSelector isDisabled emoji={emoji} bgColor={backgroundColor} />
+          ) : (
+            <Avatar src={`${project.champion?.discordAvatar}`} size={`md`} />
+          )}
         </div>
         <div className={`my-auto pl-4`}>
           <div className={`text-xl`}>{project.title}</div>
@@ -92,6 +98,7 @@ export const ProjectEditSelectorCard = ({
       <div className="grid grid-cols-2 overflow-hidden">
         {project.role?.map((data) => (
           <div
+            id="data?.title"
             className="shadow-cardShadow  hover:border-accentColor m-2 rounded-2xl border-[2px] border border-zinc-400 p-6"
             onClick={() => onSelectRole(data?.skills)}
           >
