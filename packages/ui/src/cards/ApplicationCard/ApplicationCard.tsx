@@ -8,10 +8,11 @@ import {
   TextBody,
   TextHeading3,
 } from "@eden/package-ui";
+import { useRouter } from "next/router";
 
 export interface ApplicationCardProps {
-  project: Project;
-  role: Maybe<RoleType>;
+  role?: Maybe<RoleType>;
+  project?: Maybe<Project>;
 }
 
 const STEPS_DATA = [
@@ -34,27 +35,24 @@ const STEPS_DATA = [
 ];
 
 export const ApplicationCard = ({ project, role }: ApplicationCardProps) => {
+  const router = useRouter();
+
   return (
     <>
-      {/* {champions?.map((item) => (
-        <button
-          key={item?.info?._id}
-          onClick={() =>
-            router.push(`/champion-board/recruit/${item?.info?._id}`)
-          }
-        > */}
-      <Card className={`mb-4 border border-gray-300 bg-white py-4`}>
+      <Card className={`mb-4 border border-gray-300 bg-white py-3`}>
         <div className="mb-4 flex  px-2">
           <div
             className="flex h-12 w-12 items-center justify-center rounded-full text-2xl"
             style={{
-              backgroundColor: project.backColorEmoji || "#FFF",
+              backgroundColor: project?.backColorEmoji || "#FFF",
             }}
           >
-            {project.emoji ? project.emoji : <Avatar size="xs" isProject />}
+            {project?.emoji ? project.emoji : <Avatar size="xs" isProject />}
           </div>
           <div className="ml-2 flex-1 text-left">
-            <TextHeading3 className="border-b">{project.title}</TextHeading3>
+            {project?.title && (
+              <TextHeading3 className="border-b">{project.title}</TextHeading3>
+            )}
             <TextBody>{role?.title}</TextBody>
           </div>
         </div>
@@ -82,13 +80,15 @@ export const ApplicationCard = ({ project, role }: ApplicationCardProps) => {
               ]}
             />
           </div>
-          <Button variant={`secondary`} radius="rounded" onClick={() => null}>
+          <Button
+            radius="rounded"
+            variant={`secondary`}
+            onClick={() => router.push("/")}
+          >
             More
           </Button>
         </div>
       </Card>
-      {/* </button>
-      ))} */}
     </>
   );
 };

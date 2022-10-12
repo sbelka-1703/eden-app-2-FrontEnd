@@ -1,9 +1,28 @@
 import { UserContext } from "@eden/package-context";
-import { AppUserSubmenuLayout, Card } from "@eden/package-ui";
+import { ApplicationCard, AppUserSubmenuLayout, Card } from "@eden/package-ui";
 import { useContext, useState } from "react";
 import { FaUserAlt, FaUserEdit } from "react-icons/fa";
 
 import type { NextPageWithLayout } from "../_app";
+
+const PHASES: { [key: number]: { type: string; title: string } } = {
+  0: {
+    type: "engaged",
+    title: "Active Projects",
+  },
+  1: {
+    type: "committed",
+    title: "Active Applications",
+  },
+  2: {
+    type: "invited",
+    title: "Invited",
+  },
+  3: {
+    type: "rejected",
+    title: "Rejected",
+  },
+};
 
 const ApplicationsPage: NextPageWithLayout = () => {
   const { currentUser } = useContext(UserContext);
@@ -32,49 +51,25 @@ const ApplicationsPage: NextPageWithLayout = () => {
     },
   ];
 
-  const engagedProjects = currentUser?.projects?.filter(
-    (project: any) => project.phase === "engaged"
-  );
-
-  console.log("engagedProjects", engagedProjects);
-
-  const committedProjects = currentUser?.projects?.filter(
-    (project: any) => project.phase === "committed"
-  );
-
-  console.log("committedProjects", committedProjects);
-
-  const invitedProjects = currentUser?.projects?.filter(
-    (project: any) => project.phase === "invited"
-  );
-
-  console.log("invitedProjects", invitedProjects);
-
-  const rejectedProjects = currentUser?.projects?.filter(
-    (project: any) => project.phase === "rejected"
-  );
-
-  console.log("invitedProjects", rejectedProjects);
-
   return (
     <AppUserSubmenuLayout submenu={submenu} activeIndex={activeIndex}>
-      <Card shadow className="h-85 bg-white p-6">
-        {activeIndex === 0 && (
-          <div className={`text-2xl font-medium text-black/80`}>
-            Active Projects
-          </div>
-        )}
-        {activeIndex === 1 && (
-          <div className={`text-2xl font-medium text-black/80`}>
-            Active Applications
-          </div>
-        )}
-        {activeIndex === 2 && (
-          <div className={`text-2xl font-medium text-black/80`}>Invited</div>
-        )}
-        {activeIndex === 3 && (
-          <div className={`text-2xl font-medium text-black/80`}>Rejected</div>
-        )}
+      <Card shadow className="bg-white p-6">
+        <div className={`text-2xl font-medium text-black/80`}>
+          {PHASES[activeIndex].title}
+        </div>
+        <div className="mt-4 grid gap-8 lg:grid-cols-3">
+          {currentUser?.projects
+            ?.filter(
+              (project: any) => project.phase === PHASES[activeIndex].type
+            )
+            .map((project, index) => (
+              <ApplicationCard
+                project={project?.info}
+                key={project?.info?._id || index}
+                role={project?.info?.role?.length ? project.info.role[0] : {}}
+              />
+            ))}
+        </div>
       </Card>
     </AppUserSubmenuLayout>
   );
