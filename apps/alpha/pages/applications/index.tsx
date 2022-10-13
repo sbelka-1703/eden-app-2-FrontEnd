@@ -56,6 +56,8 @@ const ApplicationsPage: NextPageWithLayout = () => {
     },
   ];
 
+  console.info("currentUser?.projects", currentUser?.projects);
+
   return (
     <AppUserSubmenuLayout submenu={submenu} activeIndex={activeIndex}>
       <Card shadow className="h-85 scrollbar-hide overflow-scroll bg-white p-6">

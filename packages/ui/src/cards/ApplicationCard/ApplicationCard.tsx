@@ -64,7 +64,7 @@ export const ApplicationCard = ({ project, role }: ApplicationCardProps) => {
             ⏳ {role?.hoursPerWeek}h / week
           </p>
           <p className="my-2 font-medium normal-case text-gray-400">
-            💰 $CODE {role?.budget?.token} / week
+            💰 ${role?.budget?.token} {+(role?.budget?.perHour || 0) * 7} / week
           </p>
           <p className="font-medium normal-case text-gray-400">
             🗓 1 season (4 month)
