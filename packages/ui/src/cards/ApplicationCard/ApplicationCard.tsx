@@ -37,9 +37,6 @@ const STEPS_DATA = [
 export const ApplicationCard = ({ project, role }: ApplicationCardProps) => {
   const router = useRouter();
 
-  // console.log("project", project);
-  // console.log("role", role);
-
   return (
     <>
       <Card className={`mb-4 border border-gray-300 bg-white py-3`}>
@@ -75,12 +72,10 @@ export const ApplicationCard = ({ project, role }: ApplicationCardProps) => {
           <div className="flex w-4/5">
             <SocialMediaComp
               title=""
-              links={[
-                {
-                  name: "twitter",
-                  url: "https://twitter.com/edenprotocolxyz",
-                },
-              ]}
+              links={project?.collaborationLinks?.map((item) => ({
+                name: item?.title,
+                url: item?.link,
+              }))}
             />
           </div>
           <Button
