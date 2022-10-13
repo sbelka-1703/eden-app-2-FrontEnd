@@ -9,6 +9,10 @@ import { FaDiscord } from "react-icons/fa";
 
 const menuItems = [
   {
+    name: "🏠   Home",
+    href: "/home",
+  },
+  {
     name: "🛠   Edit my profile",
     href: "/profile",
   },

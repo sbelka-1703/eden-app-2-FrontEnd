@@ -27,7 +27,7 @@ export const AppUserSubmenuLayout = ({
         <title>Eden protocol</title>
       </Head>
       <div className="bg-background flex h-screen min-w-0 flex-col lg:overflow-y-hidden">
-        <AppHeader logoLink={`/signup`} inApp />
+        <AppHeader logoLink={`/home`} inApp />
         <main className="flex flex-grow">
           {showSubmenu ? (
             <GridLayout>
