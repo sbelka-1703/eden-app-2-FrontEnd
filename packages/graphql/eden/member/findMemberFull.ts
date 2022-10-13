@@ -39,6 +39,10 @@ export const FIND_MEMBER_FULL = gql`
           emoji
           descriptionOneLine
           backColorEmoji
+          collaborationLinks {
+            title
+            link
+          }
           team {
             phase
             memberInfo {
