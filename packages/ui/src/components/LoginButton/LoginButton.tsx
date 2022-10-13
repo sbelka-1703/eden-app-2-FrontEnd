@@ -32,14 +32,6 @@ const menuItems = [
     name: "🏆  Champion Projects",
     href: "/champion-board",
   },
-  // {
-  //   name: "My Projects",
-  //   href: "/my-projects",
-  // },
-  // {
-  //   name: "Invites",
-  //   href: "/invites",
-  // },
 ];
 
 export interface ILoginButtonProps {
