@@ -154,7 +154,9 @@ const SignUpTestPage: NextPageWithLayout = () => {
   );
 };
 
-SignUpTestPage.getLayout = (page) => <AppUserLayout>{page}</AppUserLayout>;
+SignUpTestPage.getLayout = (page) => (
+  <AppUserLayout logoLink={`/home`}>{page}</AppUserLayout>
+);
 
 export default SignUpTestPage;
 

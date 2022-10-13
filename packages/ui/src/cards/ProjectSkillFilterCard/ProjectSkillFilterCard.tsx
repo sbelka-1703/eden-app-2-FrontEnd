@@ -89,7 +89,7 @@ export const ProjectSkillFilterCard: React.FC<ProjectSkillFilterCardProps> = ({
   };
 
   return (
-    <Card className="z-0 bg-white p-4">
+    <Card className="z-0 w-full bg-white p-4">
       <div>
         <div>
           <span className="text-base font-bold capitalize tracking-wide text-slate-300">
