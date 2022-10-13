@@ -17,7 +17,9 @@ export const ProjectChampionList = () => {
   );
 
   return (
-    <>
+    <div
+      className={`h-85 scrollbar-hide m-auto flex flex-col overflow-scroll lg:w-1/2`}
+    >
       {champions?.map((item) => (
         <button
           key={item?.info?._id}
@@ -25,7 +27,7 @@ export const ProjectChampionList = () => {
             router.push(`/champion-board/recruit/${item?.info?._id}`)
           }
         >
-          <Card className={`bg-gray-50 p-6 `}>
+          <Card className={`my-4 bg-gray-50 p-6`}>
             <div className="flex items-center">
               <div
                 className="flex h-24 w-24 items-center justify-center rounded-full text-5xl"
@@ -39,8 +41,8 @@ export const ProjectChampionList = () => {
                 <TextHeading3 className="mb-2">
                   {item?.info?.title}
                 </TextHeading3>
-                <TextBody className="mb-2 flex">
-                  New applicants:
+                <div className={`flex`}>
+                  <TextBody className="mb-2 flex">New applicants:</TextBody>
                   <NumberCircle
                     value={
                       item?.info?.team?.filter(
@@ -50,20 +52,20 @@ export const ProjectChampionList = () => {
                     color="#88A9FF"
                     className="ml-2 inline-block h-7 w-7 font-semibold text-white"
                   />
-                </TextBody>
-                <TextBody className="flex">
-                  New matches:
+                </div>
+                <div className={`flex`}>
+                  <TextBody className="flex">New matches:</TextBody>
                   <NumberCircle
                     value={10}
                     color="#88A9FF"
                     className="ml-2 inline-block h-7 w-7 font-semibold text-white"
                   />
-                </TextBody>
+                </div>
               </div>
             </div>
           </Card>
         </button>
       ))}
-    </>
+    </div>
   );
 };

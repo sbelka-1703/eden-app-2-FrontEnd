@@ -49,6 +49,15 @@ export const FIND_MEMBER_FULL = gql`
             _id
             title
             description
+            dateRangeStart
+            dateRangeEnd
+            hoursPerWeek
+            budget {
+              totalBudget
+              token
+              perHour
+              perMonth
+            }
           }
           dates {
             kickOff

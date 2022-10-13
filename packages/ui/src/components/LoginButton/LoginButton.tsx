@@ -9,6 +9,10 @@ import { FaDiscord } from "react-icons/fa";
 
 const menuItems = [
   {
+    name: "🏠   Home",
+    href: "/home",
+  },
+  {
     name: "🛠   Edit my profile",
     href: "/profile",
   },
@@ -28,14 +32,6 @@ const menuItems = [
     name: "🏆  Champion Projects",
     href: "/champion-board",
   },
-  // {
-  //   name: "My Projects",
-  //   href: "/my-projects",
-  // },
-  // {
-  //   name: "Invites",
-  //   href: "/invites",
-  // },
 ];
 
 export interface ILoginButtonProps {

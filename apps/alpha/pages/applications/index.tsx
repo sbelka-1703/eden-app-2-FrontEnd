@@ -1,17 +1,22 @@
 import { UserContext } from "@eden/package-context";
 import { ApplicationCard, AppUserSubmenuLayout, Card } from "@eden/package-ui";
 import { useContext, useState } from "react";
-import { FaUserAlt, FaUserEdit } from "react-icons/fa";
+import {
+  GrDocumentExcel,
+  GrDocumentTime,
+  GrDocumentUser,
+} from "react-icons/gr";
+import { VscFolderActive } from "react-icons/vsc";
 
 import type { NextPageWithLayout } from "../_app";
 
 const PHASES: { [key: number]: { type: string; title: string } } = {
   0: {
-    type: "engaged",
+    type: "committed",
     title: "Active Projects",
   },
   1: {
-    type: "committed",
+    type: "engaged",
     title: "Active Applications",
   },
   2: {
@@ -30,30 +35,30 @@ const ApplicationsPage: NextPageWithLayout = () => {
 
   const submenu = [
     {
-      Icon: <FaUserAlt size={20} />,
+      Icon: <VscFolderActive size={25} />,
       FunctionName: "Active projects",
       onFunctionCallback: () => setActiveIndex(0),
     },
     {
-      Icon: <FaUserEdit size={25} />,
+      Icon: <GrDocumentTime size={25} />,
       FunctionName: "Active applications",
       onFunctionCallback: () => setActiveIndex(1),
     },
     {
-      Icon: <FaUserAlt size={20} />,
-      FunctionName: "invited",
+      Icon: <GrDocumentUser size={25} />,
+      FunctionName: "Invited",
       onFunctionCallback: () => setActiveIndex(2),
     },
     {
-      Icon: <FaUserEdit size={25} />,
-      FunctionName: "rejected",
+      Icon: <GrDocumentExcel size={25} />,
+      FunctionName: "Rejected",
       onFunctionCallback: () => setActiveIndex(3),
     },
   ];
 
   return (
     <AppUserSubmenuLayout submenu={submenu} activeIndex={activeIndex}>
-      <Card shadow className="bg-white p-6">
+      <Card shadow className="h-85 scrollbar-hide overflow-scroll bg-white p-6">
         <div className={`text-2xl font-medium text-black/80`}>
           {PHASES[activeIndex].title}
         </div>
