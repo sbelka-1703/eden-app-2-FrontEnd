@@ -37,9 +37,6 @@ const STEPS_DATA = [
 export const ApplicationCard = ({ project, role }: ApplicationCardProps) => {
   const router = useRouter();
 
-  // console.log("project", project);
-  // console.log("role", role);
-
   return (
     <>
       <Card className={`mb-4 border border-gray-300 bg-white py-3`}>
@@ -64,7 +61,7 @@ export const ApplicationCard = ({ project, role }: ApplicationCardProps) => {
             ⏳ {role?.hoursPerWeek}h / week
           </p>
           <p className="my-2 font-medium normal-case text-gray-400">
-            💰 $CODE {role?.budget?.token} / week
+            💰 ${role?.budget?.token} {+(role?.budget?.perHour || 0) * 7} / week
           </p>
           <p className="font-medium normal-case text-gray-400">
             🗓 1 season (4 month)
@@ -75,12 +72,10 @@ export const ApplicationCard = ({ project, role }: ApplicationCardProps) => {
           <div className="flex w-4/5">
             <SocialMediaComp
               title=""
-              links={[
-                {
-                  name: "twitter",
-                  url: "https://twitter.com/edenprotocolxyz",
-                },
-              ]}
+              links={project?.collaborationLinks?.map((item) => ({
+                name: item?.title,
+                url: item?.link,
+              }))}
             />
           </div>
           <Button
