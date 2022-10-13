@@ -13,5 +13,5 @@ export const getRoleTypeMock = () => ({
   keyRosponsibilities: faker.lorem.sentences(4),
   openPositions: faker.datatype.number({ min: 1, max: 10, precision: 1 }),
   skills: getSkills(5),
-  tittle: project.title,
+  title: project.title,
 });
