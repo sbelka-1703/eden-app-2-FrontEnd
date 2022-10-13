@@ -37,6 +37,9 @@ const STEPS_DATA = [
 export const ApplicationCard = ({ project, role }: ApplicationCardProps) => {
   const router = useRouter();
 
+  // console.log("project", project);
+  // console.log("role", role);
+
   return (
     <>
       <Card className={`mb-4 border border-gray-300 bg-white py-3`}>
