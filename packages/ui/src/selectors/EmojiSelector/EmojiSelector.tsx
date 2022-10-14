@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 export interface IEmojiSelectorProps {
   isDisabled?: boolean;
-  // bgColor?: string;
+  bgColor?: string;
   emoji?: string;
   size?: number;
   // eslint-disable-next-line no-unused-vars
@@ -12,6 +12,7 @@ export interface IEmojiSelectorProps {
 export const EmojiSelector = ({
   isDisabled,
   emoji = "👋",
+  bgColor = "#e8e8e8",
   onSelection,
   size = 60,
 }: IEmojiSelectorProps) => {
@@ -35,12 +36,13 @@ export const EmojiSelector = ({
     <div className="flex flex-row">
       <div>
         <div
-          className={`flex cursor-pointer items-center justify-center rounded-full bg-[#ffdce9]`}
+          className={`flex cursor-pointer items-center justify-center rounded-full`}
           onClick={() => onShowEmojiSelector()}
           style={{
             width: size + "px",
             height: size + "px",
             fontSize: Math.ceil(size) / 2 + "px",
+            backgroundColor: bgColor,
           }}
         >
           <span className="leading-none	">

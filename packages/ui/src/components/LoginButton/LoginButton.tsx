@@ -9,32 +9,28 @@ import { FaDiscord } from "react-icons/fa";
 
 const menuItems = [
   {
+    name: "🏠   Home",
+    href: "/home",
+  },
+  {
     name: "🛠   Edit my profile",
     href: "/profile",
   },
   {
     name: "⭐️  Find a project",
-    href: "/projects",
+    href: "/signup",
   },
   {
     name: "🎯  Active applications",
     href: "/applications",
   },
   {
-    name: "My Projects",
-    href: "/my-projects",
-  },
-  {
-    name: "Invites",
-    href: "/invites",
-  },
-  {
-    name: "Champion Projects",
-    href: "/champion-board",
-  },
-  {
-    name: "Launch A Project",
+    name: "🚀  Launch A Project",
     href: "/launch",
+  },
+  {
+    name: "🏆  Champion Projects",
+    href: "/champion-board",
   },
 ];
 
@@ -125,7 +121,7 @@ export const LoginButton = ({ inApp }: ILoginButtonProps) => {
                       active ? "bg-zinc-700 text-white" : "text-gray-900"
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                   >
-                    Log Out
+                    ⛔ Log Out
                   </button>
                 )}
               </Menu.Item>

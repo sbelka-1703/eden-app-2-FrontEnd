@@ -54,7 +54,12 @@ export const ApplyContainer = ({ project }: ApplyContainerProps) => {
             Magic Application
           </div>
           <div className={`mt-8 flex`}>
-            <Avatar src={``} />
+            <Avatar
+              src={``}
+              isProject
+              emoji={project?.emoji as string}
+              backColorEmoji={project?.backColorEmoji as string}
+            />
             <div className={`pl-8`}>
               <div className={`text-darkGreen text-2xl font-bold`}>
                 {project.title}

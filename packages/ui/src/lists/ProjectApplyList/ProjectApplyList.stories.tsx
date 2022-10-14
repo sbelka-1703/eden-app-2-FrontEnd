@@ -1,5 +1,4 @@
-import { ProjectMemberType } from "@eden/package-graphql/generated";
-import { getProjectArray } from "@eden/package-mock";
+import { getMember } from "@eden/package-mock";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { ProjectApplyList } from "./ProjectApplyList";
@@ -16,5 +15,5 @@ const Template: ComponentStory<typeof ProjectApplyList> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  projects: getProjectArray(9) as ProjectMemberType[],
+  projects: getMember().projects,
 };

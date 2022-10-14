@@ -28,7 +28,6 @@ export const ShortlistSideContainerTest = ({
   const {
     project,
     dispatchProject,
-    projectEmoji,
     setOpenModal,
     selectedRole,
     setSelectedRole,
@@ -106,7 +105,7 @@ export const ShortlistSideContainerTest = ({
     <>
       <ProjectLayoutCard
         project={project}
-        emoji={projectEmoji}
+        emoji={project?.emoji || undefined}
         handleAddRole={() => {
           setOpenModal(LaunchProjectModal.SKILLS_CATEGORY);
           setSelectedMemberId(null);
@@ -125,7 +124,7 @@ export const ShortlistSideContainerTest = ({
         showRoles
       />
       {selectedMemberId &&
-        (!!matchingMembers.length ? (
+        (!!matchingMembers?.length ? (
           <>
             {matchingMembers.map((member: any, index) => (
               <div
@@ -166,7 +165,7 @@ export const ShortlistSideContainerTest = ({
                   Previous
                 </span>
               )}
-              {!!matchingMembers.length && (
+              {!!matchingMembers?.length && (
                 <span
                   className="text-soilGray group cursor-pointer hover:text-slate-400"
                   onClick={() => setMatchMembersPage(matchMembersPage + 1)}

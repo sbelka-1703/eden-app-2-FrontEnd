@@ -1,4 +1,4 @@
-import { getMember, getSkills } from "@eden/package-mock";
+import { getMatchingMember, getMember, getSkills } from "@eden/package-mock";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { MemberMatchCard } from "./MemberMatchCard";
@@ -18,4 +18,5 @@ Default.args = {
   requiredSkills: getSkills(12),
   percentage: "81",
   member: getMember(),
+  matchedMember: getMatchingMember(5),
 };

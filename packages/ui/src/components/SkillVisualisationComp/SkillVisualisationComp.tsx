@@ -49,7 +49,7 @@ export const SkillVisualisationComp: React.FC<SkillVisualisationCompProps> = ({
 
   return (
     <div>
-      <div className="flex flex-row justify-between">
+      <div className="flex flex-row flex-wrap justify-between">
         <div>
           <CheckBox
             name="senior"

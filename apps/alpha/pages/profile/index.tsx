@@ -1,14 +1,31 @@
 import { AppUserSubmenuLayout, ProfileContainer } from "@eden/package-ui";
+import { useState } from "react";
+import { FaUserAlt, FaUserEdit } from "react-icons/fa";
 
 import type { NextPageWithLayout } from "../_app";
 
 const ProfilePage: NextPageWithLayout = () => {
-  return <ProfileContainer />;
-};
+  const [activeIndex, setActiveIndex] = useState(0);
+  const submenu = [
+    {
+      Icon: <FaUserAlt size={20} />,
+      FunctionName: "My Profile",
+      onFunctionCallback: () => setActiveIndex(0),
+    },
+    {
+      Icon: <FaUserEdit size={25} />,
+      FunctionName: "Edit Profile",
+      onFunctionCallback: () => setActiveIndex(1),
+    },
+  ];
 
-ProfilePage.getLayout = (page) => (
-  <AppUserSubmenuLayout>{page}</AppUserSubmenuLayout>
-);
+  return (
+    <AppUserSubmenuLayout submenu={submenu} activeIndex={activeIndex}>
+      {activeIndex === 0 && <ProfileContainer />}
+      {activeIndex === 1 && <div>edit user container here</div>}
+    </AppUserSubmenuLayout>
+  );
+};
 
 export default ProfilePage;
 

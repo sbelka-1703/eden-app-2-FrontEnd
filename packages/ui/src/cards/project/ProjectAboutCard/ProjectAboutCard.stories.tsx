@@ -16,6 +16,4 @@ const Template: ComponentStory<typeof ProjectAboutCard> = (args) => (
 export const Default = Template.bind({});
 Default.args = {
   project: getProject(),
-  projectOneLiner: "Find and be found for opportunity",
-  emoji: "🌱",
 };

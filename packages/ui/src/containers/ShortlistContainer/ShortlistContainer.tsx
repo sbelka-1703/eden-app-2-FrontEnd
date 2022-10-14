@@ -11,9 +11,9 @@ import {
 } from "@eden/package-ui";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import { useContext } from "react";
-
+import { MatchMembersToSkillOutput } from "@eden/package-graphql/generated";
 export interface IShortlistContainerProps {
-  matchingMembers: any[];
+  matchingMembers: MatchMembersToSkillOutput[] | any;
   overflow?: boolean;
 }
 
@@ -30,7 +30,6 @@ export const ShortlistContainer = ({
     setMatchMembersPage,
     setOpenModal,
   } = useContext(LaunchProjectContext);
-
   function handleSelectMember(member: any, percentage: number) {
     setSelectedMemberPercentage(percentage);
     setSelectedMemberId(member._id);
@@ -92,13 +91,30 @@ export const ShortlistContainer = ({
                       member={_member.member}
                       percentage={_member.matchPercentage.totalPercentage}
                       requiredSkills={selectedRole.skills}
+                      matchedMember={_member}
                     />
                   ))}
                 </div>
                 {overflow && (
-                  <TextHeading3 className="mb-4">
-                    There are no more matching candidates
-                  </TextHeading3>
+                  <section className="flex">
+                    <TextHeading3 className="mb-4">
+                      There are no more matching candidates
+                    </TextHeading3>
+                    {project?.team?.some(
+                      (member) => member?.phase === null
+                    ) && (
+                      <div className="ml-auto">
+                        <Button
+                          variant="primary"
+                          onClick={() =>
+                            setOpenModal(LaunchProjectModal.SHORTLISTED_PREVIEW)
+                          }
+                        >
+                          Invite to apply
+                        </Button>
+                      </div>
+                    )}
+                  </section>
                 )}
                 <section className="flex justify-evenly">
                   {!!matchMembersPage && matchMembersPage > 0 && (

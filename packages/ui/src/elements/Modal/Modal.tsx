@@ -23,12 +23,19 @@ export const Modal = ({
     setIsOpen(open);
   }, [open]);
 
+  const onCloseModal = () => {
+    if (onClose) onClose();
+  };
+
   return (
     <Transition show={isOpen} as={Fragment}>
       <Dialog
         as="div"
         className={"fixed inset-0 z-10 overflow-y-auto"}
         onClose={() => {
+          if (onClose) {
+            onCloseModal();
+          }
           if (closeOnEsc) setIsOpen(false);
           onClose!();
         }}

@@ -39,10 +39,29 @@ export const FIND_MEMBER_FULL = gql`
           emoji
           descriptionOneLine
           backColorEmoji
+          collaborationLinks {
+            title
+            link
+          }
+          team {
+            phase
+            memberInfo {
+              _id
+            }
+          }
           role {
             _id
             title
             description
+            dateRangeStart
+            dateRangeEnd
+            hoursPerWeek
+            budget {
+              totalBudget
+              token
+              perHour
+              perMonth
+            }
           }
           dates {
             kickOff

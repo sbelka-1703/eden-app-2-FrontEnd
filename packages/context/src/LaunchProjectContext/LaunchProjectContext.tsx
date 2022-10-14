@@ -9,8 +9,6 @@ import { LaunchProjectModal, ProjectAction } from "./LaunchProjectProvider";
 export interface LaunchProjectContextType {
   project?: Project;
   dispatchProject?: React.Dispatch<ProjectAction>;
-  projectEmoji?: string;
-  setProjectEmoji?: any;
   openModal?: LaunchProjectModal | null;
   setOpenModal?: any;
   selectedRole?: RoleType | null;

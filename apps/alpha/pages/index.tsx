@@ -64,12 +64,12 @@ export default function Web() {
 
                 <div className="mt-10 sm:mt-12">
                   <div className="sm:flex">
-                    <div className="mt-3 sm:mt-0">
+                    <div className="mt-3 ml-8 sm:mt-0">
                       <Button
                         variant={`primary`}
-                        onClick={() => router.push(`/signup`)}
+                        onClick={() => router.push(`/home`)}
                       >
-                        🚀 Find Projects
+                        🚀 app
                       </Button>
                     </div>
                   </div>

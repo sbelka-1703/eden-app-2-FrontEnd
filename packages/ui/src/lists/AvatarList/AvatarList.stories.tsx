@@ -5,7 +5,7 @@ import { AvatarProps } from "../../elements";
 import { AvatarList } from "./AvatarList";
 
 export default {
-  title: "Components/AvatarList",
+  title: "Lists/AvatarList",
   component: AvatarList,
   argTypes: {},
 } as ComponentMeta<typeof AvatarList>;

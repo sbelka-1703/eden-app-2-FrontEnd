@@ -1,3 +1,4 @@
+import { getRoleTypeMock } from "@eden/package-mock";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { RoleCard } from "./RoleCard";
@@ -14,11 +15,6 @@ const Template: ComponentStory<typeof RoleCard> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
+  role: getRoleTypeMock(),
   percentage: 89,
-  jds: [
-    "Minimum two years related experience",
-    "Experience with Docker",
-    "Familiarity with agile methodologies",
-  ],
-  openSeats: "02",
 };

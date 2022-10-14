@@ -41,8 +41,11 @@ const MATCH_SKILLS_TO_PROJECTS = gql`
         }
         projectRole {
           _id
-          description
           title
+          description
+          openPositions
+          keyRosponsibilities
+          hoursPerWeek
           skills {
             level
             skillData {
@@ -69,6 +72,7 @@ const MATCH_SKILLS_TO_PROJECTS = gql`
 const SignUpTestPage: NextPageWithLayout = () => {
   const { currentUser } = useContext(UserContext);
   const [selectProject, setSelectProject] = useState("");
+  const [viewProject, setViewProject] = useState(false);
 
   const { data: dataRoles } = useQuery(FIND_ROLES, {
     variables: {
@@ -87,7 +91,7 @@ const SignUpTestPage: NextPageWithLayout = () => {
       variables: {
         fields: {
           skillsID: filterskillsfromcurrentuser,
-          limit: 20,
+          limit: 40,
           page: 0,
         },
       },
@@ -102,18 +106,19 @@ const SignUpTestPage: NextPageWithLayout = () => {
   //     dataMatchedProjects.matchSkillsToProjects
   //   );
 
-  const { data: dataProject, refetch: refetchProject } = useQuery(
-    FIND_PROJECT,
-    {
-      variables: {
-        fields: {
-          _id: selectProject,
-        },
+  const {
+    data: dataProject,
+    loading: loadingProject,
+    refetch: refetchProject,
+  } = useQuery(FIND_PROJECT, {
+    variables: {
+      fields: {
+        _id: selectProject,
       },
-      skip: !selectProject,
-      context: { serviceName: "soilservice" },
-    }
-  );
+    },
+    skip: !selectProject,
+    context: { serviceName: "soilservice" },
+  });
 
   // if (dataProject) console.log("dataProject", dataProject);
 
@@ -127,8 +132,8 @@ const SignUpTestPage: NextPageWithLayout = () => {
         <GridItemThree>
           <SignUpContainerSide
             matchedProjects={dataMatchedProjects?.matchSkillsToProjects}
-            project={dataProject?.findProject}
             onSelectedProject={(val) => setSelectProject(val)}
+            viewProject={viewProject}
           />
         </GridItemThree>
         <GridItemNine>
@@ -139,6 +144,9 @@ const SignUpTestPage: NextPageWithLayout = () => {
             refetchMatch={refetchMatch}
             refetchProject={refetchProject}
             onSelectedProject={(val) => setSelectProject(val)}
+            loadingProject={loadingProject}
+            viewProject={viewProject}
+            onViewProject={(val) => setViewProject(val)}
           />
         </GridItemNine>
       </GridLayout>
@@ -146,7 +154,9 @@ const SignUpTestPage: NextPageWithLayout = () => {
   );
 };
 
-SignUpTestPage.getLayout = (page) => <AppUserLayout>{page}</AppUserLayout>;
+SignUpTestPage.getLayout = (page) => (
+  <AppUserLayout logoLink={`/home`}>{page}</AppUserLayout>
+);
 
 export default SignUpTestPage;
 

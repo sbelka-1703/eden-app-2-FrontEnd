@@ -1,48 +1,84 @@
 import { UserContext } from "@eden/package-context";
-import { AppUserSubmenuLayout, Card } from "@eden/package-ui";
-import { useContext } from "react";
+import { ApplicationCard, AppUserSubmenuLayout, Card } from "@eden/package-ui";
+import { useContext, useState } from "react";
+import {
+  GrDocumentExcel,
+  GrDocumentTime,
+  GrDocumentUser,
+} from "react-icons/gr";
+import { VscFolderActive } from "react-icons/vsc";
 
 import type { NextPageWithLayout } from "../_app";
 
-const ApplicationsPage: NextPageWithLayout = () => {
-  const { currentUser } = useContext(UserContext);
-
-  const engagedProjects = currentUser?.projects?.filter(
-    (project: any) => project.phase === "engaged"
-  );
-
-  console.log("engagedProjects", engagedProjects);
-
-  const committedProjects = currentUser?.projects?.filter(
-    (project: any) => project.phase === "committed"
-  );
-
-  console.log("committedProjects", committedProjects);
-
-  const invitedProjects = currentUser?.projects?.filter(
-    (project: any) => project.phase === "invited"
-  );
-
-  console.log("invitedProjects", invitedProjects);
-
-  const rejectedProjects = currentUser?.projects?.filter(
-    (project: any) => project.phase === "rejected"
-  );
-
-  console.log("invitedProjects", rejectedProjects);
-
-  return (
-    <Card shadow className="h-8/10 bg-white p-6">
-      <div className={`text-2xl font-medium text-black/80`}>
-        Active Applications
-      </div>
-    </Card>
-  );
+const PHASES: { [key: number]: { type: string; title: string } } = {
+  0: {
+    type: "committed",
+    title: "Active Projects",
+  },
+  1: {
+    type: "engaged",
+    title: "Active Applications",
+  },
+  2: {
+    type: "invited",
+    title: "Invited",
+  },
+  3: {
+    type: "rejected",
+    title: "Rejected",
+  },
 };
 
-ApplicationsPage.getLayout = (page) => (
-  <AppUserSubmenuLayout>{page}</AppUserSubmenuLayout>
-);
+const ApplicationsPage: NextPageWithLayout = () => {
+  const { currentUser } = useContext(UserContext);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const submenu = [
+    {
+      Icon: <VscFolderActive size={25} />,
+      FunctionName: "Active projects",
+      onFunctionCallback: () => setActiveIndex(0),
+    },
+    {
+      Icon: <GrDocumentTime size={25} />,
+      FunctionName: "Active applications",
+      onFunctionCallback: () => setActiveIndex(1),
+    },
+    {
+      Icon: <GrDocumentUser size={25} />,
+      FunctionName: "Invited",
+      onFunctionCallback: () => setActiveIndex(2),
+    },
+    {
+      Icon: <GrDocumentExcel size={25} />,
+      FunctionName: "Rejected",
+      onFunctionCallback: () => setActiveIndex(3),
+    },
+  ];
+
+  return (
+    <AppUserSubmenuLayout submenu={submenu} activeIndex={activeIndex}>
+      <Card shadow className="h-85 scrollbar-hide overflow-scroll bg-white p-6">
+        <div className={`text-2xl font-medium text-black/80`}>
+          {PHASES[activeIndex].title}
+        </div>
+        <div className="mt-4 grid gap-8 lg:grid-cols-3">
+          {currentUser?.projects
+            ?.filter(
+              (project: any) => project.phase === PHASES[activeIndex].type
+            )
+            .map((project, index) => (
+              <ApplicationCard
+                project={project?.info}
+                key={project?.info?._id || index}
+                role={project?.info?.role?.length ? project.info.role[0] : {}}
+              />
+            ))}
+        </div>
+      </Card>
+    </AppUserSubmenuLayout>
+  );
+};
 
 export default ApplicationsPage;
 
