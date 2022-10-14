@@ -6,7 +6,6 @@ import { BsArrowRight } from "react-icons/bs";
 export interface IProjectInfoProps {
   project?: Project;
   avatarSrc?: string;
-  projectSubTitle?: string;
   isFavoriteButton?: boolean;
   isRoleView?: boolean;
   submitting?: boolean;
@@ -18,7 +17,6 @@ export interface IProjectInfoProps {
 export const ProjectInfo = ({
   project,
   avatarSrc,
-  projectSubTitle,
   isFavoriteButton,
   isRoleView,
   submitting,
@@ -31,7 +29,13 @@ export const ProjectInfo = ({
       <div className="p-2">
         <div className="flex flex-row content-center items-center justify-start">
           <div>
-            <Avatar size="lg" src={avatarSrc} isProject />
+            <Avatar
+              size="lg"
+              src={avatarSrc}
+              isProject
+              emoji={project?.emoji as string}
+              backColorEmoji={project?.backColorEmoji as string}
+            />
           </div>
           <div className="ml-6">
             <div
@@ -39,7 +43,9 @@ export const ProjectInfo = ({
             >
               {project?.title}
             </div>
-            <div className={`text-lg text-neutral-400`}>{projectSubTitle}</div>
+            <div className={`text-lg text-neutral-400`}>
+              {project?.descriptionOneLine}
+            </div>
           </div>
         </div>
         <div className="mt-6">

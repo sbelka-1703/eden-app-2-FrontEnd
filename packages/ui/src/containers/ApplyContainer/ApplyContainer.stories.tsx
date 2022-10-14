@@ -1,4 +1,4 @@
-import { faker } from "@faker-js/faker";
+import { getProject } from "@eden/package-mock";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { ApplyContainer } from "./ApplyContainer";
@@ -15,8 +15,5 @@ const Template: ComponentStory<typeof ApplyContainer> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  project: {
-    title: faker.company.name(),
-    description: faker.company.catchPhrase(),
-  },
+  project: getProject(),
 };
