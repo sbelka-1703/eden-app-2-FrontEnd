@@ -1,7 +1,5 @@
 import { faker } from "@faker-js/faker";
 
-import { getSkills } from "./MembersMock";
-
 export const getRoleTypeMock = () => ({
   id: String(faker.random.numeric(5)),
   archive: faker.datatype.boolean(),
