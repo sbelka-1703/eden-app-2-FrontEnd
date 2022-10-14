@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { SkillList } from "./SkillList";
 
 export default {
-  title: "Components/SkillList",
+  title: "Lists/SkillList",
   component: SkillList,
   argTypes: {},
 } as ComponentMeta<typeof SkillList>;
