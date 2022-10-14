@@ -41,13 +41,13 @@ export const ApplicationCard = ({ project, role }: ApplicationCardProps) => {
     <>
       <Card className={`mb-4 border border-gray-300 bg-white py-3`}>
         <div className="mb-4 flex  px-2">
-          <div
-            className="flex h-12 w-12 items-center justify-center rounded-full text-2xl"
-            style={{
-              backgroundColor: project?.backColorEmoji || "#FFF",
-            }}
-          >
-            {project?.emoji ? project.emoji : <Avatar size="xs" isProject />}
+          <div className="flex h-12 w-12 items-center justify-center">
+            <Avatar
+              size="xs"
+              isProject
+              emoji={project?.emoji as string}
+              backColorEmoji={project?.backColorEmoji as string}
+            />
           </div>
           <div className="ml-2 flex-1 text-left">
             {project?.title && (
