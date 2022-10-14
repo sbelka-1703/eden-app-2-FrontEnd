@@ -1,5 +1,4 @@
 export * from "./AvailabilityComp";
-export * from "./AvatarList";
 export * from "./BioComponent";
 export * from "./CalendarComp";
 export * from "./CalendarComp";
@@ -17,9 +16,7 @@ export * from "./ProgressStepper";
 export * from "./ProjectChampion";
 export * from "./ProjectInfo";
 export * from "./ReadMoreComp";
-export * from "./RoleList";
 export * from "./SearchSkill";
-export * from "./SkillList";
 export * from "./SkillVisualisationComp";
 export * from "./SocialMediaComponent";
 export * from "./SocialMediaInput";

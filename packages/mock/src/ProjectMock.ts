@@ -37,6 +37,11 @@ export const getProjectSkills = (total: number) =>
 
 export const project: Project = {
   _id: String(faker.random.numeric(5)),
+  title: faker.name.firstName(),
+  description: faker.lorem.sentences(5),
+  descriptionOneLine: faker.lorem.sentences(1),
+  emoji: faker.helpers.arrayElement(["🚀", "👨‍🚀", "👩‍🚀"]),
+  backColorEmoji: faker.helpers.arrayElement(["#FFD700", "#FFA500", "#FF8C00"]),
   budget: {
     perHour: faker.finance.amount(0, 100, 2),
     token: faker.finance.amount(0, 100, 2),
@@ -61,7 +66,6 @@ export const project: Project = {
     complition: "1662161995158",
     kickOff: "1662161995158",
   },
-  description: faker.lorem.sentences(5),
   team: randomTeamType(),
   // eslint-disable-next-line camelcase
   garden_teams: randomTeam(),
@@ -86,7 +90,6 @@ export const project: Project = {
     },
   ],
   serverID: [faker.internet.url(), faker.internet.url(), faker.internet.url()],
-  title: faker.name.firstName(),
   __typename: "Project",
 };
 

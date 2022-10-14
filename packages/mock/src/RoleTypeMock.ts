@@ -14,4 +14,5 @@ export const getRoleTypeMock = () => ({
   openPositions: faker.datatype.number({ min: 1, max: 10, precision: 1 }),
   skills: getSkills(5),
   title: project.title,
+  hoursPerWeek: faker.datatype.number({ min: 1, max: 40, precision: 1 }),
 });

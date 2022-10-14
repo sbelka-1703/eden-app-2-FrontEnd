@@ -3,23 +3,22 @@ import { Card, ProjectChampion, ReadMore } from "@eden/package-ui";
 import { useRouter } from "next/router";
 export interface ProjectAboutCardProps {
   project?: Project;
-  projectOneLiner?: string;
-  emoji?: any;
 }
 
-export const ProjectAboutCard = ({
-  project,
-  projectOneLiner,
-  emoji,
-}: ProjectAboutCardProps) => {
+export const ProjectAboutCard = ({ project }: ProjectAboutCardProps) => {
   const router = useRouter();
 
   return (
     <Card shadow className="bg-white p-0">
       <div className="flex flex-col justify-between p-4">
         <div className="border-b pb-3">
-          <div className="bg-soilTurquoise w-fit rounded-xl p-4 text-5xl">
-            {emoji}
+          <div
+            className="w-fit rounded-xl p-4 text-5xl"
+            style={{
+              backgroundColor: project?.backColorEmoji as string,
+            }}
+          >
+            {project?.emoji}
           </div>
           <div className={`mt-6 w-full`}>
             <div className="flex h-full">
@@ -28,7 +27,7 @@ export const ProjectAboutCard = ({
                   {project?.title}
                 </div>
                 <div className={`text-base text-zinc-400`}>
-                  {projectOneLiner}
+                  {project?.descriptionOneLine}
                 </div>
               </div>
             </div>

@@ -29,7 +29,13 @@ export const ProjectCardSmall = ({
     <Card shadow focused={focused} className={`w-full bg-white p-3`}>
       <div className="flex w-full">
         <div>
-          <Avatar src={avatar} size={`sm`} isProject />
+          <Avatar
+            src={avatar}
+            size={`sm`}
+            isProject
+            emoji={project?.emoji as string}
+            backColorEmoji={project?.backColorEmoji as string}
+          />
         </div>
         <div className={`my-auto pl-4`}>
           <div className={`text-xl`}>{project.title}</div>

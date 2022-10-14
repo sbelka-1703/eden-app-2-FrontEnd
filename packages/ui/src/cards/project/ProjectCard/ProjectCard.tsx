@@ -131,7 +131,13 @@ export const ProjectCard = ({
       <Card border focused={focused} className="px-4 py-4">
         <div className="flex justify-between">
           <div>
-            <Avatar src={avatar} size="md" isProject />
+            <Avatar
+              src={avatar}
+              size="md"
+              isProject
+              emoji={project?.emoji as string}
+              backColorEmoji={project?.backColorEmoji as string}
+            />
           </div>
           <div className={`w-full pl-4`}>
             <div className="flex h-full">
