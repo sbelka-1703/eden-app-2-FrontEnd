@@ -371,11 +371,11 @@ export const ApplyByRoleContainer = ({
                 <div className={`absolute bottom-8 flex w-full justify-center`}>
                   <Button
                     onClick={() => {
-                      router.push(`/projects`);
+                      router.push(`/home`);
                     }}
                     disabled={submitting}
                   >
-                    Explore Projects
+                    Home
                   </Button>
                 </div>
               </div>
