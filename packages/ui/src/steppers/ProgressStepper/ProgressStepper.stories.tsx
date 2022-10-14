@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { ProgressStepper } from "./ProgressStepper";
 
 export default {
-  title: "Components/ProgressStepper",
+  title: "Steppers/ProgressStepper",
   component: ProgressStepper,
   argTypes: {},
 } as ComponentMeta<typeof ProgressStepper>;
