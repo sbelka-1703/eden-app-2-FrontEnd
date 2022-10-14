@@ -4,5 +4,8 @@ export * from "./RoleDescriptionModal";
 export * from "./RoleModalContainer";
 export * from "./SavingProjectModal";
 export * from "./ShortlistMemeberModal";
+export * from "./SkillsCategoryModal";
 export * from "./SkillsModalContainer";
+export * from "./SkillsOnCategoryModal";
+export * from "./SkillsSubcategoryModal";
 export * from "./SocialMediaModel";

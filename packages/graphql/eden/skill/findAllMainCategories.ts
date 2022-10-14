@@ -5,6 +5,10 @@ export const FIND_ALL_MAIN_CATEGORIES = gql`
     findSkillCategories(fields: {}) {
       _id
       name
+      subCategorySkill {
+        _id
+        name
+      }
     }
   }
 `;

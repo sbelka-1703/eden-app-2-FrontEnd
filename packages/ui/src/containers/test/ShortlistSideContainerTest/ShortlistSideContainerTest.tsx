@@ -108,7 +108,7 @@ export const ShortlistSideContainerTest = ({
         project={project}
         emoji={projectEmoji}
         handleAddRole={() => {
-          setOpenModal(LaunchProjectModal.ROLE);
+          setOpenModal(LaunchProjectModal.SKILLS_CATEGORY);
           setSelectedMemberId(null);
           setSelectedMemberPercentage(null);
         }}
