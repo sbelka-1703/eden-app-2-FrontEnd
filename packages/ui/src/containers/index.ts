@@ -3,6 +3,7 @@ export * from "./ApplyContainer";
 export * from "./ChampionContainer";
 export * from "./ChampionRecruitContainer";
 export * from "./ConfettiContainer";
+export * from "./EditProfileContainer";
 export * from "./InviteContainer";
 export * from "./LaunchProjectContainer";
 export * from "./MyProjectContainer";
