@@ -189,6 +189,8 @@ export const ApplyByRoleContainer = ({
       </Card>
     );
 
+  if (!project) return null;
+
   return (
     <Card className={`h-85 flex flex-col bg-white px-6 py-4`}>
       <div className={`flex justify-end`}>
