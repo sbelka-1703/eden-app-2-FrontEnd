@@ -46,17 +46,13 @@ export const SignUpContainerMain = ({
   return (
     <div className={`h-85`}>
       {viewProject ? (
-        <>
-          {project && matchedProjects && (
-            <ApplyByRoleContainer
-              project={project}
-              matchedProjects={matchedProjects}
-              refetch={refetchProject}
-              loadingProject={loadingProject}
-              onViewProject={onViewProject}
-            />
-          )}
-        </>
+        <ApplyByRoleContainer
+          project={project}
+          matchedProjects={matchedProjects}
+          refetch={refetchProject}
+          loadingProject={loadingProject}
+          onViewProject={onViewProject}
+        />
       ) : (
         <>
           {!roleSelected ? (
