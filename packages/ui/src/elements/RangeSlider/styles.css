@@ -1,0 +1,22 @@
+.rangeSlider {
+  outline: none;
+  appearance: none;
+}
+
+.rangeSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  background: limeGreen;
+}
+
+.rangeSlider::-moz-range-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  background: limeGreen;
+}

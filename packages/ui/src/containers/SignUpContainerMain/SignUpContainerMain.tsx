@@ -40,6 +40,9 @@ export const SignUpContainerMain = ({
 
   const [roleSelected, setRoleSelected] = useState(false);
 
+  // if (!project || !matchedProjects || loadingProject)
+  //   return <div className={`h-85`}></div>;
+
   return (
     <div className={`h-85`}>
       {viewProject ? (

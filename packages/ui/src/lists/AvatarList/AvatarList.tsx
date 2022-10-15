@@ -5,7 +5,7 @@ export interface AvatarListProps {
 }
 export const AvatarList: React.FC<AvatarListProps> = ({ avatars }) => {
   return (
-    <div className="flex w-full flex-nowrap">
+    <div className="flex w-full flex-nowrap justify-center">
       {avatars?.map((avatar: AvatarProps, index: number) => (
         <div
           key={index}

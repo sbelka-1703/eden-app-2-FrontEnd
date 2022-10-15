@@ -84,7 +84,15 @@ export const apolloClient = new ApolloClient({
     typePolicies: {
       Query: {
         fields: {
-          // freezes the cache
+          // testing for caching current user
+          // findMember: cacheMerge(["fields", ["_id"]]),
+          // memberUpdated: cacheMerge(["fields", ["_id"]]),
+          // memberUpdated: {
+          //   keyArgs: false,
+          //   merge(existing = [], incoming: any[]) {
+          //     return [...existing, ...incoming];
+          //   },
+          // },
           // findMember: {
           //   keyArgs: ["_id"],
           // },

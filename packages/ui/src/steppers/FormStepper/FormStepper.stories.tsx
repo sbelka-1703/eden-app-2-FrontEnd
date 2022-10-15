@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { FormStepper } from "./FormStepper";
 
 export default {
-  title: "Components/FormStepper",
+  title: "Steppers/FormStepper",
   component: FormStepper,
   argTypes: {},
 } as ComponentMeta<typeof FormStepper>;
