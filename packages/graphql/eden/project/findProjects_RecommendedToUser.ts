@@ -5,8 +5,11 @@ export const FIND_PROJECTS_RECOMMENDED = gql`
     findProjects_RecommendedToUser(fields: $fields) {
       projectData {
         _id
-        description
         title
+        description
+        descriptionOneLine
+        emoji
+        backColorEmoji
         champion {
           _id
           discordName
