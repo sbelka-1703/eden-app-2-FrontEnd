@@ -10,6 +10,8 @@ import {
   Project,
 } from "@eden/package-graphql/generated";
 import {
+  AvatarList,
+  AvatarProps,
   Button,
   Card,
   ConfettiContainer,
@@ -20,6 +22,7 @@ import {
   ProjectChampion,
   ProjectInfo,
   RoleCard,
+  SocialMediaInput,
   TextArea,
   TextField,
   TextHeading1,
@@ -28,7 +31,6 @@ import {
 } from "@eden/package-ui";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
-import { FaGithub, FaTelegram, FaTwitter } from "react-icons/fa";
 
 import { timezones } from "../../../constants";
 import { round } from "../../../utils";
@@ -164,6 +166,16 @@ export const ApplyByRoleContainer = ({
   );
 
   // if (project) console.log("project", project);
+  // if (matchedProject) console.log("matchedProject", matchedProject);
+
+  const filterCommittedTeam = project?.team?.filter(
+    (member) => member?.phase === "committed"
+  );
+
+  const filterCommittedTeamAvatars = filterCommittedTeam?.map((member) => ({
+    src: member?.memberInfo?.discordAvatar,
+    size: "xs",
+  }));
 
   const zeroMatchedProjects = project?.role?.filter(
     // @ts-ignore
@@ -213,14 +225,28 @@ export const ApplyByRoleContainer = ({
         </div>
         <div>
           {matchedProject && (
-            <div className={`mb-8 flex flex-col items-center px-4 last:pr-0`}>
+            <div className={`mb-4 flex flex-col items-center px-4 last:pr-0`}>
               <span>⚡ Match</span>
               <span className={`text-soilPurple text-3xl font-semibold`}>
                 {round(Number(matchedProject?.matchPercentage), 1) || 0}%
               </span>
             </div>
           )}
-          <ProjectChampion member={project?.champion as Members} />
+          <div
+            className={`m-auto flex w-full flex-col content-center items-center justify-center`}
+          >
+            <ProjectChampion member={project?.champion as Members} />
+          </div>
+          <div
+            className={`my-2 flex w-full flex-col content-center items-center justify-center`}
+          >
+            <div
+              className={`font-Inter my-2 text-lg font-semibold uppercase text-zinc-500`}
+            >
+              Core Team
+            </div>
+            <AvatarList avatars={filterCommittedTeamAvatars as AvatarProps[]} />
+          </div>
         </div>
       </div>
       {isRoleView && (
@@ -314,45 +340,28 @@ export const ApplyByRoleContainer = ({
               adding links is not required, but it significantly boosts your
               discoverability.
             </p>
-            <div className={`my-6 flex w-full`}>
-              <FaTwitter
-                size="2rem"
-                color="#000000"
-                className={`my-auto mr-4`}
-              />
-              <TextField
-                radius="pill"
-                placeholder={`Twitter Handle`}
-                value={twitterHandle}
-                onChange={(e) => setTwitterHandle(e.target.value)}
-              />
-            </div>
-            <div className={`my-6 flex w-full`}>
-              <FaGithub
-                size="2rem"
-                color="#000000"
-                className={`my-auto mr-4`}
-              />
-              <TextField
-                radius="pill"
-                placeholder={`Github Handle`}
-                value={githubHandle}
-                onChange={(e) => setGithubHandle(e.target.value)}
-              />
-            </div>
-            <div className={`my-6 flex w-full`}>
-              <FaTelegram
-                size="2rem"
-                color="#000000"
-                className={`my-auto mr-4`}
-              />
-              <TextField
-                radius="pill"
-                placeholder={`Telegram Handle`}
-                value={telegramHandle}
-                onChange={(e) => setTelegramHandle(e.target.value)}
-              />
-            </div>
+            <SocialMediaInput
+              platform="twitter"
+              placeholder={`Twitter Handle`}
+              value={twitterHandle}
+              onChange={(e) => setTwitterHandle(e.target.value)}
+              shape="rounded"
+            />
+            <SocialMediaInput
+              platform="github"
+              placeholder={`Github Handle`}
+              value={githubHandle}
+              onChange={(e) => setGithubHandle(e.target.value)}
+              shape="rounded"
+            />
+            <SocialMediaInput
+              platform="telegram"
+              placeholder={`Telegram Handle`}
+              value={telegramHandle}
+              onChange={(e) => setTelegramHandle(e.target.value)}
+              shape="rounded"
+            />
+
             <div className={`flex justify-center`}>
               <Button onClick={() => handleApply()} disabled={submitting}>
                 Submit Application
