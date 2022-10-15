@@ -16,4 +16,19 @@ const Template: ComponentStory<typeof ApplyByRoleContainer> = (args) => (
 export const Default = Template.bind({});
 Default.args = {
   project: getProject(),
+  matchedProjects: [
+    {
+      matchPercentage: 100,
+      project: getProject(),
+      projectRoles: [],
+    },
+  ],
 };
+
+// export type MatchSkillsToProjectsOutput = {
+//   __typename?: "matchSkillsToProjectsOutput";
+//   commonSkills?: Maybe<Array<Maybe<Skills>>>;
+//   matchPercentage?: Maybe<Scalars["Float"]>;
+//   project?: Maybe<Project>;
+//   projectRoles?: Maybe<Array<Maybe<MatchProjectRoles>>>;
+// };
