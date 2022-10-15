@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { GreenStepper } from "./GreenStepper";
 
 export default {
-  title: "Components/GreenStepper",
+  title: "Steppers/GreenStepper",
   component: GreenStepper,
   argTypes: {},
 } as ComponentMeta<typeof GreenStepper>;

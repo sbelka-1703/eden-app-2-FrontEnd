@@ -9,7 +9,7 @@ export interface IProjectChampion {
 
 export const ProjectChampion = ({ member }: IProjectChampion) => {
   return (
-    <div>
+    <>
       <p className="pc-text-head ">🏆 Champion</p>
 
       <div className="mt-2 flex items-center">
@@ -18,6 +18,6 @@ export const ProjectChampion = ({ member }: IProjectChampion) => {
         </div>
         <p className="pc-text ml-4">@{member?.discordName}</p>
       </div>
-    </div>
+    </>
   );
 };

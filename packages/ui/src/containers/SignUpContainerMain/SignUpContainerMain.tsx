@@ -40,16 +40,23 @@ export const SignUpContainerMain = ({
 
   const [roleSelected, setRoleSelected] = useState(false);
 
+  // if (!project || !matchedProjects || loadingProject)
+  //   return <div className={`h-85`}></div>;
+
   return (
     <div className={`h-85`}>
       {viewProject ? (
-        <ApplyByRoleContainer
-          project={project}
-          matchedProjects={matchedProjects}
-          refetch={refetchProject}
-          loadingProject={loadingProject}
-          onViewProject={onViewProject}
-        />
+        <>
+          {project && matchedProjects && (
+            <ApplyByRoleContainer
+              project={project}
+              matchedProjects={matchedProjects}
+              refetch={refetchProject}
+              loadingProject={loadingProject}
+              onViewProject={onViewProject}
+            />
+          )}
+        </>
       ) : (
         <>
           {!roleSelected ? (
