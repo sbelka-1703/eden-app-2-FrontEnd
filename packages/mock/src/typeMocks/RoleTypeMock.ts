@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 
-import { getSkillRoleTypeMock } from "./SkillRoleTypeMock";
+import { getSkillRoleTypeMockArray } from "./SkillRoleTypeMock";
 
 export const getRoleTypeMock = () => ({
   id: String(faker.random.numeric(5)),
@@ -15,7 +15,10 @@ export const getRoleTypeMock = () => ({
   description: faker.lorem.sentences(5),
   keyRosponsibilities: faker.lorem.sentences(4),
   openPositions: faker.datatype.number({ min: 1, max: 10, precision: 1 }),
-  skills: getSkillRoleTypeMock(),
+  skills: getSkillRoleTypeMockArray(6),
   title: faker.name.firstName(),
   hoursPerWeek: faker.datatype.number({ min: 1, max: 40, precision: 1 }),
 });
+
+export const getRoleTypeMockArray = (total: number) =>
+  Array.from({ length: total }, () => getRoleTypeMock());
