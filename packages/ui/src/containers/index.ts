@@ -8,6 +8,7 @@ export * from "./EditProfileContainer";
 export * from "./InviteContainer";
 export * from "./LaunchProjectContainer";
 export * from "./MyProjectContainer";
+export * from "./NewProfileContainer";
 export * from "./OnboardPartyContainer";
 export * from "./ProfileContainer";
 export * from "./ProjectsContainer";
