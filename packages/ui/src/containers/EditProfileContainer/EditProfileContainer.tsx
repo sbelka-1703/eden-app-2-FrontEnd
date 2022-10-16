@@ -1,5 +1,5 @@
 //This is just UI functionalities are remaning
-import { Members } from "@eden/package-graphql/generated";
+// import { Members } from "@eden/package-graphql/generated";
 import { getMember } from "@eden/package-mock";
 import {
   Button,
@@ -20,12 +20,10 @@ import { useState } from "react";
 
 export interface IEditProfileContainerProps {
   // eslint-disable-next-line no-unused-vars
-  onSave: (member: Members) => void;
+  // onSave: (member: Members) => void;
 }
 
-export const EditProfileContainer = ({
-  onSave,
-}: IEditProfileContainerProps) => {
+export const EditProfileContainer = ({}: IEditProfileContainerProps) => {
   const member = getMember();
   const newMember = member;
   const [showSeniorSkills, setShowSeniorSkills] = useState(true);
@@ -242,7 +240,7 @@ export const EditProfileContainer = ({
       <Button
         variant="primary"
         className="mx-auto"
-        onClick={() => onSave(newMember)}
+        // onClick={() => onSave(newMember)}
       >
         Save
       </Button>
