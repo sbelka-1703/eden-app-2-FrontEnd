@@ -17,3 +17,4 @@ export * from "./RangeSlider";
 export * from "./SwitchButton";
 export * from "./TextArea";
 export * from "./TextField";
+export * from "./Tooltip";

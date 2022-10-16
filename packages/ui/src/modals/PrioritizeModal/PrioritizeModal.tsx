@@ -4,8 +4,8 @@ import {
   RangeSlider,
   TextBody,
   TextHeading3,
+  Tooltip,
 } from "@eden/package-ui";
-import { QuestionMarkCircleIcon } from "@heroicons/react/outline";
 import { useEffect, useState } from "react";
 
 export type SkillsType =
@@ -14,11 +14,31 @@ export type SkillsType =
   | "skillMatch"
   | "availability";
 
-const SKILLS: { name: SkillsType; displayName: string }[] = [
-  { name: "experience", displayName: "Experience" },
-  { name: "accountability", displayName: "Accountability" },
-  { name: "skillMatch", displayName: "Skill Match" },
-  { name: "availability", displayName: "Availability" },
+const SKILLS: { name: SkillsType; tooltip: string; displayName: string }[] = [
+  {
+    name: "experience",
+    displayName: "Experience",
+    tooltip:
+      "Allocating more points to ‘experience’ will prioritize matches who have proven track of record.",
+  },
+  {
+    name: "accountability",
+    displayName: "Accountability",
+    tooltip:
+      "Accountability is a complex atribute that combines previous experiences, collaborations and endorsements.",
+  },
+  {
+    name: "skillMatch",
+    displayName: "Skill Match",
+    tooltip:
+      "Skill match is an exact match between the sills you requested and one that caontributor possess.",
+  },
+  {
+    name: "availability",
+    displayName: "Availability",
+    tooltip:
+      "Allocating more points to ‘availability’ ensures you get matches, who can contribute most ammount of hours.",
+  },
 ];
 
 export interface PrioritizeModalProps {
@@ -73,7 +93,9 @@ export const PrioritizeModal = ({
               key={skill.name}
               className="relative flex flex-wrap items-baseline justify-between"
             >
-              <QuestionMarkCircleIcon className="-left-5 -top-3 h-5 w-5 text-gray-500 md:absolute" />
+              <Tooltip className="-left-5 -top-3 h-5 w-5 text-gray-500 md:absolute">
+                {skill.tooltip}
+              </Tooltip>
               <TextBody>{skill.displayName}</TextBody>
               <RangeSlider
                 showNumbers
