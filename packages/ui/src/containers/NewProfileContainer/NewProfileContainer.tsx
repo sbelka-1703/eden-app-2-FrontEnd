@@ -1,4 +1,4 @@
-import { Members } from "@eden/package-graphql/generated";
+import { Members, SkillRoleType } from "@eden/package-graphql/generated";
 import {
   AvailabilityComp,
   Avatar,
@@ -7,7 +7,7 @@ import {
   SocialMediaComp,
 } from "@eden/package-ui";
 
-interface NewProfileContainerProps {
+export interface NewProfileContainerProps {
   user: Members;
 }
 
@@ -17,9 +17,9 @@ export const NewProfileContainer = ({ user }: NewProfileContainerProps) => {
       <div className="flex flex-col items-center justify-center">
         <Avatar size="lg" src={user.discordAvatar!} />
         <h1 className="text-soilHeading1 font-poppins font-medium">
-          {user.discordName}
+          @{user.discordName}
           <span className="text-soilGray text-soilBody">
-            {user.discriminator}
+            #{user.discriminator}
           </span>
         </h1>
         <p className="text-soilHeading3 font-poppins font-medium">
@@ -43,14 +43,26 @@ export const NewProfileContainer = ({ user }: NewProfileContainerProps) => {
       <div className="flex items-start justify-between gap-10">
         <div>
           <p className="text-soilHeading3 font-poppins font-medium">Skills:</p>
-          <SkillVisualisationComp skills={user.skills} />
+          <SkillVisualisationComp
+            skills={
+              user?.skills?.map((skill) => {
+                return {
+                  skillData: {
+                    _id: skill?.skillInfo?._id,
+                    name: skill?.skillInfo?.name,
+                  },
+                  level: skill?.level,
+                };
+              }) as SkillRoleType[]
+            }
+          />
         </div>
-        <div>
+        {/* <div>
           <p className="text-soilHeading3 font-poppins font-medium">
             Endrosed for:
           </p>
           <div></div>
-        </div>
+        </div> */}
       </div>
     </Card>
   );

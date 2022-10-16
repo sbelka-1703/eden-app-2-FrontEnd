@@ -1,6 +1,9 @@
+import { getMember } from "@eden/package-mock";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { NewProfileContainer } from "./NewProfileContainer";
+
+const member = getMember();
 
 export default {
   title: "Containers/NewProfileContainer",
@@ -9,7 +12,7 @@ export default {
 } as ComponentMeta<typeof NewProfileContainer>;
 
 const Template: ComponentStory<typeof NewProfileContainer> = () => (
-  <NewProfileContainer />
+  <NewProfileContainer user={member} />
 );
 
 export const Default = Template.bind({});

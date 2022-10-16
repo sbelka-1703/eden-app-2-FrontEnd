@@ -1,6 +1,8 @@
 import { Project, RoleType } from "@eden/package-graphql/generated";
 import {
   Avatar,
+  AvatarList,
+  AvatarProps,
   Modal,
   ProgressStepper,
   ProjectChampion,
@@ -28,9 +30,19 @@ export const ApplicationModal = ({
   Role,
   ApplicationProgress,
 }: ApplicationModalProps) => {
+  const filterCommittedTeam = Project?.team?.filter(
+    (member) => member?.phase === "committed"
+  );
+
+  const filterCommittedTeamAvatars = filterCommittedTeam?.map((member) => ({
+    src: member?.memberInfo?.discordAvatar,
+    size: "xs",
+    alt: member?.memberInfo?.discordName,
+  }));
+
   return (
     <Modal open={isModalOpen}>
-      <div className="mb-10 flex gap-10">
+      <div className="mb-10 flex gap-10 p-5">
         <div className="flex flex-col items-start justify-center gap-5">
           <div className="flex items-center justify-center gap-3">
             <div>
@@ -50,7 +62,7 @@ export const ApplicationModal = ({
               </p>
             </div>
           </div>
-          <p>{Project.description}</p>
+          <p className="text-soilBody font-Inter">{Project.description}</p>
           <div className="w-full">
             <h1 className="text-soilHeading3 font-medium">{Role.title}</h1>
             <div className="flex items-start justify-between">
@@ -73,17 +85,24 @@ export const ApplicationModal = ({
             </div>
           </div>
         </div>
-        <div>
+        <div className="flex flex-col gap-3">
           <div className="flex flex-col items-center justify-center">
             <h3>Match</h3>
             <h1 className="text-soilHeading1 text-soilPurple font-poppins font-semibold">
               65%
             </h1>
           </div>
-          <ProjectChampion member={Project.champion!} />
-          {/* <div className="flex items-center justify-center">
-            <p></p>
-          </div> */}
+          <div
+            className={`m-auto flex w-full flex-col content-center items-center justify-center `}
+          >
+            <ProjectChampion member={Project?.champion!} />
+          </div>
+          <div className="flex flex-col items-center justify-center">
+            <p className="font-Inter text-soilGray text-soilHeading3 mb-3 font-semibold">
+              CORE TEAM
+            </p>
+            <AvatarList avatars={filterCommittedTeamAvatars as AvatarProps[]} />
+          </div>
         </div>
       </div>
       <ProgressStepper
