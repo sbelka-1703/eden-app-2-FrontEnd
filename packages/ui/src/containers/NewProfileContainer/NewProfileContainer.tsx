@@ -12,18 +12,19 @@ export interface NewProfileContainerProps {
 }
 
 export const NewProfileContainer = ({ user }: NewProfileContainerProps) => {
+  if (!user) return null;
   return (
-    <Card className="flex flex-col gap-5">
+    <Card className="flex flex-col gap-5 p-6">
       <div className="flex flex-col items-center justify-center">
-        <Avatar size="lg" src={user.discordAvatar!} />
+        <Avatar size="lg" src={user?.discordAvatar!} />
         <h1 className="text-soilHeading1 font-poppins font-medium">
-          @{user.discordName}
+          @{user?.discordName}
           <span className="text-soilGray text-soilBody">
-            #{user.discriminator}
+            #{user?.discriminator}
           </span>
         </h1>
         <p className="text-soilHeading3 font-poppins font-medium">
-          {user.memberRole?.title}
+          {user?.memberRole?.title}
         </p>
       </div>
       <div className="flex items-start justify-between gap-10">
@@ -31,13 +32,13 @@ export const NewProfileContainer = ({ user }: NewProfileContainerProps) => {
           <p className="text-soilHeading3 font-poppins font-medium">
             Short bio:
           </p>
-          <p className="text-soilBody text-[#071B08]">{user.bio}</p>
+          <p className="text-soilBody text-[#071B08]">{user?.bio}</p>
         </div>
         <div className="">
-          <SocialMediaComp color="#5d5d5d" links={user.links} />
+          <SocialMediaComp color="#5d5d5d" links={user?.links} />
         </div>
         <div className="w-max">
-          <AvailabilityComp timePerWeek={user.hoursPerWeek!} />
+          <AvailabilityComp timePerWeek={user?.hoursPerWeek!} />
         </div>
       </div>
       <div className="flex items-start justify-between gap-10">

@@ -72,8 +72,10 @@ export const SignUpContainerSide = ({
     <Card className={`h-85 flex flex-col gap-4`}>
       <UserProfileCard />
       {viewProject ? (
-        <Card className={`scrollbar-hide flex flex-grow overflow-y-scroll`}>
-          <div className={`my-1 flex flex-col gap-3`}>
+        <Card
+          className={`scrollbar-hide flex w-full flex-grow overflow-y-scroll`}
+        >
+          <div className={`my-1 flex w-full flex-col gap-3`}>
             {matchedProjects?.map((matchProject, index: number) => (
               <button
                 key={index}
