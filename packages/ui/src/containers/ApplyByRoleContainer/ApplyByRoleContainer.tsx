@@ -175,6 +175,7 @@ export const ApplyByRoleContainer = ({
   const filterCommittedTeamAvatars = filterCommittedTeam?.map((member) => ({
     src: member?.memberInfo?.discordAvatar,
     size: "xs",
+    alt: member?.memberInfo?.discordName,
   }));
 
   const zeroMatchedProjects = project?.role?.filter(
