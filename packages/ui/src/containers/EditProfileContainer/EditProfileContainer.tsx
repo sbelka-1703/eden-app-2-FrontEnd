@@ -1,6 +1,6 @@
 //This is just UI functionalities are remaning
 // import { Members } from "@eden/package-graphql/generated";
-import { getMember } from "@eden/package-mock";
+import { UserContext } from "@eden/package-context";
 import {
   Button,
   Card,
@@ -16,7 +16,7 @@ import {
   TextHeading3,
   TextLabel,
 } from "@eden/package-ui";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 export interface IEditProfileContainerProps {
   // eslint-disable-next-line no-unused-vars
@@ -24,8 +24,8 @@ export interface IEditProfileContainerProps {
 }
 
 export const EditProfileContainer = ({}: IEditProfileContainerProps) => {
-  const member = getMember();
-  const newMember = member;
+  const { currentUser } = useContext(UserContext);
+  const newMember = currentUser!;
   const [showSeniorSkills, setShowSeniorSkills] = useState(true);
   const [showMidLevelSkills, setShowMidLevelSkills] = useState(true);
   const [showJuniorSkills, setShowJuniorSkills] = useState(true);
@@ -56,7 +56,7 @@ export const EditProfileContainer = ({}: IEditProfileContainerProps) => {
               <TextBody>
                 Short Bio:
                 <TextArea
-                  value={member.bio}
+                  value={currentUser?.bio!}
                   onChange={(e) => (newMember.bio = e.target.value)}
                 />
               </TextBody>
@@ -121,7 +121,7 @@ export const EditProfileContainer = ({}: IEditProfileContainerProps) => {
               <TextBody className="mb-1">Your Skills</TextBody>
               <TextLabel>Add your Skill</TextLabel>
               <SearchSkill
-                skills={member.skills}
+                skills={currentUser?.skills}
                 setSkills={undefined}
                 levels={[
                   {
@@ -175,32 +175,32 @@ export const EditProfileContainer = ({}: IEditProfileContainerProps) => {
               {showSeniorSkills && (
                 <SkillList
                   colorRGB="191, 255, 140"
-                  skills={member.skills.filter(
-                    (skill: { level: string }) => skill.level == "senior"
+                  skills={currentUser?.skills!.filter(
+                    (skill: any) => skill.level == "senior"
                   )}
                 />
               )}
               {showMidLevelSkills && (
                 <SkillList
                   colorRGB="255, 169, 241"
-                  skills={member.skills.filter(
-                    (skill: { level: string }) => skill.level == "mid"
+                  skills={currentUser?.skills!.filter(
+                    (skill: any) => skill.level == "mid"
                   )}
                 />
               )}
               {showJuniorSkills && (
                 <SkillList
                   colorRGB="186, 230, 255"
-                  skills={member.skills.filter(
-                    (skill: { level: string }) => skill.level == "junior"
+                  skills={currentUser?.skills!.filter(
+                    (skill: any) => skill.level == "mid"
                   )}
                 />
               )}
               {showLearningSkills && (
                 <SkillList
                   colorRGB="255, 208, 43"
-                  skills={member.skills.filter(
-                    (skill: { level: string }) => skill.level == "learning"
+                  skills={currentUser?.skills!.filter(
+                    (skill: any) => skill.level == "mid"
                   )}
                 />
               )}
@@ -210,7 +210,7 @@ export const EditProfileContainer = ({}: IEditProfileContainerProps) => {
               <TextLabel>Please make sure all links are up to date</TextLabel>
               <SocialMediaInput
                 platform={"twitter"}
-                placeholder={member.links[0].url}
+                // placeholder={currentUser?.links[0].url}
                 onChange={() => console.log("Twitter changed")}
               />
               <SocialMediaInput
