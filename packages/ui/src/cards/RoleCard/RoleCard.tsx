@@ -1,7 +1,9 @@
 import { Maybe, RoleType } from "@eden/package-graphql/generated";
 import { Badge, Card } from "@eden/package-ui";
+import { useState } from "react";
 import { BsDot } from "react-icons/bs";
 import { MdArrowForward } from "react-icons/md";
+import ReactTooltip from "react-tooltip";
 
 import { round } from "../../../utils";
 
@@ -12,7 +14,17 @@ export interface RoleCardProps {
 }
 
 export const RoleCard = ({ role, percentage = 0, onApply }: RoleCardProps) => {
-  // console.log("role", role);
+  const [isHoverDescription, setIsHoverDescription] = useState("");
+  const [isHoverResponsibilities, setIsHoverResponsibilities] = useState("");
+
+  const shortenText = (text: string) => {
+    if (text.length > 90) {
+      return text.substring(0, 90) + "...";
+    }
+    return text;
+  };
+
+  if (!role) return null;
 
   return (
     <Card border shadow className="bg-white p-0">
@@ -49,15 +61,67 @@ export const RoleCard = ({ role, percentage = 0, onApply }: RoleCardProps) => {
             <div className={`mr-auto ml-1`}>
               <div className="flex flex-row p-1">
                 <div>⏳</div>
-                <div className={`ml-3 mt-0.5 text-sm capitalize text-zinc-400`}>
+                <div className={`ml-4 mt-0.5 text-sm capitalize text-zinc-400`}>
                   {role?.hoursPerWeek} hours/week
                 </div>
               </div>
               <div className="flex flex-row p-1">
                 <div>💼</div>
                 <div className={`ml-3 text-sm text-zinc-400`}>
-                  <div className={``}>{role?.description}</div>
-                  <div className={`my-1.5`}>{role?.keyRosponsibilities}</div>
+                  {role?.description && (
+                    <>
+                      <div className={`font-medium`}>Role Description :</div>
+                      <div
+                        data-tip={isHoverDescription}
+                        data-for={`badgeTip-${role?._id}-description`}
+                        className={`mr-2 mb-1 inline-block cursor-default rounded-full`}
+                        onMouseEnter={() => {
+                          setIsHoverDescription(`${role?.description}`);
+                        }}
+                        onMouseLeave={() => {
+                          setIsHoverDescription("");
+                        }}
+                      >
+                        {shortenText(role?.description as string)}
+                      </div>
+                      <ReactTooltip
+                        id={`badgeTip-${role?._id}-description`}
+                        place="top"
+                        effect="solid"
+                      >
+                        {isHoverDescription}
+                      </ReactTooltip>
+                    </>
+                  )}
+                  {role?.keyRosponsibilities && (
+                    <>
+                      <div className={`mt-1.5 font-medium`}>
+                        Key Responsibilities :
+                      </div>
+                      <div
+                        data-tip={isHoverResponsibilities}
+                        data-for={`badgeTip-${role?._id}-keyResponsibilities`}
+                        className={`mr-2 mb-1 inline-block cursor-default rounded-full`}
+                        onMouseEnter={() => {
+                          setIsHoverResponsibilities(
+                            `${role?.keyRosponsibilities}`
+                          );
+                        }}
+                        onMouseLeave={() => {
+                          setIsHoverResponsibilities("");
+                        }}
+                      >
+                        {shortenText(role?.keyRosponsibilities as string)}
+                      </div>
+                      <ReactTooltip
+                        id={`badgeTip-${role?._id}-keyResponsibilities`}
+                        place="top"
+                        effect="solid"
+                      >
+                        {isHoverResponsibilities}
+                      </ReactTooltip>
+                    </>
+                  )}
                 </div>
               </div>
               {role?.openPositions && (

@@ -87,6 +87,7 @@ module.exports = {
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],
         Inter: ["Inter", "sans-serif"],
+        Gloria: ["Gloria Hallelujah", "cursive"],
       },
       boxShadow: {
         headerShadow: "0px 1px 15px 0px rgba(0, 0, 0, 0.15)",

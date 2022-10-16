@@ -18,6 +18,5 @@ export const Default = Template.bind({});
 Default.args = {
   project: getProject(),
   avatarSrc: faker.internet.avatar(),
-  projectSubTitle: "Find and be found for opportunities across the DAO",
   isFavoriteButton: true,
 };

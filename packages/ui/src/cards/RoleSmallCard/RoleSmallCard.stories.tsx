@@ -1,3 +1,4 @@
+import { getRoleTypeMock } from "@eden/package-mock";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { RoleSmallCard } from "./RoleSmallCard";
@@ -14,9 +15,7 @@ const Template: ComponentStory<typeof RoleSmallCard> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  role: {
-    title: "FrontEnd",
-  },
+  role: getRoleTypeMock(),
   isSelected: true,
   skills: [
     {

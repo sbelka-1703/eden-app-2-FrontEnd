@@ -2,6 +2,7 @@ export type ProgressStep = {
   name: string;
   completed: boolean;
 };
+
 export interface ProgressStepperProps {
   steps: ProgressStep[];
 }

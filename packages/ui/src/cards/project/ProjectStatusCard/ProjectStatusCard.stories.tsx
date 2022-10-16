@@ -1,4 +1,4 @@
-import { getProject } from "@eden/package-mock";
+import { getMember } from "@eden/package-mock";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { ProjectStatusCard } from "./ProjectStatusCard";
@@ -15,7 +15,7 @@ const Template: ComponentStory<typeof ProjectStatusCard> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  project: getProject(),
+  project: getMember().projects[0],
   roleName: "BackEnd Developer",
   appliedDateData: {
     type: "primary",
@@ -29,22 +29,4 @@ Default.args = {
     month: "AUG",
     year: 22,
   },
-  progressSteps: [
-    {
-      name: "Applied",
-      completed: true,
-    },
-    {
-      name: "Application Reviewed",
-      completed: true,
-    },
-    {
-      name: "Application Shortlisted",
-      completed: false,
-    },
-    {
-      name: "Application Shortlisted",
-      completed: false,
-    },
-  ],
 };

@@ -30,12 +30,16 @@ export const ProjectMatchCard = ({
         <div></div>
         <div>
           <div className={`relative`}>
-            <Avatar isProject />
-            <span
-              className={`text-soilPurple absolute mt-9 -ml-6 rounded-full bg-white px-1.5 text-xl font-semibold shadow-sm`}
+            <Avatar
+              isProject
+              emoji={matchProject?.project?.emoji as string}
+              backColorEmoji={matchProject?.project?.backColorEmoji as string}
+            />
+            <div
+              className={`text-soilPurple absolute -mt-9 ml-12 rounded-full bg-white px-1.5 text-xl font-semibold shadow-sm`}
             >
               {round(Number(matchProject?.matchPercentage), 1)}%
-            </span>
+            </div>
           </div>
           <TextHeading3>{matchProject?.project?.title}</TextHeading3>
         </div>

@@ -13,12 +13,6 @@ export const getMatchPercentage = () => ({
   budgetPercentage: randomPercentage(),
 });
 
-// export const getSkillsPercentage = () => ({
-//   info: getSkills(faker.datatype.number({ min: 2, max: 36, precision: 1 })),
-//   percentage100: getMatchPercentage(),
-//   percentageReal: getMatchPercentage(),
-// });
-
 export const matchSkillsToMembers = () => ({
   matchPercentage: getMatchPercentage(),
   members: getMember(),

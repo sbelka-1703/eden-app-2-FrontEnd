@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { useMutation } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
 import { UPDATE_MEMBER } from "@eden/package-graphql";
@@ -6,6 +7,7 @@ import {
   Maybe,
   Mutation,
   SkillRoleType,
+  SkillType_Member,
 } from "@eden/package-graphql/generated";
 import {
   Avatar,
@@ -43,6 +45,29 @@ export const SignUpContainerSide = ({
     },
   });
 
+  const handleDeleteSkill = (val: Maybe<SkillType_Member> | undefined) => {
+    if (!currentUser) return;
+
+    updateMember({
+      variables: {
+        fields: {
+          _id: currentUser?._id,
+          skills: currentUser.skills
+            ?.filter(
+              (skill: Maybe<SkillType_Member>) =>
+                skill?.skillInfo?._id !== val?.skillInfo?._id
+            )
+            .map((skill: Maybe<SkillType_Member>) => {
+              return {
+                id: skill?.skillInfo?._id,
+                level: skill?.level,
+              };
+            }),
+        },
+      },
+    });
+  };
+
   return (
     <Card className={`h-85 flex flex-col gap-4`}>
       <UserProfileCard />
@@ -63,17 +88,26 @@ export const SignUpContainerSide = ({
                   className={`flex w-full bg-white p-4`}
                 >
                   <div className={`relative`}>
-                    <Avatar isProject size={`xs`} />
+                    <Avatar
+                      isProject
+                      size={`sm`}
+                      emoji={matchProject?.project?.emoji as string}
+                      backColorEmoji={
+                        matchProject?.project?.backColorEmoji as string
+                      }
+                    />
                     {matchProject?.matchPercentage && (
-                      <p className="font-poppins absolute -mt-6 ml-5 rounded-full bg-white px-1 text-xs font-semibold text-[#9B67FF]">
+                      <p className="font-poppins absolute -mt-4 ml-7 rounded-full bg-white px-1 text-xs font-semibold text-[#9B67FF]">
                         {round(Number(matchProject?.matchPercentage), 0)}%
                       </p>
                     )}
                   </div>
-                  <div className={`pl-6`}>
-                    <div>{matchProject?.project?.title}</div>
-                    <div className={`text-xs`}>
-                      {matchProject?.project?.description}
+                  <div className={`pl-6 text-left`}>
+                    <div className={`font-medium`}>
+                      {matchProject?.project?.title}
+                    </div>
+                    <div className={`text-xs text-zinc-600`}>
+                      {matchProject?.project?.descriptionOneLine}
                     </div>
                   </div>
                 </Card>
@@ -122,9 +156,7 @@ export const SignUpContainerSide = ({
                 },
               });
             }}
-            handleDeleteSkill={(val: any) => {
-              console.log("val", val);
-            }}
+            handleDeleteSkill={handleDeleteSkill}
           />
         </Card>
       )}

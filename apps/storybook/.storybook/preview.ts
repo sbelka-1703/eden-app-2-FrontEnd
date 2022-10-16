@@ -27,6 +27,7 @@ export const parameters = {
         "Lists",
         "Modals",
         "Selectors",
+        "Steppers",
         "*",
         "Archive",
       ],

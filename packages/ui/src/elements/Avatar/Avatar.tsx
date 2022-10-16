@@ -6,6 +6,8 @@ export interface AvatarProps {
   src?: string;
   alt?: string;
   isProject?: boolean;
+  emoji?: string;
+  backColorEmoji?: string;
 }
 
 export const Avatar = ({
@@ -13,6 +15,8 @@ export const Avatar = ({
   src,
   alt = "avatar",
   isProject,
+  emoji,
+  backColorEmoji,
 }: AvatarProps) => {
   const [imageSrc, setImageSrc] = useState(src);
   const btnCls = clsx(
@@ -26,11 +30,32 @@ export const Avatar = ({
     }
   );
 
+  const avatarCls = clsx("text-center m-auto", {
+    "text-2xl": size === "xs",
+    "text-3xl": size === "sm",
+    "text-4xl": size === "md",
+    "text-5xl": size === "lg",
+    "text-6xl": size === "xl",
+  });
+
   useEffect(() => {
     if (src) {
       setImageSrc(src);
     }
   }, [src]);
+
+  if (emoji) {
+    return (
+      <div
+        className={`${btnCls} flex`}
+        style={{
+          backgroundColor: backColorEmoji,
+        }}
+      >
+        <span className={avatarCls}>{emoji}</span>
+      </div>
+    );
+  }
 
   return (
     <span className={btnCls}>
