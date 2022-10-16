@@ -1,5 +1,9 @@
 import { gql, useMutation, useQuery, useSubscription } from "@apollo/client";
-import { FIND_MEMBER_FULL, MEMBER_SUBSCRIPTION } from "@eden/package-graphql";
+import {
+  FIND_MEMBER_FULL,
+  MEMBER_SUBSCRIPTION,
+  UPDATE_MEMBER,
+} from "@eden/package-graphql";
 import { Members, Mutation } from "@eden/package-graphql/generated";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
@@ -36,6 +40,8 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     },
   });
 
+  const [updateMember] = useMutation(UPDATE_MEMBER, {});
+
   const { data: dataMember, refetch } = useQuery(FIND_MEMBER_FULL, {
     variables: {
       fields: {
@@ -56,7 +62,20 @@ export const UserProvider = ({ children }: UserProviderProps) => {
             },
           },
         });
-      } else setMemberFound(true);
+      } else {
+        if (data.findMember.discordAvatar !== session?.user?.image) {
+          updateMember({
+            variables: {
+              fields: {
+                _id: session?.user?.id,
+                discordAvatar: session?.user?.image,
+              },
+            },
+          });
+          console.log("updated avatar");
+        }
+        setMemberFound(true);
+      }
     },
   });
 
