@@ -1,7 +1,7 @@
 import { PhaseType, Project } from "@eden/package-graphql/generated";
 import { faker } from "@faker-js/faker";
 
-import { phase, skills } from "./data";
+import { phase, skills } from "../data";
 import { getMember } from "./MembersMock";
 
 const level = ["learning", "junior", "mid", "senior"];

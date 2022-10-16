@@ -2,7 +2,7 @@
 import { Maybe, ProjectMatchType } from "@eden/package-graphql/generated";
 import { faker } from "@faker-js/faker";
 
-import { getMember } from "../MembersMock";
+import { getMember } from "./MembersMock";
 
 export const findProjects_RecommendedToUser: Maybe<ProjectMatchType> = {
   projectData: {
