@@ -1,4 +1,5 @@
 import { UserContext } from "@eden/package-context";
+import { Members } from "@eden/package-graphql/generated";
 import {
   AppUserSubmenuLayout,
   Card,
@@ -29,7 +30,9 @@ const ProfilePage: NextPageWithLayout = () => {
   return (
     <AppUserSubmenuLayout submenu={submenu} activeIndex={activeIndex}>
       <Card className={`h-85 scrollbar-hide overflow-y-scroll bg-white`}>
-        {activeIndex === 0 && <NewProfileContainer user={currentUser} />}
+        {activeIndex === 0 && (
+          <NewProfileContainer user={currentUser as Members} />
+        )}
         {activeIndex === 1 && <EditProfileContainer />}
       </Card>
     </AppUserSubmenuLayout>
