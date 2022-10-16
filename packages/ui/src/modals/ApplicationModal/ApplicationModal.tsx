@@ -19,8 +19,8 @@ type ApplicationProgressType = {
 
 export interface ApplicationModalProps {
   isModalOpen: boolean;
-  Project: Project;
-  Role: RoleType;
+  Project?: Project;
+  Role?: RoleType;
   ApplicationProgress: ApplicationProgressType;
 }
 
@@ -41,7 +41,13 @@ export const ApplicationModal = ({
   }));
 
   return (
-    <Modal open={isModalOpen}>
+    <Modal
+      open={isModalOpen}
+      onClose={() => {
+        console.log("close");
+        // setShowModal(false);
+      }}
+    >
       <div className="mb-10 flex gap-10 p-5">
         <div className="flex flex-col items-start justify-center gap-5">
           <div className="flex items-center justify-center gap-3">
@@ -55,30 +61,30 @@ export const ApplicationModal = ({
             </div>
             <div>
               <h1 className="text-soilHeading1 font-semibold">
-                {Project.title}
+                {Project?.title}
               </h1>
               <p className="text-soilHeading3 text-soilGray leading-6">
-                {Project.descriptionOneLine}
+                {Project?.descriptionOneLine}
               </p>
             </div>
           </div>
-          <p className="text-soilBody font-Inter">{Project.description}</p>
+          <p className="text-soilBody font-Inter">{Project?.description}</p>
           <div className="w-full">
-            <h1 className="text-soilHeading3 font-medium">{Role.title}</h1>
+            <h1 className="text-soilHeading3 font-medium">{Role?.title}</h1>
             <div className="flex items-start justify-between">
               <ul>
                 <li>{Role?.keyRosponsibilities}</li>
               </ul>
               <div className="text-soilGray font-medium">
                 <div>
-                  <h1>⌛ {Role.hoursPerWeek} h / week</h1>
+                  <h1>⌛ {Role?.hoursPerWeek} h / week</h1>
                 </div>
                 <div>
-                  <h1>💰 $CODE {Role.budget?.perMonth} / week</h1>
+                  <h1>💰 $CODE {Role?.budget?.perMonth} / week</h1>
                 </div>
                 <div>
                   <h1>
-                    📆1 season {Role.dateRangeStart} - {Role.dateRangeEnd}
+                    📆1 season {Role?.dateRangeStart} - {Role?.dateRangeEnd}
                   </h1>
                 </div>
               </div>
@@ -107,12 +113,12 @@ export const ApplicationModal = ({
       </div>
       <ProgressStepper
         steps={[
-          { name: "Applied", completed: ApplicationProgress.applied },
-          { name: "Reviewed", completed: ApplicationProgress.reviewed },
-          { name: "Assesment", completed: ApplicationProgress.assesment },
-          { name: "interview", completed: ApplicationProgress.interview },
-          { name: "Induction", completed: ApplicationProgress.induction },
-          { name: "Onboarding", completed: ApplicationProgress.onboarding },
+          { name: "Applied", completed: ApplicationProgress?.applied },
+          { name: "Reviewed", completed: ApplicationProgress?.reviewed },
+          { name: "Assesment", completed: ApplicationProgress?.assesment },
+          { name: "interview", completed: ApplicationProgress?.interview },
+          { name: "Induction", completed: ApplicationProgress?.induction },
+          { name: "Onboarding", completed: ApplicationProgress?.onboarding },
         ]}
       />
     </Modal>
