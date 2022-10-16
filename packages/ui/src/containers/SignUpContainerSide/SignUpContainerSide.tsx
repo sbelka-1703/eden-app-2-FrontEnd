@@ -90,14 +90,14 @@ export const SignUpContainerSide = ({
                   <div className={`relative`}>
                     <Avatar
                       isProject
-                      size={`xs`}
+                      size={`sm`}
                       emoji={matchProject?.project?.emoji as string}
                       backColorEmoji={
                         matchProject?.project?.backColorEmoji as string
                       }
                     />
                     {matchProject?.matchPercentage && (
-                      <p className="font-poppins absolute -mt-6 ml-5 rounded-full bg-white px-1 text-xs font-semibold text-[#9B67FF]">
+                      <p className="font-poppins absolute -mt-4 ml-7 rounded-full bg-white px-1 text-xs font-semibold text-[#9B67FF]">
                         {round(Number(matchProject?.matchPercentage), 0)}%
                       </p>
                     )}
@@ -106,8 +106,8 @@ export const SignUpContainerSide = ({
                     <div className={`font-medium`}>
                       {matchProject?.project?.title}
                     </div>
-                    <div className={`text-xs`}>
-                      {matchProject?.project?.description}
+                    <div className={`text-xs text-zinc-600`}>
+                      {matchProject?.project?.descriptionOneLine}
                     </div>
                   </div>
                 </Card>
