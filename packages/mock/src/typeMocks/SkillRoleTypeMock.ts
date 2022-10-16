@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 
-import { skills } from "./data";
+import { skills } from "../data";
 
 const level = ["learning", "junior", "mid", "senior"];
 
