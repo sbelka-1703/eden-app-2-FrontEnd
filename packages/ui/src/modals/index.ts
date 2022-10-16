@@ -1,4 +1,5 @@
 export * from "./CongratulationsModal";
+export * from "./PrioritizeModal";
 export * from "./ProjectInfoModal";
 export * from "./RoleDescriptionModal";
 export * from "./RoleModal";
