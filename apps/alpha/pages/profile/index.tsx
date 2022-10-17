@@ -1,3 +1,4 @@
+import { gql, useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
 import { Members } from "@eden/package-graphql/generated";
 import {
@@ -11,8 +12,30 @@ import { FaUserAlt, FaUserEdit } from "react-icons/fa";
 
 import type { NextPageWithLayout } from "../_app";
 
+const FIND_ROLES = gql`
+  query ($fields: findRoleTemplatesInput) {
+    findRoleTemplates(fields: $fields) {
+      _id
+      description
+      title
+      skills {
+        _id
+        name
+      }
+    }
+  }
+`;
+
 const ProfilePage: NextPageWithLayout = () => {
   const { currentUser } = useContext(UserContext);
+
+  const { data: dataRoles } = useQuery(FIND_ROLES, {
+    variables: {
+      fields: {},
+    },
+    context: { serviceName: "soilservice" },
+  });
+
   const [activeIndex, setActiveIndex] = useState(0);
   const submenu = [
     {
@@ -33,7 +56,9 @@ const ProfilePage: NextPageWithLayout = () => {
         {activeIndex === 0 && (
           <NewProfileContainer user={currentUser as Members} />
         )}
-        {activeIndex === 1 && <EditProfileContainer />}
+        {activeIndex === 1 && (
+          <EditProfileContainer roles={dataRoles?.findRoleTemplates} />
+        )}
       </Card>
     </AppUserSubmenuLayout>
   );

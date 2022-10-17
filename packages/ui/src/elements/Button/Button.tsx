@@ -6,6 +6,7 @@ type ButtonProps = {
   radius?: "default" | "rounded" | "pill";
   size?: "lg" | "md" | "sm";
   className?: string;
+  disabled?: boolean;
   // eslint-disable-next-line no-unused-vars
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
@@ -16,6 +17,7 @@ export const Button = ({
   radius = "default",
   size = "lg",
   className,
+  disabled,
   onClick,
 }: ButtonProps) => {
   const btnCls = clsx(
@@ -39,6 +41,14 @@ export const Button = ({
       "rounded-md": radius === "default",
     }
   );
+
+  if (disabled) {
+    return (
+      <button className={`${btnCls} bg-transparent`} disabled={disabled}>
+        {children}
+      </button>
+    );
+  }
 
   return (
     <button className={btnCls} onClick={onClick}>
