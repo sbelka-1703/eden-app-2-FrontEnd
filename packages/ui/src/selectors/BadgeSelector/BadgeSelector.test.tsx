@@ -9,7 +9,7 @@ describe("BadgeSelector", () => {
         items={[]}
         // eslint-disable-next-line no-unused-vars
         onChange={function (value: any): void {
-          throw new Error("Function not implemented.");
+          // throw new Error("Function not implemented.");
         }}
       />
     );
