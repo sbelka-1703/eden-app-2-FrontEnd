@@ -9,6 +9,10 @@ export const FIND_SKILL_CATEGORIES = gql`
       skills {
         _id
         name
+        categorySkills {
+          _id
+          name
+        }
       }
       subCategorySkill {
         _id
