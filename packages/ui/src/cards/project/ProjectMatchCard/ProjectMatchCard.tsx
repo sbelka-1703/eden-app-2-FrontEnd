@@ -38,7 +38,7 @@ export const ProjectMatchCard = ({
             <div
               className={`text-soilPurple absolute -mt-9 ml-12 rounded-full bg-white px-1.5 text-xl font-semibold shadow-sm`}
             >
-              {round(Number(matchProject?.matchPercentage), 1)}%
+              {round(Number(matchProject?.matchPercentage), 0)}%
             </div>
           </div>
           <TextHeading3>{matchProject?.project?.title}</TextHeading3>
