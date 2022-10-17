@@ -48,7 +48,7 @@ const ProjectsPage: NextPageWithLayout = () => {
       <GridItemThree>
         <div className={`h-85 flex flex-col gap-4`}>
           <Card className="flex flex-grow bg-blue-300 p-6"></Card>
-          <Card className="flex flex-grow bg-white p-6"></Card>
+          <Card className="flex h-44 flex-grow bg-white p-6"></Card>
         </div>
       </GridItemThree>
       <GridItemSix>

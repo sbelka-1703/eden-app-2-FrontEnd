@@ -40,7 +40,7 @@ export const RoleCard = ({ role, percentage = 0, onApply }: RoleCardProps) => {
           <div className={`items-flex-start mt-1 flex h-full flex-row`}>
             <span className="text-2xl">⚡</span>
             <span className={`text-soilPurple text-2xl font-semibold`}>
-              {round(Number(percentage), 1)}%
+              {round(Number(percentage), 0)}%
             </span>
           </div>
         </div>

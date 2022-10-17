@@ -284,7 +284,6 @@ export const ApplyByRoleContainer = ({
                 percentage={role?.matchPercentage || 0}
                 onApply={(val) => {
                   setRoleID(val);
-                  // setShowModal(true);
                 }}
               />
             ))}
@@ -295,7 +294,6 @@ export const ApplyByRoleContainer = ({
                 percentage={0}
                 onApply={(val) => {
                   setRoleID(val);
-                  // setShowModal(true);
                 }}
               />
             ))}
@@ -312,7 +310,6 @@ export const ApplyByRoleContainer = ({
         open={showModal}
         onClose={() => {
           setRoleID("");
-          // setShowModal(false);
         }}
       >
         {!applied ? (
