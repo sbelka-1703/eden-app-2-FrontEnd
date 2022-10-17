@@ -121,7 +121,7 @@ export const SalaryRangeChart = ({ data }: SalaryRangeChartProps) => {
               onChange={handleMinRange}
             />
           </div>
-          <div className="mt-5 h-0.5 w-6 bg-green-500" />
+          <div className="mt-5 h-0.5 w-6 bg-gray-400" />
           <div className="w-32">
             <TextField
               type="number"
