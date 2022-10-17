@@ -1,13 +1,18 @@
 /* eslint-disable camelcase */
-import { Maybe, SkillType_Member } from "@eden/package-graphql/generated";
-import { Badge } from "@eden/package-ui";
-import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
-import { useState } from "react";
+import {
+  Maybe,
+  SkillCategory,
+  SkillType_Member,
+} from "@eden/package-graphql/generated";
+import { Badge, TextHeading3 } from "@eden/package-ui";
 
+// import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
+// import { useState } from "react";
 import { trimParentheses } from "../../../utils/trim-parentheses";
 
 export interface SkillCategoryListProps {
-  skills: Maybe<SkillType_Member>[] | undefined;
+  categories?: SkillCategory[];
+  skills?: Maybe<SkillType_Member>[] | undefined;
   colorRGB?: string;
   closeButton?: boolean;
   overflowNumber?: number;
@@ -16,32 +21,51 @@ export interface SkillCategoryListProps {
 }
 export const SkillCategoryList: React.FC<SkillCategoryListProps> = ({
   skills,
+  categories,
   colorRGB,
   closeButton = false,
-  overflowNumber = 6,
+  // overflowNumber = 6,
   handleDeleteSkill,
 }) => {
-  const [seeMore, setSeeMore] = useState(false);
+  // const [seeMore, setSeeMore] = useState(false);
 
-  const badges = skills?.map(
-    (skill: Maybe<SkillType_Member> | undefined, index: number) => (
-      <Badge
-        key={index}
-        text={trimParentheses(skill?.skillInfo?.name || "")}
-        colorRGB={colorRGB}
-        className={`font-Inter text-sm`}
-        closeButton={closeButton}
-        onClose={() => {
-          if (handleDeleteSkill) handleDeleteSkill(skill);
-        }}
-        cutText={16}
-      />
-    )
-  );
+  const badges = (_skills: Maybe<SkillType_Member>[]) =>
+    _skills?.map(
+      (skill: Maybe<SkillType_Member> | undefined, index: number) => (
+        <Badge
+          key={index}
+          text={trimParentheses(skill?.skillInfo?.name || "")}
+          colorRGB={colorRGB}
+          className={`font-Inter text-sm`}
+          closeButton={closeButton}
+          onClose={() => {
+            if (handleDeleteSkill) handleDeleteSkill(skill);
+          }}
+          cutText={16}
+        />
+      )
+    );
 
   return (
     <div>
-      <div>
+      {categories?.map((category, index) => (
+        <div key={index}>
+          <TextHeading3>{category.name}:</TextHeading3>
+          {badges(
+            skills!.filter((_skill) =>
+              category.skills?.some(
+                (__skill) => _skill?.skillInfo?._id === __skill?._id
+              )
+            )
+          )}
+        </div>
+      ))}
+
+      <TextHeading3>Others:</TextHeading3>
+      {/* {categories?.map((category, index) => (
+
+      ))} */}
+      {/* <div>
         {badges?.slice(0, overflowNumber)}
         {seeMore ? badges?.slice(overflowNumber) : null}
       </div>
@@ -59,7 +83,7 @@ export const SkillCategoryList: React.FC<SkillCategoryListProps> = ({
             )}
           </span>
         </p>
-      )}
+      )} */}
     </div>
   );
 };

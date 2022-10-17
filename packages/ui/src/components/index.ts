@@ -14,6 +14,7 @@ export * from "./ProjectChampion";
 export * from "./ProjectInfo";
 export * from "./ReadMoreComp";
 export * from "./SearchSkill";
+export * from "./SkillCategoryList";
 export * from "./SkillVisualisationComp";
 export * from "./SocialMediaComponent";
 export * from "./SocialMediaInput";

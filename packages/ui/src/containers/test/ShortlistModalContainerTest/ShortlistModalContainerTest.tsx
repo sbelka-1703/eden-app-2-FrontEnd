@@ -169,7 +169,6 @@ export const ShortlistModalContainerTest =
             categories={selectedCategories || []}
             isOpen={openModal === LaunchProjectModal.SKILLS_SUBCATEGORY}
             onSubmit={function (val): void {
-              debugger;
               const newRole = {
                 _id: project?.role?.length.toString(),
                 title: val
@@ -208,6 +207,7 @@ export const ShortlistModalContainerTest =
           <SkillsOnCategoryModal
             key={"" + project?.role?.length}
             isOpen={openModal === LaunchProjectModal.SKILLS_ON_CATEGORY}
+            categories={selectedCategories || []}
             skills={selectedRole?.skills}
             setSkills={function (skills: SkillRoleType[]): void {
               dispatchProject!({
