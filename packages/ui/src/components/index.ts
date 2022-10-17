@@ -13,6 +13,7 @@ export * from "./LoginButton";
 export * from "./ProjectChampion";
 export * from "./ProjectInfo";
 export * from "./ReadMoreComp";
+export * from "./SalaryRangeChart";
 export * from "./SearchSkill";
 export * from "./SkillVisualisationComp";
 export * from "./SocialMediaComponent";
