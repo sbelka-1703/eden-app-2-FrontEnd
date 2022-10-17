@@ -10,7 +10,8 @@ import { round } from "../../../utils";
 export interface RoleCardProps {
   role?: Maybe<RoleType>;
   percentage?: number;
-  onApply?: () => void;
+  // eslint-disable-next-line no-unused-vars
+  onApply: (val: string) => void;
 }
 
 export const RoleCard = ({ role, percentage = 0, onApply }: RoleCardProps) => {
@@ -137,7 +138,7 @@ export const RoleCard = ({ role, percentage = 0, onApply }: RoleCardProps) => {
         </div>
       </div>
       <button
-        onClick={onApply}
+        onClick={() => onApply(role._id as string)}
         className="align-center bg-accentColor mt-4 flex w-full justify-center rounded-b-2xl py-3 px-2 text-lg"
       >
         <div className="align-center flex w-full cursor-pointer justify-center text-base text-black">

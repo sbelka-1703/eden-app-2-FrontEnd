@@ -11,13 +11,13 @@ const navItems = [
     description:
       "Find a project, team, gig or an opportunity to learn, earn &  grow!",
   },
-  {
-    title: "Discover Talent",
-    href: "/discover",
-    bgColor: "rgba(155, 103, 255, 0.3)",
-    description:
-      "Find people in your community to make friends, collaborate or ask for an advise!",
-  },
+  // {
+  //   title: "Discover Talent",
+  //   href: "/discover",
+  //   bgColor: "rgba(155, 103, 255, 0.3)",
+  //   description:
+  //     "Find people in your community to make friends, collaborate or ask for an advise!",
+  // },
   {
     title: "Launch new Project",
     href: "/launch",

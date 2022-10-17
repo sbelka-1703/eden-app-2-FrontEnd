@@ -1,11 +1,15 @@
 //This is just UI functionalities are remaning
 // import { Members } from "@eden/package-graphql/generated";
+import { useMutation } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
+import { UPDATE_MEMBER } from "@eden/package-graphql";
+import { Maybe, Mutation, RoleTemplate } from "@eden/package-graphql/generated";
 import {
   Button,
   Card,
   CheckBox,
   Dropdown,
+  RoleSelector,
   SearchSkill,
   SkillList,
   SocialMediaInput,
@@ -19,17 +23,40 @@ import {
 import { useContext, useState } from "react";
 
 export interface IEditProfileContainerProps {
+  roles?: Maybe<Array<Maybe<RoleTemplate>>>;
   // eslint-disable-next-line no-unused-vars
   // onSave: (member: Members) => void;
 }
 
-export const EditProfileContainer = ({}: IEditProfileContainerProps) => {
+export const EditProfileContainer = ({ roles }: IEditProfileContainerProps) => {
   const { currentUser } = useContext(UserContext);
   const newMember = currentUser!;
   const [showSeniorSkills, setShowSeniorSkills] = useState(true);
   const [showMidLevelSkills, setShowMidLevelSkills] = useState(true);
   const [showJuniorSkills, setShowJuniorSkills] = useState(true);
   const [showLearningSkills, setShowLearningSkills] = useState(true);
+
+  const [selectedRoleId, setSelectedRoleId] = useState<string | null>(null);
+
+  const [updateMember] = useMutation(UPDATE_MEMBER, {
+    onCompleted({ updateMember }: Mutation) {
+      if (!updateMember) console.log("updateMember is null");
+      console.log("updateMember", updateMember);
+    },
+  });
+
+  const handleSave = () => {
+    if (!currentUser) return;
+    console.log("save");
+    updateMember({
+      variables: {
+        fields: {
+          _id: currentUser?._id,
+          memberRole: selectedRoleId,
+        },
+      },
+    });
+  };
 
   return (
     <>
@@ -44,15 +71,15 @@ export const EditProfileContainer = ({}: IEditProfileContainerProps) => {
               {/*<TextField name="title" placeholder="Start typing here" /> */}
             </div>
             <div className="mb-3">
-              <TextBody>
-                Your Role:
-                {/* Add Roles */}
-                <Dropdown
-                  value="React Dev"
-                  items={[{ name: "React Dev" }, { name: "Frontend Dev" }]}
-                  onSelect={(val) => (newMember.memberRole = val)}
-                />
-              </TextBody>
+              <TextBody>Your Role:</TextBody>
+              {/* Add Roles */}
+              <RoleSelector
+                roles={roles as Maybe<Maybe<RoleTemplate>[]>}
+                onSelect={(role) => {
+                  setSelectedRoleId(role?._id as string);
+                }}
+              />
+
               <TextBody>
                 Short Bio:
                 <TextArea
@@ -240,6 +267,7 @@ export const EditProfileContainer = ({}: IEditProfileContainerProps) => {
       <Button
         variant="primary"
         className="mx-auto"
+        onClick={() => handleSave()}
         // onClick={() => onSave(newMember)}
       >
         Save
