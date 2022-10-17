@@ -59,6 +59,9 @@ const MATCH_SKILLS_TO_PROJECTS = gql`
         _id
         title
         description
+        descriptionOneLine
+        emoji
+        backColorEmoji
         champion {
           _id
           discordName
@@ -85,13 +88,15 @@ const SignUpTestPage: NextPageWithLayout = () => {
     (skill) => skill?.skillInfo?._id
   );
 
+  // console.log("filterskillsfromcurrentuser", filterskillsfromcurrentuser);
+
   const { data: dataMatchedProjects, refetch: refetchMatch } = useQuery(
     MATCH_SKILLS_TO_PROJECTS,
     {
       variables: {
         fields: {
           skillsID: filterskillsfromcurrentuser,
-          limit: 40,
+          limit: 20,
           page: 0,
         },
       },

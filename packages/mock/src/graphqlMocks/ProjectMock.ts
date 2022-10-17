@@ -1,7 +1,8 @@
 import { PhaseType, Project } from "@eden/package-graphql/generated";
 import { faker } from "@faker-js/faker";
 
-import { phase, skills } from "./data";
+import { phase, skills } from "../data";
+import { getRoleTypeMockArray } from "../typeMocks";
 import { getMember } from "./MembersMock";
 
 const level = ["learning", "junior", "mid", "senior"];
@@ -69,26 +70,7 @@ export const project: Project = {
   team: randomTeamType(),
   // eslint-disable-next-line camelcase
   garden_teams: randomTeam(),
-  role: [
-    {
-      _id: String(faker.random.numeric(5)),
-      archive: false,
-      description: faker.lorem.sentences(5),
-      skills: getProjectSkills(
-        faker.datatype.number({ min: 2, max: 36, precision: 1 })
-      ),
-      title: faker.name.firstName(),
-    },
-    {
-      _id: String(faker.random.numeric(5)),
-      archive: false,
-      description: faker.lorem.sentences(5),
-      skills: getProjectSkills(
-        faker.datatype.number({ min: 2, max: 36, precision: 1 })
-      ),
-      title: faker.name.firstName(),
-    },
-  ],
+  role: getRoleTypeMockArray(5),
   serverID: [faker.internet.url(), faker.internet.url(), faker.internet.url()],
   __typename: "Project",
 };

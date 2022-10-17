@@ -7,7 +7,7 @@ import {
   Button,
   Card,
   Favorite,
-  SkillMatchModal,
+  // SkillMatchModal,
 } from "@eden/package-ui";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
@@ -48,7 +48,7 @@ export const ProjectCard = ({
   const router = useRouter();
   const { currentUser } = useContext(UserContext);
   const [submitting, setSubmitting] = useState(false);
-  const [showSkillMatchModel, setSkillMatchModel] = useState(false);
+  // const [showSkillMatchModel, setSkillMatchModel] = useState(false);
   const [addFavoriteProject, {}] = useMutation(SET_FAVORITE, {
     onCompleted({ addFavoriteProject }: Mutation) {
       if (!addFavoriteProject) console.log("addFavoriteProject is null");
@@ -65,12 +65,12 @@ export const ProjectCard = ({
       });
     }
   }, [currentUser?.projects, project]);
-  const onOpenModal = () => {
-    setSkillMatchModel(!showSkillMatchModel);
-  };
-  const onCloseModal = () => {
-    setSkillMatchModel(false);
-  };
+  // const onOpenModal = () => {
+  //   setSkillMatchModel(!showSkillMatchModel);
+  // };
+  // const onCloseModal = () => {
+  //   setSkillMatchModel(false);
+  // };
   const [fav, updateFav] = useState(false);
   const onClickFav = () => {
     setSubmitting(true);

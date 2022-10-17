@@ -59,6 +59,9 @@ const MATCH_SKILLS_TO_PROJECTS = gql`
         _id
         title
         description
+        descriptionOneLine
+        emoji
+        backColorEmoji
         champion {
           _id
           discordName
