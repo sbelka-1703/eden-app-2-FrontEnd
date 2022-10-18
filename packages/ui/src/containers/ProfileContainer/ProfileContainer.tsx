@@ -6,8 +6,7 @@ import {
   Button,
   Card,
   SearchSkill,
-  SkillsCard,
-  // SkillSelector,
+  SkillList,
   SocialMediaComp,
   UserInformationCard,
 } from "@eden/package-ui";
@@ -18,18 +17,22 @@ const levels = [
   {
     title: "senior",
     level: "senior",
+    colorRGB: "255, 208, 43",
   },
   {
     title: "junior",
     level: "junior",
+    colorRGB: "255, 169, 241",
   },
   {
     title: "mid",
     level: "mid",
+    colorRGB: "186, 230, 255",
   },
   {
     title: "learning",
     level: "learning",
+    colorRGB: "255, 208, 43",
   },
 ];
 
@@ -126,18 +129,20 @@ export const ProfileContainer = ({}: ProfileContainerProps) => {
             )}
             {levels.map((level, index: number) => {
               return (
-                <SkillsCard
-                  key={index}
-                  skills={
-                    filterSkills(
-                      skills as Maybe<Maybe<SkillType_Member>[]>,
-                      `${level.level}`
-                    ) as Maybe<Maybe<SkillType_Member>[]>
-                  }
-                  title={level.title}
-                  shadow={true}
-                  className={`p-2`}
-                />
+                <div key={index}>
+                  <div className={`border-t text-center text-sm text-zinc-500`}>
+                    {level.title}
+                  </div>
+                  <SkillList
+                    colorRGB={level.colorRGB}
+                    skills={
+                      filterSkills(
+                        skills as Maybe<SkillType_Member>[],
+                        `${level.level}`
+                      ) as Maybe<SkillType_Member>[]
+                    }
+                  />
+                </div>
               );
             })}
 
