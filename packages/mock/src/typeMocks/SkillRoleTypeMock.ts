@@ -13,7 +13,13 @@ export const getSkillRoleTypeMock = () => ({
   skillData: faker.helpers.uniqueArray(skills, 1)[0],
 });
 
+export const getSkillRoleTypeMockArray = (total: number) =>
+  Array.from({ length: total }, () => getSkillRoleTypeMock());
+
 export const getSkillTypeMemberMock = () => ({
   level: String(faker.datatype.number({ min: 1, max: 99, precision: 1 })),
   skillInfo: faker.helpers.uniqueArray(skills, 1)[0],
 });
+
+export const getSkillTypeMemberMockArray = (total: number) =>
+  Array.from({ length: total }, () => getSkillTypeMemberMock());

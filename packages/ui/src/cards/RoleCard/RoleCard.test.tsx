@@ -8,7 +8,7 @@ describe("RoleCard", () => {
   it("renders without throwing", () => {
     const { container } = render(
       <MockedProvider>
-        <RoleCard />
+        <RoleCard onApply={(val) => console.log(val)} />
       </MockedProvider>
     );
 

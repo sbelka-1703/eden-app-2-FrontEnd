@@ -72,8 +72,10 @@ export const SignUpContainerSide = ({
     <Card className={`h-85 flex flex-col gap-4`}>
       <UserProfileCard />
       {viewProject ? (
-        <Card className={`scrollbar-hide flex flex-grow overflow-y-scroll`}>
-          <div className={`my-1 flex flex-col gap-3`}>
+        <Card
+          className={`scrollbar-hide flex w-full flex-grow overflow-y-scroll`}
+        >
+          <div className={`my-1 flex w-full flex-col gap-3`}>
             {matchedProjects?.map((matchProject, index: number) => (
               <button
                 key={index}
@@ -116,49 +118,53 @@ export const SignUpContainerSide = ({
           </div>
         </Card>
       ) : (
-        <Card
-          className={`scrollbar-hide flex flex-grow overflow-y-scroll bg-white`}
-        >
-          <ProjectSkillFilterCard
-            cardTypeProject={false}
-            roles={[]}
-            skills={
-              currentUser?.skills?.map((skill) => ({
-                skillData: {
-                  _id: skill?.skillInfo?._id,
-                  name: skill?.skillInfo?.name,
-                },
-                level: skill?.level,
-              })) || []
-            }
-            handleSetSkills={(val: any) => {
-              updateMember({
-                variables: {
-                  fields: {
-                    _id: currentUser?._id,
-                    skills: val.map((skill: Maybe<SkillRoleType>) => {
-                      return {
-                        id: skill?.skillData?._id,
-                        level: skill?.level,
-                      };
-                    }),
-                  },
-                },
-              });
-            }}
-            handleSetHoursPerWeek={(val) => {
-              updateMember({
-                variables: {
-                  fields: {
-                    _id: currentUser?._id,
-                    hoursPerWeek: Number(val.target.value),
-                  },
-                },
-              });
-            }}
-            handleDeleteSkill={handleDeleteSkill}
-          />
-        </Card>
+        <>
+          {currentUser?.memberRole?.title ? (
+            <Card
+              className={`scrollbar-hide flex flex-grow overflow-y-scroll bg-white`}
+            >
+              <ProjectSkillFilterCard
+                cardTypeProject={false}
+                roles={[]}
+                skills={
+                  currentUser?.skills?.map((skill) => ({
+                    skillData: {
+                      _id: skill?.skillInfo?._id,
+                      name: skill?.skillInfo?.name,
+                    },
+                    level: skill?.level,
+                  })) || []
+                }
+                handleSetSkills={(val: any) => {
+                  updateMember({
+                    variables: {
+                      fields: {
+                        _id: currentUser?._id,
+                        skills: val.map((skill: Maybe<SkillRoleType>) => {
+                          return {
+                            id: skill?.skillData?._id,
+                            level: skill?.level,
+                          };
+                        }),
+                      },
+                    },
+                  });
+                }}
+                handleSetHoursPerWeek={(val) => {
+                  updateMember({
+                    variables: {
+                      fields: {
+                        _id: currentUser?._id,
+                        hoursPerWeek: Number(val.target.value),
+                      },
+                    },
+                  });
+                }}
+                handleDeleteSkill={handleDeleteSkill}
+              />
+            </Card>
+          ) : null}
+        </>
       )}
     </Card>
   );

@@ -10,8 +10,10 @@ import {
   Mutation,
   RoleTemplate,
   RoleType,
+  SkillCategory,
   SkillRoleType,
   Skills,
+  SkillSubCategory,
   UpdateProjectInput,
 } from "@eden/package-graphql/generated";
 import {
@@ -20,7 +22,10 @@ import {
   RoleModal,
   SavingProjectModal,
   ShortlistMemberModal,
+  SkillsCategoryModal,
   SkillsModal,
+  SkillsOnCategoryModal,
+  SkillsSubcategoryModal,
   SocialMediaModel,
 } from "@eden/package-ui";
 import { useContext, useEffect } from "react";
@@ -38,6 +43,8 @@ export const ShortlistModalContainerTest =
       setOpenModal,
       submitting,
       setSubmitting,
+      selectedCategories,
+      setSelectedCategories,
     } = useContext(LaunchProjectContext);
 
     const [updateProject, {}] = useMutation(UPDATE_PROJECT, {
@@ -144,6 +151,75 @@ export const ShortlistModalContainerTest =
           <RoleModal
             openModal={openModal === LaunchProjectModal.ROLE}
             onSubmit={handleAddRole}
+          />
+        )}
+        {openModal === LaunchProjectModal.SKILLS_CATEGORY && (
+          <SkillsCategoryModal
+            key={"" + project?.role?.length}
+            isOpen={openModal === LaunchProjectModal.SKILLS_CATEGORY}
+            onSubmit={(val: SkillCategory[]) => {
+              setSelectedCategories(val);
+              setOpenModal(LaunchProjectModal.SKILLS_SUBCATEGORY);
+            }}
+          />
+        )}
+        {openModal === LaunchProjectModal.SKILLS_SUBCATEGORY && (
+          <SkillsSubcategoryModal
+            key={"" + project?.role?.length}
+            categories={selectedCategories || []}
+            isOpen={openModal === LaunchProjectModal.SKILLS_SUBCATEGORY}
+            onSubmit={function (val): void {
+              const newRole = {
+                _id: project?.role?.length.toString(),
+                title: val
+                  .map((category: SkillCategory) =>
+                    category?.subCategorySkill
+                      ?.map(
+                        (subcategory: Maybe<SkillSubCategory>) =>
+                          subcategory?.name
+                      )
+                      .join(" ")
+                  )
+                  .join(" "),
+                skills: ([] as any[]).concat(
+                  ...val.map((category) =>
+                    category?.skills?.map(
+                      (skill: Skills) =>
+                        ({
+                          skillData: { ...skill },
+                        } as SkillRoleType)
+                    )
+                  )
+                ),
+              } as RoleType;
+
+              setSelectedCategories(val);
+              dispatchProject!({
+                type: ProjectActionKind.ADD_ROLE,
+                payload: newRole,
+              });
+              setSelectedRole(newRole);
+              setOpenModal(LaunchProjectModal.SKILLS_ON_CATEGORY);
+            }}
+          />
+        )}
+        {openModal === LaunchProjectModal.SKILLS_ON_CATEGORY && (
+          <SkillsOnCategoryModal
+            key={"" + project?.role?.length}
+            isOpen={openModal === LaunchProjectModal.SKILLS_ON_CATEGORY}
+            categories={selectedCategories || []}
+            skills={selectedRole?.skills}
+            setSkills={function (skills: SkillRoleType[]): void {
+              dispatchProject!({
+                type: ProjectActionKind.SET_ROLE_SKILLS,
+                payload: {
+                  ...selectedRole,
+                  skills: skills,
+                },
+              });
+              setSelectedRole({ ...selectedRole, skills: skills });
+            }}
+            handelAddSkills={() => setOpenModal(null)}
           />
         )}
         {openModal === LaunchProjectModal.SKILLS && (

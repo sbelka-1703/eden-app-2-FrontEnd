@@ -75,6 +75,8 @@ export const ApplyByRoleContainer = ({
   const [showModal, setShowModal] = useState(false);
   const [applied, setApplied] = useState(false);
 
+  const [roleID, setRoleID] = useState("");
+
   const [profileBio, setProfileBio] = useState(currentUser?.bio || "");
   const [timezone, setTimezone] = useState(currentUser?.timeZone || "");
   const [hoursPerWeek, setHoursPerWeek] = useState(
@@ -94,11 +96,15 @@ export const ApplyByRoleContainer = ({
     }
   }, [currentUser?.projects, project]);
 
+  useEffect(() => {
+    if (roleID) setShowModal(true);
+    else setShowModal(false);
+  }, [roleID]);
+
   const [changeTeamMember_Phase_Project, {}] = useMutation(
     SET_APPLY_TO_PROJECT,
     {
       onCompleted: () => {
-        // console.log("onCompleted");
         if (refetch) refetch();
         setSubmitting(false);
       },
@@ -119,10 +125,13 @@ export const ApplyByRoleContainer = ({
   const [updateMember, {}] = useMutation(UPDATE_MEMBER, {
     onCompleted({ updateMember }: Mutation) {
       if (!updateMember) console.log("updateMember is null");
+      setSubmitting(false);
     },
   });
 
   const handleApply = async () => {
+    console.log("handleApply");
+    console.log("roleID", roleID);
     setSubmitting(true);
     updateMember({
       variables: {
@@ -154,10 +163,12 @@ export const ApplyByRoleContainer = ({
         fields: {
           projectID: project?._id,
           memberID: currentUser?._id,
+          roleID,
           phase: "engaged",
         },
       },
     });
+
     setApplied(true);
   };
 
@@ -175,6 +186,7 @@ export const ApplyByRoleContainer = ({
   const filterCommittedTeamAvatars = filterCommittedTeam?.map((member) => ({
     src: member?.memberInfo?.discordAvatar,
     size: "xs",
+    alt: member?.memberInfo?.discordName,
   }));
 
   const zeroMatchedProjects = project?.role?.filter(
@@ -270,7 +282,9 @@ export const ApplyByRoleContainer = ({
                 key={index}
                 role={role?.projectRole}
                 percentage={role?.matchPercentage || 0}
-                onApply={() => setShowModal(true)}
+                onApply={(val) => {
+                  setRoleID(val);
+                }}
               />
             ))}
             {zeroMatchedProjects?.map((role, index) => (
@@ -278,7 +292,9 @@ export const ApplyByRoleContainer = ({
                 key={index}
                 role={role}
                 percentage={0}
-                onApply={() => setShowModal(true)}
+                onApply={(val) => {
+                  setRoleID(val);
+                }}
               />
             ))}
           </div>
@@ -293,7 +309,7 @@ export const ApplyByRoleContainer = ({
       <Modal
         open={showModal}
         onClose={() => {
-          setShowModal(false);
+          setRoleID("");
         }}
       >
         {!applied ? (

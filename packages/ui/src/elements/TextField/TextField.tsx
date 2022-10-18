@@ -4,7 +4,7 @@ import { InputHTMLAttributes } from "react";
 export type TextFieldProps = {
   name?: string;
   label?: string;
-  value?: string;
+  value?: string | number;
   defaultValue?: string;
   required?: boolean;
   radius?: "default" | "rounded" | "pill" | "pill-shadow";
@@ -12,6 +12,8 @@ export type TextFieldProps = {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   disabled?: boolean;
+  className?: string;
+  [rest: string]: any;
 } & InputHTMLAttributes<HTMLInputElement>;
 
 export const TextField: React.FC<TextFieldProps> = ({
@@ -26,6 +28,8 @@ export const TextField: React.FC<TextFieldProps> = ({
   placeholder,
   onChange,
   disabled = false,
+  className,
+  ...rest
 }) => {
   const inputCls = clsx("py-1 px-4 font-Inter text-soilBody flex", {
     "rounded-md": radius === "default",
@@ -44,6 +48,7 @@ export const TextField: React.FC<TextFieldProps> = ({
       </label>
       <div className={"mt-1"}>
         <input
+          {...rest}
           id={name}
           name={name}
           value={value}
@@ -55,7 +60,7 @@ export const TextField: React.FC<TextFieldProps> = ({
           onChange={(e) => {
             onChange(e);
           }}
-          className={`${inputCls} focus:border-accentColor focus:ring-soilGreen-500 block w-full border border-zinc-400/50 py-1 px-2 text-base shadow-sm focus:outline-transparent focus:ring focus:ring-opacity-50 disabled:text-slate-300`}
+          className={`${inputCls} ${className} focus:border-accentColor focus:ring-soilGreen-500 block w-full border border-zinc-400/50 py-1 px-2 text-base shadow-sm focus:outline-transparent focus:ring focus:ring-opacity-50 disabled:text-slate-300`}
           disabled={disabled}
         />
       </div>

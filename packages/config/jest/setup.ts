@@ -46,5 +46,6 @@ jest.mock("@testing-library/react", () => {
 });
 
 jest.mock("react-chartjs-2", () => ({
+  Bar: () => null,
   Radar: () => null,
 }));
