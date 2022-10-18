@@ -81,9 +81,8 @@ const ApplicationsPage: NextPageWithLayout = () => {
             )
             .map((project, index) => (
               <ApplicationCard
-                project={project?.info}
+                project={project}
                 key={project?.info?._id || index}
-                role={project?.info?.role?.length ? project.info.role[0] : {}}
               />
             ))}
         </div>
