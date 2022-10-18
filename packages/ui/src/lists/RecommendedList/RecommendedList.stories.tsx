@@ -1,5 +1,5 @@
-import { getProject } from "@eden/package-mock";
-import { faker } from "@faker-js/faker";
+/* eslint-disable camelcase */
+import { findProjects_RecommendedToUserMock } from "@eden/package-mock";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { RecommendedList } from "./RecommendedList";
@@ -10,20 +10,14 @@ export default {
   argTypes: {},
 } as ComponentMeta<typeof RecommendedList>;
 
-const getProjects = () =>
-  Array.from({ length: 6 }, () => {
-    return {
-      projectData: getProject(),
-      avatar: faker.internet.avatar(),
-      matchPercentage: Number(faker.random.numeric(2)),
-    };
-  });
-
 const Template: ComponentStory<typeof RecommendedList> = (args) => (
   <RecommendedList {...args} />
 );
 
+const getProjectArray = (total: number) =>
+  Array.from({ length: total }, () => findProjects_RecommendedToUserMock);
+
 export const Default = Template.bind({});
 Default.args = {
-  projects: getProjects(),
+  projects: getProjectArray(7),
 };
