@@ -1,21 +1,19 @@
+import { Members } from "@eden/package-graphql/generated";
 import { Avatar } from "@eden/package-ui";
 
 export interface IUserWithDescriptionProps {
-  avatarSrc?: string;
-  title?: string;
-  name?: string;
+  member?: Members;
 }
 
-export const UserWithDescription = ({
-  avatarSrc,
-  title,
-  name,
-}: IUserWithDescriptionProps) => {
+export const UserWithDescription = ({ member }: IUserWithDescriptionProps) => {
+  if (!member) return null;
   return (
     <div className={`desc font-Inter flex-col content-center text-center`}>
-      <Avatar src={avatarSrc} />
-      <div className={`pt-2 uppercase`}>{title}</div>
-      <div className={`font-sm text-neutral-500`}>{name}</div>
+      <Avatar src={member?.discordAvatar as string} />
+      <div className={`pt-2 uppercase`}>@{member?.discordName}</div>
+      <div className={`font-sm text-neutral-500`}>
+        {member?.memberRole?.title}
+      </div>
     </div>
   );
 };

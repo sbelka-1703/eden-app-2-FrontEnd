@@ -118,12 +118,20 @@ export const getMember = () =>
     hoursPerWeek: faker.datatype.number({ min: 2, max: 36, precision: 1 }),
     interest: faker.lorem.paragraph(),
     links,
+    memberRole: {
+      _id: String(faker.random.numeric(5)),
+      title: faker.name.jobTitle(),
+      description: faker.lorem.paragraph(),
+    },
     previusProjects: getPreviusProjectsArray(3),
     projects: getMemberProjectArray(14),
     serverID: faker.random.numeric(12),
     skills: getSkills(faker.datatype.number({ min: 2, max: 36, precision: 1 })),
     timeZone: faker.address.timeZone(),
   } as any);
+
+export const getMemberArray = (total: number) =>
+  Array.from({ length: total }, () => getMember());
 
 export const getSkillsPercentage = () => ({
   info: {

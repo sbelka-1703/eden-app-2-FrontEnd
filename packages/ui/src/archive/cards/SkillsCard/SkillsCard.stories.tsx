@@ -4,7 +4,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { SkillsCard } from "./SkillsCard";
 
 export default {
-  title: "Cards/SkillsCard",
+  title: "Archive/Cards/SkillsCard",
   component: SkillsCard,
   argTypes: { onSelect: { action: "selected" } },
 } as ComponentMeta<typeof SkillsCard>;
