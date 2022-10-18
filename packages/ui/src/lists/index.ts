@@ -7,5 +7,4 @@ export * from "./ProjectMatchList";
 export * from "./RecommendedList";
 export * from "./RoleList";
 export * from "./ShortlistList";
-export * from "./SideNavProjectList";
 export * from "./SkillList";

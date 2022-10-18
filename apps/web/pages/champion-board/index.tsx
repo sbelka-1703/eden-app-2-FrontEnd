@@ -1,80 +1,12 @@
-import { useQuery } from "@apollo/client";
-import { UserContext } from "@eden/package-context";
-import { FIND_PROJECT } from "@eden/package-graphql";
-import {
-  AppUserLayout,
-  Button,
-  ChampionContainer,
-  GridItemSix,
-  GridItemThree,
-  GridLayout,
-  SideNavProjectList,
-} from "@eden/package-ui";
-import { useRouter } from "next/router";
-import { useContext, useState } from "react";
+import { AppUserSubmenuLayout, ProjectChampionList } from "@eden/package-ui";
 
 import type { NextPageWithLayout } from "../_app";
 
-const ProjectPage: NextPageWithLayout = () => {
-  const router = useRouter();
-  const { currentUser } = useContext(UserContext);
-  const [selectProject, setSelectProject] = useState("");
+const ProjectPage: NextPageWithLayout = () => <ProjectChampionList />;
 
-  // if (currentUser) console.log("currentUser", currentUser);
-
-  const { data: dataProject, refetch } = useQuery(FIND_PROJECT, {
-    variables: {
-      fields: {
-        _id: selectProject,
-      },
-    },
-    context: { serviceName: "soilservice" },
-    skip: !selectProject,
-  });
-
-  // if (dataProject) console.log("dataProject", dataProject?.findProject);
-  return (
-    <GridLayout>
-      <GridItemThree>
-        <div className={`text-lg font-medium text-black/60`}>
-          Hi there, champion!
-        </div>
-        <div className={`text-2xl font-medium text-black`}>YOUR PROJECTS</div>
-        <SideNavProjectList
-          projects={currentUser?.projects}
-          onSelectProject={(id) => setSelectProject(id)}
-        />
-      </GridItemThree>
-      <GridItemSix>
-        <ChampionContainer
-          project={dataProject?.findProject}
-          refetch={refetch}
-        />
-      </GridItemSix>
-      <GridItemThree>
-        {selectProject && (
-          <>
-            <div className={`text-center text-lg font-medium text-black/60`}>
-              Need to find more Members for your project?
-            </div>
-            <div className={`my-8 flex justify-center`}>
-              <Button
-                variant={`primary`}
-                onClick={() =>
-                  router.push(`/champion-board/recruit/${selectProject}`)
-                }
-              >
-                Recruit
-              </Button>
-            </div>
-          </>
-        )}
-      </GridItemThree>
-    </GridLayout>
-  );
-};
-
-ProjectPage.getLayout = (page) => <AppUserLayout>{page}</AppUserLayout>;
+ProjectPage.getLayout = (page) => (
+  <AppUserSubmenuLayout>{page}</AppUserSubmenuLayout>
+);
 
 export default ProjectPage;
 
