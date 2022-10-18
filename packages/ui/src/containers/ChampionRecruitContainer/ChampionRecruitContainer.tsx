@@ -5,8 +5,8 @@ import {
   BioComponent,
   Button,
   EndorsementsCarousel,
+  SkillList,
   // Loading,
-  SkillsCard,
   SocialMediaComp,
   TabsSelector,
   // TeamAttributeChart,
@@ -182,7 +182,12 @@ export const ChampionRecruitContainer = ({
                 >
                   TOP SKILLS
                 </div>
-                {member.skills && <SkillsCard skills={member.skills} />}
+                {member.skills && (
+                  <SkillList
+                    colorRGB={"255, 169, 241"}
+                    skills={member.skills}
+                  />
+                )}
               </div>
               <div className={`col-span-2`}>
                 <SocialMediaComp links={member?.links} color="#BCBCBC" />

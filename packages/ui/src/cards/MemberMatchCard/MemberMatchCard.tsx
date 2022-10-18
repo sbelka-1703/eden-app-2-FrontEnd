@@ -1,21 +1,22 @@
 /* eslint-disable camelcase */
 import {
+  MatchMembersToSkillOutput,
   Maybe,
   Members,
   SkillRoleType,
   SkillType_Member,
-  MatchMembersToSkillOutput,
 } from "@eden/package-graphql/generated";
 import {
   Button,
   Card,
   MatchAvatar,
   SkillList,
+  SkillMatchModal,
   SocialMediaComp,
   TextHeading2,
-  SkillMatchModal,
 } from "@eden/package-ui";
 import { useState } from "react";
+
 export interface MemberMatchCardProps {
   percentage?: string;
   member: Members;
@@ -33,6 +34,7 @@ export const MemberMatchCard = ({
 }: MemberMatchCardProps) => {
   const mySkills: Maybe<SkillType_Member>[] | undefined = [];
   const [showSkillMatchModel, setSkillMatchModel] = useState(false);
+
   member?.skills?.forEach((skill) => {
     mySkills.push(skill);
   });
@@ -73,6 +75,7 @@ export const MemberMatchCard = ({
 
     return colors[Math.floor(Math.random() * colors.length)];
   };
+
   return (
     <>
       <SkillMatchModal

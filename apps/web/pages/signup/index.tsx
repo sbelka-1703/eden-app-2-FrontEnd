@@ -10,7 +10,6 @@ import {
   SignUpContainerMain,
   SignUpContainerSide,
 } from "@eden/package-ui";
-import Head from "next/head";
 import { useContext, useState } from "react";
 
 import type { NextPageWithLayout } from "../_app";
@@ -126,34 +125,28 @@ const SignUpTestPage: NextPageWithLayout = () => {
   // if (dataProject) console.log("dataProject", dataProject);
 
   return (
-    <div className={`bg-background`}>
-      <Head>
-        <title>Eden protocol</title>
-      </Head>
-
-      <GridLayout>
-        <GridItemThree>
-          <SignUpContainerSide
-            matchedProjects={dataMatchedProjects?.matchSkillsToProjects}
-            onSelectedProject={(val) => setSelectProject(val)}
-            viewProject={viewProject}
-          />
-        </GridItemThree>
-        <GridItemNine>
-          <SignUpContainerMain
-            roles={dataRoles?.findRoleTemplates}
-            matchedProjects={dataMatchedProjects?.matchSkillsToProjects}
-            project={dataProject?.findProject}
-            refetchMatch={refetchMatch}
-            refetchProject={refetchProject}
-            onSelectedProject={(val) => setSelectProject(val)}
-            loadingProject={loadingProject}
-            viewProject={viewProject}
-            onViewProject={(val) => setViewProject(val)}
-          />
-        </GridItemNine>
-      </GridLayout>
-    </div>
+    <GridLayout>
+      <GridItemThree>
+        <SignUpContainerSide
+          matchedProjects={dataMatchedProjects?.matchSkillsToProjects}
+          onSelectedProject={(val) => setSelectProject(val)}
+          viewProject={viewProject}
+        />
+      </GridItemThree>
+      <GridItemNine>
+        <SignUpContainerMain
+          roles={dataRoles?.findRoleTemplates}
+          matchedProjects={dataMatchedProjects?.matchSkillsToProjects}
+          project={dataProject?.findProject}
+          refetchMatch={refetchMatch}
+          refetchProject={refetchProject}
+          onSelectedProject={(val) => setSelectProject(val)}
+          loadingProject={loadingProject}
+          viewProject={viewProject}
+          onViewProject={(val) => setViewProject(val)}
+        />
+      </GridItemNine>
+    </GridLayout>
   );
 };
 
