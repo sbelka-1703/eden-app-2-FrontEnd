@@ -171,6 +171,7 @@ export const ShortlistModalContainerTest =
             onSubmit={function (val): void {
               const newRole = {
                 _id: project?.role?.length.toString(),
+                // generate title for the role
                 title: val
                   .map((category: SkillCategory) =>
                     category?.subCategorySkill
@@ -178,18 +179,19 @@ export const ShortlistModalContainerTest =
                         (subcategory: Maybe<SkillSubCategory>) =>
                           subcategory?.name
                       )
-                      .join(" ")
+                      .join(", ")
                   )
-                  .join(" "),
+                  .join(", "),
+                // this concat will generate an array with all the skills
                 skills: ([] as any[]).concat(
-                  ...val.map((category) =>
-                    category?.skills?.map(
+                  ...val.map((category) => {
+                    return category?.skills?.map(
                       (skill: Skills) =>
                         ({
                           skillData: { ...skill },
                         } as SkillRoleType)
-                    )
-                  )
+                    );
+                  })
                 ),
               } as RoleType;
 
@@ -207,7 +209,6 @@ export const ShortlistModalContainerTest =
           <SkillsOnCategoryModal
             key={"" + project?.role?.length}
             isOpen={openModal === LaunchProjectModal.SKILLS_ON_CATEGORY}
-            categories={selectedCategories || []}
             skills={selectedRole?.skills}
             setSkills={function (skills: SkillRoleType[]): void {
               dispatchProject!({

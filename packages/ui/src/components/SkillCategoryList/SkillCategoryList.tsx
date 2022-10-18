@@ -1,19 +1,20 @@
 /* eslint-disable camelcase */
-import {
-  Maybe,
-  SkillCategory,
-  SkillType_Member,
-} from "@eden/package-graphql/generated";
+import { Maybe, SkillType_Member } from "@eden/package-graphql/generated";
 import { Badge, TextHeading3 } from "@eden/package-ui";
 
 // import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
 // import { useState } from "react";
 import { trimParentheses } from "../../../utils/trim-parentheses";
 
+const colors = [
+  "224, 242, 211",
+  "250, 207, 243",
+  "210, 237, 252",
+  "250, 234, 175",
+];
+
 export interface SkillCategoryListProps {
-  categories?: SkillCategory[];
   skills?: Maybe<SkillType_Member>[] | undefined;
-  colorRGB?: string;
   closeButton?: boolean;
   overflowNumber?: number;
   // eslint-disable-next-line no-unused-vars
@@ -21,15 +22,44 @@ export interface SkillCategoryListProps {
 }
 export const SkillCategoryList: React.FC<SkillCategoryListProps> = ({
   skills,
-  categories,
-  colorRGB,
   closeButton = false,
   // overflowNumber = 6,
   handleDeleteSkill,
 }) => {
   // const [seeMore, setSeeMore] = useState(false);
 
-  const badges = (_skills: Maybe<SkillType_Member>[]) =>
+  const _categories = skills?.reduce(
+    (acc: any, skill: Maybe<SkillType_Member>) => {
+      if (
+        !skill?.skillInfo?.categorySkills ||
+        !skill?.skillInfo?.categorySkills[0]?._id
+      )
+        return (acc["others"] = {
+          name: "Others",
+          skills: acc["others"] ? [...acc["others"].skills!, skill] : [skill],
+        });
+
+      acc[skill?.skillInfo?.categorySkills[0]._id] = !!acc[
+        skill?.skillInfo?.categorySkills[0]._id
+      ]
+        ? {
+            name: skill?.skillInfo?.categorySkills[0].name,
+            skills: [
+              ...acc[skill?.skillInfo?.categorySkills[0]._id].skills,
+              skill,
+            ],
+          }
+        : {
+            name: skill?.skillInfo?.categorySkills[0].name,
+            skills: [skill],
+          };
+
+      return acc;
+    },
+    {}
+  );
+
+  const badges = (_skills: Maybe<SkillType_Member>[], colorRGB: string) =>
     _skills?.map(
       (skill: Maybe<SkillType_Member> | undefined, index: number) => (
         <Badge
@@ -48,42 +78,12 @@ export const SkillCategoryList: React.FC<SkillCategoryListProps> = ({
 
   return (
     <div>
-      {categories?.map((category, index) => (
+      {Object.keys(_categories)?.map((categoryKey: any, index: number) => (
         <div key={index}>
-          <TextHeading3>{category.name}:</TextHeading3>
-          {badges(
-            skills!.filter((_skill) =>
-              category.skills?.some(
-                (__skill) => _skill?.skillInfo?._id === __skill?._id
-              )
-            )
-          )}
+          <TextHeading3>{_categories[categoryKey].name}:</TextHeading3>
+          {badges(_categories[categoryKey].skills, colors[index % 4])}
         </div>
       ))}
-
-      <TextHeading3>Others:</TextHeading3>
-      {/* {categories?.map((category, index) => (
-
-      ))} */}
-      {/* <div>
-        {badges?.slice(0, overflowNumber)}
-        {seeMore ? badges?.slice(overflowNumber) : null}
-      </div>
-      {badges && badges.length > overflowNumber && (
-        <p
-          className="cursor-pointer text-center text-sm"
-          onClick={() => setSeeMore(!seeMore)}
-        >
-          {`see ${seeMore ? "less" : "more"} skills`}
-          <span>
-            {seeMore ? (
-              <ChevronUpIcon width={16} className="ml-2 inline" />
-            ) : (
-              <ChevronDownIcon width={16} className="ml-2 inline" />
-            )}
-          </span>
-        </p>
-      )} */}
     </div>
   );
 };
