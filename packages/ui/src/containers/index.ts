@@ -1,5 +1,4 @@
 export * from "./ApplyByRoleContainer";
-export * from "./ChampionContainer";
 export * from "./ChampionMatchContainer";
 export * from "./ChampionRecruitContainer";
 export * from "./ConfettiContainer";

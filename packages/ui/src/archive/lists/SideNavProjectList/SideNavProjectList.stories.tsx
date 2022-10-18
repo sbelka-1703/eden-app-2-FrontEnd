@@ -1,12 +1,12 @@
 import { Maybe, ProjectMemberType } from "@eden/package-graphql/generated";
+import { getProject } from "@eden/package-mock";
 import { faker } from "@faker-js/faker";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { getProject } from "@eden/package-mock";
 
 import { SideNavProjectList } from "./SideNavProjectList";
 
 export default {
-  title: "Lists/SideNavProjectList",
+  title: "Archive/Lists/SideNavProjectList",
   component: SideNavProjectList,
   argTypes: {},
 } as ComponentMeta<typeof SideNavProjectList>;
