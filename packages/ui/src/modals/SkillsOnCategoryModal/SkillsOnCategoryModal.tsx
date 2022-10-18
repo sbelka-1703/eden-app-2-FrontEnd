@@ -6,8 +6,8 @@ import {
 } from "@eden/package-graphql/generated";
 import {
   Button,
+  CategorySearchSkill,
   Modal,
-  SearchSkill,
   SkillCategoryList,
 } from "@eden/package-ui";
 
@@ -78,7 +78,7 @@ export const SkillsOnCategoryModal = ({
         <button></button>
         {/* ----- */}
         <div className={`h-7/10 scrollbar-hide overflow-y-scroll`}>
-          <SearchSkill
+          <CategorySearchSkill
             key={JSON.stringify(skills)}
             skills={mappedSkills}
             setSkills={handleSetSkills}
