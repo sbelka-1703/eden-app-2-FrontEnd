@@ -34,6 +34,7 @@ export const SubmenuSelector = ({
               key={index}
               Icon={item.Icon}
               FunctionName={item.FunctionName}
+              counterBadge={item?.Counter}
               onFunctionCallback={item.onFunctionCallback}
               active={activeIndex === index}
             />

@@ -8,7 +8,7 @@ import {
   TextBody,
   TextHeading3,
 } from "@eden/package-ui";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 
 export interface ApplicationCardProps {
   role?: Maybe<RoleType>;
@@ -35,7 +35,7 @@ const STEPS_DATA = [
 ];
 
 export const ApplicationCard = ({ project, role }: ApplicationCardProps) => {
-  const router = useRouter();
+  // const router = useRouter();
 
   return (
     <>
@@ -81,7 +81,7 @@ export const ApplicationCard = ({ project, role }: ApplicationCardProps) => {
           <Button
             radius="rounded"
             variant={`secondary`}
-            onClick={() => router.push("/")}
+            // onClick={() => router.push("/")}
           >
             More
           </Button>

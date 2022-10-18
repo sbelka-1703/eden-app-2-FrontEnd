@@ -37,21 +37,33 @@ const ApplicationsPage: NextPageWithLayout = () => {
     {
       Icon: <VscFolderActive size={25} />,
       FunctionName: "Active projects",
+      Counter: currentUser?.projects?.filter(
+        (project: any) => project.phase === "committed"
+      ).length,
       onFunctionCallback: () => setActiveIndex(0),
     },
     {
       Icon: <GrDocumentTime size={25} />,
       FunctionName: "Active applications",
+      Counter: currentUser?.projects?.filter(
+        (project: any) => project.phase === "engaged"
+      ).length,
       onFunctionCallback: () => setActiveIndex(1),
     },
     {
       Icon: <GrDocumentUser size={25} />,
       FunctionName: "Invited",
+      Counter: currentUser?.projects?.filter(
+        (project: any) => project.phase === "invited"
+      ).length,
       onFunctionCallback: () => setActiveIndex(2),
     },
     {
       Icon: <GrDocumentExcel size={25} />,
       FunctionName: "Rejected",
+      Counter: currentUser?.projects?.filter(
+        (project: any) => project.phase === "rejected"
+      ).length,
       onFunctionCallback: () => setActiveIndex(3),
     },
   ];
