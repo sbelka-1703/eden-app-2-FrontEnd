@@ -87,10 +87,12 @@ export const LoginButton = ({ inApp }: ILoginButtonProps) => {
               {inApp && (
                 <>
                   <div className={`flex p-2`}>
-                    <Avatar
-                      size={`sm`}
-                      src={currentUser?.discordAvatar || ""}
-                    />
+                    <div>
+                      <Avatar
+                        size={`sm`}
+                        src={currentUser?.discordAvatar || ""}
+                      />
+                    </div>
                     <div
                       className={`font-Inter my-auto ml-4 text-lg font-semibold`}
                     >
