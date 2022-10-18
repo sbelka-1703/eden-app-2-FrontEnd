@@ -16,4 +16,5 @@ const Template: ComponentStory<typeof SocialMediaInput> = (args) => (
 export const Default = Template.bind({});
 Default.args = {
   platform: "twitter",
+  placeholder: "twitter handle",
 };
