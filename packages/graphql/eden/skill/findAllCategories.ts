@@ -8,6 +8,10 @@ export const FIND_ALL_CATEGORIES = gql`
       skills {
         _id
         name
+        categorySkills {
+          _id
+          name
+        }
       }
     }
   }
