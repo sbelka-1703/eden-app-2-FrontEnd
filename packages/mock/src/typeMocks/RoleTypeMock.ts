@@ -7,7 +7,7 @@ export const getRoleTypeMock = () => ({
   archive: faker.datatype.boolean(),
   budget: {
     perHour: faker.finance.amount(0, 100, 2),
-    token: faker.finance.amount(0, 100, 2),
+    token: "CODE",
     totalBudget: faker.finance.amount(0, 100, 2),
   },
   dateRangeEnd: "1662161995158",

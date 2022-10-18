@@ -1,4 +1,4 @@
-import { Project, RoleType } from "@eden/package-graphql/generated";
+import { Maybe, ProjectMemberType } from "@eden/package-graphql/generated";
 import {
   Avatar,
   AvatarList,
@@ -8,29 +8,18 @@ import {
   ProjectChampion,
 } from "@eden/package-ui";
 
-type ApplicationProgressType = {
-  applied: boolean;
-  reviewed: boolean;
-  assesment: boolean;
-  interview: boolean;
-  induction: boolean;
-  onboarding: boolean;
-};
-
 export interface ApplicationModalProps {
   isModalOpen: boolean;
-  Project?: Project;
-  Role?: RoleType;
-  ApplicationProgress: ApplicationProgressType;
+  project?: Maybe<ProjectMemberType>;
+  onClose?: () => void;
 }
 
 export const ApplicationModal = ({
   isModalOpen,
-  Project,
-  Role,
-  ApplicationProgress,
+  project,
+  onClose,
 }: ApplicationModalProps) => {
-  const filterCommittedTeam = Project?.team?.filter(
+  const filterCommittedTeam = project?.info?.team?.filter(
     (member) => member?.phase === "committed"
   );
 
@@ -41,13 +30,7 @@ export const ApplicationModal = ({
   }));
 
   return (
-    <Modal
-      open={isModalOpen}
-      onClose={() => {
-        console.log("close");
-        // setShowModal(false);
-      }}
-    >
+    <Modal open={isModalOpen} onClose={onClose}>
       <div className="mb-10 flex gap-10 p-5">
         <div className="flex flex-col items-start justify-center gap-5">
           <div className="flex items-center justify-center gap-3">
@@ -55,38 +38,56 @@ export const ApplicationModal = ({
               <Avatar
                 size="lg"
                 isProject
-                emoji={Project?.emoji as string}
-                backColorEmoji={Project?.backColorEmoji as string}
+                emoji={project?.info?.emoji as string}
+                backColorEmoji={project?.info?.backColorEmoji as string}
               />
             </div>
             <div>
               <h1 className="text-soilHeading1 font-semibold">
-                {Project?.title}
+                {project?.info?.title}
               </h1>
               <p className="text-soilHeading3 text-soilGray leading-6">
-                {Project?.descriptionOneLine}
+                {project?.info?.descriptionOneLine}
               </p>
             </div>
           </div>
-          <p className="text-soilBody font-Inter">{Project?.description}</p>
+          <p className="text-soilBody font-Inter">
+            {project?.info?.description}
+          </p>
           <div className="w-full">
-            <h1 className="text-soilHeading3 font-medium">{Role?.title}</h1>
+            <h1 className="text-soilHeading3 font-medium">
+              {project?.role?.title}
+            </h1>
             <div className="flex items-start justify-between">
               <ul>
-                <li>{Role?.keyRosponsibilities}</li>
+                <li>{project?.role?.keyRosponsibilities}</li>
               </ul>
               <div className="text-soilGray font-medium">
                 <div>
-                  <h1>⌛ {Role?.hoursPerWeek} h / week</h1>
+                  ⏳{" "}
+                  {project?.role?.hoursPerWeek ? (
+                    <span>{project?.role?.hoursPerWeek}h / week </span>
+                  ) : (
+                    <span>unspecified</span>
+                  )}
                 </div>
                 <div>
-                  <h1>💰 $CODE {Role?.budget?.perMonth} / week</h1>
+                  💰{" "}
+                  {project?.role?.budget?.token ? (
+                    <span>
+                      ${project?.role?.budget?.token}{" "}
+                      {+(project?.role?.budget?.perHour || 0) * 7} / week
+                    </span>
+                  ) : (
+                    <span>unspecified</span>
+                  )}
                 </div>
-                <div>
+                {/* <div>
                   <h1>
-                    📆1 season {Role?.dateRangeStart} - {Role?.dateRangeEnd}
+                    📆1 season {project?.role?.dateRangeStart} -{" "}
+                    {project?.role?.dateRangeEnd}
                   </h1>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
@@ -101,7 +102,7 @@ export const ApplicationModal = ({
           <div
             className={`m-auto flex w-full flex-col content-center items-center justify-center `}
           >
-            <ProjectChampion member={Project?.champion!} />
+            <ProjectChampion member={project?.info?.champion!} />
           </div>
           <div className="flex flex-col items-center justify-center">
             <p className="font-Inter text-soilGray text-soilHeading3 mb-3 font-semibold">
@@ -113,12 +114,22 @@ export const ApplicationModal = ({
       </div>
       <ProgressStepper
         steps={[
-          { name: "Applied", completed: ApplicationProgress?.applied },
-          { name: "Reviewed", completed: ApplicationProgress?.reviewed },
-          { name: "Assesment", completed: ApplicationProgress?.assesment },
-          { name: "interview", completed: ApplicationProgress?.interview },
-          { name: "Induction", completed: ApplicationProgress?.induction },
-          { name: "Onboarding", completed: ApplicationProgress?.onboarding },
+          {
+            name: "Applied",
+            completed:
+              project?.phase === "engaged" ||
+              project?.phase === "shortlisted" ||
+              project?.phase === "invited",
+          },
+          {
+            name: "Reviewed",
+            completed:
+              project?.phase === "shortlisted" || project?.phase === "invited",
+          },
+          { name: "Assesment", completed: project?.phase === "invited" },
+          { name: "interview", completed: false },
+          { name: "Induction", completed: false },
+          { name: "Onboarding", completed: false },
         ]}
       />
     </Modal>

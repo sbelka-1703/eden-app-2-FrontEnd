@@ -76,6 +76,16 @@ export const FIND_MEMBER_FULL = gql`
         role {
           _id
           title
+          description
+          dateRangeStart
+          dateRangeEnd
+          hoursPerWeek
+          budget {
+            totalBudget
+            token
+            perHour
+            perMonth
+          }
         }
       }
       links {

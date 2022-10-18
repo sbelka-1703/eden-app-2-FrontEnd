@@ -1,9 +1,12 @@
-import { getProject } from "@eden/package-mock";
+import {
+  Maybe,
+  PhaseType,
+  ProjectMemberType,
+} from "@eden/package-graphql/generated";
+import { getProject, getRoleTypeMock } from "@eden/package-mock";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { ApplicationModal } from "./ApplicationModal";
-
-const Project = getProject();
 
 export default {
   title: "Modals/ApplicationModal",
@@ -15,24 +18,14 @@ const Template: ComponentStory<typeof ApplicationModal> = (args) => (
   <ApplicationModal {...args} />
 );
 
+const project: Maybe<ProjectMemberType> = {
+  info: getProject(),
+  phase: "shortlisted" as Maybe<PhaseType>,
+  role: getRoleTypeMock(),
+};
+
 export const Default = Template.bind({});
 Default.args = {
   isModalOpen: true,
-  Project: Project,
-  Role: {
-    title: "Scrum Master",
-    keyRosponsibilities: "2+ year experience as Scrum Master",
-    hoursPerWeek: 10,
-    budget: {
-      perMonth: "400",
-    },
-  },
-  ApplicationProgress: {
-    reviewed: false,
-    applied: true,
-    assesment: false,
-    induction: false,
-    interview: false,
-    onboarding: false,
-  },
+  project: project,
 };
