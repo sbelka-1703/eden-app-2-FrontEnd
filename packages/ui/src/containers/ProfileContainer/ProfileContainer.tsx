@@ -145,8 +145,6 @@ export const ProfileContainer = ({}: ProfileContainerProps) => {
                 </div>
               );
             })}
-
-            {/* <SkillSelector showSelected /> */}
           </div>
         </div>
       </div>

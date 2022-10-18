@@ -1,20 +1,30 @@
 import "./styles.css";
 
-import { UserWithDescription } from "@eden/package-ui";
+import { Members } from "@eden/package-graphql/generated";
+import { Card, UserWithDescription } from "@eden/package-ui";
 
 export interface IEndorsements {
+  member?: Members;
   endorsement?: string;
   remove?(): any;
   claim?(): any;
 }
 
-export const Endorsements = ({ endorsement, remove, claim }: IEndorsements) => {
+export const Endorsements = ({
+  member,
+  endorsement,
+  remove,
+  claim,
+}: IEndorsements) => {
+  if (!member) return null;
   return (
-    <div className="endorsements-box m-3 ">
+    <Card border>
       <div className="p-3 text-center ">
-        <UserWithDescription avatarSrc="https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1003.jpg" />
+        <UserWithDescription member={member} />
         <p className="end-p">endorsed you for</p>
-        <h1>{endorsement}</h1>
+        <div className={`text-soilPurple text-xl font-medium`}>
+          {endorsement}
+        </div>
         <div className=" buttons mt-2 flex justify-around">
           <button
             onClick={remove}
@@ -30,6 +40,6 @@ export const Endorsements = ({ endorsement, remove, claim }: IEndorsements) => {
           </button>
         </div>
       </div>
-    </div>
+    </Card>
   );
 };

@@ -1,21 +1,19 @@
 /* eslint-disable camelcase */
 import {
   Maybe,
-  SkillCategory,
   SkillRoleType,
   SkillType_Member,
 } from "@eden/package-graphql/generated";
 import {
   Button,
+  CategorySearchSkill,
   Modal,
-  SearchSkill,
   SkillCategoryList,
 } from "@eden/package-ui";
 
 export interface ISkillsOnCategoryModalProps {
   isOpen: boolean;
   skills: Maybe<SkillRoleType>[] | any;
-  categories: SkillCategory[];
   // eslint-disable-next-line no-unused-vars
   setSkills: (skills: SkillRoleType[]) => void;
   handelAddSkills: () => void;
@@ -23,7 +21,6 @@ export interface ISkillsOnCategoryModalProps {
 
 export const SkillsOnCategoryModal = ({
   isOpen,
-  categories,
   skills,
   setSkills,
   handelAddSkills,
@@ -80,10 +77,8 @@ export const SkillsOnCategoryModal = ({
         {/* this prevents the combobox input autofocus */}
         <button></button>
         {/* ----- */}
-        mappedSkills:{JSON.stringify(mappedSkills)}
-        categories:{JSON.stringify(categories)}
         <div className={`h-7/10 scrollbar-hide overflow-y-scroll`}>
-          <SearchSkill
+          <CategorySearchSkill
             key={JSON.stringify(skills)}
             skills={mappedSkills}
             setSkills={handleSetSkills}
@@ -97,8 +92,6 @@ export const SkillsOnCategoryModal = ({
           <div className={`mt-4 grid grid-flow-col grid-rows-2 gap-4`}>
             <SkillCategoryList
               key={JSON.stringify(skills)}
-              colorRGB="214,254,255"
-              categories={categories}
               skills={mappedSkills}
               closeButton
               handleDeleteSkill={handleDeleteSkills}

@@ -47,10 +47,7 @@ export const ChampionContainer = ({
                 return (
                   <div key={index} className={`mb-6`}>
                     {member?.phase === "committed" && (
-                      <UserWithDescription
-                        avatarSrc={member?.memberInfo?.discordAvatar as string}
-                        name={member?.memberInfo?.discordName as string}
-                      />
+                      <UserWithDescription member={member as Members} />
                     )}
                   </div>
                 );

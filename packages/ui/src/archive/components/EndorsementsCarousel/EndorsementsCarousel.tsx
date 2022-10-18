@@ -1,19 +1,21 @@
 import "./style.css";
 
-import { Endorsements } from "@eden/package-ui";
+import { Members } from "@eden/package-graphql/generated";
+
+import { Endorsements } from "../Endorsements";
 
 export interface IEndorsementsCarousel {
-  _id?: string;
-  endorsementList?: any;
+  members?: Members[];
   onClaim?: any;
   onRemove?: any;
 }
 
 export const EndorsementsCarousel = ({
-  endorsementList,
+  members,
   onClaim,
   onRemove,
 }: IEndorsementsCarousel) => {
+  if (!members) return null;
   return (
     <div className="relative w-max">
       {/* left arrow */}
@@ -40,16 +42,16 @@ export const EndorsementsCarousel = ({
           </svg>
           <span className="sr-only">Previous</span>
         </span>
-        <img alt="" />
       </button>
       <div className="carousel-box flex overflow-auto overscroll-contain ">
-        {endorsementList &&
-          endorsementList.map((end: any, index: number) => (
+        {members &&
+          members.map((member: Members, index: number) => (
             <Endorsements
-              remove={() => onRemove(end)}
-              claim={() => onClaim(end)}
               key={index}
-              endorsement={end.name}
+              member={member}
+              endorsement={`Blockchain`}
+              remove={() => onRemove()}
+              claim={() => onClaim()}
             />
           ))}
       </div>
@@ -77,7 +79,6 @@ export const EndorsementsCarousel = ({
           </svg>
           <span className="sr-only">Next</span>
         </span>
-        <img src="" alt="" />
       </button>
     </div>
   );

@@ -4,7 +4,6 @@ import {
   AvailabilityComp,
   BioComponent,
   Button,
-  EndorsementsCarousel,
   SkillList,
   // Loading,
   SocialMediaComp,
@@ -110,11 +109,7 @@ export const ChampionRecruitContainer = ({
                 NOT RIGHT NOW
               </Button>
             </div>
-            <UserWithDescription
-              avatarSrc={member.discordAvatar || ""}
-              title={`@${member.discordName}`}
-              name={`title here`}
-            />
+            <UserWithDescription member={member} />
             <div className={`mt-2`}>
               {teamMember && teamMember?.phase === "shortlisted" ? (
                 <Button
@@ -224,11 +219,7 @@ export const ChampionRecruitContainer = ({
             </div>
           </>
         )}
-        {activeTab === 2 && (
-          <div>
-            <EndorsementsCarousel />
-          </div>
-        )}
+        {activeTab === 2 && <div>endorsements here</div>}
       </div>
     </div>
   );

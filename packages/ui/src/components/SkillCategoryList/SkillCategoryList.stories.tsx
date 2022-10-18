@@ -15,7 +15,6 @@ const Template: ComponentStory<typeof SkillCategoryList> = (args) => (
 export const Default = Template.bind({});
 
 Default.args = {
-  colorRGB: "215,215,255",
   skills: [
     {
       skillInfo: {
