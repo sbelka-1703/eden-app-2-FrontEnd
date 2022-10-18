@@ -4,7 +4,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { ApplyContainer } from "./ApplyContainer";
 
 export default {
-  title: "Containers/ApplyContainer",
+  title: "Archive/Containers/ApplyContainer",
   component: ApplyContainer,
   argTypes: {},
 } as ComponentMeta<typeof ApplyContainer>;

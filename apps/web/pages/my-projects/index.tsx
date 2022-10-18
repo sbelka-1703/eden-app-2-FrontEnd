@@ -14,7 +14,7 @@ const MyProjectsPage: NextPageWithLayout = () => {
   // console.log("committedProjects", committedProjects);
 
   return (
-    <Card shadow className="h-8/10 bg-white p-6">
+    <Card shadow className="h-85 bg-white p-6">
       <div className={`text-2xl font-medium text-black/80`}>
         My Active Projects
         <span

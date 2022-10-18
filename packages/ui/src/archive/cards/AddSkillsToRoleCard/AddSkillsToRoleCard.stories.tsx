@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { AddSkillsToRoleCard } from "./AddSkillsToRoleCard";
 
 export default {
-  title: "Cards/AddSkillsToRoleCard",
+  title: "Archive/Cards/AddSkillsToRoleCard",
   component: AddSkillsToRoleCard,
   argTypes: {},
 } as ComponentMeta<typeof AddSkillsToRoleCard>;

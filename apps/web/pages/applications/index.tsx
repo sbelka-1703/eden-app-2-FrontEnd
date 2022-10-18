@@ -15,7 +15,7 @@ const ApplicationsPage: NextPageWithLayout = () => {
   // console.log("engagedProjects", engagedProjects);
 
   return (
-    <Card shadow className="h-8/10 bg-white p-6">
+    <Card shadow className="h-85 bg-white p-6">
       <div className={`text-2xl font-medium text-black/80`}>
         Magic Application List
         {engagedProjects?.length && (
@@ -27,7 +27,7 @@ const ApplicationsPage: NextPageWithLayout = () => {
           </span>
         )}
       </div>
-      <div className={`scrollbar-hide h-7/10 overflow-y-scroll`}>
+      <div className={`scrollbar-hide h-7/10 mt-8 overflow-y-scroll`}>
         <ProjectApplyList projects={engagedProjects as ProjectMemberType[]} />
       </div>
     </Card>
