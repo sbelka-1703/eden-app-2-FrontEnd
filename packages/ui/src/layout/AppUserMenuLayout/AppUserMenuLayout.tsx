@@ -51,7 +51,7 @@ export const AppUserMenuLayout = ({
         <title>Eden protocol</title>
       </Head>
       <div className="bg-background flex h-screen min-w-0 flex-col lg:overflow-y-hidden">
-        <AppHeader logoLink={`/projects`} inApp />
+        <AppHeader logoLink={`/home`} inApp />
         <main className="flex flex-grow">
           <GridLayout>
             <GridItemThree>
