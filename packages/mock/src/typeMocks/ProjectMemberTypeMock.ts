@@ -13,12 +13,3 @@ export const ProjectMemberTypeMock = () =>
     phase: faker.helpers.arrayElements(phase, 1)[0] as PhaseType,
     role: getRoleTypeMock(),
   } as ProjectMemberType);
-
-//   export type ProjectMemberType = {
-//     __typename?: 'projectMemberType';
-//     champion?: Maybe<Scalars['Boolean']>;
-//     favorite?: Maybe<Scalars['Boolean']>;
-//     info?: Maybe<Project>;
-//     phase?: Maybe<PhaseType>;
-//     role?: Maybe<RoleType>;
-//   };
