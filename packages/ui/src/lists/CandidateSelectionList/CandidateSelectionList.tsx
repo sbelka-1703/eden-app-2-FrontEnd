@@ -24,9 +24,15 @@ export const CandidateSelectionList = ({
   onSelectMember,
   selectMember,
 }: ICandidateSelectionListProps) => {
-  const [currentRole, setCurrentRole] = useState<RoleTemplate | null>(null);
+  const [currentRole, setCurrentRole] = useState<RoleTemplate | null>(
+    roles[0] || null
+  );
+
+  // console.log("roles", roles[0]);
+  // if (members.length > 0) console.log("members", members);
 
   useEffect(() => {
+    console.log("currentRole", currentRole);
     if (currentRole?.skills && onSelectRole) {
       const indexSkills = [];
 
@@ -47,7 +53,7 @@ export const CandidateSelectionList = ({
         >
           <UserCard
             member={candidate?.member}
-            percentage={candidate?.matchPercentage as number}
+            percentage={candidate?.matchPercentage?.totalPercentage as number}
             // endorsements={endorsements}
             focused={candidate?.member?._id === selectMember}
           />
