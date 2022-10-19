@@ -27,15 +27,23 @@ export const ProjectStatusCard: React.FC<ProjectStatusCardProps> = ({
   const steps = [
     {
       name: "Applied",
-      completed: project?.phase === "engaged",
+      completed:
+        project?.phase === "engaged" ||
+        project?.phase === "invited" ||
+        project?.phase === "shortlisted" ||
+        project?.phase === "committed",
     },
     {
       name: "Invited to Project",
-      completed: project?.phase === "invited",
+      completed:
+        project?.phase === "invited" ||
+        project?.phase === "shortlisted" ||
+        project?.phase === "committed",
     },
     {
       name: "Application Reviewed",
-      completed: project?.phase === "shortlisted",
+      completed:
+        project?.phase === "shortlisted" || project?.phase === "committed",
     },
     {
       name: "Application Accepted",
