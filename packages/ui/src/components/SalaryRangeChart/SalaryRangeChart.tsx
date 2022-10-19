@@ -5,9 +5,15 @@ import { BarChart } from "./BarChart";
 
 export interface SalaryRangeChartProps {
   data: number[];
+  // eslint-disable-next-line no-unused-vars
+  onChange?: (data: {
+    domain: number[];
+    update: number[];
+    values: number[];
+  }) => void;
 }
 
-export const SalaryRangeChart = ({ data }: SalaryRangeChartProps) => {
+export const SalaryRangeChart = ({ data, onChange }: SalaryRangeChartProps) => {
   const [rangesData, setRangesData] = useState<{
     domain: number[];
     update: number[];
@@ -68,71 +74,75 @@ export const SalaryRangeChart = ({ data }: SalaryRangeChartProps) => {
     });
   }, [data]);
 
+  useEffect(() => {
+    onChange && onChange(rangesData);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rangesData]);
+
   if (rangesData.domain.length === 0) return <div />;
 
   return (
     <div>
-      <div className="max-w-xs">
-        <TextHeading3 className="mb-3 text-center">Salary range</TextHeading3>
+      <TextHeading3 className="mb-3 text-center">Salary range</TextHeading3>
 
-        <div className="relative">
-          <TextHeading3 className="absolute left-0 bottom-4">
-            Less $
-          </TextHeading3>
-          <TextHeading3 className="absolute right-0 bottom-5">
-            More $$
-          </TextHeading3>
-          <BarChart
-            data={data}
-            domain={rangesData.domain}
-            highlight={rangesData.update}
-          />
-          <RangeSliderTwoPoint
-            values={rangesData.values}
-            domain={rangesData.domain}
-            onUpdate={(update) => {
-              setRangesData((prevState) => ({
-                ...prevState,
-                update: [...update],
-              }));
-            }}
-            onChange={(values) =>
-              setRangesData((prevState) => ({
-                ...prevState,
-                values: [...values],
-              }))
-            }
-            rootStyle={{
-              width: "100%",
-              bottom: "10px",
-              position: "absolute",
-            }}
+      <div className="relative">
+        <TextHeading3 className="absolute left-0 bottom-4">
+          {rangesData.domain[0]} $
+        </TextHeading3>
+        <TextHeading3 className="absolute right-0 bottom-5">
+          {rangesData.domain[1]} $$
+        </TextHeading3>
+        <BarChart
+          data={data}
+          domain={rangesData.domain}
+          highlight={rangesData.update}
+        />
+        <RangeSliderTwoPoint
+          values={rangesData.values}
+          domain={rangesData.domain}
+          onUpdate={(update) => {
+            setRangesData((prevState) => ({
+              ...prevState,
+              update: [...update],
+            }));
+          }}
+          onChange={(values) =>
+            setRangesData((prevState) => ({
+              ...prevState,
+              values: [...values],
+            }))
+          }
+          rootStyle={{
+            width: "100%",
+            bottom: "10px",
+            position: "absolute",
+          }}
+        />
+      </div>
+      <div className="flex items-center justify-between">
+        <div className="w-32">
+          <TextField
+            type="number"
+            className="text-center"
+            min={rangesData.domain[0]}
+            max={rangesData.domain[1]}
+            label="min salary"
+            value={rangesData.update[0]}
+            onChange={handleMinRange}
           />
         </div>
-        <div className="flex items-center justify-between">
-          <div className="w-32">
-            <TextField
-              type="number"
-              className="text-center"
-              min={rangesData.domain[0]}
-              max={rangesData.domain[1]}
-              label="min salary"
-              value={rangesData.update[0]}
-              onChange={handleMinRange}
-            />
-          </div>
-          <div className="mt-5 h-0.5 w-6 bg-gray-400" />
-          <div className="w-32">
-            <TextField
-              type="number"
-              label="max salary"
-              className="text-center"
-              min={rangesData.domain[0]}
-              max={rangesData.domain[1]}
-              value={rangesData.update[1]}
-              onChange={handleMaxRange}
-            />
-          </div>
+        <div className="mt-5 h-0.5 w-6 bg-gray-400" />
+        <div className="w-32">
+          <TextField
+            type="number"
+            label="max salary"
+            className="text-center"
+            min={rangesData.domain[0]}
+            max={rangesData.domain[1]}
+            value={rangesData.update[1]}
+            onChange={handleMaxRange}
+          />
         </div>
       </div>
     </div>
