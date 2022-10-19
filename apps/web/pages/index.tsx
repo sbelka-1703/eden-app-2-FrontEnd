@@ -64,7 +64,7 @@ export default function Web() {
                     <div className="mt-3 sm:mt-0">
                       <Button
                         variant={`primary`}
-                        onClick={() => router.push(`/projects`)}
+                        onClick={() => router.push(`/home`)}
                       >
                         🚀 Find Projects
                       </Button>
