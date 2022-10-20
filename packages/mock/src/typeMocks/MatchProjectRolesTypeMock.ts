@@ -16,10 +16,3 @@ export const MatchProjectRolesTypeMock = () =>
     matchPercentage: randomPercentage(),
     projectRole: getRoleTypeMock() as Maybe<RoleType>,
   } as MatchProjectRoles);
-
-//   export type MatchProjectRoles = {
-//     __typename?: 'matchProjectRoles';
-//     commonSkills?: Maybe<Array<Maybe<Skills>>>;
-//     matchPercentage?: Maybe<Scalars['Float']>;
-//     projectRole?: Maybe<RoleType>;
-//   };
