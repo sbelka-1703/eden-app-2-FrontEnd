@@ -1,13 +1,8 @@
 /* eslint-disable no-unused-vars */
 import { useQuery } from "@apollo/client";
-import {
-  FIND_MEMBER,
-  FIND_PROJECT,
-  MATCH_MEMBERS_TO_SKILLS,
-} from "@eden/package-graphql";
+import { FIND_PROJECT } from "@eden/package-graphql";
 import {
   AppUserSubmenuLayout,
-  Card,
   ChampionMatchContainer,
   GridItemNine,
   GridItemThree,
@@ -16,8 +11,8 @@ import {
 } from "@eden/package-ui";
 // import { LaunchProjectContext } from "@eden/package-context";
 import { useRouter } from "next/router";
+import { useState } from "react";
 
-// import { useContext, useState } from "react";
 import type { NextPageWithLayout } from "../../_app";
 
 const ProjectPage: NextPageWithLayout = () => {

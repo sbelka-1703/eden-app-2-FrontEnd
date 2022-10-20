@@ -14,7 +14,7 @@ const ActiveTabMembers = (teamMembers: any) => {
     const pagedTeamMember: any[] = [];
     const chunkSize = 10;
 
-    for (let i = 0; i < teamMembers.teamMembers.length; i += chunkSize) {
+    for (let i = 0; i < teamMembers?.teamMembers?.length; i += chunkSize) {
       const chunk = teamMembers.teamMembers.slice(i, i + chunkSize);
 
       pagedTeamMember.push(chunk);
@@ -33,7 +33,7 @@ const ActiveTabMembers = (teamMembers: any) => {
   return (
     <div className="flex flex-col content-between justify-between">
       <div className={`mb-4 grid grid-cols-3 gap-x-10 gap-y-10`}>
-        {teamMembers && teamMembers.teamMembers.length > 0 ? (
+        {teamMembers && teamMembers?.teamMembers?.length > 0 ? (
           teamMembersPages[teamMembersPageNo]?.map(
             (member: any | TeamType, index: number) => {
               return (
