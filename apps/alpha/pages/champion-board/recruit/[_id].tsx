@@ -11,28 +11,13 @@ import {
 } from "@eden/package-ui";
 // import { LaunchProjectContext } from "@eden/package-context";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import type { NextPageWithLayout } from "../../_app";
 
 const ProjectPage: NextPageWithLayout = () => {
   const router = useRouter();
   const { _id } = router.query;
-  // const [selectMember, setSelectMember] = useState("");
-
-  // const { matchMembersPage, project, selectedRole } =
-  //   useContext(LaunchProjectContext);
-
-  // const { data: dataMember, refetch: refetchMember } = useQuery(FIND_MEMBER, {
-  //   variables: {
-  //     fields: {
-  //       _id: selectMember,
-  //     },
-  //   },
-  //   skip: !selectMember,
-  //   context: { serviceName: "soilservice" },
-  // });
-
   const { data: dataProject, refetch: refetchProject } = useQuery(
     FIND_PROJECT,
     {
@@ -50,6 +35,20 @@ const ProjectPage: NextPageWithLayout = () => {
     dataProject?.findProject?.role[0]
   );
 
+  // const [selectMember, setSelectMember] = useState("");
+
+  // const { matchMembersPage, project, selectedRole } =
+  //   useContext(LaunchProjectContext);
+
+  // const { data: dataMember, refetch: refetchMember } = useQuery(FIND_MEMBER, {
+  //   variables: {
+  //     fields: {
+  //       _id: selectMember,
+  //     },
+  //   },
+  //   skip: !selectMember,
+  //   context: { serviceName: "soilservice" },
+  // });
   // const { data: matchingMembers } = useQuery(MATCH_MEMBERS_TO_SKILLS, {
   //   variables: {
   //     fields: {
@@ -73,8 +72,7 @@ const ProjectPage: NextPageWithLayout = () => {
   // });
 
   // project data with shortlist
-  if (dataProject) console.log("dataProject", dataProject);
-  else {
+  if (!dataProject) {
     return null;
   }
   // if (matchingMembers) console.log("matchingMembers", matchingMembers);
@@ -95,7 +93,10 @@ const ProjectPage: NextPageWithLayout = () => {
         />
       </GridItemThree>
       <GridItemNine>
-        <ChampionMatchContainer project={dataProject.findProject} />
+        <ChampionMatchContainer
+          project={dataProject.findProject}
+          selectedRole={selectedRole}
+        />
       </GridItemNine>
     </GridLayout>
   );

@@ -1,9 +1,15 @@
-import { Project, TeamType } from "@eden/package-graphql/generated";
+import {
+  Maybe,
+  Project,
+  RoleType,
+  TeamType,
+} from "@eden/package-graphql/generated";
 import { MemberMatchCard, TabsSelector, TextHeading3 } from "@eden/package-ui";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import { useEffect, useState } from "react";
 export interface ChampionMatchContainerProps {
   project?: Project;
+  selectedRole?: Maybe<RoleType> | null;
 }
 
 const ActiveTabMembers = (teamMembers: any) => {
@@ -80,23 +86,40 @@ const ActiveTabMembers = (teamMembers: any) => {
 
 export const ChampionMatchContainer = ({
   project,
+  selectedRole,
 }: ChampionMatchContainerProps) => {
   const [activeTab, setActiveTab] = useState(0);
   const tabs = ["New Match", "Applied", "Invited", "Accepted", "Rejected"];
+
   const AppliedMembers = project?.team?.filter((mem) => {
-    return mem?.phase == "engaged";
+    return (
+      mem?.phase == "engaged" &&
+      (mem.roleID ? mem.roleID == selectedRole?._id : true)
+    );
   });
   const InvitedMembers = project?.team?.filter((mem) => {
-    return mem?.phase == "invited";
+    return (
+      mem?.phase == "invited" &&
+      (mem.roleID ? mem.roleID == selectedRole?._id : true)
+    );
   });
   const AcceptedMembers = project?.team?.filter((mem) => {
-    return mem?.phase == "shortlisted";
+    return (
+      mem?.phase == "shortlisted" &&
+      (mem.roleID ? mem.roleID == selectedRole?._id : true)
+    );
   });
   const RejectedMembers = project?.team?.filter((mem) => {
-    return mem?.phase == "rejected";
+    return (
+      mem?.phase == "rejected" &&
+      (mem.roleID ? mem.roleID == selectedRole?._id : true)
+    );
   });
   const NewMembers = project?.team?.filter((mem) => {
-    return mem?.phase == "committed";
+    return (
+      mem?.phase == "committed" &&
+      (mem.roleID ? mem.roleID == selectedRole?._id : true)
+    );
   });
 
   return (
