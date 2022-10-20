@@ -1,3 +1,4 @@
+export * from "./MatchProjectRolesTypeMock";
 export * from "./MatchSkillsToProjectsOutputMock";
 export * from "./ProjectMemberTypeMock";
 export * from "./RoleTypeMock";
