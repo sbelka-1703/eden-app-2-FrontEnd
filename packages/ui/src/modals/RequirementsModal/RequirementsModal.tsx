@@ -22,7 +22,7 @@ export interface RequirementsModalProps {
 }
 
 export const RequirementsModal = ({
-  onClose,
+  // onClose,
   onSubmit,
   openModal,
   companies,
@@ -46,13 +46,15 @@ export const RequirementsModal = ({
         </TextHeading3>
 
         <div className="mx-auto flex max-w-md flex-col justify-center">
-          <UserAttributeChart companies={companies} />
-          <SalaryRangeChart data={salaryData} onChange={setSalaryRange} />
+          {!!companies.length && <UserAttributeChart companies={companies} />}
+          {!!salaryData.length && (
+            <SalaryRangeChart data={salaryData} onChange={setSalaryRange} />
+          )}
         </div>
-        <div className="flex justify-between">
-          <Button radius="rounded" variant={`secondary`} onClick={onClose}>
+        <div className="flex justify-center">
+          {/* <Button radius="rounded" variant={`secondary`} onClick={onClose}>
             Back
-          </Button>
+          </Button> */}
           <Button
             radius="rounded"
             variant={`secondary`}
