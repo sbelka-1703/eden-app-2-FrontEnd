@@ -47,6 +47,8 @@ export enum LaunchProjectModal {
   // eslint-disable-next-line no-unused-vars
   SKILLS_ON_CATEGORY = "skills on category",
   // eslint-disable-next-line no-unused-vars
+  PRIORITIZE = "prioritize",
+  // eslint-disable-next-line no-unused-vars
   SKILLS = "skills",
   // eslint-disable-next-line no-unused-vars
   ROLE_DETAIL = "role detail",

@@ -18,6 +18,7 @@ import {
 } from "@eden/package-graphql/generated";
 import {
   CongratulationsModal,
+  PrioritizeModal,
   RoleDescriptionModal,
   RoleModal,
   SavingProjectModal,
@@ -220,7 +221,20 @@ export const ShortlistModalContainerTest =
               });
               setSelectedRole({ ...selectedRole, skills: skills });
             }}
-            handelAddSkills={() => setOpenModal(null)}
+            handelAddSkills={() => setOpenModal(LaunchProjectModal.PRIORITIZE)}
+          />
+        )}
+        {openModal === LaunchProjectModal.PRIORITIZE && (
+          <PrioritizeModal
+            key={"" + project?.role?.length}
+            openModal={openModal === LaunchProjectModal.PRIORITIZE}
+            onClose={() => {
+              setOpenModal(null);
+            }}
+            onSubmit={(val) => {
+              console.log(val);
+              setOpenModal(null);
+            }}
           />
         )}
         {openModal === LaunchProjectModal.SKILLS && (
