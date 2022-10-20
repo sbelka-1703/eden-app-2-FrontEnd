@@ -1,4 +1,4 @@
-import { ICompany } from "./UserAttributeChart";
+import { ICompany } from "../../components";
 
 export const mockCompanyData: ICompany[] = [
   {

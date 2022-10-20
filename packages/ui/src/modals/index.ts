@@ -2,6 +2,7 @@ export * from "./ApplicationModal";
 export * from "./CongratulationsModal";
 export * from "./PrioritizeModal";
 export * from "./ProjectInfoModal";
+export * from "./RequirementsModal";
 export * from "./RoleDescriptionModal";
 export * from "./RoleModal";
 export * from "./SavingProjectModal";

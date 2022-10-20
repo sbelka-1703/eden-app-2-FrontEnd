@@ -70,27 +70,27 @@ const ProjectPage: NextPageWithLayout = () => {
     variables: {
       fields: {
         skillsID: selectRole,
+        hoursPerWeek: null,
       },
-      limit: 9,
     },
-    skip: !selectRole || selectRole.length === 0,
+    skip: !selectRole,
     context: { serviceName: "soilservice" },
   });
 
-  // if (dataMemberWithSkills)
+  // if (dataMemberWithSkills?.matchSkillsToMembers.length > 0)
   //   console.log(
   //     "dataMemberWithSkills",
-  //     dataMemberWithSkills.matchMembersToSkills
+  //     dataMemberWithSkills.matchSkillsToMembers
   //   );
 
-  // if (selectRole) console.log("selectRole", selectRole);
+  // if (selectRole.length > 0) console.log("selectRole", selectRole);
 
   return (
     <GridLayout>
       <GridItemThree>
         <CandidateSelectionList
           roles={dataRoles?.findRoleTemplates}
-          members={dataMemberWithSkills?.matchMembersToSkills}
+          members={dataMemberWithSkills?.matchSkillsToMembers}
           onSelectRole={(selectRole) => setSelectSkills(selectRole)}
           onSelectMember={(selectMember) => setSelectMember(selectMember)}
           selectMember={selectMember}

@@ -54,7 +54,7 @@ export interface PrioritizeModalProps {
 }
 
 export const PrioritizeModal = ({
-  onClose,
+  // onClose,
   openModal,
   onSubmit,
 }: PrioritizeModalProps) => {
@@ -106,10 +106,10 @@ export const PrioritizeModal = ({
             </div>
           ))}
         </div>
-        <div className="flex justify-between">
-          <Button radius="rounded" variant={`secondary`} onClick={onClose}>
+        <div className="flex justify-center">
+          {/* <Button radius="rounded" variant={`secondary`} onClick={onClose}>
             Back
-          </Button>
+          </Button> */}
           <Button
             radius="rounded"
             variant={`secondary`}
