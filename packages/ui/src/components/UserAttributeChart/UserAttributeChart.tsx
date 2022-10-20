@@ -35,7 +35,7 @@ export interface ICompany {
 }
 
 export interface IUserAttributeChartProps {
-  members: ICompany[];
+  companies: ICompany[];
 }
 
 const colors = ["#98FF87B0", "#E5ADFFB0", "#FF9BE9B0", "#A2EDFDB0"];
@@ -77,11 +77,11 @@ const options: ChartOptions<"radar"> = {
   },
 };
 
-export const UserAttributeChart = ({ members }: IUserAttributeChartProps) => {
-  const labels = Object.keys(members[0].companyInfo.attributes).map((item) =>
+export const UserAttributeChart = ({ companies }: IUserAttributeChartProps) => {
+  const labels = Object.keys(companies[0].companyInfo.attributes).map((item) =>
     startCase(item)
   );
-  const datasets = members.map(({ companyInfo }, i) => {
+  const datasets = companies.map(({ companyInfo }, i) => {
     return {
       label: companyInfo.discordName,
       data: Object.keys(companyInfo.attributes).map(

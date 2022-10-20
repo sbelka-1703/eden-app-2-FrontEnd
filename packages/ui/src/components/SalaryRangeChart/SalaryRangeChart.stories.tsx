@@ -9,7 +9,11 @@ export default {
 } as ComponentMeta<typeof SalaryRangeChart>;
 
 const Template: ComponentStory<typeof SalaryRangeChart> = (args) => {
-  return <SalaryRangeChart {...args} />;
+  return (
+    <div className="max-w-xs">
+      <SalaryRangeChart {...args} />
+    </div>
+  );
 };
 
 const rangeNumbers: number[] = [];
@@ -21,4 +25,5 @@ for (let i = 0; i < 500; i++) {
 export const Default = Template.bind({});
 Default.args = {
   data: rangeNumbers,
+  onChange: (data) => console.info(data),
 };
