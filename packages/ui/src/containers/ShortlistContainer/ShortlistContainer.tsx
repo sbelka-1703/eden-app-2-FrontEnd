@@ -2,6 +2,7 @@ import {
   LaunchProjectContext,
   LaunchProjectModal,
 } from "@eden/package-context";
+import { MatchMembersToSkillOutput } from "@eden/package-graphql/generated";
 import {
   Button,
   Card,
@@ -11,7 +12,6 @@ import {
 } from "@eden/package-ui";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import { useContext } from "react";
-import { MatchMembersToSkillOutput } from "@eden/package-graphql/generated";
 export interface IShortlistContainerProps {
   matchingMembers: MatchMembersToSkillOutput[] | any;
   overflow?: boolean;
@@ -30,6 +30,7 @@ export const ShortlistContainer = ({
     setMatchMembersPage,
     setOpenModal,
   } = useContext(LaunchProjectContext);
+
   function handleSelectMember(member: any, percentage: number) {
     setSelectedMemberPercentage(percentage);
     setSelectedMemberId(member._id);

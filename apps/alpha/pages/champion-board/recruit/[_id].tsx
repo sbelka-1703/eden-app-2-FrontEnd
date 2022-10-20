@@ -51,6 +51,10 @@ const ProjectPage: NextPageWithLayout = () => {
     }
   );
 
+  const [selectedRole, setSelectedRole] = useState(
+    dataProject?.findProject?.role[0]
+  );
+
   // const { data: matchingMembers } = useQuery(MATCH_MEMBERS_TO_SKILLS, {
   //   variables: {
   //     fields: {
@@ -85,20 +89,18 @@ const ProjectPage: NextPageWithLayout = () => {
   return (
     <GridLayout>
       <GridItemThree>
-        <Card shadow className="h-8/10 bg-white p-6">
-          <ProjectEditSelectorCard
-            project={dataProject?.findProject}
-            emoji={dataProject?.findProject?.emoji}
-            totalDays={dataProject?.findProject?.dates?.kickOff}
-            currentDayCount={dataProject?.findProject?.dates?.complition}
-            backgroundColor={dataProject?.findProject?.backColorEmoji}
-          />
-        </Card>
+        <ProjectEditSelectorCard
+          project={dataProject?.findProject}
+          handleSelectRole={(role) => {
+            setSelectedRole(role);
+          }}
+          selectedRole={selectedRole}
+          onBack={() => router.push("../")}
+          onEdit={() => console.log("edit Project")}
+        />
       </GridItemThree>
       <GridItemNine>
-        <Card shadow className="h-8/10 overflow-auto bg-white p-6">
-          <ChampionMatchContainer project={dataProject.findProject} />
-        </Card>
+        <ChampionMatchContainer project={dataProject.findProject} />
       </GridItemNine>
     </GridLayout>
   );
