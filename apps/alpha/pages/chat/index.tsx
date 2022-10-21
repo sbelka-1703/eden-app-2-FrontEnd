@@ -1,4 +1,6 @@
 /* eslint-disable no-unused-vars */
+import { useMutation } from "@apollo/client";
+import { UserContext } from "@eden/package-context";
 import { ADD_NEW_CHAT } from "@eden/package-graphql";
 import {
   Members,
@@ -98,8 +100,6 @@ ChatPage.getLayout = (page) => (
 
 export default ChatPage;
 
-import { useMutation } from "@apollo/client";
-import { UserContext } from "@eden/package-context";
 import { IncomingMessage, ServerResponse } from "http";
 import { getSession } from "next-auth/react";
 
