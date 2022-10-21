@@ -3,24 +3,32 @@
 import { useMutation } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
 import { UPDATE_MEMBER } from "@eden/package-graphql";
-import { Maybe, Mutation, RoleTemplate } from "@eden/package-graphql/generated";
+import {
+  Maybe,
+  Mutation,
+  RoleTemplate,
+  SkillRoleType,
+} from "@eden/package-graphql/generated";
 import {
   Button,
   Card,
-  CheckBox,
+  // CheckBox,
   Dropdown,
   RoleSelector,
   SearchSkill,
-  SkillList,
+  SkillVisualisationComp,
+  // SkillList,
   SocialMediaInput,
-  SwitchButton,
+  // SwitchButton,
   TextArea,
   TextBody,
-  TextField,
+  // TextField,
   TextHeading3,
   TextLabel,
 } from "@eden/package-ui";
 import { useContext, useState } from "react";
+
+import { timezones } from "../../../constants";
 
 export interface IEditProfileContainerProps {
   roles?: Maybe<Array<Maybe<RoleTemplate>>>;
@@ -30,13 +38,18 @@ export interface IEditProfileContainerProps {
 
 export const EditProfileContainer = ({ roles }: IEditProfileContainerProps) => {
   const { currentUser } = useContext(UserContext);
-  const newMember = currentUser!;
-  const [showSeniorSkills, setShowSeniorSkills] = useState(true);
-  const [showMidLevelSkills, setShowMidLevelSkills] = useState(true);
-  const [showJuniorSkills, setShowJuniorSkills] = useState(true);
-  const [showLearningSkills, setShowLearningSkills] = useState(true);
+  // const newMember = currentUser!;
+  // const [showSeniorSkills, setShowSeniorSkills] = useState(true);
+  // const [showMidLevelSkills, setShowMidLevelSkills] = useState(true);
+  // const [showJuniorSkills, setShowJuniorSkills] = useState(true);
+  // const [showLearningSkills, setShowLearningSkills] = useState(true);
 
   const [selectedRoleId, setSelectedRoleId] = useState<string | null>(null);
+  const [bio, setBio] = useState<string>("");
+  const [hoursPerWeek, setHoursPerWeek] = useState<number>(
+    currentUser?.hoursPerWeek || 0
+  );
+  const [timeZone, setTimeZone] = useState<string>(currentUser?.timeZone || "");
 
   const [updateMember] = useMutation(UPDATE_MEMBER, {
     onCompleted({ updateMember }: Mutation) {
@@ -44,6 +57,21 @@ export const EditProfileContainer = ({ roles }: IEditProfileContainerProps) => {
       console.log("updateMember", updateMember);
     },
   });
+
+  const socialMediaInputs = [
+    {
+      _id: 1,
+      name: "twitter",
+    },
+    {
+      _id: 2,
+      name: "github",
+    },
+    {
+      _id: 3,
+      name: "telegram",
+    },
+  ];
 
   const handleSave = () => {
     if (!currentUser) return;
@@ -53,6 +81,9 @@ export const EditProfileContainer = ({ roles }: IEditProfileContainerProps) => {
         fields: {
           _id: currentUser?._id,
           memberRole: selectedRoleId,
+          bio: bio,
+          hoursPerWeek: hoursPerWeek,
+          timeZone: timeZone,
         },
       },
     });
@@ -84,7 +115,7 @@ export const EditProfileContainer = ({ roles }: IEditProfileContainerProps) => {
                 Short Bio:
                 <TextArea
                   value={currentUser?.bio!}
-                  onChange={(e) => (newMember.bio = e.target.value)}
+                  onChange={(e) => setBio(e.target.value)}
                 />
               </TextBody>
               <div>
@@ -94,20 +125,28 @@ export const EditProfileContainer = ({ roles }: IEditProfileContainerProps) => {
                 </TextBody>
                 <div className="flex flex-row justify-around">
                   <Dropdown
-                    value="35hr"
-                    items={[{ name: "35hr" }, { name: "20hr" }]}
-                    onSelect={(val) => (newMember.hoursPerWeek = val)}
+                    value={`${currentUser?.hoursPerWeek}hr`}
+                    placeholder="Hours"
+                    items={[
+                      { _id: 1, name: "30hr" },
+                      { _id: 2, name: "20hr" },
+                      { _id: 2, name: "10hr" },
+                    ]}
+                    onSelect={(val) =>
+                      setHoursPerWeek(Number(val.name.slice(0, -2)))
+                    }
                   />
                   <Dropdown value="Week" items={[{ name: "Week" }]} />
                 </div>
                 <div className="flex justify-around">
                   <Dropdown
-                    value="UTC+1"
-                    items={[{ name: "UTC+2" }, { name: "UTC+1" }]}
-                    onSelect={(val) => (newMember.timeZone = val)}
+                    placeholder="Time Zone"
+                    value={currentUser?.timeZone as string}
+                    items={timezones}
+                    onSelect={(val) => setTimeZone(val.name)}
                   />
                 </div>
-                <div>
+                {/* <div>
                   <TextBody>What is your expected remuneraion?</TextBody>
                   <TextBody>Please enter your hourly rate</TextBody>
                   <div className="flex flex-row justify-evenly p-1">
@@ -127,8 +166,8 @@ export const EditProfileContainer = ({ roles }: IEditProfileContainerProps) => {
                       items={[{ name: "USDT" }, { name: "CODE" }]}
                     />
                   </div>
-                </div>
-                <div>
+                </div> */}
+                {/* <div>
                   <SwitchButton
                     name="isAlternateTokenOK"
                     label="Accept equivalent in alternative tokens"
@@ -139,7 +178,7 @@ export const EditProfileContainer = ({ roles }: IEditProfileContainerProps) => {
                     label="Unpaid contributions"
                     onChange={undefined}
                   />
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
@@ -169,7 +208,7 @@ export const EditProfileContainer = ({ roles }: IEditProfileContainerProps) => {
                   },
                 ]}
               />
-              <div className="flex flex-row justify-around">
+              {/* <div className="flex flex-row justify-around">
                 <CheckBox
                   radius="rounded"
                   label="Senior"
@@ -198,8 +237,8 @@ export const EditProfileContainer = ({ roles }: IEditProfileContainerProps) => {
                   checked={showLearningSkills}
                   onChange={() => setShowLearningSkills(!showLearningSkills)}
                 />
-              </div>
-              {showSeniorSkills && (
+              </div> */}
+              {/* {showSeniorSkills && (
                 <SkillList
                   colorRGB="191, 255, 140"
                   skills={currentUser?.skills!.filter(
@@ -219,7 +258,7 @@ export const EditProfileContainer = ({ roles }: IEditProfileContainerProps) => {
                 <SkillList
                   colorRGB="186, 230, 255"
                   skills={currentUser?.skills!.filter(
-                    (skill: any) => skill.level == "mid"
+                    (skill: any) => skill.level == "junior"
                   )}
                 />
               )}
@@ -227,15 +266,40 @@ export const EditProfileContainer = ({ roles }: IEditProfileContainerProps) => {
                 <SkillList
                   colorRGB="255, 208, 43"
                   skills={currentUser?.skills!.filter(
-                    (skill: any) => skill.level == "mid"
+                    (skill: any) => skill.level == "learning"
                   )}
                 />
-              )}
+              )} */}
+              <SkillVisualisationComp
+                skills={
+                  currentUser?.skills?.map((skill) => {
+                    return {
+                      skillData: {
+                        _id: skill?.skillInfo?._id,
+                        name: skill?.skillInfo?.name,
+                      },
+                      level: skill?.level,
+                    };
+                  }) as SkillRoleType[]
+                }
+              />
             </div>
             <div>
               <TextBody>Social Links</TextBody>
               <TextLabel>Please make sure all links are up to date</TextLabel>
-              <SocialMediaInput
+              {socialMediaInputs.map((socialInput) => (
+                <SocialMediaInput
+                  value={
+                    currentUser?.links?.filter(
+                      (link) => link?.name === socialInput.name
+                    )[0]?.url as string
+                  }
+                  key={socialInput._id}
+                  platform={socialInput.name}
+                  onChange={(e) => console.log(e.target.value)}
+                />
+              ))}
+              {/* <SocialMediaInput
                 platform={"twitter"}
                 // placeholder={currentUser?.links[0].url}
                 onChange={() => console.log("Twitter changed")}
@@ -259,7 +323,7 @@ export const EditProfileContainer = ({ roles }: IEditProfileContainerProps) => {
               <SocialMediaInput
                 platform={"telegram"}
                 onChange={() => console.log("Twitter changed")}
-              />
+              /> */}
             </div>
           </div>
         </section>
