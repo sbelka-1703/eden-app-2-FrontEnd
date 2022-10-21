@@ -1,5 +1,6 @@
-import { Maybe, Project, RoleType } from "@eden/package-graphql/generated";
+import { Maybe, ProjectMemberType } from "@eden/package-graphql/generated";
 import {
+  ApplicationModal,
   Avatar,
   Button,
   Card,
@@ -8,63 +9,78 @@ import {
   TextBody,
   TextHeading3,
 } from "@eden/package-ui";
-import { useRouter } from "next/router";
+import { useState } from "react";
 
 export interface ApplicationCardProps {
-  role?: Maybe<RoleType>;
-  project?: Maybe<Project>;
+  project?: Maybe<ProjectMemberType>;
 }
 
-const STEPS_DATA = [
-  {
-    name: "step 1",
-    completed: true,
-  },
-  {
-    name: "step 2",
-    completed: true,
-  },
-  {
-    name: "step 3",
-    completed: false,
-  },
-  {
-    name: "step 4",
-    completed: false,
-  },
-];
+export const ApplicationCard = ({ project }: ApplicationCardProps) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-export const ApplicationCard = ({ project, role }: ApplicationCardProps) => {
-  const router = useRouter();
-
-  // console.log("project", project);
-  // console.log("role", role);
+  const STEPS_DATA = [
+    {
+      name: "engaged",
+      completed:
+        project?.phase === "engaged" ||
+        project?.phase === "shortlisted" ||
+        project?.phase === "invited",
+    },
+    {
+      name: "shortlisted",
+      completed:
+        project?.phase === "shortlisted" || project?.phase === "invited",
+    },
+    {
+      name: "invited",
+      completed: project?.phase === "invited",
+    },
+    {
+      name: "committed",
+      completed: project?.phase === "committed",
+    },
+  ];
 
   return (
     <>
       <Card className={`mb-4 border border-gray-300 bg-white py-3`}>
         <div className="mb-4 flex  px-2">
-          <div
-            className="flex h-12 w-12 items-center justify-center rounded-full text-2xl"
-            style={{
-              backgroundColor: project?.backColorEmoji || "#FFF",
-            }}
-          >
-            {project?.emoji ? project.emoji : <Avatar size="xs" isProject />}
+          <div className="flex h-12 w-12 items-center justify-center">
+            <Avatar
+              size="xs"
+              isProject
+              emoji={project?.info?.emoji as string}
+              backColorEmoji={project?.info?.backColorEmoji as string}
+            />
           </div>
           <div className="ml-2 flex-1 text-left">
-            {project?.title && (
-              <TextHeading3 className="border-b">{project.title}</TextHeading3>
+            {project?.info?.title && (
+              <TextHeading3 className="border-b">
+                {project?.info?.title}
+              </TextHeading3>
             )}
-            <TextBody>{role?.title}</TextBody>
+            <TextBody>{project?.role?.title}</TextBody>
           </div>
         </div>
         <div className="font-Inter mb-4 px-6 text-left ">
           <p className="font-medium normal-case text-gray-400">
-            ⏳ {role?.hoursPerWeek}h / week
+            ⏳{" "}
+            {project?.role?.hoursPerWeek ? (
+              <span>{project?.role?.hoursPerWeek}h / week </span>
+            ) : (
+              <span>unspecified</span>
+            )}
           </p>
           <p className="my-2 font-medium normal-case text-gray-400">
-            💰 $CODE {role?.budget?.token} / week
+            💰{" "}
+            {project?.role?.budget?.token ? (
+              <span>
+                ${project?.role?.budget?.token}{" "}
+                {+(project?.role?.budget?.perHour || 0) * 7} / week
+              </span>
+            ) : (
+              <span>unspecified</span>
+            )}
           </p>
           <p className="font-medium normal-case text-gray-400">
             🗓 1 season (4 month)
@@ -75,23 +91,26 @@ export const ApplicationCard = ({ project, role }: ApplicationCardProps) => {
           <div className="flex w-4/5">
             <SocialMediaComp
               title=""
-              links={[
-                {
-                  name: "twitter",
-                  url: "https://twitter.com/edenprotocolxyz",
-                },
-              ]}
+              links={project?.info?.collaborationLinks?.map((item) => ({
+                name: item?.title,
+                url: item?.link,
+              }))}
             />
           </div>
           <Button
+            onClick={() => setIsModalOpen(!isModalOpen)}
             radius="rounded"
             variant={`secondary`}
-            onClick={() => router.push("/")}
           >
             More
           </Button>
         </div>
       </Card>
+      <ApplicationModal
+        isModalOpen={isModalOpen}
+        onClose={() => setIsModalOpen(!isModalOpen)}
+        project={project}
+      />
     </>
   );
 };

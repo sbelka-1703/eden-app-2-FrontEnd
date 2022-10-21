@@ -1,4 +1,8 @@
-import { Project, RoleType } from "@eden/package-graphql/generated";
+import {
+  Project,
+  RoleType,
+  SkillCategory,
+} from "@eden/package-graphql/generated";
 import React, { useReducer, useState } from "react";
 
 import { LaunchProjectContext } from "./LaunchProjectContext";
@@ -36,6 +40,16 @@ export interface ProjectAction {
 export enum LaunchProjectModal {
   // eslint-disable-next-line no-unused-vars
   ROLE = "role",
+  // eslint-disable-next-line no-unused-vars
+  SKILLS_CATEGORY = "skills category",
+  // eslint-disable-next-line no-unused-vars
+  SKILLS_SUBCATEGORY = "skills subcategory",
+  // eslint-disable-next-line no-unused-vars
+  SKILLS_ON_CATEGORY = "skills on category",
+  // eslint-disable-next-line no-unused-vars
+  PRIORITIZE = "prioritize",
+  // eslint-disable-next-line no-unused-vars
+  REQUIREMENTS = "requirements",
   // eslint-disable-next-line no-unused-vars
   SKILLS = "skills",
   // eslint-disable-next-line no-unused-vars
@@ -142,6 +156,9 @@ export const LaunchProjectProvider = ({
   >(null);
   const [matchMembersPage, setMatchMembersPage] = useState<number>(0);
   const [submitting, setSubmitting] = useState<boolean>(false);
+  const [selectedCategories, setSelectedCategories] = useState<SkillCategory[]>(
+    []
+  );
 
   const injectContext = {
     project: project,
@@ -158,6 +175,8 @@ export const LaunchProjectProvider = ({
     setMatchMembersPage: setMatchMembersPage,
     submitting: submitting,
     setSubmitting: setSubmitting,
+    selectedCategories: selectedCategories,
+    setSelectedCategories: setSelectedCategories,
   };
 
   return (

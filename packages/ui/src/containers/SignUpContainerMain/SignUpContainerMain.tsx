@@ -1,3 +1,4 @@
+import { UserContext } from "@eden/package-context";
 import {
   MatchSkillsToProjectsOutput,
   Maybe,
@@ -9,7 +10,7 @@ import {
   ProjectMatchList,
   SignUpRoleSelectCard,
 } from "@eden/package-ui";
-import { useState } from "react";
+import { useContext } from "react";
 
 export interface ISignUpContainerMainProps {
   roles: Maybe<Array<Maybe<RoleTemplate>>>;
@@ -36,9 +37,9 @@ export const SignUpContainerMain = ({
   viewProject,
   onViewProject,
 }: ISignUpContainerMainProps) => {
-  // console.log("project", project);
+  const { currentUser } = useContext(UserContext);
 
-  const [roleSelected, setRoleSelected] = useState(false);
+  // const [roleSelected, setRoleSelected] = useState(false);
 
   return (
     <div className={`h-85`}>
@@ -52,22 +53,16 @@ export const SignUpContainerMain = ({
         />
       ) : (
         <>
-          {!roleSelected ? (
-            <SignUpRoleSelectCard
-              roles={roles}
-              refetch={refetchMatch}
-              onNext={() => setRoleSelected(true)}
+          {currentUser?.memberRole?._id ? (
+            <ProjectMatchList
+              matchedProjects={matchedProjects}
+              onSelectedProject={onSelectedProject}
+              loadingProject={loadingProject}
+              // eslint-disable-next-line no-unused-vars
+              onViewProject={(val: boolean) => onViewProject(val)}
             />
           ) : (
-            <div className={``}>
-              <ProjectMatchList
-                matchedProjects={matchedProjects}
-                onSelectedProject={onSelectedProject}
-                loadingProject={loadingProject}
-                // eslint-disable-next-line no-unused-vars
-                onViewProject={(val: boolean) => onViewProject(val)}
-              />
-            </div>
+            <SignUpRoleSelectCard roles={roles} refetch={refetchMatch} />
           )}
         </>
       )}

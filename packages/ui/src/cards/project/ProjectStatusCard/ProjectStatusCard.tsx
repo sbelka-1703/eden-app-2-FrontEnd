@@ -5,7 +5,6 @@ import {
   Card,
   Date,
   DateCardProps,
-  ProgressStep,
   ProgressStepper,
 } from "@eden/package-ui";
 import { useState } from "react";
@@ -14,14 +13,13 @@ import { BsArrowRight } from "react-icons/bs";
 export interface ProjectStatusCardProps {
   project?: ProjectMemberType;
   roleName?: string;
-  progressSteps?: ProgressStep[];
   appliedDateData?: DateCardProps;
   kickoffDateData?: DateCardProps;
 }
+
 export const ProjectStatusCard: React.FC<ProjectStatusCardProps> = ({
   project,
   roleName,
-  progressSteps,
   appliedDateData,
 }) => {
   const [cardStatus, setCardStatus] = useState(false);
@@ -29,20 +27,28 @@ export const ProjectStatusCard: React.FC<ProjectStatusCardProps> = ({
   const steps = [
     {
       name: "Applied",
-      completed: project?.phase === "engaged",
+      completed:
+        project?.phase === "engaged" ||
+        project?.phase === "invited" ||
+        project?.phase === "shortlisted" ||
+        project?.phase === "committed",
+    },
+    {
+      name: "Invited to Project",
+      completed:
+        project?.phase === "invited" ||
+        project?.phase === "shortlisted" ||
+        project?.phase === "committed",
     },
     {
       name: "Application Reviewed",
-      completed: false,
+      completed:
+        project?.phase === "shortlisted" || project?.phase === "committed",
     },
     {
-      name: "Application Shortlisted",
-      completed: false,
+      name: "Application Accepted",
+      completed: project?.phase === "committed",
     },
-    // {
-    //   name: "Application Shortlisted",
-    //   completed: false,
-    // },
   ];
 
   // console.log("project", project);
@@ -52,11 +58,13 @@ export const ProjectStatusCard: React.FC<ProjectStatusCardProps> = ({
       <div className="flex w-full items-center justify-between">
         <div className="mb-4 flex items-center justify-start">
           <div>
-            {project?.info?.emoji ? (
-              <span>{project?.info?.emoji}</span>
-            ) : (
-              <Avatar size="md" src={""} isProject />
-            )}
+            <Avatar
+              size="md"
+              src={""}
+              isProject
+              emoji={project?.info?.emoji as string}
+              backColorEmoji={project?.info?.backColorEmoji as string}
+            />
           </div>
           <div className="ml-6 flex flex-col items-start justify-start">
             <h1 className="text-lg text-black">{project?.info?.title}</h1>
@@ -109,8 +117,7 @@ export const ProjectStatusCard: React.FC<ProjectStatusCardProps> = ({
               )}
             </div>
           </div>
-          {progressSteps && <ProgressStepper steps={progressSteps || steps} />}
-          <ProgressStepper steps={progressSteps || steps} />
+          <ProgressStepper steps={steps} />
         </>
       )}
     </Card>

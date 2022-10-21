@@ -138,6 +138,7 @@ export const Expandable = ({
                             skillInfo: {
                               _id: item._id,
                               name: item.name,
+                              categorySkills: item.categorySkills,
                             },
                             level: level.level,
                           },

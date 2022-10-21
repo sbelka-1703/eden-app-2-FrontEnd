@@ -13,9 +13,7 @@ export default {
 const Template: ComponentStory<typeof ProjectChampionList> = () => {
   return (
     <div className="bg-gray-300 p-6">
-      <div className="w-2/5">
-        <ProjectChampionList />
-      </div>
+      <ProjectChampionList />
     </div>
   );
 };

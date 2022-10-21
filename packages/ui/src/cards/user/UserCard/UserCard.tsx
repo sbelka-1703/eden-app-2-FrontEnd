@@ -3,6 +3,8 @@ import { Maybe, Members } from "@eden/package-graphql/generated";
 import { Avatar, Badge, Button, Card } from "@eden/package-ui";
 import { useState } from "react";
 
+import { round } from "../../../../utils";
+
 const SET_APPLY_TO_PROJECT = gql`
   mutation ($fields: changeTeamMember_Phase_ProjectInput!) {
     changeTeamMember_Phase_Project(fields: $fields) {
@@ -79,7 +81,7 @@ export const UserCard = ({
               <div
                 className={`text-soilPurple font-poppins my-auto text-2xl font-semibold`}
               >
-                {percentage}%
+                {percentage ? round(Number(percentage), 0) : undefined}%
               </div>
             </div>
           </div>

@@ -1,12 +1,11 @@
 import { LaunchProjectProvider } from "@eden/package-context";
 import {
-  AppUserLayout,
-  Card,
+  AppUserSubmenuLayout,
   GridItemNine,
   GridItemThree,
   GridLayout,
   LaunchProjectContainer,
-  UserProfileMenu,
+  UserProfileCard,
 } from "@eden/package-ui";
 
 import type { NextPageWithLayout } from "../_app";
@@ -15,9 +14,7 @@ const LaunchPage: NextPageWithLayout = () => {
   return (
     <GridLayout>
       <GridItemThree>
-        <Card className="bg-white p-6">
-          <UserProfileMenu title={`Good Morning,`} />
-        </Card>
+        <UserProfileCard />
       </GridItemThree>
       <GridItemNine>
         <LaunchProjectContainer />
@@ -27,9 +24,9 @@ const LaunchPage: NextPageWithLayout = () => {
 };
 
 LaunchPage.getLayout = (page) => (
-  <AppUserLayout>
+  <AppUserSubmenuLayout showSubmenu={false}>
     <LaunchProjectProvider>{page}</LaunchProjectProvider>
-  </AppUserLayout>
+  </AppUserSubmenuLayout>
 );
 
 export default LaunchPage;

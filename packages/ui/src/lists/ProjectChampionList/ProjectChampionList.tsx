@@ -18,7 +18,7 @@ export const ProjectChampionList = () => {
 
   return (
     <div
-      className={`h-85 scrollbar-hide m-auto flex flex-col overflow-scroll lg:w-1/2`}
+      className={`h-85 scrollbar-hide m-auto flex w-full flex-col overflow-scroll md:w-2/3 lg:w-1/2`}
     >
       {champions?.map((item) => (
         <button

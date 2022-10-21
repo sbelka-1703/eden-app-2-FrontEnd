@@ -34,7 +34,7 @@ export const MenuItem = ({
         {counterBadge !== undefined && (
           <div className="px-2">
             <span
-              className={`bg-accentColor flex h-6 w-6 items-center justify-center rounded-full`}
+              className={`bg-accentColor text-darkGreen flex h-6 w-6 items-center justify-center rounded-full text-xs font-medium`}
             >
               {counterBadge}
             </span>

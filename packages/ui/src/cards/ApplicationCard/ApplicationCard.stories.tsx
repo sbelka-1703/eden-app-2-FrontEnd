@@ -1,4 +1,9 @@
-import { getProject } from "@eden/package-mock";
+import {
+  Maybe,
+  PhaseType,
+  ProjectMemberType,
+} from "@eden/package-graphql/generated";
+import { getProject, getRoleTypeMock } from "@eden/package-mock";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { CurrentUserDecorator } from "storybook/.storybook/decorator";
 
@@ -21,10 +26,22 @@ const Template: ComponentStory<typeof ApplicationCard> = (args) => {
   );
 };
 
-const project = getProject();
+// export type ProjectMemberType = {
+//   __typename?: "projectMemberType";
+//   champion?: Maybe<Scalars["Boolean"]>;
+//   favorite?: Maybe<Scalars["Boolean"]>;
+//   info?: Maybe<Project>;
+//   phase?: Maybe<PhaseType>;
+//   role?: Maybe<RoleType>;
+// };
+
+const project: Maybe<ProjectMemberType> = {
+  info: getProject(),
+  phase: "shortlisted" as Maybe<PhaseType>,
+  role: getRoleTypeMock(),
+};
 
 export const Default = Template.bind({});
 Default.args = {
   project,
-  role: project.role?.length ? project.role[0] : {},
 };

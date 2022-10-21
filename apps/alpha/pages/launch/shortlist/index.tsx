@@ -14,7 +14,7 @@ import {
   GridLayout,
   ShortlistContainer,
   ShortlistMemberContainer,
-  ShortlistModalContainer,
+  ShortlistModalContainerTest,
   // ShortlistSideContainer,
   ShortlistSideContainerTest,
   TextHeading3,
@@ -75,7 +75,7 @@ const LaunchPage: NextPageWithLayout = () => {
 
   useEffect(() => {
     if (!project?.role?.length) {
-      setOpenModal(LaunchProjectModal.ROLE);
+      setOpenModal(LaunchProjectModal.SKILLS_CATEGORY);
     }
   }, []);
 
@@ -133,7 +133,7 @@ const LaunchPage: NextPageWithLayout = () => {
           </>
         )}
       </GridLayout>
-      <ShortlistModalContainer />
+      <ShortlistModalContainerTest />
     </>
   );
 };

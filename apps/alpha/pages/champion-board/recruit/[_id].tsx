@@ -1,13 +1,8 @@
 /* eslint-disable no-unused-vars */
 import { useQuery } from "@apollo/client";
-import {
-  FIND_MEMBER,
-  FIND_PROJECT,
-  MATCH_MEMBERS_TO_SKILLS,
-} from "@eden/package-graphql";
+import { FIND_PROJECT } from "@eden/package-graphql";
 import {
   AppUserSubmenuLayout,
-  Card,
   ChampionMatchContainer,
   GridItemNine,
   GridItemThree,
@@ -16,13 +11,30 @@ import {
 } from "@eden/package-ui";
 // import { LaunchProjectContext } from "@eden/package-context";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
-// import { useContext, useState } from "react";
 import type { NextPageWithLayout } from "../../_app";
 
 const ProjectPage: NextPageWithLayout = () => {
   const router = useRouter();
   const { _id } = router.query;
+  const { data: dataProject, refetch: refetchProject } = useQuery(
+    FIND_PROJECT,
+    {
+      variables: {
+        fields: {
+          _id,
+        },
+      },
+      skip: !_id,
+      context: { serviceName: "soilservice" },
+    }
+  );
+
+  const [selectedRole, setSelectedRole] = useState(
+    dataProject?.findProject?.role[0]
+  );
+
   // const [selectMember, setSelectMember] = useState("");
 
   // const { matchMembersPage, project, selectedRole } =
@@ -37,20 +49,6 @@ const ProjectPage: NextPageWithLayout = () => {
   //   skip: !selectMember,
   //   context: { serviceName: "soilservice" },
   // });
-
-  const { data: dataProject, refetch: refetchProject } = useQuery(
-    FIND_PROJECT,
-    {
-      variables: {
-        fields: {
-          _id,
-        },
-      },
-      skip: !_id,
-      context: { serviceName: "soilservice" },
-    }
-  );
-
   // const { data: matchingMembers } = useQuery(MATCH_MEMBERS_TO_SKILLS, {
   //   variables: {
   //     fields: {
@@ -74,8 +72,7 @@ const ProjectPage: NextPageWithLayout = () => {
   // });
 
   // project data with shortlist
-  if (dataProject) console.log("dataProject", dataProject);
-  else {
+  if (!dataProject) {
     return null;
   }
   // if (matchingMembers) console.log("matchingMembers", matchingMembers);
@@ -85,20 +82,21 @@ const ProjectPage: NextPageWithLayout = () => {
   return (
     <GridLayout>
       <GridItemThree>
-        <Card shadow className="h-8/10 bg-white p-6">
-          <ProjectEditSelectorCard
-            project={dataProject?.findProject}
-            emoji={dataProject?.findProject?.emoji}
-            totalDays={dataProject?.findProject?.dates?.kickOff}
-            currentDayCount={dataProject?.findProject?.dates?.complition}
-            backgroundColor={dataProject?.findProject?.backColorEmoji}
-          />
-        </Card>
+        <ProjectEditSelectorCard
+          project={dataProject?.findProject}
+          handleSelectRole={(role) => {
+            setSelectedRole(role);
+          }}
+          selectedRole={selectedRole}
+          onBack={() => router.push("../")}
+          onEdit={() => console.log("edit Project")}
+        />
       </GridItemThree>
       <GridItemNine>
-        <Card shadow className="h-8/10 overflow-auto bg-white p-6">
-          <ChampionMatchContainer project={dataProject.findProject} />
-        </Card>
+        <ChampionMatchContainer
+          project={dataProject.findProject}
+          selectedRole={selectedRole}
+        />
       </GridItemNine>
     </GridLayout>
   );

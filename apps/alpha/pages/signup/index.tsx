@@ -3,14 +3,13 @@ import { gql, useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
 import { FIND_PROJECT } from "@eden/package-graphql";
 import {
-  AppUserLayout,
+  AppUserSubmenuLayout,
   GridItemNine,
   GridItemThree,
   GridLayout,
   SignUpContainerMain,
   SignUpContainerSide,
 } from "@eden/package-ui";
-import Head from "next/head";
 import { useContext, useState } from "react";
 
 import type { NextPageWithLayout } from "../_app";
@@ -59,6 +58,9 @@ const MATCH_SKILLS_TO_PROJECTS = gql`
         _id
         title
         description
+        descriptionOneLine
+        emoji
+        backColorEmoji
         champion {
           _id
           discordName
@@ -85,13 +87,15 @@ const SignUpTestPage: NextPageWithLayout = () => {
     (skill) => skill?.skillInfo?._id
   );
 
+  // console.log("filterskillsfromcurrentuser", filterskillsfromcurrentuser);
+
   const { data: dataMatchedProjects, refetch: refetchMatch } = useQuery(
     MATCH_SKILLS_TO_PROJECTS,
     {
       variables: {
         fields: {
           skillsID: filterskillsfromcurrentuser,
-          limit: 40,
+          limit: 20,
           page: 0,
         },
       },
@@ -123,39 +127,33 @@ const SignUpTestPage: NextPageWithLayout = () => {
   // if (dataProject) console.log("dataProject", dataProject);
 
   return (
-    <div className={`bg-background`}>
-      <Head>
-        <title>Eden protocol</title>
-      </Head>
-
-      <GridLayout>
-        <GridItemThree>
-          <SignUpContainerSide
-            matchedProjects={dataMatchedProjects?.matchSkillsToProjects}
-            onSelectedProject={(val) => setSelectProject(val)}
-            viewProject={viewProject}
-          />
-        </GridItemThree>
-        <GridItemNine>
-          <SignUpContainerMain
-            roles={dataRoles?.findRoleTemplates}
-            matchedProjects={dataMatchedProjects?.matchSkillsToProjects}
-            project={dataProject?.findProject}
-            refetchMatch={refetchMatch}
-            refetchProject={refetchProject}
-            onSelectedProject={(val) => setSelectProject(val)}
-            loadingProject={loadingProject}
-            viewProject={viewProject}
-            onViewProject={(val) => setViewProject(val)}
-          />
-        </GridItemNine>
-      </GridLayout>
-    </div>
+    <GridLayout>
+      <GridItemThree>
+        <SignUpContainerSide
+          matchedProjects={dataMatchedProjects?.matchSkillsToProjects}
+          onSelectedProject={(val) => setSelectProject(val)}
+          viewProject={viewProject}
+        />
+      </GridItemThree>
+      <GridItemNine>
+        <SignUpContainerMain
+          roles={dataRoles?.findRoleTemplates}
+          matchedProjects={dataMatchedProjects?.matchSkillsToProjects}
+          project={dataProject?.findProject}
+          refetchMatch={refetchMatch}
+          refetchProject={refetchProject}
+          onSelectedProject={(val) => setSelectProject(val)}
+          loadingProject={loadingProject}
+          viewProject={viewProject}
+          onViewProject={(val) => setViewProject(val)}
+        />
+      </GridItemNine>
+    </GridLayout>
   );
 };
 
 SignUpTestPage.getLayout = (page) => (
-  <AppUserLayout logoLink={`/home`}>{page}</AppUserLayout>
+  <AppUserSubmenuLayout showSubmenu={false}>{page}</AppUserSubmenuLayout>
 );
 
 export default SignUpTestPage;

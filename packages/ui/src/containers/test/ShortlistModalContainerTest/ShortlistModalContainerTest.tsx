@@ -10,20 +10,37 @@ import {
   Mutation,
   RoleTemplate,
   RoleType,
+  SkillCategory,
   SkillRoleType,
   Skills,
+  SkillSubCategory,
   UpdateProjectInput,
 } from "@eden/package-graphql/generated";
 import {
   CongratulationsModal,
+  PrioritizeModal,
+  RequirementsModal,
   RoleDescriptionModal,
   RoleModal,
   SavingProjectModal,
   ShortlistMemberModal,
+  SkillsCategoryModal,
   SkillsModal,
+  SkillsOnCategoryModal,
+  SkillsSubcategoryModal,
   SocialMediaModel,
 } from "@eden/package-ui";
 import { useContext, useEffect } from "react";
+
+// @TODO mock data to be removed
+
+const rangeNumbers: number[] = [];
+
+for (let i = 0; i < 500; i++) {
+  rangeNumbers.push(Math.floor(Math.random() * 80) + 1);
+}
+
+// -----------------
 
 export interface IShortlistModalContainerTestProps {}
 
@@ -38,6 +55,8 @@ export const ShortlistModalContainerTest =
       setOpenModal,
       submitting,
       setSubmitting,
+      selectedCategories,
+      setSelectedCategories,
     } = useContext(LaunchProjectContext);
 
     const [updateProject, {}] = useMutation(UPDATE_PROJECT, {
@@ -144,6 +163,102 @@ export const ShortlistModalContainerTest =
           <RoleModal
             openModal={openModal === LaunchProjectModal.ROLE}
             onSubmit={handleAddRole}
+          />
+        )}
+        {openModal === LaunchProjectModal.SKILLS_CATEGORY && (
+          <SkillsCategoryModal
+            key={"" + project?.role?.length}
+            isOpen={openModal === LaunchProjectModal.SKILLS_CATEGORY}
+            onSubmit={(val: SkillCategory[]) => {
+              setSelectedCategories(val);
+              setOpenModal(LaunchProjectModal.SKILLS_SUBCATEGORY);
+            }}
+          />
+        )}
+        {openModal === LaunchProjectModal.SKILLS_SUBCATEGORY && (
+          <SkillsSubcategoryModal
+            key={"" + project?.role?.length}
+            categories={selectedCategories || []}
+            isOpen={openModal === LaunchProjectModal.SKILLS_SUBCATEGORY}
+            onSubmit={function (val): void {
+              const newRole = {
+                _id: project?.role?.length.toString(),
+                // generate title for the role
+                title: val
+                  .map((category: SkillCategory) =>
+                    category?.subCategorySkill
+                      ?.map(
+                        (subcategory: Maybe<SkillSubCategory>) =>
+                          subcategory?.name
+                      )
+                      .join(", ")
+                  )
+                  .join(", "),
+                // this concat will generate an array with all the skills
+                skills: ([] as any[]).concat(
+                  ...val.map((category) => {
+                    return category?.skills?.map(
+                      (skill: Skills) =>
+                        ({
+                          skillData: { ...skill },
+                        } as SkillRoleType)
+                    );
+                  })
+                ),
+              } as RoleType;
+
+              setSelectedCategories(val);
+              dispatchProject!({
+                type: ProjectActionKind.ADD_ROLE,
+                payload: newRole,
+              });
+              setSelectedRole(newRole);
+              setOpenModal(LaunchProjectModal.SKILLS_ON_CATEGORY);
+            }}
+          />
+        )}
+        {openModal === LaunchProjectModal.SKILLS_ON_CATEGORY && (
+          <SkillsOnCategoryModal
+            key={"" + project?.role?.length}
+            isOpen={openModal === LaunchProjectModal.SKILLS_ON_CATEGORY}
+            skills={selectedRole?.skills}
+            setSkills={function (skills: SkillRoleType[]): void {
+              dispatchProject!({
+                type: ProjectActionKind.SET_ROLE_SKILLS,
+                payload: {
+                  ...selectedRole,
+                  skills: skills,
+                },
+              });
+              setSelectedRole({ ...selectedRole, skills: skills });
+            }}
+            handelAddSkills={() => setOpenModal(LaunchProjectModal.PRIORITIZE)}
+          />
+        )}
+        {openModal === LaunchProjectModal.PRIORITIZE && (
+          <PrioritizeModal
+            key={"" + project?.role?.length}
+            openModal={openModal === LaunchProjectModal.PRIORITIZE}
+            onClose={() => {
+              // setOpenModal(null);
+            }}
+            onSubmit={(val) => {
+              console.log(val);
+              setOpenModal(LaunchProjectModal.REQUIREMENTS);
+            }}
+          />
+        )}
+        {openModal === LaunchProjectModal.REQUIREMENTS && (
+          <RequirementsModal
+            salaryData={rangeNumbers}
+            openModal={openModal === LaunchProjectModal.REQUIREMENTS}
+            onClose={() => {
+              // setOpenModal(null);
+            }}
+            onSubmit={(val) => {
+              console.log(val);
+              setOpenModal(null);
+            }}
           />
         )}
         {openModal === LaunchProjectModal.SKILLS && (

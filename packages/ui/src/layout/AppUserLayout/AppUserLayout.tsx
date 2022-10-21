@@ -11,7 +11,7 @@ interface IAppUserLayoutProps {
 
 export const AppUserLayout = ({
   children,
-  logoLink = `/projects`,
+  logoLink = `/home`,
 }: IAppUserLayoutProps) => {
   // const router = useRouter();
   // const { currentUser } = useContext(UserContext);
