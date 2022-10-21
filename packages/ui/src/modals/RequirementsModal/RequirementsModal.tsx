@@ -1,10 +1,9 @@
 import {
   Button,
-  ICompany,
   Modal,
   SalaryRangeChart,
+  TextBody,
   TextHeading3,
-  UserAttributeChart,
 } from "@eden/package-ui";
 import { useState } from "react";
 
@@ -12,7 +11,6 @@ export interface RequirementsModalProps {
   openModal?: boolean;
   onClose: () => void;
   salaryData: number[];
-  companies: ICompany[];
   // eslint-disable-next-line no-unused-vars
   onSubmit: (salaryRange: {
     domain: number[];
@@ -25,7 +23,6 @@ export const RequirementsModal = ({
   // onClose,
   onSubmit,
   openModal,
-  companies,
   salaryData,
 }: RequirementsModalProps) => {
   const [salaryRange, setSalaryRange] = useState<{
@@ -41,12 +38,13 @@ export const RequirementsModal = ({
   return (
     <Modal open={openModal} closeOnEsc={false}>
       <div>
-        <TextHeading3>
-          Proposed salary rates based on your requirements.
-        </TextHeading3>
+        <TextHeading3>Proposed salary rates</TextHeading3>
+
+        <TextBody className={`font-medium text-gray-500`}>
+          Based on the salary, choose the people you want to see
+        </TextBody>
 
         <div className="mx-auto flex max-w-md flex-col justify-center">
-          {!!companies.length && <UserAttributeChart companies={companies} />}
           {!!salaryData.length && (
             <SalaryRangeChart data={salaryData} onChange={setSalaryRange} />
           )}
