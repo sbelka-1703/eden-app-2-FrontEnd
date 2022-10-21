@@ -59,10 +59,10 @@ export const PrioritizeModal = ({
   onSubmit,
 }: PrioritizeModalProps) => {
   const [range, setRange] = useState({
-    experience: 0,
-    accountability: 0,
-    skillMatch: 0,
-    availability: 0,
+    experience: 20,
+    accountability: 20,
+    skillMatch: 20,
+    availability: 20,
   });
   const [remaining, setRemaining] = useState(100);
 
@@ -98,6 +98,7 @@ export const PrioritizeModal = ({
               </Tooltip>
               <TextBody>{skill.displayName}</TextBody>
               <RangeSlider
+                defaultValue={range[skill.name]}
                 showNumbers
                 max={range[skill.name] + remaining}
                 className="max-w-xs"
