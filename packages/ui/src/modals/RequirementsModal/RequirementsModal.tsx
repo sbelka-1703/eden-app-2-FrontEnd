@@ -3,6 +3,7 @@ import {
   ICompany,
   Modal,
   SalaryRangeChart,
+  TextBody,
   TextHeading3,
   UserAttributeChart,
 } from "@eden/package-ui";
@@ -41,9 +42,11 @@ export const RequirementsModal = ({
   return (
     <Modal open={openModal} closeOnEsc={false}>
       <div>
-        <TextHeading3>
-          Proposed salary rates based on your requirements.
-        </TextHeading3>
+        <TextHeading3>Proposed salary rates</TextHeading3>
+
+        <TextBody className={`font-medium text-gray-500`}>
+          Based on the salary, choose the people you want to see
+        </TextBody>
 
         <div className="mx-auto flex max-w-md flex-col justify-center">
           {!!companies.length && <UserAttributeChart companies={companies} />}
