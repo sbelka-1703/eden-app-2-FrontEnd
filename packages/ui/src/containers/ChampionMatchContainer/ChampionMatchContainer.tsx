@@ -1,5 +1,6 @@
 import {
   Maybe,
+  Members,
   Project,
   RoleType,
   TeamType,
@@ -10,11 +11,14 @@ import { useEffect, useState } from "react";
 export interface ChampionMatchContainerProps {
   project?: Project;
   selectedRole?: Maybe<RoleType> | null;
+  matchingMembers?: Members[];
 }
 
 const ActiveTabMembers = (teamMembers: any) => {
   const [teamMembersPages, setTeamMembersPages]: any[] = useState([]);
   const [teamMembersPageNo, setTeamMembersPageNo] = useState(0);
+
+  // console.log("teamMembers", teamMembers);
 
   useEffect(() => {
     const pagedTeamMember: any[] = [];
@@ -38,25 +42,28 @@ const ActiveTabMembers = (teamMembers: any) => {
 
   return (
     <div className="flex flex-col content-between justify-between">
-      <div className={`mb-4 grid grid-cols-3 gap-x-10 gap-y-10`}>
+      <div className={`mb-4 grid grid-cols-3 gap-x-4 gap-y-4`}>
         {teamMembers && teamMembers?.teamMembers?.length > 0 ? (
           teamMembersPages[teamMembersPageNo]?.map(
             (member: any | TeamType, index: number) => {
               return (
                 <div key={index} className={`m-2`}>
                   <MemberMatchCard
-                    member={member.memberInfo}
-                    percentage={"44"}
-                    onClick={() => onClickMore(member.memberInfo._id)}
+                    member={member.memberInfo || member.member}
+                    percentage={member?.matchPercentage?.totalPercentage || ""}
+                    matchedMember={member || {}}
+                    onClick={() =>
+                      onClickMore(
+                        member?.memberInfo?._id || member?.member?._id
+                      )
+                    }
                   />
                 </div>
               );
             }
           )
         ) : (
-          <TextHeading3 className="mb-4">
-            There are no more matching candidates
-          </TextHeading3>
+          <TextHeading3 className="mb-4">No matching candidates</TextHeading3>
         )}
       </div>
       <section className="flex justify-evenly">
@@ -87,6 +94,7 @@ const ActiveTabMembers = (teamMembers: any) => {
 export const ChampionMatchContainer = ({
   project,
   selectedRole,
+  matchingMembers,
 }: ChampionMatchContainerProps) => {
   const [activeTab, setActiveTab] = useState(0);
   const tabs = ["New Match", "Applied", "Invited", "Accepted", "Rejected"];
@@ -105,7 +113,7 @@ export const ChampionMatchContainer = ({
   });
   const AcceptedMembers = project?.team?.filter((mem) => {
     return (
-      mem?.phase == "shortlisted" &&
+      mem?.phase == "committed" &&
       (mem.roleID ? mem.roleID == selectedRole?._id : true)
     );
   });
@@ -115,19 +123,15 @@ export const ChampionMatchContainer = ({
       (mem.roleID ? mem.roleID == selectedRole?._id : true)
     );
   });
-  const NewMembers = project?.team?.filter((mem) => {
-    return (
-      mem?.phase == "committed" &&
-      (mem.roleID ? mem.roleID == selectedRole?._id : true)
-    );
-  });
+
+  // console.log("matchingMembers", matchingMembers);
 
   return (
     <div className="m-2 rounded-xl">
       <TabsSelector tabs={tabs} onSelect={(val) => setActiveTab(val)} />
       <div className="border-accentColor h-8/10 scrollbar-hide overflow-y-scroll rounded-b-xl border-b-2 border-r-2 border-l-2 bg-white px-4">
         {activeTab === 0 && (
-          <ActiveTabMembers teamMembers={NewMembers} overflow={true} />
+          <ActiveTabMembers teamMembers={matchingMembers} overflow={true} />
         )}
         {activeTab === 1 && <ActiveTabMembers teamMembers={AppliedMembers} />}
         {activeTab === 2 && <ActiveTabMembers teamMembers={InvitedMembers} />}
