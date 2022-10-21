@@ -89,7 +89,7 @@ export const PrioritizeModal = ({
           points you give - more important the subject is to you.
         </TextBody>
         <section className="grid grid-cols-2 gap-4">
-          <div className="col-span-1 mx-auto my-8 flex max-w-md flex-col justify-center">
+          <div className="col-span-1 my-8 ml-4 flex w-full max-w-md flex-col justify-center">
             {SKILLS.map((skill) => (
               <div
                 key={skill.name}
