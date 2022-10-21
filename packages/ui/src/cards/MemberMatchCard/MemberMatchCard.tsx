@@ -35,6 +35,9 @@ export const MemberMatchCard = ({
   const mySkills: Maybe<SkillType_Member>[] | undefined = [];
   const [showSkillMatchModel, setSkillMatchModel] = useState(false);
 
+  // console.log("member", member);
+  // console.log("matchedMember", matchedMember);
+
   member?.skills?.forEach((skill) => {
     mySkills.push(skill);
   });
@@ -94,15 +97,22 @@ export const MemberMatchCard = ({
         border
         className="relative flex w-full flex-col items-center justify-center bg-white p-5"
       >
-        <Button
-          className="absolute top-2 left-2"
-          onClick={() => onOpenModal()}
-          variant="primary"
-          size="sm"
-        >
-          Percentage
-        </Button>
-        <MatchAvatar src={member?.discordAvatar!} percentage={percentage} />
+        {matchedMember?.matchPercentage && (
+          <Button
+            className="absolute top-2 left-2"
+            onClick={() => onOpenModal()}
+            variant="primary"
+            size="sm"
+          >
+            Percentage
+          </Button>
+        )}
+
+        <MatchAvatar
+          src={member?.discordAvatar!}
+          percentage={percentage}
+          size={`md`}
+        />
         <TextHeading2 className="font-poppins text-darkGreen font-medium">
           {member?.discordName}{" "}
           {member?.discriminator && (
