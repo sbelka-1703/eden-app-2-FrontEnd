@@ -5,6 +5,7 @@ import {
   TextBody,
   TextHeading3,
   Tooltip,
+  UserAttributeChart,
 } from "@eden/package-ui";
 import { useEffect, useState } from "react";
 
@@ -59,10 +60,10 @@ export const PrioritizeModal = ({
   onSubmit,
 }: PrioritizeModalProps) => {
   const [range, setRange] = useState({
-    experience: 0,
-    accountability: 0,
-    skillMatch: 0,
-    availability: 0,
+    experience: 20,
+    accountability: 20,
+    skillMatch: 20,
+    availability: 20,
   });
   const [remaining, setRemaining] = useState(100);
 
@@ -87,25 +88,37 @@ export const PrioritizeModal = ({
           <br />
           points you give - more important the subject is to you.
         </TextBody>
-        <div className="mx-auto my-8 flex max-w-md flex-col justify-center">
-          {SKILLS.map((skill) => (
-            <div
-              key={skill.name}
-              className="relative flex flex-wrap items-baseline justify-between"
-            >
-              <Tooltip className="-left-5 -top-3 h-5 w-5 text-gray-500 md:absolute">
-                {skill.tooltip}
-              </Tooltip>
-              <TextBody>{skill.displayName}</TextBody>
-              <RangeSlider
-                showNumbers
-                max={range[skill.name] + remaining}
-                className="max-w-xs"
-                onChange={(val) => handlePrioritized(skill.name, val)}
-              />
-            </div>
-          ))}
-        </div>
+        <section className="grid grid-cols-2 gap-4">
+          <div className="col-span-1 my-8 ml-4 flex w-full max-w-md flex-col justify-center">
+            {SKILLS.map((skill) => (
+              <div
+                key={skill.name}
+                className="relative flex flex-wrap items-baseline justify-between"
+              >
+                <Tooltip className="-left-5 -top-3 h-5 w-5 text-gray-500 md:absolute">
+                  {skill.tooltip}
+                </Tooltip>
+                <TextBody>{skill.displayName}</TextBody>
+                <RangeSlider
+                  defaultValue={range[skill.name]}
+                  showNumbers
+                  max={range[skill.name] + remaining}
+                  className="max-w-xs"
+                  onChange={(val) => handlePrioritized(skill.name, val)}
+                />
+              </div>
+            ))}
+          </div>
+          <div className="col-span-1">
+            <UserAttributeChart
+              companies={[
+                {
+                  companyInfo: { attributes: range, discordName: "priorities" },
+                },
+              ]}
+            />
+          </div>
+        </section>
         <div className="flex justify-center">
           {/* <Button radius="rounded" variant={`secondary`} onClick={onClose}>
             Back

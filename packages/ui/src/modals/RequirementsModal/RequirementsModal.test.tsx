@@ -1,6 +1,5 @@
 import { render } from "../../../utils/jest-apollo";
 import { RequirementsModal } from ".";
-import { mockCompanyData } from "./mockData";
 
 const rangeNumbers: number[] = [];
 
@@ -13,7 +12,6 @@ describe("RequirementsModal", () => {
     const { container } = render(
       <RequirementsModal
         salaryData={rangeNumbers}
-        companies={mockCompanyData}
         onClose={function (): void {
           throw new Error("Function not implemented.");
         }}

@@ -18,7 +18,6 @@ import {
 } from "@eden/package-graphql/generated";
 import {
   CongratulationsModal,
-  ICompany,
   PrioritizeModal,
   RequirementsModal,
   RoleDescriptionModal,
@@ -40,20 +39,6 @@ const rangeNumbers: number[] = [];
 for (let i = 0; i < 500; i++) {
   rangeNumbers.push(Math.floor(Math.random() * 80) + 1);
 }
-
-const mockCompanyData: ICompany[] = [
-  {
-    companyInfo: {
-      discordName: "Company 1",
-      attributes: {
-        experience: 13,
-        availability: 10,
-        skillMatch: 46,
-        accountability: 29,
-      },
-    },
-  },
-];
 
 // -----------------
 
@@ -266,7 +251,6 @@ export const ShortlistModalContainerTest =
         {openModal === LaunchProjectModal.REQUIREMENTS && (
           <RequirementsModal
             salaryData={rangeNumbers}
-            companies={mockCompanyData}
             openModal={openModal === LaunchProjectModal.REQUIREMENTS}
             onClose={() => {
               // setOpenModal(null);
