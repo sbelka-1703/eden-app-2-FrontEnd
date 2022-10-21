@@ -15,6 +15,7 @@ export interface ProjectEditSelectorCardProps {
   selectedRole?: Maybe<RoleType> | null;
   onEdit?: () => void;
   onBack?: () => void;
+  // eslint-disable-next-line no-unused-vars
   handleSelectRole?: (val: Maybe<RoleType>) => void;
 }
 

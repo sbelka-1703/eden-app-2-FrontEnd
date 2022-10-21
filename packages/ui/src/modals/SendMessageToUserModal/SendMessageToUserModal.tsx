@@ -11,9 +11,9 @@ import { useContext, useState } from "react";
 
 export interface SendMessageToUserModalProps {
   openModal: boolean;
-  member?: Maybe<Members>;
+  member: Maybe<Members>;
   // eslint-disable-next-line no-unused-vars
-  onSubmit: (message: string) => void;
+  onSubmit: (message: string, member: Maybe<Members>) => void;
 }
 
 export const SendMessageToUserModal = ({
@@ -59,7 +59,7 @@ export const SendMessageToUserModal = ({
           <Button
             variant="primary"
             onClick={() => {
-              onSubmit(message);
+              onSubmit(message, member);
             }}
           >
             Send
