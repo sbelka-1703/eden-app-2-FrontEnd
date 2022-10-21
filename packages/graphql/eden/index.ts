@@ -4,3 +4,4 @@ export * from "./roleTemplate";
 export * from "./room";
 export * from "./roles";
 export * from "./skill";
+export * from "./chat";
