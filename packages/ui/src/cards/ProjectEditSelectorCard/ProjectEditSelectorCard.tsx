@@ -1,34 +1,29 @@
-import { Project } from "@eden/package-graphql/generated";
+import { Maybe, Project, RoleType } from "@eden/package-graphql/generated";
 import {
   Avatar,
-  Card,
-  ProgressBar,
   Button,
+  Card,
   EmojiSelector,
+  ProgressBar,
+  RoleSmallCard,
 } from "@eden/package-ui";
 import { ChevronLeftIcon } from "@heroicons/react/outline";
-import { format, differenceInBusinessDays } from "date-fns";
+import { differenceInBusinessDays, format } from "date-fns";
 // import {sub} from "date-fns/sub"
 export interface ProjectEditSelectorCardProps {
   project?: Project;
-  emoji?: string;
-  totalDays?: number;
-  currentDayCount?: number;
-  backgroundColor?: string;
+  selectedRole?: Maybe<RoleType> | null;
   onEdit?: () => void;
   onBack?: () => void;
-  onSelect?: (data: any) => void;
+  handleSelectRole?: (val: Maybe<RoleType>) => void;
 }
 
 export const ProjectEditSelectorCard = ({
   project,
-  emoji,
-  totalDays = 100,
-  currentDayCount = 50,
   onBack,
   onEdit,
-  onSelect,
-  backgroundColor,
+  selectedRole,
+  handleSelectRole,
 }: ProjectEditSelectorCardProps) => {
   if (!project) return null;
 
@@ -37,10 +32,11 @@ export const ProjectEditSelectorCard = ({
   const daysLeft = differenceInBusinessDays(KickOff, ComplitionDate);
 
   const onSelectRole = (data: any) => {
-    if (onSelect) onSelect(data);
+    if (handleSelectRole) handleSelectRole(data);
   };
+
   return (
-    <Card shadow className={`w-full bg-white p-3`}>
+    <Card shadow className={`m-2 w-full bg-white p-3`}>
       <div className="flex flex-row content-center items-center justify-between">
         <div
           // onClick={onClickBack}
@@ -64,8 +60,12 @@ export const ProjectEditSelectorCard = ({
       </div>
       <div className="mt-2 flex w-full">
         <div>
-          {emoji ? (
-            <EmojiSelector isDisabled emoji={emoji} bgColor={backgroundColor} />
+          {project.emoji ? (
+            <EmojiSelector
+              isDisabled
+              emoji={project.emoji}
+              bgColor={String(project.backColorEmoji)}
+            />
           ) : (
             <Avatar src={`${project.champion?.discordAvatar}`} size={`md`} />
           )}
@@ -87,8 +87,8 @@ export const ProjectEditSelectorCard = ({
         {daysLeft ? (
           <div className="mt-3 -mb-3">
             <ProgressBar
-              totalDays={totalDays}
-              currentDayCount={currentDayCount}
+              totalDays={Number(project.dates?.kickOff)}
+              currentDayCount={Number(project.dates?.complition)}
             />
           </div>
         ) : (
@@ -96,13 +96,16 @@ export const ProjectEditSelectorCard = ({
         )}
       </div>
       <div className="grid grid-cols-2 overflow-hidden">
-        {project.role?.map((data) => (
-          <div
-            id="data?.title"
-            className="shadow-cardShadow  hover:border-accentColor m-2 rounded-2xl border-[2px] border border-zinc-400 p-6"
-            onClick={() => onSelectRole(data?.skills)}
-          >
-            {data?.title}
+        {project.role?.map((data, index) => (
+          <div key={index} className="col-span-1 m-1">
+            <RoleSmallCard
+              role={data}
+              isSelected={selectedRole?._id === data?._id}
+              // skills={role?.skills ? role.skills : []}
+              onClick={() => {
+                onSelectRole(data);
+              }}
+            />
           </div>
         ))}
       </div>
