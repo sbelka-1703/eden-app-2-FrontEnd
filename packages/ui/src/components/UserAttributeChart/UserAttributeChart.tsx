@@ -38,7 +38,7 @@ export interface IUserAttributeChartProps {
   companies: ICompany[];
 }
 
-const colors = ["#98FF87B0", "#E5ADFFB0", "#FF9BE9B0", "#A2EDFDB0"];
+const colors = ["#98FF87B0", "#A2EDFDB0", "#FF9BE9B0", "#E5ADFFB0"];
 
 const options: ChartOptions<"radar"> = {
   responsive: true,
@@ -59,12 +59,13 @@ const options: ChartOptions<"radar"> = {
       ticks: {
         display: false,
       },
+      min: 0,
+      beginAtZero: true,
       pointLabels: {
-        centerPointLabels: true,
-        padding: 18,
+        padding: 14,
         color: "#000",
         font: {
-          size: 18,
+          size: 14,
           weight: "700",
         },
       },
