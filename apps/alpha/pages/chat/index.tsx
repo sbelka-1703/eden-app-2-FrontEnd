@@ -26,16 +26,15 @@ const ChatPage: NextPageWithLayout = () => {
   const { currentUser } = useContext(UserContext);
   const [openModal, setOpenModal] = useState(true);
   const [addNewChat] = useMutation<any, MutationAddNewChatArgs>(ADD_NEW_CHAT);
-  const createThread = async (
-    message: string,
-    channelId: string,
-    threadName: string,
-    autoArchiveDuration?: AutoArchiveDuration
-  ) => {
-    const url = `/api/discord/createThread?message=${message}&channelId=${channelId}&threadName=${threadName}&autoArchiveDuration=${
-      autoArchiveDuration ?? AutoArchiveDuration.OneDay
-    }`;
-    const response = await fetch(encodeURI(url));
+  const createThread = async (body: CreateThreadApiRequestBody) => {
+    const response = await fetch(encodeURI("/api/discord/createThread"), {
+      method: "POST",
+      body: JSON.stringify(body),
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
     const jsonData: CreateThreadResponse = await response.json();
 
     return jsonData;
@@ -56,18 +55,20 @@ const ChatPage: NextPageWithLayout = () => {
           member={sampleUser}
           openModal={openModal}
           onSubmit={async (message, member) => {
-            let msgWithMention = message;
             let threadName = "Project Talents Discussion";
 
             if (member) {
-              msgWithMention = `Hey, <@${member._id}>!\n${message}`;
               threadName = `Project Talents Discussion -- ${member.discordName}`;
             }
-            const { threadId } = await createThread(
-              msgWithMention,
-              "1001547443135058010",
-              threadName
-            );
+            const { threadId } = await createThread({
+              message: `<@${member?._id}>`,
+              embedMessage: message,
+              senderAvatarURL: currentUser?.discordAvatar!,
+              senderName: `${currentUser?.discordName} -- Just invite you to a conversation`,
+              channelId: "1001547443135058010",
+              threadName: `Project Talents Discussion with ${member?.discordName}`,
+              autoArchiveDuration: AutoArchiveDuration.OneDay,
+            });
 
             const result = await addNewChat({
               variables: {
@@ -102,7 +103,11 @@ import { UserContext } from "@eden/package-context";
 import { IncomingMessage, ServerResponse } from "http";
 import { getSession } from "next-auth/react";
 
-import { AutoArchiveDuration, CreateThreadResponse } from "../../types/type";
+import {
+  AutoArchiveDuration,
+  CreateThreadApiRequestBody,
+  CreateThreadResponse,
+} from "../../types/type";
 
 export async function getServerSideProps(ctx: {
   req: IncomingMessage;

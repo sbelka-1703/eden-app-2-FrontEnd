@@ -37,3 +37,13 @@ export interface CreateThreadResponse {
 export interface FetchGuildMembersResponse {
   members: Array<PartialMember>;
 }
+
+export interface CreateThreadApiRequestBody {
+  message: string;
+  embedMessage: string;
+  senderName: string;
+  senderAvatarURL: string;
+  channelId: string;
+  threadName: string;
+  autoArchiveDuration: AutoArchiveDuration;
+}

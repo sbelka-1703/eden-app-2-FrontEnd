@@ -1,9 +1,11 @@
+/* eslint-disable camelcase */
 /* eslint-disable import/no-anonymous-default-export */
 import axios from "axios";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { DISCORD_API_URL } from "../../../constants";
 import {
+  CreateThreadApiRequestBody,
   CreateThreadResponse,
   PartialChannel,
   PartialMessage,
@@ -14,8 +16,17 @@ export default async (
   res: NextApiResponse<CreateThreadResponse>
 ) => {
   try {
-    const { query } = req;
-    const { message, channelId, threadName, autoArchiveDuration } = query;
+    const { body } = req;
+
+    const {
+      message,
+      embedMessage,
+      senderAvatarURL,
+      senderName,
+      channelId,
+      threadName,
+      autoArchiveDuration,
+    } = body as CreateThreadApiRequestBody;
 
     if (message) {
       res.status(400);
@@ -40,6 +51,15 @@ export default async (
       `${DISCORD_API_URL}/channels/${thread.data.id}/messages`,
       {
         content: message,
+        embeds: [
+          {
+            author: {
+              name: senderName,
+              icon_url: senderAvatarURL,
+            },
+            description: embedMessage,
+          },
+        ],
       },
       {
         headers: {
