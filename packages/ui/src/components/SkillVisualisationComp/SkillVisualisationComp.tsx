@@ -22,7 +22,7 @@ export const SkillVisualisationComp: React.FC<SkillVisualisationCompProps> = ({
   const [selectJunior, setSelectJunior] = useState(true);
   const [selectLearning, setSelectLearning] = useState(true);
 
-  const mappedSkills = skills.map(
+  const mappedSkills = skills?.map(
     (skill: SkillRoleType) =>
       ({
         skillInfo: skill?.skillData,
@@ -97,7 +97,7 @@ export const SkillVisualisationComp: React.FC<SkillVisualisationCompProps> = ({
       </div>
       <div className="mt-3">
         <div>
-          {selectSenior && seniorSkills.length > 0 && (
+          {selectSenior && seniorSkills?.length > 0 && (
             <SkillList
               closeButton
               handleDeleteSkill={handleDeleteSkill}
@@ -108,7 +108,7 @@ export const SkillVisualisationComp: React.FC<SkillVisualisationCompProps> = ({
           )}
         </div>
         <div className="mt-1">
-          {selectMid && midSkills.length > 0 && (
+          {selectMid && midSkills?.length > 0 && (
             <SkillList
               closeButton
               handleDeleteSkill={handleDeleteSkill}
@@ -119,7 +119,7 @@ export const SkillVisualisationComp: React.FC<SkillVisualisationCompProps> = ({
           )}
         </div>
         <div className="mt-1">
-          {selectJunior && juniorSkills.length > 0 && (
+          {selectJunior && juniorSkills?.length > 0 && (
             <SkillList
               closeButton
               handleDeleteSkill={handleDeleteSkill}
@@ -130,7 +130,7 @@ export const SkillVisualisationComp: React.FC<SkillVisualisationCompProps> = ({
           )}
         </div>
         <div className="mt-1">
-          {selectLearning && learningSkills.length > 0 && (
+          {selectLearning && learningSkills?.length > 0 && (
             <SkillList
               closeButton
               handleDeleteSkill={handleDeleteSkill}

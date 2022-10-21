@@ -287,7 +287,7 @@ export const EditProfileContainer = ({ roles }: IEditProfileContainerProps) => {
             <div>
               <TextBody>Social Links</TextBody>
               <TextLabel>Please make sure all links are up to date</TextLabel>
-              {socialMediaInputs.map((socialInput) => (
+              {socialMediaInputs?.map((socialInput) => (
                 <SocialMediaInput
                   value={
                     currentUser?.links?.filter(
