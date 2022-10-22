@@ -1,19 +1,15 @@
+/* eslint-disable no-unused-vars */
 import { useQuery } from "@apollo/client";
+import { FIND_PROJECT, MATCH_MEMBERS_TO_SKILLS } from "@eden/package-graphql";
 import {
-  FIND_MEMBER,
-  FIND_PROJECT,
-  FIND_ROLE_TEMPLATES,
-  MATCH_MEMBERS_TO_SKILLS,
-} from "@eden/package-graphql";
-import {
-  AppUserLayout,
-  CandidateSelectionList,
-  ChampionRecruitContainer,
-  GridItemSix,
+  AppUserSubmenuLayout,
+  ChampionMatchContainer,
+  GridItemNine,
   GridItemThree,
   GridLayout,
-  ShortlistList,
+  ProjectEditSelectorCard,
 } from "@eden/package-ui";
+// import { LaunchProjectContext } from "@eden/package-context";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -22,22 +18,6 @@ import type { NextPageWithLayout } from "../../_app";
 const ProjectPage: NextPageWithLayout = () => {
   const router = useRouter();
   const { _id } = router.query;
-  const [selectMember, setSelectMember] = useState("");
-  const [selectRole, setSelectSkills] = useState<string[]>([]);
-
-  const { data: dataMember, refetch: refetchMember } = useQuery(FIND_MEMBER, {
-    variables: {
-      fields: {
-        _id: selectMember,
-      },
-    },
-    skip: !selectMember,
-    context: { serviceName: "soilservice" },
-  });
-
-  // member data
-  // if (dataMember) console.log("dataMember", dataMember);
-
   const { data: dataProject, refetch: refetchProject } = useQuery(
     FIND_PROJECT,
     {
@@ -51,71 +31,84 @@ const ProjectPage: NextPageWithLayout = () => {
     }
   );
 
-  // project data with shortlist
-  // if (dataProject) console.log("dataProject", dataProject.findProject);
+  const [selectedRole, setSelectedRole] = useState(
+    dataProject?.findProject?.role[0]
+  );
 
-  const { data: dataRoles } = useQuery(FIND_ROLE_TEMPLATES, {
-    variables: {
-      fields: {},
-    },
-    context: { serviceName: "soilservice" },
-  });
+  // const [selectMember, setSelectMember] = useState("");
 
-  // role titles
-  // console.log("dataSkills", dataRoles);
+  // const { matchMembersPage, project, selectedRole } =
+  //   useContext(LaunchProjectContext);
 
-  // TODO: when backend creates matchMembersToRole, change this query to matchMembersToRole
-
-  const { data: dataMemberWithSkills } = useQuery(MATCH_MEMBERS_TO_SKILLS, {
+  // const { data: dataMember, refetch: refetchMember } = useQuery(FIND_MEMBER, {
+  //   variables: {
+  //     fields: {
+  //       _id: selectMember,
+  //     },
+  //   },
+  //   skip: !selectMember,
+  //   context: { serviceName: "soilservice" },
+  // });
+  const { data: matchingMembers } = useQuery(MATCH_MEMBERS_TO_SKILLS, {
     variables: {
       fields: {
-        skillsID: selectRole,
+        skillsID: selectedRole?.skills?.flatMap(
+          (skill: any) => skill?.skillData?._id
+        ),
         hoursPerWeek: null,
+        // page: matchMembersPage,
+        // limit: 9,
       },
     },
-    skip: !selectRole,
+    skip: !selectedRole,
     context: { serviceName: "soilservice" },
   });
 
-  // if (dataMemberWithSkills?.matchSkillsToMembers.length > 0)
-  //   console.log(
-  //     "dataMemberWithSkills",
-  //     dataMemberWithSkills.matchSkillsToMembers
-  //   );
+  // useEffect(() => {
+  //   if (selectedRole) {
+  //     const skills = selectedRole?.skills?.flatMap(
+  //       (skill: any) => skill?.skillData?._id
+  //     );
 
-  // if (selectRole.length > 0) console.log("selectRole", selectRole);
+  //     console.log(skills);
+  //   }
+  // }, [selectedRole]);
+
+  // project data with shortlist
+  if (!dataProject) {
+    return null;
+  }
+  // if (matchingMembers) console.log("matchingMembers", matchingMembers);
+
+  // if (selectedRole) console.log("selectRole", selectedRole);
 
   return (
     <GridLayout>
       <GridItemThree>
-        <CandidateSelectionList
-          roles={dataRoles?.findRoleTemplates}
-          members={dataMemberWithSkills?.matchSkillsToMembers}
-          onSelectRole={(selectRole) => setSelectSkills(selectRole)}
-          onSelectMember={(selectMember) => setSelectMember(selectMember)}
-          selectMember={selectMember}
+        <ProjectEditSelectorCard
+          project={dataProject?.findProject}
+          handleSelectRole={(role) => {
+            setSelectedRole(role);
+          }}
+          selectedRole={selectedRole}
+          onBack={() => router.back()}
+          onEdit={() => console.log("edit Project")}
         />
       </GridItemThree>
-      <GridItemSix>
-        <ChampionRecruitContainer
-          project={dataProject?.findProject}
-          member={dataMember?.findMember}
-          refetchMember={refetchMember}
-          refetchProject={refetchProject}
+      <GridItemNine>
+        <ChampionMatchContainer
+          project={dataProject.findProject}
+          selectedRole={selectedRole}
+          matchingMembers={matchingMembers?.matchSkillsToMembers}
         />
-      </GridItemSix>
-      <GridItemThree>
-        <ShortlistList
-          project={dataProject?.findProject}
-          selectMember={selectMember}
-          onSelectMember={(selectMember) => setSelectMember(selectMember)}
-        />
-      </GridItemThree>
+      </GridItemNine>
     </GridLayout>
   );
 };
 
-ProjectPage.getLayout = (page) => <AppUserLayout>{page}</AppUserLayout>;
+ProjectPage.getLayout = (page) => (
+  <AppUserSubmenuLayout showSubmenu={false}>{page}</AppUserSubmenuLayout>
+);
 
 export default ProjectPage;
 

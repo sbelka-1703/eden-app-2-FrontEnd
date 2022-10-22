@@ -1,11 +1,18 @@
-import { AppUserSubmenuLayout, ProjectChampionList } from "@eden/package-ui";
+import {
+  AppUserSubmenuLayout,
+  ProjectChampionList,
+  SEO,
+} from "@eden/package-ui";
 
 import type { NextPageWithLayout } from "../_app";
 
 const ProjectPage: NextPageWithLayout = () => <ProjectChampionList />;
 
 ProjectPage.getLayout = (page) => (
-  <AppUserSubmenuLayout>{page}</AppUserSubmenuLayout>
+  <>
+    <SEO />
+    <AppUserSubmenuLayout>{page}</AppUserSubmenuLayout>
+  </>
 );
 
 export default ProjectPage;

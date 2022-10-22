@@ -15,8 +15,8 @@ const Template: ComponentStory<typeof RequirementsModal> = (args) => (
 
 const rangeNumbers: number[] = [];
 
-for (let i = 0; i < 500; i++) {
-  rangeNumbers.push(Math.floor(Math.random() * 80) + 1);
+for (let i = 0; i < 1000; i++) {
+  rangeNumbers.push(Math.floor(Math.random() * 500) + 1);
 }
 
 export const Default = Template.bind({});

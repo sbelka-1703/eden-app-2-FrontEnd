@@ -29,6 +29,10 @@ export const FIND_PROJECT = gql`
             Reformer
             Supporter
           }
+          links {
+            name
+            url
+          }
           skills {
             skillInfo {
               _id

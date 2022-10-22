@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useQuery } from "@apollo/client";
-import { FIND_PROJECT } from "@eden/package-graphql";
+import { FIND_PROJECT, MATCH_MEMBERS_TO_SKILLS } from "@eden/package-graphql";
 import {
   AppUserSubmenuLayout,
   ChampionMatchContainer,
@@ -8,10 +8,11 @@ import {
   GridItemThree,
   GridLayout,
   ProjectEditSelectorCard,
+  SEO,
 } from "@eden/package-ui";
 // import { LaunchProjectContext } from "@eden/package-context";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import type { NextPageWithLayout } from "../../_app";
 
@@ -49,27 +50,30 @@ const ProjectPage: NextPageWithLayout = () => {
   //   skip: !selectMember,
   //   context: { serviceName: "soilservice" },
   // });
-  // const { data: matchingMembers } = useQuery(MATCH_MEMBERS_TO_SKILLS, {
-  //   variables: {
-  //     fields: {
-  //       skillsID: selectedRole?.skills?.flatMap(
-  //         (skill) => skill?.skillData?._id
-  //       ),
-  //       hoursPerWeek:
-  //         project?.role?.find((role) => role?._id === selectedRole?._id)
-  //           ?.hoursPerWeek || null,
-  //       budgetAmount:
-  //         Number(
-  //           project?.role?.find((role) => role?._id === selectedRole?._id)
-  //             ?.budget?.perHour
-  //         ) || null,
-  //       page: matchMembersPage,
-  //       limit: 9,
-  //     },
-  //   },
-  //   skip: !selectedRole,
-  //   context: { serviceName: "soilservice" },
-  // });
+  const { data: matchingMembers } = useQuery(MATCH_MEMBERS_TO_SKILLS, {
+    variables: {
+      fields: {
+        skillsID: selectedRole?.skills?.flatMap(
+          (skill: any) => skill?.skillData?._id
+        ),
+        hoursPerWeek: null,
+        // page: matchMembersPage,
+        // limit: 9,
+      },
+    },
+    skip: !selectedRole,
+    context: { serviceName: "soilservice" },
+  });
+
+  // useEffect(() => {
+  //   if (selectedRole) {
+  //     const skills = selectedRole?.skills?.flatMap(
+  //       (skill: any) => skill?.skillData?._id
+  //     );
+
+  //     console.log(skills);
+  //   }
+  // }, [selectedRole]);
 
   // project data with shortlist
   if (!dataProject) {
@@ -80,25 +84,29 @@ const ProjectPage: NextPageWithLayout = () => {
   // if (selectedRole) console.log("selectRole", selectedRole);
 
   return (
-    <GridLayout>
-      <GridItemThree>
-        <ProjectEditSelectorCard
-          project={dataProject?.findProject}
-          handleSelectRole={(role) => {
-            setSelectedRole(role);
-          }}
-          selectedRole={selectedRole}
-          onBack={() => router.push("../")}
-          onEdit={() => console.log("edit Project")}
-        />
-      </GridItemThree>
-      <GridItemNine>
-        <ChampionMatchContainer
-          project={dataProject.findProject}
-          selectedRole={selectedRole}
-        />
-      </GridItemNine>
-    </GridLayout>
+    <>
+      <SEO />
+      <GridLayout>
+        <GridItemThree>
+          <ProjectEditSelectorCard
+            project={dataProject?.findProject}
+            handleSelectRole={(role) => {
+              setSelectedRole(role);
+            }}
+            selectedRole={selectedRole}
+            onBack={() => router.back()}
+            onEdit={() => console.log("edit Project")}
+          />
+        </GridItemThree>
+        <GridItemNine>
+          <ChampionMatchContainer
+            project={dataProject.findProject}
+            selectedRole={selectedRole}
+            matchingMembers={matchingMembers?.matchSkillsToMembers}
+          />
+        </GridItemNine>
+      </GridLayout>
+    </>
   );
 };
 

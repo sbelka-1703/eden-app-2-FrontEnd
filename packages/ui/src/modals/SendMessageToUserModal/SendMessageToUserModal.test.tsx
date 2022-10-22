@@ -5,6 +5,7 @@ describe("SendMessageToUserModal", () => {
   it("renders without throwing", () => {
     const { container } = render(
       <SendMessageToUserModal
+        member={{}}
         openModal
         onSubmit={function (message: string): void {
           console.log(message);
