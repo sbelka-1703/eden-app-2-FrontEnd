@@ -53,53 +53,6 @@ const FIND_MEMBER = gql`
           emoji
           descriptionOneLine
           backColorEmoji
-          collaborationLinks {
-            title
-            link
-          }
-          team {
-            phase
-            memberInfo {
-              _id
-            }
-          }
-          role {
-            _id
-            title
-            description
-            dateRangeStart
-            dateRangeEnd
-            hoursPerWeek
-            budget {
-              totalBudget
-              token
-              perHour
-              perMonth
-            }
-          }
-          dates {
-            kickOff
-            complition
-          }
-          champion {
-            _id
-            discordName
-            discordAvatar
-          }
-        }
-        role {
-          _id
-          title
-          description
-          dateRangeStart
-          dateRangeEnd
-          hoursPerWeek
-          budget {
-            totalBudget
-            token
-            perHour
-            perMonth
-          }
         }
       }
       links {
@@ -112,10 +65,6 @@ const FIND_MEMBER = gql`
           name
         }
         level
-      }
-      onbording {
-        percentage
-        signup
       }
       memberRole {
         _id
@@ -175,28 +124,3 @@ const ProfilePage: NextPageWithLayout = () => {
 };
 
 export default ProfilePage;
-
-import { IncomingMessage, ServerResponse } from "http";
-import { getSession } from "next-auth/react";
-
-export async function getServerSideProps(ctx: {
-  req: IncomingMessage;
-  res: ServerResponse;
-}) {
-  const session = await getSession(ctx);
-
-  const url = ctx.req.url?.replace("/", "");
-
-  if (!session) {
-    return {
-      redirect: {
-        destination: `/login?redirect=${url}`,
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {},
-  };
-}
