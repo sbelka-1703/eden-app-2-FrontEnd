@@ -8,7 +8,7 @@ import wave from "../../public/wave.gif";
 const LoginPage: NextPage = () => {
   return (
     <>
-      <SEO title={`Login`} />
+      <SEO title={``} />
       <div
         className={`grid h-screen content-center `}
         style={{
