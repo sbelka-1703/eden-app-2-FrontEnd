@@ -1,4 +1,5 @@
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
+import { FIND_MEMBER_FULL } from "@eden/package-graphql";
 import { Members } from "@eden/package-graphql/generated";
 import {
   AppUserSubmenuLayout,
@@ -14,74 +15,10 @@ import { useRouter } from "next/router";
 
 import type { NextPageWithLayout } from "../../_app";
 
-const FIND_MEMBER = gql`
-  query ($fields: findMemersByIDOrDiscordNameInput) {
-    findMemberByIDOrDiscordName(fields: $fields) {
-      _id
-      discordAvatar
-      discordName
-      serverID
-      bio
-      content {
-        interest
-        mostProud
-        showCaseAbility
-      }
-      attributes {
-        Coordinator
-        Director
-        Helper
-        Inspirer
-        Motivator
-        Observer
-        Reformer
-        Supporter
-      }
-      archiveProjects
-      discriminator
-      hoursPerWeek
-      interest
-      timeZone
-      projects {
-        champion
-        phase
-        favorite
-        info {
-          _id
-          title
-          description
-          emoji
-          descriptionOneLine
-          backColorEmoji
-        }
-      }
-      links {
-        name
-        url
-      }
-      skills {
-        skillInfo {
-          _id
-          name
-        }
-        level
-      }
-      memberRole {
-        _id
-        title
-        description
-        skills {
-          _id
-        }
-      }
-    }
-  }
-`;
-
 const ProfilePage: NextPageWithLayout = () => {
   const router = useRouter();
   const { handle } = router.query;
-  const { data: dataMember } = useQuery(FIND_MEMBER, {
+  const { data: dataMember } = useQuery(FIND_MEMBER_FULL, {
     variables: {
       fields: {
         discordName: handle,
@@ -91,10 +28,10 @@ const ProfilePage: NextPageWithLayout = () => {
     context: { serviceName: "soilservice" },
   });
 
-  //   if (dataMember?.findMemberByIDOrDiscordName)
-  //     console.log(dataMember?.findMemberByIDOrDiscordName);
+  //   if (dataMember?.findMember)
+  //     console.log(dataMember?.findMember);
 
-  const profile = dataMember?.findMemberByIDOrDiscordName;
+  const profile = dataMember?.findMember;
 
   if (!profile)
     return (
@@ -103,7 +40,7 @@ const ProfilePage: NextPageWithLayout = () => {
       </div>
     );
 
-  console.log(profile);
+  // console.log(profile);
 
   return (
     <>
@@ -116,10 +53,8 @@ const ProfilePage: NextPageWithLayout = () => {
           <GridItemTwo> </GridItemTwo>
           <GridItemEight>
             <Card className={`h-85 scrollbar-hide overflow-y-scroll bg-white`}>
-              {dataMember?.findMemberByIDOrDiscordName ? (
-                <NewProfileContainer
-                  user={dataMember?.findMemberByIDOrDiscordName as Members}
-                />
+              {dataMember?.findMember ? (
+                <NewProfileContainer user={dataMember?.findMember as Members} />
               ) : (
                 <Loading title={`Searching...`} />
               )}
