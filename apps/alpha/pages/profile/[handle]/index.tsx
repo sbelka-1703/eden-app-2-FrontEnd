@@ -96,6 +96,13 @@ const ProfilePage: NextPageWithLayout = () => {
 
   const profile = dataMember?.findMemberByIDOrDiscordName;
 
+  if (!profile)
+    return (
+      <div className={`h-screen`}>
+        <Loading />
+      </div>
+    );
+
   return (
     <>
       <SEO

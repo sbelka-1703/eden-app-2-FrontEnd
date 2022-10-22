@@ -44,7 +44,7 @@ export const BadgeSelector = ({
           />
           <label
             htmlFor={item._id}
-            className="border-accentColor cursor-pointer rounded-full py-px px-3 peer-checked:-my-2 peer-checked:mr-1 peer-checked:border-2"
+            className="border-accentColor peer-checked:shadow-focusShadow cursor-pointer rounded-full py-px px-3 peer-checked:mx-1"
             style={{ backgroundColor: color || "#e8e8e8" }}
           >
             {item.name || item.title}
