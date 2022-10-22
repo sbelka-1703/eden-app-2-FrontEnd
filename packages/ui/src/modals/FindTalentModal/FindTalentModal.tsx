@@ -27,6 +27,7 @@ type Data = {
 export interface FindTalentModalProps {
   openModal?: boolean;
   onClose: () => void;
+  randomNumber?: boolean;
   // eslint-disable-next-line no-unused-vars
   onSubmit?: (data: { [key: number]: Item[] }) => void;
 }
@@ -37,7 +38,12 @@ export const FindTalentModal = ({
   onClose,
   openModal,
   onSubmit,
+  randomNumber,
 }: FindTalentModalProps) => {
+  const generateId = randomNumber
+    ? () => Math.random().toString()
+    : () => uuidv4();
+
   const mainCategories: Data = {
     _id: "main",
     hideSkip: true,
@@ -45,7 +51,7 @@ export const FindTalentModal = ({
     subtitle: "Please pick only one role for now!",
     battery: false,
     items: Object.keys(skillTreeWork).map((item) => ({
-      _id: uuidv4(),
+      _id: generateId(),
       name: item,
     })),
   };
@@ -84,7 +90,7 @@ export const FindTalentModal = ({
         itemsTitle: "I want a Design Ninja to:",
         battery: true,
         items: skills.map((item) => ({
-          _id: uuidv4(),
+          _id: generateId(),
           name: item,
         })),
       };
@@ -106,7 +112,7 @@ export const FindTalentModal = ({
         itemsTitle: "Focus on:",
         battery: true,
         items: initialSkills.map((item) => ({
-          _id: uuidv4(),
+          _id: generateId(),
           name: item,
         })),
       };
@@ -146,14 +152,14 @@ export const FindTalentModal = ({
       });
 
       const data: Data[] = map(combinedSkills, (value, key) => ({
-        _id: uuidv4() + key,
+        _id: generateId() + key,
         title: "Vibe check - what values should they possess?",
         subtitle:
           "Do you have carefullly curated culture in your team? Tell us what values are important for you!",
         itemsTitle: `${key}:`,
         battery: true,
         items: value.map((item: string) => ({
-          _id: uuidv4(),
+          _id: generateId(),
           name: item,
         })),
       }));

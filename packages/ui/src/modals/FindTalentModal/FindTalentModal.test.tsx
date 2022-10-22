@@ -5,6 +5,7 @@ describe("FindTalentModal", () => {
   it("renders without throwing", () => {
     const { container } = render(
       <FindTalentModal
+        randomNumber
         onClose={function (): void {
           throw new Error("Function not implemented.");
         }}
