@@ -57,7 +57,9 @@ export const FindTalentModal = ({
             </TextBody>
           </div>
 
-          {section.battery && <BatteryStepper currentStep={currentStep + 1} />}
+          {section.battery && (
+            <BatteryStepper batteryPercentage={currentStep + 1} />
+          )}
         </div>
         <section className="mt-4">
           <div>
