@@ -43,6 +43,65 @@ const MOCK_DATA = [
       },
     ],
   },
+  {
+    _id: "2",
+    title: "What skills are a must have? AI is getting better!  👉🏽",
+    subtitle: "More specific you are - better matches you’ll get!",
+    itemsTitle: "Required skills:",
+    battery: true,
+    items: [
+      {
+        _id: "11",
+        name: "Art",
+      },
+      {
+        _id: "12",
+        name: "GIMP",
+      },
+      {
+        _id: "13",
+        name: "3D",
+      },
+      {
+        _id: "14",
+        name: "Qualitative",
+      },
+      {
+        _id: "15",
+        name: "Research",
+      },
+    ],
+  },
+  {
+    _id: "3",
+    title: "Vibe check - what values should they possess?",
+    subtitle:
+      "Do you have carefullly curated culture in your team? Tell us what values are important for you!",
+    itemsTitle: "Values & Culture fit:",
+    battery: true,
+    items: [
+      {
+        _id: "6",
+        name: "Diversity",
+      },
+      {
+        _id: "7",
+        name: "Inculsivity",
+      },
+      {
+        _id: "8",
+        name: "Reliability",
+      },
+      {
+        _id: "9",
+        name: "Reliability",
+      },
+      {
+        _id: "10",
+        name: "Fun",
+      },
+    ],
+  },
 ];
 
 export const Default = Template.bind({});

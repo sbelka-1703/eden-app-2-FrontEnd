@@ -1,5 +1,11 @@
-import { Button, Modal, TextBody, TextHeading3 } from "@eden/package-ui";
-import { useState } from "react";
+import {
+  BatteryStepper,
+  Button,
+  Modal,
+  TextBody,
+  TextHeading3,
+} from "@eden/package-ui";
+import { useEffect, useMemo, useState } from "react";
 
 import { BadgeSelector } from "../../selectors/BadgeSelector";
 
@@ -19,7 +25,7 @@ export interface FindTalentModalProps {
   openModal?: boolean;
   onClose: () => void;
   // eslint-disable-next-line no-unused-vars
-  onSubmit: (data: Item[]) => void;
+  onSubmit: (data: { [key: number]: Item[] }) => void;
 }
 
 export const FindTalentModal = ({
@@ -28,48 +34,61 @@ export const FindTalentModal = ({
   openModal,
   onSubmit,
 }: FindTalentModalProps) => {
-  const [selectedItems, setSelectedItemes] = useState<Item[]>([]);
+  const [currentStep, setCurrentStep] = useState(0);
+  const section = useMemo(() => data[currentStep], [data, currentStep]);
+  const [selectedItems, setSelectedItemes] = useState<{
+    [key: number]: Item[];
+  }>([]);
+
+  useEffect(() => {
+    onSubmit(selectedItems);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedItems]);
 
   return (
     <Modal open={openModal} closeOnEsc={false}>
-      {data.map((section) => (
-        <div key={section._id}>
-          <div className="flex justify-between">
-            <div className="flex-1">
-              <TextHeading3>{section.title}</TextHeading3>
-              <TextBody className={`font-medium text-gray-500`}>
-                {section.subtitle}
-              </TextBody>
-            </div>
+      <div>
+        <div className="flex justify-between">
+          <div className="flex-1">
+            <TextHeading3>{section.title}</TextHeading3>
+            <TextBody className={`font-medium text-gray-500`}>
+              {section.subtitle}
+            </TextBody>
+          </div>
 
-            {/* Will be replaced with battery component */}
-            {section.battery && <div className="ml-4 h-28 w-28 bg-black" />}
-          </div>
-          <section className="mt-4">
-            <div>
-              <TextHeading3>{section.itemsTitle}</TextHeading3>
-            </div>
-            <div className="my-8 ml-4 flex w-full justify-center">
-              <BadgeSelector
-                items={section.items}
-                onChange={setSelectedItemes}
-              />
-            </div>
-          </section>
-          <div className="flex justify-between">
-            <Button radius="rounded" variant={`secondary`} onClick={onClose}>
-              Skip
-            </Button>
-            <Button
-              radius="rounded"
-              variant={`secondary`}
-              onClick={() => onSubmit(selectedItems)}
-            >
-              Next
-            </Button>
-          </div>
+          {section.battery && <BatteryStepper currentStep={currentStep + 1} />}
         </div>
-      ))}
+        <section className="mt-4">
+          <div>
+            <TextHeading3>{section.itemsTitle}</TextHeading3>
+          </div>
+          <div className="my-8 ml-4 flex w-full justify-center">
+            <BadgeSelector
+              items={section.items}
+              onChange={(selectedItems) =>
+                setSelectedItemes((prevState) => ({
+                  ...prevState,
+                  [currentStep]: selectedItems,
+                }))
+              }
+            />
+          </div>
+        </section>
+        <div className="flex justify-between">
+          <Button radius="rounded" variant={`secondary`} onClick={onClose}>
+            Skip
+          </Button>
+          <Button
+            radius="rounded"
+            variant={`secondary`}
+            disabled={currentStep === data.length - 1}
+            onClick={() => setCurrentStep((prevState) => prevState + 1)}
+          >
+            Next
+          </Button>
+        </div>
+      </div>
     </Modal>
   );
 };
