@@ -12,6 +12,7 @@ import {
   GridItemSix,
   GridItemThree,
   GridLayout,
+  SEO,
   ShortlistContainer,
   ShortlistMemberContainer,
   ShortlistModalContainerTest,
@@ -81,6 +82,7 @@ const LaunchPage: NextPageWithLayout = () => {
 
   return (
     <>
+      <SEO />
       <GridLayout>
         <GridItemThree className="h-8/10 scrollbar-hide overflow-scroll">
           {project && (

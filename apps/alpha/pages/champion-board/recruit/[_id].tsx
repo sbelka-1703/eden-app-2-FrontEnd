@@ -8,6 +8,7 @@ import {
   GridItemThree,
   GridLayout,
   ProjectEditSelectorCard,
+  SEO,
 } from "@eden/package-ui";
 // import { LaunchProjectContext } from "@eden/package-context";
 import { useRouter } from "next/router";
@@ -83,26 +84,29 @@ const ProjectPage: NextPageWithLayout = () => {
   // if (selectedRole) console.log("selectRole", selectedRole);
 
   return (
-    <GridLayout>
-      <GridItemThree>
-        <ProjectEditSelectorCard
-          project={dataProject?.findProject}
-          handleSelectRole={(role) => {
-            setSelectedRole(role);
-          }}
-          selectedRole={selectedRole}
-          onBack={() => router.back()}
-          onEdit={() => console.log("edit Project")}
-        />
-      </GridItemThree>
-      <GridItemNine>
-        <ChampionMatchContainer
-          project={dataProject.findProject}
-          selectedRole={selectedRole}
-          matchingMembers={matchingMembers?.matchSkillsToMembers}
-        />
-      </GridItemNine>
-    </GridLayout>
+    <>
+      <SEO />
+      <GridLayout>
+        <GridItemThree>
+          <ProjectEditSelectorCard
+            project={dataProject?.findProject}
+            handleSelectRole={(role) => {
+              setSelectedRole(role);
+            }}
+            selectedRole={selectedRole}
+            onBack={() => router.back()}
+            onEdit={() => console.log("edit Project")}
+          />
+        </GridItemThree>
+        <GridItemNine>
+          <ChampionMatchContainer
+            project={dataProject.findProject}
+            selectedRole={selectedRole}
+            matchingMembers={matchingMembers?.matchSkillsToMembers}
+          />
+        </GridItemNine>
+      </GridLayout>
+    </>
   );
 };
 

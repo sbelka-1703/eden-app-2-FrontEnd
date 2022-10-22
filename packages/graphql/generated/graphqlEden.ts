@@ -367,6 +367,7 @@ export type Query = {
   findEpic?: Maybe<Array<Maybe<Epic>>>;
   findGarden?: Maybe<Array<Maybe<FindGardenOutput>>>;
   findMember?: Maybe<Members>;
+  findMemberByIDOrDiscordName?: Maybe<Members>;
   findMembers?: Maybe<Array<Maybe<Members>>>;
   findProject?: Maybe<Project>;
   findProjectUpdates?: Maybe<Array<Maybe<ProjectUpdate>>>;
@@ -424,6 +425,11 @@ export type QueryFindGardenArgs = {
 
 export type QueryFindMemberArgs = {
   fields?: InputMaybe<FindMemberInput>;
+};
+
+
+export type QueryFindMemberByIdOrDiscordNameArgs = {
+  fields?: InputMaybe<FindMemersByIdOrDiscordNameInput>;
 };
 
 
@@ -1025,6 +1031,11 @@ export type FindMemberInput = {
 export type FindMembersInput = {
   _id?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   serverID?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type FindMemersByIdOrDiscordNameInput = {
+  _id?: InputMaybe<Scalars['ID']>;
+  discordName?: InputMaybe<Scalars['String']>;
 };
 
 export type FindProjectInput = {
