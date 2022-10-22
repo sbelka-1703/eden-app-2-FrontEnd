@@ -103,6 +103,8 @@ const ProfilePage: NextPageWithLayout = () => {
       </div>
     );
 
+  console.log(profile);
+
   return (
     <>
       <SEO
