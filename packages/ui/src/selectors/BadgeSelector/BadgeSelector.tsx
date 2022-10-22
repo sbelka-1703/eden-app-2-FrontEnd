@@ -32,8 +32,8 @@ export const BadgeSelector = ({
 
   return (
     <section className="text-center">
-      {items?.map((item, index) => (
-        <div key={index} className="mr-2 mb-1 inline-block">
+      {items?.map((item) => (
+        <div key={item._id} className="mr-2 mb-1 inline-block">
           <input
             type="checkbox"
             name={item._id}
