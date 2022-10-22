@@ -40,11 +40,6 @@ describe("FindTalentModal", () => {
         onClose={function (): void {
           throw new Error("Function not implemented.");
         }}
-        onSubmit={function (data): void {
-          console.log(data);
-
-          throw new Error("Function not implemented.");
-        }}
       />
     );
 

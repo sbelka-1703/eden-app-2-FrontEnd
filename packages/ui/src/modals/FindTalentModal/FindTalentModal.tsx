@@ -25,7 +25,7 @@ export interface FindTalentModalProps {
   openModal?: boolean;
   onClose: () => void;
   // eslint-disable-next-line no-unused-vars
-  onSubmit: (data: { [key: number]: Item[] }) => void;
+  onSubmit?: (data: { [key: number]: Item[] }) => void;
 }
 
 export const FindTalentModal = ({
@@ -41,7 +41,7 @@ export const FindTalentModal = ({
   }>([]);
 
   useEffect(() => {
-    onSubmit(selectedItems);
+    onSubmit && onSubmit(selectedItems);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedItems]);
