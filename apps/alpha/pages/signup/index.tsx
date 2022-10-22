@@ -7,6 +7,7 @@ import {
   GridItemNine,
   GridItemThree,
   GridLayout,
+  SEO,
   SignUpContainerMain,
   SignUpContainerSide,
 } from "@eden/package-ui";
@@ -127,28 +128,32 @@ const SignUpTestPage: NextPageWithLayout = () => {
   // if (dataProject) console.log("dataProject", dataProject);
 
   return (
-    <GridLayout>
-      <GridItemThree>
-        <SignUpContainerSide
-          matchedProjects={dataMatchedProjects?.matchSkillsToProjects}
-          onSelectedProject={(val) => setSelectProject(val)}
-          viewProject={viewProject}
-        />
-      </GridItemThree>
-      <GridItemNine>
-        <SignUpContainerMain
-          roles={dataRoles?.findRoleTemplates}
-          matchedProjects={dataMatchedProjects?.matchSkillsToProjects}
-          project={dataProject?.findProject}
-          refetchMatch={refetchMatch}
-          refetchProject={refetchProject}
-          onSelectedProject={(val) => setSelectProject(val)}
-          loadingProject={loadingProject}
-          viewProject={viewProject}
-          onViewProject={(val) => setViewProject(val)}
-        />
-      </GridItemNine>
-    </GridLayout>
+    <>
+      <SEO />
+
+      <GridLayout>
+        <GridItemThree>
+          <SignUpContainerSide
+            matchedProjects={dataMatchedProjects?.matchSkillsToProjects}
+            onSelectedProject={(val) => setSelectProject(val)}
+            viewProject={viewProject}
+          />
+        </GridItemThree>
+        <GridItemNine>
+          <SignUpContainerMain
+            roles={dataRoles?.findRoleTemplates}
+            matchedProjects={dataMatchedProjects?.matchSkillsToProjects}
+            project={dataProject?.findProject}
+            refetchMatch={refetchMatch}
+            refetchProject={refetchProject}
+            onSelectedProject={(val) => setSelectProject(val)}
+            loadingProject={loadingProject}
+            viewProject={viewProject}
+            onViewProject={(val) => setViewProject(val)}
+          />
+        </GridItemNine>
+      </GridLayout>
+    </>
   );
 };
 

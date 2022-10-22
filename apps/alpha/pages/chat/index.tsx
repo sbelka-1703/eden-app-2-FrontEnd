@@ -13,6 +13,7 @@ import {
   GridItemThree,
   GridLayout,
   SendMessageToUserModal,
+  SEO,
 } from "@eden/package-ui";
 import { useContext, useState } from "react";
 
@@ -43,54 +44,57 @@ const ChatPage: NextPageWithLayout = () => {
   };
 
   return (
-    <GridLayout>
-      <GridItemThree>
-        <Card shadow className="h-85 bg-white p-6">
-          left side
-        </Card>
-      </GridItemThree>
-      <GridItemNine>
-        <Card shadow className="h-85 overflow-auto bg-white p-6">
-          main window
-        </Card>
-        <SendMessageToUserModal
-          member={sampleUser}
-          openModal={openModal}
-          onSubmit={async (message, member) => {
-            let threadName = "Project Talents Discussion";
+    <>
+      <SEO />
+      <GridLayout>
+        <GridItemThree>
+          <Card shadow className="h-85 bg-white p-6">
+            left side
+          </Card>
+        </GridItemThree>
+        <GridItemNine>
+          <Card shadow className="h-85 overflow-auto bg-white p-6">
+            main window
+          </Card>
+          <SendMessageToUserModal
+            member={sampleUser}
+            openModal={openModal}
+            onSubmit={async (message, member) => {
+              let threadName = "Project Talents Discussion";
 
-            if (member) {
-              threadName = `Project Talents Discussion -- ${member.discordName}`;
-            }
-            const { threadId } = await createThread({
-              message: `<@${member?._id}>`,
-              embedMessage: message,
-              senderAvatarURL: currentUser?.discordAvatar!,
-              senderName: `${currentUser?.discordName} -- Just invite you to a conversation`,
-              channelId: "1001547443135058010",
-              threadName: `Project Talents Discussion with ${member?.discordName}`,
-              autoArchiveDuration: AutoArchiveDuration.OneDay,
-            });
+              if (member) {
+                threadName = `Project Talents Discussion -- ${member.discordName}`;
+              }
+              const { threadId } = await createThread({
+                message: `<@${member?._id}>`,
+                embedMessage: message,
+                senderAvatarURL: currentUser?.discordAvatar!,
+                senderName: `${currentUser?.discordName} -- Just invite you to a conversation`,
+                channelId: "1001547443135058010",
+                threadName: `Project Talents Discussion with ${member?.discordName}`,
+                autoArchiveDuration: AutoArchiveDuration.OneDay,
+              });
 
-            const result = await addNewChat({
-              variables: {
-                fields: {
-                  message: message,
-                  projectID: "62f685952dc2d40004d395c7",
-                  receiverID: member?._id!,
-                  senderID: currentUser?._id!,
-                  serverID: "988301790795685930",
-                  threadID: threadId,
+              const result = await addNewChat({
+                variables: {
+                  fields: {
+                    message: message,
+                    projectID: "62f685952dc2d40004d395c7",
+                    receiverID: member?._id!,
+                    senderID: currentUser?._id!,
+                    serverID: "988301790795685930",
+                    threadID: threadId,
+                  },
                 },
-              },
-            });
+              });
 
-            console.log(result);
-            setOpenModal(false);
-          }}
-        />
-      </GridItemNine>
-    </GridLayout>
+              console.log(result);
+              setOpenModal(false);
+            }}
+          />
+        </GridItemNine>
+      </GridLayout>
+    </>
   );
 };
 

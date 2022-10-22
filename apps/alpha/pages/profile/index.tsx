@@ -6,6 +6,7 @@ import {
   Card,
   EditProfileContainer,
   NewProfileContainer,
+  SEO,
 } from "@eden/package-ui";
 import { useContext, useState } from "react";
 import { FaUserAlt, FaUserEdit } from "react-icons/fa";
@@ -51,16 +52,19 @@ const ProfilePage: NextPageWithLayout = () => {
   ];
 
   return (
-    <AppUserSubmenuLayout submenu={submenu} activeIndex={activeIndex}>
-      <Card className={`h-85 scrollbar-hide overflow-y-scroll bg-white`}>
-        {activeIndex === 0 && (
-          <NewProfileContainer user={currentUser as Members} />
-        )}
-        {activeIndex === 1 && (
-          <EditProfileContainer roles={dataRoles?.findRoleTemplates} />
-        )}
-      </Card>
-    </AppUserSubmenuLayout>
+    <>
+      <SEO />
+      <AppUserSubmenuLayout submenu={submenu} activeIndex={activeIndex}>
+        <Card className={`h-85 scrollbar-hide overflow-y-scroll bg-white`}>
+          {activeIndex === 0 && (
+            <NewProfileContainer user={currentUser as Members} />
+          )}
+          {activeIndex === 1 && (
+            <EditProfileContainer roles={dataRoles?.findRoleTemplates} />
+          )}
+        </Card>
+      </AppUserSubmenuLayout>
+    </>
   );
 };
 

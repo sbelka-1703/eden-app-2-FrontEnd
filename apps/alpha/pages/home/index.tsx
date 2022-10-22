@@ -1,4 +1,4 @@
-import { AppUserSubmenuLayout, Card } from "@eden/package-ui";
+import { AppUserSubmenuLayout, Card, SEO } from "@eden/package-ui";
 import { useRouter } from "next/router";
 
 import type { NextPageWithLayout } from "../_app";
@@ -31,45 +31,50 @@ const HomePage: NextPageWithLayout = () => {
   const router = useRouter();
 
   return (
-    <Card
-      className={`h-85 scrollbar-hide m-auto flex flex-col overflow-scroll bg-white py-8`}
-    >
-      {navItems.map((item, index) => (
-        <div key={index} className={`group my-8 grid grid-cols-3 `}>
-          <div className={`font-Gloria text-md p-4 text-zinc-400 md:text-2xl`}>
-            {index % 2 === 0 && (
-              <span className={`group-hover:text-blue-500`}>
-                {item.description}
-              </span>
-            )}
-          </div>
-          <button
-            onClick={() => router.push(`${item?.href}`)}
-            style={{ backgroundColor: item.bgColor }}
-            className={`rounded-xl shadow-md hover:shadow-sm`}
-          >
-            <Card className={`px-6`}>
-              <div
-                className={`font-Inter text-center text-xl font-medium md:text-3xl`}
-              >
-                {item.title}
+    <>
+      <SEO />
+      <Card
+        className={`h-85 scrollbar-hide m-auto flex flex-col overflow-scroll bg-white py-8`}
+      >
+        {navItems.map((item, index) => (
+          <div key={index} className={`group my-8 grid grid-cols-3 `}>
+            <div
+              className={`font-Gloria text-md p-4 text-zinc-400 md:text-2xl`}
+            >
+              {index % 2 === 0 && (
+                <span className={`group-hover:text-blue-500`}>
+                  {item.description}
+                </span>
+              )}
+            </div>
+            <button
+              onClick={() => router.push(`${item?.href}`)}
+              style={{ backgroundColor: item.bgColor }}
+              className={`rounded-xl shadow-md hover:shadow-sm`}
+            >
+              <Card className={`px-6`}>
+                <div
+                  className={`font-Inter text-center text-xl font-medium md:text-3xl`}
+                >
+                  {item.title}
 
-                <div className="ml-8 flex flex-col justify-between"></div>
-              </div>
-            </Card>
-          </button>
-          <div
-            className={`font-Gloria text-md py-4 px-8 text-zinc-400 md:text-2xl`}
-          >
-            {index % 2 !== 0 && (
-              <span className={`group-hover:text-blue-500`}>
-                {item.description}
-              </span>
-            )}
+                  <div className="ml-8 flex flex-col justify-between"></div>
+                </div>
+              </Card>
+            </button>
+            <div
+              className={`font-Gloria text-md py-4 px-8 text-zinc-400 md:text-2xl`}
+            >
+              {index % 2 !== 0 && (
+                <span className={`group-hover:text-blue-500`}>
+                  {item.description}
+                </span>
+              )}
+            </div>
           </div>
-        </div>
-      ))}
-    </Card>
+        ))}
+      </Card>
+    </>
   );
 };
 
