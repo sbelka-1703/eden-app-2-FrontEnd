@@ -2,13 +2,15 @@ import { useEffect, useState } from "react";
 
 export interface IBadgeSelectorProps {
   items: any[];
+  reset?: boolean;
   // eslint-disable-next-line no-unused-vars
   onChange: (value: any) => void;
 }
 
 export const BadgeSelector = ({
-  items = [],
+  reset,
   onChange,
+  items = [],
 }: IBadgeSelectorProps) => {
   const [selected, setSelected] = useState<any[]>([]);
 
@@ -29,6 +31,12 @@ export const BadgeSelector = ({
 
   // @TODO hardcoded to be removed
   const color = "#e8e8e8";
+
+  useEffect(() => {
+    if (reset) {
+      setSelected([]);
+    }
+  }, [reset]);
 
   return (
     <section className="text-center">
