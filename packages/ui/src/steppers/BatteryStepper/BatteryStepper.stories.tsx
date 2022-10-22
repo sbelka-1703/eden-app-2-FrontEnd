@@ -15,5 +15,5 @@ const Template: ComponentStory<typeof BatteryStepper> = (args) => (
 export const Default = Template.bind({});
 
 Default.args = {
-  currentStep: 3,
+  batteryPercentage: 50,
 };
