@@ -1,4 +1,5 @@
 import "../styles/global.css";
+import "react-toastify/dist/ReactToastify.css";
 
 import { ApolloProvider } from "@apollo/client";
 import { UserProvider } from "@eden/package-context";
@@ -8,6 +9,7 @@ import type { AppProps } from "next/app";
 import { SessionProvider } from "next-auth/react";
 import type { ReactElement, ReactNode } from "react";
 import * as React from "react";
+import { ToastContainer } from "react-toastify";
 
 // import { IS_DEVELOPMENT } from "../constants";
 
@@ -34,6 +36,8 @@ const App = ({
     <SessionProvider session={session}>
       <ApolloProvider client={apolloClient}>
         <UserProvider>{getLayout(<Component {...pageProps} />)}</UserProvider>
+
+        <ToastContainer />
       </ApolloProvider>
     </SessionProvider>
   );

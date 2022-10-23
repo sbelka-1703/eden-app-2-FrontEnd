@@ -22,7 +22,8 @@
     "next-axiom": "^0.14.0",
     "react": "18.1.0",
     "react-dom": "18.1.0",
-    "react-icons": "^4.4.0"
+    "react-icons": "^4.4.0",
+    "react-toastify": "^9.0.8"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
