@@ -37,7 +37,7 @@ export const Modal = ({
             onCloseModal();
           }
           if (closeOnEsc) setIsOpen(false);
-          onClose!();
+          onClose && onClose();
         }}
       >
         <div
@@ -93,7 +93,7 @@ export const Modal = ({
                     }
                     onClick={() => {
                       setIsOpen(false);
-                      onClose!();
+                      onClose && onClose();
                     }}
                   >
                     <span className={"sr-only"}>Close</span>

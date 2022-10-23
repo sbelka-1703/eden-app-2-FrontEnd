@@ -5,8 +5,18 @@ import {
   TextBody,
   TextHeading3,
 } from "@eden/package-ui";
-import { filter, flatten, forEach, includes, map, omitBy, uniq } from "lodash";
+import {
+  filter,
+  flatten,
+  forEach,
+  includes,
+  isEmpty,
+  map,
+  omitBy,
+  uniq,
+} from "lodash";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
 
 import { BadgeSelector } from "../../selectors/BadgeSelector";
@@ -64,7 +74,9 @@ export const FindTalentModal = ({
   const [vibeData, setVibeData] = useState<Data[]>([]);
 
   const handleNext = (id: string) => {
-    if (
+    if (isEmpty(selectedItems[id])) {
+      toast.error("You should at least choose on of the items before proceed");
+    } else if (
       currentStep >=
       MAIN_STEPS + (vibeData.length > 0 ? vibeData.length - 1 : 0)
     ) {
