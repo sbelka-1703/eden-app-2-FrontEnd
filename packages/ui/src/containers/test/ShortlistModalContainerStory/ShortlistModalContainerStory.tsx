@@ -6,13 +6,13 @@ import {
 } from "@eden/package-context";
 import { UPDATE_PROJECT } from "@eden/package-graphql";
 import {
-  Maybe,
+  // Maybe,
   Mutation,
-  RoleTemplate,
-  RoleType,
+  // RoleTemplate,
+  // RoleType,
   //   SkillCategory,
-  SkillRoleType,
-  Skills,
+  // SkillRoleType,
+  // Skills,
   //   SkillSubCategory,
   UpdateProjectInput,
 } from "@eden/package-graphql/generated";
@@ -21,17 +21,17 @@ import {
   FindTalentModal,
   PrioritizeModal,
   RequirementsModal,
-  RoleDescriptionModal,
-  RoleModal,
+  // RoleDescriptionModal,
+  // RoleModal,
   SavingProjectModal,
-  ShortlistMemberModal,
+  // ShortlistMemberModal,
   //   SkillsCategoryModal,
-  SkillsModal,
+  // SkillsModal,
   //   SkillsOnCategoryModal,
   //   SkillsSubcategoryModal,
   SocialMediaModel,
 } from "@eden/package-ui";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 
 // @TODO mock data to be removed
 
@@ -51,14 +51,20 @@ export const ShortlistModalContainerStory =
       project,
       dispatchProject,
       openModal,
-      selectedRole,
-      setSelectedRole,
+      // selectedRole,
+      // setSelectedRole,
       setOpenModal,
       submitting,
       setSubmitting,
       //   selectedCategories,
       //   setSelectedCategories,
     } = useContext(LaunchProjectContext);
+
+    const [talentAttributes, setTalentAttributes] = useState({});
+
+    useEffect(() => {
+      if (talentAttributes) console.log("talentAttributes", talentAttributes);
+    }, [talentAttributes]);
 
     const [updateProject, {}] = useMutation(UPDATE_PROJECT, {
       onCompleted({ updateProject }: Mutation) {
@@ -136,43 +142,49 @@ export const ShortlistModalContainerStory =
       }
     }, [submitting]);
 
-    const handleAddRole = (role: Maybe<RoleTemplate>) => {
-      if (role) {
-        const mappedRole = {
-          title: role.title,
-          _id: project?.role?.length.toString(),
-          skills: role.skills?.map((skill: Maybe<Skills>) => ({
-            skillData: {
-              _id: skill?._id,
-              name: skill?.name,
-            },
-          })) as SkillRoleType[],
-        } as RoleType;
+    // const handleAddRole = (role: Maybe<RoleTemplate>) => {
+    //   if (role) {
+    //     const mappedRole = {
+    //       title: role.title,
+    //       _id: project?.role?.length.toString(),
+    //       skills: role.skills?.map((skill: Maybe<Skills>) => ({
+    //         skillData: {
+    //           _id: skill?._id,
+    //           name: skill?.name,
+    //         },
+    //       })) as SkillRoleType[],
+    //     } as RoleType;
 
-        dispatchProject!({
-          payload: mappedRole,
-          type: ProjectActionKind.ADD_ROLE,
-        });
-        setOpenModal(null);
-        setSelectedRole(mappedRole);
-      }
-    };
+    //     dispatchProject!({
+    //       payload: mappedRole,
+    //       type: ProjectActionKind.ADD_ROLE,
+    //     });
+    //     setOpenModal(null);
+    //     setSelectedRole(mappedRole);
+    //   }
+    // };
 
     // console.log("openModal", openModal);
     // console.log(LaunchProjectModal);
 
     return (
       <>
-        {openModal === LaunchProjectModal.ROLE && (
+        {/* {openModal === LaunchProjectModal.ROLE && (
           <RoleModal
             openModal={openModal === LaunchProjectModal.ROLE}
             onSubmit={handleAddRole}
           />
-        )}
+        )} */}
         {openModal === LaunchProjectModal.SKILLS_CATEGORY && (
           <FindTalentModal
             openModal={openModal === LaunchProjectModal.SKILLS_CATEGORY}
             onClose={() => setOpenModal(LaunchProjectModal.PRIORITIZE)}
+            onSubmit={(val: any) => setTalentAttributes(val)}
+            // onClose={() => setOpenModal(null)}
+            // onSubmit={(val: any) => {
+            //   setTalentAttributes(val);
+            //   setOpenModal(LaunchProjectModal.PRIORITIZE);
+            // }}
           />
 
           //   <SkillsCategoryModal
@@ -247,9 +259,11 @@ export const ShortlistModalContainerStory =
         {openModal === LaunchProjectModal.PRIORITIZE && (
           <PrioritizeModal
             key={"" + project?.role?.length}
+            battery
             openModal={openModal === LaunchProjectModal.PRIORITIZE}
             onClose={() => {
-              // setOpenModal(null);
+              // setOpenModal(LaunchProjectModal.REQUIREMENTS);
+              setOpenModal(null);
             }}
             onSubmit={(val) => {
               console.log(val);
@@ -260,17 +274,20 @@ export const ShortlistModalContainerStory =
         {openModal === LaunchProjectModal.REQUIREMENTS && (
           <RequirementsModal
             salaryData={rangeNumbers}
+            battery
             openModal={openModal === LaunchProjectModal.REQUIREMENTS}
             onClose={() => {
-              // setOpenModal(null);
+              // setOpenModal(LaunchProjectModal.PROJECT_INFO);
+              setOpenModal(null);
             }}
             onSubmit={(val) => {
               console.log(val);
+              // setOpenModal(LaunchProjectModal.PROJECT_INFO);
               setOpenModal(null);
             }}
           />
         )}
-        {openModal === LaunchProjectModal.SKILLS && (
+        {/* {openModal === LaunchProjectModal.SKILLS && (
           <SkillsModal
             isOpen={openModal === LaunchProjectModal.SKILLS}
             skills={selectedRole?.skills || []}
@@ -286,8 +303,8 @@ export const ShortlistModalContainerStory =
             }}
             handelAddSkills={() => setOpenModal(null)}
           />
-        )}
-        {openModal === LaunchProjectModal.SHORTLISTED_PREVIEW && (
+        )} */}
+        {/* {openModal === LaunchProjectModal.SHORTLISTED_PREVIEW && (
           <ShortlistMemberModal
             isModalOpen={openModal === LaunchProjectModal.SHORTLISTED_PREVIEW}
             roles={project?.role || []}
@@ -296,8 +313,8 @@ export const ShortlistModalContainerStory =
               setOpenModal(LaunchProjectModal.ROLE_DESCRIPTION);
             }}
           />
-        )}
-        {openModal === LaunchProjectModal.ROLE_DESCRIPTION && (
+        )} */}
+        {/* {openModal === LaunchProjectModal.ROLE_DESCRIPTION && (
           <RoleDescriptionModal
             isModalOpen={openModal === LaunchProjectModal.ROLE_DESCRIPTION}
             roles={project?.role || []}
@@ -309,7 +326,7 @@ export const ShortlistModalContainerStory =
               setOpenModal(LaunchProjectModal.PROJECT_INFO);
             }}
           />
-        )}
+        )} */}
         {openModal === LaunchProjectModal.PROJECT_INFO && (
           <SocialMediaModel
             showModal

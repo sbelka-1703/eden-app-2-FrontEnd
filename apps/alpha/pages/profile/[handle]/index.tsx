@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/client";
+import { ApolloClient, InMemoryCache, useQuery } from "@apollo/client";
 import { FIND_MEMBER_FULL } from "@eden/package-graphql";
 import { Members } from "@eden/package-graphql/generated";
 import {
@@ -13,9 +13,7 @@ import {
 } from "@eden/package-ui";
 import { useRouter } from "next/router";
 
-import type { NextPageWithLayout } from "../../_app";
-
-const ProfilePage: NextPageWithLayout = () => {
+const ProfilePage = ({ member }: { member: Members }) => {
   const router = useRouter();
   const { handle } = router.query;
   const { data: dataMember } = useQuery(FIND_MEMBER_FULL, {
@@ -28,33 +26,28 @@ const ProfilePage: NextPageWithLayout = () => {
     context: { serviceName: "soilservice" },
   });
 
-  //   if (dataMember?.findMember)
-  //     console.log(dataMember?.findMember);
-
   const profile = dataMember?.findMember;
 
   if (!profile)
     return (
       <div className={`h-screen`}>
-        <Loading />
+        <Loading title={`Searching for user...`} />
       </div>
     );
-
-  // console.log(profile);
 
   return (
     <>
       <SEO
-        title={`@${profile?.discordName} | on `}
-        image={profile?.discordAvatar || ""}
+        title={`@${member?.discordName} | on `}
+        image={member?.discordAvatar || ""}
       />
       <AppUserSubmenuLayout showSubmenu={false}>
         <GridLayout>
           <GridItemTwo> </GridItemTwo>
           <GridItemEight>
             <Card className={`h-85 scrollbar-hide overflow-y-scroll bg-white`}>
-              {dataMember?.findMember ? (
-                <NewProfileContainer user={dataMember?.findMember as Members} />
+              {member ? (
+                <NewProfileContainer user={member} />
               ) : (
                 <Loading title={`Searching...`} />
               )}
@@ -68,3 +61,28 @@ const ProfilePage: NextPageWithLayout = () => {
 };
 
 export default ProfilePage;
+
+import type { GetServerSideProps } from "next";
+
+const client = new ApolloClient({
+  uri: process.env.NEXT_PUBLIC_GRAPHQL_URL as string,
+  cache: new InMemoryCache(),
+});
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { handle } = context.query;
+  const { data } = await client.query({
+    query: FIND_MEMBER_FULL,
+    variables: {
+      fields: {
+        discordName: handle,
+      },
+    },
+  });
+
+  return {
+    props: {
+      member: data.findMember,
+    },
+  };
+};

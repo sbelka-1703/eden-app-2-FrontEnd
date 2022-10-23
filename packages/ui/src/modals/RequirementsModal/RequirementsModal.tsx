@@ -1,4 +1,5 @@
 import {
+  BatteryStepper,
   Button,
   Modal,
   SalaryRangeChart,
@@ -11,6 +12,7 @@ export interface RequirementsModalProps {
   openModal?: boolean;
   onClose: () => void;
   salaryData: number[];
+  battery?: boolean;
   // eslint-disable-next-line no-unused-vars
   onSubmit: (salaryRange: {
     domain: number[];
@@ -20,8 +22,9 @@ export interface RequirementsModalProps {
 }
 
 export const RequirementsModal = ({
-  // onClose,
+  onClose,
   onSubmit,
+  battery = false,
   openModal,
   salaryData,
 }: RequirementsModalProps) => {
@@ -38,27 +41,34 @@ export const RequirementsModal = ({
   return (
     <Modal open={openModal} closeOnEsc={false}>
       <div>
-        <TextHeading3>Proposed salary rates</TextHeading3>
+        <div className="flex justify-between">
+          <div className="flex-1">
+            <TextHeading3>
+              Finally, let’s talk money! Wohoo, AI is the best it can be! 👉🏽
+            </TextHeading3>
+            <TextBody className={`font-medium text-gray-500`}>
+              Check out what salaries other get!
+            </TextBody>
+          </div>
 
-        <TextBody className={`font-medium text-gray-500`}>
-          Based on the salary, choose the people you want to see
-        </TextBody>
+          {battery && <BatteryStepper batteryPercentage={90} />}
+        </div>
 
         <div className="mx-auto flex max-w-md flex-col justify-center">
           {!!salaryData.length && (
             <SalaryRangeChart data={salaryData} onChange={setSalaryRange} />
           )}
         </div>
-        <div className="flex justify-center">
-          {/* <Button radius="rounded" variant={`secondary`} onClick={onClose}>
-            Back
-          </Button> */}
+        <div className="flex justify-between">
+          <Button radius="rounded" variant={`secondary`} onClick={onClose}>
+            Skip
+          </Button>
           <Button
             radius="rounded"
             variant={`secondary`}
             onClick={() => onSubmit(salaryRange)}
           >
-            Done
+            Next
           </Button>
         </div>
       </div>
