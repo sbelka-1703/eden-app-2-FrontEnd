@@ -47,7 +47,7 @@ const ChatPage: NextPageWithLayout = () => {
 
   const searchMember = dataSearchMember?.findMember;
 
-  if (searchMember) console.log(searchMember);
+  // if (searchMember) console.log(searchMember);
 
   const { currentUser } = useContext(UserContext);
   const [openModal, setOpenModal] = useState(false);
