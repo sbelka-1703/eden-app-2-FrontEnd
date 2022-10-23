@@ -47,6 +47,8 @@ const ChatPage: NextPageWithLayout = () => {
 
   const searchMember = dataSearchMember?.findMember;
 
+  if (searchMember) console.log(searchMember);
+
   const { currentUser } = useContext(UserContext);
   const [openModal, setOpenModal] = useState(false);
   const [addNewChat] = useMutation<any, MutationAddNewChatArgs>(ADD_NEW_CHAT);
@@ -81,7 +83,7 @@ const ChatPage: NextPageWithLayout = () => {
             <div>
               {searchMember && (
                 <div>
-                  <Avatar src={searchMember.avatar} />
+                  <Avatar src={searchMember.discordAvatar} />
                   <p>@{searchMember.discordName}</p>
                   <Button
                     className={`my-4`}
