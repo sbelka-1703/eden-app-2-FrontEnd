@@ -137,6 +137,7 @@ const ChatPage: NextPageWithLayout = () => {
           <SendMessageToUserModal
             member={selectedMember as Members}
             openModal={openModal}
+            onClose={() => setOpenModal(!openModal)}
             onSubmit={async (message, member) => {
               let threadName = "Project Talents Discussion";
 
