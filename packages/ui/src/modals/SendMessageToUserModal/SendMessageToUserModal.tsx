@@ -14,18 +14,20 @@ export interface SendMessageToUserModalProps {
   member: Maybe<Members>;
   // eslint-disable-next-line no-unused-vars
   onSubmit: (message: string, member: Maybe<Members>) => void;
+  onClose?: () => void;
 }
 
 export const SendMessageToUserModal = ({
   member,
   onSubmit,
   openModal,
+  onClose,
 }: SendMessageToUserModalProps) => {
   const { currentUser } = useContext(UserContext);
   const [message, setMessage] = useState("");
 
   return (
-    <Modal open={openModal} closeOnEsc={false}>
+    <Modal open={openModal} onClose={onClose}>
       <TextHeading3 className="col-span-2 mb-4">
         Let’s invite @{member?.discordName} to apply to School of Code!
       </TextHeading3>
@@ -60,6 +62,9 @@ export const SendMessageToUserModal = ({
             variant="primary"
             onClick={() => {
               onSubmit(message, member);
+              setTimeout(() => {
+                setMessage("");
+              }, 1000);
             }}
           >
             Send
