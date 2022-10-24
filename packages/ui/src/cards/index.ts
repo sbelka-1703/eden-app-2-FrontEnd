@@ -10,4 +10,5 @@ export * from "./ProjectSkillFilterCard";
 export * from "./RoleCard";
 export * from "./RoleSmallCard";
 export * from "./SignUpRoleSelectCard";
+export * from "./StaticCard";
 export * from "./user";

@@ -1,22 +1,19 @@
 import {
   AppUserLayout,
-  Button,
   Card,
   FiltersCard,
   GridItemNine,
   GridItemThree,
   GridLayout,
   SEO,
+  StaticCard,
   UserProfileCard,
 } from "@eden/package-ui";
 
 import DAO_MOCK from "../../../utils/mock/daoMock";
 import type { NextPageWithLayout } from "../../_app";
 
-const LaunchPage: NextPageWithLayout = () => {
-  // const { project, dispatchProject, selectedRole, matchMembersPage } =
-  //   useContext(LaunchProjectContext);
-
+const DaoPage: NextPageWithLayout = () => {
   const handleSetSkills = (val: any) => {
     console.log(val);
   };
@@ -34,7 +31,7 @@ const LaunchPage: NextPageWithLayout = () => {
     <>
       <SEO />
       <GridLayout>
-        <GridItemThree className="h-8/10 scrollbar-hide overflow-scroll">
+        <GridItemThree className="h-85 scrollbar-hide overflow-scroll">
           <UserProfileCard />
           <FiltersCard
             defaultValue={{}}
@@ -46,18 +43,13 @@ const LaunchPage: NextPageWithLayout = () => {
           />
         </GridItemThree>
 
-        <GridItemNine className="scrollbar-hide h-8/10 overflow-scroll">
-          {/* <ShortlistContainer
-            matchingMembers={filteredMembers}
-            overflow={matchingMembers?.matchSkillsToMembers!.length < 9}
-          /> */}
-          <Card className="h-full bg-white">
-            {DAO_MOCK.Result.map((item, index) => (
-              <div key={index}>
-                {JSON.stringify(item)}
-                <Button onClick={() => console.log("more")}>more</Button>
-              </div>
-            ))}
+        <GridItemNine className="scrollbar-hide h-85 overflow-scroll">
+          <Card className="h-full bg-white p-4">
+            <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+              {DAO_MOCK.Result.map((item, index) => (
+                <StaticCard key={index} item={item} />
+              ))}
+            </div>
           </Card>
         </GridItemNine>
       </GridLayout>
@@ -65,31 +57,6 @@ const LaunchPage: NextPageWithLayout = () => {
   );
 };
 
-LaunchPage.getLayout = (page) => <AppUserLayout>{page}</AppUserLayout>;
+DaoPage.getLayout = (page) => <AppUserLayout>{page}</AppUserLayout>;
 
-export default LaunchPage;
-
-import { IncomingMessage, ServerResponse } from "http";
-import { getSession } from "next-auth/react";
-
-export async function getServerSideProps(ctx: {
-  req: IncomingMessage;
-  res: ServerResponse;
-}) {
-  const session = await getSession(ctx);
-
-  const url = ctx.req.url?.replace("/", "");
-
-  if (!session) {
-    return {
-      redirect: {
-        destination: `/login?redirect=${url}`,
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {},
-  };
-}
+export default DaoPage;
