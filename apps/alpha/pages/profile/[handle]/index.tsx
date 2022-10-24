@@ -98,6 +98,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       fields: {
         discordName: handle,
       },
+      ssr: true,
     },
   });
 
