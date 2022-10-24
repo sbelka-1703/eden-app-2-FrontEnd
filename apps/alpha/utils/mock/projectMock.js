@@ -1,4 +1,4 @@
-export const SkillTreeShowFlag = {
+const SkillTreeShowFlag = {
   ChooseCategory: true,
   ChooseSubcategory: true,
   ChooseFocusArea: true,
@@ -6,7 +6,7 @@ export const SkillTreeShowFlag = {
   ChooseSalary: true,
 };
 
-export const priorities = {
+const priorities = {
   title: "Prioritise & distribute 100 points!",
   description:
     "Please distribute 100 points based on the priority, more points you give - more important the subject is to you.",
@@ -30,14 +30,14 @@ export const priorities = {
   },
 };
 
-export const proposedSalary = {
+const proposedSalary = {
   title: "Proposed salary rates",
   description: "Based on the salary, choose the people you want to see",
   minSalary: "1",
   maxSarary: "80",
 };
 
-export const SkillTree = {
+const SkillTree = {
   Design: {
     subCategories: [
       "UX/UI",
@@ -264,7 +264,7 @@ export const SkillTree = {
   },
 };
 
-export const ResultCardShowFlag = {
+const ResultCardShowFlag = {
   type: "Project", // Project,Bounty,DAO,User,discordChannel
   picture: true,
   description: true,
@@ -275,7 +275,7 @@ export const ResultCardShowFlag = {
   persentageButton: true,
 };
 
-export const ResultPopUpShowFlag = {
+const ResultPopUpShowFlag = {
   type: "Project", // Project,Bounty,DAO,User,discordChannel
   picture: true,
   description: true,
@@ -286,8 +286,8 @@ export const ResultPopUpShowFlag = {
   persentagewhButton: true,
 };
 
-export const Result = {
-  1: {
+const Result = [
+  {
     description: "asdf",
     percentage: "75%",
     picture: "https://i.imgur.com/1Q9Z1Zm.png",
@@ -318,7 +318,7 @@ export const Result = {
       },
     ],
   },
-  2: {
+  {
     description: "asdf",
     percentage: "75%",
     picture: "https://i.imgur.com/1Q9Z1Zm.png",
@@ -349,4 +349,16 @@ export const Result = {
       },
     ],
   },
+];
+
+const PROJECT_MOCK = {
+  SkillTreeShowFlag: SkillTreeShowFlag,
+  priorities: priorities,
+  proposedSalary: proposedSalary,
+  SkillTree: SkillTree,
+  ResultCardShowFlag: ResultCardShowFlag,
+  ResultPopUpShowFlag: ResultPopUpShowFlag,
+  Result: Result,
 };
+
+export default PROJECT_MOCK;

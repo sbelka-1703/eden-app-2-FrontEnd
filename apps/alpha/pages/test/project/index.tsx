@@ -1,13 +1,16 @@
 import {
   AppUserLayout,
+  Card,
   FiltersCard,
   GridItemNine,
   GridItemThree,
   GridLayout,
   SEO,
+  StaticCard,
   UserProfileCard,
 } from "@eden/package-ui";
 
+import PROJECT_MOCK from "../../../utils/mock/projectMock";
 import type { NextPageWithLayout } from "../../_app";
 
 const LaunchPage: NextPageWithLayout = () => {
@@ -27,6 +30,8 @@ const LaunchPage: NextPageWithLayout = () => {
     console.log(val);
   };
 
+  console.log(PROJECT_MOCK);
+
   return (
     <>
       <SEO />
@@ -43,11 +48,14 @@ const LaunchPage: NextPageWithLayout = () => {
           />
         </GridItemThree>
 
-        <GridItemNine className="scrollbar-hide h-8/10 overflow-scroll">
-          {/* <ShortlistContainer
-            matchingMembers={filteredMembers}
-            overflow={matchingMembers?.matchSkillsToMembers!.length < 9}
-          /> */}
+        <GridItemNine className="">
+          <Card className="scrollbar-hide h-85 overflow-scroll bg-white p-4">
+            <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+              {PROJECT_MOCK?.Result.map((item: any, index: number) => (
+                <StaticCard key={index} item={item} />
+              ))}
+            </div>
+          </Card>
         </GridItemNine>
       </GridLayout>
     </>
