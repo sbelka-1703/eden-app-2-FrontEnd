@@ -27,6 +27,8 @@ const DaoPage: NextPageWithLayout = () => {
     console.log(val);
   };
 
+  console.log(DAO_MOCK);
+
   return (
     <>
       <SEO />
@@ -43,8 +45,8 @@ const DaoPage: NextPageWithLayout = () => {
           />
         </GridItemThree>
 
-        <GridItemNine className="scrollbar-hide h-85 overflow-scroll">
-          <Card className="h-full bg-white p-4">
+        <GridItemNine className="">
+          <Card className="scrollbar-hide h-85 overflow-scroll bg-white p-4">
             <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
               {DAO_MOCK.Result.map((item, index) => (
                 <StaticCard key={index} item={item} />
