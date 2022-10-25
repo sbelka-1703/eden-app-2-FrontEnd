@@ -5,9 +5,9 @@ import {
   // useQuery,
 } from "@apollo/client";
 import { FIND_MEMBER_FULL } from "@eden/package-graphql";
-import { Members } from "@eden/package-graphql/generated";
+// import { Members } from "@eden/package-graphql/generated";
 import {
-  // AppUserSubmenuLayout,
+  AppUserSubmenuLayout,
   Card,
   GridItemEight,
   GridItemTwo,
@@ -19,13 +19,13 @@ import {
 // import { useRouter } from "next/router";
 import * as React from "react";
 
-export const useIsMounted = () => {
-  const [mounted, setMounted] = React.useState(false);
+// export const useIsMounted = () => {
+//   const [mounted, setMounted] = React.useState(false);
 
-  React.useEffect(() => setMounted(true), []);
+//   React.useEffect(() => setMounted(true), []);
 
-  return mounted;
-};
+//   return mounted;
+// };
 
 const ProfilePage = ({ member }: { member: Members }) => {
   // const router = useRouter();
@@ -48,36 +48,38 @@ const ProfilePage = ({ member }: { member: Members }) => {
   //       <Loading title={`Searching for user...`} />
   //     </div>
   //   );
-  const isMounted = useIsMounted();
+  // const isMounted = useIsMounted();
 
-  if (!isMounted) return null;
+  // if (!isMounted) return null;
+  // if (!member) return null;
   return (
     <>
       <SEO
         title={`@${member?.discordName} | on `}
         image={member?.discordAvatar || ""}
       />
-      {/* <AppUserSubmenuLayout showSubmenu={false}> */}
-      <GridLayout className={`bg-background h-screen`}>
-        <GridItemTwo> </GridItemTwo>
-        <GridItemEight>
-          <Card className={`h-85 scrollbar-hide overflow-y-scroll bg-white`}>
-            {member ? (
-              <NewProfileContainer user={member} />
-            ) : (
-              <Loading title={`Searching...`} />
-            )}
-          </Card>
-        </GridItemEight>
-        <GridItemTwo> </GridItemTwo>
-      </GridLayout>
-      {/* </AppUserSubmenuLayout> */}
+      <AppUserSubmenuLayout showSubmenu={false}>
+        <GridLayout className={`bg-background h-screen`}>
+          <GridItemTwo> </GridItemTwo>
+          <GridItemEight>
+            <Card className={`h-85 scrollbar-hide overflow-y-scroll bg-white`}>
+              {member ? (
+                <NewProfileContainer user={member} />
+              ) : (
+                <Loading title={`Searching...`} />
+              )}
+            </Card>
+          </GridItemEight>
+          <GridItemTwo> </GridItemTwo>
+        </GridLayout>
+      </AppUserSubmenuLayout>
     </>
   );
 };
 
 export default ProfilePage;
 
+import { Members } from "@eden/package-graphql/generated";
 import type { GetServerSideProps } from "next";
 
 const client = new ApolloClient({
