@@ -6,6 +6,7 @@ import {
   StaticModal,
   TextBody,
   TextHeading3,
+  TextLabel,
 } from "@eden/package-ui";
 import { useState } from "react";
 
@@ -53,8 +54,16 @@ export const StaticCard = ({
           <Button onClick={() => setIsOpen(!isOpen)}>More</Button>
         </div>
       </div>
-      <div className={`text-darkGreen font-Inter my-2 text-sm`}>
-        {item?.description}
+      <div className="flex">
+        <div className={`text-darkGreen font-Inter my-2 text-sm`}>
+          {item?.description}
+        </div>
+        {resultCardFlag?.type === "Bounty" && (
+          <div className="text-soilPurple ml-auto -mr-4 flex w-1/3 flex-col items-center">
+            <TextLabel className="text-soilPurple">⚡️ Match</TextLabel>
+            <TextHeading3>{item?.percentage}</TextHeading3>
+          </div>
+        )}
       </div>
 
       {resultCardFlag?.type === "DAO" && <DaoFlagType item={item} />}
