@@ -62,7 +62,7 @@ export const StaticCard = ({
   );
 };
 
-export interface IStaticCardTypeProps {
+interface IStaticCardTypeProps {
   item?: any;
 }
 

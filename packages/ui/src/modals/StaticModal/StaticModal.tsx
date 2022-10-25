@@ -105,7 +105,7 @@ const DaoFlagType = ({ item }: IStaticCardTypeProps) => {
   );
 };
 
-export interface IStaticCardTypeProps {
+interface IStaticCardTypeProps {
   item?: any;
 }
 
