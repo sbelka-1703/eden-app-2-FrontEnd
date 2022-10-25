@@ -625,6 +625,7 @@ export type ServerTemplate = {
   adminCommands?: Maybe<Array<Maybe<Scalars['String']>>>;
   adminID?: Maybe<Array<Maybe<Scalars['String']>>>;
   adminRoles?: Maybe<Array<Maybe<Scalars['String']>>>;
+  channel?: Maybe<ChannelOutput>;
   name?: Maybe<Scalars['String']>;
 };
 
@@ -838,6 +839,11 @@ export type ChangeTeamMember_Phase_ProjectInput = {
   roleID?: InputMaybe<Scalars['ID']>;
 };
 
+export type ChannelOutput = {
+  __typename?: 'channelOutput';
+  chatID?: Maybe<Scalars['ID']>;
+};
+
 export type ChatResponse = {
   __typename?: 'chatResponse';
   numChat?: Maybe<Scalars['Int']>;
@@ -1019,6 +1025,7 @@ export type FindGardenOutput = {
 
 export type FindMemberInput = {
   _id?: InputMaybe<Scalars['ID']>;
+  discordName?: InputMaybe<Scalars['ID']>;
   serverID?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
@@ -1497,13 +1504,16 @@ export type TweetsType = {
 };
 
 export type UpdateChatReplyInput = {
-  _id: Scalars['ID'];
+  _id?: InputMaybe<Scalars['ID']>;
   receiverReply: Scalars['Boolean'];
+  replyUserID?: InputMaybe<Scalars['ID']>;
+  threadID?: InputMaybe<Scalars['ID']>;
 };
 
 export type UpdateChatResultInput = {
   _id?: InputMaybe<Scalars['ID']>;
   result?: InputMaybe<ResultEnum>;
+  threadID?: InputMaybe<Scalars['ID']>;
 };
 
 export type UpdateMemberInRoomInput = {
@@ -1566,6 +1576,7 @@ export type UpdateServerInput = {
   adminCommands?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   adminID?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   adminRoles?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  channelChatID?: InputMaybe<Scalars['ID']>;
   name?: InputMaybe<Scalars['String']>;
 };
 

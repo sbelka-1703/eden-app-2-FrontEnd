@@ -12,9 +12,11 @@ import {
   GridItemSix,
   GridItemThree,
   GridLayout,
+  SEO,
   ShortlistContainer,
   ShortlistMemberContainer,
-  ShortlistModalContainerTest,
+  ShortlistModalContainerStory,
+  // ShortlistModalContainerTest,
   // ShortlistSideContainer,
   ShortlistSideContainerTest,
   TextHeading3,
@@ -81,6 +83,7 @@ const LaunchPage: NextPageWithLayout = () => {
 
   return (
     <>
+      <SEO />
       <GridLayout>
         <GridItemThree className="h-8/10 scrollbar-hide overflow-scroll">
           {project && (
@@ -133,7 +136,8 @@ const LaunchPage: NextPageWithLayout = () => {
           </>
         )}
       </GridLayout>
-      <ShortlistModalContainerTest />
+      <ShortlistModalContainerStory />
+      {/* <ShortlistModalContainerTest /> */}
     </>
   );
 };

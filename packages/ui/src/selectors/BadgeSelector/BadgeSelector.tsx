@@ -2,13 +2,15 @@ import { useEffect, useState } from "react";
 
 export interface IBadgeSelectorProps {
   items: any[];
+  reset?: boolean;
   // eslint-disable-next-line no-unused-vars
   onChange: (value: any) => void;
 }
 
 export const BadgeSelector = ({
-  items = [],
+  reset,
   onChange,
+  items = [],
 }: IBadgeSelectorProps) => {
   const [selected, setSelected] = useState<any[]>([]);
 
@@ -30,10 +32,16 @@ export const BadgeSelector = ({
   // @TODO hardcoded to be removed
   const color = "#e8e8e8";
 
+  useEffect(() => {
+    if (reset) {
+      setSelected([]);
+    }
+  }, [reset]);
+
   return (
     <section className="text-center">
-      {items?.map((item, index) => (
-        <div key={index} className="mr-2 mb-1 inline-block">
+      {items?.map((item) => (
+        <div key={item._id} className="mr-2 mb-1 inline-block">
           <input
             type="checkbox"
             name={item._id}
@@ -44,7 +52,7 @@ export const BadgeSelector = ({
           />
           <label
             htmlFor={item._id}
-            className="border-accentColor cursor-pointer rounded-full py-px px-3 peer-checked:-my-2 peer-checked:mr-1 peer-checked:border-2"
+            className="border-accentColor peer-checked:shadow-focusShadow cursor-pointer rounded-full py-px px-3 peer-checked:mx-1"
             style={{ backgroundColor: color || "#e8e8e8" }}
           >
             {item.name || item.title}

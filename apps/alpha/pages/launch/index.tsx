@@ -5,6 +5,7 @@ import {
   GridItemThree,
   GridLayout,
   LaunchProjectContainer,
+  SEO,
   UserProfileCard,
 } from "@eden/package-ui";
 
@@ -12,14 +13,17 @@ import type { NextPageWithLayout } from "../_app";
 
 const LaunchPage: NextPageWithLayout = () => {
   return (
-    <GridLayout>
-      <GridItemThree>
-        <UserProfileCard />
-      </GridItemThree>
-      <GridItemNine>
-        <LaunchProjectContainer />
-      </GridItemNine>
-    </GridLayout>
+    <>
+      <SEO />
+      <GridLayout>
+        <GridItemThree>
+          <UserProfileCard />
+        </GridItemThree>
+        <GridItemNine>
+          <LaunchProjectContainer />
+        </GridItemNine>
+      </GridLayout>
+    </>
   );
 };
 

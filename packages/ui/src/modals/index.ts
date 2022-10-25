@@ -1,5 +1,6 @@
 export * from "./ApplicationModal";
 export * from "./CongratulationsModal";
+export * from "./FindTalentModal";
 export * from "./PrioritizeModal";
 export * from "./ProjectInfoModal";
 export * from "./RequirementsModal";
@@ -14,3 +15,4 @@ export * from "./SkillsModal";
 export * from "./SkillsOnCategoryModal";
 export * from "./SkillsSubcategoryModal";
 export * from "./SocialMediaModel";
+export * from "./StaticModal";

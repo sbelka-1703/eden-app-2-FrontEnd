@@ -7,33 +7,6 @@ export const FIND_MEMBERS = gql`
       discordAvatar
       discordName
       discriminator
-      bio
-      skills {
-        skillInfo {
-          _id
-          name
-        }
-      }
-      projects {
-        info {
-          title
-          _id
-        }
-      }
-      network {
-        discordName
-      }
-      hoursPerWeek
-      interest
-      timeZone
-      memberRole {
-        _id
-        title
-      }
-      links {
-        name
-        url
-      }
     }
   }
 `;

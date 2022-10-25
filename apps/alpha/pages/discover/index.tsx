@@ -4,24 +4,28 @@ import {
   GridItemNine,
   GridItemThree,
   GridLayout,
+  SEO,
 } from "@eden/package-ui";
 
 import type { NextPageWithLayout } from "../_app";
 
 const DiscoverPage: NextPageWithLayout = () => {
   return (
-    <GridLayout>
-      <GridItemThree>
-        <Card shadow className="h-85 bg-white p-6">
-          left side
-        </Card>
-      </GridItemThree>
-      <GridItemNine>
-        <Card shadow className="h-85 overflow-auto bg-white p-6">
-          discover page
-        </Card>
-      </GridItemNine>
-    </GridLayout>
+    <>
+      <SEO />
+      <GridLayout>
+        <GridItemThree>
+          <Card shadow className="h-85 bg-white p-6">
+            left side
+          </Card>
+        </GridItemThree>
+        <GridItemNine>
+          <Card shadow className="h-85 overflow-auto bg-white p-6">
+            discover page
+          </Card>
+        </GridItemNine>
+      </GridLayout>
+    </>
   );
 };
 

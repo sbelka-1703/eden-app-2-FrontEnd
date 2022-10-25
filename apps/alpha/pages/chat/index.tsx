@@ -1,32 +1,56 @@
 /* eslint-disable no-unused-vars */
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
-import { ADD_NEW_CHAT } from "@eden/package-graphql";
+import { ADD_NEW_CHAT, FIND_MEMBER, FIND_MEMBERS } from "@eden/package-graphql";
 import {
   Members,
   MutationAddNewChatArgs,
 } from "@eden/package-graphql/generated";
 import {
   AppUserSubmenuLayout,
+  Avatar,
+  Button,
   Card,
   GridItemNine,
   GridItemThree,
   GridLayout,
   SendMessageToUserModal,
+  SEO,
+  TextField,
 } from "@eden/package-ui";
 import { useContext, useState } from "react";
 
 import type { NextPageWithLayout } from "../_app";
 
 const ChatPage: NextPageWithLayout = () => {
-  const sampleUser: Members = {
-    _id: "1007145437049921677",
-    discordAvatar:
-      "https://cdn.discordapp.com/avatars/1007145437049921677/e3a8f491c88a912d98eff2f46c52fd73.webp",
-    discordName: "myz1237",
-  };
+  const [selectedMember, setSelectedMember] = useState<Members>();
+  const { data: dataMembers } = useQuery(FIND_MEMBERS, {
+    variables: {
+      fields: {
+        _id: null,
+      },
+    },
+    context: { serviceName: "soilservice" },
+  });
+
+  const [search, setSearch] = useState("");
+  const [findMember, setFindMember] = useState("");
+  const { data: dataSearchMember } = useQuery(FIND_MEMBER, {
+    variables: {
+      fields: {
+        discordName: search,
+      },
+      skip: search === "",
+    },
+    context: { serviceName: "soilservice" },
+  });
+
+  const searchMember = dataSearchMember?.findMember;
+
+  // if (searchMember) console.log(searchMember);
+
   const { currentUser } = useContext(UserContext);
-  const [openModal, setOpenModal] = useState(true);
+  const [openModal, setOpenModal] = useState(false);
   const [addNewChat] = useMutation<any, MutationAddNewChatArgs>(ADD_NEW_CHAT);
   const createThread = async (body: CreateThreadApiRequestBody) => {
     const response = await fetch(encodeURI("/api/discord/createThread"), {
@@ -43,54 +67,113 @@ const ChatPage: NextPageWithLayout = () => {
   };
 
   return (
-    <GridLayout>
-      <GridItemThree>
-        <Card shadow className="h-85 bg-white p-6">
-          left side
-        </Card>
-      </GridItemThree>
-      <GridItemNine>
-        <Card shadow className="h-85 overflow-auto bg-white p-6">
-          main window
-        </Card>
-        <SendMessageToUserModal
-          member={sampleUser}
-          openModal={openModal}
-          onSubmit={async (message, member) => {
-            let threadName = "Project Talents Discussion";
+    <>
+      <SEO />
+      <GridLayout>
+        <GridItemThree>
+          <Card shadow className="h-85 bg-white p-6">
+            <TextField onChange={(e) => setFindMember(e.target.value)} />
+            <Button
+              className={`my-4`}
+              variant="primary"
+              onClick={() => setSearch(findMember)}
+            >
+              Search
+            </Button>
+            <div>
+              {searchMember && (
+                <div>
+                  <Avatar src={searchMember.discordAvatar} />
+                  <p>@{searchMember.discordName}</p>
+                  <Button
+                    className={`my-4`}
+                    variant="primary"
+                    onClick={() => {
+                      setOpenModal(true);
+                      setSelectedMember(searchMember);
+                    }}
+                  >
+                    Send Message
+                  </Button>
+                </div>
+              )}
+            </div>
+          </Card>
+        </GridItemThree>
+        <GridItemNine>
+          <Card shadow className="h-85 overflow-auto bg-white p-6">
+            {dataMembers?.findMembers.map((member: Members) => (
+              <div
+                key={member._id}
+                className="flex items-center justify-between border-b border-gray-200 p-4"
+              >
+                <div className="flex items-center">
+                  <Avatar
+                    src={member.discordAvatar as string}
+                    alt={member.discordName as string}
+                    size="sm"
+                  />
 
-            if (member) {
-              threadName = `Project Talents Discussion -- ${member.discordName}`;
-            }
-            const { threadId } = await createThread({
-              message: `<@${member?._id}>`,
-              embedMessage: message,
-              senderAvatarURL: currentUser?.discordAvatar!,
-              senderName: `${currentUser?.discordName} -- Just invite you to a conversation`,
-              channelId: "1001547443135058010",
-              threadName: `Project Talents Discussion with ${member?.discordName}`,
-              autoArchiveDuration: AutoArchiveDuration.OneDay,
-            });
+                  <div className="ml-4">
+                    <p className="text-sm font-medium text-gray-900">
+                      {member.discordName}
+                    </p>
+                    <p className="text-sm text-gray-500">Online</p>
+                  </div>
+                </div>
+                <Button
+                  type="button"
+                  variant="primary"
+                  onClick={() => {
+                    setOpenModal(true);
+                    setSelectedMember(member);
+                  }}
+                >
+                  Message
+                </Button>
+              </div>
+            ))}
+          </Card>
+          <SendMessageToUserModal
+            member={selectedMember as Members}
+            openModal={openModal}
+            onClose={() => setOpenModal(!openModal)}
+            onSubmit={async (message, member) => {
+              let threadName = "Project Talents Discussion";
 
-            const result = await addNewChat({
-              variables: {
-                fields: {
-                  message: message,
-                  projectID: "62f685952dc2d40004d395c7",
-                  receiverID: member?._id!,
-                  senderID: currentUser?._id!,
-                  serverID: "988301790795685930",
-                  threadID: threadId,
+              if (member) {
+                threadName = `Project Talents Discussion -- ${member.discordName}`;
+              }
+              const { threadId } = await createThread({
+                message: `<@${member?._id}>`,
+                embedMessage: message,
+                senderAvatarURL: currentUser?.discordAvatar!,
+                senderName: `${currentUser?.discordName} -- Just invite you to a conversation`,
+                channelId: "1001547443135058010",
+                threadName: `Project Talents Discussion with ${member?.discordName}`,
+                autoArchiveDuration: AutoArchiveDuration.OneDay,
+              });
+
+              const result = await addNewChat({
+                variables: {
+                  fields: {
+                    message: message,
+                    projectID: "62f685952dc2d40004d395c7",
+                    receiverID: member?._id!,
+                    senderID: currentUser?._id!,
+                    serverID: "988301790795685930",
+                    threadID: threadId,
+                  },
                 },
-              },
-            });
+              });
 
-            console.log(result);
-            setOpenModal(false);
-          }}
-        />
-      </GridItemNine>
-    </GridLayout>
+              console.log(result);
+              setOpenModal(false);
+            }}
+          />
+        </GridItemNine>
+      </GridLayout>
+    </>
   );
 };
 

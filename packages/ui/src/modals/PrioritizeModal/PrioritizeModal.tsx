@@ -1,4 +1,5 @@
 import {
+  BatteryStepper,
   Button,
   Modal,
   RangeSlider,
@@ -45,6 +46,7 @@ const SKILLS: { name: SkillsType; tooltip: string; displayName: string }[] = [
 export interface PrioritizeModalProps {
   openModal?: boolean;
   onClose: () => void;
+  battery?: boolean;
   // eslint-disable-next-line no-unused-vars
   onSubmit: (data: {
     experience: number;
@@ -55,7 +57,8 @@ export interface PrioritizeModalProps {
 }
 
 export const PrioritizeModal = ({
-  // onClose,
+  onClose,
+  battery = false,
   openModal,
   onSubmit,
 }: PrioritizeModalProps) => {
@@ -82,12 +85,20 @@ export const PrioritizeModal = ({
   return (
     <Modal open={openModal} closeOnEsc={false}>
       <div>
-        <TextHeading3>Prioritise & distribute 100 points!</TextHeading3>
-        <TextBody className={`font-medium text-gray-500`}>
-          Please distribute 100 points based on the priority, more
-          <br />
-          points you give - more important the subject is to you.
-        </TextBody>
+        <div className="flex justify-between">
+          <div className="flex-1">
+            <TextHeading3>
+              Okay, let me just get your priorities straight.
+            </TextHeading3>
+            <TextBody className={`font-medium text-gray-500`}>
+              Distribute 100 point based on what’s the most important value for
+              you.
+            </TextBody>
+          </div>
+
+          {battery && <BatteryStepper batteryPercentage={75} />}
+        </div>
+
         <section className="grid grid-cols-2 gap-4">
           <div className="col-span-1 my-8 ml-4 flex w-full max-w-md flex-col justify-center">
             {SKILLS.map((skill) => (
@@ -119,10 +130,10 @@ export const PrioritizeModal = ({
             />
           </div>
         </section>
-        <div className="flex justify-center">
-          {/* <Button radius="rounded" variant={`secondary`} onClick={onClose}>
-            Back
-          </Button> */}
+        <div className="flex justify-between">
+          <Button radius="rounded" variant={`secondary`} onClick={onClose}>
+            Skip
+          </Button>
           <Button
             radius="rounded"
             variant={`secondary`}
