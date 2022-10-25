@@ -32,14 +32,21 @@ export const StaticCard = ({
       <div className={`flex justify-between`}>
         <div></div>
         <div>
-          <div className={`relative`}>
-            <Avatar isProject src={item?.picture} />
-            <div
-              className={`text-soilPurple absolute -mt-9 ml-12 rounded-full bg-white px-1.5 text-xl font-semibold shadow-sm`}
-            >
-              {item?.percentage}
+          {resultCardFlag?.type === "Bounty" && (
+            <TextHeading3 className="text-accentColor">
+              ⚡️ 500 CODE ⚡️
+            </TextHeading3>
+          )}
+          {item?.picture && (
+            <div className={`relative`}>
+              <Avatar isProject src={item?.picture} />
+              <div
+                className={`text-soilPurple absolute -mt-9 ml-12 rounded-full bg-white px-1.5 text-xl font-semibold shadow-sm`}
+              >
+                {item?.percentage}
+              </div>
             </div>
-          </div>
+          )}
           <TextHeading3>{item?.name}</TextHeading3>
         </div>
         <div>
@@ -53,6 +60,7 @@ export const StaticCard = ({
       {resultCardFlag?.type === "DAO" && <DaoFlagType item={item} />}
       {resultCardFlag?.type === "Project" && <ProjectFlagType item={item} />}
       {resultCardFlag?.type === "Channel" && <ChannelFlagType item={item} />}
+      {resultCardFlag?.type === "Bounty" && <BountyFlagType item={item} />}
 
       <StaticModal
         item={item}
@@ -160,6 +168,36 @@ const ChannelFlagType = ({ item }: IStaticCardTypeProps) => {
             </div>
           )
         )}
+      </div>
+    </>
+  );
+};
+const BountyFlagType = ({ item }: IStaticCardTypeProps) => {
+  return (
+    <>
+      <div className={`font-Inter text-sm text-zinc-500`}>
+        🛠 Matching Skills
+      </div>
+      <div>
+        {item?.matchingSkills?.map((skill: string, index: number) => (
+          <Badge
+            text={skill}
+            key={index}
+            className={`bg-soilPurple/20 py-px text-xs`}
+          />
+        ))}
+      </div>
+      <div className={`font-Inter my-2 text-sm text-zinc-500`}>💻 Project</div>
+      <div className="flex gap-2">
+        <Avatar size={`xs`} src={item.ProjectPicture} alt={"avatar"} />
+        <TextBody className="mt-1">{item.Project}</TextBody>
+      </div>
+      <div className={`font-Inter my-2 text-sm text-zinc-500`}>
+        🥥 Bounty posted by
+      </div>
+      <div className="flex gap-2">
+        <Avatar size={`xs`} src={item.bountedPostedByPicture} alt={"avatar"} />
+        <TextBody className="mt-1">{item.bountedPostedBy}</TextBody>
       </div>
     </>
   );
