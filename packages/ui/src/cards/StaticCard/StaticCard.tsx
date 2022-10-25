@@ -4,6 +4,7 @@ import {
   Button,
   Card,
   StaticModal,
+  TextBody,
   TextHeading3,
 } from "@eden/package-ui";
 import { useState } from "react";
@@ -51,6 +52,7 @@ export const StaticCard = ({
 
       {resultCardFlag?.type === "DAO" && <DaoFlagType item={item} />}
       {resultCardFlag?.type === "Project" && <ProjectFlagType item={item} />}
+      {resultCardFlag?.type === "Channel" && <ChannelFlagType item={item} />}
 
       <StaticModal
         item={item}
@@ -127,6 +129,37 @@ const ProjectFlagType = ({ item }: IStaticCardTypeProps) => {
       </div>
       <div className={`font-Inter mt-2 text-sm text-zinc-500`}>
         Eden adoptiopn in Bankless is {item?.edenMembersDAO}%
+      </div>
+    </>
+  );
+};
+
+const ChannelFlagType = ({ item }: IStaticCardTypeProps) => {
+  return (
+    <>
+      <div className={`font-Inter text-sm text-zinc-500`}>🔑 Keywords</div>
+      <div>
+        {item?.keyWords?.map((keyword: any, index: number) => (
+          <Badge
+            text={keyword}
+            key={index}
+            className={`bg-soilPurple/20 py-px text-xs`}
+          />
+        ))}
+      </div>
+      <div className={`font-Inter text-sm text-zinc-500`}>📍 Location</div>
+      {item.location && <TextBody>{item.location}</TextBody>}
+      <div className={`font-Inter my-2 text-sm text-zinc-500`}>
+        👯‍♂️ People with similar skills
+      </div>
+      <div className="flex w-full flex-nowrap">
+        {item?.peopleWithSimilarWkillsPictures?.map(
+          (avatar: string, index: number) => (
+            <div key={index} className={`-mr-3`}>
+              <Avatar size={`xs`} src={avatar} alt={"avatar"} />
+            </div>
+          )
+        )}
       </div>
     </>
   );
