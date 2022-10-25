@@ -49,7 +49,12 @@ const DaoPage: NextPageWithLayout = () => {
           <Card className="scrollbar-hide h-85 overflow-scroll bg-white p-4">
             <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
               {DAO_MOCK.Result.map((item, index) => (
-                <StaticCard key={index} item={item} />
+                <StaticCard
+                  key={index}
+                  item={item}
+                  resultCardFlag={DAO_MOCK?.ResultCardShowFlag}
+                  resultPopUpFlag={DAO_MOCK?.ResultPopUpShowFlag}
+                />
               ))}
             </div>
           </Card>

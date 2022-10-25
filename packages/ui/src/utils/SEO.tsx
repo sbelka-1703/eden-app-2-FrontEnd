@@ -15,12 +15,15 @@ interface Props {
 }
 
 export const SEO: FC<Props> = ({
-  title,
-  description,
+  title = "",
+  description = "",
   image = DEFAULT_IMAGE,
 }) => {
   const appTitle = title + ` ` + DEFAULT_TITLE;
   const appDescription = description ? description : DEFAULT_DESCRIPTION;
+
+  // console.log(appTitle);
+  // console.log(appDescription);
 
   return (
     <Head>

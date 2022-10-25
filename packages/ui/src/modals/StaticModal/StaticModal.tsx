@@ -3,11 +3,17 @@ import { CheckCircleIcon } from "@heroicons/react/solid";
 
 export interface IStaticModalProps {
   item?: any;
+  resultPopUpFlag?: any;
   open?: boolean;
   onClose?: () => void;
 }
 
-export const StaticModal = ({ item, open, onClose }: IStaticModalProps) => {
+export const StaticModal = ({
+  item,
+  resultPopUpFlag,
+  open,
+  onClose,
+}: IStaticModalProps) => {
   if (!item) return null;
   return (
     <Modal open={open} onClose={onClose}>
@@ -35,7 +41,7 @@ export const StaticModal = ({ item, open, onClose }: IStaticModalProps) => {
         <div className="mb-4 flex items-start justify-between">
           <div className="flex flex-col items-start justify-center">
             <h1 className="text-soilHeading3 font-poppins font-medium">
-              💻 about the DAO
+              💻 about the
             </h1>
             <p className="text-soilBody font-Inter w-8/12 font-normal">
               {item?.description}
@@ -52,37 +58,85 @@ export const StaticModal = ({ item, open, onClose }: IStaticModalProps) => {
             </div>
           )}
         </div>
-        <div className="flex w-full items-start justify-between gap-6">
-          <div className="w-3/4">
-            <p className="mb-3 text-sm font-semibold tracking-widest subpixel-antialiased">
-              🛠 Matching Skills
-            </p>
-            <div>
-              {item?.matchingSkills?.map((skill: string, index: number) => (
-                <Badge
-                  text={skill}
-                  key={index}
-                  className={`bg-soilPurple/20 py-px text-xs`}
-                />
-              ))}
-            </div>
+
+        {resultPopUpFlag?.type === "DAO" && <DaoFlagType item={item} />}
+        {resultPopUpFlag?.type === "Project" && <ProjectFlagType item={item} />}
+      </div>
+    </Modal>
+  );
+};
+
+///////////////////////// DAO Flag Type /////////////////////////
+
+const DaoFlagType = ({ item }: IStaticCardTypeProps) => {
+  return (
+    <>
+      <div className="flex w-full items-start justify-between gap-6">
+        <div className="w-3/4">
+          <p className="mb-3 text-sm font-semibold tracking-widest subpixel-antialiased">
+            🛠 Matching Skills
+          </p>
+          <div>
+            {item?.matchingSkills?.map((skill: string, index: number) => (
+              <Badge
+                text={skill}
+                key={index}
+                className={`bg-soilPurple/20 py-px text-xs`}
+              />
+            ))}
           </div>
-          <div className="w-3/4">
-            <p className="mb-3 text-sm font-semibold tracking-widest subpixel-antialiased">
-              🛠 Missing Skills
-            </p>
-            <div>
-              {item?.missingSkills?.map((skill: string, index: number) => (
-                <Badge
-                  text={skill}
-                  key={index}
-                  className={`bg-soilPurple/20 py-px text-xs`}
-                />
-              ))}
-            </div>
+        </div>
+        <div className="w-3/4">
+          <p className="mb-3 text-sm font-semibold tracking-widest subpixel-antialiased">
+            🛠 Missing Skills
+          </p>
+          <div>
+            {item?.missingSkills?.map((skill: string, index: number) => (
+              <Badge
+                text={skill}
+                key={index}
+                className={`bg-soilPurple/20 py-px text-xs`}
+              />
+            ))}
           </div>
         </div>
       </div>
-    </Modal>
+    </>
+  );
+};
+
+interface IStaticCardTypeProps {
+  item?: any;
+}
+
+///////////////////////// Project Flag Type /////////////////////////
+
+const ProjectFlagType = ({ item }: IStaticCardTypeProps) => {
+  return (
+    <>
+      <div className={`font-Inter text-sm text-zinc-500`}>🛠 Relevant Roles</div>
+      <div>
+        {item?.roles?.map((role: any, index: number) => (
+          <Badge
+            text={role?.name}
+            key={index}
+            className={`bg-soilPurple/20 py-px text-xs`}
+          />
+        ))}
+      </div>
+      <div className={`font-Inter my-2 text-sm text-zinc-500`}>
+        👯‍♂️ Core Team
+      </div>
+      <div className="flex w-full flex-nowrap">
+        {item?.coreTeamPicture?.map((avatar: string, index: number) => (
+          <div key={index} className={`-mr-3`}>
+            <Avatar size={`xs`} src={avatar} alt={"avatar"} />
+          </div>
+        ))}
+      </div>
+      <div className={`font-Inter mt-2 text-sm text-zinc-500`}>
+        Eden adoptiopn in Bankless is {item?.edenMembersDAO}%
+      </div>
+    </>
   );
 };
