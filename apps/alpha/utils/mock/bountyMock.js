@@ -291,7 +291,7 @@ const Result = [
   {
     description: "asdf",
     percentage: "75%",
-    name: "bluePanda",
+    name: "create new logo",
     bountedPostedBy: "Alex",
     bountedPostedByPicture: "https://i.imgur.com/1Q9Z1Zm.png",
     matchingSkills: ["Typescript", "Javascript", "React", "Angular"],
