@@ -4,6 +4,7 @@ export * from "./FindTalentModal";
 export * from "./PrioritizeModal";
 export * from "./ProjectInfoModal";
 export * from "./RequirementsModal";
+export * from "./ReviewModal";
 export * from "./RoleDescriptionModal";
 export * from "./RoleModal";
 export * from "./SavingProjectModal";

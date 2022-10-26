@@ -168,7 +168,7 @@ export const FindTalentModal = ({
         });
 
         const data: Data[] = map(combinedSkills, (value, key) => ({
-          _id: generateId() + key,
+          _id: key,
           title: "Vibe check - what values should they possess?",
           subtitle:
             "Do you have carefullly curated culture in your team? Tell us what values are important for you!",

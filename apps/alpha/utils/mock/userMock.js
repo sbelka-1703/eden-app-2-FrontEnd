@@ -366,6 +366,7 @@ const Result = [
     Skills: [
       "Architecture of your app",
       "Hard CS Stuff like Algo Dev & Data Structures",
+      "React JS",
       "Blockchain & Smart Contract Stuff",
       "Typescript",
       "Java",
