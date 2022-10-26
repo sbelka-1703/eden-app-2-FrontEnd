@@ -2,6 +2,7 @@ export * from "./ApplicationModal";
 export * from "./CongratulationsModal";
 export * from "./FindTalentModal";
 export * from "./PrioritizeModal";
+export * from "./ProfileModal";
 export * from "./ProjectInfoModal";
 export * from "./RequirementsModal";
 export * from "./ReviewModal";
