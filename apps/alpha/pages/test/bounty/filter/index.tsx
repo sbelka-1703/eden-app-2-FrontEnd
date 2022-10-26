@@ -20,9 +20,7 @@ import {
   TextLabel,
 } from "@eden/package-ui";
 
-import type { NextPageWithLayout } from "../../_app";
-
-const LaunchPage: NextPageWithLayout = () => {
+const LaunchPage: any = () => {
   const {
     project,
     dispatchProject,
@@ -136,7 +134,7 @@ const LaunchPage: NextPageWithLayout = () => {
   );
 };
 
-LaunchPage.getLayout = (page) => (
+LaunchPage.getLayout = (page: any) => (
   <AppUserLayout>
     <LaunchProjectProvider>{page}</LaunchProjectProvider>
   </AppUserLayout>
