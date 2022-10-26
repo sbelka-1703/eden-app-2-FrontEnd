@@ -12,13 +12,18 @@ import {
   GridItemSix,
   GridItemThree,
   GridLayout,
+  SEO,
   ShortlistContainer,
   ShortlistMemberContainer,
-  ShortlistModalContainerTest,
-  ShortlistSideContainer,
+  ShortlistModalContainerStory,
+  // ShortlistModalContainerTest,
+  // ShortlistSideContainer,
+  ShortlistSideContainerTest,
   TextHeading3,
   TextLabel,
 } from "@eden/package-ui";
+
+// import type { NextPageWithLayout } from "../../_app";
 
 const LaunchPage: any = () => {
   const {
@@ -75,12 +80,14 @@ const LaunchPage: any = () => {
       setOpenModal(LaunchProjectModal.SKILLS_CATEGORY);
     }
   }, []);
+
   return (
     <>
+      <SEO />
       <GridLayout>
         <GridItemThree className="h-8/10 scrollbar-hide overflow-scroll">
           {project && (
-            <ShortlistSideContainer matchingMembers={filteredMembers} />
+            <ShortlistSideContainerTest matchingMembers={filteredMembers} />
           )}
         </GridItemThree>
 
@@ -129,7 +136,8 @@ const LaunchPage: any = () => {
           </>
         )}
       </GridLayout>
-      <ShortlistModalContainerTest />
+      <ShortlistModalContainerStory />
+      {/* <ShortlistModalContainerTest /> */}
     </>
   );
 };
