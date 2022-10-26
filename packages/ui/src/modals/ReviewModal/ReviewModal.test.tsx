@@ -7,9 +7,9 @@ describe("ReviewModal", () => {
     const { container } = render(
       <ReviewModal
         data={mockData}
-        onSubmit={function (): void {
-          throw new Error("Function not implemented.");
-        }}
+        // onSubmit={function (): void {
+        //   throw new Error("Function not implemented.");
+        // }}
         onClose={function (): void {
           throw new Error("Function not implemented.");
         }}
