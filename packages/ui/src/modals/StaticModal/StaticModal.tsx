@@ -87,6 +87,7 @@ export const StaticModal = ({
         {resultPopUpFlag?.type === "DAO" && <DaoFlagType item={item} />}
         {resultPopUpFlag?.type === "Project" && <ProjectFlagType item={item} />}
         {resultPopUpFlag?.type === "Bounty" && <BountyFlagType item={item} />}
+        {resultPopUpFlag?.type === "Channel" && <ChannelFlagType item={item} />}
       </div>
     </Modal>
   );
@@ -227,6 +228,74 @@ const BountyFlagType = ({ item }: IStaticCardTypeProps) => {
               alt={"avatar"}
             />
             <TextBody className="mt-1">{item.bountedPostedBy}</TextBody>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+///////////////////////// Channel Flag Type /////////////////////////
+
+const ChannelFlagType = ({ item }: IStaticCardTypeProps) => {
+  return (
+    <>
+      <div className="grid w-full grid-cols-4 gap-6">
+        <div className="col-span-2">
+          <p className="mb-3 text-sm font-semibold tracking-widest subpixel-antialiased">
+            🛠 Matching Skills
+          </p>
+          <div>
+            {item?.matchingSkills?.map((skill: string, index: number) => (
+              <Badge
+                text={skill}
+                key={index}
+                className={`bg-soilPurple/20 py-px text-xs`}
+              />
+            ))}
+          </div>
+        </div>
+        <div className="col-span-2">
+          <p className="mb-3 text-sm font-semibold tracking-widest subpixel-antialiased">
+            🛠 Missing Skills
+          </p>
+          <div>
+            {item?.missingSkills?.map((skill: string, index: number) => (
+              <Badge
+                text={skill}
+                key={index}
+                className={`bg-soilPurple/20 py-px text-xs`}
+              />
+            ))}
+          </div>
+        </div>
+        <div className="col-span-4">
+          <p className="mb-3 text-sm font-semibold tracking-widest subpixel-antialiased">
+            💻 DAO
+          </p>
+          <div className="flex gap-2">
+            <Avatar size={`xs`} src={item.DAO_picture} alt={"avatar"} />
+            <TextBody className="mt-1">{item.DAO_name}</TextBody>
+          </div>
+        </div>
+        <div className="col-span-4">
+          <p className="mb-3 text-sm font-semibold tracking-widest subpixel-antialiased">
+            📍 Location
+          </p>
+          <p className="">{item.location}</p>
+        </div>
+        <div className="col-span-4">
+          <p className="mb-3 text-sm font-semibold tracking-widest subpixel-antialiased">
+            👯‍♂️ People with similar skills
+          </p>
+          <div className="flex w-full flex-nowrap">
+            {item?.peopleWithSimilarWkillsPictures?.map(
+              (avatar: string, index: number) => (
+                <div key={index} className={`-mr-3`}>
+                  <Avatar size={`xs`} src={avatar} alt={"avatar"} />
+                </div>
+              )
+            )}
           </div>
         </div>
       </div>
