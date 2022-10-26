@@ -6,7 +6,7 @@ import {
   TextHeading3,
 } from "@eden/package-ui";
 
-type Data = {
+export type DataReviewModal = {
   main: {
     _id: string;
     name: string;
@@ -26,10 +26,10 @@ type Data = {
 };
 
 export interface ReviewModalProps {
-  data: Data;
+  data: DataReviewModal;
   openModal?: boolean;
   onClose: () => void;
-  onSubmit: () => void;
+  // onSubmit: () => void;
 }
 
 const bottomLineGenerator = (isLast: boolean) => {
@@ -66,15 +66,15 @@ export const ReviewModal = ({
   data,
   onClose,
   openModal,
-  onSubmit,
-}: ReviewModalProps) => {
+}: // onSubmit,
+ReviewModalProps) => {
   return (
     <Modal open={openModal} closeOnEsc={false}>
       <div>
         <TextHeading3>Let’s review & finalise it!</TextHeading3>
         <section className={`my-4 grid items-center gap-2 lg:grid-cols-4`}>
           <div className="flex w-fit flex-col text-center">
-            {data.main.map((item, index) => (
+            {data?.main.map((item, index) => (
               <CustomBadge
                 key={item._id}
                 text={item.name}
@@ -114,11 +114,7 @@ export const ReviewModal = ({
               Skip
             </Button>
           </div>
-          <Button
-            radius="rounded"
-            variant={`secondary`}
-            onClick={() => onSubmit()}
-          >
+          <Button radius="rounded" variant={`secondary`} onClick={onClose}>
             Next
           </Button>
         </div>
