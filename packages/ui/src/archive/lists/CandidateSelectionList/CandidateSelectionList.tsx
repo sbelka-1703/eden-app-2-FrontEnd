@@ -4,8 +4,10 @@ import {
   Maybe,
   RoleTemplate,
 } from "@eden/package-graphql/generated";
-import { RoleCandidateSelector, UserCard } from "@eden/package-ui";
+import { UserCard } from "@eden/package-ui";
 import { useEffect, useState } from "react";
+
+import { RoleCandidateSelector } from "../../selectors/RoleCandidateSelector";
 
 export interface ICandidateSelectionListProps {
   roles?: RoleTemplate[];
