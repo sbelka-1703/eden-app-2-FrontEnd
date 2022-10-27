@@ -1,5 +1,4 @@
 export * from "./AvatarList";
-export * from "./ProjectApplyList";
 export * from "./ProjectChampionList";
 export * from "./ProjectList";
 export * from "./ProjectMatchList";

@@ -1,10 +1,8 @@
 /* eslint-disable camelcase */
 import { useQuery } from "@apollo/client";
 import { FIND_ALL_MAIN_CATEGORIES } from "@eden/package-graphql";
-import { Button, Modal, TextHeading3 } from "@eden/package-ui";
+import { BadgeSelector, Button, Modal, TextHeading3 } from "@eden/package-ui";
 import { useState } from "react";
-
-import { BadgeSelector } from "../../selectors/BadgeSelector";
 
 export interface ISkillsCategoryModalProps {
   isOpen: boolean;

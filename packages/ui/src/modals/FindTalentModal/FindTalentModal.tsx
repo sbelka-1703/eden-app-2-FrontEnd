@@ -1,4 +1,5 @@
 import {
+  BadgeSelector,
   BatteryStepper,
   Button,
   Modal,
@@ -19,7 +20,6 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
 
-import { BadgeSelector } from "../../selectors/BadgeSelector";
 import { skillTreeWork } from "./skillTreeWork";
 
 type Item = { _id: string; name: string };

@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { MyProjectContainer } from "./MyProjectContainer";
 
 export default {
-  title: "Containers/MyProjectContainer",
+  title: "Archive/Containers/MyProjectContainer",
   component: MyProjectContainer,
   argTypes: {},
 } as ComponentMeta<typeof MyProjectContainer>;
