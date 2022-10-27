@@ -5,7 +5,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { RecommendedList } from "./RecommendedList";
 
 export default {
-  title: "Lists/RecommendedList",
+  title: "Archive/Lists/RecommendedList",
   component: RecommendedList,
   argTypes: {},
 } as ComponentMeta<typeof RecommendedList>;

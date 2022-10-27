@@ -1,5 +1,6 @@
 import { ProjectMemberType } from "@eden/package-graphql/generated";
-import { ProjectStatusCard } from "@eden/package-ui";
+
+import { ProjectStatusCard } from "../../cards/ProjectStatusCard";
 
 export interface ProjectApplyListProps {
   projects?: ProjectMemberType[];

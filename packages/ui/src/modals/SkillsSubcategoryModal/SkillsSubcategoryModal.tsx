@@ -7,10 +7,14 @@ import {
   SkillSubCategory,
   SkillType_Member,
 } from "@eden/package-graphql/generated";
-import { Button, Modal, SkillList, TextHeading3 } from "@eden/package-ui";
+import {
+  BadgeSelector,
+  Button,
+  Modal,
+  SkillList,
+  TextHeading3,
+} from "@eden/package-ui";
 import { useState } from "react";
-
-import { BadgeSelector } from "../../selectors/BadgeSelector";
 
 export interface ISkillsSubcategoryModalProps {
   categories: SkillCategory[];

@@ -4,7 +4,7 @@ import { SessionProvider } from "next-auth/react";
 import { AppUserMenuLayout } from "./AppUserMenuLayout";
 
 export default {
-  title: "Layout/AppUserMenuLayout",
+  title: "Archive/Layout/AppUserMenuLayout",
   component: AppUserMenuLayout,
   argTypes: {},
 } as ComponentMeta<typeof AppUserMenuLayout>;

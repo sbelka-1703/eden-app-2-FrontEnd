@@ -8,13 +8,13 @@ import {
   GridItemSix,
   GridItemThree,
   GridLayout,
-  RecommendedList,
 } from "@eden/package-ui";
 import Head from "next/head";
 // import { useRouter } from "next/router";
 import { useContext } from "react";
 
 import { UserProfileMenu } from "../../components/UserProfileMenu";
+import { RecommendedList } from "../../lists/RecommendedList";
 
 export interface IAppUserMenuLayoutProps {
   children: React.ReactNode;

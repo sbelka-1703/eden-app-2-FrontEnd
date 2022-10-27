@@ -4,7 +4,7 @@ import { CurrentUserDecorator } from "storybook/.storybook/decorator";
 import { UserProfileMenu } from "./UserProfileMenu";
 
 export default {
-  title: "Components/UserProfileMenu",
+  title: "Archive/Components/UserProfileMenu",
   component: UserProfileMenu,
   argTypes: {},
   decorators: [CurrentUserDecorator],
