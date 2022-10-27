@@ -1,12 +1,12 @@
+import { getMember } from "@eden/package-mock";
 import { faker } from "@faker-js/faker";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { getMember } from "@eden/package-mock";
 
 // import { ApolloDecorator } from "../../../../../apps/storybook/.storybook/decorator";
 import { CandidateSelectionList } from "./CandidateSelectionList";
 
 export default {
-  title: "Lists/CandidateSelectionList",
+  title: "Archive/Lists/CandidateSelectionList",
   component: CandidateSelectionList,
   argTypes: {},
   // decorators: [ApolloDecorator],

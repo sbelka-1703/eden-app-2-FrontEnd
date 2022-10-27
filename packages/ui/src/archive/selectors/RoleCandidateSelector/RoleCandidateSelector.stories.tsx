@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { RoleCandidateSelector } from "./RoleCandidateSelector";
 
 export default {
-  title: "Selector/RoleCandidateSelector",
+  title: "Archive/Selector/RoleCandidateSelector",
   component: RoleCandidateSelector,
   argTypes: {},
 } as ComponentMeta<typeof RoleCandidateSelector>;
