@@ -7,34 +7,33 @@ const SkillTreeShowFlag = {
 };
 
 const priorities = {
-  title: "Prioritise & distribute 100 points!",
-  description:
-    "Please distribute 100 points based on the priority, more points you give - more important the subject is to you.",
+  title: "Let me get your priorities straight!",
+  description: "Distribute the 100 points based on what you value most.",
   priorities: {
     Experience: {
-      description: "asdf",
+      description: "Are you a novice or more of a champ?",
       initialValue: "20",
     },
     Accountability: {
-      description: "asdf",
+      description: "Do you have a proven track-record of reliability?",
       initialValue: "20",
     },
     "Skill Match": {
-      description: "asdf",
+      description: "How confident are you in the skill you gave up?",
       initialValue: "20",
     },
     Availability: {
-      description: "asdf",
+      description: "Are you flexible on time?",
       initialValue: "20",
     },
   },
 };
 
-const proposedSalary = {
-  title: "Proposed salary rates",
-  description: "Based on the salary, choose the people you want to see",
-  minSalary: "1",
-  maxSarary: "80",
+const desiredSalary = {
+  title: "Salary range",
+  description: "What's your desired salary range?",
+  minSalary: "1/hour",
+  maxSarary: "500/hour",
 };
 
 const SkillTree = {
@@ -43,6 +42,7 @@ const SkillTree = {
       "UX/UI",
       "Graphic Design",
       "Web Design",
+      "Game Design",
       "Animation",
       "General Design support from A-Z",
       "NFT Design",
@@ -54,6 +54,10 @@ const SkillTree = {
       "User-Centered Design",
       "Agile",
       "Style Guides",
+      "Creative Brief",
+      "VR Design",
+      "AR Design",
+      "Character Design",
       "Other",
     ],
     "Knowledge of specific tools": [
@@ -72,9 +76,9 @@ const SkillTree = {
       "Other",
     ],
     "Values & Culture": [
-      "Growth mindset",
+      "Growth Mindset",
       "Self-starter",
-      "First Principles",
+      "First Principles Thinker",
       "Teamwork",
       "Integrity",
       "Entrepreneurial",
@@ -95,13 +99,23 @@ const SkillTree = {
       "General Frontend Support",
       "Web Development",
       "App Development",
+      "Other",
     ],
-    "Niche Skills": ["Typescript", "Javascript", "React", "Angular"],
+    "Niche Skills": [
+      "Typescript",
+      "Javascript",
+      "React",
+      "Angular",
+      "Other specific languages",
+      "Other specific skills",
+    ],
     "Knowledge of specific tools": [
-      "Jira",
-      "Trello",
-      "VC Code",
-      "Version Control Software",
+      "Issue Tracking Tools",
+      "Specific IDE's",
+      "Database Editors",
+      "API Management Tools",
+      "Specific Libraries",
+      "Version Control",
       "Other",
     ],
     "Values & Culture": [
@@ -139,19 +153,22 @@ const SkillTree = {
       "Rust/C++",
       "GO",
       "Javascript",
-      "Other",
+      "Other Languages",
+      "Other Tools",
     ],
     "Knowledge of specific tools": [
-      "Jira",
-      "Trello",
-      "VC Code",
-      "Version Control Software",
+      "Issue Tracking Tools",
+      "Specific IDE's",
+      "Database Editors",
+      "API Management Tools",
+      "Specific Libraries",
+      "Version Control",
       "Other",
     ],
     "Values & Culture": [
       "Growth mindset",
       "Self-starter",
-      "First Principles",
+      "First Principles Thinker",
       "Teamwork",
       "Integrity",
       "Entrepreneurial",
@@ -171,8 +188,18 @@ const SkillTree = {
       "Smart Contract Auditing",
       "Blockchain Architecture & Design",
       "Lead a Technical Team",
+      "General Blockchain Support",
+      "Other",
     ],
-    "Niche Skills": ["Solidity", "GO", "MOVE", "C++", "Rust", "Other"],
+    "Niche Skills": [
+      "Solidity",
+      "GO",
+      "MOVE",
+      "C++",
+      "Rust",
+      "Other Languages",
+      "Other Niche Skills",
+    ],
     "Knowledge of specific tools": [
       "Polygon",
       "Polkadot",
@@ -189,7 +216,7 @@ const SkillTree = {
     "Values & Culture": [
       "Growth mindset",
       "Self-starter",
-      "First Principles",
+      "First Principles Thinker",
       "Teamwork",
       "Integrity",
       "Entrepreneurial",
@@ -248,7 +275,7 @@ const SkillTree = {
     "Values & Culture": [
       "Growth mindset",
       "Self-starter",
-      "First Principles",
+      "First Principles Thinker",
       "Teamwork",
       "Integrity",
       "Entrepreneurial",
@@ -286,12 +313,12 @@ const ResultPopUpShowFlag = {
   persentagewhButton: true,
 };
 
-const Result = [
-  {
-    description: "asdf",
-    percentage: "75%",
+const Result = {
+  "Design 1": {
+    description:
+      "At Catapult labs we're excited to unlock the future of DAOs. For this project in particular we're looking for a couple of key people who can help us shape our next gen of DAO tooling.",
     picture: "https://i.imgur.com/1Q9Z1Zm.png",
-    name: "bluePanda",
+    name: "Catapult Labs | Next gen DAO tooling.",
     edenMembersDAO: "45",
     coreTeamPicture: [
       "https://i.imgur.com/1Q9Z1Zm.png",
@@ -303,26 +330,26 @@ const Result = [
     championPicture: "https://i.imgur.com/1Q9Z1Zm.png",
     roles: [
       {
-        name: "scrum",
-        percentage: "75%",
+        name: "Designer",
         "time:": "10 weeks",
-        description: "asdf",
+        description:
+          "Work with the team to quickly iterate & design new products",
         "Open Seats": "2",
       },
       {
-        name: "Agile",
-        percentage: "50%",
+        name: "Product",
         "time:": "10 weeks",
-        description: "asdf",
-        "Open Seats": "2",
+        description:
+          "Support our CEO to coordinate the engineering & designer efforts",
+        "Open Seats": "1",
       },
     ],
   },
-  {
-    description: "asdf",
-    percentage: "75%",
+  "Product 1": {
+    description:
+      "At Catapult labs we're excited to unlock the future of DAOs. For this project in particular we're looking for a couple of key people who can help us shape our next gen of DAO tooling.",
     picture: "https://i.imgur.com/1Q9Z1Zm.png",
-    name: "bluePanda",
+    name: "Catapult Labs | Next gen DAO tooling.",
     edenMembersDAO: "45",
     coreTeamPicture: [
       "https://i.imgur.com/1Q9Z1Zm.png",
@@ -334,31 +361,143 @@ const Result = [
     championPicture: "https://i.imgur.com/1Q9Z1Zm.png",
     roles: [
       {
-        name: "scrum",
-        percentage: "75%",
+        name: "Designer",
         "time:": "10 weeks",
-        description: "asdf",
+        description:
+          "Work with the team to quickly iterate & design new products",
         "Open Seats": "2",
       },
       {
-        name: "Agile",
-        percentage: "50%",
+        name: "Product",
         "time:": "10 weeks",
-        description: "asdf",
-        "Open Seats": "2",
+        description:
+          "Support our CEO to coordinate the engineering & designer efforts",
+        "Open Seats": "1",
       },
     ],
   },
-];
+  "Backend 1": {
+    description:
+      "Building a discord activity tracker to see what communities are gnmi next.",
+    picture: "https://i.imgur.com/1Q9Z1Zm.png",
+    name: "NFT popTrack",
+    edenMembersDAO: "45",
+    coreTeamPicture: [
+      "https://i.imgur.com/1Q9Z1Zm.png",
+      "https://i.imgur.com/1Q9Z1Zm.png",
+      "https://i.imgur.com/1Q9Z1Zm.png",
+      "https://i.imgur.com/1Q9Z1Zm.png",
+      "https://i.imgur.com/1Q9Z1Zm.png",
+    ],
+    championPicture: "https://i.imgur.com/1Q9Z1Zm.png",
+    roles: [
+      {
+        name: "Backend",
+        "time:": "12 weeks",
+        description: "Build the bot that scrapes all the discords",
+        "Open Seats": "1",
+      },
+      {
+        name: "Backend",
+        "time:": "12 weeks",
+        description: "Build the AI that analyzes all the data from the scraper",
+        "Open Seats": "1",
+      },
+      {
+        name: "Design",
+        "time:": "12 weeks",
+        description: "Design the frontend for NFT popTrack",
+        "Open Seats": "1",
+      },
+      {
+        name: "Frontend",
+        "time:": "12 weeks",
+        description: "Implement the frontend for NFT popTrack",
+        "Open Seats": "1",
+      },
+    ],
+  },
+  "Frontend 1": {
+    description: "A tool to build, validate & track trust across a DAO.",
+    picture: "https://i.imgur.com/1Q9Z1Zm.png",
+    name: "Trust Tree",
+    edenMembersDAO: "45",
+    coreTeamPicture: [
+      "https://i.imgur.com/1Q9Z1Zm.png",
+      "https://i.imgur.com/1Q9Z1Zm.png",
+      "https://i.imgur.com/1Q9Z1Zm.png",
+      "https://i.imgur.com/1Q9Z1Zm.png",
+      "https://i.imgur.com/1Q9Z1Zm.png",
+    ],
+    championPicture: "https://i.imgur.com/1Q9Z1Zm.png",
+    roles: [
+      {
+        name: "Blockchain",
+        "time:": "12 weeks",
+        description: "Build the trust dispersion mechanism for trustTree",
+        "Open Seats": "1",
+      },
+      {
+        name: "Frontend",
+        "time:": "12 weeks",
+        description: "Implement the frontend for trustTree",
+        "Open Seats": "1",
+      },
+    ],
+  },
+};
 
-const PROJECT_MOCK = {
+const resultsOnChoice = {
+  Design: [
+    {
+      result: "Design 1",
+      percentage: "88",
+      rolesPercentages: ["50", "20"],
+    },
+    {
+      result: "Backend 1",
+      percentage: "50",
+      rolesPercentages: ["50", "30", "20", "10"],
+    },
+  ],
+  "Frontend Developer": [
+    {
+      result: "Backend 1",
+      percentage: "80",
+      rolesPercentages: ["50", "30", "20", "10"],
+    },
+    {
+      result: "Frontend 1",
+      percentage: "88",
+      rolesPercentages: ["50", "30"],
+    },
+  ],
+  "Backend Developer": {
+    result: "Backend 1",
+    percentage: "88",
+    rolesPercentages: ["50", "30", "20", "10"],
+  },
+  "Blockchain Developer": {
+    result: "Frontend 1",
+    percentage: "80",
+    rolesPercentages: ["50", "30"],
+  },
+  Product: {
+    result: "Product 1",
+    percentage: "82",
+    rolesPercentages: ["50", "30", "20", "10"],
+  },
+};
+
+const DAO_MOCK = {
   SkillTreeShowFlag: SkillTreeShowFlag,
   priorities: priorities,
-  proposedSalary: proposedSalary,
+  desiredSalary: desiredSalary,
   SkillTree: SkillTree,
   ResultCardShowFlag: ResultCardShowFlag,
   ResultPopUpShowFlag: ResultPopUpShowFlag,
   Result: Result,
+  resultsOnChoice: resultsOnChoice,
 };
 
-export default PROJECT_MOCK;
+export default DAO_MOCK;

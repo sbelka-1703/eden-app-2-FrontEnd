@@ -6,7 +6,7 @@ import {
   GridItemThree,
   GridLayout,
   SEO,
-  StaticCard,
+  // StaticCard,
   UserProfileCard,
 } from "@eden/package-ui";
 
@@ -51,14 +51,14 @@ const LaunchPage: NextPageWithLayout = () => {
         <GridItemNine className="">
           <Card className="scrollbar-hide h-85 overflow-scroll bg-white p-4">
             <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-              {PROJECT_MOCK?.Result.map((item: any, index: number) => (
+              {/* {PROJECT_MOCK?.Result.map((item: any, index: number) => (
                 <StaticCard
                   key={index}
                   item={item}
                   resultCardFlag={PROJECT_MOCK?.ResultCardShowFlag}
                   resultPopUpFlag={PROJECT_MOCK?.ResultPopUpShowFlag}
                 />
-              ))}
+              ))} */}
             </div>
           </Card>
         </GridItemNine>
