@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { InviteContainer } from "./InviteContainer";
 
 export default {
-  title: "Containers/InviteContainer",
+  title: "Archive/Containers/InviteContainer",
   component: InviteContainer,
   argTypes: {},
 } as ComponentMeta<typeof InviteContainer>;

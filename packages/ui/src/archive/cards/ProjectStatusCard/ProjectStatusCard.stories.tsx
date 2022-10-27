@@ -4,7 +4,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { ProjectStatusCard } from "./ProjectStatusCard";
 
 export default {
-  title: "Cards/Project/ProjectStatusCard",
+  title: "Archive/Cards/Project/ProjectStatusCard",
   component: ProjectStatusCard,
   argTypes: {},
 } as ComponentMeta<typeof ProjectStatusCard>;

@@ -4,7 +4,7 @@ import { CurrentUserDecorator } from "storybook/.storybook/decorator";
 import { ProfileContainer } from "./ProfileContainer";
 
 export default {
-  title: "Containers/ProfileContainer",
+  title: "Archive/Containers/ProfileContainer",
   component: ProfileContainer,
   argTypes: {},
   decorators: [CurrentUserDecorator],
