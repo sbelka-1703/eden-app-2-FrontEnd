@@ -6,7 +6,7 @@ import {
   GridItemThree,
   GridLayout,
   SEO,
-  StaticCard,
+  // StaticCard,
   UserProfileCard,
 } from "@eden/package-ui";
 
