@@ -126,10 +126,17 @@ export const FindTalentModal = ({
             : "Now, let’s get a bit more specific about the Design Ninja you need!",
           itemsTitle: `I want a ${selectedItems.main[0].name} Ninja to:`,
           battery: true,
-          items: skills.map((item) => ({
-            _id: generateId(),
-            name: item,
-          })),
+          items: selectedItems.main[0]
+            ? mockData?.SkillTree[
+                selectedItems.main[0].name as keyof Object
+              ]?.subCategories.content.map((item: any) => ({
+                _id: generateId(),
+                name: item,
+              }))
+            : skills.map((item) => ({
+                _id: generateId(),
+                name: item,
+              })),
         };
 
         setSection(data);
