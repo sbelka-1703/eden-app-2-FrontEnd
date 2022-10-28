@@ -90,6 +90,7 @@ const LaunchPage: NextPageWithLayout = () => {
         setSubmittingTalentAttributes={(val) => {
           setRoleFilter(val);
         }}
+        mockData={PROJECT_MOCK}
       />
     </>
   );

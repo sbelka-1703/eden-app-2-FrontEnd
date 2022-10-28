@@ -40,6 +40,7 @@ export interface FindTalentModalProps {
   randomNumber?: boolean;
   // eslint-disable-next-line no-unused-vars
   onSubmit?: (data: { [key: number]: Item[] }) => void;
+  mockData?: any;
 }
 
 const MAIN_STEPS = 3;
@@ -49,6 +50,7 @@ export const FindTalentModal = ({
   openModal,
   onSubmit,
   randomNumber,
+  mockData,
 }: FindTalentModalProps) => {
   const generateId = randomNumber
     ? () => Math.random().toString()
@@ -57,8 +59,12 @@ export const FindTalentModal = ({
   const mainCategories: Data = {
     _id: "main",
     hideSkip: true,
-    title: "Alright, tell me who should I find to help you with your project?",
-    subtitle: "Please pick only one role for now!",
+    title: mockData?.SkillTree?.category?.title
+      ? mockData.SkillTree.category.title
+      : "Alright, tell me who should I find to help you with your project?",
+    subtitle: mockData?.SkillTree?.category?.subTitle
+      ? mockData.SkillTree.category.subTitle
+      : "Please pick only one role for now!",
     battery: false,
     items: Object.keys(skillTreeWork).map((item) => ({
       _id: generateId(),
@@ -100,10 +106,18 @@ export const FindTalentModal = ({
 
         const data: Data = {
           _id: "second",
-          title: "It’s time to teach our AI what exacty you’re looking for 👉🏽",
-          subtitle:
-            "Now, let’s get a bit more specific about the Design Ninja you need!",
-          itemsTitle: "I want a Design Ninja to:",
+          title: mockData?.SkillTree[selectedItems.main[0].name as keyof Object]
+            ?.subCategories.title
+            ? mockData?.SkillTree[selectedItems.main[0].name as keyof Object]
+                ?.subCategories.title
+            : "It’s time to teach our AI what exacty you’re looking for 👉🏽",
+          subtitle: mockData?.SkillTree[
+            selectedItems.main[0].name as keyof Object
+          ]?.subCategories.subTitle
+            ? mockData?.SkillTree[selectedItems.main[0].name as keyof Object]
+                ?.subCategories.subTitle
+            : "Now, let’s get a bit more specific about the Design Ninja you need!",
+          itemsTitle: `I want a ${selectedItems.main[0].name} Ninja to:`,
           battery: true,
           items: skills.map((item) => ({
             _id: generateId(),
