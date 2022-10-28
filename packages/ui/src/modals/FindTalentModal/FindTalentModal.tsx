@@ -66,10 +66,17 @@ export const FindTalentModal = ({
       ? mockData.SkillTree.category.subTitle
       : "Please pick only one role for now!",
     battery: false,
-    items: Object.keys(skillTreeWork).map((item) => ({
-      _id: generateId(),
-      name: item,
-    })),
+    items: mockData?.SkillTree?.category
+      ? Object.keys(mockData.SkillTree)
+          .map((item) => ({
+            _id: generateId(),
+            name: item,
+          }))
+          .filter((item) => item.name !== "category")
+      : Object.keys(skillTreeWork).map((item) => ({
+          _id: generateId(),
+          name: item,
+        })),
   };
 
   const [currentStep, setCurrentStep] = useState(0);
