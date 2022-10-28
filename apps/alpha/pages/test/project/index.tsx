@@ -6,6 +6,8 @@ import {
   GridItemThree,
   GridLayout,
   SEO,
+  ShortlistModalContainerStoryFilter,
+  StaticCard,
   // StaticCard,
   UserProfileCard,
 } from "@eden/package-ui";
@@ -14,6 +16,8 @@ import PROJECT_MOCK from "../../../utils/mock/projectMock";
 import type { NextPageWithLayout } from "../../_app";
 
 const LaunchPage: NextPageWithLayout = () => {
+  const [roleFilter, setRoleFilter] = useState<any>(null);
+
   // const { project, dispatchProject, selectedRole, matchMembersPage } =
   //   useContext(LaunchProjectContext);
 
@@ -30,7 +34,26 @@ const LaunchPage: NextPageWithLayout = () => {
     console.log(val);
   };
 
-  console.log(PROJECT_MOCK);
+  const { setOpenModal } = useContext(LaunchProjectContext);
+
+  useEffect(() => {
+    setOpenModal(LaunchProjectModal.SKILLS_CATEGORY);
+  }, []);
+
+  const res =
+    roleFilter?.main && roleFilter?.main.length > 0
+      ? PROJECT_MOCK.resultsOnChoice[roleFilter.main[0].name as keyof Object]
+      : [];
+
+  const matchedUsers = (res as any[]).map(
+    (item: { result: string; percentage: string }) => {
+      const user: any = PROJECT_MOCK.Result[item?.result as keyof Object];
+
+      user.percentage = item.percentage;
+
+      return user;
+    }
+  );
 
   return (
     <>
@@ -51,28 +74,43 @@ const LaunchPage: NextPageWithLayout = () => {
         <GridItemNine className="">
           <Card className="scrollbar-hide h-85 overflow-scroll bg-white p-4">
             <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-              {/* {PROJECT_MOCK?.Result.map((item: any, index: number) => (
+              {matchedUsers.map((item, index) => (
                 <StaticCard
                   key={index}
                   item={item}
                   resultCardFlag={PROJECT_MOCK?.ResultCardShowFlag}
                   resultPopUpFlag={PROJECT_MOCK?.ResultPopUpShowFlag}
                 />
-              ))} */}
+              ))}
             </div>
           </Card>
         </GridItemNine>
       </GridLayout>
+      <ShortlistModalContainerStoryFilter
+        setSubmittingTalentAttributes={(val) => {
+          setRoleFilter(val);
+        }}
+      />
     </>
   );
 };
 
-LaunchPage.getLayout = (page) => <AppUserLayout>{page}</AppUserLayout>;
+LaunchPage.getLayout = (page) => (
+  <LaunchProjectProvider>
+    <AppUserLayout>{page}</AppUserLayout>
+  </LaunchProjectProvider>
+);
 
 export default LaunchPage;
 
+import {
+  LaunchProjectContext,
+  LaunchProjectModal,
+  LaunchProjectProvider,
+} from "@eden/package-context";
 import { IncomingMessage, ServerResponse } from "http";
 import { getSession } from "next-auth/react";
+import { useContext, useEffect, useState } from "react";
 
 export async function getServerSideProps(ctx: {
   req: IncomingMessage;
