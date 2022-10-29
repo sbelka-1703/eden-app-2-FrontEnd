@@ -1107,8 +1107,48 @@ const resultsOnChoice = {
       percentage: "88",
       rolesPercentages: ["50", "30"],
     },
+    {
+      result: "Porton Wallet ",
+      percentage: "79",
+      rolesPercentages: ["70", "67"],
+    },
+    {
+      result: "Atomic NFT Marketplace",
+      percentage: "84",
+      rolesPercentages: ["50", "30", "20"],
+    },
+    {
+      result: "Mati",
+      percentage: "65",
+      rolesPercentages: ["59"],
+    },
+    {
+      result: "WEB3 Board",
+      percentage: "83",
+      rolesPercentages: ["59"],
+    },
+    {
+      result: "ConvoBridge - FrontEnd",
+      percentage: "43",
+      rolesPercentages: ["43"],
+    },
   ],
   "Backend Developer": [
+    {
+      result: "Backend 1",
+      percentage: "88",
+      rolesPercentages: ["50", "30", "20", "10"],
+    },
+    {
+      result: "Backend 1",
+      percentage: "88",
+      rolesPercentages: ["50", "30", "20", "10"],
+    },
+    {
+      result: "Backend 1",
+      percentage: "88",
+      rolesPercentages: ["50", "30", "20", "10"],
+    },
     {
       result: "Backend 1",
       percentage: "88",
@@ -1118,6 +1158,16 @@ const resultsOnChoice = {
   "Blockchain Developer": [
     {
       result: "Frontend 1",
+      percentage: "80",
+      rolesPercentages: ["50", "30"],
+    },
+    {
+      result: "Chain Statements - Blockchain",
+      percentage: "33",
+      rolesPercentages: ["50", "30"],
+    },
+    {
+      result: "Optimistic Payments - Blockchain",
       percentage: "80",
       rolesPercentages: ["50", "30"],
     },
