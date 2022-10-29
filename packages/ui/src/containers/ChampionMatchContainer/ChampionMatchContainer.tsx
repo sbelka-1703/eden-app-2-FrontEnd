@@ -12,9 +12,20 @@ export interface ChampionMatchContainerProps {
   project?: Project;
   selectedRole?: Maybe<RoleType> | null;
   matchingMembers?: Members[];
+  // eslint-disable-next-line no-unused-vars
+  onSelectMember: (member: Members) => void;
 }
 
-const ActiveTabMembers = (teamMembers: any) => {
+interface ActiveTabMembersProps {
+  teamMembers?: any;
+  // eslint-disable-next-line no-unused-vars
+  onSelectMember: (member: Members) => void;
+}
+
+const ActiveTabMembers = ({
+  onSelectMember,
+  teamMembers = [],
+}: ActiveTabMembersProps) => {
   const [teamMembersPages, setTeamMembersPages]: any[] = useState([]);
   const [teamMembersPageNo, setTeamMembersPageNo] = useState(0);
 
@@ -24,36 +35,32 @@ const ActiveTabMembers = (teamMembers: any) => {
     const pagedTeamMember: any[] = [];
     const chunkSize = 10;
 
-    for (let i = 0; i < teamMembers?.teamMembers?.length; i += chunkSize) {
-      const chunk = teamMembers.teamMembers.slice(i, i + chunkSize);
+    for (let i = 0; i < teamMembers?.length; i += chunkSize) {
+      const chunk = teamMembers?.slice(i, i + chunkSize);
 
       pagedTeamMember.push(chunk);
     }
     setTeamMembersPages(pagedTeamMember);
-  }, [teamMembers.teamMembers]);
+  }, [teamMembers]);
 
   const onPageChange = (pageNo: number) => {
     setTeamMembersPageNo(pageNo);
   };
 
-  const onClickMore = (id: string) => {
-    console.log("On Click More for ", id);
-  };
-
   return (
     <div className="flex flex-col content-between justify-between">
       <div className={`mb-4 grid grid-cols-3 gap-x-4 gap-y-4`}>
-        {teamMembers && teamMembers?.teamMembers?.length > 0 ? (
+        {teamMembers && teamMembers?.length > 0 ? (
           teamMembersPages[teamMembersPageNo]?.map(
             (member: any | TeamType, index: number) => {
               return (
-                <div key={index} className={`m-2`}>
+                <div key={member?.member?._id || index} className={`m-2`}>
                   <MemberMatchCard
                     member={member.memberInfo || member.member}
                     percentage={member?.matchPercentage?.totalPercentage || ""}
                     matchedMember={member || {}}
                     onClick={() =>
-                      onClickMore(
+                      onSelectMember(
                         member?.memberInfo?._id || member?.member?._id
                       )
                     }
@@ -95,6 +102,7 @@ export const ChampionMatchContainer = ({
   project,
   selectedRole,
   matchingMembers,
+  onSelectMember,
 }: ChampionMatchContainerProps) => {
   const [activeTab, setActiveTab] = useState(0);
   const tabs = ["New Match", "Applied", "Invited", "Accepted", "Rejected"];
@@ -131,12 +139,35 @@ export const ChampionMatchContainer = ({
       <TabsSelector tabs={tabs} onSelect={(val) => setActiveTab(val)} />
       <div className="border-accentColor h-8/10 scrollbar-hide overflow-y-scroll rounded-b-xl border-b-2 border-r-2 border-l-2 bg-white px-4">
         {activeTab === 0 && (
-          <ActiveTabMembers teamMembers={matchingMembers} overflow={true} />
+          <ActiveTabMembers
+            teamMembers={matchingMembers}
+            onSelectMember={onSelectMember}
+          />
         )}
-        {activeTab === 1 && <ActiveTabMembers teamMembers={AppliedMembers} />}
-        {activeTab === 2 && <ActiveTabMembers teamMembers={InvitedMembers} />}
-        {activeTab === 3 && <ActiveTabMembers teamMembers={AcceptedMembers} />}
-        {activeTab === 4 && <ActiveTabMembers teamMembers={RejectedMembers} />}
+        {activeTab === 1 && (
+          <ActiveTabMembers
+            teamMembers={AppliedMembers}
+            onSelectMember={onSelectMember}
+          />
+        )}
+        {activeTab === 2 && (
+          <ActiveTabMembers
+            teamMembers={InvitedMembers}
+            onSelectMember={onSelectMember}
+          />
+        )}
+        {activeTab === 3 && (
+          <ActiveTabMembers
+            teamMembers={AcceptedMembers}
+            onSelectMember={onSelectMember}
+          />
+        )}
+        {activeTab === 4 && (
+          <ActiveTabMembers
+            teamMembers={RejectedMembers}
+            onSelectMember={onSelectMember}
+          />
+        )}
       </div>
     </div>
   );
