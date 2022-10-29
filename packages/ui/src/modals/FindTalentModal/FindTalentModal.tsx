@@ -13,7 +13,7 @@ import {
   includes,
   isEmpty,
   map,
-  omitBy,
+  // omitBy,
   uniq,
 } from "lodash";
 import { useEffect, useState } from "react";
@@ -144,7 +144,9 @@ export const FindTalentModal = ({
         const firstSkill = selectedItems["main"][0].name;
         const initialSkills = Object.keys(
           skillTreeWork[firstSkill as keyof typeof skillTreeWork]
-        ).filter((item) => item !== "subCategories");
+        ).filter(
+          (item) => item !== "subCategories" && item !== "Focus On Page"
+        );
 
         const data: Data = {
           _id: "third",
@@ -154,10 +156,21 @@ export const FindTalentModal = ({
             "Each highlight will add an extra step in your journey for crazy relevant AI matches!",
           itemsTitle: "Focus on:",
           battery: true,
-          items: initialSkills.map((item) => ({
-            _id: generateId(),
-            name: item,
-          })),
+          items: selectedItems.main
+            ? Object.keys(
+                mockData?.SkillTree[selectedItems.main[0].name as keyof Object]
+              )
+                .filter(
+                  (item) => item !== "subCategories" && item !== "Focus On Page"
+                )
+                .map((item) => ({
+                  _id: generateId(),
+                  name: item,
+                }))
+            : initialSkills.map((item) => ({
+                _id: generateId(),
+                name: item,
+              })),
         };
 
         setSection(data);
@@ -173,10 +186,8 @@ export const FindTalentModal = ({
           if (includes(selectedMainSkills, currKey)) {
             return {
               ...prev,
-              [currKey]: omitBy(
-                skillTreeWork[currKey as keyof typeof skillTreeWork],
-                (_, key) => !includes(selectedThirdSkills, key)
-              ),
+              [currKey]:
+                mockData.SkillTree[currKey as keyof typeof mockData.SkillTree],
             };
           }
           return prev;
@@ -197,12 +208,15 @@ export const FindTalentModal = ({
 
         const data: Data[] = map(combinedSkills, (value, key) => ({
           _id: key,
-          title: "Vibe check - what values should they possess?",
-          subtitle:
-            "Do you have carefullly curated culture in your team? Tell us what values are important for you!",
+          title: value.title
+            ? value.title
+            : "Vibe check - what values should they possess?",
+          subtitle: value.subTitle
+            ? value.subTitle
+            : "Do you have carefullly curated culture in your team? Tell us what values are important for you!",
           itemsTitle: `${key}:`,
           battery: true,
-          items: value.map((item: string) => ({
+          items: value.content.map((item: string) => ({
             _id: generateId(),
             name: item,
           })),
