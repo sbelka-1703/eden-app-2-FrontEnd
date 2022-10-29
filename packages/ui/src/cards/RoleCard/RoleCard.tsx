@@ -28,7 +28,7 @@ export const RoleCard = ({ role, percentage = 0, onApply }: RoleCardProps) => {
   if (!role) return null;
 
   return (
-    <Card border shadow className="bg-white p-0">
+    <Card border shadow className="flex flex-col bg-white p-0">
       <div className="flex  flex-col justify-between p-4">
         <div className="flex flex-col justify-between border-b pb-3">
           <div className="justify-flex-start -ml-3 flex flex-row content-center items-center text-xl capitalize">
@@ -60,12 +60,16 @@ export const RoleCard = ({ role, percentage = 0, onApply }: RoleCardProps) => {
           </div>
           <div className="flex flex-grow">
             <div className={`mr-auto ml-1`}>
-              <div className="flex flex-row p-1">
-                <div>⏳</div>
-                <div className={`ml-4 mt-0.5 text-sm capitalize text-zinc-400`}>
-                  {role?.hoursPerWeek} hours/week
+              {role?.hoursPerWeek && (
+                <div className="flex flex-row p-1">
+                  <div>⏳</div>
+                  <div
+                    className={`ml-4 mt-0.5 text-sm capitalize text-zinc-400`}
+                  >
+                    {role?.hoursPerWeek} hours/week
+                  </div>
                 </div>
-              </div>
+              )}
               <div className="flex flex-row p-1">
                 <div>💼</div>
                 <div className={`ml-3 text-sm text-zinc-400`}>
@@ -139,7 +143,7 @@ export const RoleCard = ({ role, percentage = 0, onApply }: RoleCardProps) => {
       </div>
       <button
         onClick={() => onApply(role._id as string)}
-        className="align-center bg-accentColor mt-4 flex w-full justify-center rounded-b-2xl py-3 px-2 text-lg"
+        className="align-center bg-accentColor mt-4 mt-auto flex w-full justify-center rounded-b-2xl py-3 px-2 text-lg"
       >
         <div className="align-center flex w-full cursor-pointer justify-center text-base text-black">
           <div>Apply for this role</div>

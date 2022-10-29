@@ -3,7 +3,9 @@ import {
   Badge,
   Button,
   Modal,
+  RoleCard,
   TextBody,
+  TextHeading1,
   TextHeading3,
 } from "@eden/package-ui";
 import { CheckCircleIcon } from "@heroicons/react/solid";
@@ -24,7 +26,7 @@ export const StaticModal = ({
   if (!item) return null;
   return (
     <Modal open={open} onClose={onClose}>
-      <div className={`h-8/10 w-full`}>
+      <div className={`h-8/10 scrollbar-hide w-full overflow-scroll`}>
         <div className="flex w-full justify-center">
           <div className={`my-auto mr-4`}>
             <Button variant="default" className="bg-soilYellow">
@@ -163,6 +165,31 @@ const ProjectFlagType = ({ item }: IStaticCardTypeProps) => {
       </div>
       <div className={`font-Inter mt-2 text-sm text-zinc-500`}>
         Eden adoptiopn in Bankless is {item?.edenMembersDAO}%
+      </div>
+      <div className={`my-4 flex`}>
+        <TextHeading1>Open Roles</TextHeading1>
+      </div>
+
+      <div className={`scrollbar-hide flex flex-grow overflow-y-scroll`}>
+        <div
+          className={`grid grow grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-3`}
+        >
+          {item?.roles?.map((role: any, index: any) => (
+            <RoleCard
+              key={index}
+              role={{
+                title: role.name,
+                description: role.description,
+                openPositions: role["Open Seats"],
+              }}
+              percentage={item.rolesPercentages[index] || 0}
+              onApply={(val) => {
+                // setRoleID(val);
+                console.log(val);
+              }}
+            />
+          ))}
+        </div>
       </div>
     </>
   );
