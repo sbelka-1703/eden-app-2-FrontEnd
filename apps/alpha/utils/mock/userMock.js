@@ -314,8 +314,8 @@ const ResultPopUpShowFlag = {
   persentageButton: true,
 };
 
-const Result = [
-  {
+const Result = {
+  1: {
     description:
       "Have been programming since I was 12 years old. During the day I work at Google as a Frontend Engineer on Google Maps, at night I want to be working on the next Google. Hit me up for help with cool startup projects. I'm obsessed with Frontend because it literally has the power to shape the way we interact with eachother & the world around us.",
     percentage: "85%",
@@ -355,7 +355,7 @@ const Result = [
     ],
     availability: "10",
   },
-  {
+  2: {
     description:
       "I was employee no1 at Dropbox where I basically helped scope out v1 of the product's backend. I'm looking for a challenging project to spend my nights & weekends on and potentially even join down the line.",
     percentage: "79%",
@@ -366,7 +366,6 @@ const Result = [
     Skills: [
       "Architecture of your app",
       "Hard CS Stuff like Algo Dev & Data Structures",
-      "React JS",
       "Blockchain & Smart Contract Stuff",
       "Typescript",
       "Java",
@@ -392,7 +391,7 @@ const Result = [
     ],
     availability: "15",
   },
-  {
+  3: {
     description:
       "I'm currently a PM at Airbnb - absolutely obsessed with learning & want to work on something completely unrelated to hospitality.",
     percentage: "88%",
@@ -429,7 +428,7 @@ const Result = [
     ],
     availability: "10",
   },
-  {
+  4: {
     description:
       "I've been designing since 3 - my drawings then were already exquisite. Currently designing at Apple. Looking to help projects that want to fight climate change.",
     percentage: "78%",
@@ -461,7 +460,7 @@ const Result = [
     ],
     availability: "10",
   },
-  {
+  5: {
     description:
       "Product OBSESSED! Pretty new as a PM tho - have a more technical background, but discovered a deep love for solving customer problems.",
     percentage: "70%",
@@ -498,7 +497,7 @@ const Result = [
     ],
     availability: "10",
   },
-  {
+  6: {
     description: "I'm vitalik. ",
     percentage: "1000%",
     picture: "https://i.imgur.com/1Q9Z1Zm.png",
@@ -532,83 +531,72 @@ const Result = [
     ],
     availability: "10",
   },
-];
+};
 
-const resultsOnChoice = [
-  {
-    Design: [
-      {
-        result: "4",
-        percentage: "80",
-      },
-      {
-        result: "5",
-        percentage: "60",
-      },
-      {
-        result: "1",
-        percentage: "50",
-      },
-    ],
-  },
-
-  {
-    "Frontend Developer": [
-      {
-        result: "1",
-        percentage: "80",
-      },
-      {
-        result: "4",
-        percentage: "60",
-      },
-      {
-        result: "3",
-        percentage: "50",
-      },
-    ],
-  },
-  {
-    "Backend Developer": [
-      {
-        result: "2",
-        percentage: "80",
-      },
-      {
-        result: "1",
-        percentage: "60",
-      },
-      {
-        result: "3",
-        percentage: "50",
-      },
-    ],
-  },
-  {
-    "Blockchain Developer": [
-      {
-        result: "6",
-        percentage: "1000",
-      },
-    ],
-  },
-  {
-    Product: [
-      {
-        result: "3",
-        percentage: "80",
-      },
-      {
-        result: "5",
-        percentage: "60",
-      },
-      {
-        result: "4",
-        percentage: "50",
-      },
-    ],
-  },
-];
+const resultsOnChoice = {
+  Design: [
+    {
+      result: "4",
+      percentage: "80",
+    },
+    {
+      result: "5",
+      percentage: "60",
+    },
+    {
+      result: "1",
+      percentage: "50",
+    },
+  ],
+  "Frontend Developer": [
+    {
+      result: "1",
+      percentage: "80",
+    },
+    {
+      result: "4",
+      percentage: "60",
+    },
+    {
+      result: "3",
+      percentage: "50",
+    },
+  ],
+  "Backend Developer": [
+    {
+      result: "2",
+      percentage: "80",
+    },
+    {
+      result: "1",
+      percentage: "60",
+    },
+    {
+      result: "3",
+      percentage: "50",
+    },
+  ],
+  "Blockchain Developer": [
+    {
+      result: "6",
+      percentage: "1000",
+    },
+  ],
+  Product: [
+    {
+      result: "3",
+      percentage: "80",
+    },
+    {
+      result: "5",
+      percentage: "60",
+    },
+    {
+      result: "4",
+      percentage: "50",
+    },
+  ],
+};
 
 const USER_MOCK = {
   SkillTreeShowFlag: SkillTreeShowFlag,
@@ -618,7 +606,7 @@ const USER_MOCK = {
   ResultCardShowFlag: ResultCardShowFlag,
   ResultPopUpShowFlag: ResultPopUpShowFlag,
   Result: Result,
-  ResultsOnChoice: resultsOnChoice,
+  resultsOnChoice: resultsOnChoice,
 };
 
 export default USER_MOCK;
