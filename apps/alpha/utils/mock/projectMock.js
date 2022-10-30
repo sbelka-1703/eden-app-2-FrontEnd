@@ -837,7 +837,7 @@ const Result = {
     whereDataComesFrom:
       "https://ethglobal.com/showcase/triton-instant-messenger-0thzc",
   },
-  "DinoPixaverse- Gaming": {
+  "DinoPixaverse - Game": {
     description:
       "Play with your favourite dino, collect items as NFTs, use existing NFT to skin the dino",
     picture: "🐽",
@@ -1095,6 +1095,16 @@ const resultsOnChoice = {
       percentage: "50",
       rolesPercentages: ["50", "30", "20", "10"],
     },
+    {
+      result: "DinoPixaverse - Game",
+      percentage: "43",
+      rolesPercentages: ["43", "21", "61"],
+    },
+    // {
+    //   result: "PDEEDOO - Education",
+    //   percentage: "09",
+    //   rolesPercentages: ["50"],
+    // },
   ],
   "Frontend Developer": [
     {
@@ -1108,30 +1118,45 @@ const resultsOnChoice = {
       rolesPercentages: ["50", "30"],
     },
     {
-      result: "Porton Wallet ",
+      result: "Porton Wallet - FrontEnd ",
       percentage: "79",
       rolesPercentages: ["70", "67"],
     },
     {
-      result: "Atomic NFT Marketplace",
+      result: "Atomic NFT Marketplace - FrontEnd",
       percentage: "84",
       rolesPercentages: ["50", "30", "20"],
     },
-    {
-      result: "Mati",
-      percentage: "65",
-      rolesPercentages: ["59"],
-    },
-    {
-      result: "WEB3 Board",
-      percentage: "83",
-      rolesPercentages: ["59"],
-    },
-    {
-      result: "ConvoBridge - FrontEnd",
-      percentage: "43",
-      rolesPercentages: ["43"],
-    },
+    // {
+    //   result: "Mati - FrontEnd",
+    //   percentage: "65",
+    //   rolesPercentages: ["59"],
+    // },
+    // {
+    //   result: "WEB3 Board - FrontEnd",
+    //   percentage: "83",
+    //   rolesPercentages: ["59"],
+    // },
+    // {
+    //   result: "ConvoBridge - FrontEnd",
+    //   percentage: "43",
+    //   rolesPercentages: ["43"],
+    // },
+    // {
+    //   result: "",
+    //   percentage: "09",
+    //   rolesPercentages: ["50"],
+    // },
+    // {
+    //   result: "",
+    //   percentage: "09",
+    //   rolesPercentages: ["50"],
+    // },
+    // {
+    //   result: "",
+    //   percentage: "09",
+    //   rolesPercentages: ["50"],
+    // },
   ],
   "Backend Developer": [
     {
@@ -1140,27 +1165,37 @@ const resultsOnChoice = {
       rolesPercentages: ["50", "30", "20", "10"],
     },
     {
-      result: "Backend 1",
-      percentage: "88",
-      rolesPercentages: ["50", "30", "20", "10"],
+      result: "SurfDB - Backend",
+      percentage: "56",
+      rolesPercentages: ["50", "30", "20"],
     },
     {
-      result: "Backend 1",
-      percentage: "88",
-      rolesPercentages: ["50", "30", "20", "10"],
+      result: "Cross Fader - Backend",
+      percentage: "32",
+      rolesPercentages: ["34", "21", "99"],
     },
-    {
-      result: "Backend 1",
-      percentage: "88",
-      rolesPercentages: ["50", "30", "20", "10"],
-    },
+    // {
+    //   result: "AttributionX - Data",
+    //   percentage: "78",
+    //   rolesPercentages: ["75"],
+    // },
+    // {
+    //   result: "",
+    //   percentage: "09",
+    //   rolesPercentages: ["50"],
+    // },
+    // {
+    //   result: "",
+    //   percentage: "09",
+    //   rolesPercentages: ["50"],
+    // },
+    // {
+    //   result: "",
+    //   percentage: "09",
+    //   rolesPercentages: ["50"],
+    // },
   ],
   "Blockchain Developer": [
-    {
-      result: "Frontend 1",
-      percentage: "80",
-      rolesPercentages: ["50", "30"],
-    },
     {
       result: "Chain Statements - Blockchain",
       percentage: "33",
@@ -1168,9 +1203,19 @@ const resultsOnChoice = {
     },
     {
       result: "Optimistic Payments - Blockchain",
-      percentage: "80",
-      rolesPercentages: ["50", "30"],
+      percentage: "87",
+      rolesPercentages: ["50", "30", "45"],
     },
+    // {
+    //   result: "Triton Instant Messenger  - Blockchain",
+    //   percentage: "76",
+    //   rolesPercentages: ["56"],
+    // },
+    // {
+    //   result: "",
+    //   percentage: "09",
+    //   rolesPercentages: ["50"],
+    // },
   ],
   Product: [
     {
