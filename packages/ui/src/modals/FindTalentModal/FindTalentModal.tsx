@@ -143,7 +143,7 @@ export const FindTalentModal = ({
       } else if (id === "second") {
         const firstSkill = selectedItems["main"][0].name;
         const initialSkills = Object.keys(
-          skillTreeWork[firstSkill as keyof typeof skillTreeWork]
+          mockData?.SkillTree[firstSkill as keyof typeof skillTreeWork]
         ).filter(
           (item) => item !== "subCategories" && item !== "Focus On Page"
         );
