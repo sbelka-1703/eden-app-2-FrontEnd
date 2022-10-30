@@ -36,7 +36,7 @@ export const StaticModal = ({
           </div>
 
           <div>
-            {item?.picture.length <= 5 ? (
+            {item?.picture?.length <= 5 ? (
               <EmojiSelector
                 isDisabled
                 emoji={item?.picture}
