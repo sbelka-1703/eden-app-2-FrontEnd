@@ -1,6 +1,17 @@
 import { XIcon } from "@heroicons/react/outline";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReactTooltip from "react-tooltip";
+
+const useIsMounted = () => {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+    return () => setIsMounted(false);
+  }, []);
+
+  return isMounted;
+};
 
 export interface BadgeProps {
   colorRGB?: string;
@@ -19,8 +30,9 @@ export const Badge = ({
   onClose,
 }: BadgeProps) => {
   const [isHover, setIsHover] = useState("");
+  const isMounted = useIsMounted();
 
-  if (!text) return null;
+  if (!text || !isMounted) return null;
 
   const textShort =
     text?.length > 10 ? text.substring(0, cutText) + "..." : text;
