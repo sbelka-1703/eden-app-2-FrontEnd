@@ -38,14 +38,14 @@ const desiredSalary = {
 
 const SkillTree = {
   category: {
-    title: "Alright, tell me who should I find to help you with your project?",
-    subTitle: "Please pick only one role for now!",
+    title: "Let's get you sorted! What type of projects are you looking for?",
+    subTitle: "You can only choose one area of interest for now!",
   },
   Design: {
     subCategories: {
       title: "It’s time to teach our AI what exacty you’re looking for 👉🏽",
       subTitle:
-        "Now, let’s get a bit more specific about the Design Ninja you need!",
+        "Now, let’s get a bit more specific about those Design interests!",
       content: [
         "UX/UI",
         "Graphic Design",
@@ -130,7 +130,7 @@ const SkillTree = {
     subCategories: {
       title: "It’s time to teach our AI what exacty you’re looking for 👉🏽",
       subTitle:
-        "Now, let’s get a bit more specific about the Design Ninja you need!",
+        "Now, let’s get a bit more specific about those Frontend interests!",
       content: [
         "UI Implementation",
         "Frontend Architecture",
@@ -141,7 +141,7 @@ const SkillTree = {
       ],
     },
     "Focus On Page": {
-      title: "Cool! What should I focus on while looking for a Design Ninja?",
+      title: "Cool! What should I focus on while looking for a Frontend Ninja?",
       subTitle:
         "Each highlight will add an extra step in your journey for crazy relevant AI matches!",
       content: [
@@ -203,7 +203,7 @@ const SkillTree = {
     subCategories: {
       title: "It’s time to teach our AI what exacty you’re looking for 👉🏽",
       subTitle:
-        "Now, let’s get a bit more specific about the Design Ninja you need!",
+        "Now, let’s get a bit more specific aboutthose Backend interests!",
       content: [
         "Architecture of your app",
         "Hard CS Stuff like Algo Dev & Data Structures",
@@ -213,7 +213,7 @@ const SkillTree = {
       ],
     },
     "Focus On Page": {
-      title: "Cool! What should I focus on while looking for a Design Ninja?",
+      title: "Cool! What should I focus on while looking for a Backend Ninja?",
       subTitle:
         "Each highlight will add an extra step in your journey for crazy relevant AI matches!",
       content: [
@@ -280,7 +280,7 @@ const SkillTree = {
     subCategories: {
       title: "It’s time to teach our AI what exacty you’re looking for 👉🏽",
       subTitle:
-        "Now, let’s get a bit more specific about the Design Ninja you need!",
+        "Now, let’s get a bit more specific about those Blockchain interests!",
       content: [
         "Smart Contract Development",
         "Smart Contract Auditing",
@@ -291,7 +291,8 @@ const SkillTree = {
       ],
     },
     "Focus On Page": {
-      title: "Cool! What should I focus on while looking for a Design Ninja?",
+      title:
+        "Cool! What should I focus on while looking for a Blockchain Ninja?",
       subTitle:
         "Each highlight will add an extra step in your journey for crazy relevant AI matches!",
       content: [
@@ -358,7 +359,7 @@ const SkillTree = {
     subCategories: {
       title: "It’s time to teach our AI what exacty you’re looking for 👉🏽",
       subTitle:
-        "Now, let’s get a bit more specific about the Design Ninja you need!",
+        "Now, let’s get a bit more specific about those Product interests!",
       content: [
         "User Research",
         "Market Research",
@@ -372,7 +373,7 @@ const SkillTree = {
       ],
     },
     "Focus On Page": {
-      title: "Cool! What should I focus on while looking for a Design Ninja?",
+      title: "Cool! What should I focus on while looking for a Product Ninja?",
       subTitle:
         "Each highlight will add an extra step in your journey for crazy relevant AI matches!",
       content: [
