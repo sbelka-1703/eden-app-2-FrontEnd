@@ -47,7 +47,7 @@ export const StaticCard = ({
                 <EmojiSelector
                   isDisabled
                   emoji={item?.picture}
-                  bgColor="#e8e8e8"
+                  bgColor="#ABF0B3"
                 />
               )}
               <div

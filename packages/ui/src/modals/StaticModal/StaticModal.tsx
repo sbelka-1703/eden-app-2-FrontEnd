@@ -2,6 +2,7 @@ import {
   Avatar,
   Badge,
   Button,
+  EmojiSelector,
   Modal,
   RoleCard,
   TextBody,
@@ -35,7 +36,15 @@ export const StaticModal = ({
           </div>
 
           <div>
-            <Avatar size="lg" src={item?.picture || ""} />
+            {item?.picture.length === 1 ? (
+              <Avatar size="lg" isProject src={item?.picture} />
+            ) : (
+              <EmojiSelector
+                isDisabled
+                emoji={item?.picture}
+                bgColor="#ABF0B3"
+              />
+            )}
           </div>
           <div className={`my-auto ml-4`}>
             <Button variant="primary" className="">
