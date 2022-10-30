@@ -14,4 +14,7 @@ const Template: ComponentStory<typeof ChampionMatchContainer> = (args) => (
 );
 
 export const Default = Template.bind({});
-Default.args = { project: getProject() };
+Default.args = {
+  project: getProject(),
+  onSelectMember: (member) => console.info(member),
+};

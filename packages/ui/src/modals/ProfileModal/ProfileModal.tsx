@@ -17,6 +17,7 @@ import {
 export interface ProfileModalProps {
   member: Maybe<Members>;
   openModal?: boolean;
+  onClose: () => void;
   onInvite: () => void;
 }
 
@@ -29,10 +30,11 @@ const filterSkills = (
 
 export const ProfileModal = ({
   member,
-  openModal,
+  onClose,
   onInvite,
+  openModal,
 }: ProfileModalProps) => (
-  <Modal open={openModal} closeOnEsc={false}>
+  <Modal open={openModal} closeOnEsc onClose={onClose}>
     <div className="flex flex-col items-center justify-center">
       <div className="relative">
         <Avatar

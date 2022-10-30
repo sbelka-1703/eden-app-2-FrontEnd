@@ -1,12 +1,17 @@
 /* eslint-disable no-unused-vars */
 import { useQuery } from "@apollo/client";
-import { FIND_PROJECT, MATCH_MEMBERS_TO_SKILLS } from "@eden/package-graphql";
+import {
+  FIND_MEMBER,
+  FIND_PROJECT,
+  MATCH_MEMBERS_TO_SKILLS,
+} from "@eden/package-graphql";
 import {
   AppUserSubmenuLayout,
   ChampionMatchContainer,
   GridItemNine,
   GridItemThree,
   GridLayout,
+  ProfileModal,
   ProjectEditSelectorCard,
   SEO,
 } from "@eden/package-ui";
@@ -36,20 +41,21 @@ const ProjectPage: NextPageWithLayout = () => {
     dataProject?.findProject?.role[0]
   );
 
-  // const [selectMember, setSelectMember] = useState("");
+  const [selectMember, setSelectMember] = useState<Maybe<Members>>(null);
 
   // const { matchMembersPage, project, selectedRole } =
   //   useContext(LaunchProjectContext);
 
-  // const { data: dataMember, refetch: refetchMember } = useQuery(FIND_MEMBER, {
-  //   variables: {
-  //     fields: {
-  //       _id: selectMember,
-  //     },
-  //   },
-  //   skip: !selectMember,
-  //   context: { serviceName: "soilservice" },
-  // });
+  const { data: dataMember, refetch: refetchMember } = useQuery(FIND_MEMBER, {
+    variables: {
+      fields: {
+        _id: selectMember,
+      },
+    },
+    skip: !selectMember,
+    context: { serviceName: "soilservice" },
+  });
+
   const { data: matchingMembers } = useQuery(MATCH_MEMBERS_TO_SKILLS, {
     variables: {
       fields: {
@@ -85,6 +91,14 @@ const ProjectPage: NextPageWithLayout = () => {
 
   return (
     <>
+      {selectMember && dataMember?.findMember && (
+        <ProfileModal
+          openModal={!!selectMember}
+          member={dataMember.findMember}
+          onClose={() => setSelectMember(null)}
+          onInvite={() => console.info("Invite")}
+        />
+      )}
       <SEO />
       <GridLayout>
         <GridItemThree>
@@ -100,8 +114,9 @@ const ProjectPage: NextPageWithLayout = () => {
         </GridItemThree>
         <GridItemNine>
           <ChampionMatchContainer
-            project={dataProject.findProject}
             selectedRole={selectedRole}
+            onSelectMember={setSelectMember}
+            project={dataProject.findProject}
             matchingMembers={matchingMembers?.matchSkillsToMembers}
           />
         </GridItemNine>
@@ -116,6 +131,7 @@ ProjectPage.getLayout = (page) => (
 
 export default ProjectPage;
 
+import { Maybe, Members } from "@eden/package-graphql/generated";
 import { IncomingMessage, ServerResponse } from "http";
 import { getSession } from "next-auth/react";
 
