@@ -1100,11 +1100,11 @@ const resultsOnChoice = {
       percentage: "43",
       rolesPercentages: ["43", "21", "61"],
     },
-    // {
-    //   result: "PDEEDOO - Education",
-    //   percentage: "09",
-    //   rolesPercentages: ["50"],
-    // },
+    {
+      result: "PDEEDOO - Education",
+      percentage: "09",
+      rolesPercentages: ["50"],
+    },
   ],
   "Frontend Developer": [
     {
@@ -1142,21 +1142,11 @@ const resultsOnChoice = {
       percentage: "43",
       rolesPercentages: ["43"],
     },
-    // {
-    //   result: "",
-    //   percentage: "09",
-    //   rolesPercentages: ["50"],
-    // },
-    // {
-    //   result: "",
-    //   percentage: "09",
-    //   rolesPercentages: ["50"],
-    // },
-    // {
-    //   result: "",
-    //   percentage: "09",
-    //   rolesPercentages: ["50"],
-    // },
+    {
+      result: "MeshLink- Data",
+      percentage: "09",
+      rolesPercentages: ["50"],
+    },
   ],
   "Backend Developer": [
     {
@@ -1179,21 +1169,6 @@ const resultsOnChoice = {
       percentage: "78",
       rolesPercentages: ["75"],
     },
-    // {
-    //   result: "",
-    //   percentage: "09",
-    //   rolesPercentages: ["50"],
-    // },
-    // {
-    //   result: "",
-    //   percentage: "09",
-    //   rolesPercentages: ["50"],
-    // },
-    // {
-    //   result: "",
-    //   percentage: "09",
-    //   rolesPercentages: ["50"],
-    // },
   ],
   "Blockchain Developer": [
     {
@@ -1211,17 +1186,22 @@ const resultsOnChoice = {
       percentage: "76",
       rolesPercentages: ["56"],
     },
-    // {
-    //   result: "",
-    //   percentage: "09",
-    //   rolesPercentages: ["50"],
-    // },
   ],
   Product: [
     {
       result: "Product 1",
       percentage: "82",
       rolesPercentages: ["50", "30", "20", "10"],
+    },
+    {
+      result: "AttributionX - Data",
+      percentage: "83",
+      rolesPercentages: ["10"],
+    },
+    {
+      result: "MeshLink- Data",
+      percentage: "59",
+      rolesPercentages: ["52", "34", "45"],
     },
   ],
 };
