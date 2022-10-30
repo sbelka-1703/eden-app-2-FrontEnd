@@ -24,7 +24,7 @@ interface ActiveTabMembersProps {
 
 const ActiveTabMembers = ({
   onSelectMember,
-  teamMembers = [],
+  teamMembers,
 }: ActiveTabMembersProps) => {
   const [teamMembersPages, setTeamMembersPages]: any[] = useState([]);
   const [teamMembersPageNo, setTeamMembersPageNo] = useState(0);
