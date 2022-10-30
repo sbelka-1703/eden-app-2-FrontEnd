@@ -1118,7 +1118,7 @@ const resultsOnChoice = {
       rolesPercentages: ["50", "30"],
     },
     {
-      result: "Porton Wallet - FrontEnd ",
+      result: "Porton Wallet - FrontEnd",
       percentage: "79",
       rolesPercentages: ["70", "67"],
     },
@@ -1127,21 +1127,21 @@ const resultsOnChoice = {
       percentage: "84",
       rolesPercentages: ["50", "30", "20"],
     },
-    // {
-    //   result: "Mati - FrontEnd",
-    //   percentage: "65",
-    //   rolesPercentages: ["59"],
-    // },
-    // {
-    //   result: "WEB3 Board - FrontEnd",
-    //   percentage: "83",
-    //   rolesPercentages: ["59"],
-    // },
-    // {
-    //   result: "ConvoBridge - FrontEnd",
-    //   percentage: "43",
-    //   rolesPercentages: ["43"],
-    // },
+    {
+      result: "Mati - FrontEnd",
+      percentage: "65",
+      rolesPercentages: ["59"],
+    },
+    {
+      result: "WEB3 Board - FrontEnd",
+      percentage: "83",
+      rolesPercentages: ["59"],
+    },
+    {
+      result: "ConvoBridge - FrontEnd",
+      percentage: "43",
+      rolesPercentages: ["43"],
+    },
     // {
     //   result: "",
     //   percentage: "09",
@@ -1174,11 +1174,11 @@ const resultsOnChoice = {
       percentage: "32",
       rolesPercentages: ["34", "21", "99"],
     },
-    // {
-    //   result: "AttributionX - Data",
-    //   percentage: "78",
-    //   rolesPercentages: ["75"],
-    // },
+    {
+      result: "AttributionX - Data",
+      percentage: "78",
+      rolesPercentages: ["75"],
+    },
     // {
     //   result: "",
     //   percentage: "09",
@@ -1206,11 +1206,11 @@ const resultsOnChoice = {
       percentage: "87",
       rolesPercentages: ["50", "30", "45"],
     },
-    // {
-    //   result: "Triton Instant Messenger  - Blockchain",
-    //   percentage: "76",
-    //   rolesPercentages: ["56"],
-    // },
+    {
+      result: "Triton Instant Messenger  - Blockchain",
+      percentage: "76",
+      rolesPercentages: ["56"],
+    },
     // {
     //   result: "",
     //   percentage: "09",

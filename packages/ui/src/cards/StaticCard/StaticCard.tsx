@@ -3,6 +3,7 @@ import {
   Badge,
   Button,
   Card,
+  EmojiSelector,
   StaticModal,
   TextBody,
   TextHeading3,
@@ -40,7 +41,15 @@ export const StaticCard = ({
           )}
           {item?.picture && (
             <div className={`relative`}>
-              <Avatar isProject src={item?.picture} />
+              {item?.picture.length === 1 ? (
+                <Avatar isProject src={item?.picture} />
+              ) : (
+                <EmojiSelector
+                  isDisabled
+                  emoji={item?.picture}
+                  bgColor="#e8e8e8"
+                />
+              )}
               <div
                 className={`text-soilPurple absolute -mt-9 ml-12 rounded-full bg-white px-1.5 text-xl font-semibold shadow-sm`}
               >
