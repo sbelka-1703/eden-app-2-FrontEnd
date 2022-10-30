@@ -1143,17 +1143,7 @@ const resultsOnChoice = {
       rolesPercentages: ["43"],
     },
     {
-      result: "",
-      percentage: "09",
-      rolesPercentages: ["50"],
-    },
-    {
       result: "MeshLink- Data",
-      percentage: "09",
-      rolesPercentages: ["50"],
-    },
-    {
-      result: "",
       percentage: "09",
       rolesPercentages: ["50"],
     },
@@ -1179,21 +1169,6 @@ const resultsOnChoice = {
       percentage: "78",
       rolesPercentages: ["75"],
     },
-    {
-      result: "",
-      percentage: "09",
-      rolesPercentages: ["50"],
-    },
-    {
-      result: "",
-      percentage: "09",
-      rolesPercentages: ["50"],
-    },
-    {
-      result: "",
-      percentage: "09",
-      rolesPercentages: ["50"],
-    },
   ],
   "Blockchain Developer": [
     {
@@ -1210,11 +1185,6 @@ const resultsOnChoice = {
       result: "Triton Instant Messenger  - Blockchain",
       percentage: "76",
       rolesPercentages: ["56"],
-    },
-    {
-      result: "",
-      percentage: "09",
-      rolesPercentages: ["50"],
     },
   ],
   Product: [
