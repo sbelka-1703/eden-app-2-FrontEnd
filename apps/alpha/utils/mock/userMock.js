@@ -320,7 +320,7 @@ const Result = {
       "Have been programming since I was 12 years old. During the day I work at Google as a Frontend Engineer on Google Maps, at night I want to be working on the next Google. Hit me up for help with cool startup projects. I'm obsessed with Frontend because it literally has the power to shape the way we interact with eachother & the world around us.",
     percentage: "85%",
     picture:
-      "https://cdn.discordapp.com/avatars/908392557258604544/a43d17f28b1f058ca1ea5e4a9623c751.png",
+      "https://cdn.discordapp.com/avatars/875582358940684388/69f7bcd77f145dd282e2abeb47717cf8.webp",
     name: "BluePanda",
     nameDescription: "Frontend Developer",
     Descrimator: "1234",
@@ -361,7 +361,7 @@ const Result = {
       "I was employee no1 at Dropbox where I basically helped scope out v1 of the product's backend. I'm looking for a challenging project to spend my nights & weekends on and potentially even join down the line.",
     percentage: "79%",
     picture:
-      "https://cdn.discordapp.com/avatars/259752464037707776/abe1ce7ff7046cdeb678f81889d36b57.webp",
+      "https://cdn.discordapp.com/avatars/879166443512545311/feb30747504d86519aee3a54fac0b932.webp",
     name: "Waxy",
     nameDescription: "Backend Developer",
     Descrimator: "1234",
@@ -469,7 +469,7 @@ const Result = {
       "Product OBSESSED! Pretty new as a PM tho - have a more technical background, but discovered a deep love for solving customer problems.",
     percentage: "70%",
     picture:
-      "https://cdn.discordapp.com/avatars/781134177406943272/08e7f48be326d95934393d05519437b5.webp",
+      "https://cdn.discordapp.com/avatars/562160161951711243/2ae783853c88a288db9ed8b691076ad2.webp",
     name: "Impactbilli",
     nameDescription: "Product",
     Descrimator: "1234",
@@ -506,7 +506,7 @@ const Result = {
     description: "I'm vitalik. ",
     percentage: "1000%",
     picture:
-      "https://cdn.discordapp.com/avatars/781134177406943272/08e7f48be326d95934393d05519437b5.webp",
+      "https://cdn.discordapp.com/avatars/677988313319211037/ff9cda5e0e8fbe62caea07fb7eb3de23.webp",
     name: "notVitalik",
     nameDescription: "Blockchain Developer",
     Descrimator: "1234",
