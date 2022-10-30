@@ -30,10 +30,12 @@ for (let i = 0; i < 500; i++) {
 export interface IShortlistModalContainerStoryFilterProps {
   // eslint-disable-next-line no-unused-vars
   setSubmittingTalentAttributes?: (val: any) => void;
+  mockData?: any;
 }
 
 export const ShortlistModalContainerStoryFilter = ({
   setSubmittingTalentAttributes,
+  mockData,
 }: IShortlistModalContainerStoryFilterProps) => {
   const {
     project,
@@ -135,6 +137,7 @@ export const ShortlistModalContainerStoryFilter = ({
             setTalentAttributes(val);
             setSubmittingTalentAttributes!(val);
           }}
+          mockData={mockData}
           // onClose={() => setOpenModal(null)}
         />
       )}
