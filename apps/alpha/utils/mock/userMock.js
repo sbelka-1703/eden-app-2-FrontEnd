@@ -319,7 +319,8 @@ const Result = {
     description:
       "Have been programming since I was 12 years old. During the day I work at Google as a Frontend Engineer on Google Maps, at night I want to be working on the next Google. Hit me up for help with cool startup projects. I'm obsessed with Frontend because it literally has the power to shape the way we interact with eachother & the world around us.",
     percentage: "85%",
-    picture: "https://i.imgur.com/1Q9Z1Zm.png",
+    picture:
+      "https://cdn.discordapp.com/avatars/908392557258604544/a43d17f28b1f058ca1ea5e4a9623c751.png",
     name: "BluePanda",
     nameDescription: "Frontend Developer",
     Descrimator: "1234",
@@ -359,7 +360,8 @@ const Result = {
     description:
       "I was employee no1 at Dropbox where I basically helped scope out v1 of the product's backend. I'm looking for a challenging project to spend my nights & weekends on and potentially even join down the line.",
     percentage: "79%",
-    picture: "https://i.imgur.com/1Q9Z1Zm.png",
+    picture:
+      "https://cdn.discordapp.com/avatars/259752464037707776/abe1ce7ff7046cdeb678f81889d36b57.webp",
     name: "Waxy",
     nameDescription: "Backend Developer",
     Descrimator: "1234",
@@ -395,7 +397,8 @@ const Result = {
     description:
       "I'm currently a PM at Airbnb - absolutely obsessed with learning & want to work on something completely unrelated to hospitality.",
     percentage: "88%",
-    picture: "https://i.imgur.com/1Q9Z1Zm.png",
+    picture:
+      "https://cdn.discordapp.com/avatars/385833013692334080/3fcaa397c193dc2f9c6316e79ce75b8d.webp",
     name: "Impactbilli",
     nameDescription: "Product",
     Descrimator: "1234",
@@ -432,7 +435,8 @@ const Result = {
     description:
       "I've been designing since 3 - my drawings then were already exquisite. Currently designing at Apple. Looking to help projects that want to fight climate change.",
     percentage: "78%",
-    picture: "https://i.imgur.com/1Q9Z1Zm.png",
+    picture:
+      "https://cdn.discordapp.com/avatars/175735303489847296/fe70f8879d7d8979dd4a32690806f7f3.webp",
     name: "XYZ",
     nameDescription: "Product",
     Descrimator: "1234",
@@ -464,7 +468,8 @@ const Result = {
     description:
       "Product OBSESSED! Pretty new as a PM tho - have a more technical background, but discovered a deep love for solving customer problems.",
     percentage: "70%",
-    picture: "https://i.imgur.com/1Q9Z1Zm.png",
+    picture:
+      "https://cdn.discordapp.com/avatars/781134177406943272/08e7f48be326d95934393d05519437b5.webp",
     name: "Impactbilli",
     nameDescription: "Product",
     Descrimator: "1234",
@@ -500,7 +505,8 @@ const Result = {
   6: {
     description: "I'm vitalik. ",
     percentage: "1000%",
-    picture: "https://i.imgur.com/1Q9Z1Zm.png",
+    picture:
+      "https://cdn.discordapp.com/avatars/781134177406943272/08e7f48be326d95934393d05519437b5.webp",
     name: "notVitalik",
     nameDescription: "Blockchain Developer",
     Descrimator: "1234",
