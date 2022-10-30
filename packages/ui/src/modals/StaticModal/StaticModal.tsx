@@ -36,14 +36,14 @@ export const StaticModal = ({
           </div>
 
           <div>
-            {item?.picture.length === 1 ? (
-              <Avatar size="lg" isProject src={item?.picture} />
-            ) : (
+            {item?.picture.length <= 5 ? (
               <EmojiSelector
                 isDisabled
                 emoji={item?.picture}
                 bgColor="#ABF0B3"
               />
+            ) : (
+              <Avatar size="lg" isProject src={item?.picture} />
             )}
           </div>
           <div className={`my-auto ml-4`}>
