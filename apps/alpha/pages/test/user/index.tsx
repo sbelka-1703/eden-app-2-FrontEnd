@@ -95,6 +95,7 @@ const UserPage: NextPageWithLayout = () => {
         setSubmittingTalentAttributes={(val) => {
           setRoleFilter(val);
         }}
+        mockData={USER_MOCK}
       />
     </>
   );
