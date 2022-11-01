@@ -9,9 +9,6 @@ describe("ProfileModal", () => {
         onClose={function (): void {
           throw new Error("Function not implemented.");
         }}
-        onInvite={function (): void {
-          throw new Error("Function not implemented.");
-        }}
       />
     );
 

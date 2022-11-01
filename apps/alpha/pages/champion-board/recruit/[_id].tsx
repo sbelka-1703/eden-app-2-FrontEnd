@@ -96,7 +96,6 @@ const ProjectPage: NextPageWithLayout = () => {
           openModal={!!selectMember}
           member={dataMember.findMember}
           onClose={() => setSelectMember(null)}
-          onInvite={() => console.info("Invite")}
         />
       )}
       <SEO />

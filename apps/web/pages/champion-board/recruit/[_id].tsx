@@ -15,7 +15,6 @@ import {
   ProjectEditSelectorCard,
   SEO,
 } from "@eden/package-ui";
-// import { LaunchProjectContext } from "@eden/package-context";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -42,9 +41,6 @@ const ProjectPage: NextPageWithLayout = () => {
   );
 
   const [selectMember, setSelectMember] = useState<Maybe<Members>>(null);
-
-  // const { matchMembersPage, project, selectedRole } =
-  //   useContext(LaunchProjectContext);
 
   const { data: dataMember, refetch: refetchMember } = useQuery(FIND_MEMBER, {
     variables: {
@@ -91,14 +87,13 @@ const ProjectPage: NextPageWithLayout = () => {
 
   return (
     <>
-      {selectMember && dataMember?.findMember && (
+      {/* {selectMember && dataMember?.findMember && (
         <ProfileModal
           openModal={!!selectMember}
           member={dataMember.findMember}
           onClose={() => setSelectMember(null)}
-          onInvite={() => console.info("Invite")}
         />
-      )}
+      )} */}
       <SEO />
       <GridLayout>
         <GridItemThree>
