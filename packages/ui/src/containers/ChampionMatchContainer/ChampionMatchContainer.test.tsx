@@ -13,6 +13,10 @@ describe("ChampionMatchContainer", () => {
           throw new Error("Function not implemented.");
         }}
         onSelectMemberMatch={() => console.log("onSelectMemberMatch")}
+        onSelectedTab={function (tab: string): void {
+          console.log(tab);
+          throw new Error("Function not implemented.");
+        }}
       />
     );
 

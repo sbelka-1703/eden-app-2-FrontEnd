@@ -1,58 +1,38 @@
 /* eslint-disable camelcase */
+import { gql, useMutation } from "@apollo/client";
+import { Maybe, Members, Project } from "@eden/package-graphql/generated";
 import {
-  Maybe,
-  Members,
-  SkillType_Member,
-} from "@eden/package-graphql/generated";
-import {
-  Avatar,
   Button,
   Modal,
   SendMessageToUser,
-  SkillList,
-  SocialMediaComp,
-  TextHeading3,
-  TextLabel,
+  UserSkillSocialAval,
+  UserWithDescription,
 } from "@eden/package-ui";
 import { useState } from "react";
 
 import { round } from "../../../utils";
 
+const SET_APPLY_TO_PROJECT = gql`
+  mutation ($fields: changeTeamMember_Phase_ProjectInput!) {
+    changeTeamMember_Phase_Project(fields: $fields) {
+      _id
+    }
+  }
+`;
+
 export interface ProfileModalProps {
   member: Maybe<Members>;
+  project?: Project;
+  type?: string;
   memberMatch?: string;
   openModal?: boolean;
   onClose: () => void;
 }
 
-const filterSkills = (
-  skills: Maybe<Maybe<SkillType_Member>[]>,
-  level: string
-) => {
-  if (skills) return skills.filter((skill) => skill?.level === level);
-};
-
-const levels = [
-  {
-    title: "learning",
-    level: "learning",
-  },
-  {
-    title: "mid",
-    level: "mid",
-  },
-  {
-    title: "junior",
-    level: "junior",
-  },
-  {
-    title: "senior",
-    level: "senior",
-  },
-];
-
 export const ProfileModal = ({
   member,
+  project,
+  type,
   memberMatch,
   onClose,
   openModal,
@@ -60,30 +40,69 @@ export const ProfileModal = ({
   // console.log("member", member);
   const [showInvite, setShowInvite] = useState(false);
 
+  //  const tabs = ["New Match", "Applied", "Invited", "Accepted", "Rejected"];
+
+  const [changeTeamMember_Phase_Project, {}] = useMutation(
+    SET_APPLY_TO_PROJECT,
+    {}
+  );
+
+  const handleReject = () => {
+    // console.log("reject");
+    if (project?._id && member?._id) {
+      changeTeamMember_Phase_Project({
+        variables: {
+          fields: {
+            projectID: project?._id,
+            memberID: member?._id,
+            phase: "rejected",
+          },
+        },
+      });
+    }
+  };
+
+  const handleAccept = () => {
+    // console.log("accept");
+    if (project?._id && member?._id) {
+      changeTeamMember_Phase_Project({
+        variables: {
+          fields: {
+            projectID: project?._id,
+            memberID: member?._id,
+            phase: "committed",
+          },
+        },
+      });
+    }
+  };
+
   return (
     <Modal open={openModal} closeOnEsc onClose={onClose}>
-      <div className="flex flex-col items-center justify-center">
-        <div className="relative">
-          <Avatar
-            src={member?.discordAvatar || ""}
-            alt={member?.discordName || ""}
-          />
-          <div className="absolute -right-28 top-2/4 -translate-y-2/4">
+      <div className={`flex items-center justify-center`}>
+        <div className={`w-28`}>
+          {type === "Applied" || type === "Invited" ? (
+            <Button variant="tertiary" onClick={() => handleReject()}>
+              Reject
+            </Button>
+          ) : null}
+        </div>
+        <UserWithDescription member={member} />
+        <div className={`w-28`}>
+          {type === "New Match" && (
             <Button
               variant="primary"
               onClick={() => setShowInvite(!showInvite)}
             >
               Invite
             </Button>
-          </div>
+          )}
+          {type === "Applied" || type === "Invited" ? (
+            <Button variant="primary" onClick={() => handleAccept()}>
+              Accept
+            </Button>
+          ) : null}
         </div>
-        <div className="flex">
-          <TextHeading3>@{member?.discordName}</TextHeading3>
-          <TextLabel className="mt-2">#{member?.discriminator}</TextLabel>
-        </div>
-        <TextHeading3 className="text-gray-400">
-          {member?.memberRole?.title}
-        </TextHeading3>
       </div>
       <div className="grid grid-cols-12 gap-6">
         <div className="col-span-8">
@@ -109,37 +128,9 @@ export const ProfileModal = ({
         </div>
       </div>
       {showInvite ? (
-        <SendMessageToUser member={member} />
+        <SendMessageToUser member={member} project={project} />
       ) : (
-        <div className="grid grid-cols-12 gap-6">
-          <div className="col-span-6">
-            {levels?.map((skill, index: number) => {
-              return (
-                <div className="mb-3" key={index}>
-                  <p className="font-semibold uppercase">{skill?.level}</p>
-                  <SkillList
-                    colorRGB={"215,215,255"}
-                    skills={
-                      filterSkills(
-                        member?.skills as Maybe<SkillType_Member>[],
-                        `${skill?.level}`
-                      ) as Maybe<SkillType_Member>[]
-                    }
-                  />
-                </div>
-              );
-            })}
-          </div>
-          <div className="col-span-2">
-            <SocialMediaComp links={member?.links} />
-          </div>
-          <div className="col-span-4">
-            <p className="font-semibold">AVAILABILITY</p>
-
-            <p className="text-lg">⏳ {member?.hoursPerWeek} hrs/ week</p>
-            <p className="text-lg">💰 1700 $SEED</p>
-          </div>
-        </div>
+        <UserSkillSocialAval member={member} />
       )}
     </Modal>
   );

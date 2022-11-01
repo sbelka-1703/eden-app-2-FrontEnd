@@ -1,9 +1,11 @@
+/* eslint-disable camelcase */
 import { gql, useMutation } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
 import {
   Maybe,
   Members,
   MutationAddNewChatArgs,
+  Project,
 } from "@eden/package-graphql/generated";
 import {
   Avatar,
@@ -28,17 +30,34 @@ export const ADD_NEW_CHAT = gql`
   }
 `;
 
+const SET_APPLY_TO_PROJECT = gql`
+  mutation ($fields: changeTeamMember_Phase_ProjectInput!) {
+    changeTeamMember_Phase_Project(fields: $fields) {
+      _id
+    }
+  }
+`;
+
 export interface ISendMessageToUserProps {
   member: Maybe<Members>;
+  project?: Project;
 }
 
-export const SendMessageToUser = ({ member }: ISendMessageToUserProps) => {
+export const SendMessageToUser = ({
+  member,
+  project,
+}: ISendMessageToUserProps) => {
   const { currentUser } = useContext(UserContext);
   const [message, setMessage] = useState("");
   const [sendingMessage, setSendingMessage] = useState(false);
   const [isMessageSent, setIsMessageSent] = useState(false);
 
   const [addNewChat] = useMutation<any, MutationAddNewChatArgs>(ADD_NEW_CHAT);
+
+  const [changeTeamMember_Phase_Project, {}] = useMutation(
+    SET_APPLY_TO_PROJECT,
+    {}
+  );
 
   const createThread = async (body: CreateThreadApiRequestBody) => {
     const response = await fetch(encodeURI("/api/discord/createThread"), {
@@ -84,6 +103,17 @@ export const SendMessageToUser = ({ member }: ISendMessageToUserProps) => {
     } finally {
       setSendingMessage(false);
       setIsMessageSent(true);
+      if (project?._id && member?._id) {
+        changeTeamMember_Phase_Project({
+          variables: {
+            fields: {
+              projectID: project?._id,
+              memberID: member?._id,
+              phase: "rejected",
+            },
+          },
+        });
+      }
     }
   };
 

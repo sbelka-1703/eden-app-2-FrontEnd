@@ -19,4 +19,5 @@ export * from "./SocialMediaComponent";
 export * from "./SocialMediaInput";
 export * from "./TeamAttributeChart";
 export * from "./UserAttributeChart";
+export * from "./UserSkillSocialAval";
 export * from "./UserWithDescription";
