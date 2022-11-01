@@ -145,7 +145,7 @@ const ChatPage: NextPageWithLayout = () => {
                 threadName = `Project Talents Discussion -- ${member.discordName}`;
               }
               const { threadId } = await createThread({
-                message: `<@${member?._id}>`,
+                message: `<@${member?._id}> <@${currentUser?._id}>`,
                 embedMessage: message,
                 senderAvatarURL: currentUser?.discordAvatar!,
                 senderName: `${currentUser?.discordName} -- Just invite you to a conversation`,

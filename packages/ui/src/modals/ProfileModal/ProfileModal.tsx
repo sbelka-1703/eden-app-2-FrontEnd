@@ -16,8 +16,11 @@ import {
 } from "@eden/package-ui";
 import { useState } from "react";
 
+import { round } from "../../../utils";
+
 export interface ProfileModalProps {
   member: Maybe<Members>;
+  memberMatch?: string;
   openModal?: boolean;
   onClose: () => void;
 }
@@ -50,6 +53,7 @@ const levels = [
 
 export const ProfileModal = ({
   member,
+  memberMatch,
   onClose,
   openModal,
 }: ProfileModalProps) => {
@@ -90,12 +94,18 @@ export const ProfileModal = ({
           </div>
         </div>
         <div className="col-span-4 text-center">
-          <div className={`text-lg font-semibold text-black/50`}>⚡️ Match</div>
-          <div
-            className={`text-soilPurple font-poppins text-3xl font-semibold`}
-          >
-            {65}%
-          </div>
+          {memberMatch && (
+            <>
+              <div className={`text-lg font-semibold text-black/50`}>
+                ⚡️ Match
+              </div>
+              <div
+                className={`text-soilPurple font-poppins text-3xl font-semibold`}
+              >
+                {round(Number(memberMatch), 0)}%
+              </div>
+            </>
+          )}
         </div>
       </div>
       {showInvite ? (

@@ -15,7 +15,6 @@ import {
   ProjectEditSelectorCard,
   SEO,
 } from "@eden/package-ui";
-// import { LaunchProjectContext } from "@eden/package-context";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -42,9 +41,7 @@ const ProjectPage: NextPageWithLayout = () => {
   );
 
   const [selectMember, setSelectMember] = useState<Maybe<Members>>(null);
-
-  // const { matchMembersPage, project, selectedRole } =
-  //   useContext(LaunchProjectContext);
+  const [selecMemberMatch, setSelectMemberMatch] = useState<string>("");
 
   const { data: dataMember, refetch: refetchMember } = useQuery(FIND_MEMBER, {
     variables: {
@@ -71,23 +68,11 @@ const ProjectPage: NextPageWithLayout = () => {
     context: { serviceName: "soilservice" },
   });
 
-  // useEffect(() => {
-  //   if (selectedRole) {
-  //     const skills = selectedRole?.skills?.flatMap(
-  //       (skill: any) => skill?.skillData?._id
-  //     );
-
-  //     console.log(skills);
-  //   }
-  // }, [selectedRole]);
-
   // project data with shortlist
   if (!dataProject) {
     return null;
   }
   // if (matchingMembers) console.log("matchingMembers", matchingMembers);
-
-  // if (selectedRole) console.log("selectRole", selectedRole);
 
   return (
     <>
@@ -95,6 +80,7 @@ const ProjectPage: NextPageWithLayout = () => {
         <ProfileModal
           openModal={!!selectMember}
           member={dataMember.findMember}
+          memberMatch={selecMemberMatch}
           onClose={() => setSelectMember(null)}
         />
       )}
@@ -115,6 +101,7 @@ const ProjectPage: NextPageWithLayout = () => {
           <ChampionMatchContainer
             selectedRole={selectedRole}
             onSelectMember={setSelectMember}
+            onSelectMemberMatch={setSelectMemberMatch}
             project={dataProject.findProject}
             matchingMembers={matchingMembers?.matchSkillsToMembers}
           />

@@ -12,6 +12,7 @@ describe("ChampionMatchContainer", () => {
 
           throw new Error("Function not implemented.");
         }}
+        onSelectMemberMatch={() => console.log("onSelectMemberMatch")}
       />
     );
 
