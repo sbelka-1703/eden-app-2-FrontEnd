@@ -38,8 +38,14 @@ const proposedSalary = {
 };
 
 const SkillTree = {
+  category: {
+    title: "",
+    subTitle: "",
+  },
   Design: {
     subCategories: {
+      title: "",
+      subTitle: "",
       content: [
         "UX/UI",
         "Graphic Design",
@@ -53,6 +59,8 @@ const SkillTree = {
       ],
     },
     "Niche Skills": {
+      title: "",
+      subTitle: "",
       content: [
         "Design Thinking",
         "User-Centered Design",
@@ -66,6 +74,8 @@ const SkillTree = {
       ],
     },
     "Knowledge of specific tools": {
+      title: "",
+      subTitle: "",
       content: [
         "Figma",
         "Sketch",
@@ -83,6 +93,8 @@ const SkillTree = {
       ],
     },
     "Values & Culture": {
+      title: "",
+      subTitle: "",
       content: [
         "Growth Mindset",
         "Self-starter",
@@ -103,6 +115,8 @@ const SkillTree = {
   },
   "Frontend Developer": {
     subCategories: {
+      title: "",
+      subTitle: "",
       content: [
         "UI Implementation",
         "Frontend Architecture",
@@ -113,6 +127,8 @@ const SkillTree = {
       ],
     },
     "Niche Skills": {
+      title: "",
+      subTitle: "",
       content: [
         "Typescript",
         "Javascript",
@@ -123,6 +139,8 @@ const SkillTree = {
       ],
     },
     "Knowledge of specific tools": {
+      title: "",
+      subTitle: "",
       content: [
         "Issue Tracking Tools",
         "Specific IDE's",
@@ -134,6 +152,8 @@ const SkillTree = {
       ],
     },
     "Values & Culture": {
+      title: "",
+      subTitle: "",
       content: [
         "Growth mindset",
         "Self-starter",
@@ -154,6 +174,8 @@ const SkillTree = {
   },
   "Backend Developer": {
     subCategories: {
+      title: "",
+      subTitle: "",
       content: [
         "Architecture of your app",
         "Hard CS Stuff like Algo Dev & Data Structures",
@@ -163,6 +185,8 @@ const SkillTree = {
       ],
     },
     "Niche Skills": {
+      title: "",
+      subTitle: "",
       content: [
         "Typescript",
         "Java",
@@ -178,6 +202,8 @@ const SkillTree = {
       ],
     },
     "Knowledge of specific tools": {
+      title: "",
+      subTitle: "",
       content: [
         "Issue Tracking Tools",
         "Specific IDE's",
@@ -189,6 +215,8 @@ const SkillTree = {
       ],
     },
     "Values & Culture": {
+      title: "",
+      subTitle: "",
       content: [
         "Growth mindset",
         "Self-starter",
@@ -209,6 +237,8 @@ const SkillTree = {
   },
   "Blockchain Developer": {
     subCategories: {
+      title: "",
+      subTitle: "",
       content: [
         "Smart Contract Development",
         "Smart Contract Auditing",
@@ -219,6 +249,8 @@ const SkillTree = {
       ],
     },
     "Niche Skills": {
+      title: "",
+      subTitle: "",
       content: [
         "Solidity",
         "GO",
@@ -230,6 +262,8 @@ const SkillTree = {
       ],
     },
     "Knowledge of specific tools": {
+      title: "",
+      subTitle: "",
       content: [
         "Polygon",
         "Polkadot",
@@ -245,6 +279,8 @@ const SkillTree = {
       ],
     },
     "Values & Culture": {
+      title: "",
+      subTitle: "",
       content: [
         "Growth mindset",
         "Self-starter",
@@ -265,6 +301,8 @@ const SkillTree = {
   },
   Product: {
     subCategories: {
+      title: "",
+      subTitle: "",
       content: [
         "User Research",
         "Market Research",
@@ -278,6 +316,8 @@ const SkillTree = {
       ],
     },
     "Niche Skills": {
+      title: "",
+      subTitle: "",
       content: [
         "Quantitative Analysis",
         "Qualitative Analysis",
@@ -297,6 +337,8 @@ const SkillTree = {
       ],
     },
     "Knowledge of specific tools": {
+      title: "",
+      subTitle: "",
       content: [
         "Figma",
         "Loom",
@@ -312,6 +354,8 @@ const SkillTree = {
       ],
     },
     "Values & Culture": {
+      title: "",
+      subTitle: "",
       content: [
         "Growth mindset",
         "Self-starter",
