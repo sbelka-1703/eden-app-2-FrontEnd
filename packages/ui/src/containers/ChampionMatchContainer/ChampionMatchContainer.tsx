@@ -16,6 +16,8 @@ export interface ChampionMatchContainerProps {
   onSelectMember: (member: Members) => void;
   // eslint-disable-next-line no-unused-vars
   onSelectMemberMatch: (val: string) => void;
+  // eslint-disable-next-line no-unused-vars
+  onSelectedTab: (tab: string) => void;
 }
 
 export const ChampionMatchContainer = ({
@@ -24,6 +26,7 @@ export const ChampionMatchContainer = ({
   matchingMembers,
   onSelectMember,
   onSelectMemberMatch,
+  onSelectedTab,
 }: ChampionMatchContainerProps) => {
   const [activeTab, setActiveTab] = useState(0);
   const tabs = ["New Match", "Applied", "Invited", "Accepted", "Rejected"];
@@ -57,7 +60,13 @@ export const ChampionMatchContainer = ({
 
   return (
     <div className="m-2 rounded-xl">
-      <TabsSelector tabs={tabs} onSelect={(val) => setActiveTab(val)} />
+      <TabsSelector
+        tabs={tabs}
+        onSelect={(val) => {
+          setActiveTab(val);
+          onSelectedTab(tabs[val]);
+        }}
+      />
       <div className="border-accentColor h-8/10 scrollbar-hide overflow-y-scroll rounded-b-xl border-b-2 border-r-2 border-l-2 bg-white px-4">
         {activeTab === 0 && (
           <ActiveTabMembers
