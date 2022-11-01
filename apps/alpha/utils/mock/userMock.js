@@ -401,7 +401,7 @@ const Result = {
       "I was employee no1 at Dropbox where I basically helped scope out v1 of the product's backend. I'm looking for a challenging project to spend my nights & weekends on and potentially even join down the line.",
     percentage: "79%",
     picture:
-      "https://cdn.discordapp.com/avatars/879166443512545311/feb30747504d86519aee3a54fac0b932.webp",
+      "https://cdn.discordapp.com/avatars/516697403391213588/4cc3f607d01bc8865b327064c5d380ca.png",
     name: "Waxy",
     nameDescription: "Backend Developer",
     Descrimator: "1234",
@@ -438,7 +438,7 @@ const Result = {
       "I'm currently a PM at Airbnb - absolutely obsessed with learning & want to work on something completely unrelated to hospitality.",
     percentage: "88%",
     picture:
-      "https://cdn.discordapp.com/avatars/385833013692334080/3fcaa397c193dc2f9c6316e79ce75b8d.webp",
+      "https://cdn.discordapp.com/avatars/677988313319211037/ff9cda5e0e8fbe62caea07fb7eb3de23.webp",
     name: "Impactbilli",
     nameDescription: "Product",
     Descrimator: "1234",
@@ -841,63 +841,63 @@ const resultsOnChoice = {
     },
     {
       result: "1",
-      percentage: "50%",
+      percentage: "71%",
     },
     {
       result: "12",
-      percentage: "71%",
+      percentage: "50%",
     },
   ],
   "Frontend Developer": [
     {
       result: "1",
-      percentage: "80%",
-    },
-    {
-      result: "4",
-      percentage: "60%",
-    },
-    {
-      result: "3",
-      percentage: "50%",
-    },
-    {
-      result: "8",
-      percentage: "69%",
-    },
-    {
-      result: "14",
       percentage: "95%",
     },
     {
-      result: "11",
-      percentage: "81%",
-    },
-    {
-      result: "9",
-      percentage: "45%",
-    },
-    {
-      result: "14",
+      result: "4",
       percentage: "85%",
     },
     {
+      result: "3",
+      percentage: "69%",
+    },
+    {
+      result: "8",
+      percentage: "50%",
+    },
+    {
+      result: "14",
+      percentage: "45%",
+    },
+    {
+      result: "11",
+      percentage: "44%",
+    },
+    {
+      result: "9",
+      percentage: "33%",
+    },
+    {
+      result: "13",
+      percentage: "23%",
+    },
+    {
       result: "15",
-      percentage: "32%",
+      percentage: "15%",
     },
   ],
   "Backend Developer": [
     {
       result: "2",
-      percentage: "80%",
+      percentage: "97%",
     },
     {
       result: "1",
-      percentage: "60%",
+      percentage: "90%",
     },
     {
       result: "3",
-      percentage: "50%",
+      percentage: "88%",
     },
     {
       result: "8",
@@ -905,23 +905,23 @@ const resultsOnChoice = {
     },
     {
       result: "9",
-      percentage: "97%",
-    },
-    {
-      result: "11",
-      percentage: "83%",
-    },
-    {
-      result: "13",
-      percentage: "88%",
-    },
-    {
-      result: "14",
       percentage: "77%",
     },
     {
-      result: "15",
+      result: "11",
       percentage: "62%",
+    },
+    {
+      result: "13",
+      percentage: "59",
+    },
+    {
+      result: "14",
+      percentage: "55%",
+    },
+    {
+      result: "15",
+      percentage: "32%",
     },
   ],
   "Blockchain Developer": [
@@ -931,53 +931,53 @@ const resultsOnChoice = {
     },
     {
       result: "9",
-      percentage: "72%",
-    },
-    {
-      result: "1",
-      percentage: "76%",
-    },
-    {
-      result: "14",
-      percentage: "71%",
-    },
-    {
-      result: "11",
       percentage: "79%",
     },
     {
+      result: "1",
+      percentage: "78%",
+    },
+    {
+      result: "14",
+      percentage: "74%",
+    },
+    {
+      result: "11",
+      percentage: "60%",
+    },
+    {
       result: "13",
-      percentage: "77%",
+      percentage: "59%",
     },
   ],
   Product: [
     {
       result: "3",
-      percentage: "80%",
-    },
-    {
-      result: "5",
-      percentage: "60%",
-    },
-    {
-      result: "4",
-      percentage: "50%",
-    },
-    {
-      result: "7",
       percentage: "98%",
     },
     {
-      result: "10",
-      percentage: "72%",
-    },
-    {
-      result: "12",
+      result: "5",
       percentage: "88%",
     },
     {
+      result: "4",
+      percentage: "72%",
+    },
+    {
+      result: "7",
+      percentage: "71%",
+    },
+    {
+      result: "10",
+      percentage: "69%",
+    },
+    {
+      result: "12",
+      percentage: "67%",
+    },
+    {
       result: "15",
-      percentage: "22%",
+      percentage: "55%",
     },
   ],
 };
