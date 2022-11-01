@@ -87,7 +87,7 @@ export const MemberProfileCard = ({
               ⚡️Match
             </h1>
             <p className="text-soilPurple font-poppins text-4xl font-semibold">
-              {round(Number(percentage), 1)}%
+              {round(Number(percentage), 0)}%
             </p>
           </div>
         )}

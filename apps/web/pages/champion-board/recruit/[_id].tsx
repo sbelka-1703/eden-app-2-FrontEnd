@@ -41,6 +41,7 @@ const ProjectPage: NextPageWithLayout = () => {
   );
 
   const [selectMember, setSelectMember] = useState<Maybe<Members>>(null);
+  const [selecMemberMatch, setSelectMemberMatch] = useState<string>("");
 
   const { data: dataMember, refetch: refetchMember } = useQuery(FIND_MEMBER, {
     variables: {
@@ -91,6 +92,7 @@ const ProjectPage: NextPageWithLayout = () => {
         <ProfileModal
           openModal={!!selectMember}
           member={dataMember.findMember}
+          memberMatch={selecMemberMatch}
           onClose={() => setSelectMember(null)}
         />
       )} */}
@@ -111,6 +113,7 @@ const ProjectPage: NextPageWithLayout = () => {
           <ChampionMatchContainer
             selectedRole={selectedRole}
             onSelectMember={setSelectMember}
+            onSelectMemberMatch={setSelectMemberMatch}
             project={dataProject.findProject}
             matchingMembers={matchingMembers?.matchSkillsToMembers}
           />

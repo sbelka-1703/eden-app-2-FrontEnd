@@ -51,15 +51,13 @@ export const SendMessageToUser = ({ member }: ISendMessageToUserProps) => {
     });
     const jsonData: CreateThreadResponse = await response.json();
 
-    console.log("thread created");
-
     return jsonData;
   };
 
   const handleSendMessage = async () => {
     setSendingMessage(true);
     const { threadId } = await createThread({
-      message: `<@${member?._id}>`,
+      message: `<@${member?._id}> <@${currentUser?._id}>`,
       embedMessage: message,
       senderAvatarURL: currentUser?.discordAvatar!,
       senderName: `${currentUser?.discordName} -- Just invited you to a conversation`,
@@ -88,6 +86,8 @@ export const SendMessageToUser = ({ member }: ISendMessageToUserProps) => {
       setIsMessageSent(true);
     }
   };
+
+  if (!member) return null;
 
   return (
     <div className={`h-80`}>
@@ -118,7 +118,7 @@ export const SendMessageToUser = ({ member }: ISendMessageToUserProps) => {
                   </TextHeading3>
                 </div>
                 <div className="mt-3">
-                  <TextHeading3>Hey, @{member?.discordName}!</TextHeading3>
+                  {/* <TextHeading3>Hey, @{member?.discordName}!</TextHeading3> */}
                   <TextArea
                     rows={6}
                     value={message}
