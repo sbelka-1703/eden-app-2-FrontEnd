@@ -5,6 +5,7 @@ import {
   EmojiSelector,
   Modal,
   RoleCard,
+  SocialMediaComp,
   TextBody,
   TextHeading1,
   TextHeading3,
@@ -89,7 +90,7 @@ export const StaticModal = ({
                 ⚡️Match
               </h1>
               <p className="text-soilPurple font-poppins text-4xl font-semibold">
-                {item.percentage}
+                {item.percentage}%
               </p>
             </div>
           )}
@@ -99,6 +100,7 @@ export const StaticModal = ({
         {resultPopUpFlag?.type === "Project" && <ProjectFlagType item={item} />}
         {resultPopUpFlag?.type === "Bounty" && <BountyFlagType item={item} />}
         {resultPopUpFlag?.type === "Channel" && <ChannelFlagType item={item} />}
+        {resultPopUpFlag?.type === "User" && <UserFlagType item={item} />}
       </div>
     </Modal>
   );
@@ -333,6 +335,43 @@ const ChannelFlagType = ({ item }: IStaticCardTypeProps) => {
               )
             )}
           </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+///////////////////////// User Flag Type /////////////////////////
+
+const UserFlagType = ({ item }: IStaticCardTypeProps) => {
+  return (
+    <>
+      <div className="grid w-full grid-cols-4 gap-6">
+        <div className="col-span-3">
+          <p className="mb-3 text-sm font-semibold tracking-widest subpixel-antialiased">
+            🛠 Skills
+          </p>
+          <div className="inline-block">
+            {item?.Skills?.map((skill: string, index: number) => (
+              <Badge
+                text={skill}
+                key={index}
+                className={`bg-soilPurple/20 py-px text-xs`}
+              />
+            ))}
+          </div>
+        </div>
+        <div className="col-span-1 ml-8">
+          {!!item.socials?.length && (
+            <SocialMediaComp
+              title="Socials"
+              links={item.socials.map((link: any) => ({
+                name: link.name.toLowerCase(),
+                url: link.link,
+              }))}
+              size="1.8rem"
+            />
+          )}
         </div>
       </div>
     </>
