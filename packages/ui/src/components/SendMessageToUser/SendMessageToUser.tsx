@@ -51,6 +51,9 @@ export const SendMessageToUser = ({
   project,
   role,
 }: ISendMessageToUserProps) => {
+  // console.log("project", project);
+  // console.log("role", role);
+
   const { currentUser } = useContext(UserContext);
   const [message, setMessage] = useState("");
   const [sendingMessage, setSendingMessage] = useState(false);
@@ -85,13 +88,20 @@ export const SendMessageToUser = ({
     return jsonData;
   };
 
+  const embededMessage = `
+    Project: ${project?.title}
+    About Project: ${project?.description}
+    Role: ${role?.title}
+    Message: ${message}
+  `;
+
   const handleSendMessage = async () => {
     setSendingMessage(true);
     const { threadId } = await createThread({
       message: `<@${member?._id}> <@${currentUser?._id}>`,
-      embedMessage: message,
+      embedMessage: embededMessage,
       senderAvatarURL: currentUser?.discordAvatar!,
-      senderName: `${currentUser?.discordName} -- Just invited you to a conversation`,
+      senderName: `${currentUser?.discordName} - Invited you to join ${project?.title}`,
       channelId: "1001547443135058010",
       threadName: `Project Talents Discussion with ${member?.discordName}`,
       autoArchiveDuration: AutoArchiveDuration.OneDay,

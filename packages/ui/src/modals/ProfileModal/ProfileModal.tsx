@@ -153,7 +153,7 @@ export const ProfileModal = ({
         </div>
       </div>
       {showInvite ? (
-        <SendMessageToUser member={member} project={project} />
+        <SendMessageToUser member={member} project={project} role={role} />
       ) : (
         <UserSkillSocialAval member={member} />
       )}
