@@ -6,6 +6,7 @@ export * from "./CheckBox";
 export * from "./Date";
 export * from "./Dropdown";
 export * from "./Favorite";
+export * from "./LevelAvatar";
 export * from "./Loading";
 export * from "./MatchAvatar";
 export * from "./MenuItem";
