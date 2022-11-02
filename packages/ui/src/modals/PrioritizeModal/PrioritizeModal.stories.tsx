@@ -14,6 +14,7 @@ const Template: ComponentStory<typeof PrioritizeModal> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
+  numMatches: 29,
   openModal: true,
   onClose: () => null,
   onSubmit: (data) => {

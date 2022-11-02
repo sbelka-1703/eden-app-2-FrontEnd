@@ -6,16 +6,7 @@ import {
   TextBody,
   TextHeading3,
 } from "@eden/package-ui";
-import {
-  filter,
-  flatten,
-  forEach,
-  includes,
-  isEmpty,
-  map,
-  // omitBy,
-  uniq,
-} from "lodash";
+import { filter, flatten, forEach, includes, isEmpty, map, uniq } from "lodash";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
@@ -31,6 +22,7 @@ type Data = {
   battery?: boolean;
   subtitle?: string;
   hideSkip?: boolean;
+  numMatches?: string;
   itemsTitle?: string;
 };
 
@@ -137,6 +129,9 @@ export const FindTalentModal = ({
                 _id: generateId(),
                 name: item,
               })),
+          numMatches:
+            mockData?.SkillTree[selectedItems.main[0].name as keyof Object]
+              ?.subCategories?.numMatches,
         };
 
         setSection(data);
@@ -171,6 +166,9 @@ export const FindTalentModal = ({
                 _id: generateId(),
                 name: item,
               })),
+          numMatches:
+            mockData?.SkillTree[selectedItems.main[0].name as keyof Object]
+              ?.subCategories?.numMatches,
         };
 
         setSection(data);
@@ -249,7 +247,10 @@ export const FindTalentModal = ({
           </div>
 
           {section.battery && (
-            <BatteryStepper batteryPercentage={currentStep * 20} />
+            <BatteryStepper
+              numMatches={section.numMatches}
+              batteryPercentage={currentStep * 20}
+            />
           )}
         </div>
         <section className="mt-4">
