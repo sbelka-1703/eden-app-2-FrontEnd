@@ -22,6 +22,7 @@ type Data = {
   battery?: boolean;
   subtitle?: string;
   hideSkip?: boolean;
+  numMatches?: string;
   itemsTitle?: string;
 };
 
@@ -29,7 +30,6 @@ export interface FindTalentModalProps {
   openModal?: boolean;
   onClose: () => void;
   randomNumber?: boolean;
-  matchesNumber?: number;
   // eslint-disable-next-line no-unused-vars
   onSubmit?: (data: { [key: number]: Item[] }) => void;
   mockData?: any;
@@ -43,7 +43,6 @@ export const FindTalentModal = ({
   onSubmit,
   randomNumber,
   mockData,
-  matchesNumber,
 }: FindTalentModalProps) => {
   const generateId = randomNumber
     ? () => Math.random().toString()
@@ -130,6 +129,9 @@ export const FindTalentModal = ({
                 _id: generateId(),
                 name: item,
               })),
+          numMatches:
+            mockData?.SkillTree[selectedItems.main[0].name as keyof Object]
+              ?.subCategories?.numMatches,
         };
 
         setSection(data);
@@ -164,6 +166,9 @@ export const FindTalentModal = ({
                 _id: generateId(),
                 name: item,
               })),
+          numMatches:
+            mockData?.SkillTree[selectedItems.main[0].name as keyof Object]
+              ?.subCategories?.numMatches,
         };
 
         setSection(data);
@@ -243,7 +248,7 @@ export const FindTalentModal = ({
 
           {section.battery && (
             <BatteryStepper
-              matchesNumber={matchesNumber}
+              numMatches={section.numMatches}
               batteryPercentage={currentStep * 20}
             />
           )}

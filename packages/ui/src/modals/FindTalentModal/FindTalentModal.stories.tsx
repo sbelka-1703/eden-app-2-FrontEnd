@@ -15,7 +15,6 @@ const Template: ComponentStory<typeof FindTalentModal> = (args) => (
 export const Default = Template.bind({});
 Default.args = {
   openModal: true,
-  matchesNumber: 129,
   onClose: () => null,
   onSubmit: (data) => {
     console.log(data);
