@@ -100,6 +100,7 @@ export const ChampionRecruitContainer = ({
                       fields: {
                         projectID: project?._id,
                         memberID: member?._id,
+                        // roleID, // TODO: roleID is needed here
                         phase: "rejected",
                       },
                     },
@@ -122,6 +123,7 @@ export const ChampionRecruitContainer = ({
                         fields: {
                           projectID: project?._id,
                           memberID: member?._id,
+                          // roleID, // TODO: roleID is needed here
                           phase: "invited",
                         },
                       },
@@ -139,6 +141,7 @@ export const ChampionRecruitContainer = ({
                         fields: {
                           projectID: project?._id,
                           memberID: member?._id,
+                          // roleID, // TODO: roleID is needed here
                           phase: "shortlisted",
                         },
                       },
