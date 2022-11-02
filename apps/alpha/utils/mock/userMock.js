@@ -439,6 +439,40 @@ const Result = {
       },
     ],
     availability: "10",
+    endorsements: [{
+      avatar: "https://cdn.discordapp.com/avatars/516697403391213588/4cc3f607d01bc8865b327064c5d380ca.png",
+      name: "Waxy",
+      endorsement: "I had a change to work with BluePanda in D_D Acedemy and he was amazing. True Leader. I learned from him so much. Can’t wait to work with him again.",
+      level: {
+        name: "Level 2",
+        smallName: "L2",
+        meaning: "Community Favourite",
+        SuccessfulEndorcmentsGive: "23",
+        SuccessfulEndorcmentsReceive: "12",
+      }
+    },{
+      avatar: "https://cdn.discordapp.com/avatars/516697403391213588/4cc3f607d01bc8865b327064c5d380ca.png",
+      name: "Impactbilli",
+      endorsement: "BluePanda is my greatest friend and a mentor. He’s my North Star. ",
+      level: {
+        name: "Level 3",
+        smallName: "L3",
+        meaning: "Community leader",
+        SuccessfulEndorcmentsGive: "3",
+        SuccessfulEndorcmentsReceive: "12",
+      }
+    },{
+      avatar: "https://cdn.discordapp.com/avatars/175735303489847296/fe70f8879d7d8979dd4a32690806f7f3.webp",
+      name: "XYZ",
+      endorsement: "BluePanda is my greatest friend and a mentor. He’s my North Star. ",
+      level: {
+        name: "Level 1",
+        smallName: "L1",
+        meaning: "Community starter",
+        SuccessfulEndorcmentsGive: "13",
+        SuccessfulEndorcmentsReceive: "2",
+      }
+    }]
   },
   2: {
     description:
