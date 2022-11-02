@@ -68,7 +68,7 @@ export const PrioritizeModal = ({
     skillMatch: 20,
     availability: 20,
   });
-  const [remaining, setRemaining] = useState(100);
+  const [remaining, setRemaining] = useState(300);
 
   const handlePrioritized = (skill: string, range: number) => {
     setRange((prevState) => ({ ...prevState, [skill]: range }));
@@ -77,7 +77,7 @@ export const PrioritizeModal = ({
   useEffect(() => {
     const remaining = Object.values(range).reduce((prev, curr) => {
       return prev - curr;
-    }, 100);
+    }, 300);
 
     setRemaining(remaining);
   }, [range, remaining]);
