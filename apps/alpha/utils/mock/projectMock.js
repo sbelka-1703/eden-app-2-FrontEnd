@@ -1088,120 +1088,120 @@ const resultsOnChoice = {
   Design: [
     {
       result: "Design 1",
-      percentage: "88",
+      percentage: "88%",
       rolesPercentages: ["50", "20"],
     },
     {
       result: "Backend 1",
-      percentage: "50",
+      percentage: "50%",
       rolesPercentages: ["50", "30", "20", "10"],
     },
     {
       result: "DinoPixaverse - Game",
-      percentage: "43",
+      percentage: "43%",
       rolesPercentages: ["43", "21", "61"],
     },
     {
       result: "PDEEDOO - Education",
-      percentage: "09",
+      percentage: "09%",
       rolesPercentages: ["50"],
     },
   ],
   "Frontend Developer": [
     {
       result: "Backend 1",
-      percentage: "80",
+      percentage: "88%",
       rolesPercentages: ["50", "30", "20", "10"],
     },
     {
       result: "Frontend 1",
-      percentage: "88",
+      percentage: "80%",
       rolesPercentages: ["50", "30"],
     },
     {
       result: "Porton Wallet - FrontEnd",
-      percentage: "79",
+      percentage: "79%",
       rolesPercentages: ["70", "67"],
     },
     {
       result: "Atomic NFT Marketplace - FrontEnd",
-      percentage: "84",
+      percentage: "74%",
       rolesPercentages: ["50", "30", "20"],
     },
     {
       result: "Mati - FrontEnd",
-      percentage: "65",
+      percentage: "65%",
       rolesPercentages: ["59"],
     },
     {
       result: "WEB3 Board - FrontEnd",
-      percentage: "83",
+      percentage: "62%",
       rolesPercentages: ["59"],
     },
     {
       result: "ConvoBridge - FrontEnd",
-      percentage: "43",
+      percentage: "43%",
       rolesPercentages: ["43"],
     },
     {
       result: "MeshLink- Data",
-      percentage: "09",
+      percentage: "09%",
       rolesPercentages: ["50"],
     },
   ],
   "Backend Developer": [
     {
       result: "Backend 1",
-      percentage: "88",
+      percentage: "88%",
       rolesPercentages: ["50", "30", "20", "10"],
     },
     {
       result: "SurfDB - Backend",
-      percentage: "56",
+      percentage: "78%",
       rolesPercentages: ["50", "30", "20"],
     },
     {
       result: "Cross Fader - Backend",
-      percentage: "32",
+      percentage: "58%",
       rolesPercentages: ["34", "21", "99"],
     },
     {
       result: "AttributionX - Data",
-      percentage: "78",
+      percentage: "32%",
       rolesPercentages: ["75"],
     },
   ],
   "Blockchain Developer": [
     {
       result: "Chain Statements - Blockchain",
-      percentage: "33",
+      percentage: "87%",
       rolesPercentages: ["50", "30"],
     },
     {
       result: "Optimistic Payments - Blockchain",
-      percentage: "87",
+      percentage: "68%",
       rolesPercentages: ["50", "30", "45"],
     },
     {
       result: "Triton Instant Messenger  - Blockchain",
-      percentage: "76",
+      percentage: "32%",
       rolesPercentages: ["56"],
     },
   ],
   Product: [
     {
       result: "Product 1",
-      percentage: "82",
+      percentage: "83%",
       rolesPercentages: ["50", "30", "20", "10"],
     },
     {
       result: "AttributionX - Data",
-      percentage: "83",
+      percentage: "82%",
       rolesPercentages: ["10"],
     },
     {
       result: "MeshLink- Data",
-      percentage: "59",
+      percentage: "59%",
       rolesPercentages: ["52", "34", "45"],
     },
   ],
