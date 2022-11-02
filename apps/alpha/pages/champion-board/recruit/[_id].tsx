@@ -82,6 +82,7 @@ const ProjectPage: NextPageWithLayout = () => {
           openModal={!!selectMember}
           member={dataMember.findMember}
           project={dataProject?.findProject}
+          role={selectedRole}
           type={modalType}
           memberMatch={selecMemberMatch}
           onClose={() => setSelectMember(null)}

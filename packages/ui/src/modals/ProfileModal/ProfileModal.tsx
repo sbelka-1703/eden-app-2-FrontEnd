@@ -1,6 +1,11 @@
 /* eslint-disable camelcase */
 import { gql, useMutation } from "@apollo/client";
-import { Maybe, Members, Project } from "@eden/package-graphql/generated";
+import {
+  Maybe,
+  Members,
+  Project,
+  RoleType,
+} from "@eden/package-graphql/generated";
 import {
   Button,
   Modal,
@@ -9,6 +14,7 @@ import {
   UserWithDescription,
 } from "@eden/package-ui";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 import { round } from "../../../utils";
 
@@ -23,6 +29,7 @@ const SET_APPLY_TO_PROJECT = gql`
 export interface ProfileModalProps {
   member: Maybe<Members>;
   project?: Project;
+  role?: RoleType;
   type?: string;
   memberMatch?: string;
   openModal?: boolean;
@@ -32,19 +39,31 @@ export interface ProfileModalProps {
 export const ProfileModal = ({
   member,
   project,
+  role,
   type,
   memberMatch,
   onClose,
   openModal,
 }: ProfileModalProps) => {
   // console.log("member", member);
+  // console.log("project", project);
+  // console.log("role", role);
   const [showInvite, setShowInvite] = useState(false);
 
   //  const tabs = ["New Match", "Applied", "Invited", "Accepted", "Rejected"];
 
   const [changeTeamMember_Phase_Project, {}] = useMutation(
     SET_APPLY_TO_PROJECT,
-    {}
+    {
+      onCompleted: () => {
+        console.log(changeTeamMember_Phase_Project);
+        toast.success("success");
+        onClose();
+      },
+      onError: (error) => {
+        toast.error(error.message);
+      },
+    }
   );
 
   const handleReject = () => {
@@ -55,10 +74,13 @@ export const ProfileModal = ({
           fields: {
             projectID: project?._id,
             memberID: member?._id,
+            roleID: role?._id,
             phase: "rejected",
           },
         },
       });
+    } else {
+      toast.error("Something went wrong");
     }
   };
 
@@ -70,10 +92,13 @@ export const ProfileModal = ({
           fields: {
             projectID: project?._id,
             memberID: member?._id,
+            roleID: role?._id,
             phase: "committed",
           },
         },
       });
+    } else {
+      toast.error("Something went wrong");
     }
   };
 

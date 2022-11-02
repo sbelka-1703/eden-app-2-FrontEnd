@@ -6,6 +6,7 @@ import {
   Members,
   MutationAddNewChatArgs,
   Project,
+  RoleType,
 } from "@eden/package-graphql/generated";
 import {
   Avatar,
@@ -15,6 +16,7 @@ import {
   TextHeading3,
 } from "@eden/package-ui";
 import { useContext, useState } from "react";
+import { toast } from "react-toastify";
 
 import {
   AutoArchiveDuration,
@@ -41,11 +43,13 @@ const SET_APPLY_TO_PROJECT = gql`
 export interface ISendMessageToUserProps {
   member: Maybe<Members>;
   project?: Project;
+  role?: RoleType;
 }
 
 export const SendMessageToUser = ({
   member,
   project,
+  role,
 }: ISendMessageToUserProps) => {
   const { currentUser } = useContext(UserContext);
   const [message, setMessage] = useState("");
@@ -56,7 +60,15 @@ export const SendMessageToUser = ({
 
   const [changeTeamMember_Phase_Project, {}] = useMutation(
     SET_APPLY_TO_PROJECT,
-    {}
+    {
+      onCompleted: () => {
+        console.log(changeTeamMember_Phase_Project);
+        toast.success("success");
+      },
+      onError: (error) => {
+        toast.error(error.message);
+      },
+    }
   );
 
   const createThread = async (body: CreateThreadApiRequestBody) => {
@@ -103,16 +115,19 @@ export const SendMessageToUser = ({
     } finally {
       setSendingMessage(false);
       setIsMessageSent(true);
-      if (project?._id && member?._id) {
+      if (project?._id && member?._id && role?._id) {
         changeTeamMember_Phase_Project({
           variables: {
             fields: {
               projectID: project?._id,
               memberID: member?._id,
+              roleID: role?._id,
               phase: "rejected",
             },
           },
         });
+      } else {
+        toast.error("Something went wrong");
       }
     }
   };
