@@ -22,7 +22,7 @@ import { useContext, useState } from "react";
 
 import type { NextPageWithLayout } from "../_app";
 
-const ChatPage: NextPageWithLayout = () => {
+const ChatPage: NextPageWithLayout = (session) => {
   const [selectedMember, setSelectedMember] = useState<Members>();
   const { data: dataMembers } = useQuery(FIND_MEMBERS, {
     variables: {
@@ -48,6 +48,7 @@ const ChatPage: NextPageWithLayout = () => {
   const searchMember = dataSearchMember?.findMember;
 
   // if (searchMember) console.log(searchMember);
+  if (session) console.log(session);
 
   const { currentUser } = useContext(UserContext);
   const [openModal, setOpenModal] = useState(false);

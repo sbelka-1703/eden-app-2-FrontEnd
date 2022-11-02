@@ -34,6 +34,7 @@ const HomePage: NextPageWithLayout = () => {
     <>
       <SEO />
       <Card
+        shadow
         className={`h-85 scrollbar-hide m-auto flex flex-col overflow-scroll bg-white py-8`}
       >
         {navItems.map((item, index) => (
