@@ -22,6 +22,7 @@ for (let i = 0; i < 1000; i++) {
 export const Default = Template.bind({});
 Default.args = {
   openModal: true,
+  matchesNumber: 29,
   companies: mockCompanyData,
   salaryData: rangeNumbers,
   onClose: () => null,

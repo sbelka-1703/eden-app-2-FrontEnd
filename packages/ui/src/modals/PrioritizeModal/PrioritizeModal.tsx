@@ -47,6 +47,7 @@ export interface PrioritizeModalProps {
   openModal?: boolean;
   onClose: () => void;
   battery?: boolean;
+  matchesNumber?: number;
   // eslint-disable-next-line no-unused-vars
   onSubmit: (data: {
     experience: number;
@@ -61,6 +62,7 @@ export const PrioritizeModal = ({
   battery = false,
   openModal,
   onSubmit,
+  matchesNumber,
 }: PrioritizeModalProps) => {
   const [range, setRange] = useState({
     experience: 20,
@@ -96,7 +98,12 @@ export const PrioritizeModal = ({
             </TextBody>
           </div>
 
-          {battery && <BatteryStepper batteryPercentage={75} />}
+          {battery && (
+            <BatteryStepper
+              batteryPercentage={75}
+              matchesNumber={matchesNumber}
+            />
+          )}
         </div>
 
         <section className="grid grid-cols-2 gap-4">

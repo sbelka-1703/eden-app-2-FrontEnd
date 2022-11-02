@@ -6,16 +6,7 @@ import {
   TextBody,
   TextHeading3,
 } from "@eden/package-ui";
-import {
-  filter,
-  flatten,
-  forEach,
-  includes,
-  isEmpty,
-  map,
-  // omitBy,
-  uniq,
-} from "lodash";
+import { filter, flatten, forEach, includes, isEmpty, map, uniq } from "lodash";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
@@ -38,6 +29,7 @@ export interface FindTalentModalProps {
   openModal?: boolean;
   onClose: () => void;
   randomNumber?: boolean;
+  matchesNumber?: number;
   // eslint-disable-next-line no-unused-vars
   onSubmit?: (data: { [key: number]: Item[] }) => void;
   mockData?: any;
@@ -51,6 +43,7 @@ export const FindTalentModal = ({
   onSubmit,
   randomNumber,
   mockData,
+  matchesNumber,
 }: FindTalentModalProps) => {
   const generateId = randomNumber
     ? () => Math.random().toString()
@@ -249,7 +242,10 @@ export const FindTalentModal = ({
           </div>
 
           {section.battery && (
-            <BatteryStepper batteryPercentage={currentStep * 20} />
+            <BatteryStepper
+              matchesNumber={matchesNumber}
+              batteryPercentage={currentStep * 20}
+            />
           )}
         </div>
         <section className="mt-4">
