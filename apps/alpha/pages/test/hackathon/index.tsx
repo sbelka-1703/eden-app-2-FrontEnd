@@ -1,9 +1,4 @@
 import {
-  LaunchProjectContext,
-  LaunchProjectModal,
-  LaunchProjectProvider,
-} from "@eden/package-context";
-import {
   AppUserLayout,
   Card,
   FiltersCard,
@@ -13,15 +8,18 @@ import {
   SEO,
   ShortlistModalContainerStoryFilter,
   StaticCard,
+  // StaticCard,
   UserProfileCard,
 } from "@eden/package-ui";
-import { useContext, useEffect, useState } from "react";
 
-import USER_MOCK from "../../../utils/mock/userMock";
+import HACK2_MOCK from "../../../utils/mock/skillTreeWorks_Hackathon_Project2";
 import type { NextPageWithLayout } from "../../_app";
 
-const UserPage: NextPageWithLayout = () => {
+const LaunchPage: NextPageWithLayout = () => {
   const [roleFilter, setRoleFilter] = useState<any>(null);
+
+  // const { project, dispatchProject, selectedRole, matchMembersPage } =
+  //   useContext(LaunchProjectContext);
 
   const handleSetSkills = (val: any) => {
     console.log(val);
@@ -36,9 +34,6 @@ const UserPage: NextPageWithLayout = () => {
     console.log(val);
   };
 
-  //@TODO - using this context is extremely overkill.
-  // I'm using it for speed but it should be replaced with a more accurate one
-
   const { setOpenModal } = useContext(LaunchProjectContext);
 
   useEffect(() => {
@@ -47,14 +42,19 @@ const UserPage: NextPageWithLayout = () => {
 
   const res =
     roleFilter?.main && roleFilter?.main.length > 0
-      ? USER_MOCK.resultsOnChoice[roleFilter.main[0].name as keyof Object]
+      ? HACK2_MOCK.resultsOnChoice[roleFilter.main[0].name as keyof Object]
       : [];
 
   const matchedUsers = (res as any[]).map(
-    (item: { result: string; percentage: string }) => {
-      const user: any = USER_MOCK.Result[item?.result as keyof Object];
+    (item: {
+      result: string;
+      percentage: string;
+      rolesPercentages: string[];
+    }) => {
+      const user: any = HACK2_MOCK.Result[item?.result as keyof Object];
 
       user.percentage = item.percentage;
+      user.rolesPercentages = item.rolesPercentages;
 
       return user;
     }
@@ -64,7 +64,7 @@ const UserPage: NextPageWithLayout = () => {
     <>
       <SEO />
       <GridLayout>
-        <GridItemThree className="h-85 scrollbar-hide overflow-scroll">
+        <GridItemThree className="h-8/10 scrollbar-hide overflow-scroll">
           <UserProfileCard />
           <FiltersCard
             defaultValue={{}}
@@ -83,8 +83,8 @@ const UserPage: NextPageWithLayout = () => {
                 <StaticCard
                   key={index}
                   item={item}
-                  resultCardFlag={USER_MOCK?.ResultCardShowFlag}
-                  resultPopUpFlag={USER_MOCK?.ResultPopUpShowFlag}
+                  resultCardFlag={HACK2_MOCK?.ResultCardShowFlag}
+                  resultPopUpFlag={HACK2_MOCK?.ResultPopUpShowFlag}
                 />
               ))}
             </div>
@@ -95,16 +95,47 @@ const UserPage: NextPageWithLayout = () => {
         setSubmittingTalentAttributes={(val) => {
           setRoleFilter(val);
         }}
-        mockData={USER_MOCK}
+        mockData={HACK2_MOCK}
       />
     </>
   );
 };
 
-UserPage.getLayout = (page) => (
+LaunchPage.getLayout = (page) => (
   <LaunchProjectProvider>
     <AppUserLayout>{page}</AppUserLayout>
   </LaunchProjectProvider>
 );
 
-export default UserPage;
+export default LaunchPage;
+
+import {
+  LaunchProjectContext,
+  LaunchProjectModal,
+  LaunchProjectProvider,
+} from "@eden/package-context";
+import { IncomingMessage, ServerResponse } from "http";
+import { getSession } from "next-auth/react";
+import { useContext, useEffect, useState } from "react";
+
+export async function getServerSideProps(ctx: {
+  req: IncomingMessage;
+  res: ServerResponse;
+}) {
+  const session = await getSession(ctx);
+
+  const url = ctx.req.url?.replace("/", "");
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: `/login?redirect=${url}`,
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}

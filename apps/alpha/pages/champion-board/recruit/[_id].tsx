@@ -1,16 +1,20 @@
 /* eslint-disable no-unused-vars */
 import { useQuery } from "@apollo/client";
-import { FIND_PROJECT, MATCH_MEMBERS_TO_SKILLS } from "@eden/package-graphql";
+import {
+  FIND_MEMBER,
+  FIND_PROJECT,
+  MATCH_MEMBERS_TO_SKILLS,
+} from "@eden/package-graphql";
 import {
   AppUserSubmenuLayout,
   ChampionMatchContainer,
   GridItemNine,
   GridItemThree,
   GridLayout,
+  ProfileModal,
   ProjectEditSelectorCard,
   SEO,
 } from "@eden/package-ui";
-// import { LaunchProjectContext } from "@eden/package-context";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -36,20 +40,20 @@ const ProjectPage: NextPageWithLayout = () => {
     dataProject?.findProject?.role[0]
   );
 
-  // const [selectMember, setSelectMember] = useState("");
+  const [selectMember, setSelectMember] = useState<Maybe<Members>>(null);
+  const [selecMemberMatch, setSelectMemberMatch] = useState<string>("");
+  const [modalType, setModalType] = useState("New Match");
 
-  // const { matchMembersPage, project, selectedRole } =
-  //   useContext(LaunchProjectContext);
+  const { data: dataMember, refetch: refetchMember } = useQuery(FIND_MEMBER, {
+    variables: {
+      fields: {
+        _id: selectMember,
+      },
+    },
+    skip: !selectMember,
+    context: { serviceName: "soilservice" },
+  });
 
-  // const { data: dataMember, refetch: refetchMember } = useQuery(FIND_MEMBER, {
-  //   variables: {
-  //     fields: {
-  //       _id: selectMember,
-  //     },
-  //   },
-  //   skip: !selectMember,
-  //   context: { serviceName: "soilservice" },
-  // });
   const { data: matchingMembers } = useQuery(MATCH_MEMBERS_TO_SKILLS, {
     variables: {
       fields: {
@@ -65,26 +69,25 @@ const ProjectPage: NextPageWithLayout = () => {
     context: { serviceName: "soilservice" },
   });
 
-  // useEffect(() => {
-  //   if (selectedRole) {
-  //     const skills = selectedRole?.skills?.flatMap(
-  //       (skill: any) => skill?.skillData?._id
-  //     );
-
-  //     console.log(skills);
-  //   }
-  // }, [selectedRole]);
-
   // project data with shortlist
   if (!dataProject) {
     return null;
   }
   // if (matchingMembers) console.log("matchingMembers", matchingMembers);
 
-  // if (selectedRole) console.log("selectRole", selectedRole);
-
   return (
     <>
+      {selectMember && dataMember?.findMember && (
+        <ProfileModal
+          openModal={!!selectMember}
+          member={dataMember.findMember}
+          project={dataProject?.findProject}
+          role={selectedRole}
+          type={modalType}
+          memberMatch={selecMemberMatch}
+          onClose={() => setSelectMember(null)}
+        />
+      )}
       <SEO />
       <GridLayout>
         <GridItemThree>
@@ -100,8 +103,11 @@ const ProjectPage: NextPageWithLayout = () => {
         </GridItemThree>
         <GridItemNine>
           <ChampionMatchContainer
-            project={dataProject.findProject}
             selectedRole={selectedRole}
+            onSelectMember={setSelectMember}
+            onSelectMemberMatch={setSelectMemberMatch}
+            onSelectedTab={(tab) => setModalType(tab)}
+            project={dataProject.findProject}
             matchingMembers={matchingMembers?.matchSkillsToMembers}
           />
         </GridItemNine>
@@ -116,6 +122,7 @@ ProjectPage.getLayout = (page) => (
 
 export default ProjectPage;
 
+import { Maybe, Members } from "@eden/package-graphql/generated";
 import { IncomingMessage, ServerResponse } from "http";
 import { getSession } from "next-auth/react";
 

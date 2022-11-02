@@ -6,7 +6,7 @@ describe("ProfileModal", () => {
     const { container } = render(
       <ProfileModal
         member={{}}
-        onInvite={function (): void {
+        onClose={function (): void {
           throw new Error("Function not implemented.");
         }}
       />

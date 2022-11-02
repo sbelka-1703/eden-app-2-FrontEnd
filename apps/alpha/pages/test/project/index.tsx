@@ -46,10 +46,15 @@ const LaunchPage: NextPageWithLayout = () => {
       : [];
 
   const matchedUsers = (res as any[]).map(
-    (item: { result: string; percentage: string }) => {
+    (item: {
+      result: string;
+      percentage: string;
+      rolesPercentages: string[];
+    }) => {
       const user: any = PROJECT_MOCK.Result[item?.result as keyof Object];
 
       user.percentage = item.percentage;
+      user.rolesPercentages = item.rolesPercentages;
 
       return user;
     }
@@ -90,6 +95,7 @@ const LaunchPage: NextPageWithLayout = () => {
         setSubmittingTalentAttributes={(val) => {
           setRoleFilter(val);
         }}
+        mockData={PROJECT_MOCK}
       />
     </>
   );

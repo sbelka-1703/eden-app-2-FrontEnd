@@ -9,6 +9,7 @@ import {
 } from "@eden/package-ui";
 import { ChevronLeftIcon } from "@heroicons/react/outline";
 import { differenceInBusinessDays, format } from "date-fns";
+import { useEffect } from "react";
 // import {sub} from "date-fns/sub"
 export interface ProjectEditSelectorCardProps {
   project?: Project;
@@ -16,7 +17,7 @@ export interface ProjectEditSelectorCardProps {
   onEdit?: () => void;
   onBack?: () => void;
   // eslint-disable-next-line no-unused-vars
-  handleSelectRole?: (val: Maybe<RoleType>) => void;
+  handleSelectRole: (val: Maybe<RoleType>) => void;
 }
 
 export const ProjectEditSelectorCard = ({
@@ -26,6 +27,12 @@ export const ProjectEditSelectorCard = ({
   selectedRole,
   handleSelectRole,
 }: ProjectEditSelectorCardProps) => {
+  useEffect(() => {
+    if (project?.role?.length) {
+      handleSelectRole(project?.role[0] || null);
+    }
+  }, [project?.role]);
+
   if (!project) return null;
 
   const ComplitionDate = new Date(Number(project?.dates?.complition));
@@ -39,11 +46,7 @@ export const ProjectEditSelectorCard = ({
   return (
     <Card shadow className={`m-2 w-full bg-white p-3`}>
       <div className="flex flex-row content-center items-center justify-between">
-        <div
-          // onClick={onClickBack}
-          className="text-soilGray cursor-pointer"
-          onClick={onBack}
-        >
+        <div className="text-soilGray cursor-pointer" onClick={onBack}>
           <ChevronLeftIcon className="mr-1 -mt-1 inline" width={20} />
           <span className="group-hover:underline">Go Back</span>
         </div>

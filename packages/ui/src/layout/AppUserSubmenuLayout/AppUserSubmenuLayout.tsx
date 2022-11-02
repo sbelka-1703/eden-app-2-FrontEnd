@@ -32,7 +32,7 @@ export const AppUserSubmenuLayout = ({
           {showSubmenu ? (
             <GridLayout>
               <GridItemThree>
-                <Card className="bg-white p-6">
+                <Card shadow className="bg-white p-6">
                   <SubmenuSelector
                     title={`Good Morning,`}
                     submenu={submenu}

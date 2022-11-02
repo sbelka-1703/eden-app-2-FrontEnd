@@ -86,10 +86,18 @@ export async function getServerSideProps(ctx: {
 
   const { redirect } = ctx.query;
 
+  let redirectUrl = "/home";
+
+  if (redirect && redirect.startsWith("_next")) {
+    redirectUrl = "/home";
+  } else if (redirect) {
+    redirectUrl = redirect;
+  }
+
   if (session) {
     return {
       redirect: {
-        destination: redirect ? `/${redirect}` : `/projects`,
+        destination: redirectUrl ? `/${redirectUrl}` : `/home`,
         permanent: false,
       },
     };

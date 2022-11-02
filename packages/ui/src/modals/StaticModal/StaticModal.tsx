@@ -2,8 +2,12 @@ import {
   Avatar,
   Badge,
   Button,
+  EmojiSelector,
   Modal,
+  RoleCard,
+  SocialMediaComp,
   TextBody,
+  TextHeading1,
   TextHeading3,
 } from "@eden/package-ui";
 import { CheckCircleIcon } from "@heroicons/react/solid";
@@ -24,7 +28,7 @@ export const StaticModal = ({
   if (!item) return null;
   return (
     <Modal open={open} onClose={onClose}>
-      <div className={`h-8/10 w-full`}>
+      <div className={`h-8/10 scrollbar-hide w-full overflow-scroll`}>
         <div className="flex w-full justify-center">
           <div className={`my-auto mr-4`}>
             <Button variant="default" className="bg-soilYellow">
@@ -33,7 +37,15 @@ export const StaticModal = ({
           </div>
 
           <div>
-            <Avatar size="lg" src={item?.picture || ""} />
+            {item?.picture?.length <= 5 ? (
+              <EmojiSelector
+                isDisabled
+                emoji={item?.picture}
+                bgColor="#ABF0B3"
+              />
+            ) : (
+              <Avatar size="lg" isProject src={item?.picture} />
+            )}
           </div>
           <div className={`my-auto ml-4`}>
             <Button variant="primary" className="">
@@ -78,7 +90,7 @@ export const StaticModal = ({
                 ⚡️Match
               </h1>
               <p className="text-soilPurple font-poppins text-4xl font-semibold">
-                {item.percentage}
+                {item.percentage}%
               </p>
             </div>
           )}
@@ -88,6 +100,7 @@ export const StaticModal = ({
         {resultPopUpFlag?.type === "Project" && <ProjectFlagType item={item} />}
         {resultPopUpFlag?.type === "Bounty" && <BountyFlagType item={item} />}
         {resultPopUpFlag?.type === "Channel" && <ChannelFlagType item={item} />}
+        {resultPopUpFlag?.type === "User" && <UserFlagType item={item} />}
       </div>
     </Modal>
   );
@@ -163,6 +176,31 @@ const ProjectFlagType = ({ item }: IStaticCardTypeProps) => {
       </div>
       <div className={`font-Inter mt-2 text-sm text-zinc-500`}>
         Eden adoptiopn in Bankless is {item?.edenMembersDAO}%
+      </div>
+      <div className={`my-4 flex`}>
+        <TextHeading1>Open Roles</TextHeading1>
+      </div>
+
+      <div className={`scrollbar-hide flex flex-grow overflow-y-scroll`}>
+        <div
+          className={`grid grow grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-3`}
+        >
+          {item?.roles?.map((role: any, index: any) => (
+            <RoleCard
+              key={index}
+              role={{
+                title: role.name,
+                description: role.description,
+                openPositions: role["Open Seats"],
+              }}
+              percentage={item.rolesPercentages[index] || 0}
+              onApply={(val) => {
+                // setRoleID(val);
+                console.log(val);
+              }}
+            />
+          ))}
+        </div>
       </div>
     </>
   );
@@ -297,6 +335,43 @@ const ChannelFlagType = ({ item }: IStaticCardTypeProps) => {
               )
             )}
           </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+///////////////////////// User Flag Type /////////////////////////
+
+const UserFlagType = ({ item }: IStaticCardTypeProps) => {
+  return (
+    <>
+      <div className="grid w-full grid-cols-4 gap-6">
+        <div className="col-span-3">
+          <p className="mb-3 text-sm font-semibold tracking-widest subpixel-antialiased">
+            🛠 Skills
+          </p>
+          <div className="inline-block">
+            {item?.Skills?.map((skill: string, index: number) => (
+              <Badge
+                text={skill}
+                key={index}
+                className={`bg-soilPurple/20 py-px text-xs`}
+              />
+            ))}
+          </div>
+        </div>
+        <div className="col-span-1 ml-8">
+          {!!item.socials?.length && (
+            <SocialMediaComp
+              title="Socials"
+              links={item.socials.map((link: any) => ({
+                name: link.name.toLowerCase(),
+                url: link.link,
+              }))}
+              size="1.8rem"
+            />
+          )}
         </div>
       </div>
     </>

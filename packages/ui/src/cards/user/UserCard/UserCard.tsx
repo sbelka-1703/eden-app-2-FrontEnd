@@ -97,6 +97,7 @@ export const UserCard = ({
                     fields: {
                       projectID: projectId,
                       memberID: member?._id,
+                      // roleID, // TODO: roleID is needed here
                       phase: "committed",
                     },
                   },
@@ -114,6 +115,7 @@ export const UserCard = ({
                     fields: {
                       projectID: projectId,
                       memberID: member?._id,
+                      // roleID, // TODO: roleID is needed here
                       phase: "rejected",
                     },
                   },

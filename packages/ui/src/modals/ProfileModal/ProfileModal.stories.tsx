@@ -17,5 +17,5 @@ export const Default = Template.bind({});
 Default.args = {
   openModal: true,
   member: getMember(),
-  onInvite: () => null,
+  onClose: () => null,
 };

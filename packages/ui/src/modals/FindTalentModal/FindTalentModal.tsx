@@ -13,7 +13,7 @@ import {
   includes,
   isEmpty,
   map,
-  omitBy,
+  // omitBy,
   uniq,
 } from "lodash";
 import { useEffect, useState } from "react";
@@ -40,6 +40,7 @@ export interface FindTalentModalProps {
   randomNumber?: boolean;
   // eslint-disable-next-line no-unused-vars
   onSubmit?: (data: { [key: number]: Item[] }) => void;
+  mockData?: any;
 }
 
 const MAIN_STEPS = 3;
@@ -49,6 +50,7 @@ export const FindTalentModal = ({
   openModal,
   onSubmit,
   randomNumber,
+  mockData,
 }: FindTalentModalProps) => {
   const generateId = randomNumber
     ? () => Math.random().toString()
@@ -57,13 +59,24 @@ export const FindTalentModal = ({
   const mainCategories: Data = {
     _id: "main",
     hideSkip: true,
-    title: "Alright, tell me who should I find to help you with your project?",
-    subtitle: "Please pick only one role for now!",
+    title: mockData?.SkillTree?.category?.title
+      ? mockData.SkillTree.category.title
+      : "Alright, tell me who should I find to help you with your project?",
+    subtitle: mockData?.SkillTree?.category?.subTitle
+      ? mockData.SkillTree.category.subTitle
+      : "Please pick only one role for now!",
     battery: false,
-    items: Object.keys(skillTreeWork).map((item) => ({
-      _id: generateId(),
-      name: item,
-    })),
+    items: mockData?.SkillTree?.category
+      ? Object.keys(mockData.SkillTree)
+          .map((item) => ({
+            _id: generateId(),
+            name: item,
+          }))
+          .filter((item) => item.name !== "category")
+      : Object.keys(skillTreeWork).map((item) => ({
+          _id: generateId(),
+          name: item,
+        })),
   };
 
   const [currentStep, setCurrentStep] = useState(0);
@@ -100,23 +113,40 @@ export const FindTalentModal = ({
 
         const data: Data = {
           _id: "second",
-          title: "It’s time to teach our AI what exacty you’re looking for 👉🏽",
-          subtitle:
-            "Now, let’s get a bit more specific about the Design Ninja you need!",
-          itemsTitle: "I want a Design Ninja to:",
+          title: mockData?.SkillTree[selectedItems.main[0].name as keyof Object]
+            ?.subCategories.title
+            ? mockData?.SkillTree[selectedItems.main[0].name as keyof Object]
+                ?.subCategories.title
+            : "It’s time to teach our AI what exacty you’re looking for 👉🏽",
+          subtitle: mockData?.SkillTree[
+            selectedItems.main[0].name as keyof Object
+          ]?.subCategories.subTitle
+            ? mockData?.SkillTree[selectedItems.main[0].name as keyof Object]
+                ?.subCategories.subTitle
+            : "Now, let’s get a bit more specific about the Design Ninja you need!",
+          itemsTitle: `I want a ${selectedItems.main[0].name} Ninja to:`,
           battery: true,
-          items: skills.map((item) => ({
-            _id: generateId(),
-            name: item,
-          })),
+          items: selectedItems.main[0]
+            ? mockData?.SkillTree[
+                selectedItems.main[0].name as keyof Object
+              ]?.subCategories.content.map((item: any) => ({
+                _id: generateId(),
+                name: item,
+              }))
+            : skills.map((item) => ({
+                _id: generateId(),
+                name: item,
+              })),
         };
 
         setSection(data);
       } else if (id === "second") {
         const firstSkill = selectedItems["main"][0].name;
         const initialSkills = Object.keys(
-          skillTreeWork[firstSkill as keyof typeof skillTreeWork]
-        ).filter((item) => item !== "subCategories");
+          mockData?.SkillTree[firstSkill as keyof typeof skillTreeWork]
+        ).filter(
+          (item) => item !== "subCategories" && item !== "Focus On Page"
+        );
 
         const data: Data = {
           _id: "third",
@@ -126,10 +156,21 @@ export const FindTalentModal = ({
             "Each highlight will add an extra step in your journey for crazy relevant AI matches!",
           itemsTitle: "Focus on:",
           battery: true,
-          items: initialSkills.map((item) => ({
-            _id: generateId(),
-            name: item,
-          })),
+          items: selectedItems.main
+            ? Object.keys(
+                mockData?.SkillTree[selectedItems.main[0].name as keyof Object]
+              )
+                .filter(
+                  (item) => item !== "subCategories" && item !== "Focus On Page"
+                )
+                .map((item) => ({
+                  _id: generateId(),
+                  name: item,
+                }))
+            : initialSkills.map((item) => ({
+                _id: generateId(),
+                name: item,
+              })),
         };
 
         setSection(data);
@@ -145,10 +186,8 @@ export const FindTalentModal = ({
           if (includes(selectedMainSkills, currKey)) {
             return {
               ...prev,
-              [currKey]: omitBy(
-                skillTreeWork[currKey as keyof typeof skillTreeWork],
-                (_, key) => !includes(selectedThirdSkills, key)
-              ),
+              [currKey]:
+                mockData.SkillTree[currKey as keyof typeof mockData.SkillTree],
             };
           }
           return prev;
@@ -169,12 +208,15 @@ export const FindTalentModal = ({
 
         const data: Data[] = map(combinedSkills, (value, key) => ({
           _id: key,
-          title: "Vibe check - what values should they possess?",
-          subtitle:
-            "Do you have carefullly curated culture in your team? Tell us what values are important for you!",
+          title: value.title
+            ? value.title
+            : "Vibe check - what values should they possess?",
+          subtitle: value.subTitle
+            ? value.subTitle
+            : "Do you have carefullly curated culture in your team? Tell us what values are important for you!",
           itemsTitle: `${key}:`,
           battery: true,
-          items: value.map((item: string) => ({
+          items: value.content.map((item: string) => ({
             _id: generateId(),
             name: item,
           })),
