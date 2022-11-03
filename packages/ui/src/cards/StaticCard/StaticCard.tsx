@@ -24,9 +24,9 @@ export const StaticCard = ({
 }: IStaticCardProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  console.log(item);
+  // console.log(item);
   // console.log(resultCardFlag);
-  console.log(resultPopUpFlag);
+  // console.log(resultPopUpFlag);
   if (!item) return null;
 
   return (

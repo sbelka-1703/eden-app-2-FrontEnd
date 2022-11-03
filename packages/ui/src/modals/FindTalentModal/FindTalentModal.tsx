@@ -134,6 +134,11 @@ export const FindTalentModal = ({
               ?.subCategories?.numMatches,
         };
 
+        // console.log(
+        //   "numMatches",
+        //   mockData?.SkillTree[selectedItems.main[0].name as keyof Object]
+        // );
+
         setSection(data);
       } else if (id === "second") {
         const firstSkill = selectedItems["main"][0].name;
@@ -171,6 +176,11 @@ export const FindTalentModal = ({
               ?.subCategories?.numMatches,
         };
 
+        // console.log(
+        //   "numMatches",
+        //   mockData?.SkillTree[selectedItems.main[0].name as keyof Object]
+        // );
+
         setSection(data);
       } else if (id === "third") {
         const selectedMainSkills = selectedItems["main"].map(
@@ -191,14 +201,22 @@ export const FindTalentModal = ({
           return prev;
         }, {});
 
+        // console.log("selectedThirdSkills", selectedThirdSkills);
+        // console.log("skills", skills);
+        // console.log(
+        //   "numMatches",
+        //   mockData?.SkillTree[selectedItems.main[0].name as keyof Object]
+        // );
+
         let combinedSkills: any = {};
 
         forEach(skills, (value) => {
           forEach(selectedThirdSkills, (item) => {
+            // console.log("item", item);
             combinedSkills = {
               ...combinedSkills,
               [item]: combinedSkills[item]
-                ? uniq([...combinedSkills[item], ...value[item]])
+                ? uniq([...combinedSkills[item], ...value[item]]) // TODO: error here, maybe when selectedThirdSkills is doesn't exist in skills
                 : value[item],
             };
           });
@@ -214,10 +232,13 @@ export const FindTalentModal = ({
             : "Do you have carefullly curated culture in your team? Tell us what values are important for you!",
           itemsTitle: `${key}:`,
           battery: true,
-          items: value.content.map((item: string) => ({
+          items: value?.content?.map((item: string) => ({
             _id: generateId(),
             name: item,
           })),
+          numMatches:
+            mockData?.SkillTree[selectedItems.main[0].name as keyof Object]
+              ?.subCategories?.numMatches,
         }));
 
         setVibeData(data);
@@ -235,58 +256,66 @@ export const FindTalentModal = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedItems]);
 
+  // console.log("section", section);
+
   return (
     <Modal open={openModal} closeOnEsc={false}>
-      <div>
-        <div className="flex justify-between">
-          <div className="flex-1">
-            <TextHeading3>{section.title}</TextHeading3>
-            <TextBody className={`font-medium text-gray-500`}>
-              {section.subtitle}
-            </TextBody>
-          </div>
+      {section && (
+        <div>
+          <div className="flex justify-between">
+            <div className="flex-1">
+              <TextHeading3>{section?.title}</TextHeading3>
+              <TextBody className={`font-medium text-gray-500`}>
+                {section?.subtitle}
+              </TextBody>
+            </div>
 
-          {section.battery && (
-            <BatteryStepper
-              numMatches={section.numMatches}
-              batteryPercentage={currentStep * 20}
-            />
-          )}
-        </div>
-        <section className="mt-4">
-          <div>
-            <TextHeading3>{section.itemsTitle}</TextHeading3>
-          </div>
-          <div className="my-8 ml-4 flex w-full justify-center">
-            <BadgeSelector
-              items={section.items}
-              reset={!selectedItems[section._id]}
-              onChange={(selectedItems) =>
-                setSelectedItemes((prevState) => ({
-                  ...prevState,
-                  [section._id]: selectedItems,
-                }))
-              }
-            />
-          </div>
-        </section>
-        <div className="flex justify-between">
-          <div>
-            {!section.hideSkip && (
-              <Button radius="rounded" variant={`secondary`} onClick={onClose}>
-                Skip
-              </Button>
+            {section?.battery && (
+              <BatteryStepper
+                numMatches={section?.numMatches}
+                batteryPercentage={currentStep * 20}
+              />
             )}
           </div>
-          <Button
-            radius="rounded"
-            variant={`secondary`}
-            onClick={() => handleNext(section._id)}
-          >
-            Next
-          </Button>
+          <section className="mt-4">
+            <div>
+              <TextHeading3>{section?.itemsTitle}</TextHeading3>
+            </div>
+            <div className="my-8 ml-4 flex w-full justify-center">
+              <BadgeSelector
+                items={section?.items}
+                reset={!selectedItems[section?._id]}
+                onChange={(selectedItems) =>
+                  setSelectedItemes((prevState) => ({
+                    ...prevState,
+                    [section?._id]: selectedItems,
+                  }))
+                }
+              />
+            </div>
+          </section>
+          <div className="flex justify-between">
+            <div>
+              {!section?.hideSkip && (
+                <Button
+                  radius="rounded"
+                  variant={`secondary`}
+                  onClick={onClose}
+                >
+                  Skip
+                </Button>
+              )}
+            </div>
+            <Button
+              radius="rounded"
+              variant={`secondary`}
+              onClick={() => handleNext(section?._id)}
+            >
+              Next
+            </Button>
+          </div>
         </div>
-      </div>
+      )}
     </Modal>
   );
 };

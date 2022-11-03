@@ -5,10 +5,9 @@ import {
   GridItemNine,
   GridItemThree,
   GridLayout,
+  HackathonModalContainer,
   SEO,
-  ShortlistModalContainerStoryFilter,
   StaticCard,
-  // StaticCard,
   UserProfileCard,
 } from "@eden/package-ui";
 
@@ -17,9 +16,6 @@ import type { NextPageWithLayout } from "../../_app";
 
 const LaunchPage: NextPageWithLayout = () => {
   const [roleFilter, setRoleFilter] = useState<any>(null);
-
-  // const { project, dispatchProject, selectedRole, matchMembersPage } =
-  //   useContext(LaunchProjectContext);
 
   const handleSetSkills = (val: any) => {
     console.log(val);
@@ -34,10 +30,11 @@ const LaunchPage: NextPageWithLayout = () => {
     console.log(val);
   };
 
-  const { setOpenModal } = useContext(LaunchProjectContext);
+  const { setOpenModal } = useContext(HackathonContext);
 
   useEffect(() => {
-    setOpenModal(LaunchProjectModal.SKILLS_CATEGORY);
+    setOpenModal(HackathonProjectModal.SKILLS_CATEGORY);
+    // console.log("openModal");
   }, []);
 
   const res =
@@ -64,7 +61,7 @@ const LaunchPage: NextPageWithLayout = () => {
     <>
       <SEO />
       <GridLayout>
-        <GridItemThree className="h-8/10 scrollbar-hide overflow-scroll">
+        <GridItemThree className="h-85 scrollbar-hide overflow-scroll">
           <UserProfileCard />
           <FiltersCard
             defaultValue={{}}
@@ -77,7 +74,10 @@ const LaunchPage: NextPageWithLayout = () => {
         </GridItemThree>
 
         <GridItemNine className="">
-          <Card className="scrollbar-hide h-85 overflow-scroll bg-white p-4">
+          <Card
+            shadow
+            className="scrollbar-hide h-85 overflow-scroll bg-white p-4"
+          >
             <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
               {matchedUsers.map((item, index) => (
                 <StaticCard
@@ -91,8 +91,8 @@ const LaunchPage: NextPageWithLayout = () => {
           </Card>
         </GridItemNine>
       </GridLayout>
-      <ShortlistModalContainerStoryFilter
-        setSubmittingTalentAttributes={(val) => {
+      <HackathonModalContainer
+        setSubmittingTalentAttributes={(val: any) => {
           setRoleFilter(val);
         }}
         mockData={HACK2_MOCK}
@@ -102,17 +102,17 @@ const LaunchPage: NextPageWithLayout = () => {
 };
 
 LaunchPage.getLayout = (page) => (
-  <LaunchProjectProvider>
+  <HackathonProvider>
     <AppUserLayout>{page}</AppUserLayout>
-  </LaunchProjectProvider>
+  </HackathonProvider>
 );
 
 export default LaunchPage;
 
 import {
-  LaunchProjectContext,
-  LaunchProjectModal,
-  LaunchProjectProvider,
+  HackathonContext,
+  HackathonProjectModal,
+  HackathonProvider,
 } from "@eden/package-context";
 import { IncomingMessage, ServerResponse } from "http";
 import { getSession } from "next-auth/react";

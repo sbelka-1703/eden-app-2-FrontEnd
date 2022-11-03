@@ -196,7 +196,7 @@ export const ApplyByRoleContainer = ({
 
   if (loadingProject)
     return (
-      <Card className={`h-85 bg-white px-6 py-6`}>
+      <Card shadow className={`h-85 bg-white px-6 py-6`}>
         <Loading />
       </Card>
     );
@@ -204,7 +204,7 @@ export const ApplyByRoleContainer = ({
   if (!project) return null;
 
   return (
-    <Card className={`h-85 flex flex-col bg-white px-6 py-4`}>
+    <Card shadow className={`h-85 flex flex-col bg-white px-6 py-4`}>
       <div className={`flex justify-end`}>
         <button
           onClick={() => onViewProject(false)}

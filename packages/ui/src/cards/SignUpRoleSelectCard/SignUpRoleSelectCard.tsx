@@ -52,7 +52,7 @@ export const SignUpRoleSelectCard = ({
   };
 
   return (
-    <Card className={`h-64 bg-white p-6`}>
+    <Card shadow className={`h-64 bg-white p-6`}>
       {isUpdating ? (
         <Loading title={"Updating..."} />
       ) : (
