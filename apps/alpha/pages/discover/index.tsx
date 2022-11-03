@@ -52,27 +52,27 @@ DiscoverPage.getLayout = (page) => (
 
 export default DiscoverPage;
 
-import { IncomingMessage, ServerResponse } from "http";
-import { getSession } from "next-auth/react";
+// import { IncomingMessage, ServerResponse } from "http";
+// import { getSession } from "next-auth/react";
 
-export async function getServerSideProps(ctx: {
-  req: IncomingMessage;
-  res: ServerResponse;
-}) {
-  const session = await getSession(ctx);
+// export async function getServerSideProps(ctx: {
+//   req: IncomingMessage;
+//   res: ServerResponse;
+// }) {
+//   const session = await getSession(ctx);
 
-  const url = ctx.req.url?.replace("/", "");
+//   const url = ctx.req.url?.replace("/", "");
 
-  if (!session) {
-    return {
-      redirect: {
-        destination: `/login?redirect=${url}`,
-        permanent: false,
-      },
-    };
-  }
+//   if (!session) {
+//     return {
+//       redirect: {
+//         destination: `/login?redirect=${url}`,
+//         permanent: false,
+//       },
+//     };
+//   }
 
-  return {
-    props: {},
-  };
-}
+//   return {
+//     props: {},
+//   };
+// }
