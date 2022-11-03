@@ -86,6 +86,7 @@ export const SignUpContainerSide = ({
                 }}
               >
                 <Card
+                  shadow
                   focused={matchProject?.project?._id === selectedProject}
                   className={`flex w-full bg-white p-4`}
                 >
@@ -121,6 +122,7 @@ export const SignUpContainerSide = ({
         <>
           {currentUser?.memberRole?.title ? (
             <Card
+              shadow
               className={`scrollbar-hide flex flex-grow overflow-y-scroll bg-white`}
             >
               <ProjectSkillFilterCard

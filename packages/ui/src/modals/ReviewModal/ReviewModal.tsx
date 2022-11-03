@@ -74,7 +74,7 @@ ReviewModalProps) => {
         <TextHeading3>Let’s review & finalise it!</TextHeading3>
         <section className={`my-4 grid items-center gap-2 lg:grid-cols-4`}>
           <div className="flex w-fit flex-col text-center">
-            {data?.main.map((item, index) => (
+            {data?.main?.map((item, index) => (
               <CustomBadge
                 key={item._id}
                 text={item.name}
@@ -83,7 +83,7 @@ ReviewModalProps) => {
             ))}
           </div>
           <div className="flex w-fit flex-col text-center">
-            {data.second.map((item, index) => (
+            {data?.second?.map((item, index) => (
               <CustomBadge
                 key={item._id}
                 text={item.name}
@@ -96,7 +96,7 @@ ReviewModalProps) => {
               <div className="flex items-center justify-between" key={item._id}>
                 <CustomBadge text={item.name} isLast />
                 <div className="flex w-fit flex-col text-center">
-                  {data[item.name].map((skill, index) => (
+                  {data[item.name]?.map((skill, index) => (
                     <CustomBadge
                       key={skill._id}
                       text={skill.name}

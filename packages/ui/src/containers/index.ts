@@ -12,6 +12,7 @@ export * from "./ShortlistModalContainer";
 export * from "./ShortlistSideContainer";
 export * from "./SignUpContainerMain";
 export * from "./SignUpContainerSide";
+export * from "./test/HackathonModalContainer";
 export * from "./test/ShortlistModalContainerStory";
 export * from "./test/ShortlistModalContainerStoryFilter";
 export * from "./test/ShortlistModalContainerTest";
