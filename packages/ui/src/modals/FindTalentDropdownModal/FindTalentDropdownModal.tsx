@@ -89,9 +89,10 @@ export const FindTalentDropdownModal = ({
         numMatches += +get(section, `items.${key}.numMatches`, 0);
         batteryPercentage += 10;
       }
-      setBatteryPercentage(batteryPercentage);
     });
+
     setNumMatches(numMatches);
+    setBatteryPercentage(batteryPercentage);
   }, [section, selectedItems]);
 
   return (
