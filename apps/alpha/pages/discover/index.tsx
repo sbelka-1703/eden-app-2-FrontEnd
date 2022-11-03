@@ -25,7 +25,7 @@ const DiscoverPage: NextPageWithLayout = () => {
             // https://vercel.com/docs/concepts/projects/environment-variables
             `${
               process.env.VERCEL_URL ? "https://" + process.env.VERCEL_URL : ""
-            }/api/og/vercel`
+            }/api/vercel`
           }
         />
       </Head>
