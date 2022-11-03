@@ -12,6 +12,8 @@ import {
 } from "@eden/package-ui";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 
+import { EndorsementList } from "../../lists/EndorsementList";
+
 export interface IStaticModalProps {
   item?: any;
   resultPopUpFlag?: any;
@@ -373,6 +375,11 @@ const UserFlagType = ({ item }: IStaticCardTypeProps) => {
             />
           )}
         </div>
+        {item?.endorsements?.length > 0 && (
+          <div className="col-span-4">
+            <EndorsementList endorsements={item?.endorsements} />
+          </div>
+        )}
       </div>
     </>
   );
