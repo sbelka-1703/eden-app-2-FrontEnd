@@ -346,6 +346,15 @@ const ChannelFlagType = ({ item }: IStaticCardTypeProps) => {
 ///////////////////////// User Flag Type /////////////////////////
 
 const UserFlagType = ({ item }: IStaticCardTypeProps) => {
+  const endorsements = item?.endorsements?.map((endorsement: any) => ({
+    member: {
+      discordName: endorsement.name,
+      discordAvatar: endorsement.avatar,
+    },
+    text: endorsement.endorsement,
+    level: endorsement.level.name,
+  }));
+
   return (
     <>
       <div className="grid w-full grid-cols-4 gap-6">
@@ -375,9 +384,9 @@ const UserFlagType = ({ item }: IStaticCardTypeProps) => {
             />
           )}
         </div>
-        {item?.endorsements?.length > 0 && (
+        {endorsements?.length > 0 && (
           <div className="col-span-4">
-            <EndorsementList endorsements={item?.endorsements} />
+            <EndorsementList endorsements={endorsements} />
           </div>
         )}
       </div>

@@ -10,15 +10,16 @@ export const EndorsementList: React.FC<EndorsementListProps> = ({
 }) => {
   return (
     <div>
-      <div className={`font-Inter text-sm text-zinc-500`}>
+      <p className="mb-3 text-sm font-semibold tracking-widest subpixel-antialiased">
         🫱🏾‍🫲🏼 Endorsed by
-      </div>
+      </p>
       <div className="grid grid-cols-3 gap-6">
         {endorsements.slice(0, 3).map((endorsement, index) => (
           <div key={index} className="col-span-1">
             <EndorsementCard
               member={endorsement?.member}
               text={endorsement?.text}
+              level={endorsement?.level}
             />
           </div>
         ))}

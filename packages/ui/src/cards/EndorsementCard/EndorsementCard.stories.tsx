@@ -19,4 +19,5 @@ export const Default = Template.bind({});
 Default.args = {
   member: getMember(),
   text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima totam nihil consequuntur eius accusamus error similique molestias! Facilis, aspernatur cumque? Totam saepe dolorum harum commodi exercitationem natus in atque iusto!",
+  level: 3,
 };
