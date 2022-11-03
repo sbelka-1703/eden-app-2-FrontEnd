@@ -8,7 +8,7 @@ import {
 } from "@eden/package-ui";
 import Head from "next/head";
 
-import type { NextPageWithLayout } from "../_app";
+import type { NextPageWithLayout } from "../../_app";
 
 const DiscoverPage: NextPageWithLayout = () => {
   return (
@@ -25,7 +25,7 @@ const DiscoverPage: NextPageWithLayout = () => {
             // https://vercel.com/docs/concepts/projects/environment-variables
             `${
               process.env.VERCEL_URL ? "https://" + process.env.VERCEL_URL : ""
-            }/api/og/vercel`
+            }/api/og/tailwind`
           }
         />
       </Head>
@@ -38,7 +38,7 @@ const DiscoverPage: NextPageWithLayout = () => {
         </GridItemThree>
         <GridItemNine>
           <Card shadow className="h-85 overflow-auto bg-white p-6">
-            discover page
+            discover page tailwind
           </Card>
         </GridItemNine>
       </GridLayout>
