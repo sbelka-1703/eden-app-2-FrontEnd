@@ -12,6 +12,8 @@ import {
 } from "@eden/package-ui";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 
+import { EndorsementList } from "../../lists/EndorsementList";
+
 export interface IStaticModalProps {
   item?: any;
   resultPopUpFlag?: any;
@@ -344,6 +346,15 @@ const ChannelFlagType = ({ item }: IStaticCardTypeProps) => {
 ///////////////////////// User Flag Type /////////////////////////
 
 const UserFlagType = ({ item }: IStaticCardTypeProps) => {
+  const endorsements = item?.endorsements?.map((endorsement: any) => ({
+    member: {
+      discordName: endorsement.name,
+      discordAvatar: endorsement.avatar,
+    },
+    text: endorsement.endorsement,
+    level: endorsement.level.name,
+  }));
+
   return (
     <>
       <div className="grid w-full grid-cols-4 gap-6">
@@ -373,6 +384,11 @@ const UserFlagType = ({ item }: IStaticCardTypeProps) => {
             />
           )}
         </div>
+        {endorsements?.length > 0 && (
+          <div className="col-span-4">
+            <EndorsementList endorsements={endorsements} />
+          </div>
+        )}
       </div>
     </>
   );

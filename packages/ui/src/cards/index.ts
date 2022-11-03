@@ -1,6 +1,7 @@
 export * from "./ApplicationCard";
 export * from "./CandidateProfileCard";
 export * from "./EditProfileOnboardPartyCard";
+export * from "./EndorsementCard";
 export * from "./FiltersCard";
 export * from "./MemberMatchCard";
 export * from "./MemberProfileCard";

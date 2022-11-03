@@ -2,10 +2,14 @@ import { Avatar, AvatarProps } from "@eden/package-ui";
 
 export interface AvatarListProps {
   avatars: AvatarProps[];
+  className?: string;
 }
-export const AvatarList: React.FC<AvatarListProps> = ({ avatars }) => {
+export const AvatarList: React.FC<AvatarListProps> = ({
+  avatars,
+  className,
+}) => {
   return (
-    <div className="flex w-full flex-nowrap justify-center">
+    <div className={`flex w-full flex-nowrap justify-center ${className}`}>
       {avatars?.map((avatar: AvatarProps, index: number) => (
         <div
           key={index}
