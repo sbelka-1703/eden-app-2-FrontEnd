@@ -38,12 +38,12 @@ export const BatteryStepper = ({
             background: `${batteryColor}`,
           }}
         />
-        {numMatches && (
+        {numMatches ? (
           <div className="font-poppins absolute left-2/4 top-2/4 -translate-x-2/4 -translate-y-2/4 text-center font-semibold">
             <p className="text-sm">Matches</p>
             <p className="text-3xl">{numMatches}</p>
           </div>
-        )}
+        ) : null}
       </div>
     </div>
   );
