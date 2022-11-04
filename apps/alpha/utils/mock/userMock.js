@@ -522,8 +522,7 @@ const Result = {
     availability: "15",
     endorsements: [
       {
-        avatar:
-          "https://cdn.discordapp.com/embed/avatars/4.png",
+        avatar: "https://cdn.discordapp.com/embed/avatars/4.png",
         name: "TauLepton",
         endorsement:
           "One of the finest people I’ve ever known in business or any field. An exemplar of Silicon Valley at its best. Many know Reid for his success and talent, but he is an equally great person. A rare example of someone who can engage in a discussion and set his ego and self-interest completely aside. Many would like to think they can do this as well, but Reid is as good as I have seen when it comes to this. ",
@@ -534,7 +533,7 @@ const Result = {
           SuccessfulEndorsementsGive: "23",
           SuccessfulEndorsementsReceive: "12",
         },
-      }
+      },
     ],
   },
   3: {
@@ -756,7 +755,6 @@ const Result = {
       },
     ],
     availability: "10",
-    
   },
   7: {
     description:

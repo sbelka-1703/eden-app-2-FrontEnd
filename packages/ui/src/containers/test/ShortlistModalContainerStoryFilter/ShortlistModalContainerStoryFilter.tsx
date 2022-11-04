@@ -8,7 +8,7 @@ import { UPDATE_PROJECT } from "@eden/package-graphql";
 import { Mutation, UpdateProjectInput } from "@eden/package-graphql/generated";
 import {
   CongratulationsModal,
-  DataReviewModal,
+  FindTalentDropdownModal,
   FindTalentModal,
   PrioritizeModal,
   RequirementsModal,
@@ -46,7 +46,11 @@ export const ShortlistModalContainerStoryFilter = ({
     setSubmitting,
   } = useContext(LaunchProjectContext);
 
-  const [talentAttributes, setTalentAttributes] = useState({});
+  const [talentAttributes, setTalentAttributes] = useState({
+    main: [] as any[],
+    second: [] as any[],
+    third: [] as any[],
+  });
 
   useEffect(() => {
     if (talentAttributes) console.log("talentAttributes", talentAttributes);
@@ -127,17 +131,39 @@ export const ShortlistModalContainerStoryFilter = ({
     }
   }, [submitting]);
 
+  useEffect(() => {
+    console.log("~~~~~~~", talentAttributes);
+  }, [talentAttributes]);
+
   return (
     <>
       {openModal === LaunchProjectModal.SKILLS_CATEGORY && (
         <FindTalentModal
           openModal={openModal === LaunchProjectModal.SKILLS_CATEGORY}
-          onClose={() => setOpenModal(LaunchProjectModal.PRIORITIZE)}
+          onClose={() => setOpenModal(LaunchProjectModal.SKILLS_SUBCATEGORY)}
           onSubmit={(val: any) => {
             setTalentAttributes(val);
             setSubmittingTalentAttributes!(val);
           }}
           mockData={mockData}
+          // onClose={() => setOpenModal(null)}
+        />
+      )}
+
+      {openModal === LaunchProjectModal.SKILLS_SUBCATEGORY && (
+        <FindTalentDropdownModal
+          openModal={openModal === LaunchProjectModal.SKILLS_SUBCATEGORY}
+          onClose={() => setOpenModal(LaunchProjectModal.PRIORITIZE)}
+          // eslint-disable-next-line no-unused-vars
+          onSubmit={(val: any) => {
+            const third = Object.keys(val)
+              .map((key) => val[key])
+              .flat();
+
+            setTalentAttributes({ ...talentAttributes, third: third });
+            // setSubmittingTalentAttributes!(val);
+          }}
+          mockData={mockData.SkillTree[talentAttributes?.main[0]?.name]}
           // onClose={() => setOpenModal(null)}
         />
       )}
@@ -168,7 +194,7 @@ export const ShortlistModalContainerStoryFilter = ({
           }}
           onSubmit={(val) => {
             console.log(val);
-            setOpenModal(LaunchProjectModal.PROJECT_INFO);
+            setOpenModal(null);
             // setOpenModal(null);
           }}
         />
@@ -176,7 +202,7 @@ export const ShortlistModalContainerStoryFilter = ({
 
       {openModal === LaunchProjectModal.PROJECT_INFO && (
         <ReviewModal
-          data={talentAttributes as DataReviewModal}
+          data={talentAttributes as any}
           openModal={openModal === LaunchProjectModal.PROJECT_INFO}
           onClose={() => {
             setOpenModal(null);

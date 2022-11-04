@@ -92,20 +92,24 @@ ReviewModalProps) => {
             ))}
           </div>
           <div className="col-span-2 flex w-full flex-col text-center">
-            {data.third.map((item) => (
-              <div className="flex items-center justify-between" key={item._id}>
-                <CustomBadge text={item.name} isLast />
-                <div className="flex w-fit flex-col text-center">
-                  {data[item.name]?.map((skill, index) => (
-                    <CustomBadge
-                      key={skill._id}
-                      text={skill.name}
-                      isLast={data[item.name].length - 1 === index}
-                    />
-                  ))}
+            {data.third &&
+              data.third.map((item) => (
+                <div
+                  className="flex items-center justify-between"
+                  key={item._id}
+                >
+                  <CustomBadge text={item.name} isLast />
+                  <div className="flex w-fit flex-col text-center">
+                    {data[item.name]?.map((skill, index) => (
+                      <CustomBadge
+                        key={skill._id}
+                        text={skill.name}
+                        isLast={data[item.name].length - 1 === index}
+                      />
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
         </section>
         <div className="flex justify-between">

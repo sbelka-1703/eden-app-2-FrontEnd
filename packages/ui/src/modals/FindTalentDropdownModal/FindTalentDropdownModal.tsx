@@ -53,7 +53,10 @@ export const FindTalentDropdownModal = ({
         : "Please pick only one role for now!",
       battery: true,
       itemsTitle: "Focus On:",
-      items: omitBy(mockData, (_, key) => key === "subCategories") as {
+      items: omitBy(
+        mockData,
+        (_, key) => key === "subCategories" || key === "Focus On Page"
+      ) as {
         [key: string]: Item;
       },
     }),
@@ -61,7 +64,7 @@ export const FindTalentDropdownModal = ({
   );
 
   const [batteryPercentage, setBatteryPercentage] = useState(0);
-  const [selectedItems, setSelectedItemes] = useState<{
+  const [selectedItems, setSelectedItems] = useState<{
     [key: string]: Item[];
   }>({});
   const [numMatches, setNumMatches] = useState(0);
@@ -86,7 +89,7 @@ export const FindTalentDropdownModal = ({
 
     forEach(selectedItems, (el, key) => {
       if (!isEmpty(el)) {
-        numMatches += +get(section, `items.${key}.numMatches`, 0);
+        numMatches += +get(section, `items.${key}.numMatches`, 1); //replace 1 with 0
         batteryPercentage += 10;
       }
     });
@@ -109,7 +112,7 @@ export const FindTalentDropdownModal = ({
 
             {section?.battery && (
               <BatteryStepper
-                numMatches={numMatches}
+                // numMatches={numMatches}
                 batteryPercentage={batteryPercentage}
               />
             )}
@@ -127,7 +130,7 @@ export const FindTalentDropdownModal = ({
                     caption={key}
                     items={item.content}
                     onChange={(selectedItems) => {
-                      setSelectedItemes((prevState) => ({
+                      setSelectedItems((prevState) => ({
                         ...prevState,
                         [key]: selectedItems,
                       }));
