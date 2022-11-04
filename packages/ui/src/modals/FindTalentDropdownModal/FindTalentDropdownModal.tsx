@@ -85,7 +85,7 @@ export const FindTalentDropdownModal = ({
 
   useEffect(() => {
     let numMatches = 0;
-    let batteryPercentage = 0;
+    let batteryPercentage = 50;
 
     forEach(selectedItems, (el, key) => {
       if (!isEmpty(el)) {

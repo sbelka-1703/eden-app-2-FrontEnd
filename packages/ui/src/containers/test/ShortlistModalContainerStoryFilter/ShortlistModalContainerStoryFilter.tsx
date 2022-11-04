@@ -140,7 +140,14 @@ export const ShortlistModalContainerStoryFilter = ({
       {openModal === LaunchProjectModal.SKILLS_CATEGORY && (
         <FindTalentModal
           openModal={openModal === LaunchProjectModal.SKILLS_CATEGORY}
-          onClose={() => setOpenModal(LaunchProjectModal.SKILLS_SUBCATEGORY)}
+          onClose={() =>
+            setOpenModal(
+              mockData?.ResultPopUpShowFlag.type === "Project" ||
+                mockData?.ResultPopUpShowFlag.type === "User"
+                ? LaunchProjectModal.SKILLS_SUBCATEGORY
+                : LaunchProjectModal.PRIORITIZE
+            )
+          }
           onSubmit={(val: any) => {
             setTalentAttributes(val);
             setSubmittingTalentAttributes!(val);

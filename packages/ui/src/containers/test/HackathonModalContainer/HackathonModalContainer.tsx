@@ -2,6 +2,7 @@ import { HackathonContext, HackathonProjectModal } from "@eden/package-context";
 import {
   CongratulationsModal,
   DataReviewModal,
+  FindTalentDropdownModal,
   FindTalentModal,
   PrioritizeModal,
   RequirementsModal,
@@ -59,12 +60,37 @@ export const HackathonModalContainer = ({
       {openModal === HackathonProjectModal.SKILLS_CATEGORY && (
         <FindTalentModal
           openModal={openModal === HackathonProjectModal.SKILLS_CATEGORY}
-          onClose={() => setOpenModal(HackathonProjectModal.PRIORITIZE)}
+          onClose={() =>
+            setOpenModal(
+              mockData?.ResultPopUpShowFlag.type === "Project" ||
+                mockData?.ResultPopUpShowFlag.type === "User"
+                ? HackathonProjectModal.SKILLS_SUBCATEGORY
+                : HackathonProjectModal.PRIORITIZE
+            )
+          }
           onSubmit={(val: any) => {
             setTalentAttributes(val);
             setSubmittingTalentAttributes!(val);
           }}
           mockData={mockData}
+          // onClose={() => setOpenModal(null)}
+        />
+      )}
+
+      {openModal === HackathonProjectModal.SKILLS_SUBCATEGORY && (
+        <FindTalentDropdownModal
+          openModal={openModal === HackathonProjectModal.SKILLS_SUBCATEGORY}
+          onClose={() => setOpenModal(HackathonProjectModal.PRIORITIZE)}
+          // eslint-disable-next-line no-unused-vars
+          onSubmit={(val: any) => {
+            const third = Object.keys(val)
+              .map((key) => val[key])
+              .flat();
+
+            setTalentAttributes({ ...talentAttributes, third: third });
+            // setSubmittingTalentAttributes!(val);
+          }}
+          mockData={mockData.SkillTree[talentAttributes?.main[0]?.name]}
           // onClose={() => setOpenModal(null)}
         />
       )}
