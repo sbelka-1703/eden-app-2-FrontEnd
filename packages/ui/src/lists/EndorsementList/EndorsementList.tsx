@@ -35,8 +35,8 @@ export const EndorsementList: React.FC<EndorsementListProps> = ({
           />
           {endorsements.slice(8).length > 0 && (
             <p className="text-soilGray ml-6 inline">
-              +{endorsements.slice(5).length} more{" "}
-              {endorsements.slice(5).length === 1
+              +{endorsements.slice(8).length} more{" "}
+              {endorsements.slice(8).length === 1
                 ? "endorsement"
                 : "endorsements"}
             </p>
