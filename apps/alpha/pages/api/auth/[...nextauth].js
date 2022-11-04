@@ -19,7 +19,6 @@ export default NextAuth({
       if (session?.user) {
         session.user.id = token.uid;
       }
-      session.accessToken = token.accessToken;
       return session;
     },
     jwt: async ({ user, token, account }) => {
