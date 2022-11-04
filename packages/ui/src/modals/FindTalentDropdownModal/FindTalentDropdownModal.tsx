@@ -6,7 +6,7 @@ import {
   TextBody,
   TextHeading3,
 } from "@eden/package-ui";
-import { forEach, get, isEmpty, map, omitBy } from "lodash";
+import { forEach, isEmpty, map, omitBy } from "lodash";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -87,9 +87,12 @@ export const FindTalentDropdownModal = ({
     let numMatches = 0;
     let batteryPercentage = 50;
 
+    // eslint-disable-next-line no-unused-vars
     forEach(selectedItems, (el, key) => {
       if (!isEmpty(el)) {
-        numMatches += +get(section, `items.${key}.numMatches`, 1); //replace 1 with 0
+        // numMatches += +get(section, `items.${key}.numMatches`, 1); //replace 1 with 0
+        numMatches = 120;
+
         batteryPercentage += 10;
       }
     });
@@ -112,7 +115,7 @@ export const FindTalentDropdownModal = ({
 
             {section?.battery && (
               <BatteryStepper
-                // numMatches={numMatches}
+                numMatches={numMatches}
                 batteryPercentage={batteryPercentage}
               />
             )}
