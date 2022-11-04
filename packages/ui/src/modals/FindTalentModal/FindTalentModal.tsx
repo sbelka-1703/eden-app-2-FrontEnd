@@ -42,7 +42,11 @@ export const FindTalentModal = ({
   randomNumber,
   mockData,
 }: FindTalentModalProps) => {
-  const MAIN_STEPS = mockData?.ResultPopUpShowFlag.type === "Project" ? 1 : 3;
+  const MAIN_STEPS =
+    mockData?.ResultPopUpShowFlag.type === "Project" ||
+    mockData?.ResultPopUpShowFlag.type === "User"
+      ? 1
+      : 3;
 
   const generateId = randomNumber
     ? () => Math.random().toString()
