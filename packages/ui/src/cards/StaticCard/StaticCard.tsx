@@ -1,9 +1,13 @@
 import {
   Avatar,
+  AvatarList,
   Badge,
   Button,
   Card,
   EmojiSelector,
+  Favorite,
+  LongText,
+  SocialMediaComp,
   StaticModal,
   TextBody,
   TextHeading3,
@@ -23,6 +27,7 @@ export const StaticCard = ({
   resultPopUpFlag,
 }: IStaticCardProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   // console.log(item);
   // console.log(resultCardFlag);
@@ -32,7 +37,12 @@ export const StaticCard = ({
   return (
     <Card border>
       <div className={`flex justify-between`}>
-        <div></div>
+        <div>
+          <Favorite
+            favorite={isFavorite}
+            onFavorite={() => setIsFavorite((favorite) => !favorite)}
+          />
+        </div>
         <div>
           {resultCardFlag?.type === "Bounty" && (
             <TextHeading3 className="text-accentColor">
@@ -40,7 +50,7 @@ export const StaticCard = ({
             </TextHeading3>
           )}
           {item?.picture && (
-            <div className={`relative`}>
+            <div className={`relative flex flex-col items-center`}>
               {item?.picture.length <= 5 ? (
                 <EmojiSelector
                   isDisabled
@@ -50,23 +60,49 @@ export const StaticCard = ({
               ) : (
                 <Avatar isProject src={item?.picture} />
               )}
-              <div
+              <div className="flex justify-center">
+                <TextHeading3>@{item?.name}</TextHeading3>
+                <TextLabel className="mt-2 pl-1">
+                  #{item?.Descrimator}
+                </TextLabel>
+              </div>
+              {/* <div
                 className={`text-soilPurple absolute -mt-9 ml-12 rounded-full bg-white px-1.5 text-xl font-semibold shadow-sm`}
               >
                 {item?.percentage}
-              </div>
+              </div> */}
             </div>
           )}
-          <TextHeading3>{item?.name}</TextHeading3>
         </div>
         <div>
           <Button onClick={() => setIsOpen(!isOpen)}>More</Button>
         </div>
       </div>
+      <div className="flex flex-col items-center justify-center">
+        <TextHeading3 className="text-sm  text-gray-600">
+          {item?.nameDescription}
+        </TextHeading3>
+
+        {item?.socials && (
+          <SocialMediaComp
+            size="1.2rem"
+            title=""
+            links={item.socials.map(
+              (social: { name: string; link: string }) => ({
+                name: social.name.toLowerCase(),
+                url: social.link.toLowerCase(),
+              })
+            )}
+          />
+        )}
+      </div>
       <div className="flex">
-        <div className={`text-darkGreen font-Inter my-2 text-sm`}>
-          {item?.description}
-        </div>
+        <LongText
+          cutText={100}
+          text={item?.description}
+          className={`text-darkGreen font-Inter my-2 text-sm`}
+        />
+
         {resultCardFlag?.type === "Bounty" && (
           <div className="text-soilPurple ml-auto -mr-4 flex w-1/3 flex-col items-center">
             <TextLabel className="text-soilPurple">⚡️ Match</TextLabel>
@@ -79,6 +115,41 @@ export const StaticCard = ({
       {resultCardFlag?.type === "Project" && <ProjectFlagType item={item} />}
       {resultCardFlag?.type === "Channel" && <ChannelFlagType item={item} />}
       {resultCardFlag?.type === "Bounty" && <BountyFlagType item={item} />}
+
+      <div>
+        <p className="font-Inter mb-1 text-sm font-bold text-zinc-500">
+          🛠 Top skills
+        </p>
+        <div>
+          {item?.Skills?.map((skill: string, index: number) => (
+            <Badge
+              text={skill}
+              key={index}
+              className={`bg-soilPurple/20 py-px text-xs`}
+            />
+          ))}
+        </div>
+      </div>
+
+      {item.endorsements && (
+        <div className="mt-4">
+          <p className="font-Inter mb-1 text-sm font-bold text-zinc-500">
+            🫱🏼‍🫲🏽 ENDORSEMENTS
+          </p>
+          <AvatarList
+            className="inline-block !w-auto !justify-start"
+            avatars={item.endorsements.slice(0, 5).map((endorsement: any) => ({
+              size: "xs",
+              src: endorsement.avatar,
+            }))}
+          />
+          {item.endorsements.slice(5).length > 0 && (
+            <p className="text-soilGray ml-6 inline">
+              +{item.endorsements.slice(8).length} more
+            </p>
+          )}
+        </div>
+      )}
 
       <StaticModal
         item={item}

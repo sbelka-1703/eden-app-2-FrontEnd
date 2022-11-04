@@ -8,6 +8,7 @@ export * from "./Dropdown";
 export * from "./Favorite";
 export * from "./LevelAvatar";
 export * from "./Loading";
+export * from "./LongText";
 export * from "./MatchAvatar";
 export * from "./MenuItem";
 export * from "./Modal";
