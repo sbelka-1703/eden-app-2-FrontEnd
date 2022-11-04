@@ -14,48 +14,17 @@ import {
   GridLayout,
   Loading,
   NewProfileContainer,
-  SEO,
+  // SEO,
 } from "@eden/package-ui";
-// import { useRouter } from "next/router";
 import * as React from "react";
 
-// export const useIsMounted = () => {
-//   const [mounted, setMounted] = React.useState(false);
-
-//   React.useEffect(() => setMounted(true), []);
-
-//   return mounted;
-// };
+import SEOProfile from "./SEOProfile";
 
 const ProfilePage = ({ member }: { member: Members }) => {
-  // const router = useRouter();
-  // const { handle } = router.query;
-  // const { data: dataMember } = useQuery(FIND_MEMBER_FULL, {
-  //   variables: {
-  //     fields: {
-  //       discordName: handle,
-  //     },
-  //   },
-  //   skip: !handle,
-  //   context: { serviceName: "soilservice" },
-  // });
-
-  // const profile = dataMember?.findMember;
-
-  // if (!profile)
-  //   return (
-  //     <div className={`h-screen`}>
-  //       <Loading title={`Searching for user...`} />
-  //     </div>
-  //   );
-  // const isMounted = useIsMounted();
-
-  // if (!isMounted) return null;
-  // if (!member) return null;
   return (
     <>
-      <SEO
-        title={`@${member?.discordName} | on `}
+      <SEOProfile
+        handle={member?.discordName || ""}
         image={member?.discordAvatar || ""}
       />
       <AppUserSubmenuLayout showSubmenu={false}>
