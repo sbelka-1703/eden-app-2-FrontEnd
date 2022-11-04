@@ -6,7 +6,7 @@ import {
   TextBody,
   TextHeading3,
 } from "@eden/package-ui";
-import { forEach, get, isEmpty, map, omitBy } from "lodash";
+import { forEach, isEmpty, map, omitBy } from "lodash";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 
