@@ -432,8 +432,8 @@ const SkillTree = {
         "Bizz wizz",
         "Other",
       ],
+      numMatches: "30",
     },
-    numMatches: "30",
   },
   NFTs: {
     subCategories: {
