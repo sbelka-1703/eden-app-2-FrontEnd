@@ -38,7 +38,7 @@ export default async function handler() {
             lineHeight: 1.8,
           }}
         >
-          Vercel Edge Network
+          Vercel Edge Network!!!
         </div>
       </div>
     ),
