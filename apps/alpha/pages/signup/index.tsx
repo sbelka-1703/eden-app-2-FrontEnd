@@ -96,7 +96,7 @@ const SignUpTestPage: NextPageWithLayout = () => {
       variables: {
         fields: {
           skillsID: filterskillsfromcurrentuser,
-          limit: 20,
+          limit: 25,
           page: 0,
         },
       },

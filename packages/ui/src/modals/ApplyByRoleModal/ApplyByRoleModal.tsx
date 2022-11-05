@@ -21,7 +21,7 @@ import {
   TextHeading3,
 } from "@eden/package-ui";
 import { useRouter } from "next/router";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { timezones } from "../../../constants";
 
@@ -65,6 +65,31 @@ export const ApplyByRoleModal = ({
   const [githubHandle, setGithubHandle] = useState("");
   const [telegramHandle, setTelegramHandle] = useState("");
 
+  useEffect(() => {
+    // filter currentUser links for twitter, github, telegram
+    const twitterLink = currentUser?.links?.find(
+      (link) => link?.name === "twitter"
+    );
+
+    // remove https://twitter.com/ from the link
+    if (twitterLink?.url)
+      setTwitterHandle(twitterLink?.url?.replace("https://twitter.com/", ""));
+
+    const githubLink = currentUser?.links?.find(
+      (link) => link?.name === "github"
+    );
+
+    // remove https://github.com/ from the link
+    if (githubLink?.url)
+      setGithubHandle(githubLink?.url?.replace("https://github.com/", ""));
+
+    const telegramLink = currentUser?.links?.find(
+      (link) => link?.name === "telegram"
+    );
+
+    setTelegramHandle(telegramLink?.url || "");
+  }, [currentUser]);
+
   const [updateMember, {}] = useMutation(UPDATE_MEMBER, {
     onCompleted({ updateMember }: Mutation) {
       if (!updateMember) console.log("updateMember is null");
@@ -86,8 +111,8 @@ export const ApplyByRoleModal = ({
   );
 
   const handleApply = async () => {
-    console.log("handleApply");
-    console.log("roleID", roleID);
+    // console.log("handleApply");
+    // console.log("roleID", roleID);
     setSubmitting(true);
     updateMember({
       variables: {
