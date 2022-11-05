@@ -13,23 +13,30 @@ export default async function handler(req: NextRequest) {
 
     const title = "Eden protocol - alpha";
 
+    const urlDecoded = decodeURI(req.url);
+
+    // console.log("urlDecoded", urlDecoded);
+
     // find handle in request url
-    const handleIndex = req.url.indexOf("handle=");
+    const handleIndex = urlDecoded.indexOf("handle=");
 
     // get handle string in request url
-    const handleString = req.url.slice(handleIndex);
+    const handleString = urlDecoded.slice(handleIndex);
 
     // get handle value in request url and split value by = and &
     const handleValue = handleString.split("=")[1].split("&")[0];
 
     // find handle in request url
-    const roleIndex = req.url.indexOf("role=");
+    const roleIndex = urlDecoded.indexOf("role=");
 
     // get handle string in request url
-    const roleString = req.url.slice(roleIndex);
+    const roleString = urlDecoded.slice(roleIndex);
 
     // get handle value in request url and split value by = and &
-    const roleValue = roleString.split("=")[1].split("&")[0];
+    const roleValue = roleString
+      .split("=")[1]
+      .split("&")[0]
+      .replace(/\+/g, " ");
 
     const imageSrc = searchParams.get("image") ?? DEFAULT_IMAGE;
 
@@ -57,13 +64,10 @@ export default async function handler(req: NextRequest) {
                 <span tw={`text-lg`} style={{ color: "#071B08" }}>
                   connect with me on
                 </span>
-                <span
-                  tw="inline text-zinc-600 text-2xl"
-                  style={{ color: "#071B08" }}
-                >
+                <span tw="text-zinc-600 text-2xl" style={{ color: "#071B08" }}>
                   {title}
                 </span>
-                <h2 tw="flex flex-col font-bold tracking-tight text-left py-6">
+                <h2 tw="flex flex-col font-bold text-left py-6">
                   <span tw={`text-5xl font-extrabold text-zinc-800`}>
                     {handle}
                   </span>

@@ -33,7 +33,7 @@ export const SEOProject: FC<SEOProjectProps> = ({
   const apiUrl = `/api/og/project?image=${imageSrc}&project=${project}&role=${role}`;
   //   const apiUrl = `/api/og/project?image=${imageSrc}`;
 
-  console.log("apiUrl", apiUrl);
+  // console.log("apiUrl", apiUrl);
 
   const ogImage = process.env.VERCEL_URL
     ? "https://" + process.env.VERCEL_URL + apiUrl
@@ -44,7 +44,7 @@ export const SEOProject: FC<SEOProjectProps> = ({
       <meta property="og:site_name" content={`Eden protocol - alpha`} />
       <meta property="og:title" content={appTitle} />
       <meta property="og:description" content={appDescription} />
-      <meta property="og:image" content={ogImage} />
+      <meta property="og:image" content={encodeURI(ogImage)} />
       <meta property="og:image:width" content="800" />
       <meta property="og:image:height" content="400" />
 
@@ -52,7 +52,7 @@ export const SEOProject: FC<SEOProjectProps> = ({
       <meta property="twitter:site" content={`Eden protocol - alpha`} />
       <meta property="twitter:title" content={appTitle} />
       <meta property="twitter:description" content={appDescription} />
-      <meta property="twitter:image:src" content={ogImage} />
+      <meta property="twitter:image:src" content={encodeURI(ogImage)} />
       <meta property="twitter:image:width" content="800" />
       <meta property="twitter:image:height" content="400" />
       <meta property="twitter:creator" content={`Eden protocol - alpha`} />

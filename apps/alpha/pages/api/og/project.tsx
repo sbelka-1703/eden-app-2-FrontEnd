@@ -13,14 +13,21 @@ export default async function handler(req: NextRequest) {
 
     const title = "Eden protocol - alpha";
 
+    const urlDecoded = decodeURI(req.url);
+
+    // console.log("urlDecoded", urlDecoded);
+
     // find project in request url
-    const projectIndex = req.url.indexOf("project=");
+    const projectIndex = urlDecoded.indexOf("project=");
 
     // get project string in request url
-    const projectString = req.url.slice(projectIndex);
+    const projectString = urlDecoded.slice(projectIndex);
 
     // get project value in request url and split value by = and &
-    const projectValue = projectString.split("=")[1].split("role")[0];
+    const projectValue = projectString
+      .split("=")[1]
+      .split("role")[0]
+      .replace(/\+/g, " ");
 
     // // find role in request url
     // const roleIndex = req.url.indexOf("role=");
@@ -59,12 +66,12 @@ export default async function handler(req: NextRequest) {
             <div tw="flex flex-col md:flex-row w-full md:items-center justify-between">
               <div tw={`flex flex-col pl-8 text-lg`}>
                 <span tw={`text-lg`} style={{ color: "#071B08" }}>
-                  join my project on
+                  check out my project on
                 </span>
                 <span tw="text-zinc-600 text-2xl" style={{ color: "#071B08" }}>
                   {title}
                 </span>
-                <h2 tw="flex flex-col font-bold tracking-tight text-left py-6">
+                <h2 tw="flex flex-col font-bold text-left py-6">
                   <span tw={`text-5xl font-extrabold text-zinc-800`}>
                     {project}
                   </span>
