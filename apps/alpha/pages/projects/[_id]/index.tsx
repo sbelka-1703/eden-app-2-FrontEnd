@@ -1,24 +1,25 @@
 import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
-import { FIND_MEMBER_FULL } from "@eden/package-graphql";
+import { FIND_PROJECT } from "@eden/package-graphql";
 import {
+  ApplyByRoleContainer,
   AppUserSubmenuLayout,
   Card,
   GridItemEight,
   GridItemTwo,
   GridLayout,
   Loading,
-  NewProfileContainer,
-  SEOProfile,
+  SEOProject,
 } from "@eden/package-ui";
 import * as React from "react";
 
-const ProfilePage = ({ member }: { member: Members }) => {
+const ProfilePage = ({ project }: { project: Project }) => {
+  //   console.log("project", project);
   return (
     <>
-      <SEOProfile
-        handle={member?.discordName || ""}
-        image={member?.discordAvatar || ""}
-        role={member?.memberRole?.title || ""}
+      <SEOProject
+        project={project?.title || ""}
+        image={""}
+        role={"role here"}
       />
       <AppUserSubmenuLayout showSubmenu={false}>
         <GridLayout className={`bg-background h-screen`}>
@@ -28,8 +29,11 @@ const ProfilePage = ({ member }: { member: Members }) => {
               shadow
               className={`h-85 scrollbar-hide overflow-y-scroll bg-white`}
             >
-              {member ? (
-                <NewProfileContainer user={member} />
+              {project ? (
+                <ApplyByRoleContainer
+                  project={project}
+                  onViewProject={() => console.log("switch")}
+                />
               ) : (
                 <Loading title={`Searching...`} />
               )}
@@ -44,7 +48,7 @@ const ProfilePage = ({ member }: { member: Members }) => {
 
 export default ProfilePage;
 
-import { Members } from "@eden/package-graphql/generated";
+import { Project } from "@eden/package-graphql/generated";
 import type { GetServerSideProps } from "next";
 
 const client = new ApolloClient({
@@ -57,13 +61,13 @@ const client = new ApolloClient({
 });
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { handle } = context.query;
+  const { _id } = context.query;
 
   const { data } = await client.query({
-    query: FIND_MEMBER_FULL,
+    query: FIND_PROJECT,
     variables: {
       fields: {
-        discordName: handle,
+        _id,
       },
       ssr: true,
     },
@@ -71,7 +75,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return {
     props: {
-      member: data.findMember,
+      project: data.findProject,
     },
   };
 };
