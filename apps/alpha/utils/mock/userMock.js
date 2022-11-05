@@ -456,8 +456,8 @@ const Result = {
       },
       {
         avatar:
-          "https://cdn.discordapp.com/avatars/516697403391213588/4cc3f607d01bc8865b327064c5d380ca.png",
-        name: "Impactbilli",
+          "https://cdn.discordapp.com/avatars/730290630097502209/0fbad272ea2a626bc794ddd44dcd4d3d.png",
+        name: "Naman",
         endorsement:
           "BluePanda is my greatest friend and a mentor. He’s my North Star. ",
         level: {
@@ -470,106 +470,8 @@ const Result = {
       },
       {
         avatar:
-          "https://cdn.discordapp.com/avatars/175735303489847296/fe70f8879d7d8979dd4a32690806f7f3.webp",
-        name: "XYZ",
-        endorsement:
-          "BluePanda is my greatest friend and a mentor. He’s my North Star. ",
-        level: {
-          name: 1,
-          smallName: "L1",
-          meaning: "Community starter",
-          SuccessfulEndorsementsGive: "13",
-          SuccessfulEndorsementsReceive: "2",
-        },
-      },
-      {
-        avatar:
-          "https://cdn.discordapp.com/avatars/516697403391213588/4cc3f607d01bc8865b327064c5d380ca.png",
-        name: "Waxy",
-        endorsement:
-          "I had a change to work with BluePanda in D_D Acedemy and he was amazing. True Leader. I learned from him so much. Can’t wait to work with him again.",
-        level: {
-          name: 2,
-          smallName: "L2",
-          meaning: "Community Favourite",
-          SuccessfulEndorsementsGive: "23",
-          SuccessfulEndorsementsReceive: "12",
-        },
-      },
-      {
-        avatar:
-          "https://cdn.discordapp.com/avatars/516697403391213588/4cc3f607d01bc8865b327064c5d380ca.png",
-        name: "Impactbilli",
-        endorsement:
-          "BluePanda is my greatest friend and a mentor. He’s my North Star. ",
-        level: {
-          name: 3,
-          smallName: "L3",
-          meaning: "Community leader",
-          SuccessfulEndorsementsGive: "3",
-          SuccessfulEndorsementsReceive: "12",
-        },
-      },
-      {
-        avatar:
-          "https://cdn.discordapp.com/avatars/175735303489847296/fe70f8879d7d8979dd4a32690806f7f3.webp",
-        name: "XYZ",
-        endorsement:
-          "BluePanda is my greatest friend and a mentor. He’s my North Star. ",
-        level: {
-          name: 1,
-          smallName: "L1",
-          meaning: "Community starter",
-          SuccessfulEndorsementsGive: "13",
-          SuccessfulEndorsementsReceive: "2",
-        },
-      },
-      {
-        avatar:
-          "https://cdn.discordapp.com/avatars/175735303489847296/fe70f8879d7d8979dd4a32690806f7f3.webp",
-        name: "XYZ",
-        endorsement:
-          "BluePanda is my greatest friend and a mentor. He’s my North Star. ",
-        level: {
-          name: 1,
-          smallName: "L1",
-          meaning: "Community starter",
-          SuccessfulEndorsementsGive: "13",
-          SuccessfulEndorsementsReceive: "2",
-        },
-      },
-      {
-        avatar:
-          "https://cdn.discordapp.com/avatars/516697403391213588/4cc3f607d01bc8865b327064c5d380ca.png",
-        name: "Impactbilli",
-        endorsement:
-          "BluePanda is my greatest friend and a mentor. He’s my North Star. ",
-        level: {
-          name: 3,
-          smallName: "L3",
-          meaning: "Community leader",
-          SuccessfulEndorsementsGive: "3",
-          SuccessfulEndorsementsReceive: "12",
-        },
-      },
-      {
-        avatar:
-          "https://cdn.discordapp.com/avatars/175735303489847296/fe70f8879d7d8979dd4a32690806f7f3.webp",
-        name: "XYZ",
-        endorsement:
-          "BluePanda is my greatest friend and a mentor. He’s my North Star. ",
-        level: {
-          name: 1,
-          smallName: "L1",
-          meaning: "Community starter",
-          SuccessfulEndorsementsGive: "13",
-          SuccessfulEndorsementsReceive: "2",
-        },
-      },
-      {
-        avatar:
-          "https://cdn.discordapp.com/avatars/175735303489847296/fe70f8879d7d8979dd4a32690806f7f3.webp",
-        name: "XYZ",
+          "https://cdn.discordapp.com/avatars/508878300437938197/4d9a0d7fce99e91fa419c3ae552d4dd4.webp",
+        name: "Slumper",
         endorsement:
           "BluePanda is my greatest friend and a mentor. He’s my North Star. ",
         level: {
@@ -618,6 +520,21 @@ const Result = {
       },
     ],
     availability: "15",
+    endorsements: [
+      {
+        avatar: "https://cdn.discordapp.com/embed/avatars/4.png",
+        name: "TauLepton",
+        endorsement:
+          "One of the finest people I’ve ever known in business or any field. An exemplar of Silicon Valley at its best. Many know Reid for his success and talent, but he is an equally great person. A rare example of someone who can engage in a discussion and set his ego and self-interest completely aside. Many would like to think they can do this as well, but Reid is as good as I have seen when it comes to this. ",
+        level: {
+          name: 2,
+          smallName: "L2",
+          meaning: "Community Favourite",
+          SuccessfulEndorsementsGive: "23",
+          SuccessfulEndorsementsReceive: "12",
+        },
+      },
+    ],
   },
   3: {
     description:
@@ -656,6 +573,36 @@ const Result = {
       },
     ],
     availability: "10",
+    endorsements: [
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/923472248000638976/fe4285c0ed25c48b81bb462d57f4763b.webp",
+        name: "AaronSim",
+        endorsement:
+          "There are few people in the world who are more gracious, thoughtful, insightful than Reid. Every interaction I've had with him over the years has been incredibly rewarding and authentic -- and, without exception, has led to great outcomes. He's one of our era's great servant leaders.",
+        level: {
+          name: 4,
+          smallName: "L4",
+          meaning: "Community Favourite",
+          SuccessfulEndorsementsGive: "23",
+          SuccessfulEndorsementsReceive: "12",
+        },
+      },
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/855571429105467392/2cce234486a2a73a781d570e0295fd7a.webp",
+        name: "branigan",
+        endorsement:
+          "was my most innovative competitor when I ran Match.Com. The thoughtfulness and vision he put into the Socialnet product are even better manifested in Linked In. It's a true testament to sticking with a great idea until you get it right...even if others don't believe. Since the SocialNet days, Reid has been a good friend and personal adviser.",
+        level: {
+          name: 5,
+          smallName: "L5",
+          meaning: "Community leader",
+          SuccessfulEndorsementsGive: "3",
+          SuccessfulEndorsementsReceive: "12",
+        },
+      },
+    ],
   },
   4: {
     description:
@@ -689,6 +636,22 @@ const Result = {
       },
     ],
     availability: "10",
+    endorsements: [
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/566645413499633666/b5f06ef452a8de55d02a145bb86a43e2.webp",
+        name: "Ashis",
+        endorsement:
+          "Reid is always willing to give suggestions and share experience with people. He has deep knowledge that he shares in a way that reflects a confidence in knowing his stuff but topped with just the right amout of humility to make him approachable and appealing to engage.",
+        level: {
+          name: 4,
+          smallName: "L4",
+          meaning: "Community Favourite",
+          SuccessfulEndorsementsGive: "23",
+          SuccessfulEndorsementsReceive: "12",
+        },
+      },
+    ],
   },
   5: {
     description:
@@ -727,6 +690,36 @@ const Result = {
       },
     ],
     availability: "10",
+    endorsements: [
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/430535309554352139/8143c677e8222b1ec7a6f348812a0afb.webp",
+        name: "TheObst",
+        endorsement:
+          "Reid has the ability to quickly distill issues in the board room and offer insight in a way that sticks. His battle tested internet experience and tremendous raw intelligence have been tremendous assets in Kiva's early days. I highly recommend Reid as an angel investor or advisor if you're running a start up internet company. He's acutely aware of entrepreneurial challenges and trade-offs -- there's real wisdom to his counsel.",
+        level: {
+          name: 2,
+          smallName: "L2",
+          meaning: "Community Favourite",
+          SuccessfulEndorsementsGive: "23",
+          SuccessfulEndorsementsReceive: "12",
+        },
+      },
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/401546261079130112/2d39aa8e58b623b3b357a76715023f94.webp",
+        name: "kidme",
+        endorsement:
+          "Reid was the keynote speaker at EO's Global Leadership Conference in San Francisco. He did an incredible job explaining the value of creating and managing ones' network through trust, friendship and reciprocity. With all of Reid’s accomplishments,",
+        level: {
+          name: 3,
+          smallName: "L3",
+          meaning: "Community leader",
+          SuccessfulEndorsementsGive: "3",
+          SuccessfulEndorsementsReceive: "12",
+        },
+      },
+    ],
   },
   6: {
     description: "I'm vitalik. ",
@@ -817,6 +810,22 @@ const Result = {
       },
     ],
     availability: "25",
+    endorsements: [
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/445272023124672518/07f0913284429efa0d63850b9b12e9ea.webp",
+        name: "Marcx",
+        endorsement:
+          "In a tumultuous division of Fujistsu, Reid always was the rock I knew I could anchor myself with. As both a manager and friend, I could always count on him to take a bit of time to listen to concerns or ideas I had as a sounding board. WorldsAway was amongst the first online virtual world environments, and Reid's understanding of how a community-driven service should work was, and still is, on the spot. ",
+        level: {
+          name: 2,
+          smallName: "L2",
+          meaning: "Community Favourite",
+          SuccessfulEndorsementsGive: "23",
+          SuccessfulEndorsementsReceive: "12",
+        },
+      },
+    ],
   },
   9: {
     description: "Backend engineer passionate about crypto/web3/blockchain ",
@@ -840,6 +849,36 @@ const Result = {
       },
     ],
     availability: "12",
+    endorsements: [
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/312359198509891585/df3daa52d43b043c99197bd0671405f0.webp",
+        name: "Nikar0",
+        endorsement:
+          "Reid is simply the most brilliant opportunity creator I've ever worked with. Without his presence on the executive team, PayPal would likely have ended up on the dot com morgue list instead of the most successful internet IPO of 2002.",
+        level: {
+          name: 1,
+          smallName: "L1",
+          meaning: "Community Favourite",
+          SuccessfulEndorsementsGive: "23",
+          SuccessfulEndorsementsReceive: "12",
+        },
+      },
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/410219426332540940/565b264f6b1b5ca814b08346245b70c5.webp",
+        name: "ryan",
+        endorsement:
+          "Reid has been invaluable to me in thinking through and executing programmatic and development strategy for College Eight. Reid has thought deeply about higher education and about how to leverage business and philanthropy toward the greater social good. Always accessible, astute and energetic, Reid has been a priceless asset.",
+        level: {
+          name: 4,
+          smallName: "L4",
+          meaning: "Community leader",
+          SuccessfulEndorsementsGive: "3",
+          SuccessfulEndorsementsReceive: "12",
+        },
+      },
+    ],
   },
   10: {
     description:
@@ -892,8 +931,37 @@ const Result = {
       },
     ],
     availability: "22",
+    endorsements: [
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/765953880067932230/979acee9a936cb8c1f62f335d461b193.pn",
+        name: "Nala",
+        endorsement:
+          "I've known Reid in a number of different circumstances; most recently as Director of Mozilla. He's been fantastic to work with in every situation: strategic, operational, humane -- the whole package. Can't endorse him highly enough.",
+        level: {
+          name: 2,
+          smallName: "L2",
+          meaning: "Community Favourite",
+          SuccessfulEndorsementsGive: "23",
+          SuccessfulEndorsementsReceive: "12",
+        },
+      },
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/971147333414842408/4af3b2d4f773b0970f9fbc15d7eb7787.png",
+        name: "samnang",
+        endorsement:
+          "Reid has been a fountain of great advice for me as I've worked to get my new nonprofit off the ground. I trust his judgement, and trust him as a friend.",
+        level: {
+          name: 3,
+          smallName: "L3",
+          meaning: "Community leader",
+          SuccessfulEndorsementsGive: "3",
+          SuccessfulEndorsementsReceive: "12",
+        },
+      },
+    ],
   },
-
   12: {
     description:
       "Extensive experience in product management, strategy, and marketing functions Deep knowledge of Systems, Solutions, Semiconductors for the Edge Cross-Functional leadership and track record of successful product planning and execution ",
@@ -923,6 +991,22 @@ const Result = {
       },
     ],
     availability: "25",
+    endorsements: [
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/489881561890684970/6efdb3877fa0d2acc82b2820a1015f33.webp",
+        name: "Abdul",
+        endorsement:
+          "Reid is full of great ideas, a nice guy, and a do-gooder in the best sense, to boot.",
+        level: {
+          name: 0,
+          smallName: "L0",
+          meaning: "Community Favourite",
+          SuccessfulEndorsementsGive: "23",
+          SuccessfulEndorsementsReceive: "12",
+        },
+      },
+    ],
   },
   13: {
     description:
@@ -952,6 +1036,36 @@ const Result = {
       },
     ],
     availability: "35",
+    endorsements: [
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/749430194535923752/326ab9ae0967be67eab07f362565c600.webp",
+        name: "Will",
+        endorsement:
+          "reid is both a master of strategy & a detailed tactician. beyond creating the singularly most useful service for business networking, he helps other entrepreneurs create new ventures. reid has fingers in almost every exciting new startup in the valley, and his awareness of new trends is unsurpassed. reid also gives back to the community in many wonderful ways. in short: big brain, big heart :)",
+        level: {
+          name: 2,
+          smallName: "L2",
+          meaning: "Community Favourite",
+          SuccessfulEndorsementsGive: "23",
+          SuccessfulEndorsementsReceive: "12",
+        },
+      },
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/785433462429057034/4c1b84be272e846c280d43be60fc7dd7.webp",
+        name: "javierlinked",
+        endorsement:
+          "Reid is a shining example of someone who does the right thing, not because it will smooth their way into heaven, but because it is the RIGHT THING TO DO. No artifice about Reid at all -- his help over the past few months has encouraged me to go the extra mile to help others. That's why LinkedIn makes sense: by encouraging this sort of activity, the whole world benefits - one connection at a time.",
+        level: {
+          name: 3,
+          smallName: "L3",
+          meaning: "Community leader",
+          SuccessfulEndorsementsGive: "3",
+          SuccessfulEndorsementsReceive: "12",
+        },
+      },
+    ],
   },
   14: {
     description:
@@ -982,6 +1096,22 @@ const Result = {
       },
     ],
     availability: "15",
+    endorsements: [
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/840614743760437288/7f0dbeab365d6c71816f2fdd51fc2b43.png",
+        name: "xpriment626",
+        endorsement:
+          "Reid told me something I intuitively believe but was unable to articulate: that networking is about exchange, and that great networkers offer a gift first, because small effort from a person can create lots of value for others. LinkedIn is an online manifestation of that; it is Reid's clear understanding of the nature of networking that makes me so evangelical about the application.",
+        level: {
+          name: 2,
+          smallName: "L2",
+          meaning: "Community Favourite",
+          SuccessfulEndorsementsGive: "23",
+          SuccessfulEndorsementsReceive: "12",
+        },
+      },
+    ],
   },
   15: {
     description:
@@ -1012,6 +1142,22 @@ const Result = {
       },
     ],
     availability: "50",
+    endorsements: [
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/715064307309871104/830bfd9ad8a770bf13fe6fd58ca04a4c.webp",
+        name: "adiig7",
+        endorsement:
+          "Reid is not only a brilliant thinker about the future, but also knows how to strategize and execute at the operational level. He also has a very real sense of responsibility and obligation to making the world a better place.",
+        level: {
+          name: 2,
+          smallName: "L2",
+          meaning: "Community Favourite",
+          SuccessfulEndorsementsGive: "23",
+          SuccessfulEndorsementsReceive: "12",
+        },
+      },
+    ],
   },
 };
 

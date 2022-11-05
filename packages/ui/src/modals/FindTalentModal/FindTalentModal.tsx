@@ -35,8 +35,6 @@ export interface FindTalentModalProps {
   mockData?: any;
 }
 
-const MAIN_STEPS = 3;
-
 export const FindTalentModal = ({
   onClose,
   openModal,
@@ -44,6 +42,12 @@ export const FindTalentModal = ({
   randomNumber,
   mockData,
 }: FindTalentModalProps) => {
+  const MAIN_STEPS =
+    mockData?.ResultPopUpShowFlag.type === "Project" ||
+    mockData?.ResultPopUpShowFlag.type === "User"
+      ? 1
+      : 3;
+
   const generateId = randomNumber
     ? () => Math.random().toString()
     : () => uuidv4();

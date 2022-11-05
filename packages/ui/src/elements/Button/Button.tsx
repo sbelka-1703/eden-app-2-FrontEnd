@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { ButtonHTMLAttributes } from "react";
+import { ButtonHTMLAttributes, CSSProperties } from "react";
 
 type ButtonProps = {
   variant?: "default" | "primary" | "secondary" | "tertiary";
@@ -7,6 +7,7 @@ type ButtonProps = {
   size?: "lg" | "md" | "sm";
   className?: string;
   disabled?: boolean;
+  style?: CSSProperties;
   // eslint-disable-next-line no-unused-vars
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
@@ -19,6 +20,7 @@ export const Button = ({
   className,
   disabled,
   onClick,
+  style,
 }: ButtonProps) => {
   const btnCls = clsx(
     {
@@ -44,14 +46,18 @@ export const Button = ({
 
   if (disabled) {
     return (
-      <button className={`${btnCls} bg-transparent`} disabled={disabled}>
+      <button
+        style={style}
+        disabled={disabled}
+        className={`${btnCls} bg-transparent`}
+      >
         {children}
       </button>
     );
   }
 
   return (
-    <button className={btnCls} onClick={onClick}>
+    <button style={style} className={btnCls} onClick={onClick}>
       {children}
     </button>
   );

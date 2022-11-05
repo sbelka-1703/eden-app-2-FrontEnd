@@ -48,6 +48,7 @@ export interface PrioritizeModalProps {
   onClose: () => void;
   battery?: boolean;
   numMatches?: number | string;
+  batteryPercentage?: number;
   // eslint-disable-next-line no-unused-vars
   onSubmit: (data: {
     experience: number;
@@ -60,6 +61,7 @@ export interface PrioritizeModalProps {
 export const PrioritizeModal = ({
   onClose,
   battery = false,
+  batteryPercentage = 75,
   openModal,
   onSubmit,
   numMatches,
@@ -70,7 +72,7 @@ export const PrioritizeModal = ({
     skillMatch: 20,
     availability: 20,
   });
-  const [remaining, setRemaining] = useState(300);
+  const [remaining, setRemaining] = useState(400);
 
   const handlePrioritized = (skill: string, range: number) => {
     setRange((prevState) => ({ ...prevState, [skill]: range }));
@@ -79,7 +81,7 @@ export const PrioritizeModal = ({
   useEffect(() => {
     const remaining = Object.values(range).reduce((prev, curr) => {
       return prev - curr;
-    }, 300);
+    }, 400);
 
     setRemaining(remaining);
   }, [range, remaining]);
@@ -93,13 +95,16 @@ export const PrioritizeModal = ({
               Okay, let me just get your priorities straight.
             </TextHeading3>
             <TextBody className={`font-medium text-gray-500`}>
-              Distribute 100 point based on what’s the most important value for
-              you.
+              On a scale from 0 to 100, how would you rate the importance to
+              each attribute
             </TextBody>
           </div>
 
           {battery && (
-            <BatteryStepper batteryPercentage={75} numMatches={numMatches} />
+            <BatteryStepper
+              batteryPercentage={batteryPercentage}
+              numMatches={numMatches}
+            />
           )}
         </div>
 

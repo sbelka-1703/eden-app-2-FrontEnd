@@ -9,7 +9,6 @@ import {
   GridItemThree,
   GridLayout,
 } from "@eden/package-ui";
-import Head from "next/head";
 // import { useRouter } from "next/router";
 import { useContext } from "react";
 
@@ -48,9 +47,6 @@ export const AppUserMenuLayout = ({
 
   return (
     <>
-      <Head>
-        <title>Eden protocol</title>
-      </Head>
       <div className="bg-background flex h-screen min-w-0 flex-col lg:overflow-y-hidden">
         <AppHeader logoLink={`/home`} inApp />
         <main className="flex flex-grow">
