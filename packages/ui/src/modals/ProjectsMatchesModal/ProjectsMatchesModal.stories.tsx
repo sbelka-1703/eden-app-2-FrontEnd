@@ -15,7 +15,4 @@ const Template: ComponentStory<typeof ProjectsMatchesModal> = (args) => (
 export const Default = Template.bind({});
 Default.args = {
   openModal: true,
-  onSubmit: (role) => {
-    console.log(role);
-  },
 };

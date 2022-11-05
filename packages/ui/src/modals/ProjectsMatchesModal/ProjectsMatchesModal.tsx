@@ -1,23 +1,59 @@
-import { Button, Modal } from "@eden/package-ui";
+import { BatteryStepper, Button, Modal } from "@eden/package-ui";
 
 export interface ProjectsMatchesModalProps {
   openModal?: boolean;
   // eslint-disable-next-line no-unused-vars
-  onSubmit: (val?: any) => void;
-  // eslint-disable-next-line no-unused-vars
-  setBio?: (val?: any) => void;
-  // eslint-disable-next-line no-unused-vars
-  setDescription?: (val?: any) => void;
-  // eslint-disable-next-line no-unused-vars
-  setLinks?: (val?: any) => void;
+  batteryPercentageBefore?: number;
+  numMatchesBefore?: number;
+  batteryPercentageAfter?: number;
+  numMatchesAfter?: number;
 }
 
 export const ProjectsMatchesModal = ({
   openModal,
-}: ProjectsMatchesModalProps) => {
-  return (
-    <>
-      <Modal open={openModal} closeOnEsc={false}></Modal>
-    </>
-  );
-};
+  batteryPercentageBefore = 10,
+  numMatchesBefore = 212,
+  batteryPercentageAfter = 80,
+  numMatchesAfter = 8,
+}: ProjectsMatchesModalProps) => (
+  <>
+    <Modal open={openModal} closeOnEsc={false}>
+      <div>
+        <p className="text-2xl ">Welcome to Eden!</p>
+      </div>
+      <div className="flex flex-col my-8">
+        <p className="flex items-center justify-center">
+          {"We have"}
+          <div className="mx-4">
+            <BatteryStepper
+              batteryPercentage={batteryPercentageBefore}
+              numMatches={numMatchesBefore}
+              size={"sm"}
+            />
+          </div>
+          {"projects in Eden today"}
+        </p>
+        <p className="flex items-center justify-center">
+          {"Let's teach AI to find the best"}
+          <div className="mx-4">
+            <BatteryStepper
+              batteryPercentage={batteryPercentageAfter}
+              numMatches={numMatchesAfter}
+              size={"sm"}
+            />
+          </div>
+          {"projects for you."}
+        </p>
+      </div>
+      <div className="flex justify-end">
+        <Button
+          radius="rounded"
+          variant={`secondary`}
+          //   onClick={() => onSubmit()}
+        >
+          Next
+        </Button>
+      </div>
+    </Modal>
+  </>
+);

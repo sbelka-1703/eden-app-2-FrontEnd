@@ -1,17 +1,36 @@
 import "./styles.css";
 
+import clsx from "clsx";
 import { useEffect, useState } from "react";
 
 export interface IBatteryStepperProps {
   batteryPercentage: number;
   numMatches?: number | string;
+  size?: "lg" | "sm";
 }
 
 export const BatteryStepper = ({
   numMatches,
   batteryPercentage,
+  size = "lg",
 }: IBatteryStepperProps) => {
   const [batteryColor, setBatteryColor] = useState("#ff0000");
+  const btrBodyCls = clsx(
+    { "w-[70px] h-[110px] border-[6px] border-black": size === "sm" },
+    { "w-[100px] h-[200px] border-[4px] border-black": size === "lg" }
+  );
+  const btrHeadCls = clsx(
+    { "w-[17px] h-[1px] ": size === "sm" },
+    { "w-[30px] h-[10px]": size === "lg" }
+  );
+  const mathcesTextCls = clsx(
+    { "text-[10px]": size === "sm" },
+    { "text-sm": size === "lg" }
+  );
+  const numMatchesTextCls = clsx(
+    { "text-xl": size === "sm" },
+    { "text-3xl": size === "lg" }
+  );
 
   useEffect(() => {
     if (batteryPercentage <= 20) {
@@ -29,8 +48,8 @@ export const BatteryStepper = ({
 
   return (
     <div className="battery">
-      <div className="battery-head"></div>
-      <div className="battery-body">
+      <div className={`${btrHeadCls} battery-head`}></div>
+      <div className={`${btrBodyCls} battery-body`}>
         <div
           className="charge"
           style={{
@@ -39,9 +58,9 @@ export const BatteryStepper = ({
           }}
         />
         {numMatches && (
-          <div className="font-poppins absolute left-2/4 top-2/4 -translate-x-2/4 -translate-y-2/4 text-center font-semibold">
-            <p className="text-sm">Matches</p>
-            <p className="text-3xl">{numMatches}</p>
+          <div className="absolute font-semibold text-center font-poppins left-2/4 top-2/4 -translate-x-2/4 -translate-y-2/4">
+            <p className={`${mathcesTextCls}`}>Matches</p>
+            <p className={`${numMatchesTextCls}`}>{numMatches}</p>
           </div>
         )}
       </div>
