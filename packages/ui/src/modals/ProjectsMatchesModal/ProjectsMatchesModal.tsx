@@ -21,7 +21,7 @@ export const ProjectsMatchesModal = ({
       <div>
         <p className="text-2xl ">Welcome to Eden!</p>
       </div>
-      <div className="flex flex-col my-8">
+      <div className="my-8 flex flex-col">
         <p className="flex items-center justify-center">
           {"We have"}
           <div className="mx-4">

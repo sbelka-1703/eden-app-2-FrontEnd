@@ -59,3 +59,14 @@ export interface CreateThreadApiRequestBody {
   threadName: string;
   autoArchiveDuration: AutoArchiveDuration;
 }
+
+export interface CreateMessageApiRequestBody {
+  message: string;
+  thread: string;
+  embedMessage?: string;
+  senderName?: string;
+  senderAvatarURL?: string;
+  channelId?: string;
+  threadName?: string;
+  autoArchiveDuration?: AutoArchiveDuration;
+}

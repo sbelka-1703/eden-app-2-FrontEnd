@@ -12,6 +12,7 @@ export * from "./ProjectInfo";
 export * from "./ReadMoreComp";
 export * from "./SalaryRangeChart";
 export * from "./SearchSkill";
+export * from "./SendMessageToChampion";
 export * from "./SendMessageToUser";
 export * from "./SkillCategoryList";
 export * from "./SkillVisualisationComp";
