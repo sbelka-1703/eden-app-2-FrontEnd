@@ -67,7 +67,6 @@ export const SendMessageToChampion = ({
     SET_APPLY_TO_PROJECT,
     {
       onCompleted: () => {
-        console.log(changeTeamMember_Phase_Project);
         toast.success("success");
       },
       onError: (error) => {
@@ -137,8 +136,6 @@ export const SendMessageToChampion = ({
         channelId: "1001547443135058010",
         thread: threadId,
       });
-
-      console.log("createMessage");
     } catch (error) {
       console.log(error);
     }
