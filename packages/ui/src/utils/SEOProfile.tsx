@@ -4,26 +4,26 @@ import React, { FC } from "react";
 const DEFAULT_TITLE = process.env.NEXT_PUBLIC_ENV_BRANCH
   ? `Eden protocol - alpha - ${process.env.NEXT_PUBLIC_ENV_BRANCH}`
   : `Eden protocol - alpha`;
-const DEFAULT_DESCRIPTION = `Together, let's build the perfect breeding ground for everyone to do work they love. Eden's talent coordination protocol is how.`;
+const DEFAULT_DESCRIPTION = `Connect with me on Eden Protocol./n  Together, let's build the perfect breeding ground for everyone to do work they love. Eden's talent coordination protocol is how.`;
 
 const DEFAULT_IMAGE = `https://pbs.twimg.com/profile_images/1563942271170617344/4Tpfr8SY_400x400.jpg`;
 
 export interface SEOProfileProps {
   title?: string;
+  description?: string;
   handle?: string;
   role?: string;
-  description?: string;
   image?: string;
 }
 
 export const SEOProfile: FC<SEOProfileProps> = ({
-  title = "",
+  // title = "",
+  description = "",
   handle = "",
   role = "",
-  description = "",
   image = DEFAULT_IMAGE,
 }) => {
-  const appTitle = title + ` ` + DEFAULT_TITLE;
+  const appTitle = `@` + handle + ` on | ` + DEFAULT_TITLE;
   const appDescription = description ? description : DEFAULT_DESCRIPTION;
 
   const apiUrl = `/api/og/profile?image=${image}&handle=${handle}&role=${role}`;
@@ -37,7 +37,7 @@ export const SEOProfile: FC<SEOProfileProps> = ({
       <meta property="og:site_name" content={`Eden protocol - alpha`} />
       <meta property="og:title" content={appTitle} />
       <meta property="og:description" content={appDescription} />
-      <meta property="og:image" content={ogImage} />
+      <meta property="og:image" content={encodeURI(ogImage)} />
       <meta property="og:image:width" content="800" />
       <meta property="og:image:height" content="400" />
 
@@ -45,7 +45,7 @@ export const SEOProfile: FC<SEOProfileProps> = ({
       <meta property="twitter:site" content={`Eden protocol - alpha`} />
       <meta property="twitter:title" content={appTitle} />
       <meta property="twitter:description" content={appDescription} />
-      <meta property="twitter:image:src" content={ogImage} />
+      <meta property="twitter:image:src" content={encodeURI(ogImage)} />
       <meta property="twitter:image:width" content="800" />
       <meta property="twitter:image:height" content="400" />
       <meta property="twitter:creator" content={`Eden protocol - alpha`} />

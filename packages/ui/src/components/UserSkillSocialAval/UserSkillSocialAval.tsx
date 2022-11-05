@@ -4,7 +4,7 @@ import {
   Members,
   SkillType_Member,
 } from "@eden/package-graphql/generated";
-import { SkillList, SocialMediaComp } from "@eden/package-ui";
+import { AvailabilityComp, SkillList, SocialMediaComp } from "@eden/package-ui";
 
 const levels = [
   {
@@ -62,10 +62,12 @@ export const UserSkillSocialAval = ({ member }: IUserSkillSocialAvalProps) => {
         <SocialMediaComp links={member?.links} />
       </div>
       <div className="col-span-4">
+        <AvailabilityComp timePerWeek={member?.hoursPerWeek!} />
+        {/*
         <p className="font-semibold">AVAILABILITY</p>
 
         <p className="text-lg">⏳ {member?.hoursPerWeek} hrs/ week</p>
-        <p className="text-lg">💰 1700 $SEED</p>
+        <p className="text-lg">💰 1700 $SEED</p> */}
       </div>
     </div>
   );
