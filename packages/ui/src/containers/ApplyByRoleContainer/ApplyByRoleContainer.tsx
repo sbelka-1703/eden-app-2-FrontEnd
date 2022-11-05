@@ -7,6 +7,7 @@ import {
   Members,
   Mutation,
   Project,
+  RoleType,
 } from "@eden/package-graphql/generated";
 import {
   ApplyByRoleModal,
@@ -55,6 +56,7 @@ export const ApplyByRoleContainer = ({
   const [showModal, setShowModal] = useState(false);
 
   const [roleID, setRoleID] = useState("");
+  const [selectedRole, setSelectedRole] = useState<RoleType>();
 
   useEffect(() => {
     if (currentUser?.projects && currentUser?.projects.length > 0 && project) {
@@ -191,6 +193,7 @@ export const ApplyByRoleContainer = ({
                 percentage={role?.matchPercentage || 0}
                 onApply={(val) => {
                   setRoleID(val);
+                  setSelectedRole(role?.projectRole as RoleType);
                 }}
               />
             ))}
@@ -201,6 +204,7 @@ export const ApplyByRoleContainer = ({
                 percentage={0}
                 onApply={(val) => {
                   setRoleID(val);
+                  setSelectedRole(role as RoleType);
                 }}
               />
             ))}
@@ -215,6 +219,7 @@ export const ApplyByRoleContainer = ({
       )}
       <ApplyByRoleModal
         roleID={roleID}
+        role={selectedRole}
         project={project}
         isModalOpen={showModal}
         onClose={() => setRoleID("")}

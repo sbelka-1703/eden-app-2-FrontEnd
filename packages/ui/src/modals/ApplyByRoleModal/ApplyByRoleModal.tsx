@@ -2,12 +2,18 @@
 import { gql, useMutation } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
 import { UPDATE_MEMBER } from "@eden/package-graphql";
-import { Mutation, Project } from "@eden/package-graphql/generated";
+import {
+  Members,
+  Mutation,
+  Project,
+  RoleType,
+} from "@eden/package-graphql/generated";
 import {
   Button,
   ConfettiContainer,
   Dropdown,
   Modal,
+  SendMessageToChampion,
   SocialMediaInput,
   TextArea,
   TextField,
@@ -31,6 +37,7 @@ export interface IApplyByRoleModalProps {
   isModalOpen: boolean;
   onClose: () => void;
   roleID?: string;
+  role?: RoleType;
   project?: Project;
   refetch?: () => void;
 }
@@ -39,6 +46,7 @@ export const ApplyByRoleModal = ({
   isModalOpen,
   onClose,
   roleID,
+  role,
   project,
   refetch,
 }: IApplyByRoleModalProps) => {
@@ -46,6 +54,7 @@ export const ApplyByRoleModal = ({
   const { currentUser } = useContext(UserContext);
   const [submitting, setSubmitting] = useState(false);
   const [applied, setApplied] = useState(false);
+  const [sendMessageView, setSendMessageView] = useState(false);
 
   const [profileBio, setProfileBio] = useState(currentUser?.bio || "");
   const [timezone, setTimezone] = useState(currentUser?.timeZone || "");
@@ -197,28 +206,59 @@ export const ApplyByRoleModal = ({
             </div>
           </div>
         ) : (
-          <div className={`h-7/10 relative -mt-8 w-full`}>
-            <ConfettiContainer>
-              <div className={`m-auto justify-center`}>
-                <div
-                  className={`text-darkGreen my-auto pt-32 text-center text-4xl font-bold`}
-                >
-                  YOU DID IT!
-                </div>
-                <div className={`absolute bottom-8 flex w-full justify-center`}>
-                  <Button
-                    onClick={() => {
-                      onClose();
-                      router.push(`/home`);
-                    }}
-                    disabled={submitting}
-                  >
-                    Close
-                  </Button>
-                </div>
+          <>
+            {!sendMessageView ? (
+              <div className={`h-7/10 relative -mt-8 w-full`}>
+                <ConfettiContainer>
+                  <div className={`m-auto justify-center`}>
+                    <div
+                      className={`text-darkGreen my-auto pt-32 text-center text-4xl font-bold`}
+                    >
+                      YOU DID IT!
+                    </div>
+                    <div
+                      className={`absolute bottom-36 flex w-full justify-center`}
+                    >
+                      <Button
+                        variant="primary"
+                        onClick={() => {
+                          setSendMessageView(true);
+                        }}
+                        disabled={submitting}
+                      >
+                        Send a message to the team
+                      </Button>
+                    </div>
+                    <div
+                      className={`absolute bottom-24 flex w-full justify-center`}
+                    >
+                      {" "}
+                      - OR -
+                    </div>
+                    <div
+                      className={`absolute bottom-8 flex w-full justify-center`}
+                    >
+                      <Button
+                        onClick={() => {
+                          onClose();
+                          router.push(`/home`);
+                        }}
+                        disabled={submitting}
+                      >
+                        Return Home
+                      </Button>
+                    </div>
+                  </div>
+                </ConfettiContainer>
               </div>
-            </ConfettiContainer>
-          </div>
+            ) : (
+              <SendMessageToChampion
+                project={project}
+                member={project?.champion as Members}
+                role={role}
+              />
+            )}
+          </>
         )}
       </Modal>
     </>

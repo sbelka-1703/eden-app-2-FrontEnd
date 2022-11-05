@@ -41,19 +41,20 @@ const SET_APPLY_TO_PROJECT = gql`
   }
 `;
 
-export interface ISendMessageToUserProps {
+export interface ISendMessageToChampionProps {
   member: Maybe<Members>;
   project?: Project;
   role?: RoleType;
 }
 
-export const SendMessageToUser = ({
+export const SendMessageToChampion = ({
   member,
   project,
   role,
-}: ISendMessageToUserProps) => {
+}: ISendMessageToChampionProps) => {
   // console.log("project", project);
   // console.log("role", role);
+  // console.log("member", member);
 
   const { currentUser } = useContext(UserContext);
   const [message, setMessage] = useState("");
@@ -114,19 +115,19 @@ export const SendMessageToUser = ({
     
     ${message}
 
-    please check out the project on Eden
-    https://eden-alpha-develop.vercel.app/projects/${project?._id}
+    please check out my profile on Eden
+    https://eden-alpha-develop.vercel.app/profile/${currentUser?.discordName}
   `;
 
   const handleSendMessage = async () => {
-    setSendingMessage(true);
+    // setSendingMessage(true);
     const { threadId } = await createThread({
       message: `<@${member?._id}> <@${currentUser?._id}>`,
       embedMessage: embededMessage,
       senderAvatarURL: currentUser?.discordAvatar!,
-      senderName: `${currentUser?.discordName} - Invited you to join ${project?.title}`,
+      senderName: `${currentUser?.discordName} - is interested in ${project?.title}`,
       channelId: "1001547443135058010",
-      threadName: `Project Talents Discussion with ${member?.discordName}`,
+      threadName: `${project?.title}, has a new message from ${currentUser?.discordName}`,
       autoArchiveDuration: AutoArchiveDuration.OneDay,
     });
 
@@ -167,7 +168,7 @@ export const SendMessageToUser = ({
               projectID: project?._id,
               memberID: member?._id,
               roleID: role?._id,
-              phase: "invited",
+              phase: "engaged",
             },
           },
         });
@@ -194,6 +195,10 @@ export const SendMessageToUser = ({
           ) : (
             <>
               <div className="rounded-xl border border-gray-300 py-4 px-3">
+                <TextHeading3 className={`mr-4`}>
+                  Send message to @{member?.discordName} about the {role?.title}{" "}
+                  Role
+                </TextHeading3>
                 <div className="flex items-center ">
                   <Avatar
                     src={currentUser?.discordAvatar || ""}
