@@ -13,6 +13,14 @@ interface PartialUser {
   bot?: boolean;
 }
 
+export interface PartialGuild {
+  id: string;
+  name: string;
+  icon: string;
+  owner: boolean;
+  permissions: string;
+}
+
 export interface PartialChannel {
   id: string;
   permissions: number;
@@ -36,6 +44,10 @@ export interface CreateThreadResponse {
 
 export interface FetchGuildMembersResponse {
   members: Array<PartialMember>;
+}
+
+export interface FetchMutualGuildsResponse {
+  guilds: Array<PartialGuild>;
 }
 
 export interface CreateThreadApiRequestBody {
