@@ -3,7 +3,12 @@ import {
   MatchSkillsToProjectsOutput,
   Maybe,
 } from "@eden/package-graphql/generated";
-import { Loading, ProjectMatchCard, TextHeading3 } from "@eden/package-ui";
+import {
+  Card,
+  Loading,
+  ProjectMatchCard,
+  TextHeading3,
+} from "@eden/package-ui";
 import { useContext } from "react";
 
 export interface IProjectMatchListProps {
@@ -26,7 +31,7 @@ export const ProjectMatchList = ({
   // if (matchedProjects) console.log("matchedProjects", matchedProjects);
 
   return (
-    <div className={`h-85 flex flex-col rounded-2xl bg-white py-6`}>
+    <Card shadow className={`h-85 flex flex-col rounded-2xl bg-white py-6`}>
       <div className={`px-6`}>
         {currentUser?.memberRole?.title && (
           <TextHeading3>Project matches</TextHeading3>
@@ -50,6 +55,6 @@ export const ProjectMatchList = ({
       ) : (
         <Loading />
       )}
-    </div>
+    </Card>
   );
 };

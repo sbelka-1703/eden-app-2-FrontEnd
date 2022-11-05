@@ -27,6 +27,7 @@ const priorities = {
       initialValue: "20",
     },
   },
+  numMatches: "30",
 };
 
 const desiredSalary = {
@@ -34,6 +35,7 @@ const desiredSalary = {
   description: "What's your desired salary range?",
   minSalary: "1/hour",
   maxSarary: "500/hour",
+  numMatches: "15",
 };
 
 const SkillTree = {
@@ -65,6 +67,7 @@ const SkillTree = {
         "Zk Blockchains",
         "Other",
       ],
+      numMatches: "210",
     },
     "Focus On Page": {
       title: "Cool! What matters to you for this hackathon?",
@@ -77,11 +80,13 @@ const SkillTree = {
         "Finding Investors",
         "Other",
       ],
+      numMatches: "110",
     },
     "Win bounties": {
       title: "What bounties are you interested in pursuing?",
       subTitle: "Choose at least one bounty.",
       content: ["ZkSync Bounty #1($3, 000) - Account Abstraction 📦", "Other"],
+      numMatches: "70",
     },
     "Solving Meaningful Problems": {
       title: "What causes do you care about?",
@@ -106,6 +111,7 @@ const SkillTree = {
         "Affordable & clean energy",
         "Other",
       ],
+      numMatches: "50",
     },
     "Learn new skills": {
       title: "What specific ZK skills are you interested in learning?",
@@ -119,6 +125,7 @@ const SkillTree = {
         "Hermez",
         "Other",
       ],
+      numMatches: "40",
     },
     "Meet people with complementary skills": {
       title: "What types of people are you looking for?",
@@ -132,6 +139,7 @@ const SkillTree = {
         "Product Person",
         "Other",
       ],
+      numMatches: "50",
     },
     "Engage Investors": {
       title: "What type of investors are you looking for?",
@@ -145,6 +153,7 @@ const SkillTree = {
         "Grants",
         "Other",
       ],
+      numMatches: "30",
     },
     "Find a co-founder": {
       title: "How would you describe your ideal co-founder?",
@@ -156,6 +165,7 @@ const SkillTree = {
         "Bizz wizz",
         "Other",
       ],
+      numMatches: "35",
     },
   },
   DeFi: {
@@ -176,6 +186,7 @@ const SkillTree = {
         "Launchpads",
         "Other",
       ],
+      numMatches: "270",
     },
     "Focus On Page": {
       title: "Cool! What matters to you for this hackathon?",
@@ -188,6 +199,7 @@ const SkillTree = {
         "Finding Investors",
         "Other",
       ],
+      numMatches: "170",
     },
     "Win bounties": {
       title: "What bounties are you interested in pursuing?",
@@ -204,6 +216,7 @@ const SkillTree = {
         "Wallet Connect- Bounty #2($7, 000) - Best Mobile UX 🌕",
         "Other",
       ],
+      numMatches: "120",
     },
     "Solving Meaningful Problems": {
       title: "What causes do you care about?",
@@ -228,6 +241,7 @@ const SkillTree = {
         "Affordable & clean energy",
         "Other",
       ],
+      numMatches: "80",
     },
     "Learn new skills": {
       title:
@@ -246,6 +260,7 @@ const SkillTree = {
         "Community Side",
         "Other",
       ],
+      numMatches: "60",
     },
     "Meet people with complementary skills": {
       title: "What types of people are you looking for?",
@@ -259,6 +274,7 @@ const SkillTree = {
         "Product Person",
         "Other",
       ],
+      numMatches: "50",
     },
     "Engage Investors": {
       title: "What type of investors are you looking for?",
@@ -272,6 +288,7 @@ const SkillTree = {
         "Grants",
         "Other",
       ],
+      numMatches: "40",
     },
     "Find a co-founder": {
       title: "How would you describe your ideal co-founder?",
@@ -283,6 +300,7 @@ const SkillTree = {
         "Bizz wizz",
         "Other",
       ],
+      numMatches: "60",
     },
   },
   "Public Goods": {
@@ -301,6 +319,7 @@ const SkillTree = {
         "Community Building",
         "Other",
       ],
+      numMatches: "310",
     },
     "Focus On Page": {
       title: "Cool! What matters to you for this hackathon?",
@@ -313,6 +332,7 @@ const SkillTree = {
         "Finding Investors",
         "Other",
       ],
+      numMatches: "200",
     },
     "Win bounties": {
       title: "What bounties are you interested in pursuing?",
@@ -334,6 +354,7 @@ const SkillTree = {
         "IExec - Bounty #1($4, 500) - Oracle Factory 🔮",
         "Other",
       ],
+      numMatches: "120",
     },
     "Solving Meaningful Problems": {
       title: "What causes do you care about?",
@@ -358,6 +379,7 @@ const SkillTree = {
         "Affordable & clean energy",
         "Other",
       ],
+      numMatches: "90",
     },
     "Learn new skills": {
       title: "What public good skills/tools are you interested in deepening?",
@@ -370,6 +392,7 @@ const SkillTree = {
         "Funding Skills",
         "Other",
       ],
+      numMatches: "100",
     },
     "Meet people with complementary skills": {
       title: "What types of people are you looking for?",
@@ -383,6 +406,7 @@ const SkillTree = {
         "Product Person",
         "Other",
       ],
+      numMatches: "80",
     },
     "Engage Investors": {
       title: "What type of investors are you looking for?",
@@ -396,6 +420,7 @@ const SkillTree = {
         "Grants",
         "Other",
       ],
+      numMatches: "70",
     },
     "Find a co-founder": {
       title: "How would you describe your ideal co-founder?",
@@ -407,6 +432,7 @@ const SkillTree = {
         "Bizz wizz",
         "Other",
       ],
+      numMatches: "30",
     },
   },
   NFTs: {
@@ -427,6 +453,7 @@ const SkillTree = {
         "Proof of Ownership",
         "Other",
       ],
+      numMatches: "120",
     },
     "Focus On Page": {
       title: "Cool! What matters to you for this hackathon?",
@@ -439,6 +466,7 @@ const SkillTree = {
         "Finding Investors",
         "Other",
       ],
+      numMatches: "103",
     },
     "Win bounties": {
       title: "What bounties are you interested in pursuing?",
@@ -460,6 +488,7 @@ const SkillTree = {
         "IExec - Bounty #1($4, 500) - Oracle Factory 🔮",
         "Other",
       ],
+      numMatches: "82",
     },
     "Solving Meaningful Problems": {
       title: "What causes do you care about?",
@@ -484,6 +513,7 @@ const SkillTree = {
         "Affordable & clean energy",
         "Other",
       ],
+      numMatches: "70",
     },
     "Learn new skills": {
       title: "What NFT skills are you interested in deepening?",
@@ -496,6 +526,7 @@ const SkillTree = {
         "Exploring Usecases",
         "Other",
       ],
+      numMatches: "60",
     },
     "Meet people with complementary skills": {
       title: "What types of people are you looking for?",
@@ -509,6 +540,7 @@ const SkillTree = {
         "Product Person",
         "Other",
       ],
+      numMatches: "55",
     },
     "Engage Investors": {
       title: "What type of investors are you looking for?",
@@ -522,6 +554,7 @@ const SkillTree = {
         "Grants",
         "Other",
       ],
+      numMatches: "45",
     },
     "Find a co-founder": {
       title: "How would you describe your ideal co-founder?",
@@ -533,6 +566,7 @@ const SkillTree = {
         "Bizz wizz",
         "Other",
       ],
+      numMatches: "40",
     },
   },
   DeSci: {
@@ -555,6 +589,7 @@ const SkillTree = {
         "IP",
         "Other",
       ],
+      numMatches: "212",
     },
     "Focus On Page": {
       title: "Cool! What matters to you for this hackathon?",
@@ -567,6 +602,7 @@ const SkillTree = {
         "Finding Investors",
         "Other",
       ],
+      numMatches: "190",
     },
     "Win bounties": {
       title: "What bounties are you interested in pursuing?",
@@ -588,6 +624,7 @@ const SkillTree = {
         "IExec - Bounty #1($4, 500) - Oracle Factory 🔮",
         "Other",
       ],
+      numMatches: "140",
     },
     "Solving Meaningful Problems": {
       title: "What causes do you care about?",
@@ -612,6 +649,7 @@ const SkillTree = {
         "Affordable & clean energy",
         "Other",
       ],
+      numMatches: "122",
     },
     "Learn new skills": {
       title: "What NFT skills are you interested in deepening?",
@@ -622,6 +660,7 @@ const SkillTree = {
         "Exploring Usecases",
         "Other",
       ],
+      numMatches: "101",
     },
     "Meet people with complementary skills": {
       title: "What types of people are you looking for?",
@@ -635,6 +674,7 @@ const SkillTree = {
         "Product Person",
         "Other",
       ],
+      numMatches: "98",
     },
     "Engage Investors": {
       title: "What type of investors are you looking for?",
@@ -648,6 +688,7 @@ const SkillTree = {
         "Grants",
         "Other",
       ],
+      numMatches: "87",
     },
     "Find a co-founder": {
       title: "How would you describe your ideal co-founder?",
@@ -659,6 +700,7 @@ const SkillTree = {
         "Bizz wizz",
         "Other",
       ],
+      numMatches: "46",
     },
   },
   // Gaming: {
@@ -967,6 +1009,148 @@ const Result = {
         "Open Seats": "1",
       },
     ],
+    endorsements: [
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/516697403391213588/4cc3f607d01bc8865b327064c5d380ca.png",
+        name: "Waxy",
+        endorsement:
+          "I had a change to work with BluePanda in D_D Acedemy and he was amazing. True Leader. I learned from him so much. Can’t wait to work with him again.",
+        level: {
+          name: 2,
+          smallName: "L2",
+          meaning: "Community Favourite",
+          SuccessfulEndorsementsGive: "23",
+          SuccessfulEndorsementsReceive: "12",
+        },
+      },
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/516697403391213588/4cc3f607d01bc8865b327064c5d380ca.png",
+        name: "Impactbilli",
+        endorsement:
+          "BluePanda is my greatest friend and a mentor. He’s my North Star. ",
+        level: {
+          name: 3,
+          smallName: "L3",
+          meaning: "Community leader",
+          SuccessfulEndorsementsGive: "3",
+          SuccessfulEndorsementsReceive: "12",
+        },
+      },
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/175735303489847296/fe70f8879d7d8979dd4a32690806f7f3.webp",
+        name: "XYZ",
+        endorsement:
+          "BluePanda is my greatest friend and a mentor. He’s my North Star. ",
+        level: {
+          name: 1,
+          smallName: "L1",
+          meaning: "Community starter",
+          SuccessfulEndorsementsGive: "13",
+          SuccessfulEndorsementsReceive: "2",
+        },
+      },
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/516697403391213588/4cc3f607d01bc8865b327064c5d380ca.png",
+        name: "Waxy",
+        endorsement:
+          "I had a change to work with BluePanda in D_D Acedemy and he was amazing. True Leader. I learned from him so much. Can’t wait to work with him again.",
+        level: {
+          name: 2,
+          smallName: "L2",
+          meaning: "Community Favourite",
+          SuccessfulEndorsementsGive: "23",
+          SuccessfulEndorsementsReceive: "12",
+        },
+      },
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/516697403391213588/4cc3f607d01bc8865b327064c5d380ca.png",
+        name: "Impactbilli",
+        endorsement:
+          "BluePanda is my greatest friend and a mentor. He’s my North Star. ",
+        level: {
+          name: 3,
+          smallName: "L3",
+          meaning: "Community leader",
+          SuccessfulEndorsementsGive: "3",
+          SuccessfulEndorsementsReceive: "12",
+        },
+      },
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/175735303489847296/fe70f8879d7d8979dd4a32690806f7f3.webp",
+        name: "XYZ",
+        endorsement:
+          "BluePanda is my greatest friend and a mentor. He’s my North Star. ",
+        level: {
+          name: 1,
+          smallName: "L1",
+          meaning: "Community starter",
+          SuccessfulEndorsementsGive: "13",
+          SuccessfulEndorsementsReceive: "2",
+        },
+      },
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/175735303489847296/fe70f8879d7d8979dd4a32690806f7f3.webp",
+        name: "XYZ",
+        endorsement:
+          "BluePanda is my greatest friend and a mentor. He’s my North Star. ",
+        level: {
+          name: 1,
+          smallName: "L1",
+          meaning: "Community starter",
+          SuccessfulEndorsementsGive: "13",
+          SuccessfulEndorsementsReceive: "2",
+        },
+      },
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/516697403391213588/4cc3f607d01bc8865b327064c5d380ca.png",
+        name: "Impactbilli",
+        endorsement:
+          "BluePanda is my greatest friend and a mentor. He’s my North Star. ",
+        level: {
+          name: 3,
+          smallName: "L3",
+          meaning: "Community leader",
+          SuccessfulEndorsementsGive: "3",
+          SuccessfulEndorsementsReceive: "12",
+        },
+      },
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/175735303489847296/fe70f8879d7d8979dd4a32690806f7f3.webp",
+        name: "XYZ",
+        endorsement:
+          "BluePanda is my greatest friend and a mentor. He’s my North Star. ",
+        level: {
+          name: 1,
+          smallName: "L1",
+          meaning: "Community starter",
+          SuccessfulEndorsementsGive: "13",
+          SuccessfulEndorsementsReceive: "2",
+        },
+      },
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/175735303489847296/fe70f8879d7d8979dd4a32690806f7f3.webp",
+        name: "XYZ",
+        endorsement:
+          "BluePanda is my greatest friend and a mentor. He’s my North Star. ",
+        level: {
+          name: 1,
+          smallName: "L1",
+          meaning: "Community starter",
+          SuccessfulEndorsementsGive: "13",
+          SuccessfulEndorsementsReceive: "2",
+        },
+      },
+    ],
   },
   "Product 1": {
     description:
@@ -996,6 +1180,148 @@ const Result = {
         description:
           "Support our CEO to coordinate the engineering & designer efforts",
         "Open Seats": "1",
+      },
+    ],
+    endorsements: [
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/516697403391213588/4cc3f607d01bc8865b327064c5d380ca.png",
+        name: "Waxy",
+        endorsement:
+          "I had a change to work with BluePanda in D_D Acedemy and he was amazing. True Leader. I learned from him so much. Can’t wait to work with him again.",
+        level: {
+          name: 2,
+          smallName: "L2",
+          meaning: "Community Favourite",
+          SuccessfulEndorsementsGive: "23",
+          SuccessfulEndorsementsReceive: "12",
+        },
+      },
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/516697403391213588/4cc3f607d01bc8865b327064c5d380ca.png",
+        name: "Impactbilli",
+        endorsement:
+          "BluePanda is my greatest friend and a mentor. He’s my North Star. ",
+        level: {
+          name: 3,
+          smallName: "L3",
+          meaning: "Community leader",
+          SuccessfulEndorsementsGive: "3",
+          SuccessfulEndorsementsReceive: "12",
+        },
+      },
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/175735303489847296/fe70f8879d7d8979dd4a32690806f7f3.webp",
+        name: "XYZ",
+        endorsement:
+          "BluePanda is my greatest friend and a mentor. He’s my North Star. ",
+        level: {
+          name: 1,
+          smallName: "L1",
+          meaning: "Community starter",
+          SuccessfulEndorsementsGive: "13",
+          SuccessfulEndorsementsReceive: "2",
+        },
+      },
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/516697403391213588/4cc3f607d01bc8865b327064c5d380ca.png",
+        name: "Waxy",
+        endorsement:
+          "I had a change to work with BluePanda in D_D Acedemy and he was amazing. True Leader. I learned from him so much. Can’t wait to work with him again.",
+        level: {
+          name: 2,
+          smallName: "L2",
+          meaning: "Community Favourite",
+          SuccessfulEndorsementsGive: "23",
+          SuccessfulEndorsementsReceive: "12",
+        },
+      },
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/516697403391213588/4cc3f607d01bc8865b327064c5d380ca.png",
+        name: "Impactbilli",
+        endorsement:
+          "BluePanda is my greatest friend and a mentor. He’s my North Star. ",
+        level: {
+          name: 3,
+          smallName: "L3",
+          meaning: "Community leader",
+          SuccessfulEndorsementsGive: "3",
+          SuccessfulEndorsementsReceive: "12",
+        },
+      },
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/175735303489847296/fe70f8879d7d8979dd4a32690806f7f3.webp",
+        name: "XYZ",
+        endorsement:
+          "BluePanda is my greatest friend and a mentor. He’s my North Star. ",
+        level: {
+          name: 1,
+          smallName: "L1",
+          meaning: "Community starter",
+          SuccessfulEndorsementsGive: "13",
+          SuccessfulEndorsementsReceive: "2",
+        },
+      },
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/175735303489847296/fe70f8879d7d8979dd4a32690806f7f3.webp",
+        name: "XYZ",
+        endorsement:
+          "BluePanda is my greatest friend and a mentor. He’s my North Star. ",
+        level: {
+          name: 1,
+          smallName: "L1",
+          meaning: "Community starter",
+          SuccessfulEndorsementsGive: "13",
+          SuccessfulEndorsementsReceive: "2",
+        },
+      },
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/516697403391213588/4cc3f607d01bc8865b327064c5d380ca.png",
+        name: "Impactbilli",
+        endorsement:
+          "BluePanda is my greatest friend and a mentor. He’s my North Star. ",
+        level: {
+          name: 3,
+          smallName: "L3",
+          meaning: "Community leader",
+          SuccessfulEndorsementsGive: "3",
+          SuccessfulEndorsementsReceive: "12",
+        },
+      },
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/175735303489847296/fe70f8879d7d8979dd4a32690806f7f3.webp",
+        name: "XYZ",
+        endorsement:
+          "BluePanda is my greatest friend and a mentor. He’s my North Star. ",
+        level: {
+          name: 1,
+          smallName: "L1",
+          meaning: "Community starter",
+          SuccessfulEndorsementsGive: "13",
+          SuccessfulEndorsementsReceive: "2",
+        },
+      },
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/175735303489847296/fe70f8879d7d8979dd4a32690806f7f3.webp",
+        name: "XYZ",
+        endorsement:
+          "BluePanda is my greatest friend and a mentor. He’s my North Star. ",
+        level: {
+          name: 1,
+          smallName: "L1",
+          meaning: "Community starter",
+          SuccessfulEndorsementsGive: "13",
+          SuccessfulEndorsementsReceive: "2",
+        },
       },
     ],
   },

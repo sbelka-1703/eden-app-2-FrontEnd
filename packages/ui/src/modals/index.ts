@@ -1,5 +1,7 @@
 export * from "./ApplicationModal";
+export * from "./ApplyByRoleModal";
 export * from "./CongratulationsModal";
+export * from "./FindTalentDropdownModal";
 export * from "./FindTalentModal";
 export * from "./PrioritizeModal";
 export * from "./ProfileModal";

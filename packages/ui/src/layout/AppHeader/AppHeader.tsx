@@ -24,12 +24,10 @@ export const AppHeader = ({ logoLink, inApp }: IAppHeaderProps) => {
             </div>
           ) : (
             <Link href={`${logoLink}`}>
-              <a>
-                <span className="text-xl">🌱</span>
-                <span className="text-darkGreen ml-2 text-2xl font-bold">
-                  Eden.
-                </span>
-              </a>
+              <span className="text-xl">🌱</span>
+              <span className="text-darkGreen ml-2 text-2xl font-bold">
+                Eden.
+              </span>
             </Link>
           )}
           <LoginButton inApp={inApp} />

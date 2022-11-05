@@ -13,6 +13,7 @@ export interface RequirementsModalProps {
   onClose: () => void;
   salaryData: number[];
   battery?: boolean;
+  numMatches?: number | string;
   // eslint-disable-next-line no-unused-vars
   onSubmit: (salaryRange: {
     domain: number[];
@@ -27,6 +28,7 @@ export const RequirementsModal = ({
   battery = false,
   openModal,
   salaryData,
+  numMatches,
 }: RequirementsModalProps) => {
   const [salaryRange, setSalaryRange] = useState<{
     domain: number[];
@@ -51,7 +53,9 @@ export const RequirementsModal = ({
             </TextBody>
           </div>
 
-          {battery && <BatteryStepper batteryPercentage={90} />}
+          {battery && (
+            <BatteryStepper batteryPercentage={90} numMatches={numMatches} />
+          )}
         </div>
 
         <div className="mx-auto flex max-w-md flex-col justify-center">

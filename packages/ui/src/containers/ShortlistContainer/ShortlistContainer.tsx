@@ -79,7 +79,7 @@ export const ShortlistContainer = ({
                     )}
                   </section>
                 )}
-                <div className="mb-4 grid grid-cols-3 gap-x-10 gap-y-10">
+                <div className="grid-col-1 mb-4 grid gap-x-10 gap-y-10 md:grid-cols-2 xl:grid-cols-3">
                   {matchingMembers.map((_member: any, index: number) => (
                     <MemberMatchCard
                       key={index}

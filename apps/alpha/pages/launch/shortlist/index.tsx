@@ -15,8 +15,8 @@ import {
   SEO,
   ShortlistContainer,
   ShortlistMemberContainer,
-  ShortlistModalContainerStory,
-  // ShortlistModalContainerTest,
+  // ShortlistModalContainerStory,
+  ShortlistModalContainerTest,
   // ShortlistSideContainer,
   ShortlistSideContainerTest,
   TextHeading3,
@@ -136,8 +136,8 @@ const LaunchPage: NextPageWithLayout = () => {
           </>
         )}
       </GridLayout>
-      <ShortlistModalContainerStory />
-      {/* <ShortlistModalContainerTest /> */}
+      {/* <ShortlistModalContainerStory /> */}
+      <ShortlistModalContainerTest />
     </>
   );
 };

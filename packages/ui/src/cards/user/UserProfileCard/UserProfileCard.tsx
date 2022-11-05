@@ -8,7 +8,7 @@ export const UserProfileCard = ({}: IUserProfileCardProps) => {
   const { currentUser } = useContext(UserContext);
 
   return (
-    <Card className="mb-4 w-full bg-white p-4">
+    <Card shadow className="mb-4 w-full bg-white p-4">
       <div className={``}>
         <div className={` font-poppins text-xl font-medium`}>Your Profile</div>
         <div className={`my-3 flex`}>

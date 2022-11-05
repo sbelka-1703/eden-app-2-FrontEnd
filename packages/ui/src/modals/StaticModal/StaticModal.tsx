@@ -12,6 +12,8 @@ import {
 } from "@eden/package-ui";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 
+import { EndorsementList } from "../../lists/EndorsementList";
+
 export interface IStaticModalProps {
   item?: any;
   resultPopUpFlag?: any;
@@ -152,6 +154,15 @@ interface IStaticCardTypeProps {
 ///////////////////////// Project Flag Type /////////////////////////
 
 const ProjectFlagType = ({ item }: IStaticCardTypeProps) => {
+  const endorsements = item?.endorsements?.map((endorsement: any) => ({
+    member: {
+      discordName: endorsement.name,
+      discordAvatar: endorsement.avatar,
+    },
+    text: endorsement.endorsement,
+    level: endorsement.level.name,
+  }));
+
   return (
     <>
       <div className={`font-Inter text-sm text-zinc-500`}>🛠 Relevant Roles</div>
@@ -181,7 +192,7 @@ const ProjectFlagType = ({ item }: IStaticCardTypeProps) => {
         <TextHeading1>Open Roles</TextHeading1>
       </div>
 
-      <div className={`scrollbar-hide flex flex-grow overflow-y-scroll`}>
+      <div className={`scrollbar-hide mb-4 flex flex-grow overflow-y-scroll`}>
         <div
           className={`grid grow grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-3`}
         >
@@ -202,6 +213,11 @@ const ProjectFlagType = ({ item }: IStaticCardTypeProps) => {
           ))}
         </div>
       </div>
+      {endorsements?.length > 0 && (
+        <div className="">
+          <EndorsementList endorsements={endorsements} />
+        </div>
+      )}
     </>
   );
 };
@@ -344,6 +360,15 @@ const ChannelFlagType = ({ item }: IStaticCardTypeProps) => {
 ///////////////////////// User Flag Type /////////////////////////
 
 const UserFlagType = ({ item }: IStaticCardTypeProps) => {
+  const endorsements = item?.endorsements?.map((endorsement: any) => ({
+    member: {
+      discordName: endorsement.name,
+      discordAvatar: endorsement.avatar,
+    },
+    text: endorsement.endorsement,
+    level: endorsement.level.name,
+  }));
+
   return (
     <>
       <div className="grid w-full grid-cols-4 gap-6">
@@ -373,6 +398,11 @@ const UserFlagType = ({ item }: IStaticCardTypeProps) => {
             />
           )}
         </div>
+        {endorsements?.length > 0 && (
+          <div className="col-span-4">
+            <EndorsementList endorsements={endorsements} />
+          </div>
+        )}
       </div>
     </>
   );

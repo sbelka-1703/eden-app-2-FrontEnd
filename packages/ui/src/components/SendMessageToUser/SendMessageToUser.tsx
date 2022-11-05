@@ -20,11 +20,12 @@ import { toast } from "react-toastify";
 
 import {
   AutoArchiveDuration,
+  CreateMessageApiRequestBody,
   CreateThreadApiRequestBody,
   CreateThreadResponse,
 } from "../../../types/type";
 
-export const ADD_NEW_CHAT = gql`
+const ADD_NEW_CHAT = gql`
   mutation AddNewChat($fields: addNewChatInput) {
     addNewChat(fields: $fields) {
       _id
@@ -65,7 +66,6 @@ export const SendMessageToUser = ({
     SET_APPLY_TO_PROJECT,
     {
       onCompleted: () => {
-        console.log(changeTeamMember_Phase_Project);
         toast.success("success");
       },
       onError: (error) => {
@@ -90,9 +90,31 @@ export const SendMessageToUser = ({
 
   const embededMessage = `
     Project: ${project?.title}
-    About Project: ${project?.description}
+    Description: ${project?.description}
     Role: ${role?.title}
-    Message: ${message}
+  `;
+
+  const createMessage = async (body: CreateMessageApiRequestBody) => {
+    const response = await fetch(encodeURI("/api/discord/createMessage"), {
+      method: "POST",
+      body: JSON.stringify(body),
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    const jsonData: CreateThreadResponse = await response.json();
+
+    return jsonData;
+  };
+
+  const followUpMessage = `
+    Message:
+    
+    ${message}
+
+    please check out the project on Eden
+    https://eden-alpha-develop.vercel.app/projects/${project?._id}
   `;
 
   const handleSendMessage = async () => {
@@ -106,6 +128,16 @@ export const SendMessageToUser = ({
       threadName: `Project Talents Discussion with ${member?.discordName}`,
       autoArchiveDuration: AutoArchiveDuration.OneDay,
     });
+
+    try {
+      await createMessage({
+        message: followUpMessage,
+        channelId: "1001547443135058010",
+        thread: threadId,
+      });
+    } catch (error) {
+      console.log(error);
+    }
 
     try {
       await addNewChat({
@@ -132,7 +164,7 @@ export const SendMessageToUser = ({
               projectID: project?._id,
               memberID: member?._id,
               roleID: role?._id,
-              phase: "rejected",
+              phase: "invited",
             },
           },
         });

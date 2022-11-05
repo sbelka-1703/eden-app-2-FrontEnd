@@ -13,6 +13,14 @@ interface PartialUser {
   bot?: boolean;
 }
 
+export interface PartialGuild {
+  id: string;
+  name: string;
+  icon: string;
+  owner: boolean;
+  permissions: string;
+}
+
 export interface PartialChannel {
   id: string;
   permissions: number;
@@ -38,6 +46,10 @@ export interface FetchGuildMembersResponse {
   members: Array<PartialMember>;
 }
 
+export interface FetchMutualGuildsResponse {
+  guilds: Array<PartialGuild>;
+}
+
 export interface CreateThreadApiRequestBody {
   message: string;
   embedMessage: string;
@@ -46,4 +58,15 @@ export interface CreateThreadApiRequestBody {
   channelId: string;
   threadName: string;
   autoArchiveDuration: AutoArchiveDuration;
+}
+
+export interface CreateMessageApiRequestBody {
+  message: string;
+  thread: string;
+  embedMessage?: string;
+  senderName?: string;
+  senderAvatarURL?: string;
+  channelId?: string;
+  threadName?: string;
+  autoArchiveDuration?: AutoArchiveDuration;
 }

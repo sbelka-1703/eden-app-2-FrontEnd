@@ -1,5 +1,4 @@
 import { getProject } from "@eden/package-mock";
-import { faker } from "@faker-js/faker";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { ProjectEditSelectorCard } from "./ProjectEditSelectorCard";
@@ -17,7 +16,7 @@ const Template: ComponentStory<typeof ProjectEditSelectorCard> = (args) => (
 export const Default = Template.bind({});
 Default.args = {
   project: getProject(),
-  emoji: "⏳",
-  totalDays: 100,
-  currentDayCount: 50,
+  handleSelectRole: () => {
+    (val: any) => console.log("handleSelectRole", val);
+  },
 };

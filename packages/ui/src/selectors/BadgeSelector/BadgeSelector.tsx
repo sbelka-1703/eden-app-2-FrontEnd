@@ -42,21 +42,25 @@ export const BadgeSelector = ({
     <section className="text-center">
       {items?.map((item) => (
         <div key={item._id} className="mr-2 mb-1 inline-block">
-          <input
-            type="checkbox"
-            name={item._id}
-            id={item._id}
-            value={item._id}
-            onChange={handleChange}
-            className="peer hidden"
-          />
-          <label
-            htmlFor={item._id}
-            className="border-accentColor peer-checked:shadow-focusShadow cursor-pointer rounded-full py-px px-3 peer-checked:mx-1"
-            style={{ backgroundColor: color || "#e8e8e8" }}
-          >
-            {item.name || item.title}
-          </label>
+          {(item.name || item.title) && (
+            <>
+              <input
+                type="checkbox"
+                name={item._id}
+                id={item._id}
+                value={item._id}
+                onChange={handleChange}
+                className="peer hidden"
+              />
+              <label
+                htmlFor={item._id}
+                className="border-accentColor peer-checked:shadow-focusShadow cursor-pointer rounded-full py-px px-3 peer-checked:mx-1"
+                style={{ backgroundColor: color || "#e8e8e8" }}
+              >
+                {item.name || item.title}
+              </label>
+            </>
+          )}
         </div>
       ))}
     </section>

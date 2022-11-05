@@ -1,11 +1,5 @@
-import {
-  ApolloClient,
-  HttpLink,
-  InMemoryCache,
-  // useQuery,
-} from "@apollo/client";
+import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
 import { FIND_MEMBER_FULL } from "@eden/package-graphql";
-// import { Members } from "@eden/package-graphql/generated";
 import {
   AppUserSubmenuLayout,
   Card,
@@ -14,55 +8,26 @@ import {
   GridLayout,
   Loading,
   NewProfileContainer,
-  SEO,
+  SEOProfile,
 } from "@eden/package-ui";
-// import { useRouter } from "next/router";
 import * as React from "react";
 
-// export const useIsMounted = () => {
-//   const [mounted, setMounted] = React.useState(false);
-
-//   React.useEffect(() => setMounted(true), []);
-
-//   return mounted;
-// };
-
 const ProfilePage = ({ member }: { member: Members }) => {
-  // const router = useRouter();
-  // const { handle } = router.query;
-  // const { data: dataMember } = useQuery(FIND_MEMBER_FULL, {
-  //   variables: {
-  //     fields: {
-  //       discordName: handle,
-  //     },
-  //   },
-  //   skip: !handle,
-  //   context: { serviceName: "soilservice" },
-  // });
-
-  // const profile = dataMember?.findMember;
-
-  // if (!profile)
-  //   return (
-  //     <div className={`h-screen`}>
-  //       <Loading title={`Searching for user...`} />
-  //     </div>
-  //   );
-  // const isMounted = useIsMounted();
-
-  // if (!isMounted) return null;
-  // if (!member) return null;
   return (
     <>
-      <SEO
-        title={`@${member?.discordName} | on `}
+      <SEOProfile
+        handle={member?.discordName || ""}
         image={member?.discordAvatar || ""}
+        role={member?.memberRole?.title || ""}
       />
       <AppUserSubmenuLayout showSubmenu={false}>
         <GridLayout className={`bg-background h-screen`}>
           <GridItemTwo> </GridItemTwo>
           <GridItemEight>
-            <Card className={`h-85 scrollbar-hide overflow-y-scroll bg-white`}>
+            <Card
+              shadow
+              className={`h-85 scrollbar-hide overflow-y-scroll bg-white`}
+            >
               {member ? (
                 <NewProfileContainer user={member} />
               ) : (
