@@ -62,7 +62,7 @@ export const BatteryStepper = ({
             <p className={`${mathcesTextCls}`}>Matches</p>
             <p className={`${numMatchesTextCls}`}>{numMatches}</p>
           </div>
-        ) : null}
+        )}
       </div>
     </div>
   );
