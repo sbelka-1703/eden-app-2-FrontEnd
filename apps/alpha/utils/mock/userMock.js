@@ -46,6 +46,7 @@ const SkillTree = {
     subCategories: {
       title: "",
       subTitle: "",
+      numMatches: "210",
       content: [
         "UX/UI",
         "Graphic Design",
