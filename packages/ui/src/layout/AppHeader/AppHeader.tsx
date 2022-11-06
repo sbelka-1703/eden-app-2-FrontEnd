@@ -24,9 +24,8 @@ export const AppHeader = ({ logoLink, inApp }: IAppHeaderProps) => {
             </div>
           ) : (
             <Link href={`${logoLink}`}>
-              <span className="text-xl">🌱</span>
               <span className="text-darkGreen ml-2 text-2xl font-bold">
-                Eden.
+                🌱 Eden.
               </span>
             </Link>
           )}
