@@ -116,25 +116,27 @@ export const StaticCard = ({
       {resultCardFlag?.type === "Channel" && <ChannelFlagType item={item} />}
       {resultCardFlag?.type === "Bounty" && <BountyFlagType item={item} />}
 
-      <div>
-        <p className="font-Inter mb-1 text-sm font-bold text-zinc-500">
-          🛠 Top skills
-        </p>
+      {item.Skills && (
         <div>
-          {item?.Skills?.map((skill: string, index: number) => (
-            <Badge
-              text={skill}
-              key={index}
-              className={`bg-soilPurple/20 py-px text-xs`}
-            />
-          ))}
+          <p className="font-Inter mb-1 text-sm font-bold text-zinc-500">
+            🛠 Top skills
+          </p>
+          <div>
+            {item.Skills.slice(0, 6).map((skill: string, index: number) => (
+              <Badge
+                text={skill}
+                key={index}
+                className={`bg-soilPurple/20 py-px text-xs`}
+              />
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       {item.endorsements && (
         <div className="mt-4">
           <p className="font-Inter mb-1 text-sm font-bold text-zinc-500">
-            🫱🏼‍🫲🏽 ENDORSEMENTS
+            🎙 ENDORSEMENTS
           </p>
           <AvatarList
             className="inline-block !w-auto !justify-start"
