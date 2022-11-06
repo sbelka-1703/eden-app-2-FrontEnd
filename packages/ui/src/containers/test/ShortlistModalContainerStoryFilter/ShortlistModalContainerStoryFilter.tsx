@@ -11,6 +11,7 @@ import {
   FindTalentDropdownModal,
   FindTalentModal,
   PrioritizeModal,
+  ProjectsMatchesModal,
   RequirementsModal,
   ReviewModal,
   SavingProjectModal,
@@ -137,6 +138,19 @@ export const ShortlistModalContainerStoryFilter = ({
 
   return (
     <>
+      {openModal === LaunchProjectModal.START_INFO && (
+        <ProjectsMatchesModal
+          openModal={openModal === LaunchProjectModal.START_INFO}
+          onSubmit={() => {
+            setOpenModal(LaunchProjectModal.SKILLS_CATEGORY);
+          }}
+          batteryPercentageBefore={10}
+          numMatchesBefore={210}
+          batteryPercentageAfter={70}
+          numMatchesAfter={8}
+        />
+      )}
+
       {openModal === LaunchProjectModal.SKILLS_CATEGORY && (
         <FindTalentModal
           openModal={openModal === LaunchProjectModal.SKILLS_CATEGORY}
@@ -188,6 +202,7 @@ export const ShortlistModalContainerStoryFilter = ({
             console.log(val);
             setOpenModal(LaunchProjectModal.REQUIREMENTS);
           }}
+          numMatches={38}
         />
       )}
       {openModal === LaunchProjectModal.REQUIREMENTS && (
@@ -204,6 +219,7 @@ export const ShortlistModalContainerStoryFilter = ({
             setOpenModal(null);
             // setOpenModal(null);
           }}
+          numMatches={23}
         />
       )}
 

@@ -67,7 +67,7 @@ export const FindTalentDropdownModal = ({
   const [selectedItems, setSelectedItems] = useState<{
     [key: string]: Item[];
   }>({});
-  const [numMatches, setNumMatches] = useState(0);
+  const [numMatches, setNumMatches] = useState(137);
 
   const handleNext = () => {
     if (numMatches === 0) {
@@ -97,7 +97,7 @@ export const FindTalentDropdownModal = ({
       }
     });
 
-    setNumMatches(numMatches);
+    if (numMatches) setNumMatches(numMatches);
     setBatteryPercentage(batteryPercentage);
   }, [section, selectedItems]);
 
