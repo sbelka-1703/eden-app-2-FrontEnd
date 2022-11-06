@@ -51,26 +51,29 @@ export const StaticCard = ({
           )}
           {item?.picture && (
             <div className={`relative flex flex-col items-center`}>
-              {item?.picture.length <= 5 ? (
-                <EmojiSelector
-                  isDisabled
-                  emoji={item?.picture}
-                  bgColor="#ABF0B3"
-                />
-              ) : (
-                <Avatar isProject src={item?.picture} />
-              )}
+              <div className="relative">
+                {item?.picture.length <= 5 ? (
+                  <EmojiSelector
+                    isDisabled
+                    emoji={item?.picture}
+                    bgColor="#ABF0B3"
+                  />
+                ) : (
+                  <Avatar isProject src={item?.picture} />
+                )}
+
+                <div
+                  className={`text-soilPurple absolute -mt-9 ml-12 rounded-full bg-white px-1.5 text-xl font-semibold shadow-sm`}
+                >
+                  {item?.percentage}
+                </div>
+              </div>
               <div className="flex justify-center">
                 <TextHeading3>@{item?.name}</TextHeading3>
                 <TextLabel className="mt-2 pl-1">
                   #{item?.Descrimator}
                 </TextLabel>
               </div>
-              {/* <div
-                className={`text-soilPurple absolute -mt-9 ml-12 rounded-full bg-white px-1.5 text-xl font-semibold shadow-sm`}
-              >
-                {item?.percentage}
-              </div> */}
             </div>
           )}
         </div>
