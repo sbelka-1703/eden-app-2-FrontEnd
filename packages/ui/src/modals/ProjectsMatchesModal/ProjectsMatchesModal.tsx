@@ -7,6 +7,7 @@ export interface ProjectsMatchesModalProps {
   numMatchesBefore?: number;
   batteryPercentageAfter?: number;
   numMatchesAfter?: number;
+  onSubmit?: () => void;
 }
 
 export const ProjectsMatchesModal = ({
@@ -15,6 +16,7 @@ export const ProjectsMatchesModal = ({
   numMatchesBefore = 212,
   batteryPercentageAfter = 80,
   numMatchesAfter = 8,
+  onSubmit,
 }: ProjectsMatchesModalProps) => (
   <>
     <Modal open={openModal} closeOnEsc={false}>
@@ -49,7 +51,7 @@ export const ProjectsMatchesModal = ({
         <Button
           radius="rounded"
           variant={`secondary`}
-          //   onClick={() => onSubmit()}
+          onClick={() => onSubmit!()}
         >
           Next
         </Button>
