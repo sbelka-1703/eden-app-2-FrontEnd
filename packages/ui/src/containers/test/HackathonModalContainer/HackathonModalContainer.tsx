@@ -65,7 +65,7 @@ export const HackathonModalContainer = ({
             setOpenModal(HackathonProjectModal.SKILLS_CATEGORY);
           }}
           batteryPercentageBefore={10}
-          numMatchesBefore={120}
+          numMatchesBefore={125}
           batteryPercentageAfter={70}
           numMatchesAfter={8}
         />
