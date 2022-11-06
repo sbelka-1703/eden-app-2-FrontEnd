@@ -51,26 +51,29 @@ export const StaticCard = ({
           )}
           {item?.picture && (
             <div className={`relative flex flex-col items-center`}>
-              {item?.picture.length <= 5 ? (
-                <EmojiSelector
-                  isDisabled
-                  emoji={item?.picture}
-                  bgColor="#ABF0B3"
-                />
-              ) : (
-                <Avatar isProject src={item?.picture} />
-              )}
+              <div className="relative">
+                {item?.picture.length <= 5 ? (
+                  <EmojiSelector
+                    isDisabled
+                    emoji={item?.picture}
+                    bgColor="#ABF0B3"
+                  />
+                ) : (
+                  <Avatar isProject src={item?.picture} />
+                )}
+
+                <div
+                  className={`text-soilPurple absolute -mt-9 ml-12 rounded-full bg-white px-1.5 text-xl font-semibold shadow-sm`}
+                >
+                  {item?.percentage}
+                </div>
+              </div>
               <div className="flex justify-center">
                 <TextHeading3>@{item?.name}</TextHeading3>
                 <TextLabel className="mt-2 pl-1">
                   #{item?.Descrimator}
                 </TextLabel>
               </div>
-              {/* <div
-                className={`text-soilPurple absolute -mt-9 ml-12 rounded-full bg-white px-1.5 text-xl font-semibold shadow-sm`}
-              >
-                {item?.percentage}
-              </div> */}
             </div>
           )}
         </div>
@@ -116,25 +119,27 @@ export const StaticCard = ({
       {resultCardFlag?.type === "Channel" && <ChannelFlagType item={item} />}
       {resultCardFlag?.type === "Bounty" && <BountyFlagType item={item} />}
 
-      <div>
-        <p className="font-Inter mb-1 text-sm font-bold text-zinc-500">
-          🛠 Top skills
-        </p>
+      {item.Skills && (
         <div>
-          {item?.Skills?.map((skill: string, index: number) => (
-            <Badge
-              text={skill}
-              key={index}
-              className={`bg-soilPurple/20 py-px text-xs`}
-            />
-          ))}
+          <p className="font-Inter mb-1 text-sm font-bold text-zinc-500">
+            🛠 Top skills
+          </p>
+          <div>
+            {item.Skills.slice(0, 6).map((skill: string, index: number) => (
+              <Badge
+                text={skill}
+                key={index}
+                className={`bg-soilPurple/20 py-px text-xs`}
+              />
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       {item.endorsements && (
         <div className="mt-4">
           <p className="font-Inter mb-1 text-sm font-bold text-zinc-500">
-            🫱🏼‍🫲🏽 ENDORSEMENTS
+            🎙 ENDORSEMENTS
           </p>
           <AvatarList
             className="inline-block !w-auto !justify-start"
