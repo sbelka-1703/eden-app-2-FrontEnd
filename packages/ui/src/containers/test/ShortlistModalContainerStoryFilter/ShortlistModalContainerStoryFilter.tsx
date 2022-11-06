@@ -188,6 +188,7 @@ export const ShortlistModalContainerStoryFilter = ({
             console.log(val);
             setOpenModal(LaunchProjectModal.REQUIREMENTS);
           }}
+          numMatches={38}
         />
       )}
       {openModal === LaunchProjectModal.REQUIREMENTS && (
@@ -204,6 +205,7 @@ export const ShortlistModalContainerStoryFilter = ({
             setOpenModal(null);
             // setOpenModal(null);
           }}
+          numMatches={23}
         />
       )}
 

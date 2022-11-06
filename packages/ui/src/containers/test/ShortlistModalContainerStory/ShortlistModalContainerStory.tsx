@@ -150,6 +150,7 @@ export const ShortlistModalContainerStory =
               console.log(val);
               setOpenModal(LaunchProjectModal.REQUIREMENTS);
             }}
+            numMatches={38}
           />
         )}
         {openModal === LaunchProjectModal.REQUIREMENTS && (
