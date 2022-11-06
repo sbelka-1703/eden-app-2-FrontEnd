@@ -5,6 +5,7 @@ import {
   FindTalentDropdownModal,
   FindTalentModal,
   PrioritizeModal,
+  ProjectsMatchesModal,
   RequirementsModal,
   ReviewModal,
   //   SavingProjectModal,
@@ -57,6 +58,19 @@ export const HackathonModalContainer = ({
 
   return (
     <>
+      {openModal === HackathonProjectModal.START_INFO && (
+        <ProjectsMatchesModal
+          openModal={openModal === HackathonProjectModal.START_INFO}
+          onSubmit={() => {
+            setOpenModal(HackathonProjectModal.SKILLS_CATEGORY);
+          }}
+          batteryPercentageBefore={10}
+          numMatchesBefore={120}
+          batteryPercentageAfter={70}
+          numMatchesAfter={8}
+        />
+      )}
+
       {openModal === HackathonProjectModal.SKILLS_CATEGORY && (
         <FindTalentModal
           openModal={openModal === HackathonProjectModal.SKILLS_CATEGORY}

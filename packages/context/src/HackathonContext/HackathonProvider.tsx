@@ -22,6 +22,7 @@ export interface HackathonAction {
 }
 
 export enum HackathonProjectModal {
+  START_INFO = "start info",
   SKILLS_CATEGORY = "skills category",
   SKILLS_SUBCATEGORY = "skills subcategory",
   PRIORITIZE = "prioritize",
