@@ -39,6 +39,8 @@ export interface ProjectAction {
 
 export enum LaunchProjectModal {
   // eslint-disable-next-line no-unused-vars
+  START_INFO = "start info",
+  // eslint-disable-next-line no-unused-vars
   ROLE = "role",
   // eslint-disable-next-line no-unused-vars
   SKILLS_CATEGORY = "skills category",
