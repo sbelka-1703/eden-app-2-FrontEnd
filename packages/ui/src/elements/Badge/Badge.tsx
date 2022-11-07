@@ -35,7 +35,7 @@ export const Badge = ({
   if (!text || !isMounted) return null;
 
   const textShort =
-    text?.length > 10 ? text.substring(0, cutText) + "..." : text;
+    text?.length > cutText ? text.substring(0, cutText) + "..." : text;
 
   return (
     <>
