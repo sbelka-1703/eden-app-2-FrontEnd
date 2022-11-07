@@ -64,7 +64,7 @@ export default async function handler(req: NextRequest) {
         >
           <div tw="bg-white flex">
             <div tw="flex flex-col md:flex-row w-full md:items-center justify-between">
-              <div tw={`flex flex-col pl-8 text-lg`}>
+              <div tw={`flex flex-col w-1/2 pl-8`}>
                 <span tw={`text-lg`} style={{ color: "#071B08" }}>
                   check out my project on
                 </span>
@@ -72,7 +72,9 @@ export default async function handler(req: NextRequest) {
                   {title}
                 </span>
                 <h2 tw="flex flex-col font-bold text-left py-6">
-                  <span tw={`text-5xl font-extrabold text-zinc-800`}>
+                  <span
+                    tw={`text-4xl font-extrabold text-zinc-800 break-normal`}
+                  >
                     {project}
                   </span>
                   <span tw={`text-zinc-600 text-3xl`}>{role}</span>
