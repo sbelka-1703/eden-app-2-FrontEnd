@@ -84,20 +84,22 @@ export const FindTalentDropdownModal = ({
   }, [selectedItems]);
 
   useEffect(() => {
-    let numMatches = 0;
+    let _numMatches = numMatches;
     let batteryPercentage = 50;
 
     // eslint-disable-next-line no-unused-vars
     forEach(selectedItems, (el, key) => {
       if (!isEmpty(el)) {
         // numMatches += +get(section, `items.${key}.numMatches`, 1); //replace 1 with 0
-        numMatches = 120;
+        const newFakeNum = _numMatches - Math.round(Math.random() * 15);
+
+        _numMatches = newFakeNum > 0 ? newFakeNum : _numMatches;
 
         batteryPercentage += 10;
       }
     });
 
-    if (numMatches) setNumMatches(numMatches);
+    if (_numMatches) setNumMatches(_numMatches);
     setBatteryPercentage(batteryPercentage);
   }, [section, selectedItems]);
 
