@@ -111,6 +111,16 @@ export const FIND_MEMBER_FULL = gql`
           _id
         }
       }
+      endorsements {
+        endorser {
+          _id
+          discordName
+          discordAvatar
+          discriminator
+        }
+        endorsementMessage
+        arweaveTransactionID
+      }
     }
   }
 `;
