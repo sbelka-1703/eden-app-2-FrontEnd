@@ -450,7 +450,7 @@ const Result = {
         endorsement:
           "I had a change to work with BluePanda in D_D Acedemy and he was amazing. True Leader. I learned from him so much. Can’t wait to work with him again.",
         level: {
-          name: 2,
+          name: 130,
           smallName: "L2",
           meaning: "Community Favourite",
           SuccessfulEndorsementsGive: "23",
@@ -464,7 +464,7 @@ const Result = {
         endorsement:
           "BluePanda is my greatest friend and a mentor. He’s my North Star. ",
         level: {
-          name: 3,
+          name: 30,
           smallName: "L3",
           meaning: "Community leader",
           SuccessfulEndorsementsGive: "3",
@@ -478,7 +478,7 @@ const Result = {
         endorsement:
           "BluePanda is my greatest friend and a mentor. He’s my North Star. ",
         level: {
-          name: 1,
+          name: 100,
           smallName: "L1",
           meaning: "Community starter",
           SuccessfulEndorsementsGive: "13",
@@ -530,7 +530,7 @@ const Result = {
         endorsement:
           "One of the finest people I’ve ever known in business or any field. An exemplar of Silicon Valley at its best. Many know Reid for his success and talent, but he is an equally great person. A rare example of someone who can engage in a discussion and set his ego and self-interest completely aside. Many would like to think they can do this as well, but Reid is as good as I have seen when it comes to this. ",
         level: {
-          name: 2,
+          name: 2000,
           smallName: "L2",
           meaning: "Community Favourite",
           SuccessfulEndorsementsGive: "23",
@@ -584,7 +584,7 @@ const Result = {
         endorsement:
           "There are few people in the world who are more gracious, thoughtful, insightful than Reid. Every interaction I've had with him over the years has been incredibly rewarding and authentic -- and, without exception, has led to great outcomes. He's one of our era's great servant leaders.",
         level: {
-          name: 4,
+          name: 40,
           smallName: "L4",
           meaning: "Community Favourite",
           SuccessfulEndorsementsGive: "23",
@@ -598,7 +598,7 @@ const Result = {
         endorsement:
           "was my most innovative competitor when I ran Match.Com. The thoughtfulness and vision he put into the Socialnet product are even better manifested in Linked In. It's a true testament to sticking with a great idea until you get it right...even if others don't believe. Since the SocialNet days, Reid has been a good friend and personal adviser.",
         level: {
-          name: 5,
+          name: 15,
           smallName: "L5",
           meaning: "Community leader",
           SuccessfulEndorsementsGive: "3",
@@ -647,7 +647,7 @@ const Result = {
         endorsement:
           "Reid is always willing to give suggestions and share experience with people. He has deep knowledge that he shares in a way that reflects a confidence in knowing his stuff but topped with just the right amout of humility to make him approachable and appealing to engage.",
         level: {
-          name: 4,
+          name: 400,
           smallName: "L4",
           meaning: "Community Favourite",
           SuccessfulEndorsementsGive: "23",
@@ -701,7 +701,7 @@ const Result = {
         endorsement:
           "Reid has the ability to quickly distill issues in the board room and offer insight in a way that sticks. His battle tested internet experience and tremendous raw intelligence have been tremendous assets in Kiva's early days. I highly recommend Reid as an angel investor or advisor if you're running a start up internet company. He's acutely aware of entrepreneurial challenges and trade-offs -- there's real wisdom to his counsel.",
         level: {
-          name: 2,
+          name: 20,
           smallName: "L2",
           meaning: "Community Favourite",
           SuccessfulEndorsementsGive: "23",
@@ -715,7 +715,7 @@ const Result = {
         endorsement:
           "Reid was the keynote speaker at EO's Global Leadership Conference in San Francisco. He did an incredible job explaining the value of creating and managing ones' network through trust, friendship and reciprocity. With all of Reid’s accomplishments,",
         level: {
-          name: 3,
+          name: 30,
           smallName: "L3",
           meaning: "Community leader",
           SuccessfulEndorsementsGive: "3",
@@ -821,7 +821,7 @@ const Result = {
         endorsement:
           "In a tumultuous division of Fujistsu, Reid always was the rock I knew I could anchor myself with. As both a manager and friend, I could always count on him to take a bit of time to listen to concerns or ideas I had as a sounding board. WorldsAway was amongst the first online virtual world environments, and Reid's understanding of how a community-driven service should work was, and still is, on the spot. ",
         level: {
-          name: 2,
+          name: 0,
           smallName: "L2",
           meaning: "Community Favourite",
           SuccessfulEndorsementsGive: "23",
@@ -860,7 +860,7 @@ const Result = {
         endorsement:
           "Reid is simply the most brilliant opportunity creator I've ever worked with. Without his presence on the executive team, PayPal would likely have ended up on the dot com morgue list instead of the most successful internet IPO of 2002.",
         level: {
-          name: 1,
+          name: 100,
           smallName: "L1",
           meaning: "Community Favourite",
           SuccessfulEndorsementsGive: "23",
@@ -874,7 +874,7 @@ const Result = {
         endorsement:
           "Reid has been invaluable to me in thinking through and executing programmatic and development strategy for College Eight. Reid has thought deeply about higher education and about how to leverage business and philanthropy toward the greater social good. Always accessible, astute and energetic, Reid has been a priceless asset.",
         level: {
-          name: 4,
+          name: 40,
           smallName: "L4",
           meaning: "Community leader",
           SuccessfulEndorsementsGive: "3",
@@ -942,7 +942,7 @@ const Result = {
         endorsement:
           "I've known Reid in a number of different circumstances; most recently as Director of Mozilla. He's been fantastic to work with in every situation: strategic, operational, humane -- the whole package. Can't endorse him highly enough.",
         level: {
-          name: 2,
+          name: 20,
           smallName: "L2",
           meaning: "Community Favourite",
           SuccessfulEndorsementsGive: "23",
@@ -956,7 +956,7 @@ const Result = {
         endorsement:
           "Reid has been a fountain of great advice for me as I've worked to get my new nonprofit off the ground. I trust his judgement, and trust him as a friend.",
         level: {
-          name: 3,
+          name: 30,
           smallName: "L3",
           meaning: "Community leader",
           SuccessfulEndorsementsGive: "3",
@@ -1002,7 +1002,7 @@ const Result = {
         endorsement:
           "Reid is full of great ideas, a nice guy, and a do-gooder in the best sense, to boot.",
         level: {
-          name: 0,
+          name: 1000,
           smallName: "L0",
           meaning: "Community Favourite",
           SuccessfulEndorsementsGive: "23",
@@ -1047,7 +1047,7 @@ const Result = {
         endorsement:
           "reid is both a master of strategy & a detailed tactician. beyond creating the singularly most useful service for business networking, he helps other entrepreneurs create new ventures. reid has fingers in almost every exciting new startup in the valley, and his awareness of new trends is unsurpassed. reid also gives back to the community in many wonderful ways. in short: big brain, big heart :)",
         level: {
-          name: 2,
+          name: 20,
           smallName: "L2",
           meaning: "Community Favourite",
           SuccessfulEndorsementsGive: "23",
@@ -1061,7 +1061,7 @@ const Result = {
         endorsement:
           "Reid is a shining example of someone who does the right thing, not because it will smooth their way into heaven, but because it is the RIGHT THING TO DO. No artifice about Reid at all -- his help over the past few months has encouraged me to go the extra mile to help others. That's why LinkedIn makes sense: by encouraging this sort of activity, the whole world benefits - one connection at a time.",
         level: {
-          name: 3,
+          name: 35,
           smallName: "L3",
           meaning: "Community leader",
           SuccessfulEndorsementsGive: "3",
@@ -1107,7 +1107,7 @@ const Result = {
         endorsement:
           "Reid told me something I intuitively believe but was unable to articulate: that networking is about exchange, and that great networkers offer a gift first, because small effort from a person can create lots of value for others. LinkedIn is an online manifestation of that; it is Reid's clear understanding of the nature of networking that makes me so evangelical about the application.",
         level: {
-          name: 2,
+          name: 25,
           smallName: "L2",
           meaning: "Community Favourite",
           SuccessfulEndorsementsGive: "23",
@@ -1153,7 +1153,7 @@ const Result = {
         endorsement:
           "Reid is not only a brilliant thinker about the future, but also knows how to strategize and execute at the operational level. He also has a very real sense of responsibility and obligation to making the world a better place.",
         level: {
-          name: 2,
+          name: 52,
           smallName: "L2",
           meaning: "Community Favourite",
           SuccessfulEndorsementsGive: "23",

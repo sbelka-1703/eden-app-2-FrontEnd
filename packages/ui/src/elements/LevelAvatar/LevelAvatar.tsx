@@ -14,8 +14,9 @@ export const LevelAvatar = ({ src, level, size = "lg" }: LevelAvatarProps) => {
       <div className="absolute bottom-1 left-12 whitespace-nowrap rounded-full">
         {level && (
           <Badge
-            text={`Level ${level}`}
-            className="font-poppins text-md bg-[#9B67FF] font-medium text-white"
+            text={`${level} $TRST`}
+            className="font-poppins bg-[#9B67FF] pt-1 text-sm font-medium text-white"
+            cutText={100}
           />
         )}
       </div>
