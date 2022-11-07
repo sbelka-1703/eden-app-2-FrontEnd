@@ -1,7 +1,18 @@
 /* eslint-disable camelcase */
 import { AvatarList, EndorsementCard } from "@eden/package-ui";
 import { QuestionMarkCircleIcon } from "@heroicons/react/outline";
-import React from "react";
+import React, { useEffect, useState } from "react";
+
+const useIsMounted = () => {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+    return () => setIsMounted(false);
+  }, []);
+
+  return isMounted;
+};
 
 export interface EndorsementListProps {
   endorsements: any[];
@@ -9,9 +20,12 @@ export interface EndorsementListProps {
 export const EndorsementList: React.FC<EndorsementListProps> = ({
   endorsements,
 }) => {
+  const isMounted = useIsMounted();
+
+  if (!endorsements || !isMounted) return null;
   return (
     <div>
-      <p className="mb-3">
+      <div className="mb-3">
         <span className="text-sm font-semibold tracking-widest subpixel-antialiased">
           🎙 Endorsed by + Stake{" "}
         </span>
@@ -39,13 +53,13 @@ export const EndorsementList: React.FC<EndorsementListProps> = ({
             </p>
           </div>
         </span>
-      </p>
+      </div>
       <div className="grid grid-cols-3 gap-6">
         {endorsements.slice(0, 3).map((endorsement, index) => (
           <div key={index} className="col-span-1">
             <EndorsementCard
-              member={endorsement?.member}
-              text={endorsement?.text}
+              member={endorsement?.member || endorsement?.endorser}
+              text={endorsement?.text || endorsement?.endorsementMessage}
               level={endorsement?.level}
             />
           </div>
