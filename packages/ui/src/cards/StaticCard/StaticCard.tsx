@@ -163,7 +163,9 @@ export const StaticCard = ({
             <LifetimeTRST
               member={item}
               lifetimeStakeTRST={item?.lifetimeStakeTRST}
-              averageMonthlyReturnTRST={67}
+              averageMonthlyReturnTRST={
+                Math.round((item?.lifetimeStakeTRST / 100) * 10) / 10
+              }
             />
           )}
           {item.totalTRST && (

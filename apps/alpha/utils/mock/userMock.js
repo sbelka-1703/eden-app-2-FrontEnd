@@ -496,6 +496,8 @@ const Result = {
     name: "Waxy",
     nameDescription: "Backend Developer",
     Descrimator: "1234",
+    lifetimeStakeTRST: 40,
+    totalTRST: 20,
     Skills: [
       "Architecture of your app",
       "Hard CS Stuff like Algo Dev & Data Structures",
@@ -548,6 +550,8 @@ const Result = {
     name: "Impactbilli",
     nameDescription: "Product",
     Descrimator: "1234",
+    lifetimeStakeTRST: 600,
+    totalTRST: 220,
     Skills: [
       "User Research",
       "Market Research",
@@ -616,6 +620,8 @@ const Result = {
     name: "XYZ",
     nameDescription: "Product",
     Descrimator: "1234",
+    lifetimeStakeTRST: 30,
+    totalTRST: 10,
     Skills: [
       "UX/UI",
       "Graphic Design",
@@ -665,6 +671,8 @@ const Result = {
     name: "Impactbilli",
     nameDescription: "Product",
     Descrimator: "1234",
+    lifetimeStakeTRST: 2000,
+    totalTRST: 460,
     Skills: [
       "User Research",
       "Market Research",
@@ -732,6 +740,8 @@ const Result = {
     name: "notVitalik",
     nameDescription: "Blockchain Developer",
     Descrimator: "1234",
+    lifetimeStakeTRST: 55,
+    totalTRST: 10,
     Skills: [
       "Smart Contract Development",
       "Smart Contract Auditing",
@@ -768,6 +778,8 @@ const Result = {
     name: "daodaoism",
     nameDescription: "Product Manager",
     Descrimator: "9605",
+    lifetimeStakeTRST: 80,
+    totalTRST: 25,
     Skills: ["Digital Product Management", "Agile Project Management"],
     socials: [
       {
@@ -792,6 +804,8 @@ const Result = {
     name: "Flolight",
     nameDescription: "Fullstack Engineer",
     Descrimator: "9605",
+    lifetimeStakeTRST: 1345,
+    totalTRST: 170,
     Skills: [
       "Python (Programming Language",
       "JavaScript (Programming Language)",
@@ -838,6 +852,8 @@ const Result = {
     name: "TheDarkFury",
     nameDescription: "Backend Engineer",
     Descrimator: "2068",
+    lifetimeStakeTRST: 1670,
+    totalTRST: 340,
     Skills: ["Solidity", "Rust", "JavaScript (Programming Language)"],
     socials: [
       {
@@ -892,6 +908,8 @@ const Result = {
     name: "Sunk8.eth",
     nameDescription: "Community Manager",
     Descrimator: "5319",
+    lifetimeStakeTRST: 120,
+    totalTRST: 15,
     Skills: ["Community Planning", "Content Marketing"],
     socials: [
       {
@@ -915,6 +933,8 @@ const Result = {
     name: "danomite",
     nameDescription: "Blockchain Developer",
     Descrimator: "9894",
+    lifetimeStakeTRST: 530,
+    totalTRST: 40,
     Skills: [
       "Solidity",
       "Product Strategy",
@@ -974,6 +994,8 @@ const Result = {
     name: "Samoshi",
     nameDescription: "Product Strategist",
     Descrimator: "1288",
+    lifetimeStakeTRST: 70,
+    totalTRST: 15,
     Skills: [
       "Product Roadmaps",
       "Product Lifecycle",
@@ -1020,6 +1042,8 @@ const Result = {
     name: "distorted",
     nameDescription: "Backend Developer",
     Descrimator: "7777",
+    lifetimeStakeTRST: 1205,
+    totalTRST: 420,
     Skills: [
       "Python (Programming Language)",
       "Solidity",
@@ -1079,6 +1103,8 @@ const Result = {
     name: "Sriram Kasyap | sriramkasyap.eth",
     nameDescription: "FrontEnd Developer",
     Descrimator: "8136",
+    lifetimeStakeTRST: 30,
+    totalTRST: 10,
     Skills: [
       "Responsive Web Design",
       "Node.js",
@@ -1125,6 +1151,8 @@ const Result = {
     name: "Flolight",
     nameDescription: "Cloud Developer",
     Descrimator: "5146",
+    lifetimeStakeTRST: 50,
+    totalTRST: 5,
     Skills: [
       "AWS CloudFormation",
       "Cloud Security Applications",
