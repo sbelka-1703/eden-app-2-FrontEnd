@@ -409,6 +409,8 @@ const Result = {
     name: "BluePanda",
     nameDescription: "Frontend Developer",
     Descrimator: "1234",
+    lifetimeStakeTRST: 1205,
+    totalTRST: 320,
     Skills: [
       "Typescript",
       "Javascript",
