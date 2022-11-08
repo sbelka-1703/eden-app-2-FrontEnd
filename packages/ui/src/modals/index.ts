@@ -19,5 +19,6 @@ export * from "./SkillsCategoryModal";
 export * from "./SkillsModal";
 export * from "./SkillsOnCategoryModal";
 export * from "./SkillsSubcategoryModal";
+export * from "./SkipFlowModal";
 export * from "./SocialMediaModel";
 export * from "./StaticModal";
