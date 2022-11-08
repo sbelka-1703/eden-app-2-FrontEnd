@@ -45,11 +45,11 @@ export const FindTalentDropdownModal = ({
   const section: Data = useMemo(
     () => ({
       _id: "main",
-      title: mockData?.SkillTree?.category?.title
-        ? mockData.SkillTree.category.title
+      title: mockData?.subCategories?.title
+        ? mockData.subCategories.title
         : "Alright, tell me who should I find to help you with your project?",
-      subtitle: mockData?.SkillTree?.category?.subTitle
-        ? mockData.SkillTree.category.subTitle
+      subtitle: mockData?.subCategories?.subTitle
+        ? mockData.subCategories.subTitle
         : "Please pick only one role for now!",
       battery: true,
       itemsTitle: "Focus On:",

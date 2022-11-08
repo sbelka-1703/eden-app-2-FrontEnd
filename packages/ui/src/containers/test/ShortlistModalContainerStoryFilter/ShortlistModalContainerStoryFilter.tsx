@@ -9,7 +9,6 @@ import { Mutation, UpdateProjectInput } from "@eden/package-graphql/generated";
 import {
   CongratulationsModal,
   FindTalentDropdownModal,
-  FindTalentModal,
   PrioritizeModal,
   ProjectsMatchesModal,
   RequirementsModal,
@@ -136,6 +135,32 @@ export const ShortlistModalContainerStoryFilter = ({
     console.log("~~~~~~~", talentAttributes);
   }, [talentAttributes]);
 
+  const mockDataMap1 = {
+    SkillTree: {
+      subCategories: {
+        title: mockData?.SkillTree?.category?.title,
+        subTitle: mockData?.SkillTree?.category?.subTitle,
+      },
+    },
+  };
+
+  Object.keys(mockData.SkillTree).forEach((key) => {
+    if (key !== "category")
+      mockDataMap1.SkillTree = {
+        ...mockDataMap1.SkillTree,
+        [key as keyof Object]: {
+          content:
+            mockData.SkillTree[key as keyof Object]?.subCategories?.content,
+        },
+      };
+  });
+
+  console.log(mockDataMap1);
+  console.log(
+    ">>><<<<>>>><<<<",
+    mockData.SkillTree[talentAttributes?.main[0]?.name]
+  );
+
   return (
     <>
       {openModal === LaunchProjectModal.START_INFO && (
@@ -152,21 +177,27 @@ export const ShortlistModalContainerStoryFilter = ({
       )}
 
       {openModal === LaunchProjectModal.SKILLS_CATEGORY && (
-        <FindTalentModal
+        <FindTalentDropdownModal
           openModal={openModal === LaunchProjectModal.SKILLS_CATEGORY}
-          onClose={() =>
-            setOpenModal(
-              mockData?.ResultPopUpShowFlag.type === "Project" ||
-                mockData?.ResultPopUpShowFlag.type === "User"
-                ? LaunchProjectModal.SKILLS_SUBCATEGORY
-                : LaunchProjectModal.PRIORITIZE
-            )
-          }
+          onClose={() => setOpenModal(LaunchProjectModal.SKILLS_SUBCATEGORY)}
+          // eslint-disable-next-line no-unused-vars
           onSubmit={(val: any) => {
-            setTalentAttributes(val);
-            setSubmittingTalentAttributes!(val);
+            setSubmittingTalentAttributes!(
+              Object.keys(val)
+                .filter((key) => val[key].length)
+                .flat()[0]
+            );
+            const main = Object.keys(val)
+              .filter((key) => val[key].length)
+              .flat()[0];
+
+            setTalentAttributes({
+              ...talentAttributes,
+              main: [{ name: main }],
+            });
+            // setSubmittingTalentAttributes!(val);
           }}
-          mockData={mockData}
+          mockData={mockDataMap1.SkillTree}
           // onClose={() => setOpenModal(null)}
         />
       )}
