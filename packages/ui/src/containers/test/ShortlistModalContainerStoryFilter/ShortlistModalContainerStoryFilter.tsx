@@ -144,22 +144,18 @@ export const ShortlistModalContainerStoryFilter = ({
     },
   };
 
-  Object.keys(mockData?.SkillTree).forEach((key) => {
-    if (key !== "category")
-      mockDataMap1.SkillTree = {
-        ...mockDataMap1.SkillTree,
-        [key as keyof Object]: {
-          content:
-            mockData.SkillTree[key as keyof Object]?.subCategories?.content,
-        },
-      };
-  });
-
-  console.log(mockDataMap1);
-  console.log(
-    ">>><<<<>>>><<<<",
-    mockData.SkillTree[talentAttributes?.main[0]?.name]
-  );
+  if (mockData?.SkillTree) {
+    Object.keys(mockData?.SkillTree).forEach((key) => {
+      if (key !== "category")
+        mockDataMap1.SkillTree = {
+          ...mockDataMap1.SkillTree,
+          [key as keyof Object]: {
+            content:
+              mockData.SkillTree[key as keyof Object]?.subCategories?.content,
+          },
+        };
+    });
+  }
 
   return (
     <>
