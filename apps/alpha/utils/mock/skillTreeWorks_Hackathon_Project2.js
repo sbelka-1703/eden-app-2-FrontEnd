@@ -41,7 +41,7 @@ const desiredSalary = {
 const UserProfileTree = {
   category: {
     title: "First select your role",
-    subTitle: "You can only choose one role for now!",
+    subTitle: "Choose any role you want!",
   },
   Design: {
     subCategories: {
@@ -381,7 +381,7 @@ const UserProfileTree = {
 const SkillTree = {
   category: {
     title: "Let's get you sorted! What type of projects are you looking for?",
-    subTitle: "You can only choose one area of interest for now!",
+    subTitle: "You can only choose any area of interest!",
     content: [
       "Zk Technology",
       "DeFi",
