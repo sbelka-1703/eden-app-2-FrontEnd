@@ -178,11 +178,6 @@ export const ShortlistModalContainerStoryFilter = ({
           onClose={() => setOpenModal(LaunchProjectModal.SKILLS_SUBCATEGORY)}
           // eslint-disable-next-line no-unused-vars
           onSubmit={(val: any) => {
-            setSubmittingTalentAttributes!(
-              Object.keys(val)
-                .filter((key) => val[key].length)
-                .flat()[0]
-            );
             const main = Object.keys(val)
               .filter((key) => val[key].length)
               .flat()[0];
@@ -191,7 +186,10 @@ export const ShortlistModalContainerStoryFilter = ({
               ...talentAttributes,
               main: [{ name: main }],
             });
-            // setSubmittingTalentAttributes!(val);
+            if (main)
+              setSubmittingTalentAttributes!({
+                main: [{ name: main }],
+              });
           }}
           mockData={mockDataMap1.SkillTree}
           // onClose={() => setOpenModal(null)}
