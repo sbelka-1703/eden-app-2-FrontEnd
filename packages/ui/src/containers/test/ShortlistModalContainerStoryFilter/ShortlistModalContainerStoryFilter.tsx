@@ -144,7 +144,7 @@ export const ShortlistModalContainerStoryFilter = ({
     },
   };
 
-  Object.keys(mockData.SkillTree).forEach((key) => {
+  Object.keys(mockData?.SkillTree).forEach((key) => {
     if (key !== "category")
       mockDataMap1.SkillTree = {
         ...mockDataMap1.SkillTree,
