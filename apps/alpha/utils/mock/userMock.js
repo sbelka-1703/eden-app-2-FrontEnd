@@ -661,6 +661,50 @@ const Result = {
         },
       },
     ],
+    background: [{
+      title: "Design",
+      emoji: "💻",
+      color:":#423123",
+      content: [{
+        title: "Core Member in Developer DAO",
+        content: "Developer DAO is one of the best Decentralized Autonomous Organizations working on accelerating the education and impact of Web3 for a new wave of builders. ‣ Core @ Product & Design Guild within the DAO, helping in-house projects and initiatives on their UI & UX.",
+        skills:["javascript","react","tailwind"],
+        date: {
+          start: "Jun 2018",
+          end: "Oct 2020",
+        },
+      },{
+        title: "Product Designer in Ocean Protocol",
+        content: "[Bounty] Ocean Academy 101 is a community initiative providing a simple and practical introduction to Ocean Protocol. ‣ Redesigned the UI/UX of the landing page and the web-app for Ocean Academy 101",
+        skills:["Figma","UI","UX"],
+        date: {
+          start: "Jun 2016",
+          end: "Oct 2017",
+        },
+      }]
+    }, {
+      title: "Product",
+      emoji: "🗄",
+      color: "#423123",
+      content: [{
+        title: "Founding Member in MetapassMetapass",
+        content: "olygon Buidl It 2021's Community Choice winning project, Metapass is a ticketing platform built to buy or sell NFT tickets onchain backed by Polygon & Solana Worked on Product, Design & Growth",
+        skills: ["product managment","Product Discovery","team leader"],
+        date: {
+          start: "Oct 2018",
+          end: "Dec 2019",
+        },
+      },{
+        title: "Product Designer in Aera VC · Freelance",
+        content: "Aera VC invests at the frontier of deep technology and sustainability to accelerate the world to a better future. ‣ Redesigned the landing page of the website optimizing the UX which resulted in an increase in signups",
+        skills: ["leadership"],
+        date: {
+          start: "Oct 2021",
+          end: "Dec 2022",
+        },
+      }],
+       
+    },]
   },
   5: {
     description:
