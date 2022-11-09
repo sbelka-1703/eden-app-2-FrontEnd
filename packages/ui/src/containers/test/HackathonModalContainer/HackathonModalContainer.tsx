@@ -158,7 +158,10 @@ export const HackathonModalContainer = ({
               ...talentAttributes,
               main: [{ name: main }],
             });
-            // setSubmittingTalentAttributes!(val);
+            if (main)
+              setSubmittingTalentAttributes!({
+                main: [{ name: main }],
+              });
           }}
           mockData={mockDataMap1.SkillTree}
           // onClose={() => setOpenModal(null)}
@@ -211,7 +214,7 @@ export const HackathonModalContainer = ({
           }}
           onSubmit={(val) => {
             console.log(val);
-            setOpenModal(HackathonProjectModal.PROJECT_INFO);
+            setOpenModal(null);
             // setOpenModal(null);
           }}
         />
