@@ -171,7 +171,7 @@ export const HackathonModalContainer = ({
       {openModal === HackathonProjectModal.SKILLS_SUBCATEGORY && (
         <FindTalentDropdownModal
           openModal={openModal === HackathonProjectModal.SKILLS_SUBCATEGORY}
-          onClose={() => setOpenModal(HackathonProjectModal.PRIORITIZE)}
+          onClose={() => setOpenModal(HackathonProjectModal.REQUIREMENTS)}
           // eslint-disable-next-line no-unused-vars
           onSubmit={(val: any) => {
             const third = Object.keys(val)
