@@ -486,6 +486,51 @@ const Result = {
         },
       },
     ],
+    background: [{
+      title: "Data Scientist",
+      emoji: "💽",
+      color:":#FFD2D2",
+      content: [{
+        title: "Data schiecne in Nova Futur Ltd",
+        content: "Head of DataHead of Data Overseeing data science and data engineering (ETL pipelines) work across multiple teamsOverseeing data science and data engineering (ETL pipelines) work across multiple teams",
+        skills:["Go"," Cloud Computing","tailwind"],
+        date: {
+          start: "2019",
+          end: "2020",
+        },
+      },{
+        title: "Undergrad Research Lead Full Stack Developer",
+        content: "Campus job. Maintained 6 virtual machines with Ubuntu and PaaS (Dokku) that power the HiPerCiC platform. Installed services and containerized web applications with Docker.",
+        skills:["Teaching","Python","Teaching"],
+        date: {
+          start: "2016",
+          end: "2017",
+        },
+        
+      },{
+        title: "Junior ML engineer",
+        content: "Machine Learning internship. Created a random point generator for map data from around the world that was used to evaluate the quality of internal location services at Sygic.",
+        skills:["Python","Statistical Data Analysis"],
+        date: {
+          start: "2017",
+          end: "2018",
+        },
+      }]
+    }, {
+      title: "Intern",
+      emoji: "🗄",
+      color: "#CAE8FF",
+      content: [{
+        title: "LEAF organisation",
+        content: "Worked as an intern on the LEAF Summer Leadership Camp 2016 to help develop the next generation of central European leaders.",
+        skills: ["product managment"],
+        date: {
+          start: "Jul 2014",
+          end: "Nov 2015",
+        },
+      }],
+       
+    }],
   },
   2: {
     description:
@@ -540,6 +585,50 @@ const Result = {
         },
       },
     ],
+    background: [{
+      title: "Tech Lead",
+      emoji: "🙀",
+      color:":#FFE5BD",
+      content: [{
+        title: "Tech Lead in Sentora",
+        content: "Built an innovative experimentation platform for A/B testing of global scale from scratch to support evidence-driven products development across 30 coun",
+        skills:["leadership","managment","communication","data science"],
+        date: {
+          start: "2022",
+          end: "2020",
+        },
+      },{
+        title: "IOS teach lead",
+        content: "Developed greenfield applications for advertisement campaign reporting. Led and coordinated efforts of a multi disciplinary team to build iOS and Android apps and backend services",
+        skills:[],
+        date: {
+          start: "2016",
+          end: "2017",
+        },
+      },{
+        title: "IOS tech architect",
+        content: "Had central role in defining the technical design and implementation of a trading platform framework for iOS, always with a very hands-on approach to development.",
+        skills:["IOS","Android"],
+        date: {
+          start: "Oct 2015",
+          end: "Jen 2016",
+        },
+      }]
+    }, {
+      title: "System Analyst in Universidade de Brasília",
+      emoji: "🛠",
+      color: "#CAE8FF",
+      content: [{
+        title: "System Analyst",
+        content: "Had central role in defining the technical design and implementation of a trading platform framework for iOS, always with a very hands-on approach to development.",
+        skills: [],
+        date: {
+          start: "Jul 2016",
+          end: "Nov 2017",
+        },
+      }],
+       
+    }],
   },
   3: {
     description:
@@ -610,6 +699,20 @@ const Result = {
         },
       },
     ],
+    background: [{
+      title: "Quant Analyst",
+      emoji: "🙀",
+      color:":#E3FBFF",
+      content: [{
+        title: "Quant Analyst",
+        content: "Business developpment. ERP management and website maintenance. Webmarketing and e-learning.",
+        skills:["leadership","managment","communication","data science"],
+        date: {
+          start: "2022",
+          end: "2020",
+        },
+      }]
+    }],
   },
   4: {
     description:
