@@ -26,6 +26,7 @@ export const parameters = {
         "Layout",
         "Lists",
         "Modals",
+        "Sections",
         "Selectors",
         "Steppers",
         "*",
