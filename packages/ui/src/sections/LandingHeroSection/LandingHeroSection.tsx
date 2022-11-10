@@ -4,9 +4,13 @@ import { FaTwitter } from "react-icons/fa";
 
 export interface ILandingHeroSectionProps {
   image?: any;
+  version?: string;
 }
 
-export const LandingHeroSection = ({ image }: ILandingHeroSectionProps) => {
+export const LandingHeroSection = ({
+  image,
+  version,
+}: ILandingHeroSectionProps) => {
   const router = useRouter();
 
   return (
@@ -54,9 +58,11 @@ export const LandingHeroSection = ({ image }: ILandingHeroSectionProps) => {
                 together, let&apos;s build the perfect breeding ground for
                 everyone to do work they love.
               </p>
-              <p className="font-Inter text-italic mt-3 text-xs  text-white/60 sm:mt-5 sm:text-xl lg:text-xs xl:text-xs">
-                -alpha
-              </p>
+              {version && (
+                <p className="font-Inter text-italic mt-3 text-xs  text-white/60 sm:mt-5 sm:text-xl lg:text-xs xl:text-xs">
+                  -{version}
+                </p>
+              )}
 
               <div className="mt-10 sm:mt-12">
                 <div className="sm:flex">
