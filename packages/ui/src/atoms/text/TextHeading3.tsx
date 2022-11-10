@@ -1,11 +1,19 @@
 export interface TextHeading3Props {
-  children?: React.ReactNode;
   className?: string;
+  children?: React.ReactNode;
+  style?: React.CSSProperties;
 }
 
-export const TextHeading3 = ({ children, className }: TextHeading3Props) => {
+export const TextHeading3 = ({
+  children,
+  className,
+  style,
+}: TextHeading3Props) => {
   return (
-    <h3 className={`text-soilHeading3 font-poppins font-medium ${className}`}>
+    <h3
+      className={`text-soilHeading3 font-poppins font-medium ${className}`}
+      style={style}
+    >
       {children}
     </h3>
   );
