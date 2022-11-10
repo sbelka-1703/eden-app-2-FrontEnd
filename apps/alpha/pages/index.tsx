@@ -11,7 +11,7 @@ export default function Web() {
         <Head>
           <title>Eden protocol - alpha</title>
         </Head>
-        <LandingHeroSection image={landingLogo.src} />
+        <LandingHeroSection version={`alpha`} image={landingLogo.src} />
       </div>
     </>
   );
