@@ -107,43 +107,49 @@ export const FindTalentDropdownModal = ({
     <Modal open={openModal} closeOnEsc={false}>
       {section && (
         <div>
-          <div className="flex justify-between">
-            <div className="flex-1">
-              <TextHeading3>{section?.title}</TextHeading3>
-              <TextBody className={`font-medium text-gray-500`}>
-                {section?.subtitle}
-              </TextBody>
-            </div>
-
-            {section?.battery && (
-              <BatteryStepper
-                numMatches={numMatches}
-                batteryPercentage={batteryPercentage}
-              />
-            )}
-          </div>
-          <section className="mt-4">
+          <div className={`mb-12 flex`}>
             <div>
-              <TextHeading3>{section?.itemsTitle}</TextHeading3>
+              <div className="flex justify-between">
+                <div className="flex-1">
+                  <TextHeading3>{section?.title}</TextHeading3>
+                  <TextBody className={`font-medium text-gray-500`}>
+                    {section?.subtitle}
+                  </TextBody>
+                </div>
+              </div>
+              <section className="mt-4">
+                <div>
+                  <TextHeading3>{section?.itemsTitle}</TextHeading3>
+                </div>
+                <div className="my-8 ml-4 flex w-full flex-wrap justify-center gap-2">
+                  {!isEmpty(section.items) &&
+                    map(section.items, (item, key) => (
+                      <SelectBox
+                        multiple
+                        key={key}
+                        caption={key}
+                        items={item.content}
+                        onChange={(selectedItems) => {
+                          setSelectedItems((prevState) => ({
+                            ...prevState,
+                            [key]: selectedItems,
+                          }));
+                        }}
+                      />
+                    ))}
+                </div>
+              </section>
             </div>
-            <div className="my-8 ml-4 flex w-full flex-wrap justify-center gap-2">
-              {!isEmpty(section.items) &&
-                map(section.items, (item, key) => (
-                  <SelectBox
-                    multiple
-                    key={key}
-                    caption={key}
-                    items={item.content}
-                    onChange={(selectedItems) => {
-                      setSelectedItems((prevState) => ({
-                        ...prevState,
-                        [key]: selectedItems,
-                      }));
-                    }}
-                  />
-                ))}
+            <div>
+              {section?.battery && (
+                <BatteryStepper
+                  numMatches={numMatches}
+                  batteryPercentage={batteryPercentage}
+                />
+              )}
             </div>
-          </section>
+          </div>
+
           <div className="flex justify-between">
             <div>
               <Button radius="rounded" variant={`secondary`} onClick={onClose}>
