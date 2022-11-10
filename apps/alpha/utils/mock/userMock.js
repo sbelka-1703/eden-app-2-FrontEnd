@@ -878,6 +878,28 @@ const Result = {
         },
       },
     ],
+    background: [{
+      title: "Data Science",
+      emoji: "💻",
+      color:":#423123",
+      content: [{
+        title: "Head of Data Science Guild",
+        content: "Taking ownership, and providing strategic direction of Data Science for this multinational marketing organisation. • Developed a Data Science road map, presented to the CEO, identifying $50million incremental value through the application of machine learning algorithms.• Restructured the Data Science department, enabling a more rapid framework for delivering value at scale.",
+        skills:["javascript","react","leadership"],
+        date: {
+          start: "Jun 2018",
+          end: "Oct 2020",
+        },
+      },{
+        title: "Head of Data Science & Analytics",
+        content: "[Hired to spearhead the Data Science function within this award winning start-up, building a self-sufficient team producing cutting edge analytics.",
+        skills:["design","data","analysis"],
+        date: {
+          start: "2016",
+          end: "2017",
+        },
+      }]
+    }]
   },
   6: {
     description: "I'm vitalik. ",
@@ -941,6 +963,49 @@ const Result = {
       },
     ],
     availability: "20",
+    background: [{
+      title: "Software Engineer",
+      emoji: "💻",
+      color:":#FFE5BD",
+      content: [{
+        title: "Software Engineer",
+        content: "As part of this role I was part of a 4-man team focused on rebuilding a legacy Monolithic application using newer technologies and better coding standards as well as ",
+        skills:["engineer","developer","python"],
+        date: {
+          start: "Jun 2018",
+          end: "Oct 2020",
+        },
+      },{
+        title: "Support engineer",
+        content: "Getting full hands-on experience with development and decision-making discussions. ● .NET5",
+        skills:["design","data","analysis"],
+        date: {
+          start: "2016",
+          end: "2017",
+        },
+      }]
+    },{
+      title: "Consultant",
+      emoji: "🎙",
+      color:":#FFE5BD",
+      content: [{
+        title: "Global Sales Technical Consultant",
+        content: "My time at Awin was quite exciting and fun. It was my first job after handing my dissertation in, it gave me the confidence to start believing in myself and see that I am good enough to ",
+        skills:["engineer","developer","python"],
+        date: {
+          start: "Jun 2018",
+          end: "Oct 2020",
+        },
+      },{
+        title: "Summer Intern",
+        content: "I was part of a big team of interns, each of us had the same responsibilities and working on building MVC systems ( console and web ) using .NET",
+        skills:["design","data","analysis"],
+        date: {
+          start: "2016",
+          end: "2017",
+        },
+      }]
+    }]
   },
   8: {
     description:
@@ -990,6 +1055,28 @@ const Result = {
         },
       },
     ],
+    background: [{
+      title: "Software Engineer",
+      emoji: "💻",
+      color:":#FFE5BD",
+      content: [{
+        title: "Software Engineer in Goldman Sachs",
+        content: "Technologies: Python, Java, SQL, Pure, AWS.",
+        skills:["Python","Java","SQL"],
+        date: {
+          start: "Jun 2018",
+          end: "Oct 2020",
+        },
+      },{
+        title: "Support engineer",
+        content: "Co-created the patent titled 'Automatic Configuration of Screen Settings with Multiple Monitors' filed by IBM with the United States Patent and Trademark Office.",
+        skills:["AWS","data","analysis"],
+        date: {
+          start: "2016",
+          end: "2017",
+        },
+      }]
+    }],
   },
   9: {
     description: "Backend engineer passionate about crypto/web3/blockchain ",
@@ -1045,6 +1132,49 @@ const Result = {
         },
       },
     ],
+    background: [{
+      title: "Software Engineer",
+      emoji: "💻",
+      color:":#E2FFEA",
+      content: [{
+        title: "Software Engineer in FaceBook",
+        content: "Full Stack Software Engineer working on Workplace by Facebook. More than just a collaboration tool, Workplace by Facebook connects everyone to familiar features and their favorite business tools.",
+        skills:["Python","Java","SQL"],
+        date: {
+          start: "Jun 2018",
+          end: "Oct 2020",
+        },
+      },{
+        title: "Support engineer",
+        content: "Improving org comms and culture through Workplace!",
+        skills:["AWS","data","analysis"],
+        date: {
+          start: "2016",
+          end: "2017",
+        },
+      }]
+    },{
+      title: "CTO",
+      emoji: "🤖",
+      color:":#E9FFCE",
+      content: [{
+        title: "CTO SmarterWear - oreado",
+        content: "Overseeing technical development and improvement for products like: Making sure that best practices are defined and followed by engineering teams.",
+        skills:["Python","Java","SQL"],
+        date: {
+          start: "Jun 2019",
+          end: "Jan 2020",
+        },
+      },{
+        title: "CTO Trainer",
+        content: "Provided training services on HTML, CSS, JS, PHP and mySQL topics.",
+        skills:["AWS","data","analysis"],
+        date: {
+          start: "2016",
+          end: "2017",
+        },
+      }]
+    }],
   },
   10: {
     description:
@@ -1071,6 +1201,28 @@ const Result = {
       },
     ],
     availability: "32",
+    background: [{
+      title: "CTO",
+      emoji: "🤖",
+      color:":#E9FFCE",
+      content: [{
+        title: "CTO SmarterWear - oreado",
+        content: "Overseeing technical development and improvement for products like: Making sure that best practices are defined and followed by engineering teams.",
+        skills:["Python","Java","SQL"],
+        date: {
+          start: "Jun 2019",
+          end: "Jan 2020",
+        },
+      },{
+        title: "CTO Trainer",
+        content: "Provided training services on HTML, CSS, JS, PHP and mySQL topics.",
+        skills:["AWS","data","analysis"],
+        date: {
+          start: "2016",
+          end: "2017",
+        },
+      }]
+    }],
   },
   11: {
     description: "Blockchain, Smart Contracts, Mathematics, Ethereum. ",
@@ -1131,6 +1283,28 @@ const Result = {
         },
       },
     ],
+    background: [{
+      title: "Software Engineer",
+      emoji: "💻",
+      color:":#FFE5F9",
+      content: [{
+        title: "Software Engineer in YLD",
+        content: "Consulting JavaScript technologies to clients' software engineering and digital transformation projects. Other duties include: engaging with the tech community in Manchester by speaking ",
+        skills:["Python","Java","SQL"],
+        date: {
+          start: "Jun 2018",
+          end: "Oct 2020",
+        },
+      },{
+        title: "Junior Software Engineer",
+        content: "Contributed to Aerocloud's real-time airport operations and analytics application; working with technologies such as React, Node, WebSockets, MongoDB, AWS, Python and Tensorflow. ",
+        skills:["AWS","data","analysis"],
+        date: {
+          start: "2016",
+          end: "2017",
+        },
+      }]
+    }],
   },
   12: {
     description:
@@ -1179,6 +1353,28 @@ const Result = {
         },
       },
     ],
+    background: [{
+      title: "Software Engineer",
+      emoji: "💻",
+      color:":#FFE5F9",
+      content: [{
+        title: "Software & Cloud Engineer",
+        content: "- Developing & Supporting banking (Tier-1 Bank) project. - Client Facing - Migrating legacy infrastructure into the AWS ecosystem.",
+        skills:["Python","Java","SQL"],
+        date: {
+          start: "Jun 2018",
+          end: "Oct 2020",
+        },
+      },{
+        title: "Software Engineer - Financial Systems",
+        content: "Full Stack Website Implementation - System maintenance & Booking Keeper.",
+        skills:["AWS","data","analysis"],
+        date: {
+          start: "2016",
+          end: "2017",
+        },
+      }]
+    }],
   },
   13: {
     description:
