@@ -1,405 +1,4 @@
-const SkillTreeShowFlag = {
-  ChooseCategory: true,
-  ChooseSubcategory: true,
-  ChooseFocusArea: true,
-  ChoosePriorities: true,
-  ChooseSalary: true,
-};
-
-const priorities = {
-  title: "Let me get your priorities straight!",
-  description: "Distribute the 100 points based on what you value most.",
-  priorities: {
-    Experience: {
-      description: "Can they be a novice or do they need to be a champ?",
-      initialValue: "20",
-    },
-    Accountability: {
-      description: "Do they need to have a proven track-record of reliability?",
-      initialValue: "20",
-    },
-    "Skill Match": {
-      description: "How precise does the skill match need to be?",
-      initialValue: "20",
-    },
-    Availability: {
-      description: "Are you flexible on time?",
-      initialValue: "20",
-    },
-  },
-};
-
-const proposedSalary = {
-  title: "Salary range",
-  description:
-    "Give us an indication of the salary range you were thinking about",
-  minSalary: "1/hour",
-  maxSarary: "500/hour",
-};
-
-const SkillTree = {
-  category: {
-    title: "",
-    subTitle: "",
-  },
-  Design: {
-    subCategories: {
-      title: "",
-      subTitle: "",
-      numMatches: "210",
-      content: [
-        "UX/UI",
-        "Graphic Design",
-        "Web Design",
-        "Game Design",
-        "Animation",
-        "General Design support from A-Z",
-        "NFT Design",
-        "Brand Design",
-        "Other",
-      ],
-    },
-    "Niche Skills": {
-      title: "",
-      subTitle: "",
-      content: [
-        "Design Thinking",
-        "User-Centered Design",
-        "Agile",
-        "Style Guides",
-        "Creative Brief",
-        "VR Design",
-        "AR Design",
-        "Character Design",
-        "Other",
-      ],
-    },
-    "Knowledge of specific tools": {
-      title: "",
-      subTitle: "",
-      content: [
-        "Figma",
-        "Sketch",
-        "Figma",
-        "Adobe Photoshop",
-        "Adobe Illustrator",
-        "3D Design Software",
-        "Canva",
-        "CorelDraw",
-        "GIMP",
-        "Affinity Designer",
-        "Infinite Design",
-        "Inkscape",
-        "Other",
-      ],
-    },
-    "Values & Culture": {
-      title: "",
-      subTitle: "",
-      content: [
-        "Growth Mindset",
-        "Self-starter",
-        "First Principles Thinker",
-        "Teamwork",
-        "Integrity",
-        "Entrepreneurial",
-        "Boldness",
-        "Trust",
-        "Accountability",
-        "Passion",
-        "Reliability",
-        "Fun",
-        "Honesty",
-        "Other",
-      ],
-    },
-  },
-  "Frontend Developer": {
-    subCategories: {
-      title: "",
-      subTitle: "",
-      content: [
-        "UI Implementation",
-        "Frontend Architecture",
-        "General Frontend Support",
-        "Web Development",
-        "App Development",
-        "Other",
-      ],
-    },
-    "Niche Skills": {
-      title: "",
-      subTitle: "",
-      content: [
-        "Typescript",
-        "Javascript",
-        "React",
-        "Angular",
-        "Other specific languages",
-        "Other specific skills",
-      ],
-    },
-    "Knowledge of specific tools": {
-      title: "",
-      subTitle: "",
-      content: [
-        "Issue Tracking Tools",
-        "Specific IDE's",
-        "Database Editors",
-        "API Management Tools",
-        "Specific Libraries",
-        "Version Control",
-        "Other",
-      ],
-    },
-    "Values & Culture": {
-      title: "",
-      subTitle: "",
-      content: [
-        "Growth mindset",
-        "Self-starter",
-        "First Principles",
-        "Teamwork",
-        "Integrity",
-        "Entrepreneurial",
-        "Boldness",
-        "Trust",
-        "Accountability",
-        "Passion",
-        "Reliability",
-        "Fun",
-        "Honesty",
-        "Other",
-      ],
-    },
-  },
-  "Backend Developer": {
-    subCategories: {
-      title: "",
-      subTitle: "",
-      content: [
-        "Architecture of your app",
-        "Hard CS Stuff like Algo Dev & Data Structures",
-        "AI & Data Science",
-        "Blockchain & Smart Contract Stuff",
-        "Other",
-      ],
-    },
-    "Niche Skills": {
-      title: "",
-      subTitle: "",
-      content: [
-        "Typescript",
-        "Java",
-        "MySQL",
-        "Node.js",
-        "Ruby",
-        "Python",
-        "Rust/C++",
-        "GO",
-        "Javascript",
-        "Other Languages",
-        "Other Tools",
-      ],
-    },
-    "Knowledge of specific tools": {
-      title: "",
-      subTitle: "",
-      content: [
-        "Issue Tracking Tools",
-        "Specific IDE's",
-        "Database Editors",
-        "API Management Tools",
-        "Specific Libraries",
-        "Version Control",
-        "Other",
-      ],
-    },
-    "Values & Culture": {
-      title: "",
-      subTitle: "",
-      content: [
-        "Growth mindset",
-        "Self-starter",
-        "First Principles Thinker",
-        "Teamwork",
-        "Integrity",
-        "Entrepreneurial",
-        "Boldness",
-        "Trust",
-        "Accountability",
-        "Passion",
-        "Reliability",
-        "Fun",
-        "Honesty",
-        "Other",
-      ],
-    },
-  },
-  "Blockchain Developer": {
-    subCategories: {
-      title: "",
-      subTitle: "",
-      content: [
-        "Smart Contract Development",
-        "Smart Contract Auditing",
-        "Blockchain Architecture & Design",
-        "Lead a Technical Team",
-        "General Blockchain Support",
-        "Other",
-      ],
-    },
-    "Niche Skills": {
-      title: "",
-      subTitle: "",
-      content: [
-        "Solidity",
-        "GO",
-        "MOVE",
-        "C++",
-        "Rust",
-        "Other Languages",
-        "Other Niche Skills",
-      ],
-    },
-    "Knowledge of specific tools": {
-      title: "",
-      subTitle: "",
-      content: [
-        "Polygon",
-        "Polkadot",
-        "Celo",
-        "Avalanche",
-        "Ethereum",
-        "Solana",
-        "Cardano",
-        "Binance Smart Chain",
-        "Bitcoin",
-        "Cosmos",
-        "Other",
-      ],
-    },
-    "Values & Culture": {
-      title: "",
-      subTitle: "",
-      content: [
-        "Growth mindset",
-        "Self-starter",
-        "First Principles Thinker",
-        "Teamwork",
-        "Integrity",
-        "Entrepreneurial",
-        "Boldness",
-        "Trust",
-        "Accountability",
-        "Passion",
-        "Reliability",
-        "Fun",
-        "Honesty",
-        "Other",
-      ],
-    },
-  },
-  Product: {
-    subCategories: {
-      title: "",
-      subTitle: "",
-      content: [
-        "User Research",
-        "Market Research",
-        "Technical Team Coordination",
-        "Design Team Coordination",
-        "Ideation",
-        "Interviews",
-        "UX/UI",
-        "General PM Support building your product from A-Z",
-        "Other",
-      ],
-    },
-    "Niche Skills": {
-      title: "",
-      subTitle: "",
-      content: [
-        "Quantitative Analysis",
-        "Qualitative Analysis",
-        "Report Creation",
-        "Statistical Analysis",
-        "A/B Testing",
-        "Feature Discovery Techniques",
-        "Agile",
-        "Waterfall",
-        "Spec Writing",
-        "User Journey Mapping",
-        "Persona Development",
-        "User Stories",
-        "Technical Spec Writing",
-        "Product OKR Development",
-        "Other",
-      ],
-    },
-    "Knowledge of specific tools": {
-      title: "",
-      subTitle: "",
-      content: [
-        "Figma",
-        "Loom",
-        "Zoom",
-        "Illustrator",
-        "Photoshop",
-        "Canva",
-        "Infinite Design",
-        "Trello",
-        "Jira",
-        "Asana",
-        "Other",
-      ],
-    },
-    "Values & Culture": {
-      title: "",
-      subTitle: "",
-      content: [
-        "Growth mindset",
-        "Self-starter",
-        "First Principles Thinker",
-        "Teamwork",
-        "Integrity",
-        "Entrepreneurial",
-        "Boldness",
-        "Trust",
-        "Accountability",
-        "Passion",
-        "Reliability",
-        "Fun",
-        "Honesty",
-        "Other",
-      ],
-    },
-  },
-};
-
-const ResultCardShowFlag = {
-  type: "User", // Project,Bounty,DAO,User,discordChannel
-  picture: true,
-  description: true,
-  skills: true,
-  generalTags: true,
-  champion: true,
-  persentage: true,
-  persentageButton: true,
-};
-
-const ResultPopUpShowFlag = {
-  type: "User", // Project,Bounty,DAO,User,discordChannel
-  picture: true,
-  description: true,
-  skills: true,
-  generalTags: true,
-  champion: true,
-  persentage: true,
-  persentageButton: true,
-};
-
-const Result = {
+export const mockData = {
   1: {
     description:
       "Have been programming since I was 12 years old. During the day I work at Google as a Frontend Engineer on Google Maps, at night I want to be working on the next Google. Hit me up for help with cool startup projects. I'm obsessed with Frontend because it literally has the power to shape the way we interact with eachother & the world around us.",
@@ -490,7 +89,7 @@ const Result = {
       {
         title: "Data Scientist",
         emoji: "💽",
-        color: ":#FFD2D2",
+        color: "#FFD2D2",
         content: [
           {
             title: "Data schiecne in Nova Futur Ltd",
@@ -600,7 +199,7 @@ const Result = {
       {
         title: "Tech Lead",
         emoji: "🙀",
-        color: ":#FFE5BD",
+        color: "#FFE5BD",
         content: [
           {
             title: "Tech Lead in Sentora",
@@ -731,7 +330,7 @@ const Result = {
       {
         title: "Quant Analyst",
         emoji: "🙀",
-        color: ":#E3FBFF",
+        color: "#E3FBFF",
         content: [
           {
             title: "Quant Analyst",
@@ -806,7 +405,7 @@ const Result = {
       {
         title: "Design",
         emoji: "💻",
-        color: ":#423123",
+        color: "#423123",
         content: [
           {
             title: "Core Member in Developer DAO",
@@ -932,7 +531,7 @@ const Result = {
       {
         title: "Data Science",
         emoji: "💻",
-        color: ":#423123",
+        color: "#423123",
         content: [
           {
             title: "Head of Data Science Guild",
@@ -1024,7 +623,7 @@ const Result = {
       {
         title: "Software Engineer",
         emoji: "💻",
-        color: ":#FFE5BD",
+        color: "#FFE5BD",
         content: [
           {
             title: "Software Engineer",
@@ -1051,7 +650,7 @@ const Result = {
       {
         title: "Consultant",
         emoji: "🎙",
-        color: ":#FFE5BD",
+        color: "#FFE5BD",
         content: [
           {
             title: "Global Sales Technical Consultant",
@@ -1129,7 +728,7 @@ const Result = {
       {
         title: "Software Engineer",
         emoji: "💻",
-        color: ":#FFE5BD",
+        color: "#FFE5BD",
         content: [
           {
             title: "Software Engineer in Goldman Sachs",
@@ -1212,7 +811,7 @@ const Result = {
       {
         title: "Software Engineer",
         emoji: "💻",
-        color: ":#E2FFEA",
+        color: "#E2FFEA",
         content: [
           {
             title: "Software Engineer in FaceBook",
@@ -1238,7 +837,7 @@ const Result = {
       {
         title: "CTO",
         emoji: "🤖",
-        color: ":#E9FFCE",
+        color: "#E9FFCE",
         content: [
           {
             title: "CTO SmarterWear - oreado",
@@ -1293,7 +892,7 @@ const Result = {
       {
         title: "CTO",
         emoji: "🤖",
-        color: ":#E9FFCE",
+        color: "#E9FFCE",
         content: [
           {
             title: "CTO SmarterWear - oreado",
@@ -1382,7 +981,7 @@ const Result = {
       {
         title: "Software Engineer",
         emoji: "💻",
-        color: ":#FFE5F9",
+        color: "#FFE5F9",
         content: [
           {
             title: "Software Engineer in YLD",
@@ -1459,7 +1058,7 @@ const Result = {
       {
         title: "Software Engineer",
         emoji: "💻",
-        color: ":#FFE5F9",
+        color: "#FFE5F9",
         content: [
           {
             title: "Software & Cloud Engineer",
@@ -1643,169 +1242,3 @@ const Result = {
     ],
   },
 };
-
-const resultsOnChoice = {
-  Design: [
-    {
-      result: "4",
-      percentage: "80%",
-    },
-    {
-      result: "5",
-      percentage: "60%",
-    },
-    {
-      result: "1",
-      percentage: "71%",
-    },
-    {
-      result: "12",
-      percentage: "50%",
-    },
-  ],
-  "Frontend Developer": [
-    {
-      result: "1",
-      percentage: "95%",
-    },
-    {
-      result: "4",
-      percentage: "85%",
-    },
-    {
-      result: "3",
-      percentage: "69%",
-    },
-    {
-      result: "8",
-      percentage: "50%",
-    },
-    {
-      result: "14",
-      percentage: "45%",
-    },
-    {
-      result: "11",
-      percentage: "44%",
-    },
-    {
-      result: "9",
-      percentage: "33%",
-    },
-    {
-      result: "13",
-      percentage: "23%",
-    },
-    {
-      result: "15",
-      percentage: "15%",
-    },
-  ],
-  "Backend Developer": [
-    {
-      result: "2",
-      percentage: "97%",
-    },
-    {
-      result: "1",
-      percentage: "90%",
-    },
-    {
-      result: "3",
-      percentage: "88%",
-    },
-    {
-      result: "8",
-      percentage: "87%",
-    },
-    {
-      result: "9",
-      percentage: "77%",
-    },
-    {
-      result: "11",
-      percentage: "62%",
-    },
-    {
-      result: "13",
-      percentage: "59",
-    },
-    {
-      result: "14",
-      percentage: "55%",
-    },
-    {
-      result: "15",
-      percentage: "32%",
-    },
-  ],
-  "Blockchain Developer": [
-    {
-      result: "6",
-      percentage: "100%",
-    },
-    {
-      result: "9",
-      percentage: "79%",
-    },
-    {
-      result: "1",
-      percentage: "78%",
-    },
-    {
-      result: "14",
-      percentage: "74%",
-    },
-    {
-      result: "11",
-      percentage: "60%",
-    },
-    {
-      result: "13",
-      percentage: "59%",
-    },
-  ],
-  Product: [
-    {
-      result: "3",
-      percentage: "98%",
-    },
-    {
-      result: "5",
-      percentage: "88%",
-    },
-    {
-      result: "4",
-      percentage: "72%",
-    },
-    {
-      result: "7",
-      percentage: "71%",
-    },
-    {
-      result: "10",
-      percentage: "69%",
-    },
-    {
-      result: "12",
-      percentage: "67%",
-    },
-    {
-      result: "15",
-      percentage: "55%",
-    },
-  ],
-};
-
-const USER_MOCK = {
-  SkillTreeShowFlag: SkillTreeShowFlag,
-  priorities: priorities,
-  proposedSalary: proposedSalary,
-  SkillTree: SkillTree,
-  ResultCardShowFlag: ResultCardShowFlag,
-  ResultPopUpShowFlag: ResultPopUpShowFlag,
-  Result: Result,
-  resultsOnChoice: resultsOnChoice,
-};
-
-export default USER_MOCK;
