@@ -9,10 +9,11 @@ import {
   SocialMediaComp,
   TabsSelector,
   // TeamAttributeChart,
-  UserInformationCard,
   UserWithDescription,
 } from "@eden/package-ui";
 import { useEffect, useState } from "react";
+
+import { UserInformationCard } from "../../cards/user/UserInformationCard";
 
 const SET_APPLY_TO_PROJECT = gql`
   mutation ($fields: changeTeamMember_Phase_ProjectInput!) {

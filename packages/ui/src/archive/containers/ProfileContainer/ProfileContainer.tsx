@@ -8,10 +8,11 @@ import {
   SearchSkill,
   SkillList,
   SocialMediaComp,
-  UserInformationCard,
 } from "@eden/package-ui";
 import { useContext, useState } from "react";
 import { AiOutlineCheck } from "react-icons/ai";
+
+import { UserInformationCard } from "../../cards/user/UserInformationCard";
 
 const levels = [
   {
