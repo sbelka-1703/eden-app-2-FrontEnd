@@ -57,8 +57,8 @@ export const BatteryStepper = ({
             background: `${batteryColor}`,
           }}
         />
-        {numMatches && (
-          <div className="absolute font-semibold text-center font-poppins left-2/4 top-2/4 -translate-x-2/4 -translate-y-2/4">
+        {!!numMatches && (
+          <div className="font-poppins absolute left-2/4 top-2/4 -translate-x-2/4 -translate-y-2/4 text-center font-semibold">
             <p className={`${mathcesTextCls}`}>Matches</p>
             <p className={`${numMatchesTextCls}`}>{numMatches}</p>
           </div>

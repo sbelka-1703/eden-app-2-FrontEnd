@@ -91,6 +91,7 @@ export type Members = {
   discordAvatar?: Maybe<Scalars['String']>;
   discordName?: Maybe<Scalars['String']>;
   discriminator?: Maybe<Scalars['String']>;
+  endorsements?: Maybe<Array<Maybe<Endorsements>>>;
   gardenUpdate?: Maybe<GardenUpdateType>;
   hoursPerWeek?: Maybe<Scalars['Float']>;
   interest?: Maybe<Scalars['String']>;
@@ -118,6 +119,7 @@ export type MembersSmallType = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addEndorsement?: Maybe<Members>;
   addFavoriteProject?: Maybe<Members>;
   addNewChat?: Maybe<Chats>;
   addNewMember?: Maybe<Members>;
@@ -148,6 +150,11 @@ export type Mutation = {
   updateServer?: Maybe<ServerTemplate>;
   updateSkillCategory?: Maybe<SkillCategory>;
   updateSkillSubCategory?: Maybe<SkillSubCategory>;
+};
+
+
+export type MutationAddEndorsementArgs = {
+  fields?: InputMaybe<AddEndorsementInput>;
 };
 
 
@@ -364,6 +371,7 @@ export type Query = {
   adminFindAllSkillsEveryState?: Maybe<Array<Maybe<Skills>>>;
   errors?: Maybe<Array<Maybe<ErrorLog>>>;
   findAllProjectsTeamsAnouncments?: Maybe<Array<Maybe<FindAllProjectsTeamsAnouncmentsOutput>>>;
+  findChat?: Maybe<Chats>;
   findEpic?: Maybe<Array<Maybe<Epic>>>;
   findGarden?: Maybe<Array<Maybe<FindGardenOutput>>>;
   findMember?: Maybe<Members>;
@@ -409,6 +417,11 @@ export type QueryAdminFindAllSkillsEveryStateArgs = {
 
 export type QueryFindAllProjectsTeamsAnouncmentsArgs = {
   fields?: InputMaybe<FindAllProjectsTeamsAnouncmentsInput>;
+};
+
+
+export type QueryFindChatArgs = {
+  fields?: InputMaybe<FindChatInput>;
 };
 
 
@@ -740,6 +753,12 @@ export type User = {
   token?: Maybe<Scalars['String']>;
 };
 
+export type AddEndorsementInput = {
+  endorseeID?: InputMaybe<Scalars['ID']>;
+  endorsementMessage?: InputMaybe<Scalars['String']>;
+  endorserID?: InputMaybe<Scalars['ID']>;
+};
+
 export type AddFavoriteProjectInput = {
   favorite?: InputMaybe<Scalars['Boolean']>;
   memberID?: InputMaybe<Scalars['ID']>;
@@ -983,6 +1002,13 @@ export type EndorseAttributeInput = {
   attribute?: InputMaybe<AttributesEnum>;
 };
 
+export type Endorsements = {
+  __typename?: 'endorsements';
+  arweaveTransactionID?: Maybe<Scalars['String']>;
+  endorsementMessage?: Maybe<Scalars['String']>;
+  endorser?: Maybe<MembersSmallType>;
+};
+
 export type EnterRoomInput = {
   memberID?: InputMaybe<Scalars['ID']>;
   roomID?: InputMaybe<Scalars['ID']>;
@@ -1000,6 +1026,11 @@ export type FindAllProjectsTeamsAnouncmentsOutput = {
   _id?: Maybe<Scalars['ID']>;
   project?: Maybe<Project>;
   team?: Maybe<Array<Maybe<TeamsType>>>;
+};
+
+export type FindChatInput = {
+  _id?: InputMaybe<Scalars['ID']>;
+  threadID?: InputMaybe<Scalars['ID']>;
 };
 
 export type FindEpicInput = {

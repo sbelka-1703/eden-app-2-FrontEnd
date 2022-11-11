@@ -42,7 +42,7 @@ const UserPage: NextPageWithLayout = () => {
   const { setOpenModal } = useContext(LaunchProjectContext);
 
   useEffect(() => {
-    setOpenModal(LaunchProjectModal.SKILLS_CATEGORY);
+    setOpenModal(LaunchProjectModal.START_INFO);
   }, []);
 
   const res =

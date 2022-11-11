@@ -24,7 +24,10 @@ export default async function handler(req: NextRequest) {
     const handleString = urlDecoded.slice(handleIndex);
 
     // get handle value in request url and split value by = and &
-    const handleValue = handleString.split("=")[1].split("&")[0];
+    const handleValue = handleString
+      .split("=")[1]
+      .split("&")[0]
+      .replace(/\+/g, " ");
 
     // find handle in request url
     const roleIndex = urlDecoded.indexOf("role=");
@@ -59,16 +62,18 @@ export default async function handler(req: NextRequest) {
           }}
         >
           <div tw="bg-white flex">
-            <div tw="flex flex-col md:flex-row w-full md:items-center justify-between">
-              <div tw={`flex flex-col pl-8`}>
+            <div tw="flex w-full md:items-center justify-between">
+              <div tw={`flex flex-col w-1/2 pl-8`}>
                 <span tw={`text-lg`} style={{ color: "#071B08" }}>
                   connect with me on
                 </span>
                 <span tw="text-zinc-600 text-2xl" style={{ color: "#071B08" }}>
                   {title}
                 </span>
-                <h2 tw="flex flex-col font-bold text-left py-6">
-                  <span tw={`text-5xl font-extrabold text-zinc-800`}>
+                <h2 tw="flex flex-col font-bold text-left py-6 flex-wrap">
+                  <span
+                    tw={`text-4xl font-extrabold text-zinc-800 break-normal`}
+                  >
                     {handle}
                   </span>
                   <span tw={`text-zinc-600 text-3xl`}>{role}</span>

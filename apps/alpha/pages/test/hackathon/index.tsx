@@ -33,7 +33,7 @@ const LaunchPage: NextPageWithLayout = () => {
   const { setOpenModal } = useContext(HackathonContext);
 
   useEffect(() => {
-    setOpenModal(HackathonProjectModal.SKILLS_CATEGORY);
+    setOpenModal(HackathonProjectModal.START_INFO);
     // console.log("openModal");
   }, []);
 

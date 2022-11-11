@@ -12,6 +12,7 @@ export const EndorsementCard: React.FC<EndorsementsProps> = ({
   text,
   level,
 }) => {
+  if (!member) return null;
   return (
     <Card border className="mt-8 p-6">
       <div className="-mt-14 flex w-full flex-col items-center">

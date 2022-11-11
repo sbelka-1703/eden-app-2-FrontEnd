@@ -3,8 +3,8 @@ import {
   CongratulationsModal,
   DataReviewModal,
   FindTalentDropdownModal,
-  FindTalentModal,
   PrioritizeModal,
+  ProjectsMatchesModal,
   RequirementsModal,
   ReviewModal,
   //   SavingProjectModal,
@@ -54,25 +54,116 @@ export const HackathonModalContainer = ({
   //       setOpenModal(HackathonProjectModal.SAVING_PROJECT);
   //     }
   //   }, [submitting]);
+  const mockDataMap1 = {
+    SkillTree: {
+      subCategories: {
+        title: mockData?.SkillTree?.category?.title,
+        subTitle: mockData?.SkillTree?.category?.subTitle,
+      },
+    },
+  };
+
+  if (mockData?.SkillTree) {
+    Object.keys(mockData?.SkillTree).forEach((key) => {
+      if (key !== "category")
+        mockDataMap1.SkillTree = {
+          ...mockDataMap1.SkillTree,
+          [key as keyof Object]: {
+            content:
+              mockData.SkillTree[key as keyof Object]?.subCategories?.content,
+          },
+        };
+    });
+  }
+
+  const mockDataMap2 = {
+    SkillTree: {
+      subCategories: {
+        title: mockData?.UserProfileTree?.category?.title,
+        subTitle: mockData?.UserProfileTree?.category?.subTitle,
+      },
+    },
+  };
+
+  if (mockData?.UserProfileTree) {
+    Object.keys(mockData?.UserProfileTree).forEach((key) => {
+      if (key !== "category")
+        mockDataMap2.SkillTree = {
+          ...mockDataMap2.SkillTree,
+          [key as keyof Object]: {
+            content:
+              mockData.UserProfileTree[key as keyof Object]?.subCategories
+                ?.content,
+          },
+        };
+    });
+  }
 
   return (
     <>
-      {openModal === HackathonProjectModal.SKILLS_CATEGORY && (
-        <FindTalentModal
-          openModal={openModal === HackathonProjectModal.SKILLS_CATEGORY}
-          onClose={() =>
-            setOpenModal(
-              mockData?.ResultPopUpShowFlag.type === "Project" ||
-                mockData?.ResultPopUpShowFlag.type === "User"
-                ? HackathonProjectModal.SKILLS_SUBCATEGORY
-                : HackathonProjectModal.PRIORITIZE
-            )
-          }
-          onSubmit={(val: any) => {
-            setTalentAttributes(val);
-            setSubmittingTalentAttributes!(val);
+      {openModal === HackathonProjectModal.START_INFO && (
+        <ProjectsMatchesModal
+          openModal={openModal === HackathonProjectModal.START_INFO}
+          onSubmit={() => {
+            setOpenModal(HackathonProjectModal.USER_ROLE);
           }}
-          mockData={mockData}
+          batteryPercentageBefore={10}
+          numMatchesBefore={125}
+          batteryPercentageAfter={70}
+          numMatchesAfter={8}
+        />
+      )}
+
+      {openModal === HackathonProjectModal.USER_ROLE && (
+        <FindTalentDropdownModal
+          openModal={openModal === HackathonProjectModal.USER_ROLE}
+          onClose={() => setOpenModal(HackathonProjectModal.SKILLS_CATEGORY)}
+          // eslint-disable-next-line no-unused-vars
+          onSubmit={(val: any) => {
+            // setSubmittingTalentAttributes!(
+            //   Object.keys(val)
+            //     .filter((key) => val[key].length)
+            //     .flat()[0]
+            // );
+            // const main = Object.keys(val)
+            //   .filter((key) => val[key].length)
+            //   .flat()[0];
+            // setTalentAttributes({
+            //   ...talentAttributes,
+            //   main: [{ name: main }],
+            // });
+            // setSubmittingTalentAttributes!(val);
+          }}
+          mockData={mockDataMap2.SkillTree}
+          // onClose={() => setOpenModal(null)}
+        />
+      )}
+
+      {openModal === HackathonProjectModal.SKILLS_CATEGORY && (
+        <FindTalentDropdownModal
+          openModal={openModal === HackathonProjectModal.SKILLS_CATEGORY}
+          onClose={() => setOpenModal(HackathonProjectModal.SKILLS_SUBCATEGORY)}
+          // eslint-disable-next-line no-unused-vars
+          onSubmit={(val: any) => {
+            setSubmittingTalentAttributes!(
+              Object.keys(val)
+                .filter((key) => val[key].length)
+                .flat()[0]
+            );
+            const main = Object.keys(val)
+              .filter((key) => val[key].length)
+              .flat()[0];
+
+            setTalentAttributes({
+              ...talentAttributes,
+              main: [{ name: main }],
+            });
+            if (main)
+              setSubmittingTalentAttributes!({
+                main: [{ name: main }],
+              });
+          }}
+          mockData={mockDataMap1.SkillTree}
           // onClose={() => setOpenModal(null)}
         />
       )}
@@ -80,7 +171,7 @@ export const HackathonModalContainer = ({
       {openModal === HackathonProjectModal.SKILLS_SUBCATEGORY && (
         <FindTalentDropdownModal
           openModal={openModal === HackathonProjectModal.SKILLS_SUBCATEGORY}
-          onClose={() => setOpenModal(HackathonProjectModal.PRIORITIZE)}
+          onClose={() => setOpenModal(HackathonProjectModal.REQUIREMENTS)}
           // eslint-disable-next-line no-unused-vars
           onSubmit={(val: any) => {
             const third = Object.keys(val)
@@ -123,7 +214,7 @@ export const HackathonModalContainer = ({
           }}
           onSubmit={(val) => {
             console.log(val);
-            setOpenModal(HackathonProjectModal.PROJECT_INFO);
+            setOpenModal(null);
             // setOpenModal(null);
           }}
         />

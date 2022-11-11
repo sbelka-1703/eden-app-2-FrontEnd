@@ -45,11 +45,11 @@ export const FindTalentDropdownModal = ({
   const section: Data = useMemo(
     () => ({
       _id: "main",
-      title: mockData?.SkillTree?.category?.title
-        ? mockData.SkillTree.category.title
+      title: mockData?.subCategories?.title
+        ? mockData.subCategories.title
         : "Alright, tell me who should I find to help you with your project?",
-      subtitle: mockData?.SkillTree?.category?.subTitle
-        ? mockData.SkillTree.category.subTitle
+      subtitle: mockData?.subCategories?.subTitle
+        ? mockData.subCategories.subTitle
         : "Please pick only one role for now!",
       battery: true,
       itemsTitle: "Focus On:",
@@ -67,7 +67,7 @@ export const FindTalentDropdownModal = ({
   const [selectedItems, setSelectedItems] = useState<{
     [key: string]: Item[];
   }>({});
-  const [numMatches, setNumMatches] = useState(0);
+  const [numMatches, setNumMatches] = useState(137);
 
   const handleNext = () => {
     if (numMatches === 0) {
@@ -84,20 +84,22 @@ export const FindTalentDropdownModal = ({
   }, [selectedItems]);
 
   useEffect(() => {
-    let numMatches = 0;
+    let _numMatches = numMatches;
     let batteryPercentage = 50;
 
     // eslint-disable-next-line no-unused-vars
     forEach(selectedItems, (el, key) => {
       if (!isEmpty(el)) {
         // numMatches += +get(section, `items.${key}.numMatches`, 1); //replace 1 with 0
-        numMatches = 120;
+        const newFakeNum = _numMatches - Math.round(Math.random() * 15);
+
+        _numMatches = newFakeNum > 0 ? newFakeNum : _numMatches;
 
         batteryPercentage += 10;
       }
     });
 
-    setNumMatches(numMatches);
+    if (_numMatches) setNumMatches(_numMatches);
     setBatteryPercentage(batteryPercentage);
   }, [section, selectedItems]);
 
@@ -105,43 +107,49 @@ export const FindTalentDropdownModal = ({
     <Modal open={openModal} closeOnEsc={false}>
       {section && (
         <div>
-          <div className="flex justify-between">
-            <div className="flex-1">
-              <TextHeading3>{section?.title}</TextHeading3>
-              <TextBody className={`font-medium text-gray-500`}>
-                {section?.subtitle}
-              </TextBody>
-            </div>
-
-            {section?.battery && (
-              <BatteryStepper
-                numMatches={numMatches}
-                batteryPercentage={batteryPercentage}
-              />
-            )}
-          </div>
-          <section className="mt-4">
+          <div className={`mb-12 flex`}>
             <div>
-              <TextHeading3>{section?.itemsTitle}</TextHeading3>
+              <div className="flex justify-between">
+                <div className="flex-1">
+                  <TextHeading3>{section?.title}</TextHeading3>
+                  <TextBody className={`font-medium text-gray-500`}>
+                    {section?.subtitle}
+                  </TextBody>
+                </div>
+              </div>
+              <section className="mt-4">
+                <div>
+                  <TextHeading3>{section?.itemsTitle}</TextHeading3>
+                </div>
+                <div className="my-8 ml-4 flex w-full flex-wrap justify-center gap-2">
+                  {!isEmpty(section.items) &&
+                    map(section.items, (item, key) => (
+                      <SelectBox
+                        multiple
+                        key={key}
+                        caption={key}
+                        items={item.content}
+                        onChange={(selectedItems) => {
+                          setSelectedItems((prevState) => ({
+                            ...prevState,
+                            [key]: selectedItems,
+                          }));
+                        }}
+                      />
+                    ))}
+                </div>
+              </section>
             </div>
-            <div className="my-8 ml-4 flex w-full flex-wrap justify-center gap-2">
-              {!isEmpty(section.items) &&
-                map(section.items, (item, key) => (
-                  <SelectBox
-                    multiple
-                    key={key}
-                    caption={key}
-                    items={item.content}
-                    onChange={(selectedItems) => {
-                      setSelectedItems((prevState) => ({
-                        ...prevState,
-                        [key]: selectedItems,
-                      }));
-                    }}
-                  />
-                ))}
+            <div>
+              {section?.battery && (
+                <BatteryStepper
+                  numMatches={numMatches}
+                  batteryPercentage={batteryPercentage}
+                />
+              )}
             </div>
-          </section>
+          </div>
+
           <div className="flex justify-between">
             <div>
               <Button radius="rounded" variant={`secondary`} onClick={onClose}>

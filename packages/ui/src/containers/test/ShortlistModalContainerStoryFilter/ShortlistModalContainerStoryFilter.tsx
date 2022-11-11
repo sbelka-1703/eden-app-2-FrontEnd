@@ -9,8 +9,8 @@ import { Mutation, UpdateProjectInput } from "@eden/package-graphql/generated";
 import {
   CongratulationsModal,
   FindTalentDropdownModal,
-  FindTalentModal,
   PrioritizeModal,
+  ProjectsMatchesModal,
   RequirementsModal,
   ReviewModal,
   SavingProjectModal,
@@ -135,24 +135,63 @@ export const ShortlistModalContainerStoryFilter = ({
     console.log("~~~~~~~", talentAttributes);
   }, [talentAttributes]);
 
+  const mockDataMap1 = {
+    SkillTree: {
+      subCategories: {
+        title: mockData?.SkillTree?.category?.title,
+        subTitle: mockData?.SkillTree?.category?.subTitle,
+      },
+    },
+  };
+
+  if (mockData?.SkillTree) {
+    Object.keys(mockData?.SkillTree).forEach((key) => {
+      if (key !== "category")
+        mockDataMap1.SkillTree = {
+          ...mockDataMap1.SkillTree,
+          [key as keyof Object]: {
+            content:
+              mockData.SkillTree[key as keyof Object]?.subCategories?.content,
+          },
+        };
+    });
+  }
+
   return (
     <>
-      {openModal === LaunchProjectModal.SKILLS_CATEGORY && (
-        <FindTalentModal
-          openModal={openModal === LaunchProjectModal.SKILLS_CATEGORY}
-          onClose={() =>
-            setOpenModal(
-              mockData?.ResultPopUpShowFlag.type === "Project" ||
-                mockData?.ResultPopUpShowFlag.type === "User"
-                ? LaunchProjectModal.SKILLS_SUBCATEGORY
-                : LaunchProjectModal.PRIORITIZE
-            )
-          }
-          onSubmit={(val: any) => {
-            setTalentAttributes(val);
-            setSubmittingTalentAttributes!(val);
+      {openModal === LaunchProjectModal.START_INFO && (
+        <ProjectsMatchesModal
+          openModal={openModal === LaunchProjectModal.START_INFO}
+          onSubmit={() => {
+            setOpenModal(LaunchProjectModal.SKILLS_CATEGORY);
           }}
-          mockData={mockData}
+          batteryPercentageBefore={10}
+          numMatchesBefore={210}
+          batteryPercentageAfter={70}
+          numMatchesAfter={8}
+        />
+      )}
+
+      {openModal === LaunchProjectModal.SKILLS_CATEGORY && (
+        <FindTalentDropdownModal
+          openModal={openModal === LaunchProjectModal.SKILLS_CATEGORY}
+          onClose={() => setOpenModal(LaunchProjectModal.SKILLS_SUBCATEGORY)}
+          // eslint-disable-next-line no-unused-vars
+          onSubmit={(val: any) => {
+            const main = Object.keys(val)
+              .filter((key) => val[key].length)
+              .flat()[0];
+
+            setTalentAttributes({
+              ...talentAttributes,
+              main: [{ name: main }],
+            });
+            if (main)
+              setSubmittingTalentAttributes!({
+                main: [{ name: main }],
+              });
+          }}
+          mockData={mockDataMap1.SkillTree}
           // onClose={() => setOpenModal(null)}
         />
       )}
@@ -188,6 +227,7 @@ export const ShortlistModalContainerStoryFilter = ({
             console.log(val);
             setOpenModal(LaunchProjectModal.REQUIREMENTS);
           }}
+          numMatches={38}
         />
       )}
       {openModal === LaunchProjectModal.REQUIREMENTS && (
@@ -204,6 +244,7 @@ export const ShortlistModalContainerStoryFilter = ({
             setOpenModal(null);
             // setOpenModal(null);
           }}
+          numMatches={23}
         />
       )}
 
