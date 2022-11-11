@@ -8,6 +8,7 @@ import {
   Favorite,
   LifetimeTRST,
   LongText,
+  ProfileExpandedModal,
   SocialMediaComp,
   StaticModal,
   TextBody,
@@ -173,12 +174,20 @@ export const StaticCard = ({
           )}
         </div>
       )}
-      <StaticModal
-        item={item}
-        resultPopUpFlag={resultPopUpFlag}
-        open={isOpen}
-        onClose={() => setIsOpen(!isOpen)}
-      />
+      {resultPopUpFlag?.type === "User" ? (
+        <ProfileExpandedModal
+          open={isOpen}
+          item={item}
+          onClose={() => setIsOpen(!isOpen)}
+        />
+      ) : (
+        <StaticModal
+          item={item}
+          resultPopUpFlag={resultPopUpFlag}
+          open={isOpen}
+          onClose={() => setIsOpen(!isOpen)}
+        />
+      )}
     </Card>
   );
 };
