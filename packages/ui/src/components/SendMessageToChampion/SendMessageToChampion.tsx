@@ -125,7 +125,7 @@ export const SendMessageToChampion = ({
       embedMessage: embededMessage,
       senderAvatarURL: currentUser?.discordAvatar!,
       senderName: `${currentUser?.discordName} - is interested in ${project?.title}`,
-      channelId: "1001547443135058010",
+      channelId: "1033337923006902353",
       threadName: `${project?.title}, has a new message from ${currentUser?.discordName}`,
       autoArchiveDuration: AutoArchiveDuration.OneDay,
     });
@@ -133,7 +133,7 @@ export const SendMessageToChampion = ({
     try {
       await createMessage({
         message: followUpMessage,
-        channelId: "1001547443135058010",
+        channelId: "1033337923006902353",
         thread: threadId,
       });
     } catch (error) {
@@ -148,7 +148,7 @@ export const SendMessageToChampion = ({
             projectID: "62f685952dc2d40004d395c7",
             receiverID: member?._id!,
             senderID: currentUser?._id!,
-            serverID: "988301790795685930",
+            serverID: "996558082098339953",
             threadID: threadId,
           },
         },

@@ -1,6 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
 import axios from "axios";
-import _ from "lodash";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getToken } from "next-auth/jwt";
 
@@ -27,14 +26,6 @@ export default async (
   });
 };
 
-function _getBotGuildsService() {
-  return axios.get<PartialGuild[]>(`${DISCORD_API_URL}/users/@me/guilds`, {
-    headers: {
-      Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
-    },
-  });
-}
-
 async function _getUserGuildsService(token: string) {
   return axios.get<PartialGuild[]>(`${DISCORD_API_URL}/users/@me/guilds`, {
     headers: {
@@ -44,12 +35,9 @@ async function _getUserGuildsService(token: string) {
 }
 
 async function getMutualGuildsService(token: string) {
-  const { data: botGuilds } = await _getBotGuildsService();
   const { data: userGuilds } = await _getUserGuildsService(token);
 
-  // const adminUserGuilds = userGuilds.filter(
-  //   ({ permissions }) => (Number(permissions) & 0x8) === 0x8
-  // );
+  const adminUserGuilds = userGuilds.filter(({ owner }) => owner === true);
 
-  return _.intersectionWith(userGuilds, botGuilds, (a, b) => a.id === b.id);
+  return adminUserGuilds;
 }
