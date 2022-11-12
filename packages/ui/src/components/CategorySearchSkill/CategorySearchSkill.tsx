@@ -1,9 +1,9 @@
+/* eslint-disable camelcase */
 import { useQuery } from "@apollo/client";
 import {
   FIND_ALL_MAIN_CATEGORIES,
   SKILLS_AUTOCOMPLETE,
 } from "@eden/package-graphql";
-// eslint-disable-next-line camelcase
 import { Maybe, SkillType_Member } from "@eden/package-graphql/generated";
 import { CategoryExpandable, Loading } from "@eden/package-ui/src";
 import { Combobox } from "@headlessui/react";
@@ -17,7 +17,6 @@ type LevelProp = {
 };
 
 export interface SearchCategorySkillProps {
-  // eslint-disable-next-line camelcase
   skills: Maybe<Maybe<SkillType_Member>[]> | undefined;
   setSkills: any;
   levels: LevelProp[];
@@ -158,7 +157,7 @@ export const CategorySearchSkill = ({
                 dataSkills={dataSkills}
                 setIsOpen={setIsOpen}
                 setSkills={setSkills}
-                key={category}
+                key={index}
                 setSelected={setSelected}
                 levels={levels}
                 // setExpanding={(e: boolean) => setInFocus(e)}
