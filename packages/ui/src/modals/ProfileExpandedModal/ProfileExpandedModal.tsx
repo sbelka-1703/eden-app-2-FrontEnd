@@ -152,19 +152,25 @@ const UserBackground = ({
 
   return (
     <div>
-      <TextHeading3
-        style={{ fontWeight: 700 }}
-        className="mb-2 text-sm uppercase text-gray-500"
-      >
-        🎡 Background
-      </TextHeading3>
+      <div className="mb-4 flex">
+        <TextHeading3
+          style={{ fontWeight: 700 }}
+          className=" text-sm uppercase text-gray-500"
+        >
+          🎡 Background
+        </TextHeading3>
+        {expand && (
+          <Button style={{ border: "none" }} onClick={() => setExpand(false)}>
+            <ArrowsCollapseIcon />
+          </Button>
+        )}
+      </div>
       {expand ? (
         <UserExpandedBackground
           tabs={tabs}
           activeTab={activeTab}
           activeItem={activeItem}
           setActiveTab={setActiveTab}
-          onCollapse={() => setExpand(false)}
         />
       ) : (
         <>
@@ -228,14 +234,12 @@ const UserCardBackground = ({
 const UserExpandedBackground = ({
   tabs,
   activeTab,
-  onCollapse,
   activeItem,
   setActiveTab,
 }: {
   tabs: string[];
   activeItem: any;
   activeTab: number;
-  onCollapse: () => void;
   // eslint-disable-next-line no-unused-vars
   setActiveTab: (activeTab: number) => void;
 }) => (
@@ -293,13 +297,6 @@ const UserExpandedBackground = ({
           </div>
         </div>
       ))}
-      <Button
-        onClick={onCollapse}
-        style={{ border: "none" }}
-        className="absolute -right-4 bottom-1.5"
-      >
-        <ArrowsCollapseIcon />
-      </Button>
     </div>
   </>
 );
