@@ -23,6 +23,8 @@ export interface IProfileExpandedModalProps {
   onClose?: () => void;
 }
 
+const DEFAULT_COLOR = "#CAE8FF";
+
 export const ProfileExpandedModal = ({
   item,
   open,
@@ -208,8 +210,8 @@ const UserCardBackground = ({
               {item.content.map((content: any) => (
                 <TextHeading3
                   key={content.title}
-                  className="font-Inter my-3 rounded-2xl px-2 py-1 text-base"
-                  style={{ backgroundColor: item?.color }}
+                  className="font-Inter my-3 overflow-hidden text-ellipsis whitespace-nowrap rounded-2xl px-2 py-1 text-base"
+                  style={{ backgroundColor: item?.color || DEFAULT_COLOR }}
                 >
                   {content.title}
                 </TextHeading3>
@@ -259,7 +261,7 @@ const UserExpandedBackground = ({
           <div>
             <TextHeading3
               className="mb-3 rounded-2xl px-2 py-1"
-              style={{ backgroundColor: activeItem?.color }}
+              style={{ backgroundColor: activeItem?.color || DEFAULT_COLOR }}
             >
               {item.title}
             </TextHeading3>

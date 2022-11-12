@@ -490,7 +490,7 @@ const Result = {
       {
         title: "Data Scientist",
         emoji: "💽",
-        color: ":#FFD2D2",
+        color: "#FFD2D2",
         content: [
           {
             title: "Data schiecne in Nova Futur Ltd",
@@ -600,7 +600,7 @@ const Result = {
       {
         title: "Tech Lead",
         emoji: "🙀",
-        color: ":#FFE5BD",
+        color: "#FFE5BD",
         content: [
           {
             title: "Tech Lead in Sentora",
@@ -731,7 +731,7 @@ const Result = {
       {
         title: "Quant Analyst",
         emoji: "🙀",
-        color: ":#E3FBFF",
+        color: "#E3FBFF",
         content: [
           {
             title: "Quant Analyst",
@@ -806,7 +806,7 @@ const Result = {
       {
         title: "Design",
         emoji: "💻",
-        color: ":#423123",
+        color: "#423123",
         content: [
           {
             title: "Core Member in Developer DAO",
@@ -932,7 +932,7 @@ const Result = {
       {
         title: "Data Science",
         emoji: "💻",
-        color: ":#423123",
+        color: "#423123",
         content: [
           {
             title: "Head of Data Science Guild",
@@ -1024,7 +1024,7 @@ const Result = {
       {
         title: "Software Engineer",
         emoji: "💻",
-        color: ":#FFE5BD",
+        color: "#FFE5BD",
         content: [
           {
             title: "Software Engineer",
@@ -1051,7 +1051,7 @@ const Result = {
       {
         title: "Consultant",
         emoji: "🎙",
-        color: ":#FFE5BD",
+        color: "#FFE5BD",
         content: [
           {
             title: "Global Sales Technical Consultant",
@@ -1129,7 +1129,7 @@ const Result = {
       {
         title: "Software Engineer",
         emoji: "💻",
-        color: ":#FFE5BD",
+        color: "#FFE5BD",
         content: [
           {
             title: "Software Engineer in Goldman Sachs",
@@ -1212,7 +1212,7 @@ const Result = {
       {
         title: "Software Engineer",
         emoji: "💻",
-        color: ":#E2FFEA",
+        color: "#E2FFEA",
         content: [
           {
             title: "Software Engineer in FaceBook",
@@ -1238,7 +1238,7 @@ const Result = {
       {
         title: "CTO",
         emoji: "🤖",
-        color: ":#E9FFCE",
+        color: "#E9FFCE",
         content: [
           {
             title: "CTO SmarterWear - oreado",
@@ -1293,7 +1293,7 @@ const Result = {
       {
         title: "CTO",
         emoji: "🤖",
-        color: ":#E9FFCE",
+        color: "#E9FFCE",
         content: [
           {
             title: "CTO SmarterWear - oreado",
@@ -1382,7 +1382,7 @@ const Result = {
       {
         title: "Software Engineer",
         emoji: "💻",
-        color: ":#FFE5F9",
+        color: "#FFE5F9",
         content: [
           {
             title: "Software Engineer in YLD",
@@ -1459,7 +1459,7 @@ const Result = {
       {
         title: "Software Engineer",
         emoji: "💻",
-        color: ":#FFE5F9",
+        color: "#FFE5F9",
         content: [
           {
             title: "Software & Cloud Engineer",
