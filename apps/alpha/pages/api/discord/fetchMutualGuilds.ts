@@ -1,11 +1,12 @@
 /* eslint-disable import/no-anonymous-default-export */
 import axios from "axios";
+import { APIGuild } from "discord-api-types/v10";
 import _ from "lodash";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getToken } from "next-auth/jwt";
 
 import { DISCORD_API_URL } from "../../../constants";
-import { FetchMutualGuildsResponse, PartialGuild } from "../../../types/type";
+import { FetchMutualGuildsResponse } from "../../../types/type";
 
 export default async (
   req: NextApiRequest,
@@ -28,7 +29,7 @@ export default async (
 };
 
 function _getBotGuildsService() {
-  return axios.get<PartialGuild[]>(`${DISCORD_API_URL}/users/@me/guilds`, {
+  return axios.get<APIGuild[]>(`${DISCORD_API_URL}/users/@me/guilds`, {
     headers: {
       Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
     },
@@ -36,7 +37,7 @@ function _getBotGuildsService() {
 }
 
 async function _getUserGuildsService(token: string) {
-  return axios.get<PartialGuild[]>(`${DISCORD_API_URL}/users/@me/guilds`, {
+  return axios.get<APIGuild[]>(`${DISCORD_API_URL}/users/@me/guilds`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
