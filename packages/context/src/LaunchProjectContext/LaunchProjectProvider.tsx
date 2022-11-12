@@ -66,6 +66,8 @@ export enum LaunchProjectModal {
   SAVING_PROJECT = "saving project",
   // eslint-disable-next-line no-unused-vars
   CONGRATULATIONS = "congratulations",
+  // eslint-disable-next-line no-unused-vars
+  SKIP_ALERT = "skip alert",
 }
 
 function projectReducer(project: Project, action: ProjectAction): Project {

@@ -14,6 +14,7 @@ import {
   RequirementsModal,
   ReviewModal,
   SavingProjectModal,
+  SkipFlowModal,
 } from "@eden/package-ui";
 import { useContext, useEffect, useState } from "react";
 
@@ -51,6 +52,7 @@ export const ShortlistModalContainerStoryFilter = ({
     second: [] as any[],
     third: [] as any[],
   });
+  const [nextStep, setNextStep] = useState<any>(null);
 
   useEffect(() => {
     if (talentAttributes) console.log("talentAttributes", talentAttributes);
@@ -159,6 +161,15 @@ export const ShortlistModalContainerStoryFilter = ({
 
   return (
     <>
+      {openModal === LaunchProjectModal.SKIP_ALERT && (
+        <SkipFlowModal
+          openModal={openModal === LaunchProjectModal.SKIP_ALERT}
+          onSkipStep={() => setOpenModal(nextStep)}
+          onSkipFlow={() => setOpenModal(null)}
+          percentage={50}
+        />
+      )}
+
       {openModal === LaunchProjectModal.START_INFO && (
         <ProjectsMatchesModal
           openModal={openModal === LaunchProjectModal.START_INFO}
@@ -175,7 +186,10 @@ export const ShortlistModalContainerStoryFilter = ({
       {openModal === LaunchProjectModal.SKILLS_CATEGORY && (
         <FindTalentDropdownModal
           openModal={openModal === LaunchProjectModal.SKILLS_CATEGORY}
-          onClose={() => setOpenModal(LaunchProjectModal.SKILLS_SUBCATEGORY)}
+          onClose={() => {
+            setOpenModal(LaunchProjectModal.SKIP_ALERT);
+            setNextStep(LaunchProjectModal.PRIORITIZE);
+          }}
           // eslint-disable-next-line no-unused-vars
           onSubmit={(val: any) => {
             const main = Object.keys(val)
@@ -190,6 +204,8 @@ export const ShortlistModalContainerStoryFilter = ({
               setSubmittingTalentAttributes!({
                 main: [{ name: main }],
               });
+
+            setOpenModal(LaunchProjectModal.SKILLS_SUBCATEGORY);
           }}
           mockData={mockDataMap1.SkillTree}
           // onClose={() => setOpenModal(null)}
@@ -199,7 +215,10 @@ export const ShortlistModalContainerStoryFilter = ({
       {openModal === LaunchProjectModal.SKILLS_SUBCATEGORY && (
         <FindTalentDropdownModal
           openModal={openModal === LaunchProjectModal.SKILLS_SUBCATEGORY}
-          onClose={() => setOpenModal(LaunchProjectModal.PRIORITIZE)}
+          onClose={() => {
+            setOpenModal(LaunchProjectModal.SKIP_ALERT);
+            setNextStep(LaunchProjectModal.PRIORITIZE);
+          }}
           // eslint-disable-next-line no-unused-vars
           onSubmit={(val: any) => {
             const third = Object.keys(val)
@@ -208,6 +227,7 @@ export const ShortlistModalContainerStoryFilter = ({
 
             setTalentAttributes({ ...talentAttributes, third: third });
             // setSubmittingTalentAttributes!(val);
+            setOpenModal(LaunchProjectModal.PRIORITIZE);
           }}
           mockData={mockData.SkillTree[talentAttributes?.main[0]?.name]}
           // onClose={() => setOpenModal(null)}
@@ -220,8 +240,8 @@ export const ShortlistModalContainerStoryFilter = ({
           battery
           openModal={openModal === LaunchProjectModal.PRIORITIZE}
           onClose={() => {
-            // setOpenModal(LaunchProjectModal.REQUIREMENTS);
-            setOpenModal(null);
+            setOpenModal(LaunchProjectModal.SKIP_ALERT);
+            setNextStep(LaunchProjectModal.REQUIREMENTS);
           }}
           onSubmit={(val) => {
             console.log(val);

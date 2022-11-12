@@ -32,7 +32,7 @@ export interface FindTalentDropdownModalProps {
   openModal?: boolean;
   onClose: () => void;
   // eslint-disable-next-line no-unused-vars
-  onSubmit?: (data: { [key: number]: Item[] }) => void;
+  onSubmit?: (data: { [key: string | number]: Item[] }) => void;
   mockData?: any;
 }
 
@@ -73,13 +73,13 @@ export const FindTalentDropdownModal = ({
     if (numMatches === 0) {
       toast.error("You should at least choose on of the items before proceed");
     } else {
-      onClose();
+      if (onSubmit) onSubmit!(selectedItems);
+      else onClose!();
     }
   };
 
   useEffect(() => {
-    onSubmit && onSubmit(selectedItems);
-
+    // onSubmit && onSubmit(selectedItems);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedItems]);
 
