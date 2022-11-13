@@ -71,7 +71,9 @@ export const EndorsementList: React.FC<EndorsementListProps> = ({
             className="inline-block !w-auto !justify-start"
             avatars={endorsements.slice(3, 8).map((endorsement) => ({
               size: "sm",
-              src: endorsement?.member?.discordAvatar,
+              src:
+                endorsement?.member?.discordAvatar ||
+                endorsement?.endorser?.discordAvatar,
             }))}
           />
           {endorsements.slice(8).length > 0 && (
