@@ -10,6 +10,7 @@ export * from "./LifetimeTRST";
 export * from "./LoginButton";
 export * from "./ProjectChampion";
 export * from "./ProjectInfo";
+export * from "./RangeChart";
 export * from "./ReadMoreComp";
 export * from "./SalaryRangeChart";
 export * from "./SearchSkill";
