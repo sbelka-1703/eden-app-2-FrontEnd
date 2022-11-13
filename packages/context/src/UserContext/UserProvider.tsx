@@ -2,14 +2,25 @@ import { gql, useMutation, useQuery, useSubscription } from "@apollo/client";
 import {
   FIND_MEMBER_FULL,
   MEMBER_SUBSCRIPTION,
-  UPDATE_MEMBER,
+  // UPDATE_MEMBER,
 } from "@eden/package-graphql";
 import { Members, Mutation } from "@eden/package-graphql/generated";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 
 import { UserContext } from "./UserContext";
-type userProfile = Members;
+
+const findMutualGuilds = async () => {
+  const response = await fetch(encodeURI("/api/discord/fetchMutualGuilds"), {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+  });
+
+  return response.json();
+};
 
 export const ADD_NEW_MEMBER = gql`
   mutation AddNewMember($fields: addNewMemberInput!) {
@@ -40,7 +51,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     },
   });
 
-  const [updateMember] = useMutation(UPDATE_MEMBER, {});
+  // const [updateMember] = useMutation(UPDATE_MEMBER, {});
 
   const { data: dataMember, refetch } = useQuery(FIND_MEMBER_FULL, {
     variables: {
@@ -63,17 +74,30 @@ export const UserProvider = ({ children }: UserProviderProps) => {
           },
         });
       } else {
-        if (data.findMember.discordAvatar !== session?.user?.image) {
-          updateMember({
-            variables: {
-              fields: {
-                _id: session?.user?.id,
-                discordAvatar: session?.user?.image,
-              },
-            },
-          });
-          console.log("updated avatar");
-        }
+        findMutualGuilds().then((data) => {
+          const mutualGuilds = data.guilds;
+
+          console.log("servers", mutualGuilds);
+
+          const getMutualGuildIds = () => {
+            const mutualGuildIds = mutualGuilds.map((guild: any) => {
+              return guild.id;
+            });
+
+            return mutualGuildIds;
+          };
+
+          console.log("mutualGuildIds", getMutualGuildIds());
+
+          // updateMember({
+          //   variables: {
+          //     fields: {
+          //       _id: session?.user?.id,
+          //       serverID: getMutualGuildIds(),
+          //     },
+          //   },
+          // });
+        });
         setMemberFound(true);
       }
     },
@@ -89,9 +113,6 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     },
     skip: !id || !memberFound,
     context: { serviceName: "soilservice" },
-    // onSubscriptionData: (data) => {
-    //   console.log("data", data);
-    // },
   });
 
   // if (dataMember) console.log("dataMember", dataMember.findMember);
@@ -107,11 +128,16 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   const injectContext = {
     currentUser: dataMember?.findMember || undefined,
     memberFound,
-    setCurrentUser: (user: userProfile) => {
+    setCurrentUser: (user: Members) => {
       console.log("setCurrentUser", user);
       // injectContext.currentUser = user;
     },
     refechProfile: () => refetch,
+    memberServers: undefined,
+    setMemberServers: (servers: any) => {
+      console.log("setMemberServers", servers);
+      // injectContext.memberServers = servers;
+    },
   };
 
   return (

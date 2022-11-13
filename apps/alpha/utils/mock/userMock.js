@@ -640,7 +640,7 @@ const Result = {
         ],
       },
       {
-        title: "System Analyst in Universidade de Brasília",
+        title: "System Analyst",
         emoji: "🛠",
         color: "#CAE8FF",
         content: [
