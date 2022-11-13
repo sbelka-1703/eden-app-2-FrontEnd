@@ -42,6 +42,8 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   const { id } = session?.user || { id: null };
 
   const [memberFound, setMemberFound] = useState(false);
+  const [memberServers, setMemberServers] = useState<any>(null);
+  const [selectedServer, setSelectedServer] = useState<any>();
 
   const [addNewMember, {}] = useMutation(ADD_NEW_MEMBER, {
     onCompleted({ addNewMember }: Mutation) {
@@ -77,26 +79,8 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         findMutualGuilds().then((data) => {
           const mutualGuilds = data.guilds;
 
-          console.log("servers", mutualGuilds);
-
-          const getMutualGuildIds = () => {
-            const mutualGuildIds = mutualGuilds.map((guild: any) => {
-              return guild.id;
-            });
-
-            return mutualGuildIds;
-          };
-
-          console.log("mutualGuildIds", getMutualGuildIds());
-
-          // updateMember({
-          //   variables: {
-          //     fields: {
-          //       _id: session?.user?.id,
-          //       serverID: getMutualGuildIds(),
-          //     },
-          //   },
-          // });
+          setMemberServers(mutualGuilds);
+          setSelectedServer(mutualGuilds[0]);
         });
         setMemberFound(true);
       }
@@ -119,11 +103,19 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 
   useEffect(() => {
     if (dataMember && process.env.NODE_ENV === "development") {
-      console.log(`==== currentUser ====`);
+      console.log(`==== current USER ====`);
       console.log(dataMember.findMember);
       console.log(`==== ----------- ====`);
     }
   }, [dataMember]);
+
+  useEffect(() => {
+    if (selectedServer && process.env.NODE_ENV === "development") {
+      console.log(`==== current SERVER ====`);
+      console.log(selectedServer);
+      console.log(`==== ----------- ====`);
+    }
+  }, [selectedServer]);
 
   const injectContext = {
     currentUser: dataMember?.findMember || undefined,
@@ -133,11 +125,9 @@ export const UserProvider = ({ children }: UserProviderProps) => {
       // injectContext.currentUser = user;
     },
     refechProfile: () => refetch,
-    memberServers: undefined,
-    setMemberServers: (servers: any) => {
-      console.log("setMemberServers", servers);
-      // injectContext.memberServers = servers;
-    },
+    memberServers,
+    selectedServer,
+    setSelectedServer,
   };
 
   return (
