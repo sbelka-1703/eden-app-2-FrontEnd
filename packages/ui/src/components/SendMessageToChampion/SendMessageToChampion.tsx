@@ -15,11 +15,11 @@ import {
   TextArea,
   TextHeading3,
 } from "@eden/package-ui";
+import { ThreadAutoArchiveDuration } from "discord-api-types/v10";
 import { useContext, useState } from "react";
 import { toast } from "react-toastify";
 
 import {
-  AutoArchiveDuration,
   CreateMessageApiRequestBody,
   CreateThreadApiRequestBody,
   CreateThreadResponse,
@@ -127,7 +127,7 @@ export const SendMessageToChampion = ({
       senderName: `${currentUser?.discordName} - is interested in ${project?.title}`,
       channelId: "1033337923006902353",
       threadName: `${project?.title}, has a new message from ${currentUser?.discordName}`,
-      autoArchiveDuration: AutoArchiveDuration.OneDay,
+      ThreadAutoArchiveDuration: ThreadAutoArchiveDuration.OneDay,
     });
 
     try {

@@ -24,7 +24,7 @@ export interface CreateThreadApiRequestBody {
   senderAvatarURL: string;
   channelId: string;
   threadName: string;
-  autoArchiveDuration: ThreadAutoArchiveDuration;
+  ThreadAutoArchiveDuration: ThreadAutoArchiveDuration;
 }
 
 export interface CreateMessageApiRequestBody {
@@ -35,5 +35,5 @@ export interface CreateMessageApiRequestBody {
   senderAvatarURL?: string;
   channelId?: string;
   threadName?: string;
-  autoArchiveDuration?: ThreadAutoArchiveDuration;
+  ThreadAutoArchiveDuration?: ThreadAutoArchiveDuration;
 }

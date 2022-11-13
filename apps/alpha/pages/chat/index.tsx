@@ -153,7 +153,7 @@ const ChatPage: NextPageWithLayout = (session) => {
                 senderName: `${currentUser?.discordName} -- Just invite you to a conversation`,
                 channelId: "1033337923006902353",
                 threadName: `Project Talents Discussion with ${member?.discordName}`,
-                autoArchiveDuration: ThreadAutoArchiveDuration.OneDay,
+                ThreadAutoArchiveDuration: ThreadAutoArchiveDuration.OneDay,
               });
 
               const result = await addNewChat({

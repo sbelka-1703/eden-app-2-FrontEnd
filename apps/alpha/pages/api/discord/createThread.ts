@@ -24,7 +24,7 @@ export default async (
       senderName,
       channelId,
       threadName,
-      autoArchiveDuration,
+      ThreadAutoArchiveDuration,
     } = body as CreateThreadApiRequestBody;
 
     if (message) {
@@ -36,7 +36,7 @@ export default async (
       {
         name: threadName,
         // eslint-disable-next-line camelcase
-        auto_archive_duration: autoArchiveDuration,
+        auto_archive_duration: ThreadAutoArchiveDuration,
         type: 11, // public thread
       },
       {
