@@ -18,6 +18,7 @@ import {
   SEO,
   TextField,
 } from "@eden/package-ui";
+import { ThreadAutoArchiveDuration } from "discord-api-types/v10";
 import { useContext, useState } from "react";
 
 import type { NextPageWithLayout } from "../_app";
@@ -152,7 +153,7 @@ const ChatPage: NextPageWithLayout = (session) => {
                 senderName: `${currentUser?.discordName} -- Just invite you to a conversation`,
                 channelId: "1033337923006902353",
                 threadName: `Project Talents Discussion with ${member?.discordName}`,
-                autoArchiveDuration: AutoArchiveDuration.OneDay,
+                ThreadAutoArchiveDuration: ThreadAutoArchiveDuration.OneDay,
               });
 
               const result = await addNewChat({
@@ -188,7 +189,6 @@ import { IncomingMessage, ServerResponse } from "http";
 import { getSession } from "next-auth/react";
 
 import {
-  AutoArchiveDuration,
   CreateThreadApiRequestBody,
   CreateThreadResponse,
 } from "../../types/type";

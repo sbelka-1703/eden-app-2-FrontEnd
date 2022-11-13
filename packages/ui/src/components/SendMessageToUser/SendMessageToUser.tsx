@@ -15,11 +15,11 @@ import {
   TextArea,
   TextHeading3,
 } from "@eden/package-ui";
+import { ThreadAutoArchiveDuration } from "discord-api-types/v10";
 import { useContext, useState } from "react";
 import { toast } from "react-toastify";
 
 import {
-  AutoArchiveDuration,
   CreateMessageApiRequestBody,
   CreateThreadApiRequestBody,
   CreateThreadResponse,
@@ -124,15 +124,15 @@ export const SendMessageToUser = ({
       embedMessage: embededMessage,
       senderAvatarURL: currentUser?.discordAvatar!,
       senderName: `${currentUser?.discordName} - Invited you to join ${project?.title}`,
-      channelId: "1033337923006902353",
+      channelId: "1001547443135058010",
       threadName: `Project Talents Discussion with ${member?.discordName}`,
-      autoArchiveDuration: AutoArchiveDuration.OneDay,
+      ThreadAutoArchiveDuration: ThreadAutoArchiveDuration.OneDay,
     });
 
     try {
       await createMessage({
         message: followUpMessage,
-        channelId: "1033337923006902353",
+        channelId: "1001547443135058010",
         thread: threadId,
       });
     } catch (error) {
@@ -147,7 +147,7 @@ export const SendMessageToUser = ({
             projectID: "62f685952dc2d40004d395c7",
             receiverID: member?._id!,
             senderID: currentUser?._id!,
-            serverID: "996558082098339953",
+            serverID: "988301790795685930",
             threadID: threadId,
           },
         },
