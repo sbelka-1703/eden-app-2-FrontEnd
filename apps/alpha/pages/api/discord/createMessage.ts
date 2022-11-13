@@ -1,15 +1,13 @@
 /* eslint-disable camelcase */
 /* eslint-disable import/no-anonymous-default-export */
 import axios from "axios";
+import { APIMessage } from "discord-api-types/v10";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { DISCORD_API_URL } from "../../../constants";
 import {
   CreateMessageApiRequestBody,
-  //   CreateThreadApiRequestBody,
   CreateThreadResponse,
-  //   PartialChannel,
-  PartialMessage,
 } from "../../../types/type";
 
 export default async (
@@ -25,7 +23,7 @@ export default async (
       res.status(400);
     }
 
-    await axios.post<PartialMessage>(
+    await axios.post<APIMessage>(
       `${DISCORD_API_URL}/channels/${thread}/messages`,
       {
         content: message,
