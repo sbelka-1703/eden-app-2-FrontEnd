@@ -18,7 +18,7 @@ export const ProjectChampionList = () => {
 
   return (
     <div
-      className={`h-85 scrollbar-hide m-auto flex w-full flex-col overflow-scroll md:w-2/3 lg:w-1/2`}
+      className={`h-85 scrollbar-hide m-auto flex w-full flex-col overflow-scroll p-2 lg:w-2/3 xl:w-1/2`}
     >
       {champions?.map((item) => (
         <button
@@ -27,7 +27,7 @@ export const ProjectChampionList = () => {
             router.push(`/champion-board/recruit/${item?.info?._id}`)
           }
         >
-          <Card className={`my-4 bg-gray-50 p-6`}>
+          <Card shadow className={`my-2 bg-gray-50 p-6`}>
             <div className="flex items-center">
               <div
                 className="flex h-24 w-24 items-center justify-center rounded-full text-5xl"
