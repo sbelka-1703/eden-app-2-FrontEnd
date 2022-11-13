@@ -1,6 +1,7 @@
 import { Maybe, ProjectMemberType } from "@eden/package-graphql/generated";
 import {
   ApplicationModal,
+  AvailabilityComp,
   Avatar,
   Button,
   Card,
@@ -62,26 +63,12 @@ export const ApplicationCard = ({ project }: ApplicationCardProps) => {
             <TextBody>{project?.role?.title}</TextBody>
           </div>
         </div>
-        <div className="font-Inter mb-4 px-6 text-left ">
-          <p className="font-medium normal-case text-gray-400">
-            ⏳{" "}
-            {project?.role?.hoursPerWeek ? (
-              <span>{project?.role?.hoursPerWeek}h / week </span>
-            ) : (
-              <span>unspecified</span>
-            )}
-          </p>
-          <p className="my-2 font-medium normal-case text-gray-400">
-            💰{" "}
-            {project?.role?.budget?.token ? (
-              <span>
-                ${project?.role?.budget?.token}{" "}
-                {+(project?.role?.budget?.perHour || 0) * 7} / week
-              </span>
-            ) : (
-              <span>unspecified</span>
-            )}
-          </p>
+        <div className="font-Inter mb-4 px-6 text-left font-medium text-gray-400">
+          <AvailabilityComp
+            timePerWeek={project?.role?.hoursPerWeek || undefined}
+            seed={project?.role?.budget?.perHour || undefined}
+          />
+
           <p className="font-medium normal-case text-gray-400">
             🗓 1 season (4 month)
           </p>

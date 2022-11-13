@@ -40,7 +40,7 @@ export const UserSkillSocialAval = ({ member }: IUserSkillSocialAvalProps) => {
   if (!member) return null;
   return (
     <div className="grid grid-cols-12 gap-6">
-      <div className="col-span-6">
+      <div className="col-span-7">
         {levels?.map((skill, index: number) => {
           return (
             <div className="mb-3" key={index}>
@@ -61,13 +61,8 @@ export const UserSkillSocialAval = ({ member }: IUserSkillSocialAvalProps) => {
       <div className="col-span-2">
         <SocialMediaComp links={member?.links} />
       </div>
-      <div className="col-span-4">
+      <div className="col-span-3">
         <AvailabilityComp timePerWeek={member?.hoursPerWeek!} />
-        {/*
-        <p className="font-semibold">AVAILABILITY</p>
-
-        <p className="text-lg">⏳ {member?.hoursPerWeek} hrs/ week</p>
-        <p className="text-lg">💰 1700 $SEED</p> */}
       </div>
     </div>
   );
