@@ -18,13 +18,15 @@ export const LaunchProjectContainer = ({}: ILaunchProjectContainerProps) => {
 
   const { project, dispatchProject } = useContext(LaunchProjectContext);
 
+  console.log(project);
+
   const handleButtonClick = () => {
     router.push("/launch/shortlist");
   };
 
   return (
     <>
-      <Card className="mb-8 bg-white p-6">
+      <Card shadow className="mb-8 bg-white p-6">
         <section className="mb-6">
           <TextHeading3>
             Future Champion? Welcome to Eden!

@@ -3,6 +3,7 @@
 import axios from "axios";
 import { APIMessage } from "discord-api-types/v10";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { getToken } from "next-auth/jwt";
 
 import { DISCORD_API_URL } from "../../../constants";
 import {
@@ -14,6 +15,14 @@ export default async (
   req: NextApiRequest,
   res: NextApiResponse<CreateThreadResponse>
 ) => {
+  const token = await getToken({
+    req,
+    secret: process.env.NEXT_PUBLIC_SECRET,
+  });
+
+  if (!token || !token?.accessToken) {
+    return res.status(404).end();
+  }
   try {
     const { body } = req;
 
