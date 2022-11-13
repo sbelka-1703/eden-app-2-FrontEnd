@@ -9,7 +9,8 @@ export interface UserContextType {
   setCurrentUser: Dispatch<userProfile>;
   refechProfile: () => void;
   memberServers: any;
-  setMemberServers: Dispatch<any>;
+  selectedServer: any;
+  setSelectedServer: Dispatch<string>;
 }
 
 export const UserContext = createContext<UserContextType>({
@@ -20,6 +21,7 @@ export const UserContext = createContext<UserContextType>({
   // eslint-disable-next-line no-empty-function
   refechProfile: () => {},
   memberServers: undefined,
+  selectedServer: "",
   // eslint-disable-next-line no-empty-function
-  setMemberServers: () => {},
+  setSelectedServer: () => {},
 });

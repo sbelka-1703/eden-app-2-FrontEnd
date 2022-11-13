@@ -15,6 +15,7 @@ export * from "./SalaryRangeChart";
 export * from "./SearchSkill";
 export * from "./SendMessageToChampion";
 export * from "./SendMessageToUser";
+export * from "./ServerSelectButton";
 export * from "./SkillCategoryList";
 export * from "./SkillVisualisationComp";
 export * from "./SocialMediaComponent";
