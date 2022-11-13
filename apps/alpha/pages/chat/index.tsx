@@ -151,7 +151,7 @@ const ChatPage: NextPageWithLayout = (session) => {
                 embedMessage: message,
                 senderAvatarURL: currentUser?.discordAvatar!,
                 senderName: `${currentUser?.discordName} -- Just invite you to a conversation`,
-                channelId: "1001547443135058010",
+                channelId: "1033337923006902353",
                 threadName: `Project Talents Discussion with ${member?.discordName}`,
                 autoArchiveDuration: ThreadAutoArchiveDuration.OneDay,
               });
@@ -163,7 +163,7 @@ const ChatPage: NextPageWithLayout = (session) => {
                     projectID: "62f685952dc2d40004d395c7",
                     receiverID: member?._id!,
                     senderID: currentUser?._id!,
-                    serverID: "988301790795685930",
+                    serverID: "996558082098339953",
                     threadID: threadId,
                   },
                 },
