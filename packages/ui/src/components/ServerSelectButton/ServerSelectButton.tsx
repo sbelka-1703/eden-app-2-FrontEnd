@@ -26,8 +26,9 @@ export const ServerSelectButton = ({ inApp }: IServerSelectButtonProps) => {
                 <Avatar
                   size={`xs`}
                   src={
-                    `https://cdn.discordapp.com/icons/${selectedServer?.id}/${selectedServer?.icon}.png` ||
-                    ""
+                    selectedServer?.icon
+                      ? `https://cdn.discordapp.com/icons/${selectedServer?.id}/${selectedServer?.icon}.png`
+                      : ""
                   }
                 />
                 <div className={`mx-5 my-auto font-semibold`}>
