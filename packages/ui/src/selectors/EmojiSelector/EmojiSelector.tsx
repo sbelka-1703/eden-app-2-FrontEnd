@@ -56,9 +56,7 @@ export const EmojiSelector = ({
             onEmojiClick={onEmojiClick}
             pickerStyle={{ marginTop: "0px", left: "40px" }}
           />
-        ) : (
-          <></>
-        )}
+        ) : null}
       </div>
     </div>
   );

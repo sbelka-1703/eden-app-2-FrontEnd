@@ -49,7 +49,9 @@ export const LoginButton = ({ inApp }: ILoginButtonProps) => {
           {memberFound ? (
             <Menu.Button className="bg-soilGreen-700 hover:bg-soilGreen-500 inline-flex w-full justify-center rounded-full text-sm font-medium text-black/70 shadow hover:text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
               <div className="flex w-full justify-between">
-                <Avatar size={`xs`} src={currentUser?.discordAvatar || ""} />
+                <div>
+                  <Avatar size={`xs`} src={currentUser?.discordAvatar || ""} />
+                </div>
                 <div className={`mx-5 my-auto font-semibold`}>
                   {currentUser?.discordName || ""}
                 </div>

@@ -9,6 +9,10 @@ export const FIND_PROJECT = gql`
       descriptionOneLine
       emoji
       backColorEmoji
+      collaborationLinks {
+        link
+        title
+      }
       champion {
         _id
         discordName

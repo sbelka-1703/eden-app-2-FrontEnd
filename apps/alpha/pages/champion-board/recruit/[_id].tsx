@@ -8,6 +8,7 @@ import {
 import {
   AppUserSubmenuLayout,
   ChampionMatchContainer,
+  EditProjectModal,
   GridItemNine,
   GridItemThree,
   GridLayout,
@@ -23,6 +24,9 @@ import type { NextPageWithLayout } from "../../_app";
 const ProjectPage: NextPageWithLayout = () => {
   const router = useRouter();
   const { _id } = router.query;
+
+  const [showModal, setShowModal] = useState(false);
+
   const { data: dataProject, refetch: refetchProject } = useQuery(
     FIND_PROJECT,
     {
@@ -88,6 +92,11 @@ const ProjectPage: NextPageWithLayout = () => {
           onClose={() => setSelectMember(null)}
         />
       )}
+      <EditProjectModal
+        showModal={showModal}
+        project={dataProject?.findProject}
+        onClose={() => setShowModal(false)}
+      />
       <SEO />
       <GridLayout>
         <GridItemThree>
@@ -98,7 +107,7 @@ const ProjectPage: NextPageWithLayout = () => {
             }}
             selectedRole={selectedRole}
             onBack={() => router.back()}
-            onEdit={() => console.log("edit Project")}
+            onEdit={() => setShowModal(!showModal)}
           />
         </GridItemThree>
         <GridItemNine>
