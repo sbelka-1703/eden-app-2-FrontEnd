@@ -3,6 +3,7 @@ import { SessionProvider } from "next-auth/react";
 
 import { render } from "../../../utils/jest-apollo";
 import { AppPublicLayout } from "./";
+jest.mock("next/router", () => require("next-router-mock"));
 
 describe("AppPublicLayout", () => {
   it("renders without throwing", () => {

@@ -1,6 +1,7 @@
 import { render } from "@testing-library/react";
 
 import { Missing404Section } from "./";
+jest.mock("next/router", () => require("next-router-mock"));
 
 describe("Missing404Section", () => {
   it("renders without throwing", () => {

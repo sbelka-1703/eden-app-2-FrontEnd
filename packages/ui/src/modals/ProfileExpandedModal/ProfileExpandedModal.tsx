@@ -196,35 +196,39 @@ const UserCardBackground = ({
 }) => {
   return (
     <div className="grid grid-cols-3 gap-4">
-      {background.map((item) => (
-        <Card key={item.title} border className="p-2">
-          <div className="flex h-full flex-col justify-between">
-            <div>
-              <Button
-                className="w-full"
-                style={{ border: "none", display: "block" }}
-                onClick={() => onExpand(`${item.title} ${item.emoji}`)}
-              >
+      {background.map((item, index) => (
+        <Card
+          key={index}
+          border
+          className="hover:shadow-focusShadow hover:border-accentColor cursor-pointer p-2"
+        >
+          <Button
+            className="w-full"
+            style={{ border: "none", display: "block" }}
+            onClick={() => onExpand(`${item.title} ${item.emoji}`)}
+          >
+            <div className="flex h-full flex-col justify-between">
+              <div>
                 <TextHeading3 className="text-center text-base">
                   {item.emoji} {item.title}
                 </TextHeading3>
                 <div className="absolute right-2 top-3.5">
                   <ArrowsExpandIcon />
                 </div>
-              </Button>
 
-              {item.content.map((content: any) => (
-                <TextHeading3
-                  key={content.title}
-                  className="font-Inter my-3 overflow-hidden text-ellipsis whitespace-nowrap rounded-2xl px-2 py-1 text-base"
-                  style={{ backgroundColor: item?.color || DEFAULT_COLOR }}
-                >
-                  {content.title}
-                </TextHeading3>
-              ))}
+                {item.content.map((content: any) => (
+                  <TextHeading3
+                    key={content.title}
+                    className="font-Inter my-3 overflow-hidden text-ellipsis whitespace-nowrap rounded-2xl px-2 py-1 text-base"
+                    style={{ backgroundColor: item?.color || DEFAULT_COLOR }}
+                  >
+                    {content.title}
+                  </TextHeading3>
+                ))}
+              </div>
+              <p className="text-gray-400">Total: 4 years 6 month</p>
             </div>
-            <p className="text-gray-400">Total: 4 years 6 month</p>
-          </div>
+          </Button>
         </Card>
       ))}
     </div>
