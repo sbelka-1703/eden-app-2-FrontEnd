@@ -7,6 +7,7 @@ import {
   ProjectsMatchesModal,
   RequirementsModal,
   ReviewModal,
+  SkipFlowModal,
   //   SavingProjectModal,
 } from "@eden/package-ui";
 import { useContext, useEffect, useState } from "react";
@@ -41,6 +42,7 @@ export const HackathonModalContainer = ({
   } = useContext(HackathonContext);
 
   const [talentAttributes, setTalentAttributes] = useState<any>({});
+  const [nextStep, setNextStep] = useState<any>(null);
 
   useEffect(() => {
     if (talentAttributes?.main)
@@ -101,6 +103,15 @@ export const HackathonModalContainer = ({
 
   return (
     <>
+      {openModal === HackathonProjectModal.SKIP_ALERT && (
+        <SkipFlowModal
+          openModal={openModal === HackathonProjectModal.SKIP_ALERT}
+          onSkipStep={() => setOpenModal(nextStep)}
+          onSkipFlow={() => setOpenModal(null)}
+          percentage={50}
+        />
+      )}
+
       {openModal === HackathonProjectModal.START_INFO && (
         <ProjectsMatchesModal
           openModal={openModal === HackathonProjectModal.START_INFO}
@@ -117,7 +128,10 @@ export const HackathonModalContainer = ({
       {openModal === HackathonProjectModal.USER_ROLE && (
         <FindTalentDropdownModal
           openModal={openModal === HackathonProjectModal.USER_ROLE}
-          onClose={() => setOpenModal(HackathonProjectModal.SKILLS_CATEGORY)}
+          onClose={() => {
+            setOpenModal(HackathonProjectModal.SKIP_ALERT);
+            setNextStep(HackathonProjectModal.SKILLS_CATEGORY);
+          }}
           // eslint-disable-next-line no-unused-vars
           onSubmit={(val: any) => {
             // setSubmittingTalentAttributes!(
@@ -133,6 +147,7 @@ export const HackathonModalContainer = ({
             //   main: [{ name: main }],
             // });
             // setSubmittingTalentAttributes!(val);
+            setOpenModal(HackathonProjectModal.SKILLS_CATEGORY);
           }}
           mockData={mockDataMap2.SkillTree}
           // onClose={() => setOpenModal(null)}
@@ -142,7 +157,10 @@ export const HackathonModalContainer = ({
       {openModal === HackathonProjectModal.SKILLS_CATEGORY && (
         <FindTalentDropdownModal
           openModal={openModal === HackathonProjectModal.SKILLS_CATEGORY}
-          onClose={() => setOpenModal(HackathonProjectModal.SKILLS_SUBCATEGORY)}
+          onClose={() => {
+            setOpenModal(HackathonProjectModal.SKIP_ALERT);
+            setNextStep(HackathonProjectModal.REQUIREMENTS);
+          }}
           // eslint-disable-next-line no-unused-vars
           onSubmit={(val: any) => {
             setSubmittingTalentAttributes!(
@@ -162,6 +180,8 @@ export const HackathonModalContainer = ({
               setSubmittingTalentAttributes!({
                 main: [{ name: main }],
               });
+
+            setOpenModal(HackathonProjectModal.SKILLS_SUBCATEGORY);
           }}
           mockData={mockDataMap1.SkillTree}
           // onClose={() => setOpenModal(null)}
@@ -171,7 +191,10 @@ export const HackathonModalContainer = ({
       {openModal === HackathonProjectModal.SKILLS_SUBCATEGORY && (
         <FindTalentDropdownModal
           openModal={openModal === HackathonProjectModal.SKILLS_SUBCATEGORY}
-          onClose={() => setOpenModal(HackathonProjectModal.REQUIREMENTS)}
+          onClose={() => {
+            setOpenModal(HackathonProjectModal.SKIP_ALERT);
+            setNextStep(HackathonProjectModal.REQUIREMENTS);
+          }}
           // eslint-disable-next-line no-unused-vars
           onSubmit={(val: any) => {
             const third = Object.keys(val)
@@ -180,6 +203,7 @@ export const HackathonModalContainer = ({
 
             setTalentAttributes({ ...talentAttributes, third: third });
             // setSubmittingTalentAttributes!(val);
+            setOpenModal(HackathonProjectModal.REQUIREMENTS);
           }}
           mockData={mockData.SkillTree[talentAttributes?.main[0]?.name]}
           // onClose={() => setOpenModal(null)}

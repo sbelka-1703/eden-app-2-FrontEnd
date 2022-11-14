@@ -1,10 +1,9 @@
-// eslint-disable-next-line camelcase
+/* eslint-disable camelcase */
 import { useQuery } from "@apollo/client";
 import { FIND_SUBCATEGORIES_OF_CATEGORIES } from "@eden/package-graphql";
 import {
   Maybe,
   Skills,
-  // eslint-disable-next-line camelcase
   SkillType_Member,
 } from "@eden/package-graphql/generated";
 import { Expandable } from "@eden/package-ui/src";
@@ -17,7 +16,6 @@ type LevelProp = {
 
 type ExpandableProps = {
   category: string;
-  // eslint-disable-next-line camelcase
   skills?: Maybe<SkillType_Member>[];
   allSkills?: Skills[];
   isOpen?: boolean;
@@ -70,8 +68,8 @@ export const CategoryExpandable = ({
   const fetchedSubCategories = useGetSubCategories(idSelected!);
 
   useEffect(() => {
-    console.log("selected id", idSelected);
-    console.log("fetchedSubCategories", fetchedSubCategories);
+    // console.log("selected id", idSelected);
+    // console.log("fetchedSubCategories", fetchedSubCategories);
   }, [idSelected, fetchedSubCategories]);
   useEffect(() => {
     query !== "" &&
@@ -104,7 +102,6 @@ export const CategoryExpandable = ({
           <Expandable
             query={query}
             category={s.name}
-            // @ts-ignore
             id={s._id}
             skills={skills!}
             allSkills={query !== "" && dataSkills.skills_autocomplete}
@@ -112,7 +109,7 @@ export const CategoryExpandable = ({
             selected={selected}
             setIsOpen={setIsOpen}
             setSkills={setSkills}
-            key={category}
+            key={index}
             setSelected={setSelected}
             // setExpanding={(e: boolean) => setInFocus(e)}
             levels={levels}

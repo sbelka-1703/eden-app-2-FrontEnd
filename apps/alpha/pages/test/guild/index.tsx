@@ -1,8 +1,7 @@
+import { APIGuild } from "discord-api-types/v10";
 import { GetServerSidePropsContext } from "next";
 import { getSession } from "next-auth/react";
 import { useState } from "react";
-
-import { PartialGuild } from "../../../types/type";
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const session = await getSession(ctx);
@@ -24,7 +23,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 }
 
 const Guild = () => {
-  const [guilds, setGuilds] = useState<Array<PartialGuild>>([]);
+  const [guilds, setGuilds] = useState<Array<APIGuild>>([]);
 
   return (
     <div>

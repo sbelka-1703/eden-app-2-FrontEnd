@@ -16,7 +16,13 @@ export const EndorsementCard: React.FC<EndorsementsProps> = ({
   return (
     <Card border className="mt-8 p-6">
       <div className="-mt-14 flex w-full flex-col items-center">
-        {<LevelAvatar src={member?.discordAvatar || ""} level={level} />}
+        {
+          <LevelAvatar
+            src={member?.discordAvatar || ""}
+            level={level}
+            size={`md`}
+          />
+        }
         <TextHeading2 className="text-soilGray">
           @{member?.discordName}
         </TextHeading2>

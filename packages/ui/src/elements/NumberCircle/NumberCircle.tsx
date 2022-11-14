@@ -8,6 +8,7 @@ export const NumberCircle = ({
   className,
   color = "#eaf2fa",
 }: NumberCircleProps) => {
+  if (!value) return null;
   return (
     <div
       className={`${className} flex h-5 w-5 items-center justify-center rounded-full`}

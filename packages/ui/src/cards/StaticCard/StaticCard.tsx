@@ -6,8 +6,8 @@ import {
   Card,
   EmojiSelector,
   Favorite,
-  LifetimeTRST,
   LongText,
+  ProfileExpandedModal,
   SocialMediaComp,
   StaticModal,
   TextBody,
@@ -157,7 +157,7 @@ export const StaticCard = ({
         </div>
       )}
 
-      {(item.lifetimeStakeTRST || item.totalTRST) && (
+      {/* {(item.lifetimeStakeTRST || item.totalTRST) && (
         <div className="-mx-2 mt-3 -mb-3 flex">
           {item.lifetimeStakeTRST && (
             <LifetimeTRST
@@ -172,13 +172,21 @@ export const StaticCard = ({
             <div className="bg-soilPurple ml-auto mr-0 whitespace-nowrap rounded-xl px-2 text-sm text-white">{`${item.totalTRST} $TRST`}</div>
           )}
         </div>
+      )} */}
+      {resultPopUpFlag?.type === "User" ? (
+        <ProfileExpandedModal
+          open={isOpen}
+          item={item}
+          onClose={() => setIsOpen(!isOpen)}
+        />
+      ) : (
+        <StaticModal
+          item={item}
+          resultPopUpFlag={resultPopUpFlag}
+          open={isOpen}
+          onClose={() => setIsOpen(!isOpen)}
+        />
       )}
-      <StaticModal
-        item={item}
-        resultPopUpFlag={resultPopUpFlag}
-        open={isOpen}
-        onClose={() => setIsOpen(!isOpen)}
-      />
     </Card>
   );
 };

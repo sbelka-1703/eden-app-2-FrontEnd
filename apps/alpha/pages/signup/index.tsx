@@ -67,15 +67,18 @@ const MATCH_SKILLS_TO_PROJECTS = gql`
           discordName
           discordAvatar
         }
+        serverID
       }
     }
   }
 `;
 
 const SignUpTestPage: NextPageWithLayout = () => {
-  const { currentUser } = useContext(UserContext);
+  const { currentUser, selectedServer } = useContext(UserContext);
   const [selectProject, setSelectProject] = useState("");
   const [viewProject, setViewProject] = useState(false);
+
+  // console.log("selectedServer", selectedServer);
 
   const { data: dataRoles } = useQuery(FIND_ROLES, {
     variables: {
@@ -98,9 +101,10 @@ const SignUpTestPage: NextPageWithLayout = () => {
           skillsID: filterskillsfromcurrentuser,
           limit: 30,
           page: 0,
+          serverID: [selectedServer?.id],
         },
       },
-      skip: !currentUser,
+      skip: !currentUser && !selectedServer,
       context: { serviceName: "soilservice" },
     }
   );

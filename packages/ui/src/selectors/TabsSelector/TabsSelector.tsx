@@ -2,12 +2,17 @@ import { useState } from "react";
 
 export interface TabsSelectorProps {
   tabs: string[];
+  selectedTab?: number;
   // eslint-disable-next-line no-unused-vars
   onSelect: (val: number) => void;
 }
 
-export const TabsSelector = ({ tabs, onSelect }: TabsSelectorProps) => {
-  const [currentTab, setCurrentTab] = useState(0);
+export const TabsSelector = ({
+  tabs,
+  onSelect,
+  selectedTab = 0,
+}: TabsSelectorProps) => {
+  const [currentTab, setCurrentTab] = useState(selectedTab);
   const maxIndex = tabs.length - 1;
 
   const handleTabClick = (index: number, sideCorner = "") => {

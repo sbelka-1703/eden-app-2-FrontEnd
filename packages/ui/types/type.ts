@@ -1,41 +1,19 @@
 /* eslint-disable no-unused-vars */
-export interface PartialMember {
-  user?: PartialUser;
-  nick?: string;
-  avatar?: string;
-}
-
-interface PartialUser {
-  id: string;
-  username: string;
-  discriminator: string;
-  avatar: string;
-  bot?: boolean;
-}
-
-export interface PartialChannel {
-  id: string;
-  permissions: number;
-}
-
-export interface PartialMessage {
-  id: string;
-  channel_id: string;
-}
-
-export enum AutoArchiveDuration {
-  OneHour = 60,
-  OneDay = 1440,
-  ThreeDay = 4320,
-  SevenDay = 10080,
-}
-
+import {
+  APIGuild,
+  APIGuildMember,
+  ThreadAutoArchiveDuration,
+} from "discord-api-types/v10";
 export interface CreateThreadResponse {
   threadId: string;
 }
 
 export interface FetchGuildMembersResponse {
-  members: Array<PartialMember>;
+  members: Array<APIGuildMember>;
+}
+
+export interface FetchMutualGuildsResponse {
+  guilds: Array<APIGuild>;
 }
 
 export interface CreateThreadApiRequestBody {
@@ -45,7 +23,7 @@ export interface CreateThreadApiRequestBody {
   senderAvatarURL: string;
   channelId: string;
   threadName: string;
-  autoArchiveDuration: AutoArchiveDuration;
+  ThreadAutoArchiveDuration: ThreadAutoArchiveDuration;
 }
 
 export interface CreateMessageApiRequestBody {
@@ -56,5 +34,5 @@ export interface CreateMessageApiRequestBody {
   senderAvatarURL?: string;
   channelId?: string;
   threadName?: string;
-  autoArchiveDuration?: AutoArchiveDuration;
+  ThreadAutoArchiveDuration?: ThreadAutoArchiveDuration;
 }

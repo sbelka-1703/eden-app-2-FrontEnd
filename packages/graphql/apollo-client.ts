@@ -79,6 +79,7 @@ const splitLink =
     : directionalLink;
 
 export const apolloClient = new ApolloClient({
+  ssrMode: typeof window === "undefined",
   link: from([errorLink, splitLink]),
   cache: new InMemoryCache({
     typePolicies: {
