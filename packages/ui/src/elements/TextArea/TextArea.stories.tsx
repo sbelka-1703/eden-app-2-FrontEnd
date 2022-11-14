@@ -15,6 +15,7 @@ const Template: ComponentStory<typeof TextArea> = (args) => (
 export const Default = Template.bind({});
 Default.args = {
   name: "textfield",
+  label: "label",
   required: false,
   rows: 8,
   placeholder: "Start typing here",

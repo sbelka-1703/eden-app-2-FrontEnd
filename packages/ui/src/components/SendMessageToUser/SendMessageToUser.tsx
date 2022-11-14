@@ -67,6 +67,9 @@ export const SendMessageToUser = ({
     {
       onCompleted: () => {
         toast.success("success");
+        setTimeout(() => {
+          setSendingMessage(false);
+        }, 1000);
       },
       onError: (error) => {
         toast.error(error.message);
@@ -155,7 +158,6 @@ export const SendMessageToUser = ({
     } catch (error) {
       console.log(error);
     } finally {
-      setSendingMessage(false);
       setIsMessageSent(true);
       if (project?._id && member?._id && role?._id) {
         changeTeamMember_Phase_Project({
@@ -218,15 +220,17 @@ export const SendMessageToUser = ({
               </div>
               <div className="mt-3 text-center">
                 <div className="inline-block">
-                  <Button
-                    disabled={message.length === 0}
-                    variant="primary"
-                    onClick={() => {
-                      handleSendMessage();
-                    }}
-                  >
-                    Send
-                  </Button>
+                  {sendingMessage && (
+                    <Button
+                      disabled={message.length === 0 || sendingMessage}
+                      variant="primary"
+                      onClick={() => {
+                        handleSendMessage();
+                      }}
+                    >
+                      Send
+                    </Button>
+                  )}
                 </div>
               </div>
             </>

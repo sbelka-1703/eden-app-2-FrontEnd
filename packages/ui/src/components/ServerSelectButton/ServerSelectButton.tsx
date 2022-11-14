@@ -23,14 +23,16 @@ export const ServerSelectButton = ({ inApp }: IServerSelectButtonProps) => {
           {memberFound ? (
             <Menu.Button className="bg-soilGreen-700 hover:bg-soilGreen-500 inline-flex w-full justify-center rounded-full text-sm font-medium text-black/70 shadow hover:text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
               <div className="flex w-full justify-between">
-                <Avatar
-                  size={`xs`}
-                  src={
-                    selectedServer?.icon
-                      ? `https://cdn.discordapp.com/icons/${selectedServer?.id}/${selectedServer?.icon}.png`
-                      : ""
-                  }
-                />
+                <div>
+                  <Avatar
+                    size={`xs`}
+                    src={
+                      selectedServer?.icon
+                        ? `https://cdn.discordapp.com/icons/${selectedServer?.id}/${selectedServer?.icon}.png`
+                        : ""
+                    }
+                  />
+                </div>
                 <div className={`mx-5 my-auto font-semibold`}>
                   {selectedServer?.name || ""}
                 </div>

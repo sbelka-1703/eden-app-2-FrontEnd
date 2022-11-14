@@ -18,7 +18,7 @@ export const LaunchProjectContainer = ({}: ILaunchProjectContainerProps) => {
 
   const { project, dispatchProject } = useContext(LaunchProjectContext);
 
-  console.log(project);
+  // console.log(project);
 
   const handleButtonClick = () => {
     router.push("/launch/shortlist");
