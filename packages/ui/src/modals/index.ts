@@ -24,3 +24,4 @@ export * from "./SkillsSubcategoryModal";
 export * from "./SkipFlowModal";
 export * from "./SocialMediaModel";
 export * from "./StaticModal";
+export * from "./WarningModal";
