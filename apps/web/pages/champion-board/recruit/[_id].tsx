@@ -8,6 +8,7 @@ import {
 import {
   AppUserSubmenuLayout,
   ChampionMatchContainer,
+  EditProjectModal,
   GridItemNine,
   GridItemThree,
   GridLayout,
@@ -23,6 +24,9 @@ import type { NextPageWithLayout } from "../../_app";
 const ProjectPage: NextPageWithLayout = () => {
   const router = useRouter();
   const { _id } = router.query;
+
+  const [showModal, setShowModal] = useState(false);
+
   const { data: dataProject, refetch: refetchProject } = useQuery(
     FIND_PROJECT,
     {
@@ -69,35 +73,30 @@ const ProjectPage: NextPageWithLayout = () => {
     context: { serviceName: "soilservice" },
   });
 
-  // useEffect(() => {
-  //   if (selectedRole) {
-  //     const skills = selectedRole?.skills?.flatMap(
-  //       (skill: any) => skill?.skillData?._id
-  //     );
-
-  //     console.log(skills);
-  //   }
-  // }, [selectedRole]);
-
   // project data with shortlist
   if (!dataProject) {
     return null;
   }
   // if (matchingMembers) console.log("matchingMembers", matchingMembers);
 
-  // if (selectedRole) console.log("selectRole", selectedRole);
-
   return (
     <>
-      {/* {selectMember && dataMember?.findMember && (
+      {selectMember && dataMember?.findMember && (
         <ProfileModal
           openModal={!!selectMember}
           member={dataMember.findMember}
           project={dataProject?.findProject}
+          role={selectedRole}
+          type={modalType}
           memberMatch={selecMemberMatch}
           onClose={() => setSelectMember(null)}
         />
-      )} */}
+      )}
+      <EditProjectModal
+        showModal={showModal}
+        project={dataProject?.findProject}
+        onClose={() => setShowModal(false)}
+      />
       <SEO />
       <GridLayout>
         <GridItemThree>
@@ -108,7 +107,7 @@ const ProjectPage: NextPageWithLayout = () => {
             }}
             selectedRole={selectedRole}
             onBack={() => router.back()}
-            onEdit={() => console.log("edit Project")}
+            onEdit={() => setShowModal(!showModal)}
           />
         </GridItemThree>
         <GridItemNine>

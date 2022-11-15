@@ -24,12 +24,6 @@ export const EndorsementList: React.FC<EndorsementListProps> = ({
 
   if (!endorsements || !isMounted) return null;
 
-  // reverse the endorsements array
-  const reversedEndorsements = endorsements.reverse();
-
-  // console.log("endorsements", endorsements);
-  // console.log("reversedEndorsements", reversedEndorsements);
-
   return (
     <div>
       <div className="mb-3">
@@ -62,7 +56,7 @@ export const EndorsementList: React.FC<EndorsementListProps> = ({
         </span>
       </div>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
-        {reversedEndorsements.slice(0, 3).map((endorsement, index) => (
+        {endorsements.slice(0, 3).map((endorsement, index) => (
           <div key={index} className="col-span-1">
             <EndorsementCard
               member={endorsement?.member || endorsement?.endorser}
@@ -73,11 +67,11 @@ export const EndorsementList: React.FC<EndorsementListProps> = ({
           </div>
         ))}
       </div>
-      {reversedEndorsements.slice(3, 8).length > 0 && (
+      {endorsements.slice(3, 8).length > 0 && (
         <div className="mt-4 flex items-center">
           <AvatarList
             className="inline-block !w-auto !justify-start"
-            avatars={reversedEndorsements.slice(3, 8).map((endorsement) => ({
+            avatars={endorsements.slice(3, 8).map((endorsement) => ({
               size: "sm",
               src:
                 endorsement?.member?.discordAvatar ||
