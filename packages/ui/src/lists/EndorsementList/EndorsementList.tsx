@@ -23,6 +23,13 @@ export const EndorsementList: React.FC<EndorsementListProps> = ({
   const isMounted = useIsMounted();
 
   if (!endorsements || !isMounted) return null;
+
+  // reverse the endorsements array
+  const reversedEndorsements = endorsements.reverse();
+
+  // console.log("endorsements", endorsements);
+  // console.log("reversedEndorsements", reversedEndorsements);
+
   return (
     <div>
       <div className="mb-3">
@@ -54,22 +61,23 @@ export const EndorsementList: React.FC<EndorsementListProps> = ({
           </div>
         </span>
       </div>
-      <div className="grid grid-cols-3 gap-6">
-        {endorsements.slice(0, 3).map((endorsement, index) => (
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
+        {reversedEndorsements.slice(0, 3).map((endorsement, index) => (
           <div key={index} className="col-span-1">
             <EndorsementCard
               member={endorsement?.member || endorsement?.endorser}
               text={endorsement?.text || endorsement?.endorsementMessage}
               level={endorsement?.level}
+              arweaveTransactionID={endorsement?.arweaveTransactionID || ""}
             />
           </div>
         ))}
       </div>
-      {endorsements.slice(3, 8).length > 0 && (
+      {reversedEndorsements.slice(3, 8).length > 0 && (
         <div className="mt-4 flex items-center">
           <AvatarList
             className="inline-block !w-auto !justify-start"
-            avatars={endorsements.slice(3, 8).map((endorsement) => ({
+            avatars={reversedEndorsements.slice(3, 8).map((endorsement) => ({
               size: "sm",
               src:
                 endorsement?.member?.discordAvatar ||
