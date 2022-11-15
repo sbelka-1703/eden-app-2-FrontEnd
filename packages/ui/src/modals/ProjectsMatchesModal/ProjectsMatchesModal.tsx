@@ -20,32 +20,44 @@ export const ProjectsMatchesModal = ({
 }: ProjectsMatchesModalProps) => (
   <>
     <Modal open={openModal} closeOnEsc={false}>
-      <div>
-        <p className="text-2xl ">Welcome to Eden!</p>
+      <div className="space-y-4 pl-4">
+        <div>
+          <p className="text-2xl ">Finding your ideal project!</p>
+        </div>
+        <div>
+          <p className="tracking-wider">
+            We will help you find the perfect match based on your skills and
+            prefences.
+          </p>
+        </div>
       </div>
-      <div className="my-8 flex flex-col">
-        <p className="flex items-center justify-center">
-          {"We have"}
-          <div className="mx-4">
-            <BatteryStepper
-              batteryPercentage={batteryPercentageBefore}
-              numMatches={numMatchesBefore}
-              size={"sm"}
-            />
-          </div>
-          {"projects in Eden today"}
-        </p>
-        <p className="flex items-center justify-center">
-          {"Let's teach AI to find the best"}
-          <div className="mx-4">
-            <BatteryStepper
-              batteryPercentage={batteryPercentageAfter}
-              numMatches={numMatchesAfter}
-              size={"sm"}
-            />
-          </div>
-          {"projects for you."}
-        </p>
+      <div className="my-4 flex justify-center space-x-6 px-6">
+        <div className="flex h-60 w-60 justify-center rounded-md border-2">
+          <p className="flex flex-col items-center justify-center space-y-2">
+            <div>{"We have"}</div>
+            <div className="mx-4">
+              <BatteryStepper
+                batteryPercentage={batteryPercentageBefore}
+                numMatches={numMatchesBefore}
+                size={"sm"}
+              />
+            </div>
+            <div>{"in Eden today"}</div>
+          </p>
+        </div>
+        <div className="flex h-60 w-60 justify-center rounded-md border-2">
+          <p className="flex flex-col items-center justify-center space-y-2">
+            <div> {"AI will find the best"}</div>
+            <div className="mx-4">
+              <BatteryStepper
+                batteryPercentage={batteryPercentageAfter}
+                numMatches={numMatchesAfter}
+                size={"sm"}
+              />
+            </div>
+            <div>{"for you to choose from"}</div>
+          </p>
+        </div>
       </div>
       <div className="flex justify-end">
         <Button
