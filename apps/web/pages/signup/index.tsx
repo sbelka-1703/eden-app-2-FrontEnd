@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import { gql, useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
-import { FIND_PROJECT } from "@eden/package-graphql";
+import { FIND_PROJECT, FIND_ROLE_TEMPLATES } from "@eden/package-graphql";
 import {
   AppUserLayout,
   GridItemNine,
@@ -13,20 +13,6 @@ import {
 import { useContext, useState } from "react";
 
 import type { NextPageWithLayout } from "../_app";
-
-const FIND_ROLES = gql`
-  query ($fields: findRoleTemplatesInput) {
-    findRoleTemplates(fields: $fields) {
-      _id
-      description
-      title
-      skills {
-        _id
-        name
-      }
-    }
-  }
-`;
 
 const MATCH_SKILLS_TO_PROJECTS = gql`
   query ($fields: matchSkillsToProjectsInput) {
@@ -76,7 +62,7 @@ const SignUpTestPage: NextPageWithLayout = () => {
   const [selectProject, setSelectProject] = useState("");
   const [viewProject, setViewProject] = useState(false);
 
-  const { data: dataRoles } = useQuery(FIND_ROLES, {
+  const { data: dataRoles } = useQuery(FIND_ROLE_TEMPLATES, {
     variables: {
       fields: {},
     },

@@ -18,7 +18,9 @@ export const UserProfileCard = ({}: IUserProfileCardProps) => {
           <div className={`font-poppins pl-4 text-2xl font-medium`}>
             <div>
               @{currentUser?.discordName}
-              <TextLabel> #{currentUser?.discriminator}</TextLabel>
+              {currentUser?.discriminator && (
+                <TextLabel> #{currentUser?.discriminator}</TextLabel>
+              )}
             </div>
             <div className={`font-Inter text-xl text-zinc-500`}>
               {currentUser?.memberRole?.title}
