@@ -24,7 +24,7 @@ export const SelectBox = ({
   const [selected, setSelected] = useState(multiple ? [] : "");
 
   const btnClasses = clsx(
-    "relative flex justify-between items-center w-full border border-gray-300 text-center cursor-pointer rounded-2xl bg-gray-200 py-1 px-3 shadow-xl focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-green-300 sm:text-sm",
+    "relative flex justify-between items-center w-full border border-gray-300 text-center cursor-pointer rounded-2xl bg-gray-200 py-1 px-3 shadow-xl hover:border-gray-500 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-green-300 sm:text-sm",
     {
       "border-green-500": !isEmpty(selected),
     }
