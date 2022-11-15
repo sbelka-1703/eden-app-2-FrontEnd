@@ -15,6 +15,7 @@ import {
   SEO,
   ShortlistContainer,
   ShortlistMemberContainer,
+  // ShortlistModalContainer,
   // ShortlistModalContainerStory,
   ShortlistModalContainerTest,
   // ShortlistSideContainer,
@@ -34,6 +35,8 @@ const LaunchPage: NextPageWithLayout = () => {
     setOpenModal,
     matchMembersPage,
   } = useContext(LaunchProjectContext);
+
+  console.log("project", project);
 
   const { data: matchingMembers } = useQuery(MATCH_MEMBERS_TO_SKILLS, {
     variables: {
@@ -136,6 +139,7 @@ const LaunchPage: NextPageWithLayout = () => {
           </>
         )}
       </GridLayout>
+      {/* <ShortlistModalContainer /> */}
       {/* <ShortlistModalContainerStory /> */}
       <ShortlistModalContainerTest />
     </>

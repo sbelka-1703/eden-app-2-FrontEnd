@@ -59,7 +59,7 @@ export const SocialMediaInput = ({
       <input
         id={platform}
         name={platform}
-        value={value}
+        value={value || ""}
         type="url"
         required={required}
         placeholder={placeholder}

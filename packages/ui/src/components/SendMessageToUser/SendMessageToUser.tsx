@@ -15,11 +15,11 @@ import {
   TextArea,
   TextHeading3,
 } from "@eden/package-ui";
+import { ThreadAutoArchiveDuration } from "discord-api-types/v10";
 import { useContext, useState } from "react";
 import { toast } from "react-toastify";
 
 import {
-  AutoArchiveDuration,
   CreateMessageApiRequestBody,
   CreateThreadApiRequestBody,
   CreateThreadResponse,
@@ -67,6 +67,9 @@ export const SendMessageToUser = ({
     {
       onCompleted: () => {
         toast.success("success");
+        setTimeout(() => {
+          setSendingMessage(false);
+        }, 1000);
       },
       onError: (error) => {
         toast.error(error.message);
@@ -126,7 +129,7 @@ export const SendMessageToUser = ({
       senderName: `${currentUser?.discordName} - Invited you to join ${project?.title}`,
       channelId: "1001547443135058010",
       threadName: `Project Talents Discussion with ${member?.discordName}`,
-      autoArchiveDuration: AutoArchiveDuration.OneDay,
+      ThreadAutoArchiveDuration: ThreadAutoArchiveDuration.OneDay,
     });
 
     try {
@@ -155,7 +158,6 @@ export const SendMessageToUser = ({
     } catch (error) {
       console.log(error);
     } finally {
-      setSendingMessage(false);
       setIsMessageSent(true);
       if (project?._id && member?._id && role?._id) {
         changeTeamMember_Phase_Project({
@@ -218,15 +220,17 @@ export const SendMessageToUser = ({
               </div>
               <div className="mt-3 text-center">
                 <div className="inline-block">
-                  <Button
-                    disabled={message.length === 0}
-                    variant="primary"
-                    onClick={() => {
-                      handleSendMessage();
-                    }}
-                  >
-                    Send
-                  </Button>
+                  {sendingMessage && (
+                    <Button
+                      disabled={message.length === 0 || sendingMessage}
+                      variant="primary"
+                      onClick={() => {
+                        handleSendMessage();
+                      }}
+                    >
+                      Send
+                    </Button>
+                  )}
                 </div>
               </div>
             </>

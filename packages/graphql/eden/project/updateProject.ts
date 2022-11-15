@@ -6,6 +6,13 @@ export const UPDATE_PROJECT = gql`
       _id
       title
       description
+      descriptionOneLine
+      emoji
+      backColorEmoji
+      collaborationLinks {
+        link
+        title
+      }
       role {
         _id
         title

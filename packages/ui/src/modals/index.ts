@@ -1,6 +1,7 @@
 export * from "./ApplicationModal";
 export * from "./ApplyByRoleModal";
 export * from "./CongratulationsModal";
+export * from "./EditProjectModal";
 export * from "./FindTalentDropdownModal";
 export * from "./FindTalentModal";
 export * from "./PrioritizeModal";
@@ -23,3 +24,4 @@ export * from "./SkillsSubcategoryModal";
 export * from "./SkipFlowModal";
 export * from "./SocialMediaModel";
 export * from "./StaticModal";
+export * from "./WarningModal";

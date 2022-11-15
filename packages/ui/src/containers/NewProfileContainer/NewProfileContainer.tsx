@@ -12,6 +12,7 @@ export interface NewProfileContainerProps {
 
 export const NewProfileContainer = ({ user }: NewProfileContainerProps) => {
   if (!user) return null;
+  // console.log(user);
   return (
     <Card className="flex flex-col gap-5 p-6">
       <UserWithDescription member={user} />

@@ -8,22 +8,26 @@ import {
   GridLayout,
   Loading,
   NewProfileContainer,
-  SEO,
+  SEOProfile,
 } from "@eden/package-ui";
 import * as React from "react";
 
 const ProfilePage = ({ member }: { member: Members }) => {
   return (
     <>
-      <SEO
-        title={`@${member?.discordName} | on `}
+      <SEOProfile
+        handle={member?.discordName || ""}
         image={member?.discordAvatar || ""}
+        role={member?.memberRole?.title || ""}
       />
       <AppUserSubmenuLayout showSubmenu={false}>
         <GridLayout className={`bg-background h-screen`}>
           <GridItemTwo> </GridItemTwo>
           <GridItemEight>
-            <Card className={`h-85 scrollbar-hide overflow-y-scroll bg-white`}>
+            <Card
+              shadow
+              className={`h-85 scrollbar-hide overflow-y-scroll bg-white`}
+            >
               {member ? (
                 <NewProfileContainer user={member} />
               ) : (

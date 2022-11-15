@@ -1,5 +1,6 @@
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
+import { FIND_ROLE_TEMPLATES } from "@eden/package-graphql";
 import { Members } from "@eden/package-graphql/generated";
 import {
   AppUserSubmenuLayout,
@@ -13,24 +14,10 @@ import { FaUserAlt, FaUserEdit } from "react-icons/fa";
 
 import type { NextPageWithLayout } from "../_app";
 
-const FIND_ROLES = gql`
-  query ($fields: findRoleTemplatesInput) {
-    findRoleTemplates(fields: $fields) {
-      _id
-      description
-      title
-      skills {
-        _id
-        name
-      }
-    }
-  }
-`;
-
 const ProfilePage: NextPageWithLayout = () => {
   const { currentUser } = useContext(UserContext);
 
-  const { data: dataRoles } = useQuery(FIND_ROLES, {
+  const { data: dataRoles } = useQuery(FIND_ROLE_TEMPLATES, {
     variables: {
       fields: {},
     },

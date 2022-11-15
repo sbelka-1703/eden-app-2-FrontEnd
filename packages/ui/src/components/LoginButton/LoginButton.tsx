@@ -43,21 +43,21 @@ export const LoginButton = ({ inApp }: ILoginButtonProps) => {
   const { currentUser, memberFound } = useContext(UserContext);
 
   return (
-    <div className="top-16 z-50 w-56 text-right">
+    <div className="top-16 z-50 text-right">
       <Menu as="div" className="relative inline-block text-left">
-        <div>
+        <>
           {memberFound ? (
-            <Menu.Button className="bg-soilGreen-700 hover:bg-soilGreen-500 inline-flex w-full justify-center rounded-full text-sm font-medium text-black/70 shadow hover:text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-              <div className="flex w-full justify-between">
+            <Menu.Button className="bg-soilGreen-700 hover:bg-soilGreen-500 inline-flex w-full justify-center rounded-full text-sm font-medium text-black/70 shadow hover:text-black ">
+              <div className={``}>
                 <Avatar size={`xs`} src={currentUser?.discordAvatar || ""} />
-                <div className={`mx-5 my-auto font-semibold`}>
-                  {currentUser?.discordName || ""}
-                </div>
-                <ChevronDownIcon
-                  className="hover:black my-auto ml-2 mr-2 h-5 w-5 "
-                  aria-hidden="true"
-                />
               </div>
+              <div className={`mx-5 my-auto font-semibold`}>
+                {currentUser?.discordName || ""}
+              </div>
+              <ChevronDownIcon
+                className="hover:black my-auto ml-2 mr-2 h-5 w-5 "
+                aria-hidden="true"
+              />
             </Menu.Button>
           ) : (
             <button
@@ -72,7 +72,7 @@ export const LoginButton = ({ inApp }: ILoginButtonProps) => {
               </span>
             </button>
           )}
-        </div>
+        </>
         <Transition
           as={Fragment}
           enter="transition ease-out duration-100"

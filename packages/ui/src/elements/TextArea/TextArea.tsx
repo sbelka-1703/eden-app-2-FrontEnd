@@ -4,6 +4,7 @@ import type { CSSProperties, InputHTMLAttributes } from "react";
 
 export type TextAreaProps = {
   name?: string;
+  label?: string;
   value?: string;
   required?: boolean;
   rows?: number;
@@ -17,6 +18,7 @@ export type TextAreaProps = {
 
 export const TextArea: React.FC<TextAreaProps> = ({
   name,
+  label,
   value,
   required,
   autoComplete,
@@ -46,6 +48,12 @@ export const TextArea: React.FC<TextAreaProps> = ({
 
   return (
     <div className={`w-full`}>
+      <label
+        htmlFor={name}
+        className={"block text-sm font-medium text-gray-700"}
+      >
+        {label}
+      </label>
       <div className={"mt-1"}>
         <textarea
           id={name}

@@ -46,7 +46,10 @@ export const ProjectEditSelectorCard = ({
   return (
     <Card shadow className={`m-2 w-full bg-white p-3`}>
       <div className="flex flex-row content-center items-center justify-between">
-        <div className="text-soilGray cursor-pointer" onClick={onBack}>
+        <div
+          className="text-soilGray cursor-pointer hover:text-zinc-600"
+          onClick={onBack}
+        >
           <ChevronLeftIcon className="mr-1 -mt-1 inline" width={20} />
           <span className="group-hover:underline">Go Back</span>
         </div>
@@ -55,7 +58,7 @@ export const ProjectEditSelectorCard = ({
             variant="default"
             radius="rounded"
             size="md"
-            className="shadow-xl"
+            className="shadow hover:shadow-lg"
             onClick={onEdit}
           >
             🛠 Edit Project

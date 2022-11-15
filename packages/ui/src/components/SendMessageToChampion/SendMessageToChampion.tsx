@@ -15,11 +15,11 @@ import {
   TextArea,
   TextHeading3,
 } from "@eden/package-ui";
+import { ThreadAutoArchiveDuration } from "discord-api-types/v10";
 import { useContext, useState } from "react";
 import { toast } from "react-toastify";
 
 import {
-  AutoArchiveDuration,
   CreateMessageApiRequestBody,
   CreateThreadApiRequestBody,
   CreateThreadResponse,
@@ -68,6 +68,9 @@ export const SendMessageToChampion = ({
     {
       onCompleted: () => {
         toast.success("success");
+        setTimeout(() => {
+          setSendingMessage(false);
+        }, 1000);
       },
       onError: (error) => {
         toast.error(error.message);
@@ -125,15 +128,15 @@ export const SendMessageToChampion = ({
       embedMessage: embededMessage,
       senderAvatarURL: currentUser?.discordAvatar!,
       senderName: `${currentUser?.discordName} - is interested in ${project?.title}`,
-      channelId: "1001547443135058010",
+      channelId: "1033337923006902353",
       threadName: `${project?.title}, has a new message from ${currentUser?.discordName}`,
-      autoArchiveDuration: AutoArchiveDuration.OneDay,
+      ThreadAutoArchiveDuration: ThreadAutoArchiveDuration.OneDay,
     });
 
     try {
       await createMessage({
         message: followUpMessage,
-        channelId: "1001547443135058010",
+        channelId: "1033337923006902353",
         thread: threadId,
       });
     } catch (error) {
@@ -148,7 +151,7 @@ export const SendMessageToChampion = ({
             projectID: "62f685952dc2d40004d395c7",
             receiverID: member?._id!,
             senderID: currentUser?._id!,
-            serverID: "988301790795685930",
+            serverID: "996558082098339953",
             threadID: threadId,
           },
         },
@@ -156,7 +159,6 @@ export const SendMessageToChampion = ({
     } catch (error) {
       console.log(error);
     } finally {
-      setSendingMessage(false);
       setIsMessageSent(true);
       if (project?._id && member?._id && role?._id) {
         changeTeamMember_Phase_Project({
@@ -223,15 +225,17 @@ export const SendMessageToChampion = ({
               </div>
               <div className="mt-3 text-center">
                 <div className="inline-block">
-                  <Button
-                    disabled={message.length === 0}
-                    variant="primary"
-                    onClick={() => {
-                      handleSendMessage();
-                    }}
-                  >
-                    Send
-                  </Button>
+                  {sendingMessage && (
+                    <Button
+                      disabled={message.length === 0 || sendingMessage}
+                      variant="primary"
+                      onClick={() => {
+                        handleSendMessage();
+                      }}
+                    >
+                      Send
+                    </Button>
+                  )}
                 </div>
               </div>
             </>

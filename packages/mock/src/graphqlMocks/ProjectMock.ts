@@ -42,7 +42,7 @@ export const project: Project = {
   description: faker.lorem.sentences(5),
   descriptionOneLine: faker.lorem.sentences(1),
   emoji: faker.helpers.arrayElement(["🚀", "👨‍🚀", "👩‍🚀"]),
-  backColorEmoji: faker.helpers.arrayElement(["#FFD700", "#FFA500", "#FF8C00"]),
+  backColorEmoji: faker.helpers.arrayElement(["#ce6969", "#69cebd", "#df2a9d"]),
   budget: {
     perHour: faker.finance.amount(0, 100, 2),
     token: faker.finance.amount(0, 100, 2),
@@ -51,16 +51,16 @@ export const project: Project = {
   champion: getMember(),
   collaborationLinks: [
     {
-      link: faker.internet.url(),
-      title: faker.lorem.sentence(),
+      link: "https://twitter.com/edenprotocolxyz",
+      title: "twitter",
     },
     {
-      link: faker.internet.url(),
-      title: faker.lorem.sentence(),
+      link: "https://github.com",
+      title: "github",
     },
     {
-      link: faker.internet.url(),
-      title: faker.lorem.sentence(),
+      link: "https://www.notion.so/",
+      title: "notion",
     },
   ],
   dates: {
