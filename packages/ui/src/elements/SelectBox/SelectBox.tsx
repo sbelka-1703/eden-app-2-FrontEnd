@@ -1,4 +1,5 @@
 import { Listbox, Transition } from "@headlessui/react";
+import { ChevronDownIcon } from "@heroicons/react/outline";
 import { CheckIcon } from "@heroicons/react/solid";
 import clsx from "clsx";
 import isEmpty from "lodash/isEmpty";
@@ -23,7 +24,7 @@ export const SelectBox = ({
   const [selected, setSelected] = useState(multiple ? [] : "");
 
   const btnClasses = clsx(
-    "relative w-full border text-center cursor-pointer rounded-2xl bg-gray-200 py-1 px-3 shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-green-300 sm:text-sm",
+    "relative flex justify-between items-center w-full border border-gray-300 text-center cursor-pointer rounded-2xl bg-gray-200 py-1 px-3 shadow-xl focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-green-300 sm:text-sm",
     {
       "border-green-500": !isEmpty(selected),
     }
@@ -45,7 +46,8 @@ export const SelectBox = ({
       >
         <div className="relative mt-1">
           <Listbox.Button className={btnClasses}>
-            <span className="block truncate">{caption}</span>
+            <span className="mr-2 block truncate">{caption}</span>
+            <ChevronDownIcon width={12} />
           </Listbox.Button>
           <Transition
             as={Fragment}
