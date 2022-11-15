@@ -8,6 +8,19 @@ import { getMember } from "@eden/package-mock";
 import { Members } from "@eden/package-graphql/generated";
 import React from "react";
 
+// import { MemoryRouterProvider } from "next-router-mock/MemoryRouterProvider";
+
+/**
+ * A storybook decorator which wraps components in a mock router.
+ */
+// export const RouterDecorator = (Story: Story) => {
+//   return (
+//     <MemoryRouterProvider>
+//       <Story />
+//     </MemoryRouterProvider>
+//   );
+// };
+
 /**
  * A storybook decorator which wraps components in a mock apollo context.
  */
