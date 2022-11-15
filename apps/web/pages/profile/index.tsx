@@ -55,7 +55,10 @@ const ProfilePage: NextPageWithLayout = () => {
     <>
       <SEO />
       <AppUserSubmenuLayout submenu={submenu} activeIndex={activeIndex}>
-        <Card className={`h-85 scrollbar-hide overflow-y-scroll bg-white`}>
+        <Card
+          shadow
+          className={`h-85 scrollbar-hide overflow-y-scroll bg-white`}
+        >
           {activeIndex === 0 && (
             <NewProfileContainer user={currentUser as Members} />
           )}

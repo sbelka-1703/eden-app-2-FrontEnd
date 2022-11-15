@@ -23,6 +23,7 @@ export const EndorsementList: React.FC<EndorsementListProps> = ({
   const isMounted = useIsMounted();
 
   if (!endorsements || !isMounted) return null;
+
   return (
     <div>
       <div className="mb-3">
@@ -54,13 +55,14 @@ export const EndorsementList: React.FC<EndorsementListProps> = ({
           </div>
         </span>
       </div>
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
         {endorsements.slice(0, 3).map((endorsement, index) => (
           <div key={index} className="col-span-1">
             <EndorsementCard
               member={endorsement?.member || endorsement?.endorser}
               text={endorsement?.text || endorsement?.endorsementMessage}
               level={endorsement?.level}
+              arweaveTransactionID={endorsement?.arweaveTransactionID || ""}
             />
           </div>
         ))}
