@@ -8,6 +8,8 @@ import { Members, Mutation } from "@eden/package-graphql/generated";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 
+// import { isAllServers, isEdenStaff } from "../../data";
+import { isAllServers } from "../../data";
 import { UserContext } from "./UserContext";
 
 const findMutualGuilds = async () => {
@@ -18,6 +20,21 @@ const findMutualGuilds = async () => {
       Accept: "application/json",
     },
   });
+
+  return response.json();
+};
+
+const findMember = async (memberId: string) => {
+  const response = await fetch(
+    encodeURI(`/api/discord/fetchMember?memberId=${memberId}`),
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    }
+  );
 
   return response.json();
 };
@@ -66,21 +83,35 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     ssr: false,
     onCompleted: (data) => {
       if (!data.findMember) {
-        addNewMember({
-          variables: {
-            fields: {
-              _id: session?.user?.id,
-              discordName: session?.user?.name,
-              discordAvatar: session?.user?.image,
+        findMember(id as string).then((member) => {
+          // console.log("member", member.member);
+          addNewMember({
+            variables: {
+              fields: {
+                _id: session?.user?.id,
+                discordName: session?.user?.name,
+                discordAvatar: session?.user?.image,
+                discriminator: member?.member?.discriminator || "",
+              },
             },
-          },
+          });
         });
       } else {
+        const servers: any[] = [];
+
+        // if (isEdenStaff.includes(data.findMember._id))
+        //   servers.push(isAllServers);
+        servers.push(isAllServers);
+
         findMutualGuilds().then((data) => {
           const mutualGuilds = data.guilds;
 
-          setMemberServers(mutualGuilds);
-          setSelectedServer(mutualGuilds[0]);
+          // console.log("mutualGuilds", mutualGuilds);
+
+          servers.push(...mutualGuilds);
+
+          setMemberServers(servers);
+          setSelectedServer(servers[0]);
         });
         setMemberFound(true);
       }
