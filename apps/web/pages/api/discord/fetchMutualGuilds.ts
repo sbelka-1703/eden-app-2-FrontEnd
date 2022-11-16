@@ -1,7 +1,8 @@
 /* eslint-disable import/no-anonymous-default-export */
+import { ServerTemplate } from "@eden/package-graphql/generated";
 import axios from "axios";
 import { APIGuild } from "discord-api-types/v10";
-import _ from "lodash";
+// import _ from "lodash";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getToken } from "next-auth/jwt";
 
@@ -28,11 +29,35 @@ export default async (
   });
 };
 
-function _getBotGuildsService() {
-  return axios.get<APIGuild[]>(`${DISCORD_API_URL}/users/@me/guilds`, {
+// function _getBotGuildsService() {
+//   return axios.get<APIGuild[]>(`${DISCORD_API_URL}/users/@me/guilds`, {
+//     headers: {
+//       Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
+//     },
+//   });
+// }
+
+function _getGuildsService() {
+  return axios.post(process.env.NEXT_PUBLIC_GRAPHQL_URL as string, {
     headers: {
-      Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
+      "Access-Control-Allow-Origin": `*`,
     },
+    query: `
+      query  {
+        findServers(fields: {_id: null}) {
+            _id
+            adminCommands
+            adminID
+            adminRoles
+            channel {
+                chatID
+            }
+            name
+            serverAvatar
+            serverType
+        }
+    }
+    `,
   });
 }
 
@@ -45,12 +70,14 @@ async function _getUserGuildsService(token: string) {
 }
 
 async function getMutualGuildsService(token: string) {
-  const { data: botGuilds } = await _getBotGuildsService();
+  // const { data: botGuilds } = await _getBotGuildsService();
+  const { data: botGuilds } = await _getGuildsService();
+
   const { data: userGuilds } = await _getUserGuildsService(token);
 
-  // const adminUserGuilds = userGuilds.filter(
-  //   ({ permissions }) => (Number(permissions) & 0x8) === 0x8
-  // );
+  return botGuilds?.data?.findServers.filter((guild: ServerTemplate) =>
+    userGuilds.find((userGuild) => userGuild.id === guild._id)
+  );
 
-  return _.intersectionWith(userGuilds, botGuilds, (a, b) => a.id === b.id);
+  // return _.intersectionWith(userGuilds, botGuilds, (a, b) => a.id === b.id);
 }

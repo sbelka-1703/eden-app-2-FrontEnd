@@ -82,7 +82,6 @@ export const EditProfileContainer = ({ roles }: IEditProfileContainerProps) => {
   const handleSave = () => {
     if (!currentUser) return;
     setSubmitting(true);
-    console.log("save");
     updateMember({
       variables: {
         fields: {

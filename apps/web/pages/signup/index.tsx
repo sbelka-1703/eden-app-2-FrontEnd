@@ -1,66 +1,31 @@
-/* eslint-disable camelcase */
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
-import { FIND_PROJECT, FIND_ROLE_TEMPLATES } from "@eden/package-graphql";
 import {
-  AppUserLayout,
+  FIND_PROJECT,
+  FIND_PROJECTS_SERVER,
+  FIND_ROLE_TEMPLATES,
+  MATCH_SKILLS_TO_PROJECTS,
+} from "@eden/package-graphql";
+import { Project } from "@eden/package-graphql/generated";
+import {
+  AppUserSubmenuLayout,
   GridItemNine,
   GridItemThree,
   GridLayout,
+  SEO,
   SignUpContainerMain,
   SignUpContainerSide,
 } from "@eden/package-ui";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import type { NextPageWithLayout } from "../_app";
 
-const MATCH_SKILLS_TO_PROJECTS = gql`
-  query ($fields: matchSkillsToProjectsInput) {
-    matchSkillsToProjects(fields: $fields) {
-      matchPercentage
-      projectRoles {
-        matchPercentage
-        commonSkills {
-          _id
-          name
-        }
-        projectRole {
-          _id
-          title
-          description
-          openPositions
-          keyRosponsibilities
-          hoursPerWeek
-          skills {
-            level
-            skillData {
-              _id
-              name
-            }
-          }
-        }
-      }
-      project {
-        _id
-        title
-        description
-        descriptionOneLine
-        emoji
-        backColorEmoji
-        champion {
-          _id
-          discordName
-          discordAvatar
-        }
-      }
-    }
-  }
-`;
-
 const SignUpTestPage: NextPageWithLayout = () => {
-  const { currentUser } = useContext(UserContext);
+  const { currentUser, selectedServer } = useContext(UserContext);
   const [selectProject, setSelectProject] = useState("");
   const [viewProject, setViewProject] = useState(false);
+
+  // if (selectedServer) console.log("selectedServer", selectedServer);
 
   const { data: dataRoles } = useQuery(FIND_ROLE_TEMPLATES, {
     variables: {
@@ -73,17 +38,61 @@ const SignUpTestPage: NextPageWithLayout = () => {
     (skill) => skill?.skillInfo?._id
   );
 
+  // console.log("filterskillsfromcurrentuser", filterskillsfromcurrentuser);
+
+  const {
+    data: dataProjectsServer,
+    // loading: loadingProjectsServer,
+    refetch: refetchProjectsServer,
+  } = useQuery(FIND_PROJECTS_SERVER, {
+    variables: {
+      fields: {
+        serverID: selectedServer?._id,
+      },
+    },
+    skip: !selectedServer?._id,
+    context: { serviceName: "soilservice" },
+  });
+
+  // if (dataProjectsServer) console.log("dataProjectsServer", dataProjectsServer);
+  const serverProjects = dataProjectsServer?.findProjects.map(
+    (project: Project) => {
+      return {
+        project: project,
+        matchPercentage: null,
+        projectRoles:
+          project?.role?.map((role) => {
+            return {
+              matchPercentage: null,
+              commonSkills: [],
+              projectRole: role,
+            };
+          }) || [],
+      };
+    }
+  );
+
+  // if (serverProjects) console.log("serverProjects", serverProjects);
+
+  useEffect(() => {
+    if (selectedServer?._id) {
+      refetchProjectsServer();
+      setViewProject(false);
+    }
+  }, [selectedServer?._id]);
+
   const { data: dataMatchedProjects, refetch: refetchMatch } = useQuery(
     MATCH_SKILLS_TO_PROJECTS,
     {
       variables: {
         fields: {
           skillsID: filterskillsfromcurrentuser,
-          limit: 40,
+          limit: 30,
           page: 0,
+          serverID: [selectedServer?._id],
         },
       },
-      skip: !currentUser,
+      skip: !currentUser && !selectedServer?._id,
       context: { serviceName: "soilservice" },
     }
   );
@@ -111,32 +120,46 @@ const SignUpTestPage: NextPageWithLayout = () => {
   // if (dataProject) console.log("dataProject", dataProject);
 
   return (
-    <GridLayout>
-      <GridItemThree>
-        <SignUpContainerSide
-          matchedProjects={dataMatchedProjects?.matchSkillsToProjects}
-          onSelectedProject={(val) => setSelectProject(val)}
-          viewProject={viewProject}
-        />
-      </GridItemThree>
-      <GridItemNine>
-        <SignUpContainerMain
-          roles={dataRoles?.findRoleTemplates}
-          matchedProjects={dataMatchedProjects?.matchSkillsToProjects}
-          project={dataProject?.findProject}
-          refetchMatch={refetchMatch}
-          refetchProject={refetchProject}
-          onSelectedProject={(val) => setSelectProject(val)}
-          loadingProject={loadingProject}
-          viewProject={viewProject}
-          onViewProject={(val) => setViewProject(val)}
-        />
-      </GridItemNine>
-    </GridLayout>
+    <>
+      <SEO />
+
+      <GridLayout>
+        <GridItemThree>
+          <SignUpContainerSide
+            matchedProjects={
+              selectedServer?._id
+                ? serverProjects
+                : dataMatchedProjects?.matchSkillsToProjects
+            }
+            onSelectedProject={(val) => setSelectProject(val)}
+            viewProject={viewProject}
+          />
+        </GridItemThree>
+        <GridItemNine>
+          <SignUpContainerMain
+            roles={dataRoles?.findRoleTemplates}
+            matchedProjects={
+              selectedServer?._id
+                ? serverProjects
+                : dataMatchedProjects?.matchSkillsToProjects
+            }
+            project={dataProject?.findProject}
+            refetchMatch={refetchMatch}
+            refetchProject={refetchProject}
+            onSelectedProject={(val) => setSelectProject(val)}
+            loadingProject={loadingProject}
+            viewProject={viewProject}
+            onViewProject={(val) => setViewProject(val)}
+          />
+        </GridItemNine>
+      </GridLayout>
+    </>
   );
 };
 
-SignUpTestPage.getLayout = (page) => <AppUserLayout>{page}</AppUserLayout>;
+SignUpTestPage.getLayout = (page) => (
+  <AppUserSubmenuLayout showSubmenu={false}>{page}</AppUserSubmenuLayout>
+);
 
 export default SignUpTestPage;
 

@@ -47,10 +47,10 @@ const SignUpTestPage: NextPageWithLayout = () => {
   } = useQuery(FIND_PROJECTS_SERVER, {
     variables: {
       fields: {
-        serverID: selectedServer?.id,
+        serverID: selectedServer?._id,
       },
     },
-    skip: !selectedServer?.id,
+    skip: !selectedServer?._id,
     context: { serviceName: "soilservice" },
   });
 
@@ -75,11 +75,11 @@ const SignUpTestPage: NextPageWithLayout = () => {
   // if (serverProjects) console.log("serverProjects", serverProjects);
 
   useEffect(() => {
-    if (selectedServer?.id) {
+    if (selectedServer?._id) {
       refetchProjectsServer();
       setViewProject(false);
     }
-  }, [selectedServer?.id]);
+  }, [selectedServer?._id]);
 
   const { data: dataMatchedProjects, refetch: refetchMatch } = useQuery(
     MATCH_SKILLS_TO_PROJECTS,
@@ -89,10 +89,10 @@ const SignUpTestPage: NextPageWithLayout = () => {
           skillsID: filterskillsfromcurrentuser,
           limit: 30,
           page: 0,
-          serverID: [selectedServer?.id],
+          serverID: [selectedServer?._id],
         },
       },
-      skip: !currentUser && !selectedServer?.id,
+      skip: !currentUser && !selectedServer?._id,
       context: { serviceName: "soilservice" },
     }
   );
@@ -127,7 +127,7 @@ const SignUpTestPage: NextPageWithLayout = () => {
         <GridItemThree>
           <SignUpContainerSide
             matchedProjects={
-              selectedServer?.id
+              selectedServer?._id
                 ? serverProjects
                 : dataMatchedProjects?.matchSkillsToProjects
             }
@@ -139,7 +139,7 @@ const SignUpTestPage: NextPageWithLayout = () => {
           <SignUpContainerMain
             roles={dataRoles?.findRoleTemplates}
             matchedProjects={
-              selectedServer?.id
+              selectedServer?._id
                 ? serverProjects
                 : dataMatchedProjects?.matchSkillsToProjects
             }
