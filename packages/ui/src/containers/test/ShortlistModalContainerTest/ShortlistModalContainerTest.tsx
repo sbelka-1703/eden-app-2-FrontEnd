@@ -79,7 +79,7 @@ export const ShortlistModalContainerTest =
               descriptionOneLine: project?.descriptionOneLine,
               emoji: project?.emoji,
               champion: currentUser?._id,
-              serverID: selectedServer?._id,
+              serverID: selectedServer?.id,
               role: project?.role?.map((role) => ({
                 title: role?.title,
                 description: role?.description,
@@ -326,7 +326,7 @@ export const ShortlistModalContainerTest =
           <SavingProjectModal openModal />
         )}
         {openModal === LaunchProjectModal.CONGRATULATIONS && (
-          <CongratulationsModal openModal />
+          <CongratulationsModal onClose={() => setOpenModal(null)} openModal />
         )}
       </>
     );
