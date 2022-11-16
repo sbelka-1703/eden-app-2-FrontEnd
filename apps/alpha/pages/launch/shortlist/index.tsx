@@ -36,7 +36,7 @@ const LaunchPage: NextPageWithLayout = () => {
     matchMembersPage,
   } = useContext(LaunchProjectContext);
 
-  console.log("project", project);
+  // console.log("project", project);
 
   const { data: matchingMembers } = useQuery(MATCH_MEMBERS_TO_SKILLS, {
     variables: {
