@@ -13,7 +13,7 @@ export const OnboardPartyContainer = ({
   return (
     <Card
       shadow
-      className="h-8/10 scrollbar-hide overflow-y-scroll bg-white py-3 px-6"
+      className="h-85 scrollbar-hide overflow-y-scroll bg-white py-3 px-6"
     >
       <TextHeading3 className="mb-2">See Other Profiles</TextHeading3>
       <section className="grid grid-cols-3 gap-5">

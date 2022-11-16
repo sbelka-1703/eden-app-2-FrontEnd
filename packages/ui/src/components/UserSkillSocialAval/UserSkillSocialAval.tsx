@@ -8,20 +8,20 @@ import { AvailabilityComp, SkillList, SocialMediaComp } from "@eden/package-ui";
 
 const levels = [
   {
-    title: "learning",
-    level: "learning",
-  },
-  {
-    title: "mid",
-    level: "mid",
+    title: "senior",
+    level: "senior",
   },
   {
     title: "junior",
     level: "junior",
   },
   {
-    title: "senior",
-    level: "senior",
+    title: "mid",
+    level: "mid",
+  },
+  {
+    title: "learning",
+    level: "learning",
   },
 ];
 
