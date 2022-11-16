@@ -1,5 +1,3 @@
-//This is just UI functionalities are remaning
-// import { Members } from "@eden/package-graphql/generated";
 import { useMutation } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
 import { UPDATE_MEMBER } from "@eden/package-graphql";
@@ -12,69 +10,78 @@ import {
 import {
   Button,
   Card,
-  // CheckBox,
   Dropdown,
+  Loading,
   RoleSelector,
   SearchSkill,
   SkillVisualisationComp,
-  // SkillList,
   SocialMediaInput,
-  // SwitchButton,
   TextArea,
   TextBody,
-  // TextField,
+  TextField,
   TextHeading3,
   TextLabel,
 } from "@eden/package-ui";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { timezones } from "../../../constants";
 
 export interface IEditProfileContainerProps {
   roles?: Maybe<Array<Maybe<RoleTemplate>>>;
-  // eslint-disable-next-line no-unused-vars
-  // onSave: (member: Members) => void;
 }
 
 export const EditProfileContainer = ({ roles }: IEditProfileContainerProps) => {
   const { currentUser } = useContext(UserContext);
-  // const newMember = currentUser!;
-  // const [showSeniorSkills, setShowSeniorSkills] = useState(true);
-  // const [showMidLevelSkills, setShowMidLevelSkills] = useState(true);
-  // const [showJuniorSkills, setShowJuniorSkills] = useState(true);
-  // const [showLearningSkills, setShowLearningSkills] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
 
   const [selectedRoleId, setSelectedRoleId] = useState<string | null>(null);
   const [bio, setBio] = useState<string>("");
   const [hoursPerWeek, setHoursPerWeek] = useState<number>(
     currentUser?.hoursPerWeek || 0
   );
-  const [timeZone, setTimeZone] = useState<string>(currentUser?.timeZone || "");
+  const [timezone, setTimezone] = useState(currentUser?.timeZone || "");
+
+  // const [timeZone, setTimeZone] = useState<string>(currentUser?.timeZone || "");
+  const [twitterHandle, setTwitterHandle] = useState("");
+  const [githubHandle, setGithubHandle] = useState("");
+  const [telegramHandle, setTelegramHandle] = useState("");
 
   const [updateMember] = useMutation(UPDATE_MEMBER, {
     onCompleted({ updateMember }: Mutation) {
       if (!updateMember) console.log("updateMember is null");
       console.log("updateMember", updateMember);
+      setSubmitting(false);
     },
   });
 
-  const socialMediaInputs = [
-    {
-      _id: 1,
-      name: "twitter",
-    },
-    {
-      _id: 2,
-      name: "github",
-    },
-    {
-      _id: 3,
-      name: "telegram",
-    },
-  ];
+  useEffect(() => {
+    // filter currentUser links for twitter, github, telegram
+    const twitterLink = currentUser?.links?.find(
+      (link) => link?.name === "twitter"
+    );
+
+    // remove https://twitter.com/ from the link
+    if (twitterLink?.url)
+      setTwitterHandle(twitterLink?.url?.replace("https://twitter.com/", ""));
+
+    const githubLink = currentUser?.links?.find(
+      (link) => link?.name === "github"
+    );
+
+    // remove https://github.com/ from the link
+    if (githubLink?.url)
+      setGithubHandle(githubLink?.url?.replace("https://github.com/", ""));
+
+    const telegramLink = currentUser?.links?.find(
+      (link) => link?.name === "telegram"
+    );
+
+    setTelegramHandle(telegramLink?.url || "");
+  }, [currentUser]);
 
   const handleSave = () => {
     if (!currentUser) return;
+    setSubmitting(true);
     console.log("save");
     updateMember({
       variables: {
@@ -83,23 +90,46 @@ export const EditProfileContainer = ({ roles }: IEditProfileContainerProps) => {
           memberRole: selectedRoleId,
           bio: bio,
           hoursPerWeek: hoursPerWeek,
-          timeZone: timeZone,
+          timeZone: timezone,
+          links: [
+            {
+              name: "twitter",
+              url: twitterHandle ? `https://twitter.com/${twitterHandle}` : "",
+            },
+            {
+              name: "github",
+              url: githubHandle ? `https://github.com/${githubHandle}` : "",
+            },
+            {
+              name: "telegram",
+              url: telegramHandle,
+            },
+          ],
         },
       },
     });
   };
 
+  if (submitting) return <Loading title="Saving..." />;
+
   return (
     <>
       <Card className="mb-8 bg-white p-6">
-        <section className="mb-6">
+        <section className="mb-6 flex justify-between">
           <TextHeading3>Edit Your Profile: </TextHeading3>
+          <Button
+            variant="primary"
+            className={``}
+            disabled={submitting}
+            onClick={() => handleSave()}
+          >
+            Save
+          </Button>
         </section>
         <section className="lg:grid lg:grid-cols-2 lg:gap-8">
           <div className="col-span-1">
             <div className="mb-3">
               <TextBody>Personal</TextBody>
-              {/*<TextField name="title" placeholder="Start typing here" /> */}
             </div>
             <div className="mb-3">
               <TextBody>Your Role:</TextBody>
@@ -111,74 +141,39 @@ export const EditProfileContainer = ({ roles }: IEditProfileContainerProps) => {
                 }}
               />
 
-              <TextBody>
-                Short Bio:
-                <TextArea
-                  value={currentUser?.bio!}
-                  onChange={(e) => setBio(e.target.value)}
-                />
-              </TextBody>
+              <TextBody>Short Bio:</TextBody>
+              <TextArea
+                value={currentUser?.bio!}
+                onChange={(e) => setBio(e.target.value)}
+              />
+
               <div>
-                <TextBody>
-                  Finances & availability
-                  <TextBody>How much time can you devote?</TextBody>
-                </TextBody>
-                <div className="flex flex-row justify-around">
-                  <Dropdown
-                    value={`${currentUser?.hoursPerWeek}hr`}
-                    placeholder="Hours"
-                    items={[
-                      { _id: 1, name: "30hr" },
-                      { _id: 2, name: "20hr" },
-                      { _id: 2, name: "10hr" },
-                    ]}
-                    onSelect={(val) =>
-                      setHoursPerWeek(Number(val.name.slice(0, -2)))
-                    }
-                  />
-                  <Dropdown value="Week" items={[{ name: "Week" }]} />
+                <div className={`mt-4 text-center`}>
+                  <TextHeading3>What’s your availability?</TextHeading3>
                 </div>
-                <div className="flex justify-around">
+                <div className={`mx-auto w-40`}>
                   <Dropdown
-                    placeholder="Time Zone"
-                    value={currentUser?.timeZone as string}
+                    value={timezone}
                     items={timezones}
-                    onSelect={(val) => setTimeZone(val.name)}
+                    placeholder={`Timezone`}
+                    onSelect={(val) => setTimezone(val.name)}
                   />
                 </div>
-                {/* <div>
-                  <TextBody>What is your expected remuneraion?</TextBody>
-                  <TextBody>Please enter your hourly rate</TextBody>
-                  <div className="flex flex-row justify-evenly p-1">
+
+                <div className={`flex justify-center space-x-4`}>
+                  <div className={`w-24`}>
                     <TextField
-                      value={"3520"}
-                      type={"number"}
-                      onChange={() => console.log("TextField Edited")}
-                    />
-                    <TextField
-                      value={"3520"}
-                      type={"number"}
-                      onChange={() => console.log("TextField Edited")}
-                    />
-                    <TextBody className="p-3">Token: </TextBody>
-                    <Dropdown
-                      value="CODE"
-                      items={[{ name: "USDT" }, { name: "CODE" }]}
+                      placeholder={`Hours`}
+                      radius="pill"
+                      type={`number`}
+                      value={hoursPerWeek.toString()}
+                      onChange={(e) => setHoursPerWeek(Number(e.target.value))}
                     />
                   </div>
-                </div> */}
-                {/* <div>
-                  <SwitchButton
-                    name="isAlternateTokenOK"
-                    label="Accept equivalent in alternative tokens"
-                    onChange={undefined}
-                  />
-                  <SwitchButton
-                    name="isUnpaidOK"
-                    label="Unpaid contributions"
-                    onChange={undefined}
-                  />
-                </div> */}
+                  <div className={`my-auto font-medium text-zinc-600`}>
+                    hrs. / week
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -208,68 +203,7 @@ export const EditProfileContainer = ({ roles }: IEditProfileContainerProps) => {
                   },
                 ]}
               />
-              {/* <div className="flex flex-row justify-around">
-                <CheckBox
-                  radius="rounded"
-                  label="Senior"
-                  checked={showSeniorSkills}
-                  bgColorRGB="191, 255, 140"
-                  onChange={() => setShowSeniorSkills(!showSeniorSkills)}
-                />
-                <CheckBox
-                  label="Mid Level"
-                  radius="rounded"
-                  bgColorRGB="255, 169, 241"
-                  checked={showMidLevelSkills}
-                  onChange={() => setShowMidLevelSkills(!showMidLevelSkills)}
-                />
-                <CheckBox
-                  label="Junior"
-                  radius="rounded"
-                  bgColorRGB="186, 230, 255"
-                  checked={showJuniorSkills}
-                  onChange={() => setShowJuniorSkills(!showJuniorSkills)}
-                />
-                <CheckBox
-                  label="Learning"
-                  radius="rounded"
-                  bgColorRGB="255, 208, 43"
-                  checked={showLearningSkills}
-                  onChange={() => setShowLearningSkills(!showLearningSkills)}
-                />
-              </div> */}
-              {/* {showSeniorSkills && (
-                <SkillList
-                  colorRGB="191, 255, 140"
-                  skills={currentUser?.skills!.filter(
-                    (skill: any) => skill.level == "senior"
-                  )}
-                />
-              )}
-              {showMidLevelSkills && (
-                <SkillList
-                  colorRGB="255, 169, 241"
-                  skills={currentUser?.skills!.filter(
-                    (skill: any) => skill.level == "mid"
-                  )}
-                />
-              )}
-              {showJuniorSkills && (
-                <SkillList
-                  colorRGB="186, 230, 255"
-                  skills={currentUser?.skills!.filter(
-                    (skill: any) => skill.level == "junior"
-                  )}
-                />
-              )}
-              {showLearningSkills && (
-                <SkillList
-                  colorRGB="255, 208, 43"
-                  skills={currentUser?.skills!.filter(
-                    (skill: any) => skill.level == "learning"
-                  )}
-                />
-              )} */}
+
               <SkillVisualisationComp
                 skills={
                   currentUser?.skills?.map((skill) => {
@@ -287,55 +221,31 @@ export const EditProfileContainer = ({ roles }: IEditProfileContainerProps) => {
             <div>
               <TextBody>Social Links</TextBody>
               <TextLabel>Please make sure all links are up to date</TextLabel>
-              {socialMediaInputs?.map((socialInput) => (
-                <SocialMediaInput
-                  value={
-                    currentUser?.links?.filter(
-                      (link) => link?.name === socialInput.name
-                    )[0]?.url as string
-                  }
-                  key={socialInput._id}
-                  platform={socialInput.name}
-                  onChange={(e) => console.log(e.target.value)}
-                />
-              ))}
-              {/* <SocialMediaInput
-                platform={"twitter"}
-                // placeholder={currentUser?.links[0].url}
-                onChange={() => console.log("Twitter changed")}
+              <SocialMediaInput
+                platform="twitter"
+                placeholder={`Twitter Handle`}
+                value={twitterHandle}
+                onChange={(e) => setTwitterHandle(e.target.value)}
+                shape="rounded"
               />
               <SocialMediaInput
-                platform={"discord"}
-                onChange={() => console.log("Twitter changed")}
+                platform="github"
+                placeholder={`Github Handle`}
+                value={githubHandle}
+                onChange={(e) => setGithubHandle(e.target.value)}
+                shape="rounded"
               />
               <SocialMediaInput
-                platform={"github"}
-                onChange={() => console.log("Twitter changed")}
+                platform="telegram"
+                placeholder={`Telegram Handle`}
+                value={telegramHandle}
+                onChange={(e) => setTelegramHandle(e.target.value)}
+                shape="rounded"
               />
-              <SocialMediaInput
-                platform={"notion"}
-                onChange={() => console.log("Twitter changed")}
-              />
-              <SocialMediaInput
-                platform={"linkedin"}
-                onChange={() => console.log("Twitter changed")}
-              />
-              <SocialMediaInput
-                platform={"telegram"}
-                onChange={() => console.log("Twitter changed")}
-              /> */}
             </div>
           </div>
         </section>
       </Card>
-      <Button
-        variant="primary"
-        className="mx-auto"
-        onClick={() => handleSave()}
-        // onClick={() => onSave(newMember)}
-      >
-        Save
-      </Button>
     </>
   );
 };

@@ -14,7 +14,7 @@ export const ServerSelectButton = ({ inApp }: IServerSelectButtonProps) => {
 
   //   console.log("selectedServer", selectedServer);
 
-  if (!selectedServer) return null;
+  if (!selectedServer || !inApp) return null;
 
   return (
     <div className="w-62 top-16 z-50 text-right">
@@ -56,33 +56,29 @@ export const ServerSelectButton = ({ inApp }: IServerSelectButtonProps) => {
         >
           <Menu.Items className="text-semibold absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
             <div className="px-1 py-1">
-              {inApp && (
-                <>
-                  {memberServers?.map((item: any, index: number) => (
-                    <Menu.Item key={index}>
-                      {({ active }) => (
-                        <button
-                          onClick={() => setSelectedServer(item)}
-                          className={`${
-                            active ? "bg-zinc-700 text-white" : "text-gray-900"
-                          } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                        >
-                          <Avatar
-                            isProject
-                            size={`xs`}
-                            src={
-                              item?.id
-                                ? `https://cdn.discordapp.com/icons/${item?.id}/${item?.icon}.png`
-                                : ""
-                            }
-                          />
-                          <span className={`pl-4`}> {item?.name}</span>
-                        </button>
-                      )}
-                    </Menu.Item>
-                  ))}
-                </>
-              )}
+              {memberServers?.map((item: any, index: number) => (
+                <Menu.Item key={index}>
+                  {({ active }) => (
+                    <button
+                      onClick={() => setSelectedServer(item)}
+                      className={`${
+                        active ? "bg-zinc-700 text-white" : "text-gray-900"
+                      } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                    >
+                      <Avatar
+                        isProject
+                        size={`xs`}
+                        src={
+                          item?.id
+                            ? `https://cdn.discordapp.com/icons/${item?.id}/${item?.icon}.png`
+                            : ""
+                        }
+                      />
+                      <span className={`pl-4`}> {item?.name}</span>
+                    </button>
+                  )}
+                </Menu.Item>
+              ))}
             </div>
           </Menu.Items>
         </Transition>
