@@ -79,7 +79,7 @@ export const ShortlistModalContainerTest =
               descriptionOneLine: project?.descriptionOneLine,
               emoji: project?.emoji,
               champion: currentUser?._id,
-              serverID: selectedServer?.id,
+              serverID: selectedServer?._id,
               role: project?.role?.map((role) => ({
                 title: role?.title,
                 description: role?.description,

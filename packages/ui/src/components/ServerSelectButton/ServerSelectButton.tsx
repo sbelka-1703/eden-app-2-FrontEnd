@@ -27,11 +27,7 @@ export const ServerSelectButton = ({ inApp }: IServerSelectButtonProps) => {
                   <Avatar
                     isProject
                     size={`xs`}
-                    src={
-                      selectedServer?.id
-                        ? `https://cdn.discordapp.com/icons/${selectedServer?.id}/${selectedServer?.icon}.png`
-                        : ""
-                    }
+                    src={selectedServer?.serverAvatar || ""}
                   />
                 </div>
                 <div className={`mx-5 my-auto font-semibold`}>
@@ -68,11 +64,7 @@ export const ServerSelectButton = ({ inApp }: IServerSelectButtonProps) => {
                       <Avatar
                         isProject
                         size={`xs`}
-                        src={
-                          item?.id
-                            ? `https://cdn.discordapp.com/icons/${item?.id}/${item?.icon}.png`
-                            : ""
-                        }
+                        src={item?.serverAvatar || ""}
                       />
                       <span className={`pl-4`}> {item?.name}</span>
                     </button>

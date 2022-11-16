@@ -1,9 +1,5 @@
 import { gql, useMutation, useQuery, useSubscription } from "@apollo/client";
-import {
-  FIND_MEMBER_FULL,
-  MEMBER_SUBSCRIPTION,
-  // UPDATE_MEMBER,
-} from "@eden/package-graphql";
+import { FIND_MEMBER_FULL, MEMBER_SUBSCRIPTION } from "@eden/package-graphql";
 import { Members, Mutation } from "@eden/package-graphql/generated";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
@@ -45,6 +41,7 @@ export const ADD_NEW_MEMBER = gql`
       _id
       discordAvatar
       discordName
+      discriminator
     }
   }
 `;
@@ -65,12 +62,15 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   const [addNewMember, {}] = useMutation(ADD_NEW_MEMBER, {
     onCompleted({ addNewMember }: Mutation) {
       if (!addNewMember) console.log("addNewMember is null");
+      // console.log("addNewMember", addNewMember);
       setMemberFound(true);
       refetch();
     },
+    onError() {
+      // console.log("error", error);
+      refetch();
+    },
   });
-
-  // const [updateMember] = useMutation(UPDATE_MEMBER, {});
 
   const { data: dataMember, refetch } = useQuery(FIND_MEMBER_FULL, {
     variables: {
@@ -82,20 +82,25 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     context: { serviceName: "soilservice" },
     ssr: false,
     onCompleted: (data) => {
+      // console.log("data", data);
       if (!data.findMember) {
-        findMember(id as string).then((member) => {
-          // console.log("member", member.member);
-          addNewMember({
-            variables: {
-              fields: {
-                _id: session?.user?.id,
-                discordName: session?.user?.name,
-                discordAvatar: session?.user?.image,
-                discriminator: member?.member?.discriminator || "",
+        findMember(id as string)
+          .then((member) => {
+            // console.log("member NOT found", member.member);
+            addNewMember({
+              variables: {
+                fields: {
+                  _id: session?.user?.id,
+                  discordName: session?.user?.name,
+                  discordAvatar: session?.user?.image,
+                  discriminator: member?.member?.discriminator || "",
+                },
               },
-            },
+            });
+          })
+          .catch((err) => {
+            console.log("err", err);
           });
-        });
       } else {
         const servers: any[] = [];
 
@@ -103,16 +108,20 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         //   servers.push(isAllServers);
         servers.push(isAllServers);
 
-        findMutualGuilds().then((data) => {
-          const mutualGuilds = data.guilds;
+        findMutualGuilds()
+          .then((data) => {
+            const mutualGuilds = data.guilds;
 
-          // console.log("mutualGuilds", mutualGuilds);
+            // console.log("mutualGuilds", mutualGuilds);
+            servers.push(...mutualGuilds);
 
-          servers.push(...mutualGuilds);
-
-          setMemberServers(servers);
-          setSelectedServer(servers[0]);
-        });
+            // console.log("servers", servers);
+            setMemberServers(servers);
+            setSelectedServer(servers[0]);
+          })
+          .catch((err) => {
+            console.log("err", err);
+          });
         setMemberFound(true);
       }
     },

@@ -20,10 +20,10 @@ export const ProjectChampionList = () => {
 
   // find the serverID from champions serverID array that matches the selectedServer id
   const serverChampions = champions?.filter((champion) =>
-    champion?.info?.serverID?.includes(selectedServer?.id)
+    champion?.info?.serverID?.includes(selectedServer?._id as string)
   );
 
-  const projectsToDisplay = selectedServer?.id ? serverChampions : champions;
+  const projectsToDisplay = selectedServer?._id ? serverChampions : champions;
 
   return (
     <div
