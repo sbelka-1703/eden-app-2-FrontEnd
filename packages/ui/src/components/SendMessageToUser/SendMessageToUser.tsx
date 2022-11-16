@@ -55,7 +55,7 @@ export const SendMessageToUser = ({
   // console.log("project", project);
   // console.log("role", role);
 
-  const { currentUser } = useContext(UserContext);
+  const { currentUser, selectedServer } = useContext(UserContext);
   const [message, setMessage] = useState("");
   const [sendingMessage, setSendingMessage] = useState(false);
   const [isMessageSent, setIsMessageSent] = useState(false);
@@ -127,7 +127,7 @@ export const SendMessageToUser = ({
       embedMessage: embededMessage,
       senderAvatarURL: currentUser?.discordAvatar!,
       senderName: `${currentUser?.discordName} - Invited you to join ${project?.title}`,
-      channelId: "1001547443135058010",
+      channelId: selectedServer?.channel?.chatID!,
       threadName: `Project Talents Discussion with ${member?.discordName}`,
       ThreadAutoArchiveDuration: ThreadAutoArchiveDuration.OneDay,
     });
@@ -135,7 +135,7 @@ export const SendMessageToUser = ({
     try {
       await createMessage({
         message: followUpMessage,
-        channelId: "1001547443135058010",
+        channelId: selectedServer?.channel?.chatID!,
         thread: threadId,
       });
     } catch (error) {
@@ -147,10 +147,10 @@ export const SendMessageToUser = ({
         variables: {
           fields: {
             message: message,
-            projectID: "62f685952dc2d40004d395c7",
+            projectID: project?._id!,
             receiverID: member?._id!,
             senderID: currentUser?._id!,
-            serverID: "988301790795685930",
+            serverID: selectedServer?._id!,
             threadID: threadId,
           },
         },
@@ -220,7 +220,7 @@ export const SendMessageToUser = ({
               </div>
               <div className="mt-3 text-center">
                 <div className="inline-block">
-                  {!sendingMessage && (
+                  {!sendingMessage && selectedServer?._id && (
                     <Button
                       disabled={message.length === 0 || sendingMessage}
                       variant="primary"
