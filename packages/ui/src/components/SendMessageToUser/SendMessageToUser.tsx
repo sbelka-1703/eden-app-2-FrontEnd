@@ -220,7 +220,7 @@ export const SendMessageToUser = ({
               </div>
               <div className="mt-3 text-center">
                 <div className="inline-block">
-                  {sendingMessage && (
+                  {!sendingMessage && (
                     <Button
                       disabled={message.length === 0 || sendingMessage}
                       variant="primary"
