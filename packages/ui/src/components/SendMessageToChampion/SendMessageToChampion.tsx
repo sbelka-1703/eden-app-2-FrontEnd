@@ -56,7 +56,7 @@ export const SendMessageToChampion = ({
   // console.log("role", role);
   // console.log("member", member);
 
-  const { currentUser } = useContext(UserContext);
+  const { currentUser, selectedServer } = useContext(UserContext);
   const [message, setMessage] = useState("");
   const [sendingMessage, setSendingMessage] = useState(false);
   const [isMessageSent, setIsMessageSent] = useState(false);
@@ -122,13 +122,13 @@ export const SendMessageToChampion = ({
   `;
 
   const handleSendMessage = async () => {
-    // setSendingMessage(true);
+    setSendingMessage(true);
     const { threadId } = await createThread({
       message: `<@${member?._id}> <@${currentUser?._id}>`,
       embedMessage: embededMessage,
       senderAvatarURL: currentUser?.discordAvatar!,
       senderName: `${currentUser?.discordName} - is interested in ${project?.title}`,
-      channelId: "1033337923006902353",
+      channelId: selectedServer?.channel?.chatID!,
       threadName: `${project?.title}, has a new message from ${currentUser?.discordName}`,
       ThreadAutoArchiveDuration: ThreadAutoArchiveDuration.OneDay,
     });
@@ -136,7 +136,7 @@ export const SendMessageToChampion = ({
     try {
       await createMessage({
         message: followUpMessage,
-        channelId: "1033337923006902353",
+        channelId: selectedServer?.channel?.chatID!,
         thread: threadId,
       });
     } catch (error) {
@@ -148,10 +148,10 @@ export const SendMessageToChampion = ({
         variables: {
           fields: {
             message: message,
-            projectID: "62f685952dc2d40004d395c7",
+            projectID: project?._id!,
             receiverID: member?._id!,
             senderID: currentUser?._id!,
-            serverID: "996558082098339953",
+            serverID: selectedServer?._id!,
             threadID: threadId,
           },
         },
@@ -226,7 +226,7 @@ export const SendMessageToChampion = ({
               </div>
               <div className="mt-3 text-center">
                 <div className="inline-block">
-                  {!sendingMessage && (
+                  {!sendingMessage && selectedServer?._id && (
                     <Button
                       disabled={message.length === 0 || sendingMessage}
                       variant="primary"
