@@ -180,7 +180,7 @@ export const SendMessageToChampion = ({
   if (!member) return null;
 
   return (
-    <div className={`h-80`}>
+    <div className={``}>
       {isMessageSent ? (
         <div className={`flex flex-col items-center justify-center`}>
           <TextHeading3 className={`mt-24`}>
@@ -206,26 +206,27 @@ export const SendMessageToChampion = ({
                   />
                   <TextHeading3 className="ml-3">
                     @{currentUser?.discordName}
-                    <span className="pl-1 text-sm text-gray-400">
-                      #{currentUser?.discriminator}
-                    </span>
+                    {currentUser?.discriminator && (
+                      <span className="pl-1 text-sm text-gray-400">
+                        #{currentUser?.discriminator}
+                      </span>
+                    )}
                   </TextHeading3>
                 </div>
                 <div className="mt-3">
-                  {/* <TextHeading3>Hey, @{member?.discordName}!</TextHeading3> */}
                   <TextArea
                     rows={6}
                     value={message}
                     className="border-none px-0"
                     placeholder="Start typing here"
-                    customStyle={{ boxShadow: "none", fontSize: "20px" }}
+                    customStyle={{ boxShadow: "none" }}
                     onChange={(e) => setMessage(e.target.value)}
                   />
                 </div>
               </div>
               <div className="mt-3 text-center">
                 <div className="inline-block">
-                  {sendingMessage && (
+                  {!sendingMessage && (
                     <Button
                       disabled={message.length === 0 || sendingMessage}
                       variant="primary"

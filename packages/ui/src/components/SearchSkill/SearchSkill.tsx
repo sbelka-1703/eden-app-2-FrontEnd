@@ -107,7 +107,7 @@ export const SearchSkill = ({
       }}
     >
       <div className="relative mt-1 mb-4">
-        <div className="relative z-30">
+        <div className="relative">
           <SearchIcon
             className="pointer-events-none absolute top-2.5 left-3 h-5 w-5 text-gray-400"
             aria-hidden="true"

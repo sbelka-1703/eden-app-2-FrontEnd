@@ -75,7 +75,7 @@ export const EditProfileOnboardPartyCard = ({
   };
 
   return (
-    <Card shadow className="h-8/10 scrollbar-hide overflow-scroll bg-white p-3">
+    <Card shadow className="h-85 scrollbar-hide overflow-scroll bg-white p-3">
       <TextHeading3 className="mb-2">Edit Your Profile</TextHeading3>
       <div className="mb-4 flex items-center">
         {currentUser.discordAvatar && (

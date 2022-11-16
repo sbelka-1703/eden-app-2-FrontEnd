@@ -29,6 +29,7 @@
     "@storybook/react": "^6.5.12",
     "autoprefixer": "^10.4.12",
     "babel-loader": "^8.2.5",
+    "next-router-mock": "^0.8.0",
     "postcss": "^8.4.16",
     "postcss-loader": "^7.0.1",
     "storybook-addon-apollo-client": "^4.0.12",

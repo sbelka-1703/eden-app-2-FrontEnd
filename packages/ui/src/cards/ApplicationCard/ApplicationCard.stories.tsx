@@ -19,7 +19,7 @@ export default {
 const Template: ComponentStory<typeof ApplicationCard> = (args) => {
   return (
     <div className="p-6">
-      <div className="w-2/6">
+      <div className="md:w-2/6">
         <ApplicationCard {...args} />
       </div>
     </div>

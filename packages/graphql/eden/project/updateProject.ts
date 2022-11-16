@@ -9,6 +9,7 @@ export const UPDATE_PROJECT = gql`
       descriptionOneLine
       emoji
       backColorEmoji
+      serverID
       collaborationLinks {
         link
         title

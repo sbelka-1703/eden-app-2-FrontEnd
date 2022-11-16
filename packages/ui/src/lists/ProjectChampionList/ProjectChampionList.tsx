@@ -10,17 +10,26 @@ import { useRouter } from "next/router";
 import { useContext } from "react";
 
 export const ProjectChampionList = () => {
-  const { currentUser } = useContext(UserContext);
+  const { currentUser, selectedServer } = useContext(UserContext);
   const router = useRouter();
+
+  // filter out of the current user's projects for projects they are a champion of
   const champions = currentUser?.projects?.filter(
     (project) => project?.champion
   );
+
+  // find the serverID from champions serverID array that matches the selectedServer id
+  const serverChampions = champions?.filter((champion) =>
+    champion?.info?.serverID?.includes(selectedServer?.id)
+  );
+
+  const projectsToDisplay = selectedServer?.id ? serverChampions : champions;
 
   return (
     <div
       className={`h-85 scrollbar-hide m-auto flex w-full flex-col overflow-scroll p-2 lg:w-2/3 xl:w-1/2`}
     >
-      {champions?.map((item) => (
+      {projectsToDisplay?.map((item) => (
         <button
           key={item?.info?._id}
           onClick={() =>

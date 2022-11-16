@@ -1,7 +1,12 @@
-/* eslint-disable camelcase */
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
-import { FIND_PROJECT, FIND_ROLE_TEMPLATES } from "@eden/package-graphql";
+import {
+  FIND_PROJECT,
+  FIND_PROJECTS_SERVER,
+  FIND_ROLE_TEMPLATES,
+  MATCH_SKILLS_TO_PROJECTS,
+} from "@eden/package-graphql";
+import { Project } from "@eden/package-graphql/generated";
 import {
   AppUserSubmenuLayout,
   GridItemNine,
@@ -11,60 +16,16 @@ import {
   SignUpContainerMain,
   SignUpContainerSide,
 } from "@eden/package-ui";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import type { NextPageWithLayout } from "../_app";
-
-const MATCH_SKILLS_TO_PROJECTS = gql`
-  query ($fields: matchSkillsToProjectsInput) {
-    matchSkillsToProjects(fields: $fields) {
-      matchPercentage
-      projectRoles {
-        matchPercentage
-        commonSkills {
-          _id
-          name
-        }
-        projectRole {
-          _id
-          title
-          description
-          openPositions
-          keyRosponsibilities
-          hoursPerWeek
-          skills {
-            level
-            skillData {
-              _id
-              name
-            }
-          }
-        }
-      }
-      project {
-        _id
-        title
-        description
-        descriptionOneLine
-        emoji
-        backColorEmoji
-        champion {
-          _id
-          discordName
-          discordAvatar
-        }
-        serverID
-      }
-    }
-  }
-`;
 
 const SignUpTestPage: NextPageWithLayout = () => {
   const { currentUser, selectedServer } = useContext(UserContext);
   const [selectProject, setSelectProject] = useState("");
   const [viewProject, setViewProject] = useState(false);
 
-  // console.log("selectedServer", selectedServer);
+  // if (selectedServer) console.log("selectedServer", selectedServer);
 
   const { data: dataRoles } = useQuery(FIND_ROLE_TEMPLATES, {
     variables: {
@@ -79,6 +40,47 @@ const SignUpTestPage: NextPageWithLayout = () => {
 
   // console.log("filterskillsfromcurrentuser", filterskillsfromcurrentuser);
 
+  const {
+    data: dataProjectsServer,
+    // loading: loadingProjectsServer,
+    refetch: refetchProjectsServer,
+  } = useQuery(FIND_PROJECTS_SERVER, {
+    variables: {
+      fields: {
+        serverID: selectedServer?.id,
+      },
+    },
+    skip: !selectedServer?.id,
+    context: { serviceName: "soilservice" },
+  });
+
+  // if (dataProjectsServer) console.log("dataProjectsServer", dataProjectsServer);
+  const serverProjects = dataProjectsServer?.findProjects.map(
+    (project: Project) => {
+      return {
+        project: project,
+        matchPercentage: null,
+        projectRoles:
+          project?.role?.map((role) => {
+            return {
+              matchPercentage: null,
+              commonSkills: [],
+              projectRole: role,
+            };
+          }) || [],
+      };
+    }
+  );
+
+  // if (serverProjects) console.log("serverProjects", serverProjects);
+
+  useEffect(() => {
+    if (selectedServer?.id) {
+      refetchProjectsServer();
+      setViewProject(false);
+    }
+  }, [selectedServer?.id]);
+
   const { data: dataMatchedProjects, refetch: refetchMatch } = useQuery(
     MATCH_SKILLS_TO_PROJECTS,
     {
@@ -90,7 +92,7 @@ const SignUpTestPage: NextPageWithLayout = () => {
           serverID: [selectedServer?.id],
         },
       },
-      skip: !currentUser && !selectedServer,
+      skip: !currentUser && !selectedServer?.id,
       context: { serviceName: "soilservice" },
     }
   );
@@ -124,7 +126,11 @@ const SignUpTestPage: NextPageWithLayout = () => {
       <GridLayout>
         <GridItemThree>
           <SignUpContainerSide
-            matchedProjects={dataMatchedProjects?.matchSkillsToProjects}
+            matchedProjects={
+              selectedServer?.id
+                ? serverProjects
+                : dataMatchedProjects?.matchSkillsToProjects
+            }
             onSelectedProject={(val) => setSelectProject(val)}
             viewProject={viewProject}
           />
@@ -132,7 +138,11 @@ const SignUpTestPage: NextPageWithLayout = () => {
         <GridItemNine>
           <SignUpContainerMain
             roles={dataRoles?.findRoleTemplates}
-            matchedProjects={dataMatchedProjects?.matchSkillsToProjects}
+            matchedProjects={
+              selectedServer?.id
+                ? serverProjects
+                : dataMatchedProjects?.matchSkillsToProjects
+            }
             project={dataProject?.findProject}
             refetchMatch={refetchMatch}
             refetchProject={refetchProject}
