@@ -4,8 +4,8 @@ import { Badge, Button, Card } from "@eden/package-ui";
 export interface OpenPositionCardProps {
   role?: Maybe<RoleType>;
   percentage?: number;
-  onApply: () => void;
-  onRefer: () => void;
+  onApply?: () => void;
+  onRefer?: () => void;
 }
 
 export const OpenPositionCard = ({
@@ -78,7 +78,7 @@ export const OpenPositionCard = ({
               size="lg"
               onClick={onRefer}
             >
-              Refer 🪙
+              Refer 💸
             </Button>
             <Button
               variant="default"
