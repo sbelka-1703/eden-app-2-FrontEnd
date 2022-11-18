@@ -18,10 +18,14 @@ export const ProjectChampionList = () => {
     (project) => project?.champion
   );
 
+  // console.log("champions", champions);
+
   // find the serverID from champions serverID array that matches the selectedServer id
   const serverChampions = champions?.filter((champion) =>
     champion?.info?.serverID?.includes(selectedServer?._id as string)
   );
+
+  // console.log("serverChampions", serverChampions);
 
   const projectsToDisplay = selectedServer?._id ? serverChampions : champions;
 
@@ -38,14 +42,15 @@ export const ProjectChampionList = () => {
         >
           <Card shadow className={`my-2 bg-gray-50 p-6`}>
             <div className="flex items-center">
-              <div
-                className="flex h-24 w-24 items-center justify-center rounded-full text-5xl"
-                style={{
-                  backgroundColor: item?.info?.backColorEmoji || "#FFF",
-                }}
-              >
-                {item?.info?.emoji ? item?.info?.emoji : <Avatar isProject />}
+              <div>
+                <Avatar
+                  size="lg"
+                  isProject
+                  emoji={item?.info?.emoji as string}
+                  backColorEmoji={item?.info?.backColorEmoji as string}
+                />
               </div>
+
               <div className="ml-8 flex flex-col justify-between">
                 <TextHeading3 className="mb-2">
                   {item?.info?.title}
