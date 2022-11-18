@@ -1,11 +1,5 @@
-import {
-  Maybe,
-  PhaseType,
-  ProjectMemberType,
-} from "@eden/package-graphql/generated";
-import { getProject, getRoleTypeMock } from "@eden/package-mock";
+import { getRoleTypeMock } from "@eden/package-mock";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { CurrentUserDecorator } from "storybook/.storybook/decorator";
 
 import { OpenPositionCard } from "./OpenPositionCard";
 
