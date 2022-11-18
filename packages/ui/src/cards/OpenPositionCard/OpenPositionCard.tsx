@@ -25,7 +25,16 @@ export const OpenPositionCard = ({
             </span>
           </div>
           <div className="mt-2">
-            <Badge text="Python" cutText={10} colorRGB="255, 105, 180, 1" />
+            {role?.skills?.map((skill, index) => {
+              return (
+                <Badge
+                  key={index}
+                  text={String(skill?.comment)}
+                  cutText={10}
+                  colorRGB="255, 105, 180, 1"
+                />
+              );
+            })}
           </div>
           <div className="mt-2 text-base font-normal">Description</div>
           <div>
