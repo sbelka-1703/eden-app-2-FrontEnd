@@ -29,15 +29,75 @@ export const MEMBER_SUBSCRIPTION = gql`
       interest
       timeZone
       projects {
-        phase
         champion
+        phase
         favorite
         info {
           _id
-          description
           title
+          description
+          emoji
+          descriptionOneLine
+          backColorEmoji
+          serverID
+          garden_teams {
+            _id
+            name
+            description
+            champion {
+              _id
+              discordName
+            }
+            categoryDiscordlD
+            channelGeneralDiscordID
+            forumDiscordID
+          }
+          collaborationLinks {
+            title
+            link
+          }
           team {
             phase
+            memberInfo {
+              _id
+            }
+          }
+          role {
+            _id
+            title
+            description
+            dateRangeStart
+            dateRangeEnd
+            hoursPerWeek
+            budget {
+              totalBudget
+              token
+              perHour
+              perMonth
+            }
+          }
+          dates {
+            kickOff
+            complition
+          }
+          champion {
+            _id
+            discordName
+            discordAvatar
+          }
+        }
+        role {
+          _id
+          title
+          description
+          dateRangeStart
+          dateRangeEnd
+          hoursPerWeek
+          budget {
+            totalBudget
+            token
+            perHour
+            perMonth
           }
         }
       }
@@ -50,6 +110,7 @@ export const MEMBER_SUBSCRIPTION = gql`
           _id
           name
         }
+        level
       }
       onbording {
         percentage
@@ -62,6 +123,16 @@ export const MEMBER_SUBSCRIPTION = gql`
         skills {
           _id
         }
+      }
+      endorsements {
+        endorser {
+          _id
+          discordName
+          discordAvatar
+          discriminator
+        }
+        endorsementMessage
+        arweaveTransactionID
       }
     }
   }

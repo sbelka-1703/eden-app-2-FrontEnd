@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable import/no-anonymous-default-export */
 import axios from "axios";
-import { APIMessage, APIThreadChannel } from "discord-api-types/v10";
+import { APIChannel, APIMessage } from "discord-api-types/v10";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getToken } from "next-auth/jwt";
 
@@ -40,7 +40,7 @@ export default async (
       res.status(400);
     }
 
-    const thread = await axios.post<APIThreadChannel>(
+    const thread = await axios.post<APIChannel>(
       `${DISCORD_API_URL}/channels/${channelId}/threads`,
       {
         name: threadName,
