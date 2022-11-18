@@ -40,6 +40,18 @@ export const FIND_MEMBER_FULL = gql`
           descriptionOneLine
           backColorEmoji
           serverID
+          garden_teams {
+            _id
+            name
+            description
+            champion {
+              _id
+              discordName
+            }
+            categoryDiscordlD
+            channelGeneralDiscordID
+            forumDiscordID
+          }
           collaborationLinks {
             title
             link
