@@ -144,6 +144,7 @@ export type Mutation = {
   login: User;
   newTweetProject?: Maybe<TweetsProject>;
   relatedNode?: Maybe<Node>;
+  relatedNode_name?: Maybe<Node>;
   relatedSkills?: Maybe<Skills>;
   updateChatReply?: Maybe<Chats>;
   updateChatResult?: Maybe<Chats>;
@@ -269,6 +270,11 @@ export type MutationNewTweetProjectArgs = {
 
 export type MutationRelatedNodeArgs = {
   fields?: InputMaybe<RelatedNodeInput>;
+};
+
+
+export type MutationRelatedNode_NameArgs = {
+  fields?: InputMaybe<RelatedNode_NameInput>;
 };
 
 
@@ -774,6 +780,7 @@ export type Team = {
   channelGeneralDiscordID?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   epics?: Maybe<Array<Maybe<Epic>>>;
+  forumDiscordID?: Maybe<Scalars['String']>;
   members?: Maybe<Array<Maybe<Members>>>;
   name?: Maybe<Scalars['String']>;
   projects?: Maybe<Project>;
@@ -969,6 +976,7 @@ export type CreateNewTeamInput = {
   championID?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   channelGeneralDiscordID?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
+  forumDiscordID?: InputMaybe<Scalars['String']>;
   memberID?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   name?: InputMaybe<Scalars['String']>;
   projectID?: InputMaybe<Scalars['String']>;
@@ -1448,6 +1456,11 @@ export type ProjectUserMatchType = {
 export type RelatedNodeInput = {
   _id?: InputMaybe<Scalars['ID']>;
   relatedNode_id?: InputMaybe<Scalars['ID']>;
+};
+
+export type RelatedNode_NameInput = {
+  name?: InputMaybe<Scalars['String']>;
+  relatedNode_name?: InputMaybe<Scalars['String']>;
 };
 
 export type RelatedSkillsInput = {
