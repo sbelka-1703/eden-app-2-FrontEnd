@@ -19,7 +19,7 @@ export const ReviewCard = ({ project }: ReviewCardProps) => {
           <div className="flex content-center items-center justify-start	p-3">
             <div>
               <Avatar
-                size="lg"
+                size="md"
                 isProject
                 emoji={project?.info?.emoji as string}
                 backColorEmoji={project?.info?.backColorEmoji as string}
@@ -44,24 +44,13 @@ export const ReviewCard = ({ project }: ReviewCardProps) => {
           </div>
         </div>
         <div className="h-20 overflow-scroll px-6 text-left text-lg font-normal">
-          {/* {project?.role?.description} */}
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
-          volutpat nulla eget diam sagittis commodo. Aenean posuere in sem
-          molestie accumsan. Curabitur gravida nibh lorem, congue tincidunt
-          libero maximus at. Pellentesque nec orci a mauris varius facilisis sed
-          eget velit. Aliquam vitae ultrices lorem. Phasellus a ante purus.
-          Suspendisse dignissim odio vitae vehicula dictum. Aliquam vehicula
-          tristique risus, scelerisque imperdiet urna fringilla at. Integer
-          laoreet dolor sapien, sed ultricies quam egestas sed. Aenean congue
-          purus non hendrerit elementum. Curabitur suscipit feugiat purus, non
-          molestie ligula suscipit quis. Orci varius natoque penatibus et magnis
-          dis parturient montes, nascetur ridiculus mus.
+          {project?.role?.description}
         </div>
         <div className="mt-2 px-6 text-left text-lg font-normal">
           <Badge
             text={`TRST $ ${400}`}
             colorRGB="159, 90, 253"
-            className="text-xs text-white"
+            className="text-sm text-white"
             cutText={10}
           />
           {project?.role?.skills.map((skill, index) => {
@@ -70,7 +59,7 @@ export const ReviewCard = ({ project }: ReviewCardProps) => {
                 key={index}
                 text={skill?.comment}
                 colorRGB="159, 90, 253"
-                className="text-xs text-white"
+                className="text-sm text-white"
                 cutText={10}
               />
             );
