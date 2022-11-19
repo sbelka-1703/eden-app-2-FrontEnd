@@ -5,6 +5,7 @@ import {
   Avatar,
   Button,
   Card,
+  CheckBox,
   Dropdown,
   Loading,
   TextField,
@@ -53,6 +54,10 @@ export interface IDiscordCreateGardenTeamProps {}
 export const DiscordCreateGardenTeam = ({}: IDiscordCreateGardenTeamProps) => {
   const { currentUser, selectedServer } = useContext(UserContext);
   const [channels, setChannels] = useState<any>(null);
+  const [chatChannels, setChatChannels] = useState<any>(null);
+  const [forumChannels, setForumChannels] = useState<any>(null);
+  const [selectedChannelType, setSelectedChannelType] =
+    useState<boolean>(false);
   const [submitting, setSubmitting] = useState(false);
 
   const [teamName, setTeamName] = useState("");
@@ -94,7 +99,6 @@ export const DiscordCreateGardenTeam = ({}: IDiscordCreateGardenTeamProps) => {
 
     setSubmitting(true);
     if (selectedTeam) {
-      console.log("selectedTeam  TRUE");
       addNewTeam({
         variables: {
           fields: {
@@ -111,7 +115,6 @@ export const DiscordCreateGardenTeam = ({}: IDiscordCreateGardenTeamProps) => {
         context: { serviceName: "soilservice" },
       });
     } else {
-      console.log("selectedTeam FALSE");
       addNewTeam({
         variables: {
           fields: {
@@ -148,11 +151,29 @@ export const DiscordCreateGardenTeam = ({}: IDiscordCreateGardenTeamProps) => {
   useEffect(() => {
     if (selectedServer?._id) {
       findChannels(selectedServer?._id as string).then((response) => {
-        // console.log("response", response.channels);
         setChannels(response.channels);
+
+        const filteredChatChannels = response.channels.filter(
+          (channel: any) => channel.type === 0
+        );
+
+        setChatChannels(filteredChatChannels);
+
+        const filteredForumChannels = response.channels.filter(
+          (channel: any) => channel.type === 15
+        );
+
+        setForumChannels(filteredForumChannels);
       });
     }
   }, [selectedServer]);
+
+  // function to find channel name by id
+  const findChannelName = (channelId: string) => {
+    const channel = channels?.find((channel: any) => channel.id === channelId);
+
+    return channel?.name;
+  };
 
   if (submitting) return <Loading title="Submitting..." />;
 
@@ -236,22 +257,47 @@ export const DiscordCreateGardenTeam = ({}: IDiscordCreateGardenTeamProps) => {
                           focused={item === selectedTeam}
                         >
                           <div className={`text-lg`}>{item?.name}</div>
-                          <div>{item?.description}</div>
+                          {/* <div>{item?.description}</div> */}
                           <div className={`text-sm`}>
-                            channelGeneralDiscordID :
-                            {item?.channelGeneralDiscordID}
+                            Category :{" "}
+                            {findChannelName(item?.categoryDiscordlD as string)}
                           </div>
-                          <div className={`text-sm`}>
-                            categoryDiscordlD : {item?.categoryDiscordlD}
-                          </div>
-                          <div className={`text-sm`}>
-                            forumDiscordID : {item?.forumDiscordID}
-                          </div>
+                          {item?.channelGeneralDiscordID &&
+                            item?.channelGeneralDiscordID !== "0" && (
+                              <div className={`text-sm`}>
+                                Chat :{" "}
+                                {findChannelName(item?.channelGeneralDiscordID)}
+                              </div>
+                            )}
+
+                          {item?.forumDiscordID &&
+                            item?.forumDiscordID !== "0" && (
+                              <div className={`text-sm`}>
+                                Forum : {findChannelName(item?.forumDiscordID)}
+                              </div>
+                            )}
                         </Card>
                       </button>
                     );
                   }
                 )}
+              </div>
+              <div className={`flex justify-between font-medium text-zinc-500`}>
+                <div className={`my-auto`}>Select A Channel</div>
+
+                <Dropdown
+                  items={selectedChannelType ? forumChannels : chatChannels}
+                  onSelect={(value) => setSelectedChannel(value)}
+                  placeholder="Select a channel"
+                />
+                <div className={"my-auto flex"}>
+                  <div>Forum</div>
+                  <CheckBox
+                    onChange={() =>
+                      setSelectedChannelType(!selectedChannelType)
+                    }
+                  />
+                </div>
               </div>
               <TextField
                 label="Garden Team Name"
@@ -265,19 +311,11 @@ export const DiscordCreateGardenTeam = ({}: IDiscordCreateGardenTeamProps) => {
                 onChange={(e) => setTeamDescription(e.target.value)}
                 placeholder="Garden Team Description"
               />
-              <div>select discord channel</div>
-              {channels ? (
-                <Dropdown
-                  items={channels}
-                  onSelect={(value) => setSelectedChannel(value)}
-                  placeholder="Select a channel"
-                />
-              ) : (
-                <div>select a server</div>
-              )}
-              <Button variant={`primary`} onClick={() => handleSaveTeam()}>
-                {selectedTeam ? `Save Garden Team` : `Create New Garden Team`}
-              </Button>
+              <div className={`mt-8 flex justify-end`}>
+                <Button variant={`primary`} onClick={() => handleSaveTeam()}>
+                  {selectedTeam ? `Save Garden Team` : `Create New Garden Team`}
+                </Button>
+              </div>
             </div>
           )}
         </>

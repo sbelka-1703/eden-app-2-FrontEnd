@@ -45,6 +45,7 @@ export default async (
       res.status(400);
     }
 
+    // https://discord.com/developers/docs/resources/channel#start-thread-from-message
     const myAxios = axios.create({
       headers: {
         Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
