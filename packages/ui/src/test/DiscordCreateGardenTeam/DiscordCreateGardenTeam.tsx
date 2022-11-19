@@ -216,32 +216,43 @@ export const DiscordCreateGardenTeam = ({}: IDiscordCreateGardenTeamProps) => {
                   </Button>
                 )}
               </div>
-
-              {selectedProject?.info?.garden_teams?.map?.(
-                (item: any, index: number) => {
-                  return (
-                    <button key={index} onClick={() => setSelectedTeam(item)}>
-                      <Card
+              <div
+                className={`mb-4 grid gap-x-4 gap-y-4 md:grid-cols-2 xl:grid-cols-3`}
+              >
+                {selectedProject?.info?.garden_teams?.map?.(
+                  (item: any, index: number) => {
+                    return (
+                      <button
+                        className={`w-full`}
                         key={index}
-                        shadow
-                        className={
-                          "my-4 bg-white p-4 text-left font-medium text-zinc-600"
-                        }
-                        focused={item === selectedTeam}
+                        onClick={() => setSelectedTeam(item)}
                       >
-                        <div>{item?.name}</div>
-                        <div>{item?.description}</div>
-                        <div>
-                          channelGeneralDiscordID :{" "}
-                          {item?.channelGeneralDiscordID}
-                        </div>
-                        <div>categoryDiscordlD : {item?.categoryDiscordlD}</div>
-                        <div>forumDiscordID : {item?.forumDiscordID}</div>
-                      </Card>
-                    </button>
-                  );
-                }
-              )}
+                        <Card
+                          key={index}
+                          shadow
+                          className={
+                            "my-4 bg-white p-4 text-left font-medium text-zinc-600"
+                          }
+                          focused={item === selectedTeam}
+                        >
+                          <div className={`text-lg`}>{item?.name}</div>
+                          <div>{item?.description}</div>
+                          <div className={`text-sm`}>
+                            channelGeneralDiscordID :
+                            {item?.channelGeneralDiscordID}
+                          </div>
+                          <div className={`text-sm`}>
+                            categoryDiscordlD : {item?.categoryDiscordlD}
+                          </div>
+                          <div className={`text-sm`}>
+                            forumDiscordID : {item?.forumDiscordID}
+                          </div>
+                        </Card>
+                      </button>
+                    );
+                  }
+                )}
+              </div>
               <TextField
                 label="Garden Team Name"
                 value={teamName}

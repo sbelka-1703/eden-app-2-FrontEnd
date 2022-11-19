@@ -48,7 +48,7 @@ export default async (
     });
 
     if (message) {
-      return res.status(400);
+      res.status(400);
     }
 
     // Fetch forum Obj is to fetch tag ID

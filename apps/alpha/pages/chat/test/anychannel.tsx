@@ -1,7 +1,8 @@
 import {
   AppUserSubmenuLayout,
-  DiscordAnyChannel,
   DiscordCreateGardenTeam,
+  DiscordThreadChat,
+  DiscordThreadForum,
   SEO,
 } from "@eden/package-ui";
 
@@ -9,7 +10,8 @@ import type { NextPageWithLayout } from "../../_app";
 
 const AnyChannelPage: NextPageWithLayout = () => (
   <div className={`h-85 scrollbar-hide space-y-4 overflow-scroll px-4 py-1`}>
-    <DiscordAnyChannel />
+    <DiscordThreadChat />
+    <DiscordThreadForum />
     <DiscordCreateGardenTeam />
   </div>
 );

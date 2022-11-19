@@ -42,7 +42,7 @@ export default async (
     } = body as CreateThreadApiRequestBody;
 
     if (message) {
-      return res.status(400);
+      res.status(400);
     }
 
     const myAxios = axios.create({

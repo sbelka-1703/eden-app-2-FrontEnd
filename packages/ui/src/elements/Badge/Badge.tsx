@@ -15,7 +15,7 @@ const useIsMounted = () => {
 
 export interface BadgeProps {
   colorRGB?: string;
-  text: string;
+  text?: string;
   className?: string;
   closeButton?: boolean;
   cutText?: number;
