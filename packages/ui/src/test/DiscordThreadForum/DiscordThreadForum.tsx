@@ -3,6 +3,7 @@ import {
   Button,
   Card,
   Dropdown,
+  Loading,
   TextArea,
   TextHeading3,
 } from "@eden/package-ui";
@@ -30,7 +31,7 @@ const findChannels = async (guildId: string) => {
 };
 
 const createThread = async (body: CreateThreadApiRequestBody) => {
-  const response = await fetch(encodeURI("/api/discord/createThread"), {
+  const response = await fetch(encodeURI("/api/discord/createForumPost"), {
     method: "POST",
     body: JSON.stringify(body),
     headers: {
@@ -38,14 +39,18 @@ const createThread = async (body: CreateThreadApiRequestBody) => {
       Accept: "application/json",
     },
   });
-  const jsonData: CreateThreadResponse = await response.json();
+
+  console.log("response", response);
+  const jsonData: CreateThreadResponse = await response.json().catch((e) => {
+    console.log("e", e);
+  });
 
   return jsonData;
 };
 
-export interface IDiscordAnyChannelProps {}
+export interface IDiscordThreadForumProps {}
 
-export const DiscordAnyChannel = ({}: IDiscordAnyChannelProps) => {
+export const DiscordThreadForum = ({}: IDiscordThreadForumProps) => {
   const { selectedServer, currentUser } = useContext(UserContext);
   const [channels, setChannels] = useState<any>(null);
   const [selectedChannel, setSelectedChannel] = useState<any>(null);
@@ -55,9 +60,18 @@ export const DiscordAnyChannel = ({}: IDiscordAnyChannelProps) => {
 
   useEffect(() => {
     if (selectedServer?._id) {
+      const filteredChannels: any[] = [];
+
+      setSelectedChannel(null);
       findChannels(selectedServer?._id as string).then((response) => {
         // console.log("response", response.channels);
-        setChannels(response.channels);
+        response.channels.forEach((channel: any) => {
+          if (channel.type === 15) {
+            filteredChannels.push(channel);
+          }
+        });
+        setChannels(filteredChannels);
+        // setChannels(response.channels);
       });
     }
   }, [selectedServer]);
@@ -69,12 +83,14 @@ export const DiscordAnyChannel = ({}: IDiscordAnyChannelProps) => {
 
   const handleSendMessage = async () => {
     setSendingMessage(true);
+    console.log("selectedChannel", selectedChannel);
+    console.log(selectedChannel.id);
     await createThread({
       message: `<@${currentUser?._id}>`,
       embedMessage: embededMessage,
       senderAvatarURL: currentUser?.discordAvatar!,
       senderName: `${currentUser?.discordName} - says hi!`,
-      channelId: selectedChannel.id,
+      channelId: selectedChannel.id!,
       threadName: `A message from ${currentUser?.discordName}`,
       ThreadAutoArchiveDuration: ThreadAutoArchiveDuration.OneDay,
     }).then(() => {
@@ -83,9 +99,10 @@ export const DiscordAnyChannel = ({}: IDiscordAnyChannelProps) => {
     });
   };
 
+  if (sendingMessage) return <Loading title={`Submitting...`} />;
   return (
-    <Card shadow className={" bg-white p-4"}>
-      <TextHeading3>Create a thread in any CHAT channel </TextHeading3>
+    <Card shadow className={"bg-white p-4"}>
+      <TextHeading3>Create a thread in any FORUM channel </TextHeading3>
       {!selectedServer?._id ? (
         <div
           className={`my-8 w-full text-center text-3xl font-medium uppercase text-zinc-700`}
@@ -96,7 +113,7 @@ export const DiscordAnyChannel = ({}: IDiscordAnyChannelProps) => {
         <Dropdown
           items={channels}
           onSelect={(value) => setSelectedChannel(value)}
-          placeholder="Select a channel"
+          placeholder="Select a forum channel"
         />
       )}
 
@@ -111,9 +128,9 @@ export const DiscordAnyChannel = ({}: IDiscordAnyChannelProps) => {
             <TextArea
               rows={6}
               value={message}
-              className="border-none px-0"
+              className=""
               placeholder="Start typing here"
-              customStyle={{ boxShadow: "none", fontSize: "20px" }}
+              customStyle={{ fontSize: "20px" }}
               onChange={(e) => setMessage(e.target.value)}
             />
             <Button
