@@ -53,17 +53,18 @@ export const ReviewCard = ({ project }: ReviewCardProps) => {
             className="text-sm text-white"
             cutText={10}
           />
-          {project?.role?.skills.map((skill, index) => {
-            return (
-              <Badge
-                key={index}
-                text={skill?.comment}
-                colorRGB="159, 90, 253"
-                className="text-sm text-white"
-                cutText={10}
-              />
-            );
-          })}
+          {project?.role?.skills &&
+            project?.role?.skills.map((skill, index) => {
+              return (
+                <Badge
+                  key={index}
+                  text={skill?.comment || ""}
+                  colorRGB="159, 90, 253"
+                  className="text-sm text-white"
+                  cutText={10}
+                />
+              );
+            })}
         </div>
       </Card>
     </>
