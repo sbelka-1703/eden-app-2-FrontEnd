@@ -141,6 +141,7 @@ export const UserExperienceCard = ({
         <div className="mb-4 flex w-full">
           <BadgeSelector
             items={FIELDS}
+            multiple={false}
             onChange={(items) => console.info({ items })}
           />
         </div>
