@@ -6,12 +6,14 @@ import { useEffect, useState } from "react";
 export interface IBatteryStepperProps {
   batteryPercentage: number;
   numMatches?: number | string;
+  text?: string;
   size?: "lg" | "sm";
 }
 
 export const BatteryStepper = ({
   numMatches,
   batteryPercentage,
+  text = "Projects",
   size = "lg",
 }: IBatteryStepperProps) => {
   const [batteryColor, setBatteryColor] = useState("#ff0000");
@@ -60,7 +62,7 @@ export const BatteryStepper = ({
         {!!numMatches && (
           <div className="font-poppins absolute left-2/4 top-2/4 -translate-x-2/4 -translate-y-2/4 text-center font-semibold">
             <p className={`${numMatchesTextCls}`}>{numMatches}</p>
-            <p className={`${mathcesTextCls}`}>Projects</p>
+            <p className={`${mathcesTextCls}`}>{text}</p>
           </div>
         )}
       </div>

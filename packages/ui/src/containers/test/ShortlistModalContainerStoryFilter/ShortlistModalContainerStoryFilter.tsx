@@ -32,11 +32,13 @@ export interface IShortlistModalContainerStoryFilterProps {
   // eslint-disable-next-line no-unused-vars
   setSubmittingTalentAttributes?: (val: any) => void;
   mockData?: any;
+  matchType?: string;
 }
 
 export const ShortlistModalContainerStoryFilter = ({
   setSubmittingTalentAttributes,
   mockData,
+  matchType,
 }: IShortlistModalContainerStoryFilterProps) => {
   const {
     project,
@@ -176,6 +178,7 @@ export const ShortlistModalContainerStoryFilter = ({
           numMatchesBefore={210}
           batteryPercentageAfter={70}
           numMatchesAfter={8}
+          matchType={matchType}
         />
       )}
 
