@@ -92,6 +92,7 @@ const UserPage: NextPageWithLayout = () => {
         </GridItemNine>
       </GridLayout>
       <ShortlistModalContainerStoryFilter
+        matchType="People"
         setSubmittingTalentAttributes={(val) => {
           setRoleFilter(val);
         }}

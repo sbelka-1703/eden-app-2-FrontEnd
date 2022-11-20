@@ -4,6 +4,7 @@ import {
   APIGuildMember,
   ThreadAutoArchiveDuration,
 } from "discord-api-types/v10";
+
 export interface CreateThreadResponse {
   threadId: string;
 }
@@ -14,6 +15,15 @@ export interface FetchGuildMembersResponse {
 
 export interface FetchMutualGuildsResponse {
   guilds: Array<APIGuild>;
+}
+
+export interface CreateDMApiRequestBody {
+  recipientId: string;
+  message: string;
+}
+
+export interface CreateDMApiResponse {
+  status: string;
 }
 
 export interface CreateThreadApiRequestBody {

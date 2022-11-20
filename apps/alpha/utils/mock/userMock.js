@@ -39,13 +39,13 @@ const proposedSalary = {
 
 const SkillTree = {
   category: {
-    title: "",
-    subTitle: "",
+    title: "Who are you looking for?",
+    subTitle: "Select what you want them to help you with.",
   },
   Design: {
     subCategories: {
-      title: "",
-      subTitle: "",
+      title: "Anything you’d like to specify about this person?",
+      subTitle: "Pick as many things as are important to you.",
       numMatches: "210",
       content: [
         "UX/UI",
@@ -116,8 +116,8 @@ const SkillTree = {
   },
   "Frontend Developer": {
     subCategories: {
-      title: "",
-      subTitle: "",
+      title: "Anything you’d like to specify about this person?",
+      subTitle: "Pick as many things as are important to you.",
       content: [
         "UI Implementation",
         "Frontend Architecture",
@@ -175,8 +175,8 @@ const SkillTree = {
   },
   "Backend Developer": {
     subCategories: {
-      title: "",
-      subTitle: "",
+      title: "Anything you’d like to specify about this person?",
+      subTitle: "Pick as many things as are important to you.",
       content: [
         "Architecture of your app",
         "Hard CS Stuff like Algo Dev & Data Structures",
@@ -238,8 +238,8 @@ const SkillTree = {
   },
   "Blockchain Developer": {
     subCategories: {
-      title: "",
-      subTitle: "",
+      title: "Anything you’d like to specify about this person?",
+      subTitle: "Pick as many things as are important to you.",
       content: [
         "Smart Contract Development",
         "Smart Contract Auditing",
@@ -302,8 +302,8 @@ const SkillTree = {
   },
   Product: {
     subCategories: {
-      title: "",
-      subTitle: "",
+      title: "Anything you’d like to specify about this person?",
+      subTitle: "Pick as many things as are important to you.",
       content: [
         "User Research",
         "Market Research",

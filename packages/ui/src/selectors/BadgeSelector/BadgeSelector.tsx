@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 export interface IBadgeSelectorProps {
   items: any[];
   reset?: boolean;
+  multiple?: boolean;
   // eslint-disable-next-line no-unused-vars
   onChange: (value: any) => void;
 }
@@ -11,15 +12,20 @@ export const BadgeSelector = ({
   reset,
   onChange,
   items = [],
+  multiple = true,
 }: IBadgeSelectorProps) => {
   const [selected, setSelected] = useState<any[]>([]);
 
   const handleChange = (e: any) => {
     if (e.target.checked) {
-      setSelected([
-        ...selected,
-        items.find((item) => item._id === e.target.value),
-      ]);
+      if (multiple) {
+        setSelected([
+          ...selected,
+          items.find((item) => item._id === e.target.value),
+        ]);
+      } else {
+        setSelected([items.find((item) => item._id === e.target.value)]);
+      }
     } else {
       setSelected(selected.filter((item) => item._id !== e.target.value));
     }
@@ -51,6 +57,9 @@ export const BadgeSelector = ({
                 value={item._id}
                 onChange={handleChange}
                 className="peer hidden"
+                checked={selected.find(
+                  (selectedItem) => selectedItem._id === item._id
+                )}
               />
               <label
                 htmlFor={item._id}

@@ -91,9 +91,7 @@ export const PrioritizeModal = ({
       <div>
         <div className="flex justify-between">
           <div className="flex-1">
-            <TextHeading3>
-              Okay, let me just get your priorities straight.
-            </TextHeading3>
+            <TextHeading3>Let me get your priorities straight.</TextHeading3>
             <TextBody className={`font-medium text-gray-500`}>
               On a scale from 0 to 100, how would you rate the importance to
               each attribute
