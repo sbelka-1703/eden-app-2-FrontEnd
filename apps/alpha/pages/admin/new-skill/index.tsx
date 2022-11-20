@@ -588,7 +588,6 @@ const AdminPanelToAddNewSkill: NextPageWithLayout = () => {
           skillID = data.createSkill._id;
         },
       });
-      debugger;
     } else {
       skillID = skill.data.findSkill._id;
     }
