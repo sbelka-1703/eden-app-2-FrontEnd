@@ -17,6 +17,15 @@ export interface FetchMutualGuildsResponse {
   guilds: Array<APIGuild>;
 }
 
+export interface CreateDMApiRequestBody {
+  recipientId: string;
+  message: string;
+}
+
+export interface CreateDMApiResponse {
+  status: string;
+}
+
 export interface CreateThreadApiRequestBody {
   message: string;
   embedMessage: string;
