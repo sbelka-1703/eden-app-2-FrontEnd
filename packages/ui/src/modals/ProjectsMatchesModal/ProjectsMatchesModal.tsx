@@ -7,11 +7,13 @@ export interface ProjectsMatchesModalProps {
   numMatchesBefore?: number;
   batteryPercentageAfter?: number;
   numMatchesAfter?: number;
+  matchType?: string;
   onSubmit?: () => void;
 }
 
 export const ProjectsMatchesModal = ({
   openModal,
+  matchType = "People",
   batteryPercentageBefore = 10,
   numMatchesBefore = 212,
   batteryPercentageAfter = 80,
@@ -22,16 +24,10 @@ export const ProjectsMatchesModal = ({
     <Modal open={openModal} closeOnEsc={false}>
       <div className="space-y-4 pl-4">
         <div>
-          <p className="text-2xl ">
-            Looking for someone? <br />
-            Let me help you find them!{" "}
-          </p>
+          <p className="text-2xl ">Looking for someone?</p>
         </div>
         <div>
-          <p className="tracking-wider">
-            We have 210 people active on Eden today. I’ll help you find the 8
-            for you to talk to!
-          </p>
+          <p className="tracking-wider">Let me help you find them!</p>
         </div>
       </div>
       <div className="my-4 flex justify-center space-x-6 px-6">
@@ -43,22 +39,24 @@ export const ProjectsMatchesModal = ({
                 batteryPercentage={batteryPercentageBefore}
                 numMatches={numMatchesBefore}
                 size={"sm"}
+                text={matchType}
               />
             </div>
-            <div>{"in Eden today"}</div>
+            <div>{"active on Eden today."}</div>
           </p>
         </div>
         <div className="flex h-60 w-60 justify-center rounded-md border-2">
           <p className="flex flex-col items-center justify-center space-y-2">
-            <div> {"AI will find the best"}</div>
+            <div> {"I’ll help you find the"}</div>
             <div className="mx-4">
               <BatteryStepper
                 batteryPercentage={batteryPercentageAfter}
                 numMatches={numMatchesAfter}
                 size={"sm"}
+                text={matchType}
               />
             </div>
-            <div>{"for you to choose from"}</div>
+            <div>{"for you to talk to!"}</div>
           </p>
         </div>
       </div>
