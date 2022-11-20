@@ -100,7 +100,7 @@ export const RangeChart = ({
           {leftCaption || `${rangesData.domain[0]} $`}
         </TextHeading3>
         <TextHeading3 className="absolute right-0 bottom-5">
-          {rightCaption || `${rangesData.domain[1]} $$`}
+          {rightCaption || `${rangesData.domain[1]} $`}
         </TextHeading3>
         <BarChart
           data={data}

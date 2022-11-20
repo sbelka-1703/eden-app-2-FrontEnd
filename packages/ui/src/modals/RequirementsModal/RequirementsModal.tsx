@@ -45,11 +45,9 @@ export const RequirementsModal = ({
       <div>
         <div className="flex justify-between">
           <div className="flex-1">
-            <TextHeading3>
-              Finally, let’s talk money! Wohoo, AI is the best it can be! 👉🏽
-            </TextHeading3>
+            <TextHeading3>Finally, let’s talk money!</TextHeading3>
             <TextBody className={`font-medium text-gray-500`}>
-              Check out what salaries other get!
+              Specify the range you’d be willing to pay.
             </TextBody>
           </div>
 

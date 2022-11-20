@@ -22,12 +22,15 @@ export const ProjectsMatchesModal = ({
     <Modal open={openModal} closeOnEsc={false}>
       <div className="space-y-4 pl-4">
         <div>
-          <p className="text-2xl ">Finding your ideal project!</p>
+          <p className="text-2xl ">
+            Looking for someone? <br />
+            Let me help you find them!{" "}
+          </p>
         </div>
         <div>
           <p className="tracking-wider">
-            We will help you find the perfect match based on your skills and
-            prefences.
+            We have 210 people active on Eden today. I’ll help you find the 8
+            for you to talk to!
           </p>
         </div>
       </div>

@@ -133,10 +133,6 @@ export const ShortlistModalContainerStoryFilter = ({
     }
   }, [submitting]);
 
-  useEffect(() => {
-    console.log("~~~~~~~", talentAttributes);
-  }, [talentAttributes]);
-
   const mockDataMap1 = {
     SkillTree: {
       subCategories: {
