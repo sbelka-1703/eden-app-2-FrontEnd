@@ -10,30 +10,45 @@ import { useState } from "react";
 
 import type { NextPageWithLayout } from "../../_app";
 
-const DMPage: NextPageWithLayout = () => {
+const DMPage: NextPageWithLayout<{ userId: string }> = ({ userId }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const handleDMCheck = () => {
+  const handleDMCheck = async () => {
     console.log("check DM");
     setIsLoading(true);
+    const requestBody: CreateDMApiRequestBody = {
+      message: "Testing",
+      // if none, send it to Alex1237, lol
+      recipientId: userId ?? "812526237074456577",
+    };
 
-    setTimeout(() => {
+    try {
+      const response = await fetch(encodeURI("/api/discord/createDM"), {
+        method: "POST",
+        body: JSON.stringify(requestBody),
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      });
+      const jsonData: CreateDMApiResponse = await response.json();
+
+      console.log(jsonData.status);
+      if (jsonData.status === "Done") {
+        setIsError(false);
+        setIsLoading(false);
+        setIsSuccess(true);
+      } else {
+        setIsLoading(false);
+        setIsError(true);
+      }
+    } catch (error) {
+      console.log(error);
       setIsLoading(false);
       setIsError(true);
-    }, 2000);
-  };
-
-  const handleDMcheckAgain = () => {
-    console.log("check DM again");
-    setIsLoading(true);
-
-    setTimeout(() => {
-      setIsError(false);
-      setIsLoading(false);
-      setIsSuccess(true);
-    }, 2000);
+    }
   };
 
   const handleDone = () => {
@@ -73,7 +88,7 @@ const DMPage: NextPageWithLayout = () => {
           <div className={`my-4 w-full`}>
             <Button
               variant={`primary`}
-              onClick={handleDMcheckAgain}
+              onClick={handleDMCheck}
               className={`w-full`}
             >
               Check Again
@@ -111,6 +126,11 @@ export default DMPage;
 import { IncomingMessage, ServerResponse } from "http";
 import { getSession } from "next-auth/react";
 
+import {
+  CreateDMApiRequestBody,
+  CreateDMApiResponse,
+} from "../../../types/type";
+
 export async function getServerSideProps(ctx: {
   req: IncomingMessage;
   res: ServerResponse;
@@ -127,8 +147,9 @@ export async function getServerSideProps(ctx: {
       },
     };
   }
-
   return {
-    props: {},
+    props: {
+      userId: session?.user?.id,
+    },
   };
 }
