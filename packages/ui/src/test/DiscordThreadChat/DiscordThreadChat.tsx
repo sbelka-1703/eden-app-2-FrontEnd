@@ -39,9 +39,10 @@ const createThread = async (body: CreateThreadApiRequestBody) => {
     },
   });
 
-  console.log("response", response);
-
-  const jsonData: CreateThreadResponse = await response.json();
+  // console.log("response", response);
+  const jsonData: CreateThreadResponse = await response.json().catch((e) => {
+    console.log("e", e);
+  });
 
   return jsonData;
 };
@@ -117,7 +118,7 @@ export const DiscordThreadChat = ({}: IDiscordThreadChatProps) => {
           <div>{selectedChannel.name}</div>
           <div>catagory id : {selectedChannel.parent_id}</div>
           <div>channel id : {selectedChannel.id}</div>
-          <div>default channel id: {selectedServer?.channel?.chatID}</div>
+          {/* <div>default channel id: {selectedServer?.channel?.chatID}</div> */}
           <div className="mt-3">
             <TextHeading3>Send a message!</TextHeading3>
             <TextArea

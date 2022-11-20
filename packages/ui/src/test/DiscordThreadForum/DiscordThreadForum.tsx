@@ -45,6 +45,8 @@ const createThread = async (body: CreateThreadApiRequestBody) => {
     console.log("e", e);
   });
 
+  console.log("jsonData", jsonData);
+
   return jsonData;
 };
 
@@ -110,11 +112,14 @@ export const DiscordThreadForum = ({}: IDiscordThreadForumProps) => {
           please select a server
         </div>
       ) : (
-        <Dropdown
-          items={channels}
-          onSelect={(value) => setSelectedChannel(value)}
-          placeholder="Select a forum channel"
-        />
+        <div className={`mt-8 w-full`}>
+          <Dropdown
+            label={`Select a channel`}
+            items={channels}
+            onSelect={(value) => setSelectedChannel(value)}
+            placeholder="Select a forum channel"
+          />
+        </div>
       )}
 
       {selectedChannel && (
@@ -122,7 +127,7 @@ export const DiscordThreadForum = ({}: IDiscordThreadForumProps) => {
           <div>{selectedChannel.name}</div>
           <div>catagory id : {selectedChannel.parent_id}</div>
           <div>channel id : {selectedChannel.id}</div>
-          <div>default channel id: {selectedServer?.channel?.chatID}</div>
+          {/* <div>default channel id: {selectedServer?.channel?.chatID}</div> */}
           <div className="mt-3">
             <TextHeading3>Send a message!</TextHeading3>
             <TextArea
