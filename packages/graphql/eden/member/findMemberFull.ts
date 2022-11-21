@@ -6,7 +6,6 @@ export const FIND_MEMBER_FULL = gql`
       _id
       discordAvatar
       discordName
-      serverID
       bio
       content {
         interest
@@ -40,27 +39,9 @@ export const FIND_MEMBER_FULL = gql`
           descriptionOneLine
           backColorEmoji
           serverID
-          garden_teams {
-            _id
-            name
-            description
-            champion {
-              _id
-              discordName
-            }
-            categoryDiscordlD
-            channelGeneralDiscordID
-            forumDiscordID
-          }
           collaborationLinks {
             title
             link
-          }
-          team {
-            phase
-            memberInfo {
-              _id
-            }
           }
           role {
             _id
@@ -69,12 +50,6 @@ export const FIND_MEMBER_FULL = gql`
             dateRangeStart
             dateRangeEnd
             hoursPerWeek
-            budget {
-              totalBudget
-              token
-              perHour
-              perMonth
-            }
           }
           dates {
             kickOff
@@ -93,12 +68,6 @@ export const FIND_MEMBER_FULL = gql`
           dateRangeStart
           dateRangeEnd
           hoursPerWeek
-          budget {
-            totalBudget
-            token
-            perHour
-            perMonth
-          }
         }
       }
       links {
@@ -111,10 +80,6 @@ export const FIND_MEMBER_FULL = gql`
           name
         }
         level
-      }
-      onbording {
-        percentage
-        signup
       }
       memberRole {
         _id
