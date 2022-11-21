@@ -51,6 +51,16 @@ export const FIND_MEMBER = gql`
         _id
         title
       }
+      endorsements {
+        endorser {
+          _id
+          discordName
+          discordAvatar
+          discriminator
+        }
+        endorsementMessage
+        arweaveTransactionID
+      }
     }
   }
 `;
