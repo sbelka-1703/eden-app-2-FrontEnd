@@ -89,10 +89,10 @@ const SignUpTestPage: NextPageWithLayout = () => {
           skillsID: filterskillsfromcurrentuser,
           limit: 30,
           page: 0,
-          serverID: [selectedServer?._id],
+          // serverID: [selectedServer?._id],
         },
       },
-      skip: !currentUser && !selectedServer?._id,
+      skip: !currentUser,
       context: { serviceName: "soilservice" },
     }
   );
