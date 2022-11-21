@@ -20,17 +20,14 @@ const findMutualGuilds = async () => {
   return response.json();
 };
 
-const findMember = async (memberId: string) => {
-  const response = await fetch(
-    encodeURI(`/api/discord/fetchMember?memberId=${memberId}`),
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    }
-  );
+const findMember = async () => {
+  const response = await fetch(encodeURI(`/api/discord/fetchMember`), {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+  });
 
   return response.json();
 };
@@ -84,7 +81,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     onCompleted: (data) => {
       // console.log("data", data);
       if (!data.findMember) {
-        findMember(id as string)
+        findMember()
           .then((member) => {
             // console.log("member NOT found", member.member);
             addNewMember({

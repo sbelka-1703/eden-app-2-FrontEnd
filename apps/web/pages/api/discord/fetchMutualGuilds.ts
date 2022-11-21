@@ -29,14 +29,6 @@ export default async (
   });
 };
 
-// function _getBotGuildsService() {
-//   return axios.get<APIGuild[]>(`${DISCORD_API_URL}/users/@me/guilds`, {
-//     headers: {
-//       Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
-//     },
-//   });
-// }
-
 function _getGuildsService() {
   return axios.post(process.env.NEXT_PUBLIC_GRAPHQL_URL as string, {
     headers: {
@@ -70,7 +62,6 @@ async function _getUserGuildsService(token: string) {
 }
 
 async function getMutualGuildsService(token: string) {
-  // const { data: botGuilds } = await _getBotGuildsService();
   const { data: botGuilds } = await _getGuildsService();
 
   const { data: userGuilds } = await _getUserGuildsService(token);
