@@ -8,6 +8,7 @@ import {
   RequirementsModal,
   ReviewModal,
   SkipFlowModal,
+  WarningModal,
   //   SavingProjectModal,
 } from "@eden/package-ui";
 import { useContext, useEffect, useState } from "react";
@@ -238,7 +239,7 @@ export const HackathonModalContainer = ({
           }}
           onSubmit={(val) => {
             console.log(val);
-            setOpenModal(null);
+            setOpenModal(HackathonProjectModal.WARNING);
             // setOpenModal(null);
           }}
         />
@@ -259,6 +260,20 @@ export const HackathonModalContainer = ({
       )} */}
       {openModal === HackathonProjectModal.CONGRATULATIONS && (
         <CongratulationsModal openModal />
+      )}
+      {openModal === HackathonProjectModal.WARNING && (
+        <WarningModal
+          openModal
+          profilePercentage={20}
+          canSeeProjects={false}
+          canProjectsSee={false}
+          onSkip={function (): void {
+            setOpenModal(null);
+          }}
+          onNext={function (): void {
+            setOpenModal(null);
+          }}
+        />
       )}
     </>
   );

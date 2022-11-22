@@ -32,6 +32,7 @@ export enum HackathonProjectModal {
   SAVING_PROJECT = "saving project",
   CONGRATULATIONS = "congratulations",
   SKIP_ALERT = "skip alert",
+  WARNING = "warning",
 }
 
 function projectReducer(project: Project, action: HackathonAction): Project {

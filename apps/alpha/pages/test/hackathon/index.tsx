@@ -9,26 +9,15 @@ import {
   SEO,
   StaticCard,
   UserProfileCard,
+  WarningCard,
 } from "@eden/package-ui";
 
 import HACK2_MOCK from "../../../utils/mock/skillTreeWorks_Hackathon_Project2";
 import type { NextPageWithLayout } from "../../_app";
 
 const LaunchPage: NextPageWithLayout = () => {
+  const router = useRouter();
   const [roleFilter, setRoleFilter] = useState<any>(null);
-
-  const handleSetSkills = (val: any) => {
-    console.log(val);
-  };
-  const handleSetHoursPerWeek = (val: any) => {
-    console.log(val);
-  };
-  const handleSetBudget = (val: any) => {
-    console.log(val);
-  };
-  const handleDeleteSkill = (val: any) => {
-    console.log(val);
-  };
 
   const { setOpenModal } = useContext(HackathonContext);
 
@@ -63,13 +52,9 @@ const LaunchPage: NextPageWithLayout = () => {
       <GridLayout>
         <GridItemThree className="h-85 scrollbar-hide overflow-scroll">
           <UserProfileCard />
-          <FiltersCard
-            defaultValue={{}}
-            skills={[]}
-            handleSetSkills={handleSetSkills}
-            handleDeleteSkill={handleDeleteSkill}
-            handleSetHoursPerWeek={handleSetHoursPerWeek}
-            handleSetBudget={handleSetBudget}
+          <WarningCard
+            profilePercentage={20}
+            onClickCompleteProfile={() => router.push("/fill-profile")}
           />
         </GridItemThree>
 
@@ -115,6 +100,7 @@ import {
   HackathonProvider,
 } from "@eden/package-context";
 import { IncomingMessage, ServerResponse } from "http";
+import { useRouter } from "next/router";
 import { getSession } from "next-auth/react";
 import { useContext, useEffect, useState } from "react";
 

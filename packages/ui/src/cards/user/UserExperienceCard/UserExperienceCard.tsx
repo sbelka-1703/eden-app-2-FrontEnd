@@ -3,7 +3,6 @@ import {
   BadgeSelector,
   Button,
   Calendar,
-  Card,
   RoleSelector,
   SearchSkill,
   TextArea,
@@ -88,17 +87,14 @@ function reducer(state: Experience, action: any): Experience {
 
 export interface UserExperienceCardlProps {
   roles: Maybe<Array<Maybe<RoleTemplate>>>;
-  onBack: () => void;
-  // eslint-disable-next-line no-unused-vars
-  onNext: (data: Experience) => void;
   // eslint-disable-next-line no-unused-vars
   handleSubmit?: (val: any) => void;
 }
 
 export const UserExperienceCard = ({
   roles,
-  onNext,
-  onBack,
+  // eslint-disable-next-line no-unused-vars
+  handleSubmit,
 }: UserExperienceCardlProps) => {
   const [state, dispath] = useReducer(reducer, initialState);
 
@@ -133,133 +129,117 @@ export const UserExperienceCard = ({
   };
 
   return (
-    <Card shadow className="px-8 py-2">
-      <div className=" flex flex-col items-center">
-        <TextHeading3 className="mb-4 w-full text-left text-lg">
-          Now, let’s fill them out!
-        </TextHeading3>
-        <div className="mb-4 flex w-full">
-          <BadgeSelector
-            items={FIELDS}
-            multiple={false}
-            onChange={(items) => console.info({ items })}
-          />
-        </div>
-        {/*  */}
-        {map(state, (items, key) => (
-          <div
-            key={key}
-            className="mb-4 grid w-full grid-cols-2 gap-8 border-b border-b-gray-300 pb-4"
-          >
+    <div className=" flex flex-col items-center">
+      <TextHeading3 className="mb-4 w-full text-left text-lg">
+        Now, let’s fill them out!
+      </TextHeading3>
+      <div className="mb-4 flex w-full">
+        <BadgeSelector
+          items={FIELDS}
+          multiple={false}
+          onChange={(items) => console.info({ items })}
+        />
+      </div>
+      {/*  */}
+      {map(state, (items, key) => (
+        <div
+          key={key}
+          className="mb-4 grid w-full grid-cols-2 gap-8 border-b border-b-gray-300 pb-4"
+        >
+          <div>
             <div>
-              <div>
-                <p className="mb-3 w-full text-left text-sm font-medium">
-                  Role:
-                </p>
-                <RoleSelector
-                  roles={roles}
-                  value={items?.role}
-                  onSelect={(val: Maybe<RoleTemplate>) => {
-                    handleUpdateRole(val, "role", +key);
-                  }}
-                />
-              </div>
-              <div>
-                <p className="mb-3 w-full text-left text-sm font-medium">
-                  Company/project name:
-                </p>
-                <TextField
-                  name="title"
-                  style={{ padding: "10px" }}
-                  placeholder="Start typing here..."
-                  onChange={(e) => handleTextChange(e, +key)}
-                />
-              </div>
-              <div className="mt-3">
-                <p className="mb-3 w-full text-left text-sm font-medium">
-                  Timeline:
-                </p>
-
-                <Calendar
-                  containerClassName="w-full mb-4"
-                  buttonClassName="w-full rounded-xl"
-                  label="Start Date"
-                  onChange={(e) => handleUpdateRole(e, "startDate", +key)}
-                />
-                <Calendar
-                  containerClassName="w-full"
-                  buttonClassName="w-full rounded-xl"
-                  label="End Date"
-                  onChange={(e) => handleUpdateRole(e, "endDate", +key)}
-                />
-              </div>
+              <p className="mb-3 w-full text-left text-sm font-medium">Role:</p>
+              <RoleSelector
+                roles={roles}
+                value={items?.role}
+                onSelect={(val: Maybe<RoleTemplate>) => {
+                  handleUpdateRole(val, "role", +key);
+                }}
+              />
             </div>
             <div>
-              <div>
-                <p className="mb-3 w-full text-left text-sm font-medium">
-                  Skills:
-                </p>
-                <SearchSkill
-                  setSkills={(skills: any) =>
-                    handleUpdateRole(skills, "skills", +key)
-                  }
-                  skills={items?.skills}
-                  levels={[
-                    {
-                      title: "learning",
-                      level: "learning",
-                    },
-                    {
-                      title: "Mid Level",
-                      level: "mid",
-                    },
-                    {
-                      title: "Senior",
-                      level: "senior",
-                    },
-                    {
-                      title: "Junior",
-                      level: "junior",
-                    },
-                  ]}
-                />
-              </div>
-              <div>
-                <p className="mb-3 w-full text-left text-sm font-medium">
-                  Bio:
-                </p>
-                <TextArea
-                  rows={5}
-                  name="bio"
-                  placeholder="Start typing here..."
-                  onChange={(e) => handleTextChange(e, +key)}
-                />
-              </div>
-              <div className="mt-9 flex justify-between">
-                <Button variant={`secondary`} className="flex items-center">
-                  <ArrowSmLeftIcon className="h-4 w-4 text-black" />
-                </Button>
-                <Button variant={`secondary`} onClick={handleAddExperience}>
-                  Add new experience
-                </Button>
-                <Button variant={`secondary`} className="flex items-center">
-                  <ArrowSmRightIcon className="h-4 w-4 text-black" />
-                </Button>
-              </div>
+              <p className="mb-3 w-full text-left text-sm font-medium">
+                Company/project name:
+              </p>
+              <TextField
+                name="title"
+                style={{ padding: "10px" }}
+                placeholder="Start typing here..."
+                onChange={(e) => handleTextChange(e, +key)}
+              />
+            </div>
+            <div className="mt-3">
+              <p className="mb-3 w-full text-left text-sm font-medium">
+                Timeline:
+              </p>
+
+              <Calendar
+                containerClassName="w-full mb-4"
+                buttonClassName="w-full rounded-xl"
+                label="Start Date"
+                onChange={(e) => handleUpdateRole(e, "startDate", +key)}
+              />
+              <Calendar
+                containerClassName="w-full"
+                buttonClassName="w-full rounded-xl"
+                label="End Date"
+                onChange={(e) => handleUpdateRole(e, "endDate", +key)}
+              />
             </div>
           </div>
-        ))}
-        {/*  */}
-        <div className="flex w-full justify-between">
-          <Button variant={`secondary`} onClick={onBack}>
-            Back
-          </Button>
-
-          <Button variant={`secondary`} onClick={() => onNext(state)}>
-            Next
-          </Button>
+          <div>
+            <div>
+              <p className="mb-3 w-full text-left text-sm font-medium">
+                Skills:
+              </p>
+              <SearchSkill
+                setSkills={(skills: any) =>
+                  handleUpdateRole(skills, "skills", +key)
+                }
+                skills={items?.skills}
+                levels={[
+                  {
+                    title: "learning",
+                    level: "learning",
+                  },
+                  {
+                    title: "Mid Level",
+                    level: "mid",
+                  },
+                  {
+                    title: "Senior",
+                    level: "senior",
+                  },
+                  {
+                    title: "Junior",
+                    level: "junior",
+                  },
+                ]}
+              />
+            </div>
+            <div>
+              <p className="mb-3 w-full text-left text-sm font-medium">Bio:</p>
+              <TextArea
+                rows={5}
+                name="bio"
+                placeholder="Start typing here..."
+                onChange={(e) => handleTextChange(e, +key)}
+              />
+            </div>
+            <div className="mt-9 flex justify-between">
+              <Button variant={`secondary`} className="flex items-center">
+                <ArrowSmLeftIcon className="h-4 w-4 text-black" />
+              </Button>
+              <Button variant={`secondary`} onClick={handleAddExperience}>
+                Add new experience
+              </Button>
+              <Button variant={`secondary`} className="flex items-center">
+                <ArrowSmRightIcon className="h-4 w-4 text-black" />
+              </Button>
+            </div>
+          </div>
         </div>
-      </div>
-    </Card>
+      ))}
+    </div>
   );
 };
