@@ -16,6 +16,4 @@ const Template: ComponentStory<typeof UserExperienceCard> = (args) => (
 export const Default = Template.bind({});
 Default.args = {
   roles: findRoleTemplates,
-  onBack: () => null,
-  onNext: (data) => console.info({ data }),
 };
