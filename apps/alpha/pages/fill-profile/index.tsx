@@ -287,7 +287,11 @@ const FillProfilePage: NextPageWithLayout = () => {
           <Card className="bg-white p-4">
             <p>Preview of your profile:</p>
             <div className={`h-8/10 scrollbar-hide w-full overflow-scroll`}>
-              <div className="mb-4 flex w-full justify-center">
+              <div
+                className={`mb-4 flex w-full justify-center ${
+                  step !== STEPS.ROLE ? "blur-sm brightness-50" : ""
+                }`}
+              >
                 <UserWithDescription
                   member={{
                     discordName: currentUser?.discordName,
@@ -300,7 +304,11 @@ const FillProfilePage: NextPageWithLayout = () => {
                 />
               </div>
               <div className="mb-4 grid grid-cols-12 gap-2">
-                <div className="col-span-5">
+                <div
+                  className={`col-span-5 ${
+                    step !== STEPS.BIO ? "blur-sm brightness-50" : ""
+                  }`}
+                >
                   <TextHeading3
                     style={{ fontWeight: 700 }}
                     className="mb-2 text-sm uppercase text-gray-500"
@@ -311,7 +319,11 @@ const FillProfilePage: NextPageWithLayout = () => {
                     {state?.bio}
                   </p>
                 </div>
-                <div className="col-span-3 flex justify-center">
+                <div
+                  className={`col-span-3 flex justify-center ${
+                    step ? "blur-sm brightness-50" : ""
+                  }`}
+                >
                   <div>
                     <h1 className="text-soilHeading3 font-poppins text-soilGray -ml-2 font-medium">
                       ⚡️Match
@@ -322,33 +334,53 @@ const FillProfilePage: NextPageWithLayout = () => {
                   </div>
                 </div>
                 <div className="col-span-4">
-                  <AvailabilityComp
-                    timePerWeek={state.hoursPerWeek as number}
-                    seed={
-                      state.expectedSalary
-                        ? state.expectedSalary.toString()
-                        : "0"
-                    }
-                  />
-                  {!!state?.links?.length && (
-                    <SocialMediaComp
-                      title=""
-                      links={state.links.map((link: Maybe<LinkType>) => ({
-                        name: link?.name?.toLowerCase(),
-                        url: link?.url,
-                      }))}
-                      size="1.8rem"
+                  <div
+                    className={`${
+                      step !== STEPS.COMPENSATION ? "blur-sm brightness-50" : ""
+                    }`}
+                  >
+                    <AvailabilityComp
+                      timePerWeek={state.hoursPerWeek as number}
+                      seed={
+                        state.expectedSalary
+                          ? state.expectedSalary.toString()
+                          : "0"
+                      }
                     />
-                  )}
+                  </div>
+                  <div
+                    className={`${
+                      step !== STEPS.SOCIALS ? "blur-sm brightness-50" : ""
+                    }`}
+                  >
+                    {!!state?.links?.length && (
+                      <SocialMediaComp
+                        title=""
+                        links={state.links.map((link: Maybe<LinkType>) => ({
+                          name: link?.name?.toLowerCase(),
+                          url: link?.url,
+                        }))}
+                        size="1.8rem"
+                      />
+                    )}
+                  </div>
                 </div>
               </div>
 
-              {USER_MOCK.Result[1].background && (
-                <UserBackground
-                  background={state.background}
-                  initialEndorsements={USER_MOCK.Result[1].endorsements}
-                />
-              )}
+              <div
+                className={`${
+                  step !== STEPS.EXP && step !== STEPS.EXP_DETAIL
+                    ? "blur-sm brightness-50"
+                    : ""
+                }`}
+              >
+                {USER_MOCK.Result[1].background && (
+                  <UserBackground
+                    background={state.background}
+                    initialEndorsements={USER_MOCK.Result[1].endorsements}
+                  />
+                )}
+              </div>
             </div>
           </Card>
         </GridItemSix>
