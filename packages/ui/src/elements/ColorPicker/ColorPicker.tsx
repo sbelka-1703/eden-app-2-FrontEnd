@@ -25,11 +25,13 @@ interface IroColorPicker {
 export interface ColorInputProps {
   className?: string;
   value?: string;
+  width?: number;
   // eslint-disable-next-line no-unused-vars
   onChange?: (color: string) => void;
 }
 
 export const ColorPicker: FunctionComponent<ColorInputProps> = ({
+  width = 200,
   value = "rgb(255, 0, 0)",
   onChange = () => null,
 }) => {
@@ -44,6 +46,7 @@ export const ColorPicker: FunctionComponent<ColorInputProps> = ({
     if (!colorPicker.current) {
       // create a new iro color picker and pass component props to it
       colorPicker.current = new (iro.ColorPicker as any)(el.current, {
+        width,
         color: value,
         layout: [
           {
