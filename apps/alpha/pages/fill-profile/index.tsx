@@ -285,6 +285,7 @@ const FillProfilePage: NextPageWithLayout = () => {
 
         <GridItemSix className="">
           <Card className="bg-white p-4">
+            <p>Preview of your profile:</p>
             <div className={`h-8/10 scrollbar-hide w-full overflow-scroll`}>
               <div className="mb-4 flex w-full justify-center">
                 <UserWithDescription

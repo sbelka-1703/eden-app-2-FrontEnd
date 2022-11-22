@@ -1,7 +1,6 @@
 import {
   AppUserLayout,
   Card,
-  FiltersCard,
   GridItemNine,
   GridItemThree,
   GridLayout,
