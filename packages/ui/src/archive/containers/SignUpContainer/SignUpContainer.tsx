@@ -1,5 +1,5 @@
 import { gql, useMutation } from "@apollo/client";
-import { SignUpContext, UserContext } from "@eden/package-context";
+import { UserContext } from "@eden/package-context";
 import { Mutation } from "@eden/package-graphql/generated";
 import { Button, Card, FormStepper, Loading } from "@eden/package-ui";
 import { useRouter } from "next/router";
@@ -15,6 +15,7 @@ import {
   SignUpViewSuccess,
   SignUpViewXP,
 } from "./";
+import { SignUpContext } from "./context";
 
 const UPDATE_MEMBER = gql`
   mutation ($fields: updateMemberInput!) {

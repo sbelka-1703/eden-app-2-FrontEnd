@@ -1,5 +1,4 @@
 /* eslint-disable react/no-unescaped-entities */
-import { SignUpContext } from "@eden/package-context";
 import { Dropdown, TextField } from "@eden/package-ui";
 import { useContext } from "react";
 import {
@@ -11,6 +10,7 @@ import {
 } from "react-icons/fa";
 
 import { timezones } from "../../../../../constants";
+import { SignUpContext } from "../context";
 
 export const SignUpViewSocials = () => {
   const {
