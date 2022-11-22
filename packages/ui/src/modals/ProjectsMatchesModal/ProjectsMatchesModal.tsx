@@ -32,7 +32,7 @@ export const ProjectsMatchesModal = ({
       </div>
       <div className="my-4 flex justify-center space-x-6 px-6">
         <div className="flex h-60 w-60 justify-center rounded-md border-2">
-          <p className="flex flex-col items-center justify-center space-y-2">
+          <div className="flex flex-col items-center justify-center space-y-2">
             <div>{"We have"}</div>
             <div className="mx-4">
               <BatteryStepper
@@ -43,10 +43,10 @@ export const ProjectsMatchesModal = ({
               />
             </div>
             <div>{"active on Eden today."}</div>
-          </p>
+          </div>
         </div>
         <div className="flex h-60 w-60 justify-center rounded-md border-2">
-          <p className="flex flex-col items-center justify-center space-y-2">
+          <div className="flex flex-col items-center justify-center space-y-2">
             <div> {"I’ll help you find the"}</div>
             <div className="mx-4">
               <BatteryStepper
@@ -57,7 +57,7 @@ export const ProjectsMatchesModal = ({
               />
             </div>
             <div>{"for you to talk to!"}</div>
-          </p>
+          </div>
         </div>
       </div>
       <div className="flex justify-end">
