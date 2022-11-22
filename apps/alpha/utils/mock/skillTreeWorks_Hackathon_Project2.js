@@ -1319,11 +1319,474 @@ const ResultPopUpShowFlag = {
   persentagewhButton: true,
 };
 
+const usersJSON = {
+  1: {
+    description:
+      "Have been programming since I was 12 years old. During the day I work at Google as a Frontend Engineer on Google Maps, at night I want to be working on the next Google. Hit me up for help with cool startup projects. I'm obsessed with Frontend because it literally has the power to shape the way we interact with eachother & the world around us.",
+    percentage: "85%",
+    picture:
+      "https://cdn.discordapp.com/avatars/875582358940684388/69f7bcd77f145dd282e2abeb47717cf8.webp",
+    name: "BluePanda",
+    nameDescription: "Frontend Developer",
+    Descrimator: "1234",
+    lifetimeStakeTRST: 1205,
+    totalTRST: 320,
+    Skills: [
+      "Typescript",
+      "Javascript",
+      "React",
+      "Angular",
+      "Jira",
+      "Self-Starter",
+      "Growth Mindset",
+      "Accountability",
+      "UX/UI",
+      "Graphic Design",
+      "Web Design",
+      "UI Implementation",
+      "Frontend Architecture",
+      "General Frontend Support",
+      "Web Development",
+      "App Development",
+    ],
+    socials: [
+      {
+        name: "Discord",
+        link: "https://discord.gg/2cF6hup",
+        icon: "https://i.imgur.com/1Q9Z1Zm.png",
+      },
+      {
+        name: "Twitter",
+        link: "https://twitter.com/BluePandaDAO",
+        icon: "https://i.imgur.com/1Q9Z1Zm.png",
+      },
+    ],
+    availability: "10",
+    endorsements: [
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/516697403391213588/4cc3f607d01bc8865b327064c5d380ca.png",
+        name: "Waxy",
+        endorsement:
+          "I had a change to work with BluePanda in D_D Acedemy and he was amazing. True Leader. I learned from him so much. Can’t wait to work with him again.",
+        level: {
+          name: 130,
+          smallName: "L2",
+          meaning: "Community Favourite",
+          SuccessfulEndorsementsGive: "23",
+          SuccessfulEndorsementsReceive: "12",
+        },
+      },
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/730290630097502209/0fbad272ea2a626bc794ddd44dcd4d3d.png",
+        name: "Naman",
+        endorsement:
+          "BluePanda is my greatest friend and a mentor. He’s my North Star. ",
+        level: {
+          name: 30,
+          smallName: "L3",
+          meaning: "Community leader",
+          SuccessfulEndorsementsGive: "3",
+          SuccessfulEndorsementsReceive: "12",
+        },
+      },
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/508878300437938197/4d9a0d7fce99e91fa419c3ae552d4dd4.webp",
+        name: "Slumper",
+        endorsement:
+          "BluePanda is my greatest friend and a mentor. He’s my North Star. ",
+        level: {
+          name: 100,
+          smallName: "L1",
+          meaning: "Community starter",
+          SuccessfulEndorsementsGive: "13",
+          SuccessfulEndorsementsReceive: "2",
+        },
+      },
+    ],
+    background: [
+      {
+        title: "Data Scientist",
+        emoji: "💽",
+        color: "#FFD2D2",
+        content: [
+          {
+            title: "Data schiecne in Nova Futur Ltd",
+            content:
+              "Head of DataHead of Data Overseeing data science and data engineering (ETL pipelines) work across multiple teamsOverseeing data science and data engineering (ETL pipelines) work across multiple teams",
+            skills: ["Go", " Cloud Computing", "tailwind"],
+            date: {
+              start: "2019",
+              end: "2020",
+            },
+          },
+          {
+            title: "Undergrad Research Lead Full Stack Developer",
+            content:
+              "Campus job. Maintained 6 virtual machines with Ubuntu and PaaS (Dokku) that power the HiPerCiC platform. Installed services and containerized web applications with Docker.",
+            skills: ["Teaching", "Python", "Teaching"],
+            date: {
+              start: "2016",
+              end: "2017",
+            },
+          },
+          {
+            title: "Junior ML engineer",
+            content:
+              "Machine Learning internship. Created a random point generator for map data from around the world that was used to evaluate the quality of internal location services at Sygic.",
+            skills: ["Python", "Statistical Data Analysis"],
+            date: {
+              start: "2017",
+              end: "2018",
+            },
+          },
+        ],
+      },
+      {
+        title: "Intern",
+        emoji: "🗄",
+        color: "#CAE8FF",
+        content: [
+          {
+            title: "LEAF organisation",
+            content:
+              "Worked as an intern on the LEAF Summer Leadership Camp 2016 to help develop the next generation of central European leaders.",
+            skills: ["product managment"],
+            date: {
+              start: "Jul 2014",
+              end: "Nov 2015",
+            },
+          },
+        ],
+      },
+    ],
+  },
+  2: {
+    description:
+      "I was employee no1 at Dropbox where I basically helped scope out v1 of the product's backend. I'm looking for a challenging project to spend my nights & weekends on and potentially even join down the line.",
+    percentage: "79%",
+    picture:
+      "https://cdn.discordapp.com/avatars/516697403391213588/4cc3f607d01bc8865b327064c5d380ca.png",
+    name: "Waxy",
+    nameDescription: "Backend Developer",
+    Descrimator: "1234",
+    lifetimeStakeTRST: 40,
+    totalTRST: 20,
+    Skills: [
+      "Architecture of your app",
+      "Hard CS Stuff like Algo Dev & Data Structures",
+      "Blockchain & Smart Contract Stuff",
+      "Typescript",
+      "Java",
+      "MySQL",
+      "Node.js",
+      "Ruby",
+      "Python",
+      "Rust/C++",
+      "GO",
+      "Javascript",
+    ],
+    socials: [
+      {
+        name: "Discord",
+        link: "https://discord.gg/2cF6hup",
+        icon: "https://i.imgur.com/1Q9Z1Zm.png",
+      },
+      {
+        name: "Twitter",
+        link: "https://twitter.com/BluePandaDAO",
+        icon: "https://i.imgur.com/1Q9Z1Zm.png",
+      },
+    ],
+    availability: "15",
+    endorsements: [
+      {
+        avatar: "https://cdn.discordapp.com/embed/avatars/4.png",
+        name: "TauLepton",
+        endorsement:
+          "One of the finest people I’ve ever known in business or any field. An exemplar of Silicon Valley at its best. Many know Reid for his success and talent, but he is an equally great person. A rare example of someone who can engage in a discussion and set his ego and self-interest completely aside. Many would like to think they can do this as well, but Reid is as good as I have seen when it comes to this. ",
+        level: {
+          name: 2000,
+          smallName: "L2",
+          meaning: "Community Favourite",
+          SuccessfulEndorsementsGive: "23",
+          SuccessfulEndorsementsReceive: "12",
+        },
+      },
+    ],
+    background: [
+      {
+        title: "Tech Lead",
+        emoji: "🙀",
+        color: "#FFE5BD",
+        content: [
+          {
+            title: "Tech Lead in Sentora",
+            content:
+              "Built an innovative experimentation platform for A/B testing of global scale from scratch to support evidence-driven products development across 30 coun",
+            skills: [
+              "leadership",
+              "managment",
+              "communication",
+              "data science",
+            ],
+            date: {
+              start: "2022",
+              end: "2020",
+            },
+          },
+          {
+            title: "IOS teach lead",
+            content:
+              "Developed greenfield applications for advertisement campaign reporting. Led and coordinated efforts of a multi disciplinary team to build iOS and Android apps and backend services",
+            skills: [],
+            date: {
+              start: "2016",
+              end: "2017",
+            },
+          },
+          {
+            title: "IOS tech architect",
+            content:
+              "Had central role in defining the technical design and implementation of a trading platform framework for iOS, always with a very hands-on approach to development.",
+            skills: ["IOS", "Android"],
+            date: {
+              start: "Oct 2015",
+              end: "Jen 2016",
+            },
+          },
+        ],
+      },
+      {
+        title: "System Analyst",
+        emoji: "🛠",
+        color: "#CAE8FF",
+        content: [
+          {
+            title: "System Analyst",
+            content:
+              "Had central role in defining the technical design and implementation of a trading platform framework for iOS, always with a very hands-on approach to development.",
+            skills: [],
+            date: {
+              start: "Jul 2016",
+              end: "Nov 2017",
+            },
+          },
+        ],
+      },
+    ],
+  },
+  3: {
+    description:
+      "I'm currently a PM at Airbnb - absolutely obsessed with learning & want to work on something completely unrelated to hospitality.",
+    percentage: "88%",
+    picture:
+      "https://cdn.discordapp.com/avatars/677988313319211037/ff9cda5e0e8fbe62caea07fb7eb3de23.webp",
+    name: "Impactbilli",
+    nameDescription: "Product",
+    Descrimator: "1234",
+    lifetimeStakeTRST: 600,
+    totalTRST: 220,
+    Skills: [
+      "User Research",
+      "Market Research",
+      "Technical Team Coordination",
+      "Design Team Coordination",
+      "Ideation",
+      "Interviews",
+      "UX/UI",
+      "Spec Writing",
+      "User Journey Mapping",
+      "Persona Development",
+      "User Stories",
+      "Technical Spec Writing",
+      "Product OKR Development",
+    ],
+    socials: [
+      {
+        name: "Discord",
+        link: "https://discord.gg/2cF6hup",
+        icon: "https://i.imgur.com/1Q9Z1Zm.png",
+      },
+      {
+        name: "Twitter",
+        link: "https://twitter.com/BluePandaDAO",
+        icon: "https://i.imgur.com/1Q9Z1Zm.png",
+      },
+    ],
+    availability: "10",
+    endorsements: [
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/923472248000638976/fe4285c0ed25c48b81bb462d57f4763b.webp",
+        name: "AaronSim",
+        endorsement:
+          "There are few people in the world who are more gracious, thoughtful, insightful than Reid. Every interaction I've had with him over the years has been incredibly rewarding and authentic -- and, without exception, has led to great outcomes. He's one of our era's great servant leaders.",
+        level: {
+          name: 40,
+          smallName: "L4",
+          meaning: "Community Favourite",
+          SuccessfulEndorsementsGive: "23",
+          SuccessfulEndorsementsReceive: "12",
+        },
+      },
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/855571429105467392/2cce234486a2a73a781d570e0295fd7a.webp",
+        name: "branigan",
+        endorsement:
+          "was my most innovative competitor when I ran Match.Com. The thoughtfulness and vision he put into the Socialnet product are even better manifested in Linked In. It's a true testament to sticking with a great idea until you get it right...even if others don't believe. Since the SocialNet days, Reid has been a good friend and personal adviser.",
+        level: {
+          name: 15,
+          smallName: "L5",
+          meaning: "Community leader",
+          SuccessfulEndorsementsGive: "3",
+          SuccessfulEndorsementsReceive: "12",
+        },
+      },
+    ],
+    background: [
+      {
+        title: "Quant Analyst",
+        emoji: "🙀",
+        color: "#E3FBFF",
+        content: [
+          {
+            title: "Quant Analyst",
+            content:
+              "Business developpment. ERP management and website maintenance. Webmarketing and e-learning.",
+            skills: [
+              "leadership",
+              "managment",
+              "communication",
+              "data science",
+            ],
+            date: {
+              start: "2022",
+              end: "2020",
+            },
+          },
+        ],
+      },
+    ],
+  },
+  4: {
+    description:
+      "I've been designing since 3 - my drawings then were already exquisite. Currently designing at Apple. Looking to help projects that want to fight climate change.",
+    percentage: "78%",
+    picture:
+      "https://cdn.discordapp.com/avatars/175735303489847296/fe70f8879d7d8979dd4a32690806f7f3.webp",
+    name: "XYZ",
+    nameDescription: "Product",
+    Descrimator: "1234",
+    lifetimeStakeTRST: 30,
+    totalTRST: 10,
+    Skills: [
+      "UX/UI",
+      "Graphic Design",
+      "Web Design",
+      "Game Design",
+      "Animation",
+      "General Design support from A-Z",
+      "NFT Design",
+      "Brand Design",
+    ],
+    socials: [
+      {
+        name: "Discord",
+        link: "https://discord.gg/2cF6hup",
+        icon: "https://i.imgur.com/1Q9Z1Zm.png",
+      },
+      {
+        name: "Twitter",
+        link: "https://twitter.com/BluePandaDAO",
+        icon: "https://i.imgur.com/1Q9Z1Zm.png",
+      },
+    ],
+    availability: "10",
+    endorsements: [
+      {
+        avatar:
+          "https://cdn.discordapp.com/avatars/566645413499633666/b5f06ef452a8de55d02a145bb86a43e2.webp",
+        name: "Ashis",
+        endorsement:
+          "Reid is always willing to give suggestions and share experience with people. He has deep knowledge that he shares in a way that reflects a confidence in knowing his stuff but topped with just the right amout of humility to make him approachable and appealing to engage.",
+        level: {
+          name: 400,
+          smallName: "L4",
+          meaning: "Community Favourite",
+          SuccessfulEndorsementsGive: "23",
+          SuccessfulEndorsementsReceive: "12",
+        },
+      },
+    ],
+    background: [
+      {
+        title: "Design",
+        emoji: "💻",
+        color: "#423123",
+        content: [
+          {
+            title: "Core Member in Developer DAO",
+            content:
+              "Developer DAO is one of the best Decentralized Autonomous Organizations working on accelerating the education and impact of Web3 for a new wave of builders. ‣ Core @ Product & Design Guild within the DAO, helping in-house projects and initiatives on their UI & UX.",
+            skills: ["javascript", "react", "tailwind"],
+            date: {
+              start: "Jun 2018",
+              end: "Oct 2020",
+            },
+          },
+          {
+            title: "Product Designer in Ocean Protocol",
+            content:
+              "[Bounty] Ocean Academy 101 is a community initiative providing a simple and practical introduction to Ocean Protocol. ‣ Redesigned the UI/UX of the landing page and the web-app for Ocean Academy 101",
+            skills: ["Figma", "UI", "UX"],
+            date: {
+              start: "Jun 2016",
+              end: "Oct 2017",
+            },
+          },
+        ],
+      },
+      {
+        title: "Product",
+        emoji: "🗄",
+        color: "#423123",
+        content: [
+          {
+            title: "Founding Member in MetapassMetapass",
+            content:
+              "olygon Buidl It 2021's Community Choice winning project, Metapass is a ticketing platform built to buy or sell NFT tickets onchain backed by Polygon & Solana Worked on Product, Design & Growth",
+            skills: ["product managment", "Product Discovery", "team leader"],
+            date: {
+              start: "Oct 2018",
+              end: "Dec 2019",
+            },
+          },
+          {
+            title: "Product Designer in Aera VC · Freelance",
+            content:
+              "Aera VC invests at the frontier of deep technology and sustainability to accelerate the world to a better future. ‣ Redesigned the landing page of the website optimizing the UX which resulted in an increase in signups",
+            skills: ["leadership"],
+            date: {
+              start: "Oct 2021",
+              end: "Dec 2022",
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
+
 const Result = {
   "Design 1": {
     description:
       "At Catapult labs we're excited to unlock the future of DAOs. For this project in particular we're looking for a couple of key people who can help us shape our next gen of DAO tooling.",
     picture: "😂",
+    smallDescription:"The future of games distribution is here",
     name: "Catapult Labs | Next gen DAO tooling.",
     coreTeamPicture: [
       "https://cdn.discordapp.com/avatars/781134177406943272/08e7f48be326d95934393d05519437b5.webp",
