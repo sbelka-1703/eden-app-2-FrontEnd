@@ -265,7 +265,7 @@ export const HackathonModalContainer = ({
         <WarningModal
           openModal
           profilePercentage={20}
-          canSeeProjects={false}
+          canSeeProjects={true}
           canProjectsSee={false}
           onSkip={function (): void {
             setOpenModal(null);
