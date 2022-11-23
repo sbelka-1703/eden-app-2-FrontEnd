@@ -13,21 +13,6 @@ import { ArrowSmLeftIcon, ArrowSmRightIcon } from "@heroicons/react/solid";
 import { map } from "lodash";
 import { useReducer } from "react";
 
-const FIELDS = [
-  {
-    _id: "1",
-    title: "DEVELOPER 💻",
-  },
-  {
-    _id: "2",
-    title: "VOLUNTEERING 👾",
-  },
-  {
-    _id: "3",
-    title: "TRAVELLING ✈️",
-  },
-];
-
 interface Experience {
   [key: number]: {
     role: string;
@@ -87,12 +72,14 @@ function reducer(state: Experience, action: any): Experience {
 
 export interface UserExperienceCardlProps {
   roles: Maybe<Array<Maybe<RoleTemplate>>>;
+  fields?: any[];
   // eslint-disable-next-line no-unused-vars
   handleSubmit?: (val: any) => void;
 }
 
 export const UserExperienceCard = ({
   roles,
+  fields,
   // eslint-disable-next-line no-unused-vars
   handleSubmit,
 }: UserExperienceCardlProps) => {
@@ -135,9 +122,10 @@ export const UserExperienceCard = ({
       </TextHeading3>
       <div className="mb-4 flex w-full">
         <BadgeSelector
-          items={FIELDS}
+          items={fields!}
           multiple={false}
           onChange={(items) => console.info({ items })}
+          selectFirst={true}
         />
       </div>
       {/*  */}

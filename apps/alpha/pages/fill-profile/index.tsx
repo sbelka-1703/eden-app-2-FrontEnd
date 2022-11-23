@@ -259,6 +259,12 @@ const FillProfilePage: NextPageWithLayout = () => {
                         Array<Maybe<RoleTemplate>>
                       >
                     }
+                    fields={state.background.map(
+                      (item: any, index: number) => ({
+                        _id: index.toString(),
+                        title: `${item.emoji} ${item.title}`,
+                      })
+                    )}
                   />
                 )}
               </section>

@@ -541,6 +541,43 @@ const Result = {
           },
         ],
       },
+      {
+        title: "Data Scientist",
+        emoji: "💽",
+        color: "#FFD2D2",
+        content: [
+          {
+            title: "Data schiecne in Nova Futur Ltd",
+            content:
+              "Head of DataHead of Data Overseeing data science and data engineering (ETL pipelines) work across multiple teamsOverseeing data science and data engineering (ETL pipelines) work across multiple teams",
+            skills: ["Go", " Cloud Computing", "tailwind"],
+            date: {
+              start: "2019",
+              end: "2020",
+            },
+          },
+          {
+            title: "Undergrad Research Lead Full Stack Developer",
+            content:
+              "Campus job. Maintained 6 virtual machines with Ubuntu and PaaS (Dokku) that power the HiPerCiC platform. Installed services and containerized web applications with Docker.",
+            skills: ["Teaching", "Python", "Teaching"],
+            date: {
+              start: "2016",
+              end: "2017",
+            },
+          },
+          {
+            title: "Junior ML engineer",
+            content:
+              "Machine Learning internship. Created a random point generator for map data from around the world that was used to evaluate the quality of internal location services at Sygic.",
+            skills: ["Python", "Statistical Data Analysis"],
+            date: {
+              start: "2017",
+              end: "2018",
+            },
+          },
+        ],
+      },
     ],
   },
   2: {

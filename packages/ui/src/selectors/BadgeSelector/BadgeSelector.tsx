@@ -4,6 +4,7 @@ export interface IBadgeSelectorProps {
   items: any[];
   reset?: boolean;
   multiple?: boolean;
+  selectFirst?: boolean;
   // eslint-disable-next-line no-unused-vars
   onChange: (value: any) => void;
 }
@@ -13,6 +14,7 @@ export const BadgeSelector = ({
   onChange,
   items = [],
   multiple = true,
+  selectFirst = false,
 }: IBadgeSelectorProps) => {
   const [selected, setSelected] = useState<any[]>([]);
 
@@ -34,6 +36,12 @@ export const BadgeSelector = ({
   useEffect(() => {
     onChange(selected);
   }, [selected]);
+
+  useEffect(() => {
+    if (selectFirst) {
+      setSelected([items[0]]);
+    }
+  }, []);
 
   // @TODO hardcoded to be removed
   const color = "#e8e8e8";
@@ -57,9 +65,9 @@ export const BadgeSelector = ({
                 value={item._id}
                 onChange={handleChange}
                 className="peer hidden"
-                checked={selected.find(
-                  (selectedItem) => selectedItem._id === item._id
-                )}
+                checked={selected.find((selectedItem) => {
+                  return selectedItem._id === item._id;
+                })}
               />
               <label
                 htmlFor={item._id}
