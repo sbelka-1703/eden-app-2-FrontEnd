@@ -1,8 +1,10 @@
 import { HackathonContext, HackathonProjectModal } from "@eden/package-context";
+import { Node } from "@eden/package-graphql/generated";
 import {
   CongratulationsModal,
   DataReviewModal,
   FindTalentDropdownModal,
+  HackathonTalentDropdownModal,
   PrioritizeModal,
   ProjectsMatchesModal,
   RequirementsModal,
@@ -11,7 +13,7 @@ import {
   WarningModal,
   //   SavingProjectModal,
 } from "@eden/package-ui";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 
 // @TODO mock data to be removed
 
@@ -27,11 +29,13 @@ export interface IHackathonModalContainerProps {
   // eslint-disable-next-line no-unused-vars
   setSubmittingTalentAttributes?: (val: any) => void;
   mockData?: any;
+  dataNodes?: Node;
 }
 
 export const HackathonModalContainer = ({
   setSubmittingTalentAttributes,
   mockData,
+  dataNodes,
 }: IHackathonModalContainerProps) => {
   const {
     project,
@@ -44,11 +48,6 @@ export const HackathonModalContainer = ({
 
   const [talentAttributes, setTalentAttributes] = useState<any>({});
   const [nextStep, setNextStep] = useState<any>(null);
-
-  useEffect(() => {
-    if (talentAttributes?.main)
-      console.log("talentAttributes", talentAttributes);
-  }, [talentAttributes]);
 
   //   console.log("mockData", mockData);
 
@@ -127,7 +126,7 @@ export const HackathonModalContainer = ({
       )}
 
       {openModal === HackathonProjectModal.USER_ROLE && (
-        <FindTalentDropdownModal
+        <HackathonTalentDropdownModal
           openModal={openModal === HackathonProjectModal.USER_ROLE}
           onClose={() => {
             setOpenModal(HackathonProjectModal.SKIP_ALERT);
@@ -135,23 +134,11 @@ export const HackathonModalContainer = ({
           }}
           // eslint-disable-next-line no-unused-vars
           onSubmit={(val: any) => {
-            // setSubmittingTalentAttributes!(
-            //   Object.keys(val)
-            //     .filter((key) => val[key].length)
-            //     .flat()[0]
-            // );
-            // const main = Object.keys(val)
-            //   .filter((key) => val[key].length)
-            //   .flat()[0];
-            // setTalentAttributes({
-            //   ...talentAttributes,
-            //   main: [{ name: main }],
-            // });
-            // setSubmittingTalentAttributes!(val);
+            console.log("val", val);
             setOpenModal(HackathonProjectModal.SKILLS_CATEGORY);
           }}
           mockData={mockDataMap2.SkillTree}
-          // onClose={() => setOpenModal(null)}
+          dataNodes={dataNodes}
         />
       )}
 

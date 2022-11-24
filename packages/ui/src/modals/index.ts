@@ -4,6 +4,7 @@ export * from "./CongratulationsModal";
 export * from "./EditProjectModal";
 export * from "./FindTalentDropdownModal";
 export * from "./FindTalentModal";
+export * from "./HackathonTalentDropdownModal";
 export * from "./PrioritizeModal";
 export * from "./ProfileExpandedModal";
 export * from "./ProfileModal";

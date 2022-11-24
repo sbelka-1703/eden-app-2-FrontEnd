@@ -30,8 +30,10 @@ const edenLink = new ApolloLink((operation, forward) => {
 });
 
 // Extra API endpoint
-const EXTRA_API_URL = EDEN_API_URL;
+const EXTRA_API_URL = process.env.NEXT_PUBLIC_GRAPHQL_NODE_URL;
 const httpLinkExtra = new HttpLink({ uri: EXTRA_API_URL, fetch });
+
+// const NEXT_PUBLIC_GRAPHQL_NODE_URL
 
 const extraLink = new ApolloLink((operation, forward) => {
   // Use the setContext method to set the HTTP headers.
