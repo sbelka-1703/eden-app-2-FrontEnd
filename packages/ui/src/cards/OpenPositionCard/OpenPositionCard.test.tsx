@@ -4,7 +4,9 @@ import { OpenPositionCard } from "./OpenPositionCard";
 
 describe("OpenPositionCard", () => {
   it("renders without throwing", () => {
-    const { container } = render(<OpenPositionCard />);
+    const { container } = render(
+      <OpenPositionCard onApply={(val) => console.log(val)} />
+    );
 
     expect(container).toBeInTheDocument();
   });

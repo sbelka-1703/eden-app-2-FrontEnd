@@ -16,9 +16,9 @@ import {
   Card,
   Loading,
   NumberCircle,
+  OpenPositionCard,
   ProjectChampion,
   ProjectInfo,
-  RoleCard,
   TextHeading1,
 } from "@eden/package-ui";
 import { useContext, useEffect, useState } from "react";
@@ -187,7 +187,7 @@ export const ApplyByRoleContainer = ({
             className={`grid grow grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-3`}
           >
             {matchedProject?.projectRoles?.map((role, index) => (
-              <RoleCard
+              <OpenPositionCard
                 key={index}
                 role={role?.projectRole}
                 percentage={role?.matchPercentage || 0}
@@ -198,7 +198,7 @@ export const ApplyByRoleContainer = ({
               />
             ))}
             {zeroMatchedProjects?.map((role, index) => (
-              <RoleCard
+              <OpenPositionCard
                 key={index}
                 role={role}
                 percentage={0}

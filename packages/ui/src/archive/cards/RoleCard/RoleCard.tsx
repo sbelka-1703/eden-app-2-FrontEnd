@@ -5,7 +5,7 @@ import { BsDot } from "react-icons/bs";
 import { MdArrowForward } from "react-icons/md";
 import ReactTooltip from "react-tooltip";
 
-import { round } from "../../../utils";
+import { round } from "../../../../utils";
 
 export interface RoleCardProps {
   role?: Maybe<RoleType>;
@@ -143,7 +143,7 @@ export const RoleCard = ({ role, percentage = 0, onApply }: RoleCardProps) => {
       </div>
       <button
         onClick={() => onApply(role._id as string)}
-        className="align-center bg-accentColor mt-4 mt-auto flex w-full justify-center rounded-b-2xl py-3 px-2 text-lg"
+        className="align-center bg-accentColor mt-4 flex w-full justify-center rounded-b-2xl py-3 px-2 text-lg"
       >
         <div className="align-center flex w-full cursor-pointer justify-center text-base text-black">
           <div>Apply for this role</div>
