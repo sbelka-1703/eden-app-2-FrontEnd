@@ -120,8 +120,9 @@ export const UserExperienceCard = ({
   };
 
   useEffect(() => {
-    handleChange!(state);
+    if (handleChange) handleChange(state);
   }, [state]);
+
   return (
     <div className=" flex flex-col items-center">
       <TextHeading3 className="mb-4 w-full text-left text-lg">
