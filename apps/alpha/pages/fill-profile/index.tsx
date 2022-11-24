@@ -265,6 +265,32 @@ const FillProfilePage: NextPageWithLayout = () => {
                         title: `${item.emoji} ${item.title}`,
                       })
                     )}
+                    handleChange={(val: any) => {
+                      const newVal = Object.keys(val).map((key) => ({
+                        title: val[key].role,
+                        content: val[key].bio,
+                        skills: [],
+                        date: {
+                          start: "",
+                          end: "",
+                        },
+                      }));
+
+                      const newState = state.background.map(
+                        (item: any, index: number) =>
+                          val[index]
+                            ? {
+                                ...item,
+                                content: newVal,
+                              }
+                            : item
+                      );
+
+                      setState({
+                        ...state,
+                        background: newState,
+                      });
+                    }}
                   />
                 )}
               </section>
