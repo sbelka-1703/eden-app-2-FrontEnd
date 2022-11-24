@@ -10,8 +10,7 @@ import {
   TextHeading3,
 } from "@eden/package-ui";
 import { ArrowSmLeftIcon, ArrowSmRightIcon } from "@heroicons/react/solid";
-import { map } from "lodash";
-import { useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 
 interface Experience {
   [key: number]: {
@@ -75,6 +74,8 @@ export interface UserExperienceCardlProps {
   fields?: any[];
   // eslint-disable-next-line no-unused-vars
   handleSubmit?: (val: any) => void;
+  // eslint-disable-next-line no-unused-vars
+  handleChange?: (val: any) => void;
 }
 
 export const UserExperienceCard = ({
@@ -82,11 +83,13 @@ export const UserExperienceCard = ({
   fields,
   // eslint-disable-next-line no-unused-vars
   handleSubmit,
+  handleChange,
 }: UserExperienceCardlProps) => {
-  const [state, dispath] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleTextChange = (e: any, index: number) => {
-    dispath({
+    dispatch({
       type: "HANDLE INPUT TEXT",
       field: e.target.name,
       payload: {
@@ -98,7 +101,7 @@ export const UserExperienceCard = ({
   };
 
   const handleUpdateRole = (value: any, field: string, index: number) => {
-    dispath({
+    dispatch({
       type: "HANDLE INPUT TEXT",
       field: field,
       payload: {
@@ -110,11 +113,15 @@ export const UserExperienceCard = ({
   };
 
   const handleAddExperience = () => {
-    dispath({
+    setCurrentIndex(Object.keys(state).length);
+    dispatch({
       type: "addExperience",
     });
   };
 
+  useEffect(() => {
+    handleChange!(state);
+  }, [state]);
   return (
     <div className=" flex flex-col items-center">
       <TextHeading3 className="mb-4 w-full text-left text-lg">
@@ -128,106 +135,119 @@ export const UserExperienceCard = ({
           selectFirst={true}
         />
       </div>
-      {/*  */}
-      {map(state, (items, key) => (
-        <div
-          key={key}
-          className="mb-4 grid w-full grid-cols-2 gap-8 border-b border-b-gray-300 pb-4"
-        >
+      <div
+        key={currentIndex}
+        className="mb-4 grid w-full grid-cols-2 gap-8 border-b border-b-gray-300 pb-4"
+      >
+        <div>
           <div>
-            <div>
-              <p className="mb-3 w-full text-left text-sm font-medium">Role:</p>
-              <RoleSelector
-                roles={roles}
-                value={items?.role}
-                onSelect={(val: Maybe<RoleTemplate>) => {
-                  handleUpdateRole(val, "role", +key);
-                }}
-              />
-            </div>
-            <div>
-              <p className="mb-3 w-full text-left text-sm font-medium">
-                Company/project name:
-              </p>
-              <TextField
-                name="title"
-                style={{ padding: "10px" }}
-                placeholder="Start typing here..."
-                onChange={(e) => handleTextChange(e, +key)}
-              />
-            </div>
-            <div className="mt-3">
-              <p className="mb-3 w-full text-left text-sm font-medium">
-                Timeline:
-              </p>
-
-              <Calendar
-                containerClassName="w-full mb-4"
-                buttonClassName="w-full rounded-xl"
-                label="Start Date"
-                onChange={(e) => handleUpdateRole(e, "startDate", +key)}
-              />
-              <Calendar
-                containerClassName="w-full"
-                buttonClassName="w-full rounded-xl"
-                label="End Date"
-                onChange={(e) => handleUpdateRole(e, "endDate", +key)}
-              />
-            </div>
+            <p className="mb-3 w-full text-left text-sm font-medium">Role:</p>
+            <RoleSelector
+              roles={roles}
+              value={state[currentIndex]?.role || undefined}
+              onSelect={(val: Maybe<RoleTemplate>) => {
+                handleUpdateRole(val!.title, "role", +currentIndex);
+              }}
+            />
           </div>
           <div>
-            <div>
-              <p className="mb-3 w-full text-left text-sm font-medium">
-                Skills:
-              </p>
-              <SearchSkill
-                setSkills={(skills: any) =>
-                  handleUpdateRole(skills, "skills", +key)
-                }
-                skills={items?.skills}
-                levels={[
-                  {
-                    title: "learning",
-                    level: "learning",
-                  },
-                  {
-                    title: "Mid Level",
-                    level: "mid",
-                  },
-                  {
-                    title: "Senior",
-                    level: "senior",
-                  },
-                  {
-                    title: "Junior",
-                    level: "junior",
-                  },
-                ]}
-              />
-            </div>
-            <div>
-              <p className="mb-3 w-full text-left text-sm font-medium">Bio:</p>
-              <TextArea
-                rows={5}
-                name="bio"
-                placeholder="Start typing here..."
-                onChange={(e) => handleTextChange(e, +key)}
-              />
-            </div>
-            <div className="mt-9 flex justify-between">
-              <Button variant={`secondary`} className="flex items-center">
-                <ArrowSmLeftIcon className="h-4 w-4 text-black" />
-              </Button>
-              <Button variant={`secondary`} onClick={handleAddExperience}>
-                Add new experience
-              </Button>
-              <Button variant={`secondary`} className="flex items-center">
-                <ArrowSmRightIcon className="h-4 w-4 text-black" />
-              </Button>
-            </div>
+            <p className="mb-3 w-full text-left text-sm font-medium">
+              Company/project name:
+            </p>
+            <TextField
+              name="title"
+              defaultValue={state[currentIndex]?.title}
+              style={{ padding: "10px" }}
+              placeholder="Start typing here..."
+              onChange={(e) => handleTextChange(e, +currentIndex)}
+            />
+          </div>
+          <div className="mt-3">
+            <p className="mb-3 w-full text-left text-sm font-medium">
+              Timeline:
+            </p>
+
+            <Calendar
+              onlyMonthPicker
+              containerClassName="w-full mb-4"
+              buttonClassName="w-full rounded-xl"
+              label="Start Date"
+              onChange={(e) => handleUpdateRole(e, "startDate", +currentIndex)}
+            />
+            <Calendar
+              onlyMonthPicker
+              containerClassName="w-full"
+              buttonClassName="w-full rounded-xl"
+              label="End Date"
+              onChange={(e) => handleUpdateRole(e, "endDate", +currentIndex)}
+            />
           </div>
         </div>
-      ))}
+        <div>
+          <div>
+            <p className="mb-3 w-full text-left text-sm font-medium">Skills:</p>
+            <SearchSkill
+              setSkills={(skills: any) =>
+                handleUpdateRole(skills, "skills", +currentIndex)
+              }
+              skills={state[currentIndex]?.skills}
+              levels={[
+                {
+                  title: "learning",
+                  level: "learning",
+                },
+                {
+                  title: "Mid Level",
+                  level: "mid",
+                },
+                {
+                  title: "Senior",
+                  level: "senior",
+                },
+                {
+                  title: "Junior",
+                  level: "junior",
+                },
+              ]}
+            />
+          </div>
+          <div>
+            <p className="mb-3 w-full text-left text-sm font-medium">Bio:</p>
+            <TextArea
+              value={state[currentIndex]?.bio}
+              rows={5}
+              name="bio"
+              placeholder="Start typing here..."
+              onChange={(e) => handleTextChange(e, +currentIndex)}
+            />
+          </div>
+          <div className="mt-9 flex justify-between">
+            <Button
+              variant={`secondary`}
+              className="flex items-center"
+              onClick={() => {
+                setCurrentIndex(currentIndex > 0 ? currentIndex - 1 : 0);
+              }}
+            >
+              <ArrowSmLeftIcon className="h-4 w-4 text-black" />
+            </Button>
+            <Button variant={`secondary`} onClick={handleAddExperience}>
+              Add new experience
+            </Button>
+            <Button
+              variant={`secondary`}
+              className="flex items-center"
+              onClick={() => {
+                setCurrentIndex(
+                  state[currentIndex + 1] ? currentIndex + 1 : currentIndex
+                );
+              }}
+            >
+              <ArrowSmRightIcon className="h-4 w-4 text-black" />
+            </Button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
