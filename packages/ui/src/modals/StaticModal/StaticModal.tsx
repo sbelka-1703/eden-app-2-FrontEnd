@@ -4,10 +4,9 @@ import {
   Button,
   EmojiSelector,
   Modal,
-  RoleCard,
+  OpenPositionCard,
   SocialMediaComp,
   TextBody,
-  TextHeading1,
   TextHeading3,
 } from "@eden/package-ui";
 import { CheckCircleIcon } from "@heroicons/react/solid";
@@ -160,7 +159,7 @@ const ProjectFlagType = ({ item }: IStaticCardTypeProps) => {
       discordAvatar: endorsement.avatar,
     },
     text: endorsement.endorsement,
-    level: endorsement.level.name,
+    level: endorsement.level?.name || "",
   }));
 
   return (
@@ -189,7 +188,7 @@ const ProjectFlagType = ({ item }: IStaticCardTypeProps) => {
         Eden adoptiopn in Bankless is {item?.edenMembersDAO}%
       </div>
       <div className={`my-4 flex`}>
-        <TextHeading1>Open Roles</TextHeading1>
+        <TextHeading3>🎬 Open positions</TextHeading3>
       </div>
 
       <div className={`scrollbar-hide mb-4 flex flex-grow overflow-y-scroll`}>
@@ -197,7 +196,7 @@ const ProjectFlagType = ({ item }: IStaticCardTypeProps) => {
           className={`grid grow grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-3`}
         >
           {item?.roles?.map((role: any, index: any) => (
-            <RoleCard
+            <OpenPositionCard
               key={index}
               role={{
                 title: role.name,
@@ -206,7 +205,6 @@ const ProjectFlagType = ({ item }: IStaticCardTypeProps) => {
               }}
               percentage={item.rolesPercentages[index] || 0}
               onApply={(val) => {
-                // setRoleID(val);
                 console.log(val);
               }}
             />
