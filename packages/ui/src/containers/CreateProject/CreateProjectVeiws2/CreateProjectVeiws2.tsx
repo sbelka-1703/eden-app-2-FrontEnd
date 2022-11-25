@@ -44,7 +44,7 @@ export const CreateProjectVeiws2 = ({
   onBack,
   onNext,
 }: CreateProjectVeiws2Props) => {
-  const [state, dispath] = useReducer(reducer, initialState);
+  const [state] = useReducer(reducer, initialState);
   const [projectOwner, setProjectOwner] = useState(true);
   const handleUpdateState = (value: any, field: string) => {
     console.log(value, field);
@@ -118,9 +118,9 @@ export const CreateProjectVeiws2 = ({
                 </div>
                 <div className="mb-3">
                   <div>
-                    <p className="text-sm font-medium">
-                      What's the main role of the champion?
-                    </p>
+                    <div className="text-sm font-medium">
+                      {`What's the main role of the champion?`}
+                    </div>
                   </div>
                   <div className="w-2/4">
                     <SelectBox
