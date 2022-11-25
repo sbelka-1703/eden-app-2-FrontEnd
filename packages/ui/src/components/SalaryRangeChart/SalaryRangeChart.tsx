@@ -13,7 +13,9 @@ export interface SalaryRangeChartProps {
 export const SalaryRangeChart = ({ data, onChange }: SalaryRangeChartProps) => {
   return (
     <div>
-      <TextHeading3 className="mb-3 text-center">Salary range</TextHeading3>
+      <TextHeading3 className="mb-3 text-center">
+        Hourly salary range
+      </TextHeading3>
       <RangeChart
         data={data}
         onChange={onChange}

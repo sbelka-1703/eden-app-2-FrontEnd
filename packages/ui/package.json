@@ -31,7 +31,8 @@
     "react-confetti": "^6.1.0",
     "react-multi-date-picker": "^3.3.0",
     "react-tooltip": "^4.2.21",
-    "typescript": "^4.8.4"
+    "typescript": "^4.8.4",
+    "@jaames/iro": "^5.5.2"
   },
   "dependencies": {
     "chart.js": "^3.9.1",

@@ -1,7 +1,11 @@
 import {
+  HackathonContext,
+  HackathonProjectModal,
+  HackathonProvider,
+} from "@eden/package-context";
+import {
   AppUserLayout,
   Card,
-  FiltersCard,
   GridItemNine,
   GridItemThree,
   GridLayout,
@@ -9,26 +13,17 @@ import {
   SEO,
   StaticCard,
   UserProfileCard,
+  WarningCard,
 } from "@eden/package-ui";
+import { useRouter } from "next/router";
+import { useContext, useEffect, useState } from "react";
 
 import HACK2_MOCK from "../../../utils/mock/skillTreeWorks_Hackathon_Project2";
 import type { NextPageWithLayout } from "../../_app";
 
 const LaunchPage: NextPageWithLayout = () => {
+  const router = useRouter();
   const [roleFilter, setRoleFilter] = useState<any>(null);
-
-  const handleSetSkills = (val: any) => {
-    console.log(val);
-  };
-  const handleSetHoursPerWeek = (val: any) => {
-    console.log(val);
-  };
-  const handleSetBudget = (val: any) => {
-    console.log(val);
-  };
-  const handleDeleteSkill = (val: any) => {
-    console.log(val);
-  };
 
   const { setOpenModal } = useContext(HackathonContext);
 
@@ -63,13 +58,9 @@ const LaunchPage: NextPageWithLayout = () => {
       <GridLayout>
         <GridItemThree className="h-85 scrollbar-hide overflow-scroll">
           <UserProfileCard />
-          <FiltersCard
-            defaultValue={{}}
-            skills={[]}
-            handleSetSkills={handleSetSkills}
-            handleDeleteSkill={handleDeleteSkill}
-            handleSetHoursPerWeek={handleSetHoursPerWeek}
-            handleSetBudget={handleSetBudget}
+          <WarningCard
+            profilePercentage={20}
+            onClickCompleteProfile={() => router.push("/fill-profile")}
           />
         </GridItemThree>
 
@@ -108,34 +99,3 @@ LaunchPage.getLayout = (page) => (
 );
 
 export default LaunchPage;
-
-import {
-  HackathonContext,
-  HackathonProjectModal,
-  HackathonProvider,
-} from "@eden/package-context";
-import { IncomingMessage, ServerResponse } from "http";
-import { getSession } from "next-auth/react";
-import { useContext, useEffect, useState } from "react";
-
-export async function getServerSideProps(ctx: {
-  req: IncomingMessage;
-  res: ServerResponse;
-}) {
-  const session = await getSession(ctx);
-
-  const url = ctx.req.url?.replace("/", "");
-
-  if (!session) {
-    return {
-      redirect: {
-        destination: `/login?redirect=${url}`,
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {},
-  };
-}

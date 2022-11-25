@@ -11,30 +11,23 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     secret: process.env.NEXT_PUBLIC_SECRET,
   });
 
-  const { query } = req;
-  const { memberId } = query;
-
   if (!token || !token?.accessToken) {
     return res.status(404).end();
   }
 
-  const member = await getMutualGuildsService(memberId as string);
+  const { data: memberData } = await _getUserGuildsService(
+    token.accessToken as string
+  );
 
   return res.status(200).send({
-    member: member,
+    member: memberData,
   });
 };
 
-async function _getUserGuildsService(memberId: string) {
-  return axios.get(`${DISCORD_API_URL}/users/${memberId}`, {
+async function _getUserGuildsService(token: string) {
+  return axios.get(`${DISCORD_API_URL}/users/@me`, {
     headers: {
-      Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
+      Authorization: `Bearer ${token}`,
     },
   });
-}
-
-async function getMutualGuildsService(memberId: string) {
-  const { data: memberData } = await _getUserGuildsService(memberId);
-
-  return memberData;
 }

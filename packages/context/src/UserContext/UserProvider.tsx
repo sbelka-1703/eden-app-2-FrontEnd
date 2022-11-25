@@ -1,5 +1,5 @@
 import { gql, useMutation, useQuery, useSubscription } from "@apollo/client";
-import { FIND_MEMBER_FULL, MEMBER_SUBSCRIPTION } from "@eden/package-graphql";
+import { FIND_CURRENTUSER, FIND_CURRENTUSER_SUB } from "@eden/package-graphql";
 import { Members, Mutation } from "@eden/package-graphql/generated";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
@@ -20,28 +20,33 @@ const findMutualGuilds = async () => {
   return response.json();
 };
 
-const findMember = async (memberId: string) => {
-  const response = await fetch(
-    encodeURI(`/api/discord/fetchMember?memberId=${memberId}`),
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    }
-  );
+const findMember = async () => {
+  const response = await fetch(encodeURI(`/api/discord/fetchMember`), {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+  });
 
   return response.json();
 };
 
-export const ADD_NEW_MEMBER = gql`
+const ADD_NEW_MEMBER = gql`
   mutation AddNewMember($fields: addNewMemberInput!) {
     addNewMember(fields: $fields) {
       _id
       discordAvatar
       discordName
       discriminator
+    }
+  }
+`;
+
+const UPDATE_MEMBER = gql`
+  mutation ($fields: updateMemberInput!) {
+    updateMember(fields: $fields) {
+      _id
     }
   }
 `;
@@ -72,7 +77,14 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     },
   });
 
-  const { data: dataMember, refetch } = useQuery(FIND_MEMBER_FULL, {
+  const [updateMember, {}] = useMutation(UPDATE_MEMBER, {
+    onCompleted({ updateMember }: Mutation) {
+      if (!updateMember) console.log("updateMember is null");
+      // console.log("updateMember", updateMember);
+    },
+  });
+
+  const { data: dataMember, refetch } = useQuery(FIND_CURRENTUSER, {
     variables: {
       fields: {
         _id: id,
@@ -81,10 +93,10 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     skip: !id,
     context: { serviceName: "soilservice" },
     ssr: false,
-    onCompleted: (data) => {
+    onCompleted: async (data) => {
       // console.log("data", data);
       if (!data.findMember) {
-        findMember(id as string)
+        await findMember()
           .then((member) => {
             // console.log("member NOT found", member.member);
             addNewMember({
@@ -103,6 +115,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
           });
       } else {
         const servers: any[] = [];
+        const serverIds: string[] = [];
 
         // if (isEdenStaff.includes(data.findMember._id))
         //   servers.push(isAllServers);
@@ -112,12 +125,29 @@ export const UserProvider = ({ children }: UserProviderProps) => {
           .then((data) => {
             const mutualGuilds = data.guilds;
 
+            mutualGuilds.forEach((guild: any) => {
+              if (!serverIds.includes(guild._id)) {
+                serverIds.push(guild._id);
+              }
+            });
+
             // console.log("mutualGuilds", mutualGuilds);
+
+            // console.log("serverIds", serverIds);
             servers.push(...mutualGuilds);
 
             // console.log("servers", servers);
             setMemberServers(servers);
             setSelectedServer(servers[0]);
+
+            updateMember({
+              variables: {
+                fields: {
+                  _id: session?.user?.id,
+                  serverID: serverIds,
+                },
+              },
+            });
           })
           .catch((err) => {
             console.log("err", err);
@@ -129,7 +159,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 
   // console.log("dataMember", dataMember);
 
-  useSubscription(MEMBER_SUBSCRIPTION, {
+  useSubscription(FIND_CURRENTUSER_SUB, {
     variables: {
       fields: {
         _id: id,

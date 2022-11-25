@@ -31,6 +31,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
   const { partyId } = router.query;
 
   const [members, setMembers] = useState<Members[]>([]);
+  const [isRoomExist, setIsRoomExist] = useState(true);
 
   const { currentUser } = useContext(UserContext);
 
@@ -77,7 +78,11 @@ const OnboardPartyPage: NextPageWithLayout = () => {
   });
 
   const [enterRoom] = useMutation(ENTER_ROOM, {
-    errorPolicy: "ignore",
+    // errorPolicy: "ignore",
+    onError: (error) => {
+      // console.log("error", error);
+      if (error) setIsRoomExist(false);
+    },
   });
 
   useEffect(() => {
@@ -91,6 +96,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
     ) {
       return;
     }
+    if (!isRoomExist) return;
     enterRoom({
       variables: {
         fields: {

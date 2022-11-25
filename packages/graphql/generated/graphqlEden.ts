@@ -101,6 +101,7 @@ export type Members = {
   links?: Maybe<Array<Maybe<LinkType>>>;
   memberRole?: Maybe<RoleTemplate>;
   network?: Maybe<Array<Maybe<Members>>>;
+  nodes?: Maybe<Array<Maybe<NodesType>>>;
   onbording?: Maybe<OnboardingType>;
   previusProjects?: Maybe<Array<Maybe<PreviusProjectsType>>>;
   projects?: Maybe<Array<Maybe<ProjectMemberType>>>;
@@ -125,6 +126,8 @@ export type Mutation = {
   addFavoriteProject?: Maybe<Members>;
   addNewChat?: Maybe<Chats>;
   addNewMember?: Maybe<Members>;
+  addNodesToMember?: Maybe<Members>;
+  addNodesToProjectRole?: Maybe<Project>;
   addSkillToMember?: Maybe<Members>;
   approveOrRejectSkill?: Maybe<Skills>;
   approveTweet?: Maybe<Project>;
@@ -138,12 +141,16 @@ export type Mutation = {
   createRoom?: Maybe<Rooms>;
   createSkill?: Maybe<Skills>;
   createSkills?: Maybe<Array<Maybe<Skills>>>;
+  deleteMember?: Maybe<Members>;
+  deleteNodesFromMember?: Maybe<Members>;
+  deleteNodesToProjectRole?: Maybe<Project>;
   endorseAttribute?: Maybe<Members>;
   enterRoom?: Maybe<Rooms>;
   exitRoom?: Maybe<Rooms>;
   login: User;
   newTweetProject?: Maybe<TweetsProject>;
   relatedNode?: Maybe<Node>;
+  relatedNode_name?: Maybe<Node>;
   relatedSkills?: Maybe<Skills>;
   updateChatReply?: Maybe<Chats>;
   updateChatResult?: Maybe<Chats>;
@@ -174,6 +181,16 @@ export type MutationAddNewChatArgs = {
 
 export type MutationAddNewMemberArgs = {
   fields: AddNewMemberInput;
+};
+
+
+export type MutationAddNodesToMemberArgs = {
+  fields: AddNodesToMemberInput;
+};
+
+
+export type MutationAddNodesToProjectRoleArgs = {
+  fields: AddNodesToProjectRoleInput;
 };
 
 
@@ -242,6 +259,21 @@ export type MutationCreateSkillsArgs = {
 };
 
 
+export type MutationDeleteMemberArgs = {
+  fields: DeleteMemberInput;
+};
+
+
+export type MutationDeleteNodesFromMemberArgs = {
+  fields: DeleteNodesFromMemberInput;
+};
+
+
+export type MutationDeleteNodesToProjectRoleArgs = {
+  fields: DeleteNodesToProjectRoleInput;
+};
+
+
 export type MutationEndorseAttributeArgs = {
   fields: EndorseAttributeInput;
 };
@@ -269,6 +301,11 @@ export type MutationNewTweetProjectArgs = {
 
 export type MutationRelatedNodeArgs = {
   fields?: InputMaybe<RelatedNodeInput>;
+};
+
+
+export type MutationRelatedNode_NameArgs = {
+  fields?: InputMaybe<RelatedNode_NameInput>;
 };
 
 
@@ -326,6 +363,8 @@ export type Node = {
   _id?: Maybe<Scalars['ID']>;
   aboveNodes?: Maybe<Array<Maybe<Node>>>;
   match?: Maybe<MatchType>;
+  matchByServer?: Maybe<Array<Maybe<MatchByServerType>>>;
+  matchByServer_update?: Maybe<Scalars['Boolean']>;
   name?: Maybe<Scalars['String']>;
   node?: Maybe<Scalars['String']>;
   registeredAt?: Maybe<Scalars['String']>;
@@ -426,6 +465,9 @@ export type Query = {
   matchMembersToProjectRole?: Maybe<Array<Maybe<MatchMembersToProjectRoleOutput>>>;
   matchMembersToSkills?: Maybe<Array<Maybe<MatchMembersToSkillOutput>>>;
   matchMembersToUser?: Maybe<Array<Maybe<MatchMembersToUserOutput>>>;
+  matchNodesToMembers?: Maybe<Array<Maybe<MatchMembersToSkillOutput>>>;
+  matchNodesToProjectRoles?: Maybe<Array<Maybe<MatchSkillsToProjectsOutput>>>;
+  matchPrepareNode?: Maybe<Node>;
   matchPrepareSkillToMembers?: Maybe<Skills>;
   matchPrepareSkillToProjectRoles?: Maybe<Skills>;
   matchProjectsToMember?: Maybe<Array<Maybe<Project>>>;
@@ -586,6 +628,21 @@ export type QueryMatchMembersToSkillsArgs = {
 
 export type QueryMatchMembersToUserArgs = {
   fields?: InputMaybe<MatchMembersToUserInput>;
+};
+
+
+export type QueryMatchNodesToMembersArgs = {
+  fields?: InputMaybe<MatchNodesToMembersInput>;
+};
+
+
+export type QueryMatchNodesToProjectRolesArgs = {
+  fields?: InputMaybe<MatchNodesToProjectRolesInput>;
+};
+
+
+export type QueryMatchPrepareNodeArgs = {
+  fields?: InputMaybe<MatchPrepareNodeInput>;
 };
 
 
@@ -774,6 +831,7 @@ export type Team = {
   channelGeneralDiscordID?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   epics?: Maybe<Array<Maybe<Epic>>>;
+  forumDiscordID?: Maybe<Scalars['String']>;
   members?: Maybe<Array<Maybe<Members>>>;
   name?: Maybe<Scalars['String']>;
   projects?: Maybe<Project>;
@@ -826,6 +884,16 @@ export type AddNewMemberInput = {
   invitedBy?: InputMaybe<Scalars['String']>;
   previusProjects?: InputMaybe<Array<InputMaybe<PreviusProjectsInput>>>;
   serverID?: InputMaybe<Scalars['String']>;
+};
+
+export type AddNodesToMemberInput = {
+  memberID?: InputMaybe<Scalars['ID']>;
+  nodesID?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type AddNodesToProjectRoleInput = {
+  nodesID?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  projectRoleID?: InputMaybe<Scalars['ID']>;
 };
 
 export type AddSkillToMember_Input = {
@@ -969,6 +1037,7 @@ export type CreateNewTeamInput = {
   championID?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   channelGeneralDiscordID?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
+  forumDiscordID?: InputMaybe<Scalars['String']>;
   memberID?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   name?: InputMaybe<Scalars['String']>;
   projectID?: InputMaybe<Scalars['String']>;
@@ -1041,6 +1110,20 @@ export type DatesType = {
   kickOff?: Maybe<Scalars['String']>;
 };
 
+export type DeleteMemberInput = {
+  memberID?: InputMaybe<Scalars['ID']>;
+};
+
+export type DeleteNodesFromMemberInput = {
+  memberID?: InputMaybe<Scalars['ID']>;
+  nodesID?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type DeleteNodesToProjectRoleInput = {
+  nodesID?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  projectRoleID?: InputMaybe<Scalars['ID']>;
+};
+
 export type EndorcmentInput = {
   registeredAt?: InputMaybe<Scalars['String']>;
   skillID?: InputMaybe<Scalars['ID']>;
@@ -1082,6 +1165,12 @@ export type FindChatInput = {
   threadID?: InputMaybe<Scalars['ID']>;
 };
 
+export enum FindEnum {
+  Member = 'Member',
+  Project = 'Project',
+  Role = 'Role'
+}
+
 export type FindEpicInput = {
   _id?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   projectID?: InputMaybe<Scalars['ID']>;
@@ -1120,7 +1209,10 @@ export type FindNodeInput = {
 
 export type FindNodesInput = {
   _id?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  matchByServer_update?: InputMaybe<Scalars['Boolean']>;
   node?: InputMaybe<Scalars['String']>;
+  recalculateMembers?: InputMaybe<Scalars['Boolean']>;
+  recalculateProjectRoles?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type FindProjectInput = {
@@ -1251,6 +1343,12 @@ export type LoginInput = {
   password?: InputMaybe<Scalars['String']>;
 };
 
+export type MatchByServerType = {
+  __typename?: 'matchByServerType';
+  match?: Maybe<MatchType>;
+  serverID?: Maybe<Scalars['String']>;
+};
+
 export type MatchMembersToProjectInput = {
   projectID?: InputMaybe<Scalars['ID']>;
   serverID?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -1297,6 +1395,28 @@ export type MatchMembersToUserOutput = {
   commonSkills?: Maybe<Array<Maybe<Skills>>>;
   matchPercentage?: Maybe<Scalars['Float']>;
   member?: Maybe<Members>;
+};
+
+export type MatchNodesToMembersInput = {
+  budgetAmount?: InputMaybe<Scalars['Float']>;
+  hoursPerWeek?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  nodesID?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  page?: InputMaybe<Scalars['Int']>;
+  serverID?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type MatchNodesToProjectRolesInput = {
+  limit?: InputMaybe<Scalars['Int']>;
+  nodesID?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  page?: InputMaybe<Scalars['Int']>;
+  serverID?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type MatchPrepareNodeInput = {
+  find?: InputMaybe<FindEnum>;
+  nodeID?: InputMaybe<Scalars['ID']>;
+  serverID?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 export type MatchPrepareSkillToMembersInput = {
@@ -1376,6 +1496,11 @@ export type NewTweetProjectInput = {
   title?: InputMaybe<Scalars['String']>;
 };
 
+export type NodesType = {
+  __typename?: 'nodesType';
+  nodeData?: Maybe<Node>;
+};
+
 export type OnboardingInput = {
   percentage?: InputMaybe<Scalars['Int']>;
   signup?: InputMaybe<Scalars['Boolean']>;
@@ -1450,6 +1575,11 @@ export type RelatedNodeInput = {
   relatedNode_id?: InputMaybe<Scalars['ID']>;
 };
 
+export type RelatedNode_NameInput = {
+  name?: InputMaybe<Scalars['String']>;
+  relatedNode_name?: InputMaybe<Scalars['String']>;
+};
+
 export type RelatedSkillsInput = {
   _id?: InputMaybe<Scalars['ID']>;
   relatedSkills_id?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
@@ -1495,6 +1625,7 @@ export type RoleType = {
   description?: Maybe<Scalars['String']>;
   hoursPerWeek?: Maybe<Scalars['Int']>;
   keyRosponsibilities?: Maybe<Scalars['String']>;
+  nodes?: Maybe<Array<Maybe<NodesType>>>;
   openPositions?: Maybe<Scalars['Int']>;
   skills?: Maybe<Array<Maybe<SkillRoleType>>>;
   title?: Maybe<Scalars['String']>;
@@ -1654,7 +1785,7 @@ export type UpdateMemberInput = {
   memberRole?: InputMaybe<Scalars['ID']>;
   onbording?: InputMaybe<OnboardingInput>;
   previusProjects?: InputMaybe<Array<InputMaybe<PreviusProjectsInput>>>;
-  serverID?: InputMaybe<Scalars['String']>;
+  serverID?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   skills?: InputMaybe<Array<InputMaybe<SkillInput_Member>>>;
   timeZone?: InputMaybe<Scalars['String']>;
 };

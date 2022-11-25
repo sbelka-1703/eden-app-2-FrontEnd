@@ -1,6 +1,8 @@
-import { SignUpContext, UserContext } from "@eden/package-context";
+import { UserContext } from "@eden/package-context";
 import { Avatar, BioComponent, SocialMediaComp } from "@eden/package-ui";
 import { useContext } from "react";
+
+import { SignUpContext } from "../context";
 
 export const SignUpViewConfirm = () => {
   const { currentUser } = useContext(UserContext);

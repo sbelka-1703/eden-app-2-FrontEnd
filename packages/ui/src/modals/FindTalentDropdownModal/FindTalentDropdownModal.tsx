@@ -103,6 +103,8 @@ export const FindTalentDropdownModal = ({
     setBatteryPercentage(batteryPercentage);
   }, [section, selectedItems]);
 
+  if (section.items) console.log("section.items", section.items);
+
   return (
     <Modal open={openModal} closeOnEsc={false}>
       {section && (

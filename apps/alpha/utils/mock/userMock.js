@@ -39,13 +39,13 @@ const proposedSalary = {
 
 const SkillTree = {
   category: {
-    title: "",
-    subTitle: "",
+    title: "Who are you looking for?",
+    subTitle: "Select what you want them to help you with.",
   },
   Design: {
     subCategories: {
-      title: "",
-      subTitle: "",
+      title: "Anything you’d like to specify about this person?",
+      subTitle: "Pick as many things as are important to you.",
       numMatches: "210",
       content: [
         "UX/UI",
@@ -116,8 +116,8 @@ const SkillTree = {
   },
   "Frontend Developer": {
     subCategories: {
-      title: "",
-      subTitle: "",
+      title: "Anything you’d like to specify about this person?",
+      subTitle: "Pick as many things as are important to you.",
       content: [
         "UI Implementation",
         "Frontend Architecture",
@@ -175,8 +175,8 @@ const SkillTree = {
   },
   "Backend Developer": {
     subCategories: {
-      title: "",
-      subTitle: "",
+      title: "Anything you’d like to specify about this person?",
+      subTitle: "Pick as many things as are important to you.",
       content: [
         "Architecture of your app",
         "Hard CS Stuff like Algo Dev & Data Structures",
@@ -238,8 +238,8 @@ const SkillTree = {
   },
   "Blockchain Developer": {
     subCategories: {
-      title: "",
-      subTitle: "",
+      title: "Anything you’d like to specify about this person?",
+      subTitle: "Pick as many things as are important to you.",
       content: [
         "Smart Contract Development",
         "Smart Contract Auditing",
@@ -302,8 +302,8 @@ const SkillTree = {
   },
   Product: {
     subCategories: {
-      title: "",
-      subTitle: "",
+      title: "Anything you’d like to specify about this person?",
+      subTitle: "Pick as many things as are important to you.",
       content: [
         "User Research",
         "Market Research",
@@ -537,6 +537,43 @@ const Result = {
             date: {
               start: "Jul 2014",
               end: "Nov 2015",
+            },
+          },
+        ],
+      },
+      {
+        title: "Data Scientist",
+        emoji: "💽",
+        color: "#FFD2D2",
+        content: [
+          {
+            title: "Data schiecne in Nova Futur Ltd",
+            content:
+              "Head of DataHead of Data Overseeing data science and data engineering (ETL pipelines) work across multiple teamsOverseeing data science and data engineering (ETL pipelines) work across multiple teams",
+            skills: ["Go", " Cloud Computing", "tailwind"],
+            date: {
+              start: "2019",
+              end: "2020",
+            },
+          },
+          {
+            title: "Undergrad Research Lead Full Stack Developer",
+            content:
+              "Campus job. Maintained 6 virtual machines with Ubuntu and PaaS (Dokku) that power the HiPerCiC platform. Installed services and containerized web applications with Docker.",
+            skills: ["Teaching", "Python", "Teaching"],
+            date: {
+              start: "2016",
+              end: "2017",
+            },
+          },
+          {
+            title: "Junior ML engineer",
+            content:
+              "Machine Learning internship. Created a random point generator for map data from around the world that was used to evaluate the quality of internal location services at Sygic.",
+            skills: ["Python", "Statistical Data Analysis"],
+            date: {
+              start: "2017",
+              end: "2018",
             },
           },
         ],

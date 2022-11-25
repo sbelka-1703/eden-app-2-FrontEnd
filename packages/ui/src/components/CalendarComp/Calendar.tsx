@@ -16,6 +16,8 @@ export interface ICalendarProps {
   maxDate?: any;
   numberOfMonths?: number;
   currentDate?: DateObject;
+  buttonClassName?: string;
+  containerClassName?: string;
 }
 
 export const Calendar = ({
@@ -30,6 +32,8 @@ export const Calendar = ({
   maxDate,
   numberOfMonths,
   currentDate,
+  buttonClassName,
+  containerClassName,
 }: ICalendarProps) => {
   const [inputValue, setInputValue] = useState("");
   const datePickerRef: any = useRef();
@@ -46,6 +50,7 @@ export const Calendar = ({
   const ButtonCal = () => {
     return (
       <Button
+        className={buttonClassName}
         onClick={() => datePickerRef?.current?.openCalendar()}
         radius="pill"
       >
@@ -66,6 +71,7 @@ export const Calendar = ({
   return (
     <div>
       <DatePicker
+        containerClassName={containerClassName}
         onlyMonthPicker={onlyMonthPicker}
         onlyYearPicker={onlyYearPicker}
         className="green"
@@ -78,7 +84,9 @@ export const Calendar = ({
         maxDate={maxDate}
         onOpen={onOpen}
         onClose={onClose}
-        plugins={timePicker ? [<TimePicker position="right" />] : []}
+        plugins={
+          timePicker ? [<TimePicker position="right" key="timepicker" />] : []
+        }
       />
     </div>
   );

@@ -55,7 +55,7 @@ const ChatPage: NextPageWithLayout = (session) => {
   const [openModal, setOpenModal] = useState(false);
   const [addNewChat] = useMutation<any, MutationAddNewChatArgs>(ADD_NEW_CHAT);
   const createThread = async (body: CreateThreadApiRequestBody) => {
-    const response = await fetch(encodeURI("/api/discord/createThread"), {
+    const response = await fetch(encodeURI("/api/discord/createForumPost"), {
       method: "POST",
       body: JSON.stringify(body),
       headers: {
@@ -151,7 +151,7 @@ const ChatPage: NextPageWithLayout = (session) => {
                 embedMessage: message,
                 senderAvatarURL: currentUser?.discordAvatar!,
                 senderName: `${currentUser?.discordName} -- Just invite you to a conversation`,
-                channelId: "1033337923006902353",
+                channelId: "1043008974523478087",
                 threadName: `Project Talents Discussion with ${member?.discordName}`,
                 ThreadAutoArchiveDuration: ThreadAutoArchiveDuration.OneDay,
               });

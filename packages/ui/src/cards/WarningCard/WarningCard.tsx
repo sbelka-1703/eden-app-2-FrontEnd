@@ -32,7 +32,7 @@ export const WarningCard = ({
             size="md"
             onClick={onClickCompleteProfile}
           >
-            Finist your profile
+            Finish your profile
           </Button>
         </div>
       </div>
