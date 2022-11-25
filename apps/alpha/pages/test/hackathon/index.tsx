@@ -1,4 +1,9 @@
 import {
+  HackathonContext,
+  HackathonProjectModal,
+  HackathonProvider,
+} from "@eden/package-context";
+import {
   AppUserLayout,
   Card,
   GridItemNine,
@@ -10,6 +15,8 @@ import {
   UserProfileCard,
   WarningCard,
 } from "@eden/package-ui";
+import { useRouter } from "next/router";
+import { useContext, useEffect, useState } from "react";
 
 import HACK2_MOCK from "../../../utils/mock/skillTreeWorks_Hackathon_Project2";
 import type { NextPageWithLayout } from "../../_app";
@@ -92,35 +99,3 @@ LaunchPage.getLayout = (page) => (
 );
 
 export default LaunchPage;
-
-import {
-  HackathonContext,
-  HackathonProjectModal,
-  HackathonProvider,
-} from "@eden/package-context";
-import { IncomingMessage, ServerResponse } from "http";
-import { useRouter } from "next/router";
-import { getSession } from "next-auth/react";
-import { useContext, useEffect, useState } from "react";
-
-export async function getServerSideProps(ctx: {
-  req: IncomingMessage;
-  res: ServerResponse;
-}) {
-  const session = await getSession(ctx);
-
-  const url = ctx.req.url?.replace("/", "");
-
-  if (!session) {
-    return {
-      redirect: {
-        destination: `/login?redirect=${url}`,
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {},
-  };
-}
