@@ -1,4 +1,9 @@
 import {
+  LaunchProjectContext,
+  LaunchProjectModal,
+  LaunchProjectProvider,
+} from "@eden/package-context";
+import {
   AppUserLayout,
   Card,
   FiltersCard,
@@ -11,6 +16,7 @@ import {
   // StaticCard,
   UserProfileCard,
 } from "@eden/package-ui";
+import { useContext, useEffect, useState } from "react";
 
 import PROJECT_MOCK from "../../../utils/mock/projectMock";
 import type { NextPageWithLayout } from "../../_app";
@@ -108,34 +114,3 @@ LaunchPage.getLayout = (page) => (
 );
 
 export default LaunchPage;
-
-import {
-  LaunchProjectContext,
-  LaunchProjectModal,
-  LaunchProjectProvider,
-} from "@eden/package-context";
-import { IncomingMessage, ServerResponse } from "http";
-import { getSession } from "next-auth/react";
-import { useContext, useEffect, useState } from "react";
-
-export async function getServerSideProps(ctx: {
-  req: IncomingMessage;
-  res: ServerResponse;
-}) {
-  const session = await getSession(ctx);
-
-  const url = ctx.req.url?.replace("/", "");
-
-  if (!session) {
-    return {
-      redirect: {
-        destination: `/login?redirect=${url}`,
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {},
-  };
-}
