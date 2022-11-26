@@ -1,36 +1,5 @@
-/* eslint-disable camelcase */
-import {
-  Maybe,
-  Members,
-  SkillType_Member,
-} from "@eden/package-graphql/generated";
+import { Maybe, Members } from "@eden/package-graphql/generated";
 import { AvailabilityComp, SkillList, SocialMediaComp } from "@eden/package-ui";
-
-const levels = [
-  {
-    title: "senior",
-    level: "senior",
-  },
-  {
-    title: "junior",
-    level: "junior",
-  },
-  {
-    title: "mid",
-    level: "mid",
-  },
-  {
-    title: "learning",
-    level: "learning",
-  },
-];
-
-const filterSkills = (
-  skills: Maybe<Maybe<SkillType_Member>[]>,
-  level: string
-) => {
-  if (skills) return skills.filter((skill) => skill?.level === level);
-};
 
 export interface IUserSkillSocialAvalProps {
   member: Maybe<Members>;
@@ -41,23 +10,12 @@ export const UserSkillSocialAval = ({ member }: IUserSkillSocialAvalProps) => {
   return (
     <div className="grid grid-cols-12 gap-6">
       <div className="col-span-7">
-        {levels?.map((skill, index: number) => {
-          return (
-            <div className="mb-3" key={index}>
-              <p className="font-semibold uppercase">{skill?.level}</p>
-              <SkillList
-                colorRGB={"215,215,255"}
-                skills={
-                  filterSkills(
-                    member?.skills as Maybe<SkillType_Member>[],
-                    `${skill?.level}`
-                  ) as Maybe<SkillType_Member>[]
-                }
-              />
-            </div>
-          );
-        })}
+        <p className="mb-3 text-sm font-semibold tracking-widest subpixel-antialiased">
+          Top skills
+        </p>
+        <SkillList skills={member.skills!} colorRGB={"155, 103, 255, 0.44"} />
       </div>
+
       <div className="col-span-2">
         <SocialMediaComp links={member?.links} />
       </div>

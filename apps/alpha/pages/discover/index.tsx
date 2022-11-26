@@ -1,23 +1,38 @@
 import {
+  DiscoverContext,
+  DiscoverModal,
+  DiscoverProvider,
+} from "@eden/package-context";
+import {
   AppUserSubmenuLayout,
   Card,
+  DiscoverModalContainer,
   GridItemNine,
   GridItemThree,
   GridLayout,
   SEO,
+  SignUpContainerSide,
 } from "@eden/package-ui";
+import { useContext, useEffect } from "react";
 
+import USER_MOCK from "../../utils/mock/userMock";
 import type { NextPageWithLayout } from "../_app";
 
 const DiscoverPage: NextPageWithLayout = () => {
+  const { setOpenModal } = useContext(DiscoverContext);
+
+  useEffect(() => {
+    setOpenModal(DiscoverModal.START_INFO);
+  }, []);
   return (
     <>
       <SEO />
       <GridLayout>
         <GridItemThree>
-          <Card shadow className="h-85 bg-white p-6">
-            left side
-          </Card>
+          <SignUpContainerSide
+            onSelectedProject={(val) => console.log(val)}
+            viewProject={false}
+          />
         </GridItemThree>
         <GridItemNine>
           <Card shadow className="h-85 overflow-auto bg-white p-6">
@@ -25,12 +40,21 @@ const DiscoverPage: NextPageWithLayout = () => {
           </Card>
         </GridItemNine>
       </GridLayout>
+      <DiscoverModalContainer
+        matchType="People"
+        // setSubmittingTalentAttributes={(val) => {
+        //   setRoleFilter(val);
+        // }}
+        mockData={USER_MOCK}
+      />
     </>
   );
 };
 
 DiscoverPage.getLayout = (page) => (
-  <AppUserSubmenuLayout showSubmenu={false}>{page}</AppUserSubmenuLayout>
+  <DiscoverProvider>
+    <AppUserSubmenuLayout showSubmenu={false}>{page}</AppUserSubmenuLayout>
+  </DiscoverProvider>
 );
 
 export default DiscoverPage;
