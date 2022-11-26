@@ -266,22 +266,24 @@ const FillProfilePage: NextPageWithLayout = () => {
                       })
                     )}
                     handleChange={(val: any) => {
-                      const newVal = Object.keys(val).map((key) => ({
-                        title: val[key].role,
-                        content: val[key].bio,
-                        skills: [],
-                        date: {
-                          start: "",
-                          end: "",
-                        },
-                      }));
+                      const newVal = val.map((item: any) =>
+                        Object.keys(item).map((key) => ({
+                          title: item[key].role,
+                          content: item[key].bio,
+                          skills: [],
+                          date: {
+                            start: "",
+                            end: "",
+                          },
+                        }))
+                      );
 
                       const newState = state.background.map(
                         (item: any, index: number) =>
                           val[index]
                             ? {
                                 ...item,
-                                content: newVal,
+                                content: newVal[index],
                               }
                             : item
                       );
