@@ -32,6 +32,7 @@ export const FIND_CURRENTUSER_SUB = gql`
         nodeData {
           _id
           name
+          node
         }
       }
       projects {

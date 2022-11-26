@@ -57,6 +57,8 @@ export const SelectNodesModal = ({
     context: { serviceName: "soilservice" },
   });
 
+  // console.log("dataNodes = " , dataNodes)
+
   // if (dataNodes?.findNodes) console.log("dataNodes", dataNodes?.findNodes);
 
   const handleFinish = () => {

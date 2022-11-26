@@ -35,6 +35,9 @@ const ProfilePage: NextPageWithLayout = () => {
     context: { serviceName: "soilservice" },
   });
 
+
+  // console.log("currentUser = " , currentUser)
+
   const [activeIndex, setActiveIndex] = useState(0);
   const submenu = [
     {
@@ -49,7 +52,9 @@ const ProfilePage: NextPageWithLayout = () => {
     },
   ];
 
-  const [openModal, setOpenModal] = useState(false);
+  const [openModal_expertise, setOpenModal_expertise] = useState(false);
+  
+  const [openModal_typeProject, setOpenModal_typeProject] = useState(false);
 
   const [addNodes] = useMutation(ADD_NODES, {
     onCompleted({ addNodesToMember }: Mutation) {
@@ -66,7 +71,7 @@ const ProfilePage: NextPageWithLayout = () => {
       .flat()
       .map((item: any) => item._id);
 
-    // console.log("nodes", nodes);
+    console.log("nodes", nodes);
 
     if (!currentUser) return;
     addNodes({
@@ -95,35 +100,78 @@ const ProfilePage: NextPageWithLayout = () => {
               <Card shadow className={`mb-4 p-6`}>
                 <div className={`flex justify-between`}>
                   <div>
-                    <Button onClick={() => setOpenModal(!openModal)}>
+                    <Button onClick={() => setOpenModal_expertise(!openModal_expertise)}>
                       Select Skills
                     </Button>
                   </div>
                   <div>
-                    {currentUser?.nodes?.map((item, index) => (
-                      <Badge
-                        key={index}
-                        text={item?.nodeData?.name || ""}
-                        colorRGB={`209,247,196`}
-                        className={`font-Inter text-sm`}
-                        cutText={16}
-                      />
-                    ))}
+                    {currentUser?.nodes?.map((item, index) =>{
+                      if (item?.nodeData?.node=="sub_expertise"){
+                        return (
+                          <Badge
+                            key={index}
+                            text={item?.nodeData?.name || ""}
+                            colorRGB={`209,247,196`}
+                            className={`font-Inter text-sm`}
+                            cutText={16}
+                          />
+                        )
+                      }
+                    })}
+                  </div>
+                </div>
+              </Card>
+
+              <Card shadow className={`mb-4 p-6`}>
+                <div className={`flex justify-between`}>
+                  <div>
+                    <Button onClick={() => setOpenModal_typeProject(!openModal_typeProject)}>
+                      Select Type Project
+                    </Button>
+                  </div>
+                  <div>
+                    {currentUser?.nodes?.map((item, index) => {
+                      if (item?.nodeData?.node=="sub_typeProject"){
+                        return (
+                          <Badge
+                            key={index}
+                            text={item?.nodeData?.name || ""}
+                            colorRGB={`209,147,296`}
+                            className={`font-Inter text-sm`}
+                            cutText={16}
+                          />
+                        )
+                      }
+                    })}
                   </div>
                 </div>
               </Card>
 
               <SelectNodesModal
-                openModal={openModal}
+                openModal={openModal_expertise}
                 onClose={() => {
-                  setOpenModal(false);
+                  setOpenModal_expertise(false);
                 }}
                 onSubmit={(val: any) => {
                   handleSaveNodes(val);
-                  setOpenModal(false);
+                  setOpenModal_expertise(false);
                 }}
                 nodeType={`expertise`}
               />
+
+              <SelectNodesModal
+                openModal={openModal_typeProject}
+                onClose={() => {
+                  setOpenModal_typeProject(false);
+                }}
+                onSubmit={(val: any) => {
+                  handleSaveNodes(val);
+                  setOpenModal_typeProject(false);
+                }}
+                nodeType={`typeProject`}
+              />
+
+              
               <EditProfileContainer roles={dataRoles?.findRoleTemplates} />
             </>
           )}
