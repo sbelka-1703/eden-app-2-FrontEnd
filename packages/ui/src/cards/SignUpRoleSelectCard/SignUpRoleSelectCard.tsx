@@ -42,6 +42,7 @@ export const SignUpRoleSelectCard = ({
       variables: {
         fields: {
           _id: currentUser?._id,
+          serverID: [],
           memberRole: selectedRoleId,
           onbording: {
             signup: true,

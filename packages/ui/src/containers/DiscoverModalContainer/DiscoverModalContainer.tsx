@@ -19,12 +19,10 @@ for (let i = 0; i < 500; i++) {
 export interface IDiscoverModalContainerProps {
   // eslint-disable-next-line no-unused-vars
   setSubmittingTalentAttributes?: (val: any) => void;
-  matchType?: string;
 }
 
 export const DiscoverModalContainer = ({
   setSubmittingTalentAttributes,
-  matchType,
 }: IDiscoverModalContainerProps) => {
   const {
     project,
@@ -67,7 +65,7 @@ export const DiscoverModalContainer = ({
           numMatchesBefore={210}
           batteryPercentageAfter={70}
           numMatchesAfter={8}
-          matchType={matchType}
+          matchType={`People`}
         />
       )}
 

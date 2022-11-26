@@ -11,11 +11,10 @@ import {
   GridItemThree,
   GridLayout,
   SEO,
-  SignUpContainerSide,
+  UserProfileCard,
 } from "@eden/package-ui";
 import { useContext, useEffect } from "react";
 
-// import USER_MOCK from "../../utils/mock/userMock";
 import type { NextPageWithLayout } from "../_app";
 
 const DiscoverPage: NextPageWithLayout = () => {
@@ -24,15 +23,15 @@ const DiscoverPage: NextPageWithLayout = () => {
   useEffect(() => {
     setOpenModal(DiscoverModal.START_INFO);
   }, []);
+
   return (
     <>
       <SEO />
       <GridLayout>
         <GridItemThree>
-          <SignUpContainerSide
-            onSelectedProject={(val) => console.log(val)}
-            viewProject={false}
-          />
+          <Card className={`h-85 flex flex-col gap-2`}>
+            <UserProfileCard />
+          </Card>
         </GridItemThree>
         <GridItemNine>
           <Card shadow className="h-85 overflow-auto bg-white p-6">
@@ -41,12 +40,10 @@ const DiscoverPage: NextPageWithLayout = () => {
         </GridItemNine>
       </GridLayout>
       <DiscoverModalContainer
-        matchType="People"
         setSubmittingTalentAttributes={(val) => {
           // setRoleFilter(val);
           console.log("val", val);
         }}
-        // mockData={USER_MOCK}
       />
     </>
   );

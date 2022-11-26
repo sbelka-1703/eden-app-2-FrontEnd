@@ -118,7 +118,9 @@ export const ApplyByRoleModal = ({
       variables: {
         fields: {
           // serverID: "alpha-test", // don't need this anymore
+          // TODO: Do we need to pass the current serverID?
           _id: currentUser?._id,
+          serverID: [],
           bio: profileBio,
           hoursPerWeek: hoursPerWeek,
           timeZone: timezone,

@@ -88,7 +88,7 @@ export const DiscoverTalentDropdownModal = ({
       },
     },
     skip: !nodeType,
-    // context: { serviceName: "soilservice" },
+    context: { serviceName: "soilservice" },
   });
 
   // if (dataNodes?.findNodes) console.log("dataNodes", dataNodes?.findNodes);
