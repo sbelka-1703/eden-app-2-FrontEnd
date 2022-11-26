@@ -90,6 +90,7 @@ export const EditProfileContainer = ({ roles }: IEditProfileContainerProps) => {
           bio: bio,
           hoursPerWeek: hoursPerWeek,
           timeZone: timezone,
+          serverID: [],
           links: [
             {
               name: "twitter",
