@@ -15,7 +15,7 @@ import {
 } from "@eden/package-ui";
 import { useContext, useEffect } from "react";
 
-import USER_MOCK from "../../utils/mock/userMock";
+// import USER_MOCK from "../../utils/mock/userMock";
 import type { NextPageWithLayout } from "../_app";
 
 const DiscoverPage: NextPageWithLayout = () => {
@@ -42,10 +42,11 @@ const DiscoverPage: NextPageWithLayout = () => {
       </GridLayout>
       <DiscoverModalContainer
         matchType="People"
-        // setSubmittingTalentAttributes={(val) => {
-        //   setRoleFilter(val);
-        // }}
-        mockData={USER_MOCK}
+        setSubmittingTalentAttributes={(val) => {
+          // setRoleFilter(val);
+          console.log("val", val);
+        }}
+        // mockData={USER_MOCK}
       />
     </>
   );
