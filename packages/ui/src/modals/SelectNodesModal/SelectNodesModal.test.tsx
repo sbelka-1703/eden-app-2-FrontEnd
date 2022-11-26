@@ -1,10 +1,10 @@
 import { render } from "../../../utils/jest-apollo";
-import { HackathonTalentDropdownModal } from ".";
+import { SelectNodesModal } from ".";
 
-describe("HackathonTalentDropdownModal", () => {
+describe("SelectNodesModal", () => {
   it("renders without throwing", () => {
     const { container } = render(
-      <HackathonTalentDropdownModal
+      <SelectNodesModal
         onClose={function (): void {
           throw new Error("Function not implemented.");
         }}
