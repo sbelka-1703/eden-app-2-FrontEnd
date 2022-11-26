@@ -1,14 +1,12 @@
 import { DiscoverContext, DiscoverModal } from "@eden/package-context";
 import {
-  FindTalentDropdownModal,
+  DiscoverTalentDropdownModal,
   PrioritizeModal,
   ProjectsMatchesModal,
   RequirementsModal,
   SkipFlowModal,
 } from "@eden/package-ui";
 import { useContext, useEffect, useState } from "react";
-
-// @TODO mock data to be removed
 
 const rangeNumbers: number[] = [];
 
@@ -21,13 +19,11 @@ for (let i = 0; i < 500; i++) {
 export interface IDiscoverModalContainerProps {
   // eslint-disable-next-line no-unused-vars
   setSubmittingTalentAttributes?: (val: any) => void;
-  mockData?: any;
   matchType?: string;
 }
 
 export const DiscoverModalContainer = ({
   setSubmittingTalentAttributes,
-  mockData,
   matchType,
 }: IDiscoverModalContainerProps) => {
   const {
@@ -48,30 +44,6 @@ export const DiscoverModalContainer = ({
   useEffect(() => {
     if (talentAttributes) console.log("talentAttributes", talentAttributes);
   }, [talentAttributes]);
-
-  const mockDataMap1 = {
-    SkillTree: {
-      subCategories: {
-        title: mockData?.SkillTree?.category?.title,
-        subTitle: mockData?.SkillTree?.category?.subTitle,
-      },
-    },
-  };
-
-  if (mockData?.SkillTree) {
-    Object.keys(mockData?.SkillTree).forEach((key) => {
-      if (key !== "category")
-        mockDataMap1.SkillTree = {
-          ...mockDataMap1.SkillTree,
-          [key as keyof Object]: {
-            content:
-              mockData.SkillTree[key as keyof Object]?.subCategories?.content,
-          },
-        };
-    });
-  }
-
-  console.log("openModal", openModal);
 
   return (
     <>
@@ -101,7 +73,7 @@ export const DiscoverModalContainer = ({
 
       {/* keep */}
       {openModal === DiscoverModal.SKILLS_CATEGORY && (
-        <FindTalentDropdownModal
+        <DiscoverTalentDropdownModal
           openModal={openModal === DiscoverModal.SKILLS_CATEGORY}
           onClose={() => {
             setOpenModal(DiscoverModal.SKIP_ALERT);
@@ -124,7 +96,9 @@ export const DiscoverModalContainer = ({
 
             setOpenModal(DiscoverModal.SKILLS_SUBCATEGORY);
           }}
-          mockData={mockDataMap1.SkillTree}
+          title={`Who are you looking for?`}
+          subTitle={`Select what you want them to help you with.`}
+          nodeType={`expertise`}
           // onClose={() => setOpenModal(null)}
         />
       )}
@@ -132,7 +106,7 @@ export const DiscoverModalContainer = ({
       {/* keep */}
 
       {openModal === DiscoverModal.SKILLS_SUBCATEGORY && (
-        <FindTalentDropdownModal
+        <DiscoverTalentDropdownModal
           openModal={openModal === DiscoverModal.SKILLS_SUBCATEGORY}
           onClose={() => {
             setOpenModal(DiscoverModal.SKIP_ALERT);
@@ -148,7 +122,10 @@ export const DiscoverModalContainer = ({
             // setSubmittingTalentAttributes!(val);
             setOpenModal(DiscoverModal.PRIORITIZE);
           }}
-          mockData={mockData.SkillTree[talentAttributes?.main[0]?.name]}
+          title={`Who are you looking for?`}
+          subTitle={`Select what you want them to help you with.`}
+          nodeType={`typeProject`}
+
           // onClose={() => setOpenModal(null)}
         />
       )}
