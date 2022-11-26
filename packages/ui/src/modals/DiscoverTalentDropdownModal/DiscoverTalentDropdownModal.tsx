@@ -12,7 +12,7 @@ import { forEach, isEmpty, map } from "lodash";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 
-export const FIND_NODES = gql`
+const FIND_NODES = gql`
   query ($fields: findNodesInput) {
     findNodes(fields: $fields) {
       _id

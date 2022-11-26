@@ -4,7 +4,7 @@ import { DiscoverTalentDropdownModal } from "./DiscoverTalentDropdownModal";
 import mockData from "./mockData";
 
 export default {
-  title: "Modals/HackathonTalentDropdownModal",
+  title: "Modals/DiscoverTalentDropdownModal",
   component: DiscoverTalentDropdownModal,
   argTypes: {},
 } as ComponentMeta<typeof DiscoverTalentDropdownModal>;

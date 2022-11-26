@@ -1,4 +1,3 @@
-import { gql, useQuery } from "@apollo/client";
 import {
   AppUserLayout,
   Card,
@@ -11,19 +10,6 @@ import {
   StaticCard,
   UserProfileCard,
 } from "@eden/package-ui";
-
-export const FIND_NODES = gql`
-  query ($fields: findNodesInput) {
-    findNodes(fields: $fields) {
-      _id
-      name
-      subNodes {
-        _id
-        name
-      }
-    }
-  }
-`;
 
 import HACK2_MOCK from "../../../utils/mock/skillTreeWorks_Hackathon_Project2";
 import type { NextPageWithLayout } from "../../_app";
@@ -50,16 +36,6 @@ const LaunchPage: NextPageWithLayout = () => {
     setOpenModal(HackathonProjectModal.START_INFO);
     // console.log("openModal");
   }, []);
-
-  const { data: dataNodes } = useQuery(FIND_NODES, {
-    variables: {
-      fields: {
-        node: "expertise",
-      },
-    },
-    // skip: !_id,
-    // context: { serviceName: "soilservice" },
-  });
 
   // console.log("dataNodes", dataNodes);
 
@@ -124,7 +100,6 @@ const LaunchPage: NextPageWithLayout = () => {
           setRoleFilter(val);
         }}
         mockData={HACK2_MOCK}
-        dataNodes={dataNodes?.findNodes}
       />
     </>
   );

@@ -1,16 +1,27 @@
-import { useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
 import { FIND_ROLE_TEMPLATES } from "@eden/package-graphql";
-import { Members } from "@eden/package-graphql/generated";
+import { Members, Mutation } from "@eden/package-graphql/generated";
 import {
   AppUserSubmenuLayout,
+  Badge,
+  Button,
   Card,
   EditProfileContainer,
   NewProfileContainer,
+  SelectNodesModal,
   SEO,
 } from "@eden/package-ui";
 import { useContext, useState } from "react";
 import { FaUserAlt, FaUserEdit } from "react-icons/fa";
+
+export const ADD_NODES = gql`
+  mutation ($fields: addNodesToMemberInput!) {
+    addNodesToMember(fields: $fields) {
+      _id
+    }
+  }
+`;
 
 import type { NextPageWithLayout } from "../_app";
 
@@ -38,6 +49,36 @@ const ProfilePage: NextPageWithLayout = () => {
     },
   ];
 
+  const [openModal, setOpenModal] = useState(false);
+
+  const [addNodes] = useMutation(ADD_NODES, {
+    onCompleted({ addNodesToMember }: Mutation) {
+      if (!addNodesToMember) console.log("addNodesToMember is null");
+      // console.log("updateMember", addNodesToMember);
+      // setSubmitting(false);
+    },
+  });
+
+  const handleSaveNodes = (data: any) => {
+    // console.log("data", data);
+
+    const nodes = Object.values(data)
+      .flat()
+      .map((item: any) => item._id);
+
+    // console.log("nodes", nodes);
+
+    if (!currentUser) return;
+    addNodes({
+      variables: {
+        fields: {
+          memberID: currentUser._id,
+          nodesID: nodes,
+        },
+      },
+    });
+  };
+
   return (
     <>
       <SEO />
@@ -50,7 +91,41 @@ const ProfilePage: NextPageWithLayout = () => {
             <NewProfileContainer user={currentUser as Members} />
           )}
           {activeIndex === 1 && (
-            <EditProfileContainer roles={dataRoles?.findRoleTemplates} />
+            <>
+              <Card shadow className={`mb-4 p-6`}>
+                <div className={`flex justify-between`}>
+                  <div>
+                    <Button onClick={() => setOpenModal(!openModal)}>
+                      Select Skills
+                    </Button>
+                  </div>
+                  <div>
+                    {currentUser?.nodes?.map((item, index) => (
+                      <Badge
+                        key={index}
+                        text={item?.nodeData?.name || ""}
+                        colorRGB={`209,247,196`}
+                        className={`font-Inter text-sm`}
+                        cutText={16}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </Card>
+
+              <SelectNodesModal
+                openModal={openModal}
+                onClose={() => {
+                  setOpenModal(false);
+                }}
+                onSubmit={(val: any) => {
+                  handleSaveNodes(val);
+                  setOpenModal(false);
+                }}
+                nodeType={`expertise`}
+              />
+              <EditProfileContainer roles={dataRoles?.findRoleTemplates} />
+            </>
           )}
         </Card>
       </AppUserSubmenuLayout>
