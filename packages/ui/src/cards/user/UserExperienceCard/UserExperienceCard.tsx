@@ -178,7 +178,7 @@ export const UserExperienceCard = ({
           items={fields!}
           multiple={false}
           onChange={(items) => {
-            if (!!items.length) {
+            if (!!items.length && items[0]) {
               setCurrentCategoryIndex(Number(items[0]._id));
               setCurrentIndex(
                 Object.keys(state[Number(items[0]._id)]).length - 1
