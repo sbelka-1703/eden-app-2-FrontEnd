@@ -1786,26 +1786,31 @@ const Result = {
     description:
       "At Catapult labs we're excited to unlock the future of DAOs. For this project in particular we're looking for a couple of key people who can help us shape our next gen of DAO tooling.",
     picture: "😂",
-    smallDescription:"The future of games distribution is here",
-    tagsProject:["Infrastarcture","Web3 Social"],
+    smallDescription: "The future of games distribution is here",
+    tagsProject: ["Infrastarcture", "Web3 Social"],
     champion: "1",
-    timeline: [{
-      text: "Launch beta of the platform.",
-      startDate: "APR 21",
-      endDate: "JAN 22",
-    },{
-      text: "Launch alpha of the platform. Pre-seed: 1 Mil",
-      startDate: "APR 22",
-      endDate: "JAN 23",
-    },{
-      text: "Launch a native token Seed: 4 Mil",
-      startDate: "APR 23",
-      endDate: "JAN 23",
-    },{
-      text: "Onboard 5k new devs.Generate first revenue",
-      startDate: "APR 24",
-      endDate: "JAN 24",
-    }],
+    timeline: [
+      {
+        text: "Launch beta of the platform.",
+        startDate: "APR 21",
+        endDate: "JAN 22",
+      },
+      {
+        text: "Launch alpha of the platform. Pre-seed: 1 Mil",
+        startDate: "APR 22",
+        endDate: "JAN 23",
+      },
+      {
+        text: "Launch a native token Seed: 4 Mil",
+        startDate: "APR 23",
+        endDate: "JAN 23",
+      },
+      {
+        text: "Onboard 5k new devs.Generate first revenue",
+        startDate: "APR 24",
+        endDate: "JAN 24",
+      },
+    ],
     name: "Catapult Labs | Next gen DAO tooling.",
     coreTeamPicture: [
       "https://cdn.discordapp.com/avatars/781134177406943272/08e7f48be326d95934393d05519437b5.webp",
@@ -1818,27 +1823,33 @@ const Result = {
     roles: [
       {
         name: "Designer",
-        "time": "10 weeks",
+        time: "10 weeks",
         description:
           "The Underdog.io network is a curated group of some of the fastest growing startups and tech companies in the country. We actively turn away more than 50% of companies that attempt to join.",
         "Open Seats": "2",
         emoji: "👩‍🎨",
-        tags:["python","gitlab","SQL"],
-        "line description": "We're looking for a Backend Developer to join an NYC",
-        expectations:"-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
-        benefits:"- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
+        tags: ["python", "gitlab", "SQL"],
+        "line description":
+          "We're looking for a Backend Developer to join an NYC",
+        expectations:
+          "-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
+        benefits:
+          "- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
       },
       {
         name: "Product",
-        "time": "10 weeks",
+        time: "10 weeks",
         description:
           "We accept companies that offer competitive salaries, benefits, and perks. They're working on interesting technical challenges and must be respectful of your time to stay active.",
         "Open Seats": "1",
         emoji: "🚗",
-        tags:["coding","Java","Typescript"],
-        "line description": "We're looking for a Backend Developer to join an NYC",
-        expectations:"-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
-        benefits:"- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
+        tags: ["coding", "Java", "Typescript"],
+        "line description":
+          "We're looking for a Backend Developer to join an NYC",
+        expectations:
+          "-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
+        benefits:
+          "- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
       },
     ],
     endorsements: [
@@ -1848,12 +1859,11 @@ const Result = {
         name: "BennyLong",
         role: "Champion, ML Engineer",
         TRST: {
-          price:"300",
-          tags: ["Teamwork","Culture"]
+          price: "300",
+          tags: ["Teamwork", "Culture"],
         },
         endorsement:
           "Yellow Submarine!!! Thank you for seriously the best cheeseburger we have had since arriving in Poland 4 years ago. It's all about the bun, and this one is soft and the right ratio. Quality ingredients! Bravo! 5 stars!! We will be back!!",
-        
       },
       {
         avatar:
@@ -1861,12 +1871,11 @@ const Result = {
         name: "LanaDale",
         role: "CEO, Head of Design",
         TRST: {
-          price:"400",
-          tags: ["Leadership"]
+          price: "400",
+          tags: ["Leadership"],
         },
         endorsement:
           " Personally, I am bothered by the lack of sanitary facilities. I know it's standard. But there are locations where this detail has been taken care of. And I choose to go to them more willingly.",
-        
       },
     ],
   },
@@ -1875,26 +1884,31 @@ const Result = {
       "At Catapult labs we're excited to unlock the future of DAOs. For this project in particular we're looking for a couple of key people who can help us shape our next gen of DAO tooling.",
     picture: "🥰",
     name: "Catapult Labs | Next gen DAO tooling.",
-    smallDescription:"The future of games distribution is here",
-    tagsProject:["Infrastarcture","Web3 Social"],
+    smallDescription: "The future of games distribution is here",
+    tagsProject: ["Infrastarcture", "Web3 Social"],
     champion: "1",
-    timeline: [{
-      text: "Launch beta of the platform.",
-      startDate: "APR 21",
-      endDate: "JAN 22",
-    },{
-      text: "Launch alpha of the platform. Pre-seed: 1 Mil",
-      startDate: "APR 22",
-      endDate: "JAN 23",
-    },{
-      text: "Launch a native token Seed: 4 Mil",
-      startDate: "APR 23",
-      endDate: "JAN 23",
-    },{
-      text: "Onboard 5k new devs.Generate first revenue",
-      startDate: "APR 24",
-      endDate: "JAN 24",
-    }],
+    timeline: [
+      {
+        text: "Launch beta of the platform.",
+        startDate: "APR 21",
+        endDate: "JAN 22",
+      },
+      {
+        text: "Launch alpha of the platform. Pre-seed: 1 Mil",
+        startDate: "APR 22",
+        endDate: "JAN 23",
+      },
+      {
+        text: "Launch a native token Seed: 4 Mil",
+        startDate: "APR 23",
+        endDate: "JAN 23",
+      },
+      {
+        text: "Onboard 5k new devs.Generate first revenue",
+        startDate: "APR 24",
+        endDate: "JAN 24",
+      },
+    ],
     coreTeamPicture: [
       "https://cdn.discordapp.com/avatars/259752464037707776/abe1ce7ff7046cdeb678f81889d36b57.webp",
       "https://cdn.discordapp.com/avatars/832272761786990632/339f7c33665a40be92df8d69d37ad5c4.webp ",
@@ -1912,10 +1926,13 @@ const Result = {
           "Work with the team to quickly iterate & design new products",
         "Open Seats": "2",
         emoji: "🚗",
-        tags:["coding","Java","Typescript"],
-        "line description": "We're looking for a Backend Developer to join an NYC",
-        expectations:"-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
-        benefits:"- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
+        tags: ["coding", "Java", "Typescript"],
+        "line description":
+          "We're looking for a Backend Developer to join an NYC",
+        expectations:
+          "-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
+        benefits:
+          "- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
       },
       {
         name: "Product",
@@ -1924,10 +1941,13 @@ const Result = {
           "Support our CEO to coordinate the engineering & designer efforts",
         "Open Seats": "1",
         emoji: "🚗",
-        tags:["coding","Java","Typescript"],
-        "line description": "We're looking for a Backend Developer to join an NYC",
-        expectations:"-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
-        benefits:"- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
+        tags: ["coding", "Java", "Typescript"],
+        "line description":
+          "We're looking for a Backend Developer to join an NYC",
+        expectations:
+          "-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
+        benefits:
+          "- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
       },
     ],
     endorsements: [
@@ -1994,26 +2014,31 @@ const Result = {
       "Building a discord activity tracker to see what communities are gnmi next.",
     picture: "🤪",
     name: "NFT popTrack",
-    smallDescription:"The future of games distribution is here",
-    tagsProject:["Infrastarcture","Web3 Social"],
+    smallDescription: "The future of games distribution is here",
+    tagsProject: ["Infrastarcture", "Web3 Social"],
     champion: "1",
-    timeline: [{
-      text: "Launch beta of the platform.",
-      startDate: "APR 21",
-      endDate: "JAN 22",
-    },{
-      text: "Launch alpha of the platform. Pre-seed: 1 Mil",
-      startDate: "APR 22",
-      endDate: "JAN 23",
-    },{
-      text: "Launch a native token Seed: 4 Mil",
-      startDate: "APR 23",
-      endDate: "JAN 23",
-    },{
-      text: "Onboard 5k new devs.Generate first revenue",
-      startDate: "APR 24",
-      endDate: "JAN 24",
-    }],
+    timeline: [
+      {
+        text: "Launch beta of the platform.",
+        startDate: "APR 21",
+        endDate: "JAN 22",
+      },
+      {
+        text: "Launch alpha of the platform. Pre-seed: 1 Mil",
+        startDate: "APR 22",
+        endDate: "JAN 23",
+      },
+      {
+        text: "Launch a native token Seed: 4 Mil",
+        startDate: "APR 23",
+        endDate: "JAN 23",
+      },
+      {
+        text: "Onboard 5k new devs.Generate first revenue",
+        startDate: "APR 24",
+        endDate: "JAN 24",
+      },
+    ],
     coreTeamPicture: [
       "https://cdn.discordapp.com/avatars/552883355667136513/97b696fbca2f7872913c065856588c05.png",
       "https://cdn.discordapp.com/avatars/841644099471015956/08836a37847113f8dc90742f13aa4614.webp",
@@ -2054,26 +2079,31 @@ const Result = {
     description: "A tool to build, validate & track trust across a DAO.",
     picture: "🤬",
     name: "Trust Tree",
-    smallDescription:"The future of games distribution is here",
-    tagsProject:["Infrastarcture","Web3 Social"],
+    smallDescription: "The future of games distribution is here",
+    tagsProject: ["Infrastarcture", "Web3 Social"],
     champion: "1",
-    timeline: [{
-      text: "Launch beta of the platform.",
-      startDate: "APR 21",
-      endDate: "JAN 22",
-    },{
-      text: "Launch alpha of the platform. Pre-seed: 1 Mil",
-      startDate: "APR 22",
-      endDate: "JAN 23",
-    },{
-      text: "Launch a native token Seed: 4 Mil",
-      startDate: "APR 23",
-      endDate: "JAN 23",
-    },{
-      text: "Onboard 5k new devs.Generate first revenue",
-      startDate: "APR 24",
-      endDate: "JAN 24",
-    }],
+    timeline: [
+      {
+        text: "Launch beta of the platform.",
+        startDate: "APR 21",
+        endDate: "JAN 22",
+      },
+      {
+        text: "Launch alpha of the platform. Pre-seed: 1 Mil",
+        startDate: "APR 22",
+        endDate: "JAN 23",
+      },
+      {
+        text: "Launch a native token Seed: 4 Mil",
+        startDate: "APR 23",
+        endDate: "JAN 23",
+      },
+      {
+        text: "Onboard 5k new devs.Generate first revenue",
+        startDate: "APR 24",
+        endDate: "JAN 24",
+      },
+    ],
     coreTeamPicture: [
       "https://cdn.discordapp.com/avatars/601681916017639436/22fa80bfff349584728eef605745c198.webp",
       "https://cdn.discordapp.com/avatars/387254123923374080/0b47ff086d4ada9c64c7bed98b10e08a.webp",
@@ -2090,10 +2120,13 @@ const Result = {
         description: "Build the trust dispersion mechanism for trustTree",
         "Open Seats": "1",
         emoji: "🚗",
-        tags:["coding","Java","Typescript"],
-        "line description": "We're looking for a Backend Developer to join an NYC",
-        expectations:"-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
-        benefits:"- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
+        tags: ["coding", "Java", "Typescript"],
+        "line description":
+          "We're looking for a Backend Developer to join an NYC",
+        expectations:
+          "-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
+        benefits:
+          "- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
       },
       {
         name: "Frontend",
@@ -2101,10 +2134,13 @@ const Result = {
         description: "Implement the frontend for trustTree",
         "Open Seats": "1",
         emoji: "🚗",
-        tags:["coding","Java","Typescript"],
-        "line description": "We're looking for a Backend Developer to join an NYC",
-        expectations:"-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
-        benefits:"- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
+        tags: ["coding", "Java", "Typescript"],
+        "line description":
+          "We're looking for a Backend Developer to join an NYC",
+        expectations:
+          "-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
+        benefits:
+          "- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
       },
     ],
   },
@@ -2113,26 +2149,31 @@ const Result = {
       "Unlike ordinary crypto dashboard in web3 or traditional bank statement in web2, Chain Statement offers the following features that will improve privacy and smooth-onboarding-experience in web3.",
     picture: "😇",
     name: "Chain Statements",
-    smallDescription:"The future of games distribution is here",
-    tagsProject:["Infrastarcture","Web3 Social"],
+    smallDescription: "The future of games distribution is here",
+    tagsProject: ["Infrastarcture", "Web3 Social"],
     champion: "1",
-    timeline: [{
-      text: "Launch beta of the platform.",
-      startDate: "APR 21",
-      endDate: "JAN 22",
-    },{
-      text: "Launch alpha of the platform. Pre-seed: 1 Mil",
-      startDate: "APR 22",
-      endDate: "JAN 23",
-    },{
-      text: "Launch a native token Seed: 4 Mil",
-      startDate: "APR 23",
-      endDate: "JAN 23",
-    },{
-      text: "Onboard 5k new devs.Generate first revenue",
-      startDate: "APR 24",
-      endDate: "JAN 24",
-    }],
+    timeline: [
+      {
+        text: "Launch beta of the platform.",
+        startDate: "APR 21",
+        endDate: "JAN 22",
+      },
+      {
+        text: "Launch alpha of the platform. Pre-seed: 1 Mil",
+        startDate: "APR 22",
+        endDate: "JAN 23",
+      },
+      {
+        text: "Launch a native token Seed: 4 Mil",
+        startDate: "APR 23",
+        endDate: "JAN 23",
+      },
+      {
+        text: "Onboard 5k new devs.Generate first revenue",
+        startDate: "APR 24",
+        endDate: "JAN 24",
+      },
+    ],
     coreTeamPicture: [
       "https://cdn.discordapp.com/avatars/385833013692334080/3fcaa397c193dc2f9c6316e79ce75b8d.webp",
       "https://cdn.discordapp.com/avatars/562160161951711243/2ae783853c88a288db9ed8b691076ad2.webp",
@@ -2150,10 +2191,13 @@ const Result = {
           "Polygon smart contract developer who knows zero knowldge proofs",
         "Open Seats": "1",
         emoji: "🚗",
-        tags:["coding","Java","Typescript"],
-        "line description": "We're looking for a Backend Developer to join an NYC",
-        expectations:"-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
-        benefits:"- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
+        tags: ["coding", "Java", "Typescript"],
+        "line description":
+          "We're looking for a Backend Developer to join an NYC",
+        expectations:
+          "-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
+        benefits:
+          "- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
       },
       {
         name: "Backend",
@@ -2161,10 +2205,13 @@ const Result = {
         description: "Create a database for all the users of our platform",
         "Open Seats": "1",
         emoji: "🚗",
-        tags:["coding","Java","Typescript"],
-        "line description": "We're looking for a Backend Developer to join an NYC",
-        expectations:"-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
-        benefits:"- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
+        tags: ["coding", "Java", "Typescript"],
+        "line description":
+          "We're looking for a Backend Developer to join an NYC",
+        expectations:
+          "-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
+        benefits:
+          "- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
       },
     ],
     whereDataComesFrom: "https://ethglobal.com/showcase/chain-statements-kdurw",
@@ -2175,26 +2222,31 @@ const Result = {
       "Unlike ordinary crypto dashboard in web3 or traditional bank statement in web2, Chain Statement offers the following features that will improve privacy and smooth-onboarding-experience in web3.",
     picture: "🫥",
     name: "Dijza",
-    smallDescription:"The future of games distribution is here",
-    tagsProject:["Infrastarcture","Web3 Social"],
+    smallDescription: "The future of games distribution is here",
+    tagsProject: ["Infrastarcture", "Web3 Social"],
     champion: "1",
-    timeline: [{
-      text: "Launch beta of the platform.",
-      startDate: "APR 21",
-      endDate: "JAN 22",
-    },{
-      text: "Launch alpha of the platform. Pre-seed: 1 Mil",
-      startDate: "APR 22",
-      endDate: "JAN 23",
-    },{
-      text: "Launch a native token Seed: 4 Mil",
-      startDate: "APR 23",
-      endDate: "JAN 23",
-    },{
-      text: "Onboard 5k new devs.Generate first revenue",
-      startDate: "APR 24",
-      endDate: "JAN 24",
-    }],
+    timeline: [
+      {
+        text: "Launch beta of the platform.",
+        startDate: "APR 21",
+        endDate: "JAN 22",
+      },
+      {
+        text: "Launch alpha of the platform. Pre-seed: 1 Mil",
+        startDate: "APR 22",
+        endDate: "JAN 23",
+      },
+      {
+        text: "Launch a native token Seed: 4 Mil",
+        startDate: "APR 23",
+        endDate: "JAN 23",
+      },
+      {
+        text: "Onboard 5k new devs.Generate first revenue",
+        startDate: "APR 24",
+        endDate: "JAN 24",
+      },
+    ],
     coreTeamPicture: [
       "https://cdn.discordapp.com/avatars/950137362481025075/b86b8c5cd2043c18c575195c0553600f.webp",
       "https://cdn.discordapp.com/avatars/451587147808636929/a_872037e1cc253eff29f26b918c1d595d.webp",
@@ -2212,10 +2264,13 @@ const Result = {
           "Game devlo[er that has experience buidling Blockchain games website",
         "Open Seats": "1",
         emoji: "🚗",
-        tags:["coding","Java","Typescript"],
-        "line description": "We're looking for a Backend Developer to join an NYC",
-        expectations:"-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
-        benefits:"- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
+        tags: ["coding", "Java", "Typescript"],
+        "line description":
+          "We're looking for a Backend Developer to join an NYC",
+        expectations:
+          "-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
+        benefits:
+          "- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
       },
       {
         name: "FrontEnd",
@@ -2223,10 +2278,13 @@ const Result = {
         description: "Can create an amazing interface for the game",
         "Open Seats": "1",
         emoji: "🚗",
-        tags:["coding","Java","Typescript"],
-        "line description": "We're looking for a Backend Developer to join an NYC",
-        expectations:"-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
-        benefits:"- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
+        tags: ["coding", "Java", "Typescript"],
+        "line description":
+          "We're looking for a Backend Developer to join an NYC",
+        expectations:
+          "-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
+        benefits:
+          "- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
       },
     ],
     whereDataComesFrom: "https://ethglobal.com/showcase/dijza-oj2ht",
@@ -2236,26 +2294,31 @@ const Result = {
       "An Account Abstraction-based wallet that allows you to sign signature with Touch ID, pay gas fee with ERC20 token, and have gasless interaction with dApps!",
     picture: "🤮",
     name: "Porton Wallet",
-    smallDescription:"The future of games distribution is here",
-    tagsProject:["Infrastarcture","Web3 Social"],
+    smallDescription: "The future of games distribution is here",
+    tagsProject: ["Infrastarcture", "Web3 Social"],
     champion: "1",
-    timeline: [{
-      text: "Launch beta of the platform.",
-      startDate: "APR 21",
-      endDate: "JAN 22",
-    },{
-      text: "Launch alpha of the platform. Pre-seed: 1 Mil",
-      startDate: "APR 22",
-      endDate: "JAN 23",
-    },{
-      text: "Launch a native token Seed: 4 Mil",
-      startDate: "APR 23",
-      endDate: "JAN 23",
-    },{
-      text: "Onboard 5k new devs.Generate first revenue",
-      startDate: "APR 24",
-      endDate: "JAN 24",
-    }],
+    timeline: [
+      {
+        text: "Launch beta of the platform.",
+        startDate: "APR 21",
+        endDate: "JAN 22",
+      },
+      {
+        text: "Launch alpha of the platform. Pre-seed: 1 Mil",
+        startDate: "APR 22",
+        endDate: "JAN 23",
+      },
+      {
+        text: "Launch a native token Seed: 4 Mil",
+        startDate: "APR 23",
+        endDate: "JAN 23",
+      },
+      {
+        text: "Onboard 5k new devs.Generate first revenue",
+        startDate: "APR 24",
+        endDate: "JAN 24",
+      },
+    ],
     coreTeamPicture: [
       "https://cdn.discordapp.com/avatars/387254123923374080/0b47ff086d4ada9c64c7bed98b10e08a.webp",
       "https://cdn.discordapp.com/avatars/175735303489847296/fe70f8879d7d8979dd4a32690806f7f3.webp",
@@ -2272,10 +2335,13 @@ const Result = {
         description: "Knows how to build smart contracts on Optimism",
         "Open Seats": "1",
         emoji: "🚗",
-        tags:["coding","Java","Typescript"],
-        "line description": "We're looking for a Backend Developer to join an NYC",
-        expectations:"-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
-        benefits:"- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
+        tags: ["coding", "Java", "Typescript"],
+        "line description":
+          "We're looking for a Backend Developer to join an NYC",
+        expectations:
+          "-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
+        benefits:
+          "- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
       },
       {
         name: "FrontEnd",
@@ -2283,10 +2349,13 @@ const Result = {
         description: "Had previous experince building wallets",
         "Open Seats": "1",
         emoji: "🚗",
-        tags:["coding","Java","Typescript"],
-        "line description": "We're looking for a Backend Developer to join an NYC",
-        expectations:"-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
-        benefits:"- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
+        tags: ["coding", "Java", "Typescript"],
+        "line description":
+          "We're looking for a Backend Developer to join an NYC",
+        expectations:
+          "-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
+        benefits:
+          "- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
       },
     ],
     whereDataComesFrom: "https://ethglobal.com/showcase/porton-wallet-fo21h",
@@ -2296,26 +2365,31 @@ const Result = {
       "ADEEDO is a Descentralized Knowledge Ecosystem that works as the first Web3 MOOC (Massive Open Online Courses).",
     picture: "💩",
     name: "DEEDOO",
-    smallDescription:"The future of games distribution is here",
-    tagsProject:["Infrastarcture","Web3 Social"],
+    smallDescription: "The future of games distribution is here",
+    tagsProject: ["Infrastarcture", "Web3 Social"],
     champion: "1",
-    timeline: [{
-      text: "Launch beta of the platform.",
-      startDate: "APR 21",
-      endDate: "JAN 22",
-    },{
-      text: "Launch alpha of the platform. Pre-seed: 1 Mil",
-      startDate: "APR 22",
-      endDate: "JAN 23",
-    },{
-      text: "Launch a native token Seed: 4 Mil",
-      startDate: "APR 23",
-      endDate: "JAN 23",
-    },{
-      text: "Onboard 5k new devs.Generate first revenue",
-      startDate: "APR 24",
-      endDate: "JAN 24",
-    }],
+    timeline: [
+      {
+        text: "Launch beta of the platform.",
+        startDate: "APR 21",
+        endDate: "JAN 22",
+      },
+      {
+        text: "Launch alpha of the platform. Pre-seed: 1 Mil",
+        startDate: "APR 22",
+        endDate: "JAN 23",
+      },
+      {
+        text: "Launch a native token Seed: 4 Mil",
+        startDate: "APR 23",
+        endDate: "JAN 23",
+      },
+      {
+        text: "Onboard 5k new devs.Generate first revenue",
+        startDate: "APR 24",
+        endDate: "JAN 24",
+      },
+    ],
     coreTeamPicture: [
       "https://cdn.discordapp.com/avatars/385833013692334080/3fcaa397c193dc2f9c6316e79ce75b8d.webp",
       "https://cdn.discordapp.com/avatars/403298435689611264/78fa1d482c932b5c26c505e1cd8c5ab4.webp",
@@ -2340,26 +2414,31 @@ const Result = {
       "Decentralized database made for Dapps, built on top of ceramic and IPFS.",
     picture: "💩",
     name: "DEEDOO",
-    smallDescription:"The future of games distribution is here",
-    tagsProject:["Infrastarcture","Web3 Social"],
+    smallDescription: "The future of games distribution is here",
+    tagsProject: ["Infrastarcture", "Web3 Social"],
     champion: "1",
-    timeline: [{
-      text: "Launch beta of the platform.",
-      startDate: "APR 21",
-      endDate: "JAN 22",
-    },{
-      text: "Launch alpha of the platform. Pre-seed: 1 Mil",
-      startDate: "APR 22",
-      endDate: "JAN 23",
-    },{
-      text: "Launch a native token Seed: 4 Mil",
-      startDate: "APR 23",
-      endDate: "JAN 23",
-    },{
-      text: "Onboard 5k new devs.Generate first revenue",
-      startDate: "APR 24",
-      endDate: "JAN 24",
-    }],
+    timeline: [
+      {
+        text: "Launch beta of the platform.",
+        startDate: "APR 21",
+        endDate: "JAN 22",
+      },
+      {
+        text: "Launch alpha of the platform. Pre-seed: 1 Mil",
+        startDate: "APR 22",
+        endDate: "JAN 23",
+      },
+      {
+        text: "Launch a native token Seed: 4 Mil",
+        startDate: "APR 23",
+        endDate: "JAN 23",
+      },
+      {
+        text: "Onboard 5k new devs.Generate first revenue",
+        startDate: "APR 24",
+        endDate: "JAN 24",
+      },
+    ],
     coreTeamPicture: [
       "https://cdn.discordapp.com/avatars/832272761786990632/339f7c33665a40be92df8d69d37ad5c4.webp",
       "https://cdn.discordapp.com/avatars/516697403391213588/4cc3f607d01bc8865b327064c5d380ca.png",
@@ -2376,10 +2455,13 @@ const Result = {
         description: "Backend developer with experince in MongoDB",
         "Open Seats": "1",
         emoji: "🚗",
-        tags:["coding","Java","Typescript"],
-        "line description": "We're looking for a Backend Developer to join an NYC",
-        expectations:"-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
-        benefits:"- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
+        tags: ["coding", "Java", "Typescript"],
+        "line description":
+          "We're looking for a Backend Developer to join an NYC",
+        expectations:
+          "-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
+        benefits:
+          "- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
       },
       {
         name: "FrontEnd developer ",
@@ -2387,10 +2469,13 @@ const Result = {
         description: "Can build interfaces in NextJs ",
         "Open Seats": "1",
         emoji: "🚗",
-        tags:["coding","Java","Typescript"],
-        "line description": "We're looking for a Backend Developer to join an NYC",
-        expectations:"-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
-        benefits:"- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
+        tags: ["coding", "Java", "Typescript"],
+        "line description":
+          "We're looking for a Backend Developer to join an NYC",
+        expectations:
+          "-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
+        benefits:
+          "- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
       },
       {
         name: "Data scientist",
@@ -2398,10 +2483,13 @@ const Result = {
         description: "Knowledge of gathering valuable data from MabgoDB ",
         "Open Seats": "1",
         emoji: "🚗",
-        tags:["coding","Java","Typescript"],
-        "line description": "We're looking for a Backend Developer to join an NYC",
-        expectations:"-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
-        benefits:"- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
+        tags: ["coding", "Java", "Typescript"],
+        "line description":
+          "We're looking for a Backend Developer to join an NYC",
+        expectations:
+          "-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
+        benefits:
+          "- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
       },
     ],
     whereDataComesFrom: "https://ethglobal.com/showcase/surfdb-3cwzk",
@@ -2411,26 +2499,31 @@ const Result = {
       "Atomic NFT marketplace: An NFT Marketplace that offers trust minimized cross chain NFT interoprobability.",
     picture: "🤫",
     name: "Atomic NFT Marketplace",
-    smallDescription:"The future of games distribution is here",
-    tagsProject:["Infrastarcture","Web3 Social"],
+    smallDescription: "The future of games distribution is here",
+    tagsProject: ["Infrastarcture", "Web3 Social"],
     champion: "1",
-    timeline: [{
-      text: "Launch beta of the platform.",
-      startDate: "APR 21",
-      endDate: "JAN 22",
-    },{
-      text: "Launch alpha of the platform. Pre-seed: 1 Mil",
-      startDate: "APR 22",
-      endDate: "JAN 23",
-    },{
-      text: "Launch a native token Seed: 4 Mil",
-      startDate: "APR 23",
-      endDate: "JAN 23",
-    },{
-      text: "Onboard 5k new devs.Generate first revenue",
-      startDate: "APR 24",
-      endDate: "JAN 24",
-    }],
+    timeline: [
+      {
+        text: "Launch beta of the platform.",
+        startDate: "APR 21",
+        endDate: "JAN 22",
+      },
+      {
+        text: "Launch alpha of the platform. Pre-seed: 1 Mil",
+        startDate: "APR 22",
+        endDate: "JAN 23",
+      },
+      {
+        text: "Launch a native token Seed: 4 Mil",
+        startDate: "APR 23",
+        endDate: "JAN 23",
+      },
+      {
+        text: "Onboard 5k new devs.Generate first revenue",
+        startDate: "APR 24",
+        endDate: "JAN 24",
+      },
+    ],
     coreTeamPicture: [
       "https://cdn.discordapp.com/avatars/387254123923374080/0b47ff086d4ada9c64c7bed98b10e08a.webp",
       "https://cdn.discordapp.com/avatars/493465532423602176/a56c1e883d732ce7420ecf3439374021.webp",
@@ -2447,10 +2540,13 @@ const Result = {
         description: "Backend developer with experince in MongoDB",
         "Open Seats": "1",
         emoji: "🚗",
-        tags:["coding","Java","Typescript"],
-        "line description": "We're looking for a Backend Developer to join an NYC",
-        expectations:"-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
-        benefits:"- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
+        tags: ["coding", "Java", "Typescript"],
+        "line description":
+          "We're looking for a Backend Developer to join an NYC",
+        expectations:
+          "-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
+        benefits:
+          "- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
       },
       {
         name: "FrontEnd developer ",
@@ -2458,10 +2554,13 @@ const Result = {
         description: "Can build interfaces in NextJs ",
         "Open Seats": "1",
         emoji: "🚗",
-        tags:["coding","Java","Typescript"],
-        "line description": "We're looking for a Backend Developer to join an NYC",
-        expectations:"-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
-        benefits:"- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
+        tags: ["coding", "Java", "Typescript"],
+        "line description":
+          "We're looking for a Backend Developer to join an NYC",
+        expectations:
+          "-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
+        benefits:
+          "- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
       },
       {
         name: "Data scientist",
@@ -2469,10 +2568,13 @@ const Result = {
         description: "Knowledge of gathering valuable data from MabgoDB ",
         "Open Seats": "1",
         emoji: "🚗",
-        tags:["coding","Java","Typescript"],
-        "line description": "We're looking for a Backend Developer to join an NYC",
-        expectations:"-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
-        benefits:"- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
+        tags: ["coding", "Java", "Typescript"],
+        "line description":
+          "We're looking for a Backend Developer to join an NYC",
+        expectations:
+          "-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
+        benefits:
+          "- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
       },
     ],
     whereDataComesFrom:
@@ -2483,26 +2585,31 @@ const Result = {
       "WEB3 Board provide complete interactive option to explore the web3 protocols with download data option.",
     picture: "🤫",
     name: "WEB3 Board",
-    smallDescription:"The future of games distribution is here",
-    tagsProject:["Infrastarcture","Web3 Social"],
+    smallDescription: "The future of games distribution is here",
+    tagsProject: ["Infrastarcture", "Web3 Social"],
     champion: "1",
-    timeline: [{
-      text: "Launch beta of the platform.",
-      startDate: "APR 21",
-      endDate: "JAN 22",
-    },{
-      text: "Launch alpha of the platform. Pre-seed: 1 Mil",
-      startDate: "APR 22",
-      endDate: "JAN 23",
-    },{
-      text: "Launch a native token Seed: 4 Mil",
-      startDate: "APR 23",
-      endDate: "JAN 23",
-    },{
-      text: "Onboard 5k new devs.Generate first revenue",
-      startDate: "APR 24",
-      endDate: "JAN 24",
-    }],
+    timeline: [
+      {
+        text: "Launch beta of the platform.",
+        startDate: "APR 21",
+        endDate: "JAN 22",
+      },
+      {
+        text: "Launch alpha of the platform. Pre-seed: 1 Mil",
+        startDate: "APR 22",
+        endDate: "JAN 23",
+      },
+      {
+        text: "Launch a native token Seed: 4 Mil",
+        startDate: "APR 23",
+        endDate: "JAN 23",
+      },
+      {
+        text: "Onboard 5k new devs.Generate first revenue",
+        startDate: "APR 24",
+        endDate: "JAN 24",
+      },
+    ],
     coreTeamPicture: [
       "https://cdn.discordapp.com/avatars/493465532423602176/a56c1e883d732ce7420ecf3439374021.webp",
       "https://cdn.discordapp.com/avatars/552883355667136513/97b696fbca2f7872913c065856588c05.png",
@@ -2519,10 +2626,13 @@ const Result = {
         description: "FrontEnd developer with experince in building on AAVE",
         "Open Seats": "1",
         emoji: "🚗",
-        tags:["coding","Java","Typescript"],
-        "line description": "We're looking for a Backend Developer to join an NYC",
-        expectations:"-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
-        benefits:"- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
+        tags: ["coding", "Java", "Typescript"],
+        "line description":
+          "We're looking for a Backend Developer to join an NYC",
+        expectations:
+          "-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
+        benefits:
+          "- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
       },
     ],
     whereDataComesFrom: "https://ethglobal.com/showcase/web3-board-8cp4f",
@@ -2532,26 +2642,31 @@ const Result = {
       "Triton is an instant messenger built on the Polygon blockchain. The Dapp is fully on-chain, and allows for MATIC and MATIC tokens transfer.",
     picture: "😪",
     name: "Triton Instant Messenger",
-    smallDescription:"The future of games distribution is here",
-    tagsProject:["Infrastarcture","Web3 Social"],
+    smallDescription: "The future of games distribution is here",
+    tagsProject: ["Infrastarcture", "Web3 Social"],
     champion: "1",
-    timeline: [{
-      text: "Launch beta of the platform.",
-      startDate: "APR 21",
-      endDate: "JAN 22",
-    },{
-      text: "Launch alpha of the platform. Pre-seed: 1 Mil",
-      startDate: "APR 22",
-      endDate: "JAN 23",
-    },{
-      text: "Launch a native token Seed: 4 Mil",
-      startDate: "APR 23",
-      endDate: "JAN 23",
-    },{
-      text: "Onboard 5k new devs.Generate first revenue",
-      startDate: "APR 24",
-      endDate: "JAN 24",
-    }],
+    timeline: [
+      {
+        text: "Launch beta of the platform.",
+        startDate: "APR 21",
+        endDate: "JAN 22",
+      },
+      {
+        text: "Launch alpha of the platform. Pre-seed: 1 Mil",
+        startDate: "APR 22",
+        endDate: "JAN 23",
+      },
+      {
+        text: "Launch a native token Seed: 4 Mil",
+        startDate: "APR 23",
+        endDate: "JAN 23",
+      },
+      {
+        text: "Onboard 5k new devs.Generate first revenue",
+        startDate: "APR 24",
+        endDate: "JAN 24",
+      },
+    ],
     coreTeamPicture: [
       "https://cdn.discordapp.com/avatars/493465532423602176/a56c1e883d732ce7420ecf3439374021.webp",
       "https://cdn.discordapp.com/avatars/552883355667136513/97b696fbca2f7872913c065856588c05.png",
@@ -2568,10 +2683,13 @@ const Result = {
         description: "FrontEnd developer with experince in building on AAVE",
         "Open Seats": "1",
         emoji: "🚗",
-        tags:["coding","Java","Typescript"],
-        "line description": "We're looking for a Backend Developer to join an NYC",
-        expectations:"-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
-        benefits:"- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
+        tags: ["coding", "Java", "Typescript"],
+        "line description":
+          "We're looking for a Backend Developer to join an NYC",
+        expectations:
+          "-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
+        benefits:
+          "- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
       },
     ],
     whereDataComesFrom:
@@ -2582,26 +2700,31 @@ const Result = {
       "Play with your favourite dino, collect items as NFTs, use existing NFT to skin the dino",
     picture: "🐽",
     name: "DinoPixaverse",
-    smallDescription:"The future of games distribution is here",
-    tagsProject:["Infrastarcture","Web3 Social"],
+    smallDescription: "The future of games distribution is here",
+    tagsProject: ["Infrastarcture", "Web3 Social"],
     champion: "1",
-    timeline: [{
-      text: "Launch beta of the platform.",
-      startDate: "APR 21",
-      endDate: "JAN 22",
-    },{
-      text: "Launch alpha of the platform. Pre-seed: 1 Mil",
-      startDate: "APR 22",
-      endDate: "JAN 23",
-    },{
-      text: "Launch a native token Seed: 4 Mil",
-      startDate: "APR 23",
-      endDate: "JAN 23",
-    },{
-      text: "Onboard 5k new devs.Generate first revenue",
-      startDate: "APR 24",
-      endDate: "JAN 24",
-    }],
+    timeline: [
+      {
+        text: "Launch beta of the platform.",
+        startDate: "APR 21",
+        endDate: "JAN 22",
+      },
+      {
+        text: "Launch alpha of the platform. Pre-seed: 1 Mil",
+        startDate: "APR 22",
+        endDate: "JAN 23",
+      },
+      {
+        text: "Launch a native token Seed: 4 Mil",
+        startDate: "APR 23",
+        endDate: "JAN 23",
+      },
+      {
+        text: "Onboard 5k new devs.Generate first revenue",
+        startDate: "APR 24",
+        endDate: "JAN 24",
+      },
+    ],
     coreTeamPicture: [
       "https://cdn.discordapp.com/avatars/493465532423602176/a56c1e883d732ce7420ecf3439374021.webp",
       "https://cdn.discordapp.com/avatars/731709354461364274/a_2195338a9ff0f9891570bf68a76365dd.webp",
@@ -2618,10 +2741,13 @@ const Result = {
         description: "FrontEnd developer will create a cool website for us",
         "Open Seats": "1",
         emoji: "🚗",
-        tags:["coding","Java","Typescript"],
-        "line description": "We're looking for a Backend Developer to join an NYC",
-        expectations:"-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
-        benefits:"- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
+        tags: ["coding", "Java", "Typescript"],
+        "line description":
+          "We're looking for a Backend Developer to join an NYC",
+        expectations:
+          "-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
+        benefits:
+          "- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
       },
       {
         name: "Game Developer ",
@@ -2629,10 +2755,13 @@ const Result = {
         description: "Game developer who has experience with blockchain",
         "Open Seats": "1",
         emoji: "🚗",
-        tags:["coding","Java","Typescript"],
-        "line description": "We're looking for a Backend Developer to join an NYC",
-        expectations:"-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
-        benefits:"- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
+        tags: ["coding", "Java", "Typescript"],
+        "line description":
+          "We're looking for a Backend Developer to join an NYC",
+        expectations:
+          "-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
+        benefits:
+          "- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
       },
       {
         name: "Smart contract developer ",
@@ -2640,10 +2769,13 @@ const Result = {
         description: "Smart contract developer that has experience with NFTs",
         "Open Seats": "1",
         emoji: "🚗",
-        tags:["coding","Java","Typescript"],
-        "line description": "We're looking for a Backend Developer to join an NYC",
-        expectations:"-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
-        benefits:"- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
+        tags: ["coding", "Java", "Typescript"],
+        "line description":
+          "We're looking for a Backend Developer to join an NYC",
+        expectations:
+          "-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
+        benefits:
+          "- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
       },
     ],
     whereDataComesFrom: "https://ethglobal.com/showcase/dinopixaverse-j03k0",
@@ -2653,26 +2785,31 @@ const Result = {
       "DApp specific user analytics platform. Think Google analytics for smart contract applications.",
     picture: "🌝",
     name: "MeshLink",
-    smallDescription:"The future of games distribution is here",
-    tagsProject:["Infrastarcture","Web3 Social"],
+    smallDescription: "The future of games distribution is here",
+    tagsProject: ["Infrastarcture", "Web3 Social"],
     champion: "1",
-    timeline: [{
-      text: "Launch beta of the platform.",
-      startDate: "APR 21",
-      endDate: "JAN 22",
-    },{
-      text: "Launch alpha of the platform. Pre-seed: 1 Mil",
-      startDate: "APR 22",
-      endDate: "JAN 23",
-    },{
-      text: "Launch a native token Seed: 4 Mil",
-      startDate: "APR 23",
-      endDate: "JAN 23",
-    },{
-      text: "Onboard 5k new devs.Generate first revenue",
-      startDate: "APR 24",
-      endDate: "JAN 24",
-    }],
+    timeline: [
+      {
+        text: "Launch beta of the platform.",
+        startDate: "APR 21",
+        endDate: "JAN 22",
+      },
+      {
+        text: "Launch alpha of the platform. Pre-seed: 1 Mil",
+        startDate: "APR 22",
+        endDate: "JAN 23",
+      },
+      {
+        text: "Launch a native token Seed: 4 Mil",
+        startDate: "APR 23",
+        endDate: "JAN 23",
+      },
+      {
+        text: "Onboard 5k new devs.Generate first revenue",
+        startDate: "APR 24",
+        endDate: "JAN 24",
+      },
+    ],
     coreTeamPicture: [
       "https://cdn.discordapp.com/avatars/781134177406943272/08e7f48be326d95934393d05519437b5.webp",
       "https://cdn.discordapp.com/avatars/451587147808636929/a_872037e1cc253eff29f26b918c1d595d.webp",
@@ -2689,10 +2826,13 @@ const Result = {
         description: "Crawler experience is a huge plus!",
         "Open Seats": "1",
         emoji: "🚗",
-        tags:["coding","Java","Typescript"],
-        "line description": "We're looking for a Backend Developer to join an NYC",
-        expectations:"-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
-        benefits:"- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
+        tags: ["coding", "Java", "Typescript"],
+        "line description":
+          "We're looking for a Backend Developer to join an NYC",
+        expectations:
+          "-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
+        benefits:
+          "- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
       },
     ],
     whereDataComesFrom: "https://ethglobal.com/showcase/meshlink-iz3fu",
@@ -2702,26 +2842,31 @@ const Result = {
       "A multi chain privacy mixer. Anonymize transactions on any L2.",
     picture: "🪵",
     name: "Cross Fader",
-    smallDescription:"The future of games distribution is here",
-    tagsProject:["Infrastarcture","Web3 Social"],
+    smallDescription: "The future of games distribution is here",
+    tagsProject: ["Infrastarcture", "Web3 Social"],
     champion: "1",
-    timeline: [{
-      text: "Launch beta of the platform.",
-      startDate: "APR 21",
-      endDate: "JAN 22",
-    },{
-      text: "Launch alpha of the platform. Pre-seed: 1 Mil",
-      startDate: "APR 22",
-      endDate: "JAN 23",
-    },{
-      text: "Launch a native token Seed: 4 Mil",
-      startDate: "APR 23",
-      endDate: "JAN 23",
-    },{
-      text: "Onboard 5k new devs.Generate first revenue",
-      startDate: "APR 24",
-      endDate: "JAN 24",
-    }],
+    timeline: [
+      {
+        text: "Launch beta of the platform.",
+        startDate: "APR 21",
+        endDate: "JAN 22",
+      },
+      {
+        text: "Launch alpha of the platform. Pre-seed: 1 Mil",
+        startDate: "APR 22",
+        endDate: "JAN 23",
+      },
+      {
+        text: "Launch a native token Seed: 4 Mil",
+        startDate: "APR 23",
+        endDate: "JAN 23",
+      },
+      {
+        text: "Onboard 5k new devs.Generate first revenue",
+        startDate: "APR 24",
+        endDate: "JAN 24",
+      },
+    ],
     coreTeamPicture: [
       "https://cdn.discordapp.com/avatars/781134177406943272/08e7f48be326d95934393d05519437b5.webp",
       "https://cdn.discordapp.com/avatars/451587147808636929/a_872037e1cc253eff29f26b918c1d595d.webp",
@@ -2738,10 +2883,13 @@ const Result = {
         description: "Experience with zkSarks and Sollidity",
         "Open Seats": "1",
         emoji: "🚗",
-        tags:["coding","Java","Typescript"],
-        "line description": "We're looking for a Backend Developer to join an NYC",
-        expectations:"-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
-        benefits:"- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
+        tags: ["coding", "Java", "Typescript"],
+        "line description":
+          "We're looking for a Backend Developer to join an NYC",
+        expectations:
+          "-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
+        benefits:
+          "- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
       },
       {
         name: "Backend ",
@@ -2749,10 +2897,13 @@ const Result = {
         description: "Have the aboility to make a context API",
         "Open Seats": "1",
         emoji: "🚗",
-        tags:["coding","Java","Typescript"],
-        "line description": "We're looking for a Backend Developer to join an NYC",
-        expectations:"-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
-        benefits:"- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
+        tags: ["coding", "Java", "Typescript"],
+        "line description":
+          "We're looking for a Backend Developer to join an NYC",
+        expectations:
+          "-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
+        benefits:
+          "- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
       },
       {
         name: "Designer ",
@@ -2760,10 +2911,13 @@ const Result = {
         description: "Can design an inteface with interactive charts ",
         "Open Seats": "1",
         emoji: "🚗",
-        tags:["coding","Java","Typescript"],
-        "line description": "We're looking for a Backend Developer to join an NYC",
-        expectations:"-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
-        benefits:"- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
+        tags: ["coding", "Java", "Typescript"],
+        "line description":
+          "We're looking for a Backend Developer to join an NYC",
+        expectations:
+          "-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
+        benefits:
+          "- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
       },
     ],
     whereDataComesFrom: "https://ethglobal.com/showcase/cross-fader-k2601",
@@ -2773,26 +2927,31 @@ const Result = {
       "Attribution for Advertisers : Facilitate sharing of data in a private way to get attribution calculated.",
     picture: "🪵",
     name: "AttributionX",
-    smallDescription:"The future of games distribution is here",
-    tagsProject:["Infrastarcture","Web3 Social"],
+    smallDescription: "The future of games distribution is here",
+    tagsProject: ["Infrastarcture", "Web3 Social"],
     champion: "1",
-    timeline: [{
-      text: "Launch beta of the platform.",
-      startDate: "APR 21",
-      endDate: "JAN 22",
-    },{
-      text: "Launch alpha of the platform. Pre-seed: 1 Mil",
-      startDate: "APR 22",
-      endDate: "JAN 23",
-    },{
-      text: "Launch a native token Seed: 4 Mil",
-      startDate: "APR 23",
-      endDate: "JAN 23",
-    },{
-      text: "Onboard 5k new devs.Generate first revenue",
-      startDate: "APR 24",
-      endDate: "JAN 24",
-    }],
+    timeline: [
+      {
+        text: "Launch beta of the platform.",
+        startDate: "APR 21",
+        endDate: "JAN 22",
+      },
+      {
+        text: "Launch alpha of the platform. Pre-seed: 1 Mil",
+        startDate: "APR 22",
+        endDate: "JAN 23",
+      },
+      {
+        text: "Launch a native token Seed: 4 Mil",
+        startDate: "APR 23",
+        endDate: "JAN 23",
+      },
+      {
+        text: "Onboard 5k new devs.Generate first revenue",
+        startDate: "APR 24",
+        endDate: "JAN 24",
+      },
+    ],
     coreTeamPicture: [
       "https://cdn.discordapp.com/avatars/453089755924791317/a_febc3c7ca14702c46aec9ccaff7deb36.webp",
       "https://cdn.discordapp.com/avatars/451587147808636929/a_872037e1cc253eff29f26b918c1d595d.webp",
@@ -2809,10 +2968,13 @@ const Result = {
         description: "Has experience with big Data",
         "Open Seats": "1",
         emoji: "🚗",
-        tags:["coding","Java","Typescript"],
-        "line description": "We're looking for a Backend Developer to join an NYC",
-        expectations:"-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
-        benefits:"- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
+        tags: ["coding", "Java", "Typescript"],
+        "line description":
+          "We're looking for a Backend Developer to join an NYC",
+        expectations:
+          "-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
+        benefits:
+          "- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
       },
     ],
     whereDataComesFrom: "https://ethglobal.com/showcase/attributionx-ynucd",
@@ -2822,26 +2984,31 @@ const Result = {
       "Allow your customers to pay with any token, and receive in your token of choice.",
     picture: "🦨",
     name: "Optimistic Payments",
-    smallDescription:"The future of games distribution is here",
-    tagsProject:["Infrastarcture","Web3 Social"],
+    smallDescription: "The future of games distribution is here",
+    tagsProject: ["Infrastarcture", "Web3 Social"],
     champion: "1",
-    timeline: [{
-      text: "Launch beta of the platform.",
-      startDate: "APR 21",
-      endDate: "JAN 22",
-    },{
-      text: "Launch alpha of the platform. Pre-seed: 1 Mil",
-      startDate: "APR 22",
-      endDate: "JAN 23",
-    },{
-      text: "Launch a native token Seed: 4 Mil",
-      startDate: "APR 23",
-      endDate: "JAN 23",
-    },{
-      text: "Onboard 5k new devs.Generate first revenue",
-      startDate: "APR 24",
-      endDate: "JAN 24",
-    }],
+    timeline: [
+      {
+        text: "Launch beta of the platform.",
+        startDate: "APR 21",
+        endDate: "JAN 22",
+      },
+      {
+        text: "Launch alpha of the platform. Pre-seed: 1 Mil",
+        startDate: "APR 22",
+        endDate: "JAN 23",
+      },
+      {
+        text: "Launch a native token Seed: 4 Mil",
+        startDate: "APR 23",
+        endDate: "JAN 23",
+      },
+      {
+        text: "Onboard 5k new devs.Generate first revenue",
+        startDate: "APR 24",
+        endDate: "JAN 24",
+      },
+    ],
     coreTeamPicture: [
       " https://cdn.discordapp.com/avatars/804403182620901426/14596fa0bf33e00c03d59f3684755bad.webp",
       "https://cdn.discordapp.com/avatars/562160161951711243/2ae783853c88a288db9ed8b691076ad2.webp",
@@ -2858,10 +3025,13 @@ const Result = {
         description: "Experience with DeFi and Solidity",
         "Open Seats": "1",
         emoji: "🚗",
-        tags:["coding","Java","Typescript"],
-        "line description": "We're looking for a Backend Developer to join an NYC",
-        expectations:"-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
-        benefits:"- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
+        tags: ["coding", "Java", "Typescript"],
+        "line description":
+          "We're looking for a Backend Developer to join an NYC",
+        expectations:
+          "-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
+        benefits:
+          "- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
       },
       {
         name: "FrontEnd Developer ",
@@ -2869,10 +3039,13 @@ const Result = {
         description: "FrontEnd developer with experience in DeFi interfaces",
         "Open Seats": "1",
         emoji: "🚗",
-        tags:["coding","Java","Typescript"],
-        "line description": "We're looking for a Backend Developer to join an NYC",
-        expectations:"-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
-        benefits:"- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
+        tags: ["coding", "Java", "Typescript"],
+        "line description":
+          "We're looking for a Backend Developer to join an NYC",
+        expectations:
+          "-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
+        benefits:
+          "- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
       },
       {
         name: "Designer ",
@@ -2880,10 +3053,13 @@ const Result = {
         description: "Can design a cafe menu",
         "Open Seats": "1",
         emoji: "🚗",
-        tags:["coding","Java","Typescript"],
-        "line description": "We're looking for a Backend Developer to join an NYC",
-        expectations:"-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
-        benefits:"- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
+        tags: ["coding", "Java", "Typescript"],
+        "line description":
+          "We're looking for a Backend Developer to join an NYC",
+        expectations:
+          "-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
+        benefits:
+          "- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
       },
     ],
     whereDataComesFrom:
@@ -2894,26 +3070,31 @@ const Result = {
       "Create a collection of NFTs that stores the words of a native language, pronunciation and, meaning, in this way the words will be stored permanently and people will have access to this information as a repository of the different...",
     picture: "🙈",
     name: "Mati",
-    smallDescription:"The future of games distribution is here",
-    tagsProject:["Infrastarcture","Web3 Social"],
+    smallDescription: "The future of games distribution is here",
+    tagsProject: ["Infrastarcture", "Web3 Social"],
     champion: "1",
-    timeline: [{
-      text: "Launch beta of the platform.",
-      startDate: "APR 21",
-      endDate: "JAN 22",
-    },{
-      text: "Launch alpha of the platform. Pre-seed: 1 Mil",
-      startDate: "APR 22",
-      endDate: "JAN 23",
-    },{
-      text: "Launch a native token Seed: 4 Mil",
-      startDate: "APR 23",
-      endDate: "JAN 23",
-    },{
-      text: "Onboard 5k new devs.Generate first revenue",
-      startDate: "APR 24",
-      endDate: "JAN 24",
-    }],
+    timeline: [
+      {
+        text: "Launch beta of the platform.",
+        startDate: "APR 21",
+        endDate: "JAN 22",
+      },
+      {
+        text: "Launch alpha of the platform. Pre-seed: 1 Mil",
+        startDate: "APR 22",
+        endDate: "JAN 23",
+      },
+      {
+        text: "Launch a native token Seed: 4 Mil",
+        startDate: "APR 23",
+        endDate: "JAN 23",
+      },
+      {
+        text: "Onboard 5k new devs.Generate first revenue",
+        startDate: "APR 24",
+        endDate: "JAN 24",
+      },
+    ],
     coreTeamPicture: [
       "https://cdn.discordapp.com/avatars/493465532423602176/a56c1e883d732ce7420ecf3439374021.webp",
       "https://cdn.discordapp.com/avatars/451587147808636929/a_872037e1cc253eff29f26b918c1d595d.webp",
@@ -2930,10 +3111,13 @@ const Result = {
         description: "FrontEnd developer with multilingual abilities",
         "Open Seats": "1",
         emoji: "🚗",
-        tags:["coding","Java","Typescript"],
-        "line description": "We're looking for a Backend Developer to join an NYC",
-        expectations:"-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
-        benefits:"- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
+        tags: ["coding", "Java", "Typescript"],
+        "line description":
+          "We're looking for a Backend Developer to join an NYC",
+        expectations:
+          "-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
+        benefits:
+          "- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
       },
     ],
     whereDataComesFrom: "https://ethglobal.com/showcase/mati-twmdv",
@@ -2943,26 +3127,31 @@ const Result = {
       "A dapp for creating collaborative audio on top of Lens Protocol. Fork, remix, add, collect, and collaborate.",
     picture: "🐘",
     name: "Mixdown",
-    smallDescription:"The future of games distribution is here",
-    tagsProject:["Infrastarcture","Web3 Social"],
+    smallDescription: "The future of games distribution is here",
+    tagsProject: ["Infrastarcture", "Web3 Social"],
     champion: "1",
-    timeline: [{
-      text: "Launch beta of the platform.",
-      startDate: "APR 21",
-      endDate: "JAN 22",
-    },{
-      text: "Launch alpha of the platform. Pre-seed: 1 Mil",
-      startDate: "APR 22",
-      endDate: "JAN 23",
-    },{
-      text: "Launch a native token Seed: 4 Mil",
-      startDate: "APR 23",
-      endDate: "JAN 23",
-    },{
-      text: "Onboard 5k new devs.Generate first revenue",
-      startDate: "APR 24",
-      endDate: "JAN 24",
-    }],
+    timeline: [
+      {
+        text: "Launch beta of the platform.",
+        startDate: "APR 21",
+        endDate: "JAN 22",
+      },
+      {
+        text: "Launch alpha of the platform. Pre-seed: 1 Mil",
+        startDate: "APR 22",
+        endDate: "JAN 23",
+      },
+      {
+        text: "Launch a native token Seed: 4 Mil",
+        startDate: "APR 23",
+        endDate: "JAN 23",
+      },
+      {
+        text: "Onboard 5k new devs.Generate first revenue",
+        startDate: "APR 24",
+        endDate: "JAN 24",
+      },
+    ],
     coreTeamPicture: [
       "https://cdn.discordapp.com/avatars/863507427776135218/a91ff56bcae2bd795e5a0ea91a2f6e07.webp",
       "https://cdn.discordapp.com/avatars/709105526910484519/59f6cd4dabbf26cd2875635a1aaaca29.webp",
@@ -2980,10 +3169,13 @@ const Result = {
           "FrontEnd developer whith experience buidling in Lens Protocol",
         "Open Seats": "1",
         emoji: "🚗",
-        tags:["coding","Java","Typescript"],
-        "line description": "We're looking for a Backend Developer to join an NYC",
-        expectations:"-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
-        benefits:"- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
+        tags: ["coding", "Java", "Typescript"],
+        "line description":
+          "We're looking for a Backend Developer to join an NYC",
+        expectations:
+          "-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
+        benefits:
+          "- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
       },
       {
         name: "Smart Contract Developer ",
@@ -2992,10 +3184,13 @@ const Result = {
           "Smart Contract Developer with experience building on Lens",
         "Open Seats": "1",
         emoji: "🚗",
-        tags:["coding","Java","Typescript"],
-        "line description": "We're looking for a Backend Developer to join an NYC",
-        expectations:"-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
-        benefits:"- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
+        tags: ["coding", "Java", "Typescript"],
+        "line description":
+          "We're looking for a Backend Developer to join an NYC",
+        expectations:
+          "-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
+        benefits:
+          "- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
       },
       {
         name: "Sound Engineer ",
@@ -3003,10 +3198,13 @@ const Result = {
         description: "Experience in blockchain will be a great bonus",
         "Open Seats": "1",
         emoji: "🚗",
-        tags:["coding","Java","Typescript"],
-        "line description": "We're looking for a Backend Developer to join an NYC",
-        expectations:"-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
-        benefits:"- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
+        tags: ["coding", "Java", "Typescript"],
+        "line description":
+          "We're looking for a Backend Developer to join an NYC",
+        expectations:
+          "-2 weekly sync calls /n -leading a team of 10 people /n -engaged in team activity /n -available 12 - 2pm UTC+0 /n -responsive on discord /n -willing to learn ",
+        benefits:
+          "- fast paced learning environment /n - yearly IRL events /n - all inclusive business trips /n - flexible schedule /n - work from abywhere policy /n - paid in the native token /n - unlimited vacation days",
       },
     ],
     whereDataComesFrom: "https://ethglobal.com/showcase/mixdown-tvdfq",
@@ -3016,26 +3214,31 @@ const Result = {
       "ConvoBridge is bridging the gap between on-chain voting and off-chain discussion in DAO governance. By creating an on-chain governance forum, that integrates on-chain proposal data: we are creating a user experience that",
     picture: "🐐",
     name: "ConvoBridge",
-    smallDescription:"The future of games distribution is here",
-    tagsProject:["Infrastarcture","Web3 Social"],
+    smallDescription: "The future of games distribution is here",
+    tagsProject: ["Infrastarcture", "Web3 Social"],
     champion: "1",
-    timeline: [{
-      text: "Launch beta of the platform.",
-      startDate: "APR 21",
-      endDate: "JAN 22",
-    },{
-      text: "Launch alpha of the platform. Pre-seed: 1 Mil",
-      startDate: "APR 22",
-      endDate: "JAN 23",
-    },{
-      text: "Launch a native token Seed: 4 Mil",
-      startDate: "APR 23",
-      endDate: "JAN 23",
-    },{
-      text: "Onboard 5k new devs.Generate first revenue",
-      startDate: "APR 24",
-      endDate: "JAN 24",
-    }],
+    timeline: [
+      {
+        text: "Launch beta of the platform.",
+        startDate: "APR 21",
+        endDate: "JAN 22",
+      },
+      {
+        text: "Launch alpha of the platform. Pre-seed: 1 Mil",
+        startDate: "APR 22",
+        endDate: "JAN 23",
+      },
+      {
+        text: "Launch a native token Seed: 4 Mil",
+        startDate: "APR 23",
+        endDate: "JAN 23",
+      },
+      {
+        text: "Onboard 5k new devs.Generate first revenue",
+        startDate: "APR 24",
+        endDate: "JAN 24",
+      },
+    ],
     coreTeamPicture: [
       "https://cdn.discordapp.com/avatars/385833013692334080/3fcaa397c193dc2f9c6316e79ce75b8d.webp",
       "https://cdn.discordapp.com/avatars/552883355667136513/97b696fbca2f7872913c065856588c05.png",

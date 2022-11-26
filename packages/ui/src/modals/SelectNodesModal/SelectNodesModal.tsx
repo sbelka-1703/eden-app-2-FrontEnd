@@ -43,6 +43,7 @@ export const SelectNodesModal = ({
   onClose,
   openModal,
   onSubmit,
+  title,
   nodeType,
 }: ISelectNodesModalProps) => {
   const [selectedNode, setSelectedNode] = useState<Item[] | null>(null);
@@ -65,6 +66,8 @@ export const SelectNodesModal = ({
     onSubmit && onSubmit(selectedNode as any);
   };
 
+  const tst = "asdf";
+
   return (
     <Modal open={openModal} closeOnEsc={false} onClose={onClose}>
       <div>
@@ -72,7 +75,7 @@ export const SelectNodesModal = ({
           <div>
             <div className="flex justify-between">
               <div className="flex-1">
-                <TextHeading3>Add Skills</TextHeading3>
+                <TextHeading3>{title}</TextHeading3>
               </div>
             </div>
             <section className="mt-4">

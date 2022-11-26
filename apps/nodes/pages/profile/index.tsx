@@ -35,7 +35,6 @@ const ProfilePage: NextPageWithLayout = () => {
     context: { serviceName: "soilservice" },
   });
 
-
   // console.log("currentUser = " , currentUser)
 
   const [activeIndex, setActiveIndex] = useState(0);
@@ -52,9 +51,9 @@ const ProfilePage: NextPageWithLayout = () => {
     },
   ];
 
-  const [openModal_expertise, setOpenModal_expertise] = useState(false);
-  
-  const [openModal_typeProject, setOpenModal_typeProject] = useState(false);
+  const [openModalExpertise, setopenModalExpertise] = useState(false);
+
+  const [openModalTypeProject, setopenModalTypeProject] = useState(false);
 
   const [addNodes] = useMutation(ADD_NODES, {
     onCompleted({ addNodesToMember }: Mutation) {
@@ -100,13 +99,15 @@ const ProfilePage: NextPageWithLayout = () => {
               <Card shadow className={`mb-4 p-6`}>
                 <div className={`flex justify-between`}>
                   <div>
-                    <Button onClick={() => setOpenModal_expertise(!openModal_expertise)}>
+                    <Button
+                      onClick={() => setopenModalExpertise(!openModalExpertise)}
+                    >
                       Select Skills
                     </Button>
                   </div>
                   <div>
-                    {currentUser?.nodes?.map((item, index) =>{
-                      if (item?.nodeData?.node=="sub_expertise"){
+                    {currentUser?.nodes?.map((item, index) => {
+                      if (item?.nodeData?.node == "sub_expertise") {
                         return (
                           <Badge
                             key={index}
@@ -115,7 +116,7 @@ const ProfilePage: NextPageWithLayout = () => {
                             className={`font-Inter text-sm`}
                             cutText={16}
                           />
-                        )
+                        );
                       }
                     })}
                   </div>
@@ -125,13 +126,17 @@ const ProfilePage: NextPageWithLayout = () => {
               <Card shadow className={`mb-4 p-6`}>
                 <div className={`flex justify-between`}>
                   <div>
-                    <Button onClick={() => setOpenModal_typeProject(!openModal_typeProject)}>
+                    <Button
+                      onClick={() =>
+                        setopenModalTypeProject(!openModalTypeProject)
+                      }
+                    >
                       Select Type Project
                     </Button>
                   </div>
                   <div>
                     {currentUser?.nodes?.map((item, index) => {
-                      if (item?.nodeData?.node=="sub_typeProject"){
+                      if (item?.nodeData?.node == "sub_typeProject") {
                         return (
                           <Badge
                             key={index}
@@ -140,7 +145,7 @@ const ProfilePage: NextPageWithLayout = () => {
                             className={`font-Inter text-sm`}
                             cutText={16}
                           />
-                        )
+                        );
                       }
                     })}
                   </div>
@@ -148,30 +153,31 @@ const ProfilePage: NextPageWithLayout = () => {
               </Card>
 
               <SelectNodesModal
-                openModal={openModal_expertise}
+                title="Add your Expertise"
+                openModal={openModalExpertise}
                 onClose={() => {
-                  setOpenModal_expertise(false);
+                  setopenModalExpertise(false);
                 }}
                 onSubmit={(val: any) => {
                   handleSaveNodes(val);
-                  setOpenModal_expertise(false);
+                  setopenModalExpertise(false);
                 }}
                 nodeType={`expertise`}
               />
 
               <SelectNodesModal
-                openModal={openModal_typeProject}
+                title="Add the Types of Projects that you like"
+                openModal={openModalTypeProject}
                 onClose={() => {
-                  setOpenModal_typeProject(false);
+                  setopenModalTypeProject(false);
                 }}
                 onSubmit={(val: any) => {
                   handleSaveNodes(val);
-                  setOpenModal_typeProject(false);
+                  setopenModalTypeProject(false);
                 }}
                 nodeType={`typeProject`}
               />
 
-              
               <EditProfileContainer roles={dataRoles?.findRoleTemplates} />
             </>
           )}
