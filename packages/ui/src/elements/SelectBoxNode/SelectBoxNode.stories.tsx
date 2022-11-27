@@ -1,5 +1,6 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
+import { mockNodes } from "./mockNodes";
 import { SelectBoxNode } from "./SelectBoxNode";
 
 export default {
@@ -19,12 +20,8 @@ export const Default = Template.bind({});
 
 Default.args = {
   caption: "Select item",
-  items: [
-    "Wade Cooper",
-    "Arlene Mccoy",
-    "Devon Webb",
-    "Tom Cook",
-    "Tanya Fox",
-    "Hellen Schmidt",
-  ],
+  items: mockNodes,
+  multiple: true,
+  btnBGcolor: "bg-gray-200",
+  disabled: false,
 };
