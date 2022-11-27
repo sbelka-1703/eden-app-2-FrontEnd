@@ -3,7 +3,9 @@ import {
   DiscoverContext,
   DiscoverModal,
   DiscoverProvider,
+  UserContext,
 } from "@eden/package-context";
+import { MatchMembersToSkillOutput } from "@eden/package-graphql/generated";
 import {
   AppUserSubmenuLayout,
   Card,
@@ -12,6 +14,7 @@ import {
   GridItemThree,
   GridLayout,
   SEO,
+  UserDiscoverCard,
   UserProfileCard,
 } from "@eden/package-ui";
 import { useContext, useEffect, useState } from "react";
@@ -26,6 +29,28 @@ export const MATCH_NODES_MEMBERS = gql`
         discordName
         discordAvatar
         discriminator
+        bio
+        endorsements {
+          arweaveTransactionID
+          endorsementMessage
+          endorser {
+            _id
+            discordAvatar
+            discordName
+            discriminator
+          }
+        }
+        memberRole {
+          _id
+          title
+        }
+        nodes {
+          nodeData {
+            _id
+            name
+            node
+          }
+        }
       }
     }
   }
@@ -33,23 +58,35 @@ export const MATCH_NODES_MEMBERS = gql`
 
 const DiscoverPage: NextPageWithLayout = () => {
   const { setOpenModal } = useContext(DiscoverContext);
+  const { memberServers } = useContext(UserContext);
   const [nodesID, setNodesID] = useState<string[] | null>(null);
+  const [serverID, setServerID] = useState<string | null>(null);
 
   const { data: dataMembers } = useQuery(MATCH_NODES_MEMBERS, {
     variables: {
       fields: {
         nodesID: nodesID,
+        // TODO: change to selectedServer
+        serverID: serverID,
       },
     },
-    skip: !nodesID,
+    skip: !nodesID || !serverID,
     context: { serviceName: "soilservice" },
   });
 
-  if (dataMembers) console.log("dataMembers", dataMembers);
+  // if (dataMembers) console.log("dataMembers", dataMembers);
 
   useEffect(() => {
     setOpenModal(DiscoverModal.START_INFO);
   }, []);
+
+  useEffect(() => {
+    if (memberServers) {
+      setServerID(memberServers[1]._id);
+    }
+  }, [memberServers]);
+
+  // if (memberServers) console.log("memberServers", memberServers[1]._id);
 
   return (
     <>
@@ -61,14 +98,23 @@ const DiscoverPage: NextPageWithLayout = () => {
           </Card>
         </GridItemThree>
         <GridItemNine>
-          <Card shadow className="h-85 overflow-auto bg-white p-6">
-            discover page
+          <Card
+            shadow
+            className="scrollbar-hide h-85 overflow-scroll bg-white p-4"
+          >
+            <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+              {dataMembers?.matchNodesToMembers?.map(
+                (member: MatchMembersToSkillOutput, index: number) => (
+                  <UserDiscoverCard key={index} member={member?.member} />
+                )
+              )}
+            </div>
           </Card>
         </GridItemNine>
       </GridLayout>
       <DiscoverModalContainer
         setArrayOfNodes={(val) => {
-          console.log("array of nodes val", val);
+          // console.log("array of nodes val", val);
           setNodesID(val);
         }}
       />

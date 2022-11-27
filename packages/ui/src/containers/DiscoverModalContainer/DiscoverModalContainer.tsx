@@ -6,7 +6,7 @@ import {
   RequirementsModal,
   SkipFlowModal,
 } from "@eden/package-ui";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 const rangeNumbers: number[] = [];
 
@@ -16,7 +16,7 @@ for (let i = 0; i < 500; i++) {
 
 export interface IDiscoverModalContainerProps {
   // eslint-disable-next-line no-unused-vars
-  setArrayOfNodes?: (val: any) => void;
+  setArrayOfNodes?: (val: string[]) => void;
 }
 
 export const DiscoverModalContainer = ({
@@ -25,6 +25,13 @@ export const DiscoverModalContainer = ({
   const { project, openModal, setOpenModal } = useContext(DiscoverContext);
 
   const [nextStep, setNextStep] = useState<any>(null);
+  const [nodeIdArray, setNodeIdArray] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (nodeIdArray) {
+      setArrayOfNodes?.(nodeIdArray);
+    }
+  }, [nodeIdArray]);
 
   return (
     <>
@@ -59,9 +66,11 @@ export const DiscoverModalContainer = ({
             setNextStep(DiscoverModal.PRIORITIZE);
           }}
           // eslint-disable-next-line no-unused-vars
-          onSubmit={(val: any) => {
+          onSubmit={(val: string[]) => {
             console.log("val", val);
-            if (setArrayOfNodes) setArrayOfNodes(val);
+            if (val) {
+              if (setNodeIdArray) setNodeIdArray([...nodeIdArray, ...val]);
+            }
             setOpenModal(DiscoverModal.SKILLS_SUBCATEGORY);
           }}
           title={`Who are you looking for?`}
@@ -78,8 +87,12 @@ export const DiscoverModalContainer = ({
             setNextStep(DiscoverModal.PRIORITIZE);
           }}
           // eslint-disable-next-line no-unused-vars
-          onSubmit={(val: any) => {
+          onSubmit={(val: string[] | null) => {
             console.log("val", val);
+            if (val) {
+              if (setNodeIdArray) setNodeIdArray([...nodeIdArray, ...val]);
+            }
+
             // if (setArrayOfNodes) setArrayOfNodes(val);
             setOpenModal(DiscoverModal.PRIORITIZE);
           }}
