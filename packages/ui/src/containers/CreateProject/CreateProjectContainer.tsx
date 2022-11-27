@@ -1,5 +1,6 @@
-export interface CreateProjectContainerProps {}
+export interface CreateProjectTempContainerProps {}
 
-export const CreateProjectContainer = ({}: CreateProjectContainerProps) => {
-  return <div></div>;
-};
+export const CreateProjectTempContainer =
+  ({}: CreateProjectTempContainerProps) => {
+    return <div></div>;
+  };

@@ -7,7 +7,7 @@ import {
   Badge,
   Button,
   Card,
-  EditProfileContainer,
+  CreateProjectTempContainer,
   NewProfileContainer,
   SelectNodesModal,
   SEO,
@@ -40,14 +40,9 @@ const ProfilePage: NextPageWithLayout = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const submenu = [
     {
-      Icon: <FaUserAlt size={20} />,
-      FunctionName: "My Profile",
-      onFunctionCallback: () => setActiveIndex(0),
-    },
-    {
       Icon: <FaUserEdit size={25} />,
       FunctionName: "Edit Profile",
-      onFunctionCallback: () => setActiveIndex(1),
+      onFunctionCallback: () => setActiveIndex(0),
     },
   ];
 
@@ -92,9 +87,6 @@ const ProfilePage: NextPageWithLayout = () => {
           className={`h-85 scrollbar-hide overflow-y-scroll bg-white`}
         >
           {activeIndex === 0 && (
-            <NewProfileContainer user={currentUser as Members} />
-          )}
-          {activeIndex === 1 && (
             <>
               <Card shadow className={`mb-4 p-6`}>
                 <div className={`flex justify-between`}>
@@ -178,7 +170,9 @@ const ProfilePage: NextPageWithLayout = () => {
                 nodeType={`typeProject`}
               />
 
-              <EditProfileContainer roles={dataRoles?.findRoleTemplates} />
+              <CreateProjectTempContainer
+                roles={dataRoles?.findRoleTemplates}
+              />
             </>
           )}
         </Card>
