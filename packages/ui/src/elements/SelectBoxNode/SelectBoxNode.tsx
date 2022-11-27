@@ -1,3 +1,4 @@
+import { Node } from "@eden/package-graphql/generated";
 import { Listbox, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/outline";
 import { CheckIcon } from "@heroicons/react/solid";
@@ -5,24 +6,26 @@ import clsx from "clsx";
 import isEmpty from "lodash/isEmpty";
 import { Fragment, useEffect, useState } from "react";
 
-export interface ISelectBoxProps {
+export interface ISelectBoxNodeProps {
   caption: string;
-  items: string[];
+  items: Node[];
   disabled?: boolean;
   multiple?: boolean;
   btnBGcolor?: string;
   // eslint-disable-next-line no-unused-vars
   onChange?: (items?: any) => void;
+  // eslint-disable-next-line no-unused-vars
+  onSelect?: (val: Node) => void;
 }
 
-export const SelectBox = ({
+export const SelectBoxNode = ({
   caption,
   items,
   multiple,
   disabled,
   onChange,
   btnBGcolor = "bg-gray-200",
-}: ISelectBoxProps) => {
+}: ISelectBoxNodeProps) => {
   const [selected, setSelected] = useState(multiple ? [] : "");
 
   const btnClasses = clsx(
@@ -35,7 +38,6 @@ export const SelectBox = ({
 
   useEffect(() => {
     onChange && onChange(selected);
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected]);
 
@@ -61,7 +63,7 @@ export const SelectBox = ({
             <Listbox.Options className="fixed z-50 mt-1 max-h-60 min-w-fit overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
               {items.map((item, index) => (
                 <Listbox.Option
-                  key={item + index}
+                  key={index}
                   className={({ active }) =>
                     `relative cursor-default select-none py-2 pl-10 pr-4 ${
                       active ? "bg-green-100 text-green-900" : "text-gray-900"
@@ -76,7 +78,7 @@ export const SelectBox = ({
                           selected ? "font-medium" : "font-normal"
                         }`}
                       >
-                        {item}
+                        {item.name}
                       </span>
                       {selected ? (
                         <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-green-600">

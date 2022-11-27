@@ -6,7 +6,7 @@ import {
   RequirementsModal,
   SkipFlowModal,
 } from "@eden/package-ui";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 
 const rangeNumbers: number[] = [];
 
@@ -14,34 +14,17 @@ for (let i = 0; i < 500; i++) {
   rangeNumbers.push(Math.floor(Math.random() * 80) + 1);
 }
 
-// -----------------
-
 export interface IDiscoverModalContainerProps {
   // eslint-disable-next-line no-unused-vars
-  setSubmittingTalentAttributes?: (val: any) => void;
+  setArrayOfNodes?: (val: any) => void;
 }
 
 export const DiscoverModalContainer = ({
-  setSubmittingTalentAttributes,
+  setArrayOfNodes,
 }: IDiscoverModalContainerProps) => {
-  const {
-    project,
-    openModal,
-    setOpenModal,
-    // submitting,
-    // setSubmitting,
-  } = useContext(DiscoverContext);
+  const { project, openModal, setOpenModal } = useContext(DiscoverContext);
 
-  const [talentAttributes, setTalentAttributes] = useState({
-    main: [] as any[],
-    second: [] as any[],
-    third: [] as any[],
-  });
   const [nextStep, setNextStep] = useState<any>(null);
-
-  useEffect(() => {
-    if (talentAttributes) console.log("talentAttributes", talentAttributes);
-  }, [talentAttributes]);
 
   return (
     <>
@@ -53,7 +36,6 @@ export const DiscoverModalContainer = ({
           percentage={50}
         />
       )}
-      {/* keep */}
 
       {openModal === DiscoverModal.START_INFO && (
         <ProjectsMatchesModal
@@ -69,7 +51,6 @@ export const DiscoverModalContainer = ({
         />
       )}
 
-      {/* keep */}
       {openModal === DiscoverModal.SKILLS_CATEGORY && (
         <DiscoverTalentDropdownModal
           openModal={openModal === DiscoverModal.SKILLS_CATEGORY}
@@ -79,29 +60,15 @@ export const DiscoverModalContainer = ({
           }}
           // eslint-disable-next-line no-unused-vars
           onSubmit={(val: any) => {
-            const main = Object.keys(val)
-              .filter((key) => val[key].length)
-              .flat()[0];
-
-            setTalentAttributes({
-              ...talentAttributes,
-              main: [{ name: main }],
-            });
-            if (main)
-              setSubmittingTalentAttributes!({
-                main: [{ name: main }],
-              });
-
+            console.log("val", val);
+            if (setArrayOfNodes) setArrayOfNodes(val);
             setOpenModal(DiscoverModal.SKILLS_SUBCATEGORY);
           }}
           title={`Who are you looking for?`}
           subTitle={`Select what you want them to help you with.`}
           nodeType={`expertise`}
-          // onClose={() => setOpenModal(null)}
         />
       )}
-
-      {/* keep */}
 
       {openModal === DiscoverModal.SKILLS_SUBCATEGORY && (
         <DiscoverTalentDropdownModal
@@ -112,22 +79,15 @@ export const DiscoverModalContainer = ({
           }}
           // eslint-disable-next-line no-unused-vars
           onSubmit={(val: any) => {
-            const third = Object.keys(val)
-              .map((key) => val[key])
-              .flat();
-
-            setTalentAttributes({ ...talentAttributes, third: third });
-            // setSubmittingTalentAttributes!(val);
+            console.log("val", val);
+            // if (setArrayOfNodes) setArrayOfNodes(val);
             setOpenModal(DiscoverModal.PRIORITIZE);
           }}
           title={`Who are you looking for?`}
           subTitle={`Select what you want them to help you with.`}
           nodeType={`typeProject`}
-
-          // onClose={() => setOpenModal(null)}
         />
       )}
-      {/* keep */}
 
       {openModal === DiscoverModal.PRIORITIZE && (
         <PrioritizeModal
@@ -145,7 +105,6 @@ export const DiscoverModalContainer = ({
           numMatches={38}
         />
       )}
-      {/* keep */}
 
       {openModal === DiscoverModal.REQUIREMENTS && (
         <RequirementsModal

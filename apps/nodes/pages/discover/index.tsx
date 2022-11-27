@@ -1,3 +1,4 @@
+import { gql, useQuery } from "@apollo/client";
 import {
   DiscoverContext,
   DiscoverModal,
@@ -13,12 +14,38 @@ import {
   SEO,
   UserProfileCard,
 } from "@eden/package-ui";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import type { NextPageWithLayout } from "../_app";
 
+export const MATCH_NODES_MEMBERS = gql`
+  query ($fields: matchNodesToMembersInput) {
+    matchNodesToMembers(fields: $fields) {
+      member {
+        _id
+        discordName
+        discordAvatar
+        discriminator
+      }
+    }
+  }
+`;
+
 const DiscoverPage: NextPageWithLayout = () => {
   const { setOpenModal } = useContext(DiscoverContext);
+  const [nodesID, setNodesID] = useState<string[] | null>(null);
+
+  const { data: dataMembers } = useQuery(MATCH_NODES_MEMBERS, {
+    variables: {
+      fields: {
+        nodesID: nodesID,
+      },
+    },
+    skip: !nodesID,
+    context: { serviceName: "soilservice" },
+  });
+
+  if (dataMembers) console.log("dataMembers", dataMembers);
 
   useEffect(() => {
     setOpenModal(DiscoverModal.START_INFO);
@@ -40,9 +67,9 @@ const DiscoverPage: NextPageWithLayout = () => {
         </GridItemNine>
       </GridLayout>
       <DiscoverModalContainer
-        setSubmittingTalentAttributes={(val) => {
-          // setRoleFilter(val);
-          console.log("val", val);
+        setArrayOfNodes={(val) => {
+          console.log("array of nodes val", val);
+          setNodesID(val);
         }}
       />
     </>

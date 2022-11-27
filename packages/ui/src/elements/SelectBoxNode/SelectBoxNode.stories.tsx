@@ -1,18 +1,18 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
-import { SelectBox } from "./SelectBox";
+import { SelectBoxNode } from "./SelectBoxNode";
 
 export default {
-  title: "Elements/SelectBox",
-  component: SelectBox,
+  title: "Elements/SelectBoxNode",
+  component: SelectBoxNode,
   parameters: {
     layout: "centered",
   },
   argTypes: {},
-} as ComponentMeta<typeof SelectBox>;
+} as ComponentMeta<typeof SelectBoxNode>;
 
-const Template: ComponentStory<typeof SelectBox> = (args) => (
-  <SelectBox {...args} />
+const Template: ComponentStory<typeof SelectBoxNode> = (args) => (
+  <SelectBoxNode {...args} />
 );
 
 export const Default = Template.bind({});
