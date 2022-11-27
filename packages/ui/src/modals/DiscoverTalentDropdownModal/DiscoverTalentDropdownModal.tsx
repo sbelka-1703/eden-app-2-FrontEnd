@@ -40,7 +40,7 @@ export interface IDiscoverTalentDropdownModalProps {
   openModal?: boolean;
   onClose: () => void;
   // eslint-disable-next-line no-unused-vars
-  onSubmit?: (val: string[] | null) => void;
+  onSubmit?: (val: string[]) => void;
   mockData?: any;
   title?: string;
   subTitle?: string;
@@ -73,7 +73,7 @@ export const DiscoverTalentDropdownModal = ({
   const [selectedItems, setSelectedItems] = useState<{
     [key: string]: Node[];
   }>({});
-  const [selectedNodes, setSelectedNodes] = useState<string[] | null>(null);
+  const [selectedNodes, setSelectedNodes] = useState<string[]>([]);
 
   const [numMatches, setNumMatches] = useState(137);
 
