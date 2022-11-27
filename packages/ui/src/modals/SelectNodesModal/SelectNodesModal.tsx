@@ -1,14 +1,15 @@
 import { gql, useQuery } from "@apollo/client";
+import { Node } from "@eden/package-graphql/generated";
 import {
   Badge,
   Button,
-  Dropdown,
   Loading,
   Modal,
+  SelectBoxNode,
   TextHeading3,
 } from "@eden/package-ui";
-import { isEmpty, map } from "lodash";
-import { useState } from "react";
+import { forEach, isEmpty, map } from "lodash";
+import { useEffect, useState } from "react";
 
 const FIND_NODES = gql`
   query ($fields: findNodesInput) {
@@ -23,16 +24,11 @@ const FIND_NODES = gql`
   }
 `;
 
-type Item = {
-  _id: string;
-  name: string;
-};
-
 export interface ISelectNodesModalProps {
   openModal?: boolean;
   onClose: () => void;
   // eslint-disable-next-line no-unused-vars
-  onSubmit?: (data: { [key: string | number]: Item[] }) => void;
+  onSubmit?: (val: string[] | null) => void;
   mockData?: any;
   title?: string;
   subTitle?: string;
@@ -46,7 +42,27 @@ export const SelectNodesModal = ({
   title,
   nodeType,
 }: ISelectNodesModalProps) => {
-  const [selectedNode, setSelectedNode] = useState<Item[] | null>(null);
+  const [selectedItems, setSelectedItems] = useState<{
+    [key: string]: Node[];
+  }>({});
+  const [selectedNodes, setSelectedNodes] = useState<string[] | null>(null);
+
+  useEffect(() => {
+    if (selectedItems) {
+      const selectedNodeId: string[] = [];
+
+      console.log("selectedItems", selectedItems);
+
+      forEach(selectedItems, (el) => {
+        if (!isEmpty(el)) {
+          forEach(el, (item) => {
+            selectedNodeId.push(item?._id as string);
+          });
+        }
+      });
+      setSelectedNodes(selectedNodeId);
+    }
+  }, [selectedItems]);
 
   const { data: dataNodes } = useQuery(FIND_NODES, {
     variables: {
@@ -63,10 +79,8 @@ export const SelectNodesModal = ({
   // if (dataNodes?.findNodes) console.log("dataNodes", dataNodes?.findNodes);
 
   const handleFinish = () => {
-    onSubmit && onSubmit(selectedNode as any);
+    onSubmit && onSubmit(selectedNodes as any);
   };
-
-  const tst = "asdf";
 
   return (
     <Modal open={openModal} closeOnEsc={false} onClose={onClose}>
@@ -80,45 +94,51 @@ export const SelectNodesModal = ({
             </div>
             <section className="mt-4">
               <div className={`h-44`}>
-                {selectedNode?.map((item, index) => (
-                  <Badge
-                    key={index}
-                    text={item?.name || ""}
-                    colorRGB={`209,247,196`}
-                    className={`font-Inter text-sm`}
-                    closeButton={true}
-                    onClose={() => {
-                      const newSelectedNode = selectedNode?.filter(
-                        (node) => node._id !== item._id
-                      );
+                {map(selectedItems, (el, key) => {
+                  return (
+                    <div key={key} className={`flex flex-wrap`}>
+                      {map(el, (item) => {
+                        return (
+                          <div
+                            key={item?._id}
+                            className={`mr-2 mb-2 flex items-center`}
+                          >
+                            <Badge
+                              text={item?.name || ""}
+                              colorRGB={`209,247,196`}
+                              className={`font-Inter text-sm`}
+                              // closeButton={true}
+                              onClose={() => {
+                                const newSelectedItems = { ...selectedItems };
 
-                      setSelectedNode(newSelectedNode);
-                    }}
-                    cutText={16}
-                  />
-                ))}
+                                newSelectedItems[key] = newSelectedItems[
+                                  key
+                                ].filter((el) => el._id !== item?._id);
+                                setSelectedItems(newSelectedItems);
+                              }}
+                            />
+                          </div>
+                        );
+                      })}
+                    </div>
+                  );
+                })}
               </div>
               <div className="my-8 ml-4 flex h-52 w-full flex-wrap justify-center gap-2">
                 {dataNodes?.findNodes ? (
                   <>
                     {!isEmpty(dataNodes?.findNodes) &&
                       map(dataNodes?.findNodes, (item: any, key: number) => (
-                        <Dropdown
-                          key={key}
+                        <SelectBoxNode
                           multiple
-                          label={item.name}
-                          items={item.subNodes}
-                          onSelect={(val: any) => {
-                            if (selectedNode) {
-                              const isExist = selectedNode.find(
-                                (node) => node._id === val._id
-                              );
-
-                              if (!isExist)
-                                setSelectedNode([...selectedNode, val]);
-                            } else {
-                              setSelectedNode([val]);
-                            }
+                          key={key}
+                          caption={item?.name}
+                          items={item?.subNodes}
+                          onChange={(val) => {
+                            setSelectedItems((prevState) => ({
+                              ...prevState,
+                              [item?._id]: val,
+                            }));
                           }}
                         />
                       ))}

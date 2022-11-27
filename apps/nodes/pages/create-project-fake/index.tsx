@@ -49,6 +49,7 @@ const ProfilePage: NextPageWithLayout = () => {
 
   const [openModalTypeProject, setopenModalTypeProject] = useState(false);
 
+  // eslint-disable-next-line no-unused-vars
   const [addNodes] = useMutation(ADD_NODES, {
     onCompleted({ addNodesToMember }: Mutation) {
       if (!addNodesToMember) console.log("addNodesToMember is null");
@@ -57,24 +58,17 @@ const ProfilePage: NextPageWithLayout = () => {
     },
   });
 
-  const handleSaveNodes = (data: any) => {
-    // console.log("data", data);
-
-    const nodes = Object.values(data)
-      .flat()
-      .map((item: any) => item._id);
-
+  const handleSaveNodes = (nodes: string[]) => {
     console.log("nodes", nodes);
-
     if (!currentUser) return;
-    addNodes({
-      variables: {
-        fields: {
-          memberID: currentUser._id,
-          nodesID: nodes,
-        },
-      },
-    });
+    // addNodes({
+    //   variables: {
+    //     fields: {
+    //       memberID: currentUser._id,
+    //       nodesID: nodes,
+    //     },
+    //   },
+    // });
   };
 
   return (
