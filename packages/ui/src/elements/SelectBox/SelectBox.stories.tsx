@@ -1,6 +1,6 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
-import SelectBox from "./SelectBox";
+import { SelectBox } from "./SelectBox";
 
 export default {
   title: "Elements/SelectBox",

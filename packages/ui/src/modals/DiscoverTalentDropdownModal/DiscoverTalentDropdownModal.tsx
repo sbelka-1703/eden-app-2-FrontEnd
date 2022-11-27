@@ -1,10 +1,11 @@
 import { gql, useQuery } from "@apollo/client";
+import { Node } from "@eden/package-graphql/generated";
 import {
   BatteryStepper,
   Button,
   Loading,
   Modal,
-  SelectBox,
+  SelectBoxNode,
   TextBody,
   TextHeading3,
 } from "@eden/package-ui";
@@ -25,13 +26,6 @@ const FIND_NODES = gql`
   }
 `;
 
-type Item = {
-  subTitle: string;
-  title: string;
-  numMatches: string;
-  content: string[];
-};
-
 type Data = {
   _id: string;
   title: string;
@@ -46,7 +40,7 @@ export interface IDiscoverTalentDropdownModalProps {
   openModal?: boolean;
   onClose: () => void;
   // eslint-disable-next-line no-unused-vars
-  onSubmit?: (data: { [key: string | number]: Item[] }) => void;
+  onSubmit?: (val: string[] | null) => void;
   mockData?: any;
   title?: string;
   subTitle?: string;
@@ -77,8 +71,10 @@ export const DiscoverTalentDropdownModal = ({
 
   const [batteryPercentage, setBatteryPercentage] = useState(0);
   const [selectedItems, setSelectedItems] = useState<{
-    [key: string]: Item[];
+    [key: string]: Node[];
   }>({});
+  const [selectedNodes, setSelectedNodes] = useState<string[] | null>(null);
+
   const [numMatches, setNumMatches] = useState(137);
 
   const { data: dataNodes } = useQuery(FIND_NODES, {
@@ -97,7 +93,7 @@ export const DiscoverTalentDropdownModal = ({
     if (numMatches === 0) {
       toast.error("You should at least choose on of the items before proceed");
     } else {
-      if (onSubmit) onSubmit!(selectedItems);
+      if (onSubmit) onSubmit!(selectedNodes);
       else onClose!();
     }
   };
@@ -120,7 +116,22 @@ export const DiscoverTalentDropdownModal = ({
 
     if (_numMatches) setNumMatches(_numMatches);
     setBatteryPercentage(batteryPercentage);
-  }, [section, selectedItems]);
+  }, [numMatches, selectedItems]);
+
+  useEffect(() => {
+    if (selectedItems) {
+      const selectedNodeId: string[] = [];
+
+      forEach(selectedItems, (el) => {
+        if (!isEmpty(el)) {
+          forEach(el, (item) => {
+            selectedNodeId.push(item?._id as string);
+          });
+        }
+      });
+      setSelectedNodes(selectedNodeId);
+    }
+  }, [selectedItems]);
 
   return (
     <Modal open={openModal} closeOnEsc={false}>
@@ -145,17 +156,15 @@ export const DiscoverTalentDropdownModal = ({
                     <>
                       {!isEmpty(dataNodes?.findNodes) &&
                         map(dataNodes?.findNodes, (item: any, key: number) => (
-                          <SelectBox
+                          <SelectBoxNode
                             multiple
                             key={key}
                             caption={item?.name}
-                            items={Object.keys(item.subNodes).map(
-                              (key) => item.subNodes[key].name
-                            )}
-                            onChange={(selectedItems) => {
+                            items={item?.subNodes}
+                            onChange={(val) => {
                               setSelectedItems((prevState) => ({
                                 ...prevState,
-                                [key]: selectedItems,
+                                [item?._id]: val,
                               }));
                             }}
                           />
@@ -172,6 +181,7 @@ export const DiscoverTalentDropdownModal = ({
                 <BatteryStepper
                   numMatches={numMatches}
                   batteryPercentage={batteryPercentage}
+                  text={`People`}
                 />
               )}
             </div>

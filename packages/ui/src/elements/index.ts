@@ -19,6 +19,7 @@ export * from "./ProgressBarGeneric";
 export * from "./RangeSlider";
 export * from "./RangeSliderTwoPoint";
 export * from "./SelectBox";
+export * from "./SelectBoxNode";
 export * from "./SwitchButton";
 export * from "./TextArea";
 export * from "./TextField";
