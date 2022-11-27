@@ -32,40 +32,72 @@ const INITIAL_DATA = {
   bio: "",
 };
 
-const initialState: Experience = {
-  0: INITIAL_DATA,
-};
+const initialState: Experience[] = [
+  {
+    0: INITIAL_DATA,
+  },
+  {
+    0: INITIAL_DATA,
+  },
+  {
+    0: INITIAL_DATA,
+  },
+];
 
-function reducer(state: Experience, action: any): Experience {
+function reducer(state: Experience[], action: any): Experience[] {
   switch (action.type) {
-    case "HANDLE INPUT TEXT":
-      return {
-        ...state,
+    case "HANDLE INPUT TEXT": {
+      const newState: Experience[] = [...state];
+
+      newState[action.payload.categoryIndex] = {
+        ...newState[action.payload.categoryIndex],
         [action.payload.index]: {
-          ...state[action.payload.index],
+          ...newState[action.payload.categoryIndex][action.payload.index],
           [action.field]: action.payload.value,
         },
-      };
-    case "editEndDate":
-      return {
-        ...state,
+      } as Experience;
+
+      return newState;
+    }
+    case "editEndDate": {
+      const newState = [...state];
+
+      newState[action.payload.categoryIndex] = {
+        ...newState[action.payload.categoryIndex],
         [action.payload.index]: {
-          ...state[action.payload.index],
+          ...newState[action.payload.categoryIndex][action.payload.index],
           endDate: action.payload.value,
         },
-      };
-    case "editStartDate":
-      return {
-        ...state,
+      } as Experience;
+
+      return newState;
+    }
+    case "editStartDate": {
+      const newState = [...state];
+
+      newState[action.payload.categoryIndex] = {
+        ...newState[action.payload.categoryIndex],
         [action.payload.index]: {
-          ...state[action.payload.index],
+          ...newState[action.payload.categoryIndex][action.payload.index],
           startDate: action.payload.value,
         },
-      };
-    case "addExperience":
-      return { ...state, [Object.keys(state).length]: INITIAL_DATA };
-    default:
+      } as Experience;
+
+      return newState;
+    }
+    case "addExperience": {
+      const newState = [...state];
+
+      newState[action.payload.categoryIndex] = {
+        ...state[action.payload.categoryIndex],
+        [Object.keys(state[action.payload.categoryIndex]).length]: INITIAL_DATA,
+      } as Experience;
+
+      return newState;
+    }
+    default: {
       return state;
+    }
   }
 }
 
@@ -87,12 +119,14 @@ export const UserExperienceCard = ({
 }: UserExperienceCardlProps) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0);
 
-  const handleTextChange = (e: any, index: number) => {
+  const handleTextChange = (e: any, categoryIndex: number, index: number) => {
     dispatch({
       type: "HANDLE INPUT TEXT",
       field: e.target.name,
       payload: {
+        categoryIndex: categoryIndex,
         index,
         value: e.target.value,
       },
@@ -100,11 +134,17 @@ export const UserExperienceCard = ({
     console.log("state ==>>", state);
   };
 
-  const handleUpdateRole = (value: any, field: string, index: number) => {
+  const handleUpdateRole = (
+    value: any,
+    field: string,
+    categoryIndex: number,
+    index: number
+  ) => {
     dispatch({
       type: "HANDLE INPUT TEXT",
       field: field,
       payload: {
+        categoryIndex: categoryIndex,
         index,
         value: value,
       },
@@ -113,14 +153,19 @@ export const UserExperienceCard = ({
   };
 
   const handleAddExperience = () => {
-    setCurrentIndex(Object.keys(state).length);
+    setCurrentIndex(Object.keys(state[currentCategoryIndex]).length);
     dispatch({
       type: "addExperience",
+      payload: {
+        categoryIndex: currentCategoryIndex,
+      },
     });
   };
 
   useEffect(() => {
-    if (handleChange) handleChange(state);
+    if (handleChange) {
+      handleChange(state);
+    }
   }, [state]);
 
   return (
@@ -132,12 +177,19 @@ export const UserExperienceCard = ({
         <BadgeSelector
           items={fields!}
           multiple={false}
-          onChange={(items) => console.info({ items })}
+          onChange={(items) => {
+            if (!!items.length && items[0]) {
+              setCurrentCategoryIndex(Number(items[0]._id));
+              setCurrentIndex(
+                Object.keys(state[Number(items[0]._id)]).length - 1
+              );
+            }
+          }}
           selectFirst={true}
         />
       </div>
       <div
-        key={currentIndex}
+        key={"" + currentIndex + currentCategoryIndex}
         className="mb-4 grid w-full grid-cols-2 gap-8 border-b border-b-gray-300 pb-4"
       >
         <div>
@@ -145,9 +197,16 @@ export const UserExperienceCard = ({
             <p className="mb-3 w-full text-left text-sm font-medium">Role:</p>
             <RoleSelector
               roles={roles}
-              value={state[currentIndex]?.role || undefined}
+              value={
+                state[currentCategoryIndex][currentIndex]?.role || undefined
+              }
               onSelect={(val: Maybe<RoleTemplate>) => {
-                handleUpdateRole(val!.title, "role", +currentIndex);
+                handleUpdateRole(
+                  val!.title,
+                  "role",
+                  currentCategoryIndex,
+                  +currentIndex
+                );
               }}
             />
           </div>
@@ -157,10 +216,12 @@ export const UserExperienceCard = ({
             </p>
             <TextField
               name="title"
-              defaultValue={state[currentIndex]?.title}
+              defaultValue={state[currentCategoryIndex][currentIndex]?.title}
               style={{ padding: "10px" }}
               placeholder="Start typing here..."
-              onChange={(e) => handleTextChange(e, +currentIndex)}
+              onChange={(e) =>
+                handleTextChange(e, currentCategoryIndex, +currentIndex)
+              }
             />
           </div>
           <div className="mt-3">
@@ -173,14 +234,28 @@ export const UserExperienceCard = ({
               containerClassName="w-full mb-4"
               buttonClassName="w-full rounded-xl"
               label="Start Date"
-              onChange={(e) => handleUpdateRole(e, "startDate", +currentIndex)}
+              onChange={(e) =>
+                handleUpdateRole(
+                  e,
+                  "startDate",
+                  currentCategoryIndex,
+                  +currentIndex
+                )
+              }
             />
             <Calendar
               onlyMonthPicker
               containerClassName="w-full"
               buttonClassName="w-full rounded-xl"
               label="End Date"
-              onChange={(e) => handleUpdateRole(e, "endDate", +currentIndex)}
+              onChange={(e) =>
+                handleUpdateRole(
+                  e,
+                  "endDate",
+                  currentCategoryIndex,
+                  +currentIndex
+                )
+              }
             />
           </div>
         </div>
@@ -189,9 +264,14 @@ export const UserExperienceCard = ({
             <p className="mb-3 w-full text-left text-sm font-medium">Skills:</p>
             <SearchSkill
               setSkills={(skills: any) =>
-                handleUpdateRole(skills, "skills", +currentIndex)
+                handleUpdateRole(
+                  skills,
+                  "skills",
+                  currentCategoryIndex,
+                  +currentIndex
+                )
               }
-              skills={state[currentIndex]?.skills}
+              skills={state[currentCategoryIndex][currentIndex]?.skills}
               levels={[
                 {
                   title: "learning",
@@ -215,11 +295,13 @@ export const UserExperienceCard = ({
           <div>
             <p className="mb-3 w-full text-left text-sm font-medium">Bio:</p>
             <TextArea
-              value={state[currentIndex]?.bio}
+              value={state[currentCategoryIndex][currentIndex]?.bio}
               rows={5}
               name="bio"
               placeholder="Start typing here..."
-              onChange={(e) => handleTextChange(e, +currentIndex)}
+              onChange={(e) =>
+                handleTextChange(e, currentCategoryIndex, +currentIndex)
+              }
             />
           </div>
           <div className="mt-9 flex justify-between">
@@ -240,7 +322,9 @@ export const UserExperienceCard = ({
               className="flex items-center"
               onClick={() => {
                 setCurrentIndex(
-                  state[currentIndex + 1] ? currentIndex + 1 : currentIndex
+                  state[currentCategoryIndex][currentIndex + 1]
+                    ? currentIndex + 1
+                    : currentIndex
                 );
               }}
             >

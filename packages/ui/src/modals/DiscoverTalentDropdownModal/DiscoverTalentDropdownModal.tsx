@@ -1,22 +1,30 @@
+import { gql, useQuery } from "@apollo/client";
 import { Node } from "@eden/package-graphql/generated";
 import {
   BatteryStepper,
   Button,
+  Loading,
   Modal,
-  SelectBox,
+  SelectBoxNode,
   TextBody,
   TextHeading3,
 } from "@eden/package-ui";
-import { forEach, isEmpty, map, omitBy } from "lodash";
+import { forEach, isEmpty, map } from "lodash";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 
-type Item = {
-  subTitle: string;
-  title: string;
-  numMatches: string;
-  content: string[];
-};
+const FIND_NODES = gql`
+  query ($fields: findNodesInput) {
+    findNodes(fields: $fields) {
+      _id
+      name
+      subNodes {
+        _id
+        name
+      }
+    }
+  }
+`;
 
 type Data = {
   _id: string;
@@ -26,66 +34,69 @@ type Data = {
   hideSkip?: boolean;
   numMatches?: string;
   itemsTitle?: string;
-  items: { [key: string]: Item };
 };
 
-export interface IHackathonTalentDropdownModalProps {
+export interface IDiscoverTalentDropdownModalProps {
   openModal?: boolean;
   onClose: () => void;
   // eslint-disable-next-line no-unused-vars
-  onSubmit?: (data: { [key: string | number]: Item[] }) => void;
+  onSubmit?: (val: string[] | null) => void;
   mockData?: any;
-  dataNodes?: Node;
+  title?: string;
+  subTitle?: string;
+  nodeType?: string;
 }
 
-export const HackathonTalentDropdownModal = ({
+export const DiscoverTalentDropdownModal = ({
   onClose,
   openModal,
   onSubmit,
-  mockData,
-  dataNodes,
-}: IHackathonTalentDropdownModalProps) => {
+  title = `Alright, tell me who should I find to help you with your project?`,
+  subTitle = `Please pick only one role for now!`,
+  nodeType,
+}: IDiscoverTalentDropdownModalProps) => {
   // console.log("hackathon talent dropdown modal", dataNodes);
   const section: Data = useMemo(
     () => ({
       _id: "main",
-      title: mockData?.subCategories?.title
-        ? mockData.subCategories.title
+      title: title
+        ? title
         : "Alright, tell me who should I find to help you with your project?",
-      subtitle: mockData?.subCategories?.subTitle
-        ? mockData.subCategories.subTitle
-        : "Please pick only one role for now!",
+      subtitle: subTitle ? subTitle : "Please pick only one role for now!",
       battery: true,
       itemsTitle: "Focus On:",
-      items: omitBy(
-        mockData,
-        (_, key) => key === "subCategories" || key === "Focus On Page"
-      ) as {
-        [key: string]: Item;
-      },
     }),
-    [mockData]
+    [title, subTitle]
   );
 
   const [batteryPercentage, setBatteryPercentage] = useState(0);
   const [selectedItems, setSelectedItems] = useState<{
-    [key: string]: Item[];
+    [key: string]: Node[];
   }>({});
+  const [selectedNodes, setSelectedNodes] = useState<string[] | null>(null);
+
   const [numMatches, setNumMatches] = useState(137);
+
+  const { data: dataNodes } = useQuery(FIND_NODES, {
+    variables: {
+      fields: {
+        node: nodeType,
+      },
+    },
+    skip: !nodeType,
+    context: { serviceName: "soilservice" },
+  });
+
+  // if (dataNodes?.findNodes) console.log("dataNodes", dataNodes?.findNodes);
 
   const handleNext = () => {
     if (numMatches === 0) {
       toast.error("You should at least choose on of the items before proceed");
     } else {
-      if (onSubmit) onSubmit!(selectedItems);
+      if (onSubmit) onSubmit!(selectedNodes);
       else onClose!();
     }
   };
-
-  useEffect(() => {
-    // onSubmit && onSubmit(selectedItems);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedItems]);
 
   useEffect(() => {
     let _numMatches = numMatches;
@@ -105,7 +116,22 @@ export const HackathonTalentDropdownModal = ({
 
     if (_numMatches) setNumMatches(_numMatches);
     setBatteryPercentage(batteryPercentage);
-  }, [section, selectedItems]);
+  }, [numMatches, selectedItems]);
+
+  useEffect(() => {
+    if (selectedItems) {
+      const selectedNodeId: string[] = [];
+
+      forEach(selectedItems, (el) => {
+        if (!isEmpty(el)) {
+          forEach(el, (item) => {
+            selectedNodeId.push(item?._id as string);
+          });
+        }
+      });
+      setSelectedNodes(selectedNodeId);
+    }
+  }, [selectedItems]);
 
   return (
     <Modal open={openModal} closeOnEsc={false}>
@@ -125,45 +151,27 @@ export const HackathonTalentDropdownModal = ({
                 <div>
                   <TextHeading3>{section?.itemsTitle}</TextHeading3>
                 </div>
-                <div className="my-8 ml-4 flex w-full flex-wrap justify-center gap-2">
-                  {dataNodes ? (
+                <div className="my-8 ml-4 flex h-24 w-full flex-wrap justify-center gap-2">
+                  {dataNodes?.findNodes ? (
                     <>
-                      {!isEmpty(dataNodes) &&
-                        map(dataNodes, (item: any, key: number) => (
-                          <SelectBox
+                      {!isEmpty(dataNodes?.findNodes) &&
+                        map(dataNodes?.findNodes, (item: any, key: number) => (
+                          <SelectBoxNode
                             multiple
                             key={key}
                             caption={item?.name}
-                            items={Object.keys(item.subNodes).map(
-                              (key) => item.subNodes[key].name
-                            )}
-                            onChange={(selectedItems) => {
+                            items={item?.subNodes}
+                            onChange={(val) => {
                               setSelectedItems((prevState) => ({
                                 ...prevState,
-                                [key]: selectedItems,
+                                [item?._id]: val,
                               }));
                             }}
                           />
                         ))}
                     </>
                   ) : (
-                    <>
-                      {!isEmpty(section.items) &&
-                        map(section.items, (item, key) => (
-                          <SelectBox
-                            multiple
-                            key={key}
-                            caption={key}
-                            items={item.content}
-                            onChange={(selectedItems) => {
-                              setSelectedItems((prevState) => ({
-                                ...prevState,
-                                [key]: selectedItems,
-                              }));
-                            }}
-                          />
-                        ))}
-                    </>
+                    <Loading />
                   )}
                 </div>
               </section>
@@ -173,6 +181,7 @@ export const HackathonTalentDropdownModal = ({
                 <BatteryStepper
                   numMatches={numMatches}
                   batteryPercentage={batteryPercentage}
+                  text={`People`}
                 />
               )}
             </div>

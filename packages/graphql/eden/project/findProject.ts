@@ -8,6 +8,7 @@ export const FIND_PROJECT = gql`
       description
       descriptionOneLine
       emoji
+      serverID
       backColorEmoji
       collaborationLinks {
         link

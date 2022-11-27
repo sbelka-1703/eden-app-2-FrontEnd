@@ -1,39 +1,37 @@
+import { LaunchProjectProvider } from "@eden/package-context";
 import {
   AppUserSubmenuLayout,
-  Card,
   GridItemNine,
   GridItemThree,
   GridLayout,
+  // LaunchProjectContainer,
   SEO,
+  UserProfileCard,
 } from "@eden/package-ui";
 
 import type { NextPageWithLayout } from "../_app";
 
-const DiscoverPage: NextPageWithLayout = () => {
+const LaunchPage: NextPageWithLayout = () => {
   return (
     <>
       <SEO />
       <GridLayout>
         <GridItemThree>
-          <Card shadow className="h-85 bg-white p-6">
-            left side
-          </Card>
+          <UserProfileCard />
         </GridItemThree>
-        <GridItemNine>
-          <Card shadow className="h-85 overflow-auto bg-white p-6">
-            discover page
-          </Card>
-        </GridItemNine>
+        <GridItemNine>{/* <LaunchProjectContainer /> */}</GridItemNine>
       </GridLayout>
     </>
   );
 };
 
-DiscoverPage.getLayout = (page) => (
-  <AppUserSubmenuLayout showSubmenu={false}>{page}</AppUserSubmenuLayout>
+LaunchPage.getLayout = (page) => (
+  <AppUserSubmenuLayout showSubmenu={false}>
+    <LaunchProjectProvider>{page}</LaunchProjectProvider>
+  </AppUserSubmenuLayout>
 );
 
-export default DiscoverPage;
+export default LaunchPage;
 
 import { IncomingMessage, ServerResponse } from "http";
 import { getSession } from "next-auth/react";

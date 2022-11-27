@@ -1,10 +1,8 @@
 import { HackathonContext, HackathonProjectModal } from "@eden/package-context";
-import { Node } from "@eden/package-graphql/generated";
 import {
   CongratulationsModal,
   DataReviewModal,
   FindTalentDropdownModal,
-  HackathonTalentDropdownModal,
   PrioritizeModal,
   ProjectsMatchesModal,
   RequirementsModal,
@@ -29,13 +27,11 @@ export interface IHackathonModalContainerProps {
   // eslint-disable-next-line no-unused-vars
   setSubmittingTalentAttributes?: (val: any) => void;
   mockData?: any;
-  dataNodes?: Node;
 }
 
 export const HackathonModalContainer = ({
   setSubmittingTalentAttributes,
   mockData,
-  dataNodes,
 }: IHackathonModalContainerProps) => {
   const {
     project,
@@ -126,7 +122,7 @@ export const HackathonModalContainer = ({
       )}
 
       {openModal === HackathonProjectModal.USER_ROLE && (
-        <HackathonTalentDropdownModal
+        <FindTalentDropdownModal
           openModal={openModal === HackathonProjectModal.USER_ROLE}
           onClose={() => {
             setOpenModal(HackathonProjectModal.SKIP_ALERT);
@@ -138,7 +134,6 @@ export const HackathonModalContainer = ({
             setOpenModal(HackathonProjectModal.SKILLS_CATEGORY);
           }}
           mockData={mockDataMap2.SkillTree}
-          dataNodes={dataNodes}
         />
       )}
 

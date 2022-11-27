@@ -1,41 +1,67 @@
 import { Card } from "@eden/package-ui";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
-const navItems = [
-  {
-    title: "Discover Opportunities",
-    href: "/signup",
-    bgColor: "rgba(255, 242, 104, 0.3",
-    description:
-      "Find a project, team, gig or an opportunity to learn, earn &  grow!",
-  },
-  // {
-  //   title: "Discover Talent",
-  //   href: "/discover",
-  //   bgColor: "rgba(155, 103, 255, 0.3)",
-  //   description:
-  //     "Find people in your community to make friends, collaborate or ask for an advise!",
-  // },
-  {
-    title: "Launch new Project",
-    href: "/launch",
-    bgColor: "rgba(116, 250, 109, 0.3)",
-    description:
-      "Become a Champion of your own adventure! + gather a team of your dreams :)",
-  },
-];
+interface INavItems {
+  title: string;
+  href: string;
+  bgColor: string;
+  description: string;
+  display: boolean | undefined;
+}
 
-export interface IHomeHeroSectionProps {}
+export interface IHomeHeroSectionProps {
+  opportunityPage?: boolean;
+  discoverPage?: boolean;
+  launchPage?: boolean;
+}
 
-export const HomeHeroSection = ({}: IHomeHeroSectionProps) => {
+export const HomeHeroSection = ({
+  opportunityPage,
+  discoverPage,
+  launchPage,
+}: IHomeHeroSectionProps) => {
   const router = useRouter();
+  const [displayNav, setDisplayNav] = useState<INavItems[]>([]);
+
+  useEffect(() => {
+    const navItems = [
+      {
+        title: "Discover Opportunities",
+        href: "/signup",
+        bgColor: "rgba(255, 242, 104, 0.3",
+        description:
+          "Find a project, team, gig or an opportunity to learn, earn &  grow!",
+        display: opportunityPage,
+      },
+      {
+        title: "Discover Talent",
+        href: "/discover",
+        bgColor: "rgba(155, 103, 255, 0.3)",
+        description:
+          "Find people in your community to make friends, collaborate or ask for an advise!",
+        display: discoverPage,
+      },
+      {
+        title: "Launch new Project",
+        href: "/launch",
+        bgColor: "rgba(116, 250, 109, 0.3)",
+        description:
+          "Become a Champion of your own adventure! + gather a team of your dreams :)",
+        display: launchPage,
+      },
+    ];
+    const showNavItems = navItems.filter((item) => item.display);
+
+    setDisplayNav(showNavItems);
+  }, [opportunityPage, discoverPage, launchPage]);
 
   return (
     <Card
       shadow
       className={`h-85 scrollbar-hide m-auto flex flex-col overflow-scroll bg-white py-8`}
     >
-      {navItems.map((item, index) => (
+      {displayNav.map((item, index: number) => (
         <div key={index} className={`group my-8 grid grid-cols-3 `}>
           <div className={`font-Gloria text-md p-4 text-zinc-400 md:text-2xl`}>
             {index % 2 === 0 && (

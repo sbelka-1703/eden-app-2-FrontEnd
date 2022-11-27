@@ -52,6 +52,7 @@ export const SignUpContainerSide = ({
       variables: {
         fields: {
           _id: currentUser?._id,
+          serverID: [],
           skills: currentUser.skills
             ?.filter(
               (skill: Maybe<SkillType_Member>) =>
@@ -69,7 +70,7 @@ export const SignUpContainerSide = ({
   };
 
   return (
-    <Card className={`h-85 flex flex-col gap-4`}>
+    <Card className={`h-85 flex flex-col gap-2`}>
       <UserProfileCard />
       {viewProject ? (
         <Card
@@ -142,6 +143,7 @@ export const SignUpContainerSide = ({
                     variables: {
                       fields: {
                         _id: currentUser?._id,
+                        serverID: [],
                         skills: val.map((skill: Maybe<SkillRoleType>) => {
                           return {
                             id: skill?.skillData?._id,
@@ -157,6 +159,7 @@ export const SignUpContainerSide = ({
                     variables: {
                       fields: {
                         _id: currentUser?._id,
+                        serverID: [],
                         hoursPerWeek: Number(val.target.value),
                       },
                     },

@@ -31,6 +31,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
   const { partyId } = router.query;
 
   const [members, setMembers] = useState<Members[]>([]);
+  const [isRoomExist, setIsRoomExist] = useState(true);
 
   const { currentUser } = useContext(UserContext);
 
@@ -77,7 +78,11 @@ const OnboardPartyPage: NextPageWithLayout = () => {
   });
 
   const [enterRoom] = useMutation(ENTER_ROOM, {
-    errorPolicy: "ignore",
+    // errorPolicy: "ignore",
+    onError: (error) => {
+      // console.log("error", error);
+      if (error) setIsRoomExist(false);
+    },
   });
 
   useEffect(() => {
@@ -91,6 +96,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
     ) {
       return;
     }
+    if (!isRoomExist) return;
     enterRoom({
       variables: {
         fields: {
@@ -153,6 +159,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
       variables: {
         fields: {
           _id: currentUser?._id,
+          serverID: [],
           bio: currentUser?.bio,
           skills: skills.map((skill: SkillType_Member) => {
             return {
@@ -171,6 +178,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
       variables: {
         fields: {
           _id: currentUser?._id,
+          serverID: [],
           skills: currentUser.skills
             ?.filter(
               (skill: Maybe<SkillType_Member>) =>
@@ -203,6 +211,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
       variables: {
         fields: {
           _id: currentUser?._id,
+          serverID: [],
           skills: currentUser?.skills?.map((skill: SkillType_Member | null) => {
             return {
               id: skill?.skillInfo?._id,

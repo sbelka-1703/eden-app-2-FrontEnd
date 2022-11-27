@@ -5,7 +5,7 @@ import clsx from "clsx";
 import isEmpty from "lodash/isEmpty";
 import { Fragment, useEffect, useState } from "react";
 
-export type SelectBoxProps = {
+export interface ISelectBoxProps {
   caption: string;
   items: string[];
   disabled?: boolean;
@@ -13,7 +13,7 @@ export type SelectBoxProps = {
   btnBGcolor?: string;
   // eslint-disable-next-line no-unused-vars
   onChange?: (items?: any) => void;
-};
+}
 
 export const SelectBox = ({
   caption,
@@ -22,7 +22,7 @@ export const SelectBox = ({
   disabled,
   onChange,
   btnBGcolor = "bg-gray-200",
-}: SelectBoxProps) => {
+}: ISelectBoxProps) => {
   const [selected, setSelected] = useState(multiple ? [] : "");
 
   const btnClasses = clsx(
@@ -94,5 +94,3 @@ export const SelectBox = ({
     </div>
   );
 };
-
-export default SelectBox;
