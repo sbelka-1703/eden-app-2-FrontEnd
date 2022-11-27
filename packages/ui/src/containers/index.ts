@@ -3,7 +3,7 @@ export * from "./ChampionMatchContainer";
 export * from "./ConfettiContainer";
 export * from "./DiscoverModalContainer";
 export * from "./EditProfileContainer";
-export * from "./CreateProjectContainer";
+export * from "./CreateProjectTempContainer";
 export * from "./LaunchProjectContainer";
 export * from "./NewProfileContainer";
 export * from "./OnboardPartyContainer";

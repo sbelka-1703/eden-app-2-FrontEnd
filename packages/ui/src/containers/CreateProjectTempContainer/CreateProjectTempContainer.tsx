@@ -1,6 +1,7 @@
 import { useMutation } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
-import { UPDATE_MEMBER } from "@eden/package-graphql";
+import { UPDATE_MEMBER, FIND_PROJECT } from "@eden/package-graphql";
 import {
   Maybe,
   Mutation,
@@ -13,6 +14,7 @@ import {
   Dropdown,
   Loading,
   RoleSelector,
+  EmojiSelector,
   SearchSkill,
   SkillVisualisationComp,
   SocialMediaInput,
@@ -26,21 +28,59 @@ import { useContext, useEffect, useState } from "react";
 
 import { timezones } from "../../../constants";
 
-export interface ICreateProjectContainerProps {
+export interface ICreateProjectTempContainerProps {
   roles?: Maybe<Array<Maybe<RoleTemplate>>>;
 }
 
-export const CreateProjectContainer = ({
+export const CreateProjectTempContainer = ({
   roles,
-}: ICreateProjectContainerProps) => {
+}: ICreateProjectTempContainerProps) => {
   const { currentUser } = useContext(UserContext);
   const [submitting, setSubmitting] = useState(false);
+
+  const [projectID, setProjectID] = useState<string>(
+    // "637ad5a6f0f9c427e03a03a8"
+    ""
+  );
+
+  const { data: dataProject, refetch: refetchProject } = useQuery(
+    FIND_PROJECT,
+    {
+      variables: {
+        fields: {
+          _id: projectID,
+        },
+      },
+      skip: !projectID,
+      context: { serviceName: "soilservice" },
+    }
+  );
 
   const [selectedRoleId, setSelectedRoleId] = useState<string | null>(null);
   const [bio, setBio] = useState<string>("");
   const [hoursPerWeek, setHoursPerWeek] = useState<number>(
     currentUser?.hoursPerWeek || 0
   );
+
+  const [titleProject, setTitleProject] = useState<string>("");
+
+  const [serverID, setServerID] = useState<string>("");
+  const [emoji, setEmoji] = useState<string>("");
+
+  useEffect(() => {
+    if (dataProject) {
+      setTitleProject(dataProject.findProject.title);
+      setBio(dataProject.findProject.description);
+      setEmoji(dataProject.findProject.emoji);
+
+      if (dataProject.findProject?.serverID?.length > 0)
+        setServerID(dataProject.findProject.serverID[0]);
+
+      console.log("randonatori = ", dataProject);
+      console.log("randonatori = ", dataProject.findProject.title);
+    }
+  }, [dataProject]);
+
   const [timezone, setTimezone] = useState(currentUser?.timeZone || "");
 
   // const [timeZone, setTimeZone] = useState<string>(currentUser?.timeZone || "");
@@ -128,7 +168,7 @@ export const CreateProjectContainer = ({
     <>
       <Card className="mb-8 bg-white p-6">
         <section className="mb-6 flex justify-between">
-          <TextHeading3>Create New Project: </TextHeading3>
+          <TextHeading3>Create New Project:</TextHeading3>
           <Button
             variant="primary"
             className={``}
@@ -141,83 +181,73 @@ export const CreateProjectContainer = ({
         <section className="lg:grid lg:grid-cols-2 lg:gap-8">
           <div className="col-span-1">
             <div className="mb-3">
-              <TextBody>Personal</TextBody>
-            </div>
-            <div className="mb-3">
-              <TextBody>Your Role:</TextBody>
-              {/* Add Roles */}
-              <RoleSelector
-                roles={roles as Maybe<Maybe<RoleTemplate>[]>}
-                onSelect={(role) => {
-                  setSelectedRoleId(role?._id as string);
-                }}
-              />
-
-              <TextBody>Short Bio:</TextBody>
+              <TextBody>Title:</TextBody>
+              <div className={`flex justify-center space-x-4`}>
+                <TextField
+                  name="textfield"
+                  type="text"
+                  value={titleProject.toString()}
+                  onChange={(e) => setTitleProject(e.target.value)}
+                />
+              </div>
+              <br />
+              <TextBody>Bio:</TextBody>
               <TextArea
                 value={currentUser?.bio!}
                 onChange={(e) => setBio(e.target.value)}
               />
-
-              <div>
-                <div className={`mt-4 text-center`}>
-                  <TextHeading3>What’s your availability?</TextHeading3>
-                </div>
-                <div className={`mx-auto w-40`}>
-                  <Dropdown
-                    value={timezone}
-                    items={timezones}
-                    placeholder={`Timezone`}
-                    onSelect={(val) => setTimezone(val.name)}
-                  />
-                </div>
-
-                <div className={`flex justify-center space-x-4`}>
-                  <div className={`w-24`}>
-                    <TextField
-                      placeholder={`Hours`}
-                      radius="pill"
-                      type={`number`}
-                      value={hoursPerWeek.toString()}
-                      onChange={(e) => setHoursPerWeek(Number(e.target.value))}
-                    />
-                  </div>
-                  <div className={`my-auto font-medium text-zinc-600`}>
-                    hrs. / week
-                  </div>
-                </div>
-              </div>
             </div>
+
+            <TextBody>serverID:</TextBody>
+            <div className={`flex justify-center space-x-4`}>
+              <TextField
+                name="textfield"
+                type="text"
+                value={serverID.toString()}
+                onChange={(e) => setServerID(e.target.value)}
+              />
+            </div>
+            <br />
           </div>
           <div className="col-span-1">
             <div className="justify-around">
-              <TextBody className="mb-1">Your Skills</TextBody>
+              <TextBody className="mb-1">Select Emoji</TextBody>
 
-              <TextLabel>Add your Skill</TextLabel>
-              <SearchSkill
-                skills={currentUser?.skills}
-                setSkills={undefined}
-                levels={[
-                  {
-                    title: "learning",
-                    level: "learning",
-                  },
-                  {
-                    title: "Mid Level",
-                    level: "mid",
-                  },
-                  {
-                    title: "Senior",
-                    level: "senior",
-                  },
-                  {
-                    title: "Junior",
-                    level: "junior",
-                  },
-                ]}
-              />
+              <div className="p-3">
+                <EmojiSelector
+                  size={80}
+                  emoji={emoji}
+                  onSelection={(value) => setEmoji(value)}
+                />
+              </div>
+              <br />
+              <TextBody>Project ID:</TextBody>
+              <div className={`flex justify-center space-x-4`}>
+                <TextField
+                  name="textfield"
+                  type="text"
+                  value={projectID.toString()}
+                  onChange={(e) => setProjectID(e.target.value)}
+                />
+              </div>
+              <br />
 
-              <SkillVisualisationComp
+              <Button
+                variant="primary"
+                className={``}
+                disabled={submitting}
+                // onClick={() => refetchProject()}
+                onClick={() => {
+                  console.log("change = -------0-000");
+                  refetchProject();
+                  console.log("projectID = ", projectID);
+                  console.log("dataProject = ", dataProject);
+                }}
+              >
+                Find Project
+              </Button>
+
+              {/* <SkillVisualisationComp
                 skills={
                   currentUser?.skills?.map((skill) => {
                     return {
@@ -229,9 +259,9 @@ export const CreateProjectContainer = ({
                     };
                   }) as SkillRoleType[]
                 }
-              />
+              /> */}
             </div>
-            <div>
+            {/* <div>
               <TextBody>Social Links</TextBody>
               <TextLabel>Please make sure all links are up to date</TextLabel>
               <SocialMediaInput
@@ -262,7 +292,7 @@ export const CreateProjectContainer = ({
                 onChange={(e) => setLensHandle(e.target.value)}
                 shape="rounded"
               />
-            </div>
+            </div> */}
           </div>
         </section>
       </Card>
