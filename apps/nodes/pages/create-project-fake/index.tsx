@@ -1,19 +1,18 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
 import { FIND_ROLE_TEMPLATES } from "@eden/package-graphql";
-import { Members, Mutation } from "@eden/package-graphql/generated";
+import { Mutation } from "@eden/package-graphql/generated";
 import {
   AppUserSubmenuLayout,
   Badge,
   Button,
   Card,
   CreateProjectTempContainer,
-  NewProfileContainer,
   SelectNodesModal,
   SEO,
 } from "@eden/package-ui";
 import { useContext, useState } from "react";
-import { FaUserAlt, FaUserEdit } from "react-icons/fa";
+import { FaUserEdit } from "react-icons/fa";
 
 export const ADD_NODES = gql`
   mutation ($fields: addNodesToMemberInput!) {
