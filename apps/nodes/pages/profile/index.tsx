@@ -58,26 +58,18 @@ const ProfilePage: NextPageWithLayout = () => {
   const [addNodes] = useMutation(ADD_NODES, {
     onCompleted({ addNodesToMember }: Mutation) {
       if (!addNodesToMember) console.log("addNodesToMember is null");
-      // console.log("updateMember", addNodesToMember);
+      console.log("updateMember", addNodesToMember);
       // setSubmitting(false);
     },
   });
 
   const handleSaveNodes = (data: any) => {
-    // console.log("data", data);
-
-    const nodes = Object.values(data)
-      .flat()
-      .map((item: any) => item._id);
-
-    console.log("nodes", nodes);
-
     if (!currentUser) return;
     addNodes({
       variables: {
         fields: {
           memberID: currentUser._id,
-          nodesID: nodes,
+          nodesID: data,
         },
       },
     });
