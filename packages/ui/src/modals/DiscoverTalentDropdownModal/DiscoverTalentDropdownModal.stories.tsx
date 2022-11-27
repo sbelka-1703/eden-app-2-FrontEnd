@@ -17,6 +17,7 @@ export const Default = Template.bind({});
 Default.args = {
   openModal: true,
   mockData: mockData,
+  nodeType: "expertise",
   onClose: () => null,
   onSubmit: (data) => {
     console.log(data);
