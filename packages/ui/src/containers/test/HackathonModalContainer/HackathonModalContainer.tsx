@@ -114,6 +114,15 @@ export const HackathonModalContainer = ({
           onSubmit={() => {
             setOpenModal(HackathonProjectModal.USER_ROLE);
           }}
+          header1={"Find your ideal project!"}
+          header2={
+            "We will help you find the perfect match based on your skills and preferences."
+          }
+          topLeftText={"We have"}
+          bottomLeftText={"in Eden today"}
+          matchType={"Projects"}
+          topRightText={"AI will find the best"}
+          bottomRightText={"for you to choose from"}
           batteryPercentageBefore={10}
           numMatchesBefore={125}
           batteryPercentageAfter={70}
