@@ -3,7 +3,7 @@ import { UserExperienceCard2 } from ".";
 
 describe("UserExperienceCard2", () => {
   it("renders without throwing", () => {
-    const { container } = render(<UserExperienceCard2 roles={[]} />);
+    const { container } = render(<UserExperienceCard2 />);
 
     expect(container).toBeInTheDocument();
   });
