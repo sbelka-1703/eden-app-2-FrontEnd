@@ -1,33 +1,39 @@
-import { Maybe, Members } from "@eden/package-graphql/generated";
+import {
+  MatchMembersToSkillOutput,
+  Maybe,
+} from "@eden/package-graphql/generated";
 import {
   Avatar,
-  // AvatarList,
-  // Badge,
+  AvatarList,
+  Badge,
   Button,
   Card,
   Favorite,
   LongText,
-  // ProfileExpandedModal,
   SocialMediaComp,
-  // TextBody,
   TextHeading3,
   TextLabel,
   UserDiscoverModal,
 } from "@eden/package-ui";
 import { useState } from "react";
 
+import { round } from "../../../../utils";
+
 export interface IUserDiscoverCardProps {
-  member?: Maybe<Members>;
+  matchMember?: Maybe<MatchMembersToSkillOutput>;
   item?: any;
   resultCardFlag?: any;
   resultPopUpFlag?: any;
 }
 
-export const UserDiscoverCard = ({ member }: IUserDiscoverCardProps) => {
+export const UserDiscoverCard = ({ matchMember }: IUserDiscoverCardProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
+  const member = matchMember?.member;
+  const matchPercentage = matchMember?.matchPercentage;
 
-  // console.log("member", member);
+  console.log("member", member);
+  console.log("matchPercentage", matchPercentage);
   if (!member) return null;
 
   return (
@@ -44,11 +50,13 @@ export const UserDiscoverCard = ({ member }: IUserDiscoverCardProps) => {
             <div className="relative">
               <Avatar src={member?.discordAvatar as string} />
 
-              <div
-                className={`text-soilPurple absolute -mt-9 ml-12 rounded-full bg-white px-1.5 text-xl font-semibold shadow-sm`}
-              >
-                {/* {item?.percentage} */}
-              </div>
+              {matchPercentage?.totalPercentage && (
+                <div
+                  className={`text-soilPurple absolute -mt-9 ml-12 rounded-full bg-white px-1.5 text-xl font-semibold shadow-sm`}
+                >
+                  {round(Number(matchPercentage?.totalPercentage), 0)}%
+                </div>
+              )}
             </div>
             <div className="flex justify-center">
               <TextHeading3>@{member?.discordName}</TextHeading3>
@@ -79,42 +87,44 @@ export const UserDiscoverCard = ({ member }: IUserDiscoverCardProps) => {
         />
       </div>
 
-      {/* {item?.Skills && (
+      {member?.nodes && (
         <div>
           <p className="font-Inter mb-1 text-sm font-bold text-zinc-500">
             🛠 Top skills
           </p>
           <div>
-            {item?.Skills.slice(0, 6).map((skill: string, index: number) => (
+            {member?.nodes.slice(0, 6).map((node, index) => (
               <Badge
-                text={skill}
+                text={node?.nodeData?.name || ""}
                 key={index}
                 className={`bg-soilPurple/20 py-px text-xs`}
               />
             ))}
           </div>
         </div>
-      )} */}
+      )}
 
-      {/* {item.endorsements && (
+      {member?.endorsements && (
         <div className="mt-4">
           <p className="font-Inter mb-1 text-sm font-bold text-zinc-500">
             🎙 ENDORSEMENTS
           </p>
           <AvatarList
             className="inline-block !w-auto !justify-start"
-            avatars={item.endorsements.slice(0, 5).map((endorsement: any) => ({
-              size: "xs",
-              src: endorsement.avatar,
-            }))}
+            avatars={member?.endorsements
+              .slice(0, 5)
+              .map((endorsement: any) => ({
+                size: "xs",
+                src: endorsement?.endorser?.discordAvatar,
+              }))}
           />
-          {item.endorsements.slice(5).length > 0 && (
+          {member?.endorsements.slice(5).length > 0 && (
             <p className="text-soilGray ml-6 inline">
-              +{item.endorsements.slice(8).length} more
+              +{member?.endorsements.slice(8).length} more
             </p>
           )}
         </div>
-      )} */}
+      )}
 
       {/* {(item.lifetimeStakeTRST || item.totalTRST) && (
         <div className="-mx-2 mt-3 -mb-3 flex">
@@ -132,23 +142,11 @@ export const UserDiscoverCard = ({ member }: IUserDiscoverCardProps) => {
           )}
         </div>
       )} */}
-      {/* {resultPopUpFlag?.type === "User" ? (
-        <ProfileExpandedModal
-          open={isOpen}
-          item={item}
-          onClose={() => setIsOpen(!isOpen)}
-        />
-      ) : (
-        <StaticModal
-          item={item}
-          resultPopUpFlag={resultPopUpFlag}
-          open={isOpen}
-          onClose={() => setIsOpen(!isOpen)}
-        />
-      )} */}
+
       <UserDiscoverModal
         open={isOpen}
         member={member}
+        matchPercentage={matchPercentage}
         onClose={() => setIsOpen(!isOpen)}
       />
     </Card>

@@ -128,6 +128,7 @@ export type Mutation = {
   addNewMember?: Maybe<Members>;
   addNodesToMember?: Maybe<Members>;
   addNodesToProjectRole?: Maybe<Project>;
+  addProjectRole?: Maybe<Project>;
   addSkillToMember?: Maybe<Members>;
   approveOrRejectSkill?: Maybe<Skills>;
   approveTweet?: Maybe<Project>;
@@ -191,6 +192,11 @@ export type MutationAddNodesToMemberArgs = {
 
 export type MutationAddNodesToProjectRoleArgs = {
   fields: AddNodesToProjectRoleInput;
+};
+
+
+export type MutationAddProjectRoleArgs = {
+  fields: AddProjectRoleInput;
 };
 
 
@@ -894,6 +900,12 @@ export type AddNodesToMemberInput = {
 export type AddNodesToProjectRoleInput = {
   nodesID?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   projectRoleID?: InputMaybe<Scalars['ID']>;
+};
+
+export type AddProjectRoleInput = {
+  description?: InputMaybe<Scalars['String']>;
+  projectID?: InputMaybe<Scalars['ID']>;
+  title?: InputMaybe<Scalars['String']>;
 };
 
 export type AddSkillToMember_Input = {

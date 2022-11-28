@@ -1,4 +1,8 @@
-import { Members } from "@eden/package-graphql/generated";
+import {
+  MatchPercentage,
+  Maybe,
+  Members,
+} from "@eden/package-graphql/generated";
 import {
   AvailabilityComp,
   Badge,
@@ -14,11 +18,13 @@ import {
 import { CheckCircleIcon } from "@heroicons/react/solid";
 import { useState } from "react";
 
+import { round } from "../../../utils";
 import { ArrowsCollapseIcon } from "./icons/ArrowCollapseIcon";
 import { ArrowsExpandIcon } from "./icons/ArrowExpandIcon";
 
 export interface IUserDiscoverModalProps {
   member?: Members;
+  matchPercentage?: Maybe<MatchPercentage>;
   resultPopUpFlag?: any;
   open?: boolean;
   onClose?: () => void;
@@ -28,6 +34,7 @@ const DEFAULT_COLOR = "#CAE8FF";
 
 export const UserDiscoverModal = ({
   member,
+  matchPercentage,
   open,
   onClose,
 }: IUserDiscoverModalProps) => {
@@ -65,64 +72,63 @@ export const UserDiscoverModal = ({
               {member?.bio}
             </p>
           </div>
-          {/* <div className="flex justify-center">
-            {item.percentage && (
+
+          <div className="flex justify-center">
+            {matchPercentage?.totalPercentage && (
               <div>
                 <h1 className="text-soilHeading3 font-poppins text-soilGray -ml-2 font-medium">
                   ⚡️Match
                 </h1>
                 <p className="text-soilPurple font-poppins text-4xl font-semibold">
-                  {item.percentage}
+                  {round(Number(matchPercentage?.totalPercentage), 0)}%
                 </p>
               </div>
             )}
-          </div> */}
+          </div>
           <div>
             <AvailabilityComp timePerWeek={member.hoursPerWeek || 0} />
             <SocialMediaComp title="" links={member?.links} size="1.8rem" />
           </div>
         </div>
 
-        {/* {item.background && (
+        {member && (
           <UserBackground
-            background={item.background}
-            initialEndorsements={item.endorsements}
+            member={member}
+            // background={item.background}
+            // initialEndorsements={item.endorsements}
           />
-        )} */}
+        )}
       </div>
     </Modal>
   );
 };
 
 const UserBackground = ({
-  background,
-  initialEndorsements,
-}: {
-  background: any[];
-  initialEndorsements: any[];
+  member,
+}: // background,
+// initialEndorsements,
+{
+  member?: Members;
+  background?: any[];
+  initialEndorsements?: any[];
 }) => {
-  const endorsements = initialEndorsements?.map((endorsement: any) => ({
-    member: {
-      discordName: endorsement.name,
-      discordAvatar: endorsement.avatar,
-    },
-    text: endorsement.endorsement,
-    level: endorsement.level.name,
-  }));
-
   const [expand, setExpand] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
-  const tabs = background.map((item) => `${item.title} ${item.emoji}`);
-  const item = background.reduce((prev, curr) => {
-    const item = { [`${curr.title} ${curr.emoji}`]: curr };
+  const tabs = member?.previusProjects?.map((item) => `${item?.title}`);
+  // eslint-disable-next-line no-unused-vars
+  const item = member?.previusProjects?.reduce((prev, curr) => {
+    const item = { [`${curr?.title}`]: curr };
 
     return { ...prev, ...item };
   }, {});
 
-  const activeItem = item[tabs[activeTab]];
+  // const activeItem = item[tabs[activeTab]];
 
-  const onExpend = (item: string) => {
-    const itemIndex = tabs.findIndex((tab) => tab === item);
+  const onExpand = (item: string) => {
+    if (!tabs) return;
+    const itemIndex = tabs?.findIndex((tab) => tab === item);
+
+    // console.log("itemIndex", itemIndex);
 
     setActiveTab(itemIndex);
     setExpand(true);
@@ -147,15 +153,15 @@ const UserBackground = ({
         <UserExpandedBackground
           tabs={tabs}
           activeTab={activeTab}
-          activeItem={activeItem}
+          // activeItem={activeItem}
           setActiveTab={setActiveTab}
         />
       ) : (
         <>
-          <UserCardBackground onExpand={onExpend} background={background} />
-          {endorsements?.length > 0 && (
+          <UserCardBackground onExpand={onExpand} member={member} />
+          {member?.endorsements && member?.endorsements?.length > 0 && (
             <div className="mt-3">
-              <EndorsementList endorsements={endorsements} />
+              <EndorsementList endorsements={member?.endorsements} />
             </div>
           )}
         </>
@@ -166,15 +172,17 @@ const UserBackground = ({
 
 const UserCardBackground = ({
   onExpand,
-  background,
-}: {
-  background: any[];
+  member,
+}: // background,
+{
+  member?: Members;
+  background?: any[];
   // eslint-disable-next-line no-unused-vars
   onExpand: (item: string) => void;
 }) => {
   return (
-    <div className="grid grid-cols-3 gap-4">
-      {background.map((item, index) => (
+    <div className="mx-1 grid grid-cols-3 gap-4">
+      {member?.previusProjects?.map((item, index) => (
         <Card
           key={index}
           border
@@ -183,18 +191,18 @@ const UserCardBackground = ({
           <Button
             className="w-full"
             style={{ border: "none", display: "block" }}
-            onClick={() => onExpand(`${item.title} ${item.emoji}`)}
+            onClick={() => onExpand(`${item?.title}`)}
           >
             <div className="flex h-full flex-col justify-between">
               <div>
                 <TextHeading3 className="text-center text-base">
-                  {item.emoji} {item.title}
+                  {item?.title}
                 </TextHeading3>
                 <div className="absolute right-2 top-3.5">
                   <ArrowsExpandIcon />
                 </div>
 
-                {item.content.map((content: any) => (
+                {/* {item.content.map((content: any) => (
                   <TextHeading3
                     key={content.title}
                     className="font-Inter my-3 overflow-hidden text-ellipsis whitespace-nowrap rounded-2xl px-2 py-1 text-base"
@@ -202,7 +210,7 @@ const UserCardBackground = ({
                   >
                     {content.title}
                   </TextHeading3>
-                ))}
+                ))} */}
               </div>
               <p className="text-gray-400">Total: 4 years 6 month</p>
             </div>
@@ -219,66 +227,68 @@ const UserExpandedBackground = ({
   activeItem,
   setActiveTab,
 }: {
-  tabs: string[];
-  activeItem: any;
-  activeTab: number;
+  tabs?: string[];
+  activeItem?: any;
+  activeTab?: number;
   // eslint-disable-next-line no-unused-vars
   setActiveTab: (activeTab: number) => void;
 }) => (
   <>
     <TabsSelector
-      tabs={tabs}
+      tabs={tabs || []}
       selectedTab={activeTab}
       onSelect={(val) => {
+        console.log("val", val);
         setActiveTab(val);
       }}
     />
     <div className="border-accentColor scrollbar-hide relative overflow-y-scroll rounded-b-xl border-b-2 border-r-2 border-l-2 bg-white px-4 pt-6">
-      {activeItem?.content.map((item: any, index: number) => (
-        <div
-          key={item.title}
-          className="mb-2 grid grid-cols-2 border-b border-b-gray-300 pb-2"
-          style={
-            index === activeItem?.content.length - 1
-              ? { borderBottom: "none" }
-              : {}
-          }
-        >
-          <div>
-            <TextHeading3
-              className="mb-3 rounded-2xl px-2 py-1"
-              style={{ backgroundColor: activeItem?.color || DEFAULT_COLOR }}
-            >
-              {item.title}
-            </TextHeading3>
-            <p>{item.content}</p>
-          </div>
-          <div className="flex flex-col items-center justify-between">
-            <div className="flex flex-col items-center">
+      {activeItem?.content &&
+        activeItem?.content.map((item: any, index: number) => (
+          <div
+            key={item.title}
+            className="mb-2 grid grid-cols-2 border-b border-b-gray-300 pb-2"
+            style={
+              index === activeItem?.content.length - 1
+                ? { borderBottom: "none" }
+                : {}
+            }
+          >
+            <div>
               <TextHeading3
-                style={{ fontWeight: 700 }}
-                className="mb-2 text-sm uppercase text-gray-500"
+                className="mb-3 rounded-2xl px-2 py-1"
+                style={{ backgroundColor: activeItem?.color || DEFAULT_COLOR }}
               >
-                🚀 Skills
+                {item.title}
               </TextHeading3>
-              <div className="inline-block">
-                {item?.skills?.map((skill: string, index: number) => (
-                  <Badge
-                    text={skill}
-                    key={index}
-                    cutText={15}
-                    colorRGB="255, 111, 137, 0.49"
-                    className={`py-px text-xs`}
-                  />
-                ))}
-              </div>
+              <p>{item.content}</p>
             </div>
-            <TextHeading3 className="mb-2 text-gray-500">
-              {`${item.date.start} - ${item.date.end}`}
-            </TextHeading3>
+            <div className="flex flex-col items-center justify-between">
+              <div className="flex flex-col items-center">
+                <TextHeading3
+                  style={{ fontWeight: 700 }}
+                  className="mb-2 text-sm uppercase text-gray-500"
+                >
+                  🚀 Skills
+                </TextHeading3>
+                <div className="inline-block">
+                  {item?.skills?.map((skill: string, index: number) => (
+                    <Badge
+                      text={skill}
+                      key={index}
+                      cutText={15}
+                      colorRGB="255, 111, 137, 0.49"
+                      className={`py-px text-xs`}
+                    />
+                  ))}
+                </div>
+              </div>
+              <TextHeading3 className="mb-2 text-gray-500">
+                {`${item.date.start} - ${item.date.end}`}
+              </TextHeading3>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
     </div>
   </>
 );
