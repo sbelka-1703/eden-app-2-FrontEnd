@@ -1,163 +1,73 @@
 import { useMutation } from "@apollo/client";
-import { useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
-import { UPDATE_MEMBER, FIND_PROJECT } from "@eden/package-graphql";
-import {
-  Maybe,
-  Mutation,
-  RoleTemplate,
-  SkillRoleType,
-} from "@eden/package-graphql/generated";
+import { UPDATE_PROJECT } from "@eden/package-graphql";
+import { Maybe, Mutation, RoleTemplate } from "@eden/package-graphql/generated";
 import {
   Button,
   Card,
-  Dropdown,
   Loading,
-  RoleSelector,
   EmojiSelector,
-  SearchSkill,
-  SkillVisualisationComp,
-  SocialMediaInput,
   TextArea,
+  OpenPositionCard,
   TextBody,
   TextField,
   TextHeading3,
-  TextLabel,
 } from "@eden/package-ui";
-import { useContext, useEffect, useState } from "react";
-
-import { timezones } from "../../../constants";
+import { useContext, useState } from "react";
 
 export interface ICreateProjectTempContainerProps {
   roles?: Maybe<Array<Maybe<RoleTemplate>>>;
+  projectData?: any;
+  projectUIdata?: any;
+  dataProject?: any;
+  selectedRole?: any;
+  setProjectUIdata: (val: any) => void;
+  onFetchProject: () => void;
+  setSelectedRole: (val: any) => void;
 }
 
 export const CreateProjectTempContainer = ({
   roles,
+  projectData,
+  projectUIdata,
+  dataProject,
+  selectedRole,
+  setProjectUIdata,
+  onFetchProject,
+  setSelectedRole,
 }: ICreateProjectTempContainerProps) => {
   const { currentUser } = useContext(UserContext);
   const [submitting, setSubmitting] = useState(false);
 
-  const [projectID, setProjectID] = useState<string>(
-    // "637ad5a6f0f9c427e03a03a8"
-    ""
-  );
+  const [projectID, setProjectID] = useState<string>("");
 
-  const { data: dataProject, refetch: refetchProject } = useQuery(
-    FIND_PROJECT,
-    {
-      variables: {
-        fields: {
-          _id: projectID,
-        },
-      },
-      skip: !projectID,
-      context: { serviceName: "soilservice" },
-    }
-  );
+  const [newRoleTitle, setNewRoleTitle] = useState<string>("");
 
-  const [selectedRoleId, setSelectedRoleId] = useState<string | null>(null);
-  const [bio, setBio] = useState<string>("");
-  const [hoursPerWeek, setHoursPerWeek] = useState<number>(
-    currentUser?.hoursPerWeek || 0
-  );
-
-  const [titleProject, setTitleProject] = useState<string>("");
-
-  const [serverID, setServerID] = useState<string>("");
-  const [emoji, setEmoji] = useState<string>("");
-
-  useEffect(() => {
-    if (dataProject) {
-      setTitleProject(dataProject.findProject.title);
-      setBio(dataProject.findProject.description);
-      setEmoji(dataProject.findProject.emoji);
-
-      if (dataProject.findProject?.serverID?.length > 0)
-        setServerID(dataProject.findProject.serverID[0]);
-
-      console.log("randonatori = ", dataProject);
-      console.log("randonatori = ", dataProject.findProject.title);
-    }
-  }, [dataProject]);
-
-  const [timezone, setTimezone] = useState(currentUser?.timeZone || "");
-
-  // const [timeZone, setTimeZone] = useState<string>(currentUser?.timeZone || "");
-  const [twitterHandle, setTwitterHandle] = useState("");
-  const [githubHandle, setGithubHandle] = useState("");
-  const [telegramHandle, setTelegramHandle] = useState("");
-  const [lensHandle, setLensHandle] = useState("");
-
-  const [updateMember] = useMutation(UPDATE_MEMBER, {
-    onCompleted({ updateMember }: Mutation) {
-      if (!updateMember) console.log("updateMember is null");
-      console.log("updateMember", updateMember);
+  const [updateProject] = useMutation(UPDATE_PROJECT, {
+    onCompleted({ updateProject }: Mutation) {
+      if (!updateProject) console.log("updateProject is null");
+      console.log("updateProject", updateProject);
       setSubmitting(false);
     },
   });
 
-  useEffect(() => {
-    // filter currentUser links for twitter, github, telegram
-    const twitterLink = currentUser?.links?.find(
-      (link) => link?.name === "twitter"
-    );
-
-    // remove https://twitter.com/ from the link
-    if (twitterLink?.url)
-      setTwitterHandle(twitterLink?.url?.replace("https://twitter.com/", ""));
-
-    const githubLink = currentUser?.links?.find(
-      (link) => link?.name === "github"
-    );
-
-    // remove https://github.com/ from the link
-    if (githubLink?.url)
-      setGithubHandle(githubLink?.url?.replace("https://github.com/", ""));
-
-    const telegramLink = currentUser?.links?.find(
-      (link) => link?.name === "telegram"
-    );
-
-    setTelegramHandle(telegramLink?.url || "");
-
-    const lensLink = currentUser?.links?.find((link) => link?.name === "lens");
-
-    if (lensLink?.url)
-      setLensHandle(lensLink?.url?.replace("https://www.lensfrens.xyz/", ""));
-  }, [currentUser]);
-
   const handleSave = () => {
     if (!currentUser) return;
     setSubmitting(true);
-    updateMember({
+
+    let field: any = {};
+
+    if (projectUIdata?._id) field._id = projectUIdata._id;
+    if (projectUIdata?.title) field.title = projectUIdata.title;
+    if (projectUIdata?.description)
+      field.description = projectUIdata.description;
+    if (projectUIdata?.serverID) field.serverID = projectUIdata.serverID;
+
+    console.log("field = ", field);
+
+    updateProject({
       variables: {
-        fields: {
-          _id: currentUser?._id,
-          memberRole: selectedRoleId,
-          bio: bio,
-          hoursPerWeek: hoursPerWeek,
-          timeZone: timezone,
-          serverID: [],
-          links: [
-            {
-              name: "twitter",
-              url: twitterHandle ? `https://twitter.com/${twitterHandle}` : "",
-            },
-            {
-              name: "github",
-              url: githubHandle ? `https://github.com/${githubHandle}` : "",
-            },
-            {
-              name: "telegram",
-              url: telegramHandle,
-            },
-            {
-              name: "lens",
-              url: lensHandle ? `https://www.lensfrens.xyz/${lensHandle}` : "",
-            },
-          ],
-        },
+        fields: { ...field },
       },
     });
   };
@@ -175,7 +85,7 @@ export const CreateProjectTempContainer = ({
             disabled={submitting}
             onClick={() => handleSave()}
           >
-            Create
+            Update Project
           </Button>
         </section>
         <section className="lg:grid lg:grid-cols-2 lg:gap-8">
@@ -186,15 +96,29 @@ export const CreateProjectTempContainer = ({
                 <TextField
                   name="textfield"
                   type="text"
-                  value={titleProject.toString()}
-                  onChange={(e) => setTitleProject(e.target.value)}
+                  // value={titleProject.toString()}
+                  // onChange={(e) => setTitleProject(e.target.value)}
+                  value={projectUIdata?.title}
+                  onChange={(e) =>
+                    setProjectUIdata({
+                      ...projectUIdata,
+                      title: e.target.value,
+                    })
+                  }
                 />
               </div>
               <br />
               <TextBody>Bio:</TextBody>
               <TextArea
-                value={currentUser?.bio!}
-                onChange={(e) => setBio(e.target.value)}
+                // value={currentUser?.bio!}
+                // onChange={(e) => setBio(e.target.value)}
+                value={projectUIdata?.description}
+                onChange={(e) =>
+                  setProjectUIdata({
+                    ...projectUIdata,
+                    description: e.target.value,
+                  })
+                }
               />
             </div>
 
@@ -203,8 +127,13 @@ export const CreateProjectTempContainer = ({
               <TextField
                 name="textfield"
                 type="text"
-                value={serverID.toString()}
-                onChange={(e) => setServerID(e.target.value)}
+                value={projectUIdata?.serverID.toString()}
+                onChange={(e) =>
+                  setProjectUIdata({
+                    ...projectUIdata,
+                    serverID: e.target.value,
+                  })
+                }
               />
             </div>
             <br />
@@ -216,8 +145,14 @@ export const CreateProjectTempContainer = ({
               <div className="p-3">
                 <EmojiSelector
                   size={80}
-                  emoji={emoji}
-                  onSelection={(value) => setEmoji(value)}
+                  emoji={projectUIdata?.emoji}
+                  // onSelection={(value) => setEmoji(value)}
+                  onSelection={(value) =>
+                    setProjectUIdata({
+                      ...projectUIdata,
+                      emoji: value,
+                    })
+                  }
                 />
               </div>
               <br />
@@ -226,8 +161,15 @@ export const CreateProjectTempContainer = ({
                 <TextField
                   name="textfield"
                   type="text"
-                  value={projectID.toString()}
-                  onChange={(e) => setProjectID(e.target.value)}
+                  // value={projectID.toString()}
+                  // onChange={(e) => setProjectID(e.target.value)}
+                  value={projectUIdata?._id}
+                  onChange={(e) =>
+                    setProjectUIdata({
+                      ...projectUIdata,
+                      _id: e.target.value,
+                    })
+                  }
                 />
               </div>
               <br />
@@ -236,65 +178,88 @@ export const CreateProjectTempContainer = ({
                 variant="primary"
                 className={``}
                 disabled={submitting}
-                // onClick={() => refetchProject()}
                 onClick={() => {
                   console.log("change = -------0-000");
-                  refetchProject();
+                  onFetchProject();
                   console.log("projectID = ", projectID);
                   console.log("dataProject = ", dataProject);
                 }}
               >
                 Find Project
               </Button>
-
-              {/* <SkillVisualisationComp
-                skills={
-                  currentUser?.skills?.map((skill) => {
-                    return {
-                      skillData: {
-                        _id: skill?.skillInfo?._id,
-                        name: skill?.skillInfo?.name,
-                      },
-                      level: skill?.level,
-                    };
-                  }) as SkillRoleType[]
-                }
-              /> */}
             </div>
-            {/* <div>
-              <TextBody>Social Links</TextBody>
-              <TextLabel>Please make sure all links are up to date</TextLabel>
-              <SocialMediaInput
-                platform="twitter"
-                placeholder={`Twitter Handle`}
-                value={twitterHandle}
-                onChange={(e) => setTwitterHandle(e.target.value)}
-                shape="rounded"
-              />
-              <SocialMediaInput
-                platform="github"
-                placeholder={`Github Handle`}
-                value={githubHandle}
-                onChange={(e) => setGithubHandle(e.target.value)}
-                shape="rounded"
-              />
-              <SocialMediaInput
-                platform="telegram"
-                placeholder={`Telegram Handle`}
-                value={telegramHandle}
-                onChange={(e) => setTelegramHandle(e.target.value)}
-                shape="rounded"
-              />
-              <SocialMediaInput
-                platform="lens"
-                placeholder={`Lens Handle`}
-                value={lensHandle}
-                onChange={(e) => setLensHandle(e.target.value)}
-                shape="rounded"
-              />
-            </div> */}
           </div>
         </section>
+
+        <div className={`scrollbar-hide flex flex-grow overflow-y-scroll`}>
+          <div
+            className={`grid grow grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-3`}
+          >
+            {dataProject?.findProject?.role?.length > 0 ? (
+              <>
+                {dataProject?.findProject?.role?.map(
+                  (role: any, index: any) => {
+                    let roleSkills: any = {};
+
+                    roleSkills.title = role.title;
+
+                    if (selectedRole == index) {
+                      roleSkills.skills = [
+                        {
+                          skillData: {
+                            _id: "637ad5a6f0f9c427e03a03a8",
+                            name: "Selected",
+                          },
+                        },
+                      ];
+                    }
+                    // console.log("roleSkills = ", roleSkills);
+                    return (
+                      <OpenPositionCard
+                        key={index}
+                        role={roleSkills}
+                        percentage={23}
+                        onApply={(val) => {
+                          console.log("apply = ");
+                          setSelectedRole(index);
+                        }}
+                      />
+                    );
+                  }
+                )}
+
+                <Card shadow border>
+                  <TextBody>New Role Title:</TextBody>
+                  <div className={`flex justify-center space-x-4`}>
+                    <TextField
+                      name="textfield"
+                      type="text"
+                      value={newRoleTitle}
+                      onChange={(e) => setNewRoleTitle(e.target.value)}
+                    />
+                  </div>
+                  <br />
+
+                  <Button
+                    variant="tertiary"
+                    className={``}
+                    disabled={submitting}
+                    onClick={() => {
+                      console.log("change = -------0-000");
+                      onFetchProject();
+                      console.log("projectID = ", projectID);
+                      console.log("dataProject = ", dataProject);
+                    }}
+                  >
+                    Find Project
+                  </Button>
+                </Card>
+              </>
+            ) : (
+              true
+            )}
+          </div>
+        </div>
       </Card>
     </>
   );
