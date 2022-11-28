@@ -8,7 +8,6 @@ import {
   Badge,
   Button,
   Card,
-  Favorite,
   LongText,
   SocialMediaComp,
   TextHeading3,
@@ -28,23 +27,15 @@ export interface IUserDiscoverCardProps {
 
 export const UserDiscoverCard = ({ matchMember }: IUserDiscoverCardProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isFavorite, setIsFavorite] = useState(false);
   const member = matchMember?.member;
   const matchPercentage = matchMember?.matchPercentage;
 
-  console.log("member", member);
-  console.log("matchPercentage", matchPercentage);
   if (!member) return null;
 
   return (
     <Card border>
       <div className={`flex justify-between`}>
-        <div>
-          <Favorite
-            favorite={isFavorite}
-            onFavorite={() => setIsFavorite((favorite) => !favorite)}
-          />
-        </div>
+        <div></div>
         <div>
           <div className={`relative flex flex-col items-center`}>
             <div className="relative">
