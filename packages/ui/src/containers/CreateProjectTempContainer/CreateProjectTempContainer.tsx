@@ -1,19 +1,41 @@
-import { useMutation } from "@apollo/client";
+import { gql, useMutation } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
 import { UPDATE_PROJECT } from "@eden/package-graphql";
 import { Maybe, Mutation, RoleTemplate } from "@eden/package-graphql/generated";
 import {
   Button,
   Card,
-  Loading,
   EmojiSelector,
-  TextArea,
+  Loading,
   OpenPositionCard,
+  TextArea,
   TextBody,
   TextField,
   TextHeading3,
 } from "@eden/package-ui";
 import { useContext, useState } from "react";
+
+export const ADD_PROJECT_ROLE = gql`
+  mutation ($fields: addProjectRoleInput!) {
+    addProjectRole(fields: $fields) {
+      _id
+      title
+      description
+      serverID
+      role {
+        _id
+        title
+        nodes {
+          nodeData {
+            name
+            _id
+            node
+          }
+        }
+      }
+    }
+  }
+`;
 
 export interface ICreateProjectTempContainerProps {
   roles?: Maybe<Array<Maybe<RoleTemplate>>>;
@@ -27,8 +49,6 @@ export interface ICreateProjectTempContainerProps {
 }
 
 export const CreateProjectTempContainer = ({
-  roles,
-  projectData,
   projectUIdata,
   dataProject,
   selectedRole,
@@ -39,7 +59,7 @@ export const CreateProjectTempContainer = ({
   const { currentUser } = useContext(UserContext);
   const [submitting, setSubmitting] = useState(false);
 
-  const [projectID, setProjectID] = useState<string>("");
+  // const [projectID, setProjectID] = useState<string>("");
 
   const [newRoleTitle, setNewRoleTitle] = useState<string>("");
 
@@ -55,7 +75,7 @@ export const CreateProjectTempContainer = ({
     if (!currentUser) return;
     setSubmitting(true);
 
-    let field: any = {};
+    const field: any = {};
 
     if (projectUIdata?._id) field._id = projectUIdata._id;
     if (projectUIdata?.title) field.title = projectUIdata.title;
@@ -72,13 +92,22 @@ export const CreateProjectTempContainer = ({
     });
   };
 
+  const [addProjectRole] = useMutation(ADD_PROJECT_ROLE, {
+    onCompleted({ addProjectRole }: Mutation) {
+      if (!addProjectRole) console.log("addProjectRole is null");
+      // console.log("updateMember", addProjectRole);
+      // setSubmitting(false);
+      // refetchProject();
+    },
+  });
+
   if (submitting) return <Loading title="Saving..." />;
 
   return (
     <>
       <Card className="mb-8 bg-white p-6">
         <section className="mb-6 flex justify-between">
-          <TextHeading3>Create New Project:</TextHeading3>
+          <TextHeading3>Create New Project: 2</TextHeading3>
           <Button
             variant="primary"
             className={``}
@@ -161,8 +190,6 @@ export const CreateProjectTempContainer = ({
                 <TextField
                   name="textfield"
                   type="text"
-                  // value={projectID.toString()}
-                  // onChange={(e) => setProjectID(e.target.value)}
                   value={projectUIdata?._id}
                   onChange={(e) =>
                     setProjectUIdata({
@@ -181,7 +208,6 @@ export const CreateProjectTempContainer = ({
                 onClick={() => {
                   console.log("change = -------0-000");
                   onFetchProject();
-                  console.log("projectID = ", projectID);
                   console.log("dataProject = ", dataProject);
                 }}
               >
@@ -199,7 +225,7 @@ export const CreateProjectTempContainer = ({
               <>
                 {dataProject?.findProject?.role?.map(
                   (role: any, index: any) => {
-                    let roleSkills: any = {};
+                    const roleSkills: any = {};
 
                     roleSkills.title = role.title;
 
@@ -219,7 +245,7 @@ export const CreateProjectTempContainer = ({
                         key={index}
                         role={roleSkills}
                         percentage={23}
-                        onApply={(val) => {
+                        onApply={() => {
                           console.log("apply = ");
                           setSelectedRole(index);
                         }}
@@ -245,13 +271,21 @@ export const CreateProjectTempContainer = ({
                     className={``}
                     disabled={submitting}
                     onClick={() => {
-                      console.log("change = -------0-000");
-                      onFetchProject();
-                      console.log("projectID = ", projectID);
-                      console.log("dataProject = ", dataProject);
+                      // console.log("change = -------0-000");
+                      // onFetchProject();
+                      // console.log("dataProject = ", dataProject);
+
+                      addProjectRole({
+                        variables: {
+                          fields: {
+                            projectID: projectUIdata?._id,
+                            title: newRoleTitle,
+                          },
+                        },
+                      });
                     }}
                   >
-                    Find Project
+                    Create New Role
                   </Button>
                 </Card>
               </>

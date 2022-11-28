@@ -124,6 +124,8 @@ const ProfilePage: NextPageWithLayout = () => {
   const [selectedRole, setSelectedRole] = useState(-1);
 
   // console.log("dataProject = ", dataProject);
+  console.log("dataProject?.findProject? = ", dataProject?.findProject);
+  console.log("selectedRole = ", selectedRole);
 
   return (
     <>
