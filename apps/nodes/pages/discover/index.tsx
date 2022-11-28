@@ -30,6 +30,8 @@ export const MATCH_NODES_MEMBERS = gql`
         discordAvatar
         discriminator
         bio
+        hoursPerWeek
+        timeZone
         endorsements {
           arweaveTransactionID
           endorsementMessage
