@@ -1,6 +1,5 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
-import { UserContext } from "@eden/package-context";
-import { FIND_ROLE_TEMPLATES } from "@eden/package-graphql";
+import { FIND_PROJECT, FIND_ROLE_TEMPLATES } from "@eden/package-graphql";
 import { Mutation } from "@eden/package-graphql/generated";
 import {
   AppUserSubmenuLayout,
@@ -11,30 +10,26 @@ import {
   SelectNodesModal,
   SEO,
 } from "@eden/package-ui";
-import { useContext, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaUserEdit } from "react-icons/fa";
 
-export const ADD_NODES = gql`
-  mutation ($fields: addNodesToMemberInput!) {
-    addNodesToMember(fields: $fields) {
+import type { NextPageWithLayout } from "../_app";
+
+export const ADD_NODES_PROJECT_ROLE = gql`
+  mutation ($fields: addNodesToProjectRoleInput!) {
+    addNodesToProjectRole(fields: $fields) {
       _id
     }
   }
 `;
 
-import type { NextPageWithLayout } from "../_app";
-
 const ProfilePage: NextPageWithLayout = () => {
-  const { currentUser } = useContext(UserContext);
-
   const { data: dataRoles } = useQuery(FIND_ROLE_TEMPLATES, {
     variables: {
       fields: {},
     },
     context: { serviceName: "soilservice" },
   });
-
-  // console.log("currentUser = " , currentUser)
 
   const [activeIndex, setActiveIndex] = useState(0);
   const submenu = [
@@ -50,26 +45,85 @@ const ProfilePage: NextPageWithLayout = () => {
   const [openModalTypeProject, setopenModalTypeProject] = useState(false);
 
   // eslint-disable-next-line no-unused-vars
-  const [addNodes] = useMutation(ADD_NODES, {
-    onCompleted({ addNodesToMember }: Mutation) {
-      if (!addNodesToMember) console.log("addNodesToMember is null");
-      // console.log("updateMember", addNodesToMember);
+  const [addNodesProjectRole] = useMutation(ADD_NODES_PROJECT_ROLE, {
+    onCompleted({ addNodesToProjectRole }: Mutation) {
+      if (!addNodesToProjectRole) console.log("addNodesToProjectRole is null");
+      // console.log("updateMember", addNodesToProjectRole);
       // setSubmitting(false);
+      refetchProject();
     },
   });
 
   const handleSaveNodes = (nodes: string[]) => {
     console.log("nodes", nodes);
-    if (!currentUser) return;
-    // addNodes({
-    //   variables: {
-    //     fields: {
-    //       memberID: currentUser._id,
-    //       nodesID: nodes,
-    //     },
-    //   },
-    // });
+    console.log(
+      "asdfasdf = ",
+      dataProject?.findProject?.role[selectedRole]?._id
+    );
+    if (!dataProject) return;
+
+    addNodesProjectRole({
+      variables: {
+        fields: {
+          projectRoleID: dataProject?.findProject?.role[selectedRole]?._id,
+          nodesID: nodes,
+        },
+      },
+    });
   };
+
+  const [projectUIdata, setProjectUIdata] = useState<any>({
+    _id: "",
+    title: "",
+    description: "",
+    emoji: "",
+    serverID: "",
+  });
+
+  const { data: dataProject, refetch: refetchProject } = useQuery(
+    FIND_PROJECT,
+    {
+      variables: {
+        fields: {
+          _id: projectUIdata?._id,
+        },
+      },
+      skip: !projectUIdata?._id,
+      context: { serviceName: "soilservice" },
+    }
+  );
+
+  useEffect(() => {
+    if (dataProject) {
+      const field: any = {};
+
+      console.log("dataProject.findProject = ", dataProject?.findProject);
+
+      if (dataProject.findProject?.description)
+        field.description = dataProject.findProject?.description;
+
+      if (dataProject.findProject?.emoji)
+        field.emoji = dataProject.findProject?.emoji;
+
+      if (dataProject.findProject?.serverID)
+        field.serverID = dataProject.findProject?.serverID[0];
+
+      if (dataProject.findProject?.title)
+        field.title = dataProject.findProject?.title;
+
+      if (dataProject.findProject?._id)
+        field._id = dataProject.findProject?._id;
+
+      setProjectUIdata({
+        ...projectUIdata,
+        ...field,
+      });
+    }
+  }, [dataProject]);
+
+  const [selectedRole, setSelectedRole] = useState(-1);
+
+  // console.log("dataProject = ", dataProject);
 
   return (
     <>
@@ -81,61 +135,75 @@ const ProfilePage: NextPageWithLayout = () => {
         >
           {activeIndex === 0 && (
             <>
-              <Card shadow className={`mb-4 p-6`}>
-                <div className={`flex justify-between`}>
-                  <div>
-                    <Button
-                      onClick={() => setopenModalExpertise(!openModalExpertise)}
-                    >
-                      Select Skills
-                    </Button>
+              {selectedRole > -1 ? (
+                <Card shadow className={`mb-4 p-6`}>
+                  <div className={`flex justify-between`}>
+                    <div>
+                      <Button
+                        onClick={() =>
+                          setopenModalExpertise(!openModalExpertise)
+                        }
+                      >
+                        Select Skills
+                      </Button>
+                    </div>
+                    <div>
+                      {dataProject?.findProject?.role[selectedRole]?.nodes?.map(
+                        (item: any, index: any) => {
+                          if (item?.nodeData?.node == "sub_expertise") {
+                            return (
+                              <Badge
+                                key={index}
+                                text={item?.nodeData?.name || ""}
+                                colorRGB={`209,247,196`}
+                                className={`font-Inter text-sm`}
+                                cutText={16}
+                              />
+                            );
+                          }
+                        }
+                      )}
+                    </div>
                   </div>
-                  <div>
-                    {currentUser?.nodes?.map((item, index) => {
-                      if (item?.nodeData?.node == "sub_expertise") {
-                        return (
-                          <Badge
-                            key={index}
-                            text={item?.nodeData?.name || ""}
-                            colorRGB={`209,247,196`}
-                            className={`font-Inter text-sm`}
-                            cutText={16}
-                          />
-                        );
-                      }
-                    })}
-                  </div>
-                </div>
-              </Card>
+                </Card>
+              ) : (
+                true
+              )}
 
-              <Card shadow className={`mb-4 p-6`}>
-                <div className={`flex justify-between`}>
-                  <div>
-                    <Button
-                      onClick={() =>
-                        setopenModalTypeProject(!openModalTypeProject)
-                      }
-                    >
-                      Select Type Project
-                    </Button>
+              {selectedRole > -1 ? (
+                <Card shadow className={`mb-4 p-6`}>
+                  <div className={`flex justify-between`}>
+                    <div>
+                      <Button
+                        onClick={() =>
+                          setopenModalTypeProject(!openModalTypeProject)
+                        }
+                      >
+                        Select Type Project
+                      </Button>
+                    </div>
+                    <div>
+                      {dataProject?.findProject?.role[selectedRole]?.nodes?.map(
+                        (item: any, index: any) => {
+                          if (item?.nodeData?.node == "sub_typeProject") {
+                            return (
+                              <Badge
+                                key={index}
+                                text={item?.nodeData?.name || ""}
+                                colorRGB={`209,147,296`}
+                                className={`font-Inter text-sm`}
+                                cutText={16}
+                              />
+                            );
+                          }
+                        }
+                      )}
+                    </div>
                   </div>
-                  <div>
-                    {currentUser?.nodes?.map((item, index) => {
-                      if (item?.nodeData?.node == "sub_typeProject") {
-                        return (
-                          <Badge
-                            key={index}
-                            text={item?.nodeData?.name || ""}
-                            colorRGB={`209,147,296`}
-                            className={`font-Inter text-sm`}
-                            cutText={16}
-                          />
-                        );
-                      }
-                    })}
-                  </div>
-                </div>
-              </Card>
+                </Card>
+              ) : (
+                true
+              )}
 
               <SelectNodesModal
                 title="Add your Expertise"
@@ -144,6 +212,7 @@ const ProfilePage: NextPageWithLayout = () => {
                   setopenModalExpertise(false);
                 }}
                 onSubmit={(val: any) => {
+                  console.log("change = ");
                   handleSaveNodes(val);
                   setopenModalExpertise(false);
                 }}
@@ -165,6 +234,19 @@ const ProfilePage: NextPageWithLayout = () => {
 
               <CreateProjectTempContainer
                 roles={dataRoles?.findRoleTemplates}
+                projectData="test"
+                dataProject={dataProject}
+                projectUIdata={projectUIdata}
+                selectedRole={selectedRole}
+                setProjectUIdata={(val: any) => {
+                  setProjectUIdata(val);
+                }}
+                onFetchProject={() => {
+                  refetchProject();
+                }}
+                setSelectedRole={(val: any) => {
+                  setSelectedRole(val);
+                }}
               />
             </>
           )}
