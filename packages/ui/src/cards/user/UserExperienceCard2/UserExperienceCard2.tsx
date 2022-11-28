@@ -61,7 +61,7 @@ export const UserExperienceCard2 = ({
   };
 
   useEffect(() => {
-    handleChange!(experiences);
+    if (handleChange) handleChange(experiences);
   }, [experiences]);
 
   return (
@@ -119,7 +119,7 @@ const ExperienceForm = ({
   });
 
   useEffect(() => {
-    handleChange!(val);
+    if (handleChange) handleChange(val);
   }, [val]);
 
   return (
