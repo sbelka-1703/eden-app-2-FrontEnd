@@ -51,6 +51,13 @@ export const MATCH_NODES_MEMBERS = gql`
             node
           }
         }
+        links {
+          name
+          url
+        }
+      }
+      matchPercentage {
+        totalPercentage
       }
     }
   }
@@ -105,7 +112,7 @@ const DiscoverPage: NextPageWithLayout = () => {
             <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
               {dataMembers?.matchNodesToMembers?.map(
                 (member: MatchMembersToSkillOutput, index: number) => (
-                  <UserDiscoverCard key={index} member={member?.member} />
+                  <UserDiscoverCard key={index} matchMember={member} />
                 )
               )}
             </div>

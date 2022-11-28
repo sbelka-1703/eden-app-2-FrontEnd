@@ -11,6 +11,7 @@ export const getMatchPercentage = () => ({
   skillTotalPercentage: randomPercentage(),
   hoursPercentage: randomPercentage(),
   budgetPercentage: randomPercentage(),
+  realTotalPercentage: randomPercentage(),
 });
 
 export const matchSkillsToMembers = () => ({
