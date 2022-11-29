@@ -65,6 +65,7 @@ export const SignUpContainer = ({}: SignUpContainerProps) => {
         fields: {
           // serverID: "alpha-test", // don't need this anymore
           _id: currentUser?._id,
+          serverID: currentUser?.serverID,
           bio: profileBio,
           content: {
             mostProud: contentMostProud,

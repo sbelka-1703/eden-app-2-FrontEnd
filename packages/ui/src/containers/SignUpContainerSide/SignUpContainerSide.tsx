@@ -52,6 +52,7 @@ export const SignUpContainerSide = ({
       variables: {
         fields: {
           _id: currentUser?._id,
+          serverID: currentUser?.serverID,
           skills: currentUser.skills
             ?.filter(
               (skill: Maybe<SkillType_Member>) =>
@@ -142,6 +143,7 @@ export const SignUpContainerSide = ({
                     variables: {
                       fields: {
                         _id: currentUser?._id,
+                        serverID: currentUser?.serverID,
                         skills: val.map((skill: Maybe<SkillRoleType>) => {
                           return {
                             id: skill?.skillData?._id,
@@ -157,6 +159,7 @@ export const SignUpContainerSide = ({
                     variables: {
                       fields: {
                         _id: currentUser?._id,
+                        serverID: currentUser?.serverID,
                         hoursPerWeek: Number(val.target.value),
                       },
                     },

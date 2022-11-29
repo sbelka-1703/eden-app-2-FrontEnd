@@ -7,4 +7,5 @@ describe("HackathonModalContainer", () => {
 
     expect(container).toBeInTheDocument();
   });
+  // it("displays text relavant to hackathon", () => {});
 });

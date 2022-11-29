@@ -1,6 +1,6 @@
 import { DiscoverContext, DiscoverModal } from "@eden/package-context";
 import {
-  FindTalentDropdownModal,
+  DiscoverTalentDropdownModal,
   PrioritizeModal,
   ProjectsMatchesModal,
   RequirementsModal,
@@ -8,70 +8,32 @@ import {
 } from "@eden/package-ui";
 import { useContext, useEffect, useState } from "react";
 
-// @TODO mock data to be removed
-
 const rangeNumbers: number[] = [];
 
 for (let i = 0; i < 500; i++) {
   rangeNumbers.push(Math.floor(Math.random() * 80) + 1);
 }
 
-// -----------------
-
 export interface IDiscoverModalContainerProps {
   // eslint-disable-next-line no-unused-vars
-  setSubmittingTalentAttributes?: (val: any) => void;
-  mockData?: any;
-  matchType?: string;
+  setArrayOfNodes?: (val: string[]) => void;
 }
 
 export const DiscoverModalContainer = ({
-  setSubmittingTalentAttributes,
-  mockData,
-  matchType,
+  setArrayOfNodes,
 }: IDiscoverModalContainerProps) => {
-  const {
-    project,
-    openModal,
-    setOpenModal,
-    // submitting,
-    // setSubmitting,
-  } = useContext(DiscoverContext);
+  const { project, openModal, setOpenModal } = useContext(DiscoverContext);
 
-  const [talentAttributes, setTalentAttributes] = useState({
-    main: [] as any[],
-    second: [] as any[],
-    third: [] as any[],
-  });
   const [nextStep, setNextStep] = useState<any>(null);
+  const [nodeIdArray, setNodeIdArray] = useState<string[]>([]);
 
   useEffect(() => {
-    if (talentAttributes) console.log("talentAttributes", talentAttributes);
-  }, [talentAttributes]);
+    if (nodeIdArray) {
+      setArrayOfNodes?.(nodeIdArray);
+    }
+  }, [nodeIdArray]);
 
-  const mockDataMap1 = {
-    SkillTree: {
-      subCategories: {
-        title: mockData?.SkillTree?.category?.title,
-        subTitle: mockData?.SkillTree?.category?.subTitle,
-      },
-    },
-  };
-
-  if (mockData?.SkillTree) {
-    Object.keys(mockData?.SkillTree).forEach((key) => {
-      if (key !== "category")
-        mockDataMap1.SkillTree = {
-          ...mockDataMap1.SkillTree,
-          [key as keyof Object]: {
-            content:
-              mockData.SkillTree[key as keyof Object]?.subCategories?.content,
-          },
-        };
-    });
-  }
-
-  console.log("openModal", openModal);
+  const matchType = `People`;
 
   return (
     <>
@@ -83,7 +45,6 @@ export const DiscoverModalContainer = ({
           percentage={50}
         />
       )}
-      {/* keep */}
 
       {openModal === DiscoverModal.START_INFO && (
         <ProjectsMatchesModal
@@ -99,60 +60,51 @@ export const DiscoverModalContainer = ({
         />
       )}
 
-      {/* keep */}
       {openModal === DiscoverModal.SKILLS_CATEGORY && (
-        <FindTalentDropdownModal
+        <DiscoverTalentDropdownModal
           openModal={openModal === DiscoverModal.SKILLS_CATEGORY}
           onClose={() => {
             setOpenModal(DiscoverModal.SKIP_ALERT);
             setNextStep(DiscoverModal.PRIORITIZE);
           }}
           // eslint-disable-next-line no-unused-vars
-          onSubmit={(val: any) => {
-            const main = Object.keys(val)
-              .filter((key) => val[key].length)
-              .flat()[0];
-
-            setTalentAttributes({
-              ...talentAttributes,
-              main: [{ name: main }],
-            });
-            if (main)
-              setSubmittingTalentAttributes!({
-                main: [{ name: main }],
-              });
-
+          onSubmit={(val: string[]) => {
+            console.log("val", val);
+            if (val) {
+              if (setNodeIdArray) setNodeIdArray([...nodeIdArray, ...val]);
+            }
             setOpenModal(DiscoverModal.SKILLS_SUBCATEGORY);
           }}
-          mockData={mockDataMap1.SkillTree}
-          // onClose={() => setOpenModal(null)}
+          title={`Who are you looking for?`}
+          subTitle={`Select what you want them to help you with.`}
+          nodeType={`expertise`}
+          matchType={matchType}
         />
       )}
 
-      {/* keep */}
-
       {openModal === DiscoverModal.SKILLS_SUBCATEGORY && (
-        <FindTalentDropdownModal
+        <DiscoverTalentDropdownModal
           openModal={openModal === DiscoverModal.SKILLS_SUBCATEGORY}
           onClose={() => {
             setOpenModal(DiscoverModal.SKIP_ALERT);
             setNextStep(DiscoverModal.PRIORITIZE);
           }}
           // eslint-disable-next-line no-unused-vars
-          onSubmit={(val: any) => {
-            const third = Object.keys(val)
-              .map((key) => val[key])
-              .flat();
+          onSubmit={(val: string[] | null) => {
+            console.log("val", val);
+            if (val) {
+              if (setNodeIdArray) setNodeIdArray([...nodeIdArray, ...val]);
+            }
 
-            setTalentAttributes({ ...talentAttributes, third: third });
-            // setSubmittingTalentAttributes!(val);
+            // if (setArrayOfNodes) setArrayOfNodes(val);
             setOpenModal(DiscoverModal.PRIORITIZE);
           }}
-          mockData={mockData.SkillTree[talentAttributes?.main[0]?.name]}
-          // onClose={() => setOpenModal(null)}
+          title={`Who are you looking for?`}
+          subTitle={`Select what you want them to help you with.`}
+          nodeType={`typeProject`}
+          matchType={matchType}
         />
       )}
-      {/* keep */}
 
       {openModal === DiscoverModal.PRIORITIZE && (
         <PrioritizeModal
@@ -170,7 +122,6 @@ export const DiscoverModalContainer = ({
           numMatches={38}
         />
       )}
-      {/* keep */}
 
       {openModal === DiscoverModal.REQUIREMENTS && (
         <RequirementsModal

@@ -13,6 +13,7 @@ export const SwitchButton = ({
   onChange,
   value,
 }: SwitchButtonProps) => {
+  console.log(value, "value in switch");
   return (
     <div className="flex flex-row content-center items-center">
       <div className="text-start text-lg tracking-wide">{label}</div>

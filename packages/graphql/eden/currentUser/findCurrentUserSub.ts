@@ -28,6 +28,13 @@ export const FIND_CURRENTUSER_SUB = gql`
       hoursPerWeek
       interest
       timeZone
+      nodes {
+        nodeData {
+          _id
+          name
+          node
+        }
+      }
       projects {
         champion
         phase

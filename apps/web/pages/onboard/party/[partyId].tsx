@@ -159,6 +159,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
       variables: {
         fields: {
           _id: currentUser?._id,
+          serverID: currentUser?.serverID,
           bio: currentUser?.bio,
           skills: skills.map((skill: SkillType_Member) => {
             return {
@@ -177,6 +178,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
       variables: {
         fields: {
           _id: currentUser?._id,
+          serverID: currentUser?.serverID,
           skills: currentUser.skills
             ?.filter(
               (skill: Maybe<SkillType_Member>) =>
@@ -209,6 +211,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
       variables: {
         fields: {
           _id: currentUser?._id,
+          serverID: currentUser?.serverID,
           skills: currentUser?.skills?.map((skill: SkillType_Member | null) => {
             return {
               id: skill?.skillInfo?._id,

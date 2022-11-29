@@ -63,6 +63,26 @@ export type ErrorLog = {
   user?: Maybe<User>;
 };
 
+export type GrantTemplate = {
+  __typename?: 'GrantTemplate';
+  _id?: Maybe<Scalars['ID']>;
+  amount?: Maybe<Scalars['String']>;
+  applicationProcess?: Maybe<Array<Maybe<Scalars['String']>>>;
+  avatar?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  difficulty?: Maybe<Scalars['String']>;
+  distributed?: Maybe<Scalars['Int']>;
+  maxDistributed?: Maybe<Scalars['Int']>;
+  membersApplied?: Maybe<Array<Maybe<Members>>>;
+  name?: Maybe<Scalars['String']>;
+  nodes?: Maybe<Array<Maybe<NodesType>>>;
+  requirments?: Maybe<Array<Maybe<Scalars['String']>>>;
+  resources?: Maybe<Array<Maybe<ResourcesType>>>;
+  serverID?: Maybe<Array<Maybe<Scalars['String']>>>;
+  smallDescription?: Maybe<Scalars['String']>;
+  tags?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
 export type MatchPercentage = {
   __typename?: 'MatchPercentage';
   budgetPercentage?: Maybe<Scalars['Float']>;
@@ -126,9 +146,12 @@ export type Mutation = {
   addFavoriteProject?: Maybe<Members>;
   addNewChat?: Maybe<Chats>;
   addNewMember?: Maybe<Members>;
+  addNodesToGrant?: Maybe<GrantTemplate>;
   addNodesToMember?: Maybe<Members>;
   addNodesToProjectRole?: Maybe<Project>;
+  addProjectRole?: Maybe<Project>;
   addSkillToMember?: Maybe<Members>;
+  applyGrant?: Maybe<GrantTemplate>;
   approveOrRejectSkill?: Maybe<Skills>;
   approveTweet?: Maybe<Project>;
   changeTeamMember_Phase_Project?: Maybe<Project>;
@@ -154,6 +177,7 @@ export type Mutation = {
   relatedSkills?: Maybe<Skills>;
   updateChatReply?: Maybe<Chats>;
   updateChatResult?: Maybe<Chats>;
+  updateGrant?: Maybe<GrantTemplate>;
   updateMember?: Maybe<Members>;
   updateMemberInRoom?: Maybe<Members>;
   updateProject?: Maybe<Project>;
@@ -184,6 +208,11 @@ export type MutationAddNewMemberArgs = {
 };
 
 
+export type MutationAddNodesToGrantArgs = {
+  fields?: InputMaybe<AddNodesToGrantInput>;
+};
+
+
 export type MutationAddNodesToMemberArgs = {
   fields: AddNodesToMemberInput;
 };
@@ -194,8 +223,18 @@ export type MutationAddNodesToProjectRoleArgs = {
 };
 
 
+export type MutationAddProjectRoleArgs = {
+  fields: AddProjectRoleInput;
+};
+
+
 export type MutationAddSkillToMemberArgs = {
   fields: AddSkillToMember_Input;
+};
+
+
+export type MutationApplyGrantArgs = {
+  fields?: InputMaybe<ApplyGrantInput>;
 };
 
 
@@ -324,6 +363,11 @@ export type MutationUpdateChatResultArgs = {
 };
 
 
+export type MutationUpdateGrantArgs = {
+  fields?: InputMaybe<UpdateGrantInput>;
+};
+
+
 export type MutationUpdateMemberArgs = {
   fields: UpdateMemberInput;
 };
@@ -440,6 +484,7 @@ export type Query = {
   findChat?: Maybe<Chats>;
   findEpic?: Maybe<Array<Maybe<Epic>>>;
   findGarden?: Maybe<Array<Maybe<FindGardenOutput>>>;
+  findGrants?: Maybe<Array<Maybe<GrantTemplate>>>;
   findMember?: Maybe<Members>;
   findMembers?: Maybe<Array<Maybe<Members>>>;
   findNode?: Maybe<Node>;
@@ -503,6 +548,11 @@ export type QueryFindEpicArgs = {
 
 export type QueryFindGardenArgs = {
   fields?: InputMaybe<FindGardenInput>;
+};
+
+
+export type QueryFindGrantsArgs = {
+  fields?: InputMaybe<FindGrantsInput>;
 };
 
 
@@ -886,6 +936,11 @@ export type AddNewMemberInput = {
   serverID?: InputMaybe<Scalars['String']>;
 };
 
+export type AddNodesToGrantInput = {
+  grantID?: InputMaybe<Scalars['ID']>;
+  nodesID?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
 export type AddNodesToMemberInput = {
   memberID?: InputMaybe<Scalars['ID']>;
   nodesID?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -896,11 +951,22 @@ export type AddNodesToProjectRoleInput = {
   projectRoleID?: InputMaybe<Scalars['ID']>;
 };
 
+export type AddProjectRoleInput = {
+  description?: InputMaybe<Scalars['String']>;
+  projectID?: InputMaybe<Scalars['ID']>;
+  title?: InputMaybe<Scalars['String']>;
+};
+
 export type AddSkillToMember_Input = {
   authorID?: InputMaybe<Scalars['ID']>;
   memberID?: InputMaybe<Scalars['ID']>;
   serverID?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   skillID?: InputMaybe<Scalars['ID']>;
+};
+
+export type ApplyGrantInput = {
+  grantID?: InputMaybe<Scalars['ID']>;
+  memberID?: InputMaybe<Scalars['ID']>;
 };
 
 export type ApproveOrRejectSkillInput = {
@@ -1190,6 +1256,10 @@ export type FindGardenOutput = {
   _id?: Maybe<Scalars['ID']>;
   project?: Maybe<Project>;
   team?: Maybe<Array<Maybe<TeamsType_Garden>>>;
+};
+
+export type FindGrantsInput = {
+  _id?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
 };
 
 export type FindMemberInput = {
@@ -1596,6 +1666,17 @@ export type ReplyType = {
   sender?: Maybe<Scalars['Boolean']>;
 };
 
+export type ResourcesInput = {
+  name?: InputMaybe<Scalars['String']>;
+  url?: InputMaybe<Scalars['String']>;
+};
+
+export type ResourcesType = {
+  __typename?: 'resourcesType';
+  name?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+};
+
 export enum ResultEnum {
   Successful = 'successful',
   Unsuccesful = 'unsuccesful'
@@ -1751,6 +1832,23 @@ export type UpdateChatResultInput = {
   _id?: InputMaybe<Scalars['ID']>;
   result?: InputMaybe<ResultEnum>;
   threadID?: InputMaybe<Scalars['ID']>;
+};
+
+export type UpdateGrantInput = {
+  _id?: InputMaybe<Scalars['ID']>;
+  amount?: InputMaybe<Scalars['String']>;
+  applicationProcess?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  avatar?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
+  difficulty?: InputMaybe<Scalars['String']>;
+  distributed?: InputMaybe<Scalars['Int']>;
+  maxDistributed?: InputMaybe<Scalars['Int']>;
+  name?: InputMaybe<Scalars['String']>;
+  requirments?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  resources?: InputMaybe<Array<InputMaybe<ResourcesInput>>>;
+  serverID?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  smallDescription?: InputMaybe<Scalars['String']>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 export type UpdateMemberInRoomInput = {

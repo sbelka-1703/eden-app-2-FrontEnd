@@ -8,6 +8,7 @@ export const FIND_PROJECT = gql`
       description
       descriptionOneLine
       emoji
+      serverID
       backColorEmoji
       collaborationLinks {
         link
@@ -51,6 +52,13 @@ export const FIND_PROJECT = gql`
         _id
         title
         description
+        nodes {
+          nodeData {
+            _id
+            name
+            node
+          }
+        }
         archive
         keyRosponsibilities
         openPositions

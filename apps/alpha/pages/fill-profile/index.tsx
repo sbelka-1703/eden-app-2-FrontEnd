@@ -3,28 +3,24 @@ import { LinkType, Maybe, RoleTemplate } from "@eden/package-graphql/generated";
 import {
   AppUserLayout,
   AvailabilityComp,
-  Badge,
   BatteryStepper,
   Button,
   Card,
-  EmojiSelector,
   EndorsementList,
   GridItemSix,
   GridLayout,
+  Loading,
   RoleSelector,
   SalaryRangeChart,
   SEO,
   SocialMediaComp,
   SocialMediaInput,
-  TabsSelector,
   TextArea,
-  TextField,
   TextHeading3,
-  UserExperienceCard,
+  TextLabel,
+  UserExperienceCard2,
   UserWithDescription,
 } from "@eden/package-ui";
-import { ArrowsCollapseIcon } from "@eden/package-ui/src/modals/ProfileExpandedModal/icons/ArrowCollapseIcon";
-import { ArrowsExpandIcon } from "@eden/package-ui/src/modals/ProfileExpandedModal/icons/ArrowExpandIcon";
 import { useContext, useEffect, useState } from "react";
 
 import FILL_PROFILE_MOCK from "../../utils/mock/fill-profile-mock";
@@ -64,6 +60,7 @@ const FillProfilePage: NextPageWithLayout = () => {
     links: currentUser?.links,
     background: USER_MOCK.Result[1].background as any,
   });
+  const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
 
   const handleSetRole = (value: RoleTemplate) => {
     setState({
@@ -76,6 +73,13 @@ const FillProfilePage: NextPageWithLayout = () => {
     setState({
       ...state,
       bio: value,
+    });
+  };
+
+  const handleSetBackground = (value: any[]) => {
+    setState({
+      ...state,
+      background: value,
     });
   };
 
@@ -111,7 +115,7 @@ const FillProfilePage: NextPageWithLayout = () => {
         <GridItemSix className="">
           <Card className="overflow-scroll bg-white p-4">
             <div className="scrollbar-hide h-8/10 ">
-              <section className="grid grid-cols-4 gap-2 ">
+              <section className="mb-4 grid grid-cols-4 gap-2">
                 <div className="col-span-3">
                   <h2 className="mb-2 text-lg font-medium">
                     Hello & Welcome! Let’s complete your profile step by step 🚀
@@ -125,192 +129,221 @@ const FillProfilePage: NextPageWithLayout = () => {
                   <BatteryStepper batteryPercentage={percent} />
                 </div>
               </section>
-              <section className="mb-4">
-                {step === STEPS.ROLE && (
-                  <>
-                    <p>{`Let's start with your role:`}</p>
-                    <RoleSelector
-                      roles={
-                        FILL_PROFILE_MOCK.roles as Maybe<
-                          Array<Maybe<RoleTemplate>>
-                        >
+              {!currentUser && (
+                <div className="h-80">
+                  <Loading title="Loading your profile..." />
+                </div>
+              )}
+              {currentUser && (
+                <section className="mb-4">
+                  {step === STEPS.ROLE && (
+                    <>
+                      <p>{`Let's start with your role:`}</p>
+                      <RoleSelector
+                        value={state.memberRole?.title || ""}
+                        roles={
+                          FILL_PROFILE_MOCK.roles as Maybe<
+                            Array<Maybe<RoleTemplate>>
+                          >
+                        }
+                        onSelect={(val) => {
+                          handleSetRole(val as RoleTemplate);
+                        }}
+                      />
+                    </>
+                  )}
+                  {step === STEPS.BIO && (
+                    <>
+                      <p>{`Please write a short bio!`}</p>
+                      <TextArea
+                        onChange={(e) => {
+                          handleSetBio(e.target.value);
+                        }}
+                        value={state?.bio as string}
+                      />
+                    </>
+                  )}
+                  {step === STEPS.COMPENSATION && (
+                    <>
+                      <p>{`What's your expected compensation?`}</p>
+                      <SalaryRangeChart
+                        data={salaries}
+                        onChange={(val) => {
+                          setState({
+                            ...state,
+                            expectedSalary: val.values[1],
+                          });
+                        }}
+                      />
+                    </>
+                  )}
+                  {step === STEPS.SOCIALS && (
+                    <>
+                      <p>{`Share your socials!`}</p>
+                      <SocialMediaInput
+                        platform="twitter"
+                        placeholder={`Twitter Handle`}
+                        value={
+                          state.links?.find((link) => link?.name === "twitter")
+                            ?.url || ""
+                        }
+                        onChange={(e) => {
+                          let newLinks = state.links ? [...state.links] : [];
+                          const hasLink = state.links?.some(
+                            (link) => link?.name === "twitter"
+                          );
+
+                          if (hasLink) {
+                            newLinks = newLinks.map((link) => {
+                              return link?.name === "twitter"
+                                ? { ...link, url: e.target.value }
+                                : link;
+                            });
+                          } else {
+                            newLinks.push({
+                              __typename: "linkType",
+                              name: "twitter",
+                              url: e.target.value,
+                            });
+                          }
+
+                          console.log(hasLink, newLinks);
+
+                          setState({
+                            ...state,
+                            links: newLinks,
+                          });
+                        }}
+                        shape="rounded"
+                      />
+                      <SocialMediaInput
+                        platform="github"
+                        placeholder={`Github Handle`}
+                        value={
+                          state.links?.find((link) => link?.name === "github")
+                            ?.url || ""
+                        }
+                        onChange={(e) => {
+                          let newLinks = state.links ? [...state.links] : [];
+                          const hasLink = state.links?.some(
+                            (link) => link?.name === "github"
+                          );
+
+                          if (hasLink) {
+                            newLinks = newLinks.map((link) => {
+                              return link?.name === "github"
+                                ? { ...link, url: e.target.value }
+                                : link;
+                            });
+                          } else {
+                            newLinks.push({
+                              __typename: "linkType",
+                              name: "github",
+                              url: e.target.value,
+                            });
+                          }
+
+                          console.log(hasLink, newLinks);
+
+                          setState({
+                            ...state,
+                            links: newLinks,
+                          });
+                        }}
+                        shape="rounded"
+                      />
+                      <SocialMediaInput
+                        platform="telegram"
+                        placeholder={`Telegram Handle`}
+                        value={
+                          state.links?.find((link) => link?.name === "telegram")
+                            ?.url || ""
+                        }
+                        onChange={(e) => {
+                          let newLinks = state.links ? [...state.links] : [];
+                          const hasLink = state.links?.some(
+                            (link) => link?.name === "telegram"
+                          );
+
+                          if (hasLink) {
+                            newLinks = newLinks.map((link) => {
+                              return link?.name === "telegram"
+                                ? { ...link, url: e.target.value }
+                                : link;
+                            });
+                          } else {
+                            newLinks.push({
+                              __typename: "linkType",
+                              name: "telegram",
+                              url: e.target.value,
+                            });
+                          }
+
+                          console.log(hasLink, newLinks);
+
+                          setState({
+                            ...state,
+                            links: newLinks,
+                          });
+                        }}
+                        shape="rounded"
+                      />
+                    </>
+                  )}
+                  {step === STEPS.EXP && (
+                    <UserExperienceCard2
+                      handleChange={(val) => handleSetBackground(val)}
+                      handleChangeOpenExperience={(val) =>
+                        setExperienceOpen(val)
                       }
-                      onSelect={(val) => {
-                        handleSetRole(val as RoleTemplate);
-                      }}
                     />
-                  </>
-                )}
-                {step === STEPS.BIO && (
-                  <>
-                    <p>{`Please write a short bio!`}</p>
-                    <TextArea
-                      onChange={(e) => {
-                        handleSetBio(e.target.value);
-                      }}
-                      value={state?.bio as string}
-                    />
-                  </>
-                )}
-                {step === STEPS.COMPENSATION && (
-                  <>
-                    <p>{`What's your expected compensation?`}</p>
-                    <SalaryRangeChart
-                      data={salaries}
-                      onChange={(val) => {
-                        setState({
-                          ...state,
-                          expectedSalary: val.values[1],
-                        });
-                      }}
-                    />
-                  </>
-                )}
-                {step === STEPS.SOCIALS && (
-                  <>
-                    <p>{`Share your socials!`}</p>
-                    <SocialMediaInput
-                      platform="twitter"
-                      placeholder={`Twitter Handle`}
-                      // value={twitterHandle}
-                      onChange={(e) => {
-                        console.log(e.target.value);
-                      }}
-                      shape="rounded"
-                    />
-                    <SocialMediaInput
-                      platform="github"
-                      placeholder={`Github Handle`}
-                      // value={githubHandle}
-                      onChange={(e) => {
-                        console.log(e.target.value);
-                      }}
-                      shape="rounded"
-                    />
-                    <SocialMediaInput
-                      platform="telegram"
-                      placeholder={`Telegram Handle`}
-                      // value={telegramHandle}
-                      onChange={(e) => {
-                        console.log(e.target.value);
-                      }}
-                      shape="rounded"
-                    />
-                  </>
-                )}
-                {step === STEPS.EXP && (
-                  <>
-                    <p className="mb-2">{`Welcome to the experience cards! Come up with unique name for each aspect of your background and share it with us 🚀`}</p>
-                    <p className="mb-4 text-slate-400">{` Developer by day, Bartender by night? Or traveller by day, DevRel on the weekends? Come up with titles and tell us more :) Title ex. Scrum Master, Volunteering, Travelling, AI/ML, Law, Art, etc.`}</p>
-                    {[0, 1, 2].map((item, index) => {
-                      return (
-                        <div
-                          key={index}
-                          className="mb-2 flex items-center justify-start"
-                        >
-                          <div className="mr-4 w-60">
-                            <TextField
-                              onChange={(e) => {
-                                setState({
-                                  ...state,
-                                  background: [
-                                    ...state?.background.map(
-                                      (_item: any, _index: any) => {
-                                        return index === _index
-                                          ? { ..._item, title: e.target.value }
-                                          : _item;
-                                      }
-                                    ),
-                                  ],
-                                });
-                              }}
-                            />
-                          </div>
-                          <div className="relative h-[40px]">
-                            <div className="absolute top-1 left-0">
-                              <EmojiSelector
-                                onSelection={(val) => {
-                                  setState({
-                                    ...state,
-                                    background: [
-                                      ...state?.background.map(
-                                        (_item: any, _index: any) => {
-                                          return index === _index
-                                            ? { ..._item, emoji: val }
-                                            : _item;
-                                        }
-                                      ),
-                                    ],
-                                  });
-                                }}
-                                size={40}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </>
-                )}
-                {step === STEPS.EXP_DETAIL && (
-                  <UserExperienceCard
-                    roles={
-                      FILL_PROFILE_MOCK.roles as Maybe<
-                        Array<Maybe<RoleTemplate>>
-                      >
-                    }
-                    fields={state.background.map(
-                      (item: any, index: number) => ({
-                        _id: index.toString(),
-                        title: `${item.emoji} ${item.title}`,
-                      })
-                    )}
-                    handleChange={(val: any) => {
-                      const newVal = Object.keys(val).map((key) => ({
-                        title: val[key].role,
-                        content: val[key].bio,
-                        skills: [],
-                        date: {
-                          start: "",
-                          end: "",
-                        },
-                      }));
+                  )}
+                </section>
+              )}
+              {currentUser && (
+                <section className="flex pb-4">
+                  {step !== STEPS.ROLE && (
+                    <Button
+                      onClick={() => {
+                        if (step === STEPS.BIO) setStep(STEPS.ROLE);
+                        if (step === STEPS.COMPENSATION) setStep(STEPS.BIO);
+                        if (step === STEPS.SOCIALS) setStep(STEPS.COMPENSATION);
+                        if (step === STEPS.EXP) setStep(STEPS.SOCIALS);
 
-                      const newState = state.background.map(
-                        (item: any, index: number) =>
-                          val[index]
-                            ? {
-                                ...item,
-                                content: newVal,
-                              }
-                            : item
-                      );
+                        setPercent(percent + 5);
+                      }}
+                    >
+                      Prev
+                    </Button>
+                  )}
+                  {step !== STEPS.EXP && (
+                    <Button
+                      className="ml-auto"
+                      onClick={() => {
+                        if (step === STEPS.ROLE) setStep(STEPS.BIO);
+                        if (step === STEPS.BIO) setStep(STEPS.COMPENSATION);
+                        if (step === STEPS.COMPENSATION) setStep(STEPS.SOCIALS);
+                        if (step === STEPS.SOCIALS) setStep(STEPS.EXP);
 
-                      setState({
-                        ...state,
-                        background: newState,
-                      });
-                    }}
-                  />
-                )}
-              </section>
-              <section className="flex">
-                {step !== STEPS.ROLE && <Button>Prev</Button>}
-                <Button
-                  className="ml-auto"
-                  onClick={() => {
-                    if (step === STEPS.ROLE) setStep(STEPS.BIO);
-                    if (step === STEPS.BIO) setStep(STEPS.COMPENSATION);
-                    if (step === STEPS.COMPENSATION) setStep(STEPS.SOCIALS);
-                    if (step === STEPS.SOCIALS) setStep(STEPS.EXP);
-                    if (step === STEPS.EXP) setStep(STEPS.EXP_DETAIL);
-
-                    setPercent(percent + 5);
-                  }}
-                >
-                  Next
-                </Button>
-              </section>
+                        setPercent(percent + 5);
+                      }}
+                    >
+                      Next
+                    </Button>
+                  )}
+                  {step === STEPS.EXP && (
+                    <Button
+                      variant="primary"
+                      className="ml-auto"
+                      onClick={() => {
+                        console.log("submit", state);
+                      }}
+                    >
+                      Submit
+                    </Button>
+                  )}
+                </section>
+              )}
             </div>
           </Card>
         </GridItemSix>
@@ -318,7 +351,7 @@ const FillProfilePage: NextPageWithLayout = () => {
         <GridItemSix className="">
           <Card className="bg-white p-4">
             <p>Preview of your profile:</p>
-            <div className={`h-8/10 scrollbar-hide w-full overflow-scroll`}>
+            <div className={`h-8/10 scrollbar-hide w-full overflow-scroll p-2`}>
               <div
                 className={`mb-4 flex w-full justify-center ${
                   step !== STEPS.ROLE ? "blur-sm brightness-50" : ""
@@ -326,9 +359,9 @@ const FillProfilePage: NextPageWithLayout = () => {
               >
                 <UserWithDescription
                   member={{
-                    discordName: currentUser?.discordName,
-                    discordAvatar: currentUser?.discordAvatar,
-                    discriminator: currentUser?.discriminator,
+                    discordName: state?.discordName,
+                    discordAvatar: state?.discordAvatar,
+                    discriminator: state?.discriminator,
                     memberRole: {
                       title: state.memberRole?.title as string,
                     },
@@ -406,10 +439,12 @@ const FillProfilePage: NextPageWithLayout = () => {
                     : ""
                 }`}
               >
-                {USER_MOCK.Result[1].background && (
+                {state.background && (
                   <UserBackground
                     background={state.background}
                     initialEndorsements={USER_MOCK.Result[1].endorsements}
+                    setExperienceOpen={setExperienceOpen}
+                    experienceOpen={experienceOpen}
                   />
                 )}
               </div>
@@ -433,9 +468,14 @@ export default FillProfilePage;
 const UserBackground = ({
   background,
   initialEndorsements,
+  experienceOpen,
+  setExperienceOpen,
 }: {
   background: any[];
   initialEndorsements: any[];
+  experienceOpen: number | null;
+  // eslint-disable-next-line no-unused-vars
+  setExperienceOpen: (val: any) => void;
 }) => {
   const endorsements = initialEndorsements?.map((endorsement: any) => ({
     member: {
@@ -446,179 +486,80 @@ const UserBackground = ({
     level: endorsement.level.name,
   }));
 
-  const [expand, setExpand] = useState(false);
-  const [activeTab, setActiveTab] = useState(0);
-  const tabs = background.map((item) => `${item.title} ${item.emoji}`);
-  const item = background.reduce((prev, curr) => {
-    const item = { [`${curr.title} ${curr.emoji}`]: curr };
-
-    return { ...prev, ...item };
-  }, {});
-
-  const activeItem = item[tabs[activeTab]];
-
-  const onExpend = (item: string) => {
-    const itemIndex = tabs.findIndex((tab) => tab === item);
-
-    setActiveTab(itemIndex);
-    setExpand(true);
-  };
-
   return (
     <div>
-      <div className="mb-4 flex">
+      <div className="mb-4">
         <TextHeading3
           style={{ fontWeight: 700 }}
           className=" text-sm uppercase text-gray-500"
         >
           🎡 Background
         </TextHeading3>
-        {expand && (
-          <Button style={{ border: "none" }} onClick={() => setExpand(false)}>
-            <ArrowsCollapseIcon />
-          </Button>
-        )}
-      </div>
-      {expand ? (
-        <UserExpandedBackground
-          tabs={tabs}
-          activeTab={activeTab}
-          activeItem={activeItem}
-          setActiveTab={setActiveTab}
-        />
-      ) : (
-        <>
-          <UserCardBackground onExpand={onExpend} background={background} />
-          {endorsements?.length > 0 && (
-            <div className="mt-3">
-              <EndorsementList endorsements={endorsements} />
+        {background.map((item, index) => {
+          const empty = !item.bio && !item.startDate && !item.endDate;
+
+          return (
+            <div key={index} className="mb-4">
+              <div className="mb-2 flex items-center">
+                <span
+                  className={`mr-3 ${
+                    empty ? "cursor-default text-slate-400" : "cursor-pointer"
+                  }`}
+                  onClick={() => {
+                    if (!empty)
+                      setExperienceOpen(
+                        index === experienceOpen ? null : index
+                      );
+                  }}
+                >
+                  {!empty && index === experienceOpen ? "▼" : "▶"}
+                </span>
+                <div className="min-w-30 flex h-8 w-1/2 items-center !rounded-full border-0 bg-cyan-200 px-4 outline-0">
+                  {item.title}
+                </div>
+                {index < 2 && <span className="ml-3 text-xl">⭐️</span>}
+              </div>
+              {index === experienceOpen && (
+                <Card border className="grid grid-cols-2 py-4 px-6">
+                  <div className="col-span-1">
+                    <TextLabel>Bio</TextLabel>
+                    <p>{item.bio}</p>
+                  </div>
+                  <div className="col-span-1">
+                    <TextLabel>Timeline</TextLabel>
+                    {item.startDate && (
+                      <p>
+                        {`${new Date(Number(item.startDate)).toLocaleString(
+                          "default",
+                          {
+                            month: "short",
+                          }
+                        )} ${new Date(
+                          Number(item.startDate)
+                        ).getFullYear()} - ${
+                          item.endDate
+                            ? `${new Date(Number(item.endDate)).toLocaleString(
+                                "default",
+                                { month: "short" }
+                              )} ${new Date(
+                                Number(item.endDate)
+                              ).getFullYear()}`
+                            : "present"
+                        }`}
+                      </p>
+                    )}
+                  </div>
+                </Card>
+              )}
             </div>
-          )}
-        </>
+          );
+        })}
+      </div>
+      {endorsements?.length > 0 && (
+        <div className="mt-3">
+          <EndorsementList endorsements={endorsements} />
+        </div>
       )}
     </div>
-  );
-};
-
-const DEFAULT_COLOR = "#CAE8FF";
-
-const UserCardBackground = ({
-  onExpand,
-  background,
-}: {
-  background: any[];
-  // eslint-disable-next-line no-unused-vars
-  onExpand: (item: string) => void;
-}) => {
-  return (
-    <div className="grid grid-cols-3 gap-4">
-      {background.map((item, index) => (
-        <Card
-          key={index}
-          border
-          className="hover:shadow-focusShadow hover:border-accentColor cursor-pointer p-2"
-        >
-          <Button
-            className="w-full"
-            style={{ border: "none", display: "block" }}
-            onClick={() => onExpand(`${item.title} ${item.emoji}`)}
-          >
-            <div className="flex h-full flex-col justify-between">
-              <div>
-                <TextHeading3 className="text-center text-base">
-                  {item.emoji} {item.title}
-                </TextHeading3>
-                <div className="absolute right-2 top-3.5">
-                  <ArrowsExpandIcon />
-                </div>
-
-                {item.content.map((content: any) => (
-                  <TextHeading3
-                    key={content.title}
-                    className="font-Inter my-3 overflow-hidden text-ellipsis whitespace-nowrap rounded-2xl px-2 py-1 text-base"
-                    style={{ backgroundColor: item?.color || DEFAULT_COLOR }}
-                  >
-                    {content.title}
-                  </TextHeading3>
-                ))}
-              </div>
-              <p className="text-gray-400">Total: 4 years 6 month</p>
-            </div>
-          </Button>
-        </Card>
-      ))}
-    </div>
-  );
-};
-
-const UserExpandedBackground = ({
-  tabs,
-  activeTab,
-  activeItem,
-  setActiveTab,
-}: {
-  tabs: string[];
-  activeItem: any;
-  activeTab: number;
-  // eslint-disable-next-line no-unused-vars
-  setActiveTab: (activeTab: number) => void;
-}) => {
-  return (
-    <>
-      <TabsSelector
-        tabs={tabs}
-        selectedTab={activeTab}
-        onSelect={(val) => {
-          setActiveTab(val);
-        }}
-      />
-      <div className="border-accentColor scrollbar-hide relative overflow-y-scroll rounded-b-xl border-b-2 border-r-2 border-l-2 bg-white px-4 pt-6">
-        {activeItem?.content.map((item: any, index: number) => (
-          <div
-            key={item.title}
-            className="mb-2 grid grid-cols-2 border-b border-b-gray-300 pb-2"
-            style={
-              index === activeItem?.content.length - 1
-                ? { borderBottom: "none" }
-                : {}
-            }
-          >
-            <div>
-              <TextHeading3
-                className="mb-3 rounded-2xl px-2 py-1"
-                style={{ backgroundColor: activeItem?.color || DEFAULT_COLOR }}
-              >
-                {item.title}
-              </TextHeading3>
-              <p>{item.content}</p>
-            </div>
-            <div className="flex flex-col items-center justify-between">
-              <div className="flex flex-col items-center">
-                <TextHeading3
-                  style={{ fontWeight: 700 }}
-                  className="mb-2 text-sm uppercase text-gray-500"
-                >
-                  🚀 Skills
-                </TextHeading3>
-                <div className="inline-block">
-                  {item?.skills?.map((skill: string, index: number) => (
-                    <Badge
-                      text={skill}
-                      key={index}
-                      cutText={15}
-                      colorRGB="255, 111, 137, 0.49"
-                      className={`py-px text-xs`}
-                    />
-                  ))}
-                </div>
-              </div>
-              <TextHeading3 className="mb-2 text-gray-500">
-                {`${item.date.start} - ${item.date.end}`}
-              </TextHeading3>
-            </div>
-          </div>
-        ))}
-      </div>
-    </>
   );
 };

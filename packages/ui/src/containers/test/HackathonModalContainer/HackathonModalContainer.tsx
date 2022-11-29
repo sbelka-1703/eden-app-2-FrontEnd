@@ -1,10 +1,8 @@
 import { HackathonContext, HackathonProjectModal } from "@eden/package-context";
-import { Node } from "@eden/package-graphql/generated";
 import {
   CongratulationsModal,
   DataReviewModal,
   FindTalentDropdownModal,
-  HackathonTalentDropdownModal,
   PrioritizeModal,
   ProjectsMatchesModal,
   RequirementsModal,
@@ -29,13 +27,11 @@ export interface IHackathonModalContainerProps {
   // eslint-disable-next-line no-unused-vars
   setSubmittingTalentAttributes?: (val: any) => void;
   mockData?: any;
-  dataNodes?: Node;
 }
 
 export const HackathonModalContainer = ({
   setSubmittingTalentAttributes,
   mockData,
-  dataNodes,
 }: IHackathonModalContainerProps) => {
   const {
     project,
@@ -118,6 +114,15 @@ export const HackathonModalContainer = ({
           onSubmit={() => {
             setOpenModal(HackathonProjectModal.USER_ROLE);
           }}
+          header1={"Find your ideal project!"}
+          header2={
+            "We will help you find the perfect match based on your skills and preferences."
+          }
+          topLeftText={"We have"}
+          bottomLeftText={"in Eden today"}
+          matchType={"Projects"}
+          topRightText={"AI will find the best"}
+          bottomRightText={"for you to choose from"}
           batteryPercentageBefore={10}
           numMatchesBefore={125}
           batteryPercentageAfter={70}
@@ -126,7 +131,7 @@ export const HackathonModalContainer = ({
       )}
 
       {openModal === HackathonProjectModal.USER_ROLE && (
-        <HackathonTalentDropdownModal
+        <FindTalentDropdownModal
           openModal={openModal === HackathonProjectModal.USER_ROLE}
           onClose={() => {
             setOpenModal(HackathonProjectModal.SKIP_ALERT);
@@ -138,7 +143,6 @@ export const HackathonModalContainer = ({
             setOpenModal(HackathonProjectModal.SKILLS_CATEGORY);
           }}
           mockData={mockDataMap2.SkillTree}
-          dataNodes={dataNodes}
         />
       )}
 

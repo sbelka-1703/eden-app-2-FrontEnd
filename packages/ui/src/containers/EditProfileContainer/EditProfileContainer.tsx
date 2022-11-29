@@ -45,11 +45,16 @@ export const EditProfileContainer = ({ roles }: IEditProfileContainerProps) => {
   const [twitterHandle, setTwitterHandle] = useState("");
   const [githubHandle, setGithubHandle] = useState("");
   const [telegramHandle, setTelegramHandle] = useState("");
+  const [lensHandle, setLensHandle] = useState("");
 
   const [updateMember] = useMutation(UPDATE_MEMBER, {
     onCompleted({ updateMember }: Mutation) {
       if (!updateMember) console.log("updateMember is null");
       console.log("updateMember", updateMember);
+      setSubmitting(false);
+    },
+    onError(error) {
+      console.log("onError", error);
       setSubmitting(false);
     },
   });
@@ -77,6 +82,11 @@ export const EditProfileContainer = ({ roles }: IEditProfileContainerProps) => {
     );
 
     setTelegramHandle(telegramLink?.url || "");
+
+    const lensLink = currentUser?.links?.find((link) => link?.name === "lens");
+
+    if (lensLink?.url)
+      setLensHandle(lensLink?.url?.replace("https://www.lensfrens.xyz/", ""));
   }, [currentUser]);
 
   const handleSave = () => {
@@ -90,6 +100,7 @@ export const EditProfileContainer = ({ roles }: IEditProfileContainerProps) => {
           bio: bio,
           hoursPerWeek: hoursPerWeek,
           timeZone: timezone,
+          serverID: currentUser?.serverID,
           links: [
             {
               name: "twitter",
@@ -102,6 +113,10 @@ export const EditProfileContainer = ({ roles }: IEditProfileContainerProps) => {
             {
               name: "telegram",
               url: telegramHandle,
+            },
+            {
+              name: "lens",
+              url: lensHandle ? `https://www.lensfrens.xyz/${lensHandle}` : "",
             },
           ],
         },
@@ -179,6 +194,7 @@ export const EditProfileContainer = ({ roles }: IEditProfileContainerProps) => {
           <div className="col-span-1">
             <div className="justify-around">
               <TextBody className="mb-1">Your Skills</TextBody>
+
               <TextLabel>Add your Skill</TextLabel>
               <SearchSkill
                 skills={currentUser?.skills}
@@ -239,6 +255,13 @@ export const EditProfileContainer = ({ roles }: IEditProfileContainerProps) => {
                 placeholder={`Telegram Handle`}
                 value={telegramHandle}
                 onChange={(e) => setTelegramHandle(e.target.value)}
+                shape="rounded"
+              />
+              <SocialMediaInput
+                platform="lens"
+                placeholder={`Lens Handle`}
+                value={lensHandle}
+                onChange={(e) => setLensHandle(e.target.value)}
                 shape="rounded"
               />
             </div>

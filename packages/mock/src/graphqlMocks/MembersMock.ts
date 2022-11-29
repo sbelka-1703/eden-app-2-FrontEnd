@@ -2,6 +2,10 @@ import { PhaseType } from "@eden/package-graphql/generated";
 import { faker } from "@faker-js/faker";
 
 import { phase, skills } from "../data";
+import {
+  getEndorsementsTypeMockArray,
+  getNodesTypeMockArray,
+} from "../typeMocks";
 
 const links = [
   {
@@ -20,6 +24,10 @@ const links = [
     name: "telegram",
     url: "",
   },
+  {
+    name: "lens",
+    url: "https://www.lensfrens.xyz/edenprotocol.lens",
+  },
 ];
 
 const level = ["learning", "junior", "mid", "senior"];
@@ -34,7 +42,7 @@ export const getSkills = (total: number) =>
 
 // TODO: question about keys for this object, should there be a company key?  and what is the difference between title and positionName?
 export const getPreviusProjects = () => ({
-  title: "Sabre Corporation · Fulltime",
+  title: faker.name.firstName(),
   positionName: faker.name.jobTitle(),
   description: faker.lorem.paragraph(),
   link: "https://www.google.com",
@@ -127,6 +135,12 @@ export const getMember = () =>
     projects: getMemberProjectArray(14),
     serverID: faker.random.numeric(12),
     skills: getSkills(faker.datatype.number({ min: 2, max: 36, precision: 1 })),
+    nodes: getNodesTypeMockArray(
+      faker.datatype.number({ min: 2, max: 36, precision: 1 })
+    ),
+    endorsements: getEndorsementsTypeMockArray(
+      faker.datatype.number({ min: 2, max: 36, precision: 1 })
+    ),
     timeZone: faker.address.timeZone(),
   } as any);
 

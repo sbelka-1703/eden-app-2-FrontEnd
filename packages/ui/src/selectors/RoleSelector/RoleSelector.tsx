@@ -1,7 +1,7 @@
 import { Maybe, RoleTemplate } from "@eden/package-graphql/generated";
 import { Combobox } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export interface IRoleSelectorProps {
   roles: Maybe<Array<Maybe<RoleTemplate>>>;
@@ -40,6 +40,10 @@ export const RoleSelector = ({
       setQuery(val.title);
     }
   };
+
+  useEffect(() => {
+    if (!query && value) setQuery(value);
+  }, [value]);
 
   return (
     <Combobox as="div" value={query} onChange={(val: any) => handleSelect(val)}>
