@@ -1,23 +1,14 @@
-import {
-  Calendar,
-  SearchSkill,
-  TextArea,
-  TextField,
-  TextHeading3,
-} from "@eden/package-ui";
+import { Calendar, TextArea, TextField, TextHeading3 } from "@eden/package-ui";
 import { PlusCircleIcon } from "@heroicons/react/outline";
 import { useEffect, useState } from "react";
 
-// interface Experience {
-//   [key: number]: {
-//     role: string;
-//     skills: any[];
-//     title: string;
-//     startDate: string;
-//     endDate: string;
-//     bio: string;
-//   };
-// }
+interface Experience {
+  title: string;
+  bio: string;
+  startDate: string;
+  endDate: string;
+  // skills: any[];
+}
 
 const INITIAL_DATA = {
   title: "",
@@ -33,6 +24,8 @@ export interface UserExperienceCard2Props {
   handleSubmit?: (val: any) => void;
   // eslint-disable-next-line no-unused-vars
   handleChange?: (val: any) => void;
+  // eslint-disable-next-line no-unused-vars
+  handleChangeOpenExperience?: (val: any) => void;
 }
 
 export const UserExperienceCard2 = ({
@@ -40,29 +33,29 @@ export const UserExperienceCard2 = ({
   // eslint-disable-next-line no-unused-vars
   handleSubmit,
   handleChange,
+  handleChangeOpenExperience,
 }: UserExperienceCard2Props) => {
   const [experiences, setExperiences] = useState([
     { ...INITIAL_DATA },
     { ...INITIAL_DATA },
     { ...INITIAL_DATA },
   ]);
-  const [experiencesOpen, setExperiencesOpen] = useState([true, false, false]);
+  const [experienceOpen, setExperienceOpen] = useState<number | null>(0);
 
   const handleAddExperience = () => {
     setExperiences([...experiences, { ...INITIAL_DATA }]);
-    setExperiencesOpen([...experiencesOpen, false]);
   };
   const handleOpenExperience = (index: number) => {
-    const newExperiencesOpen = [...experiencesOpen];
-
-    newExperiencesOpen[index] = !newExperiencesOpen[index];
-
-    setExperiencesOpen(newExperiencesOpen);
+    setExperienceOpen(index === experienceOpen ? null : index);
   };
 
   useEffect(() => {
     if (handleChange) handleChange(experiences);
   }, [experiences]);
+
+  useEffect(() => {
+    if (handleChangeOpenExperience) handleChangeOpenExperience(experienceOpen);
+  }, [experienceOpen]);
 
   return (
     <div className="">
@@ -76,7 +69,7 @@ export const UserExperienceCard2 = ({
       {experiences.map((item, index) => (
         <ExperienceForm
           key={index}
-          open={experiencesOpen[index]}
+          open={experienceOpen === index}
           handleOpen={() => {
             handleOpenExperience(index);
           }}
@@ -85,10 +78,13 @@ export const UserExperienceCard2 = ({
 
             newExperiences[index].title = val?.title;
             newExperiences[index].bio = val?.bio;
+            newExperiences[index].startDate = val?.startDate;
+            newExperiences[index].endDate = val?.endDate;
 
             setExperiences(newExperiences);
           }}
           relevant={index < 2}
+          defaultValue={experiences[index]}
         />
       ))}
       <PlusCircleIcon
@@ -102,20 +98,24 @@ export const UserExperienceCard2 = ({
 };
 
 const ExperienceForm = ({
+  defaultValue,
   open = false,
   handleOpen,
   handleChange,
   relevant = false,
 }: {
+  defaultValue?: any;
   open?: boolean;
   handleOpen?: () => void;
   // eslint-disable-next-line no-unused-vars
   handleChange?: (val: any) => void;
   relevant?: boolean;
 }) => {
-  const [val, setVal] = useState({
+  const [val, setVal] = useState<Experience>({
     title: "",
     bio: "",
+    startDate: "",
+    endDate: "",
   });
 
   useEffect(() => {
@@ -130,6 +130,7 @@ const ExperienceForm = ({
         </span>
         <div className="min-w-30 w-1/2">
           <TextField
+            defaultValue={defaultValue?.title}
             placeholder="Start typing here..."
             onChange={(e) => setVal({ ...val, title: e.target.value })}
             className="h-8 !rounded-full border-0 bg-cyan-200 outline-0"
@@ -146,11 +147,12 @@ const ExperienceForm = ({
               name="bio"
               placeholder="Start typing here..."
               onChange={(e) => setVal({ ...val, bio: e.target.value })}
+              value={defaultValue?.bio}
             />
           </div>
 
           <div>
-            <div>
+            {/* <div>
               <p className="mb-3 w-full text-left text-sm font-medium">
                 Skills:
               </p>
@@ -185,7 +187,7 @@ const ExperienceForm = ({
                   },
                 ]}
               />
-            </div>
+            </div> */}
             <div>
               <div className="mt-3">
                 <p className="mb-3 w-full text-left text-sm font-medium">
@@ -197,28 +199,18 @@ const ExperienceForm = ({
                   containerClassName="w-full mb-4"
                   buttonClassName="w-full rounded-xl"
                   label="Start Date"
-                  // onChange={(e) =>
-                  //   handleUpdateRole(
-                  //     e,
-                  //     "startDate",
-                  //     currentCategoryIndex,
-                  //     +currentIndex
-                  //   )
-                  // }
+                  onChange={(e) =>
+                    setVal({ ...val, startDate: (e.unix * 1000).toString() })
+                  }
                 />
                 <Calendar
                   onlyMonthPicker
                   containerClassName="w-full"
                   buttonClassName="w-full rounded-xl"
                   label="End Date"
-                  // onChange={(e) =>
-                  //   handleUpdateRole(
-                  //     e,
-                  //     "endDate",
-                  //     currentCategoryIndex,
-                  //     +currentIndex
-                  //   )
-                  // }
+                  onChange={(e) => {
+                    setVal({ ...val, endDate: (e.unix * 1000).toString() });
+                  }}
                 />
               </div>
             </div>

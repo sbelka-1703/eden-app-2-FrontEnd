@@ -9,6 +9,7 @@ import {
   EndorsementList,
   GridItemSix,
   GridLayout,
+  Loading,
   RoleSelector,
   SalaryRangeChart,
   SEO,
@@ -16,6 +17,7 @@ import {
   SocialMediaInput,
   TextArea,
   TextHeading3,
+  TextLabel,
   UserExperienceCard2,
   UserWithDescription,
 } from "@eden/package-ui";
@@ -58,6 +60,7 @@ const FillProfilePage: NextPageWithLayout = () => {
     links: currentUser?.links,
     background: USER_MOCK.Result[1].background as any,
   });
+  const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
 
   const handleSetRole = (value: RoleTemplate) => {
     setState({
@@ -112,7 +115,7 @@ const FillProfilePage: NextPageWithLayout = () => {
         <GridItemSix className="">
           <Card className="overflow-scroll bg-white p-4">
             <div className="scrollbar-hide h-8/10 ">
-              <section className="grid grid-cols-4 gap-2 ">
+              <section className="mb-4 grid grid-cols-4 gap-2">
                 <div className="col-span-3">
                   <h2 className="mb-2 text-lg font-medium">
                     Hello & Welcome! Let’s complete your profile step by step 🚀
@@ -126,101 +129,208 @@ const FillProfilePage: NextPageWithLayout = () => {
                   <BatteryStepper batteryPercentage={percent} />
                 </div>
               </section>
-              <section className="mb-4">
-                {step === STEPS.ROLE && (
-                  <>
-                    <p>{`Let's start with your role:`}</p>
-                    <RoleSelector
-                      roles={
-                        FILL_PROFILE_MOCK.roles as Maybe<
-                          Array<Maybe<RoleTemplate>>
-                        >
-                      }
-                      onSelect={(val) => {
-                        handleSetRole(val as RoleTemplate);
-                      }}
-                    />
-                  </>
-                )}
-                {step === STEPS.BIO && (
-                  <>
-                    <p>{`Please write a short bio!`}</p>
-                    <TextArea
-                      onChange={(e) => {
-                        handleSetBio(e.target.value);
-                      }}
-                      value={state?.bio as string}
-                    />
-                  </>
-                )}
-                {step === STEPS.COMPENSATION && (
-                  <>
-                    <p>{`What's your expected compensation?`}</p>
-                    <SalaryRangeChart
-                      data={salaries}
-                      onChange={(val) => {
-                        setState({
-                          ...state,
-                          expectedSalary: val.values[1],
-                        });
-                      }}
-                    />
-                  </>
-                )}
-                {step === STEPS.SOCIALS && (
-                  <>
-                    <p>{`Share your socials!`}</p>
-                    <SocialMediaInput
-                      platform="twitter"
-                      placeholder={`Twitter Handle`}
-                      // value={twitterHandle}
-                      onChange={(e) => {
-                        console.log(e.target.value);
-                      }}
-                      shape="rounded"
-                    />
-                    <SocialMediaInput
-                      platform="github"
-                      placeholder={`Github Handle`}
-                      // value={githubHandle}
-                      onChange={(e) => {
-                        console.log(e.target.value);
-                      }}
-                      shape="rounded"
-                    />
-                    <SocialMediaInput
-                      platform="telegram"
-                      placeholder={`Telegram Handle`}
-                      // value={telegramHandle}
-                      onChange={(e) => {
-                        console.log(e.target.value);
-                      }}
-                      shape="rounded"
-                    />
-                  </>
-                )}
-                {step === STEPS.EXP && (
-                  <UserExperienceCard2
-                    handleChange={(val) => handleSetBackground(val)}
-                  />
-                )}
-              </section>
-              <section className="flex">
-                {step !== STEPS.ROLE && <Button>Prev</Button>}
-                <Button
-                  className="ml-auto"
-                  onClick={() => {
-                    if (step === STEPS.ROLE) setStep(STEPS.BIO);
-                    if (step === STEPS.BIO) setStep(STEPS.COMPENSATION);
-                    if (step === STEPS.COMPENSATION) setStep(STEPS.SOCIALS);
-                    if (step === STEPS.SOCIALS) setStep(STEPS.EXP);
+              {!currentUser && (
+                <div className="h-80">
+                  <Loading title="Loading your profile..." />
+                </div>
+              )}
+              {currentUser && (
+                <section className="mb-4">
+                  {step === STEPS.ROLE && (
+                    <>
+                      <p>{`Let's start with your role:`}</p>
+                      <RoleSelector
+                        value={state.memberRole?.title || ""}
+                        roles={
+                          FILL_PROFILE_MOCK.roles as Maybe<
+                            Array<Maybe<RoleTemplate>>
+                          >
+                        }
+                        onSelect={(val) => {
+                          handleSetRole(val as RoleTemplate);
+                        }}
+                      />
+                    </>
+                  )}
+                  {step === STEPS.BIO && (
+                    <>
+                      <p>{`Please write a short bio!`}</p>
+                      <TextArea
+                        onChange={(e) => {
+                          handleSetBio(e.target.value);
+                        }}
+                        value={state?.bio as string}
+                      />
+                    </>
+                  )}
+                  {step === STEPS.COMPENSATION && (
+                    <>
+                      <p>{`What's your expected compensation?`}</p>
+                      <SalaryRangeChart
+                        data={salaries}
+                        onChange={(val) => {
+                          setState({
+                            ...state,
+                            expectedSalary: val.values[1],
+                          });
+                        }}
+                      />
+                    </>
+                  )}
+                  {step === STEPS.SOCIALS && (
+                    <>
+                      <p>{`Share your socials!`}</p>
+                      <SocialMediaInput
+                        platform="twitter"
+                        placeholder={`Twitter Handle`}
+                        value={
+                          state.links?.find((link) => link?.name === "twitter")
+                            ?.url || ""
+                        }
+                        onChange={(e) => {
+                          let newLinks = state.links ? [...state.links] : [];
+                          const hasLink = state.links?.some(
+                            (link) => link?.name === "twitter"
+                          );
 
-                    setPercent(percent + 5);
-                  }}
-                >
-                  Next
-                </Button>
-              </section>
+                          if (hasLink) {
+                            newLinks = newLinks.map((link) => {
+                              return link?.name === "twitter"
+                                ? { ...link, url: e.target.value }
+                                : link;
+                            });
+                          } else {
+                            newLinks.push({
+                              __typename: "linkType",
+                              name: "twitter",
+                              url: e.target.value,
+                            });
+                          }
+
+                          console.log(hasLink, newLinks);
+
+                          setState({
+                            ...state,
+                            links: newLinks,
+                          });
+                        }}
+                        shape="rounded"
+                      />
+                      <SocialMediaInput
+                        platform="github"
+                        placeholder={`Github Handle`}
+                        value={
+                          state.links?.find((link) => link?.name === "github")
+                            ?.url || ""
+                        }
+                        onChange={(e) => {
+                          let newLinks = state.links ? [...state.links] : [];
+                          const hasLink = state.links?.some(
+                            (link) => link?.name === "github"
+                          );
+
+                          if (hasLink) {
+                            newLinks = newLinks.map((link) => {
+                              return link?.name === "github"
+                                ? { ...link, url: e.target.value }
+                                : link;
+                            });
+                          } else {
+                            newLinks.push({
+                              __typename: "linkType",
+                              name: "github",
+                              url: e.target.value,
+                            });
+                          }
+
+                          console.log(hasLink, newLinks);
+
+                          setState({
+                            ...state,
+                            links: newLinks,
+                          });
+                        }}
+                        shape="rounded"
+                      />
+                      <SocialMediaInput
+                        platform="telegram"
+                        placeholder={`Telegram Handle`}
+                        value={
+                          state.links?.find((link) => link?.name === "telegram")
+                            ?.url || ""
+                        }
+                        onChange={(e) => {
+                          let newLinks = state.links ? [...state.links] : [];
+                          const hasLink = state.links?.some(
+                            (link) => link?.name === "telegram"
+                          );
+
+                          if (hasLink) {
+                            newLinks = newLinks.map((link) => {
+                              return link?.name === "telegram"
+                                ? { ...link, url: e.target.value }
+                                : link;
+                            });
+                          } else {
+                            newLinks.push({
+                              __typename: "linkType",
+                              name: "telegram",
+                              url: e.target.value,
+                            });
+                          }
+
+                          console.log(hasLink, newLinks);
+
+                          setState({
+                            ...state,
+                            links: newLinks,
+                          });
+                        }}
+                        shape="rounded"
+                      />
+                    </>
+                  )}
+                  {step === STEPS.EXP && (
+                    <UserExperienceCard2
+                      handleChange={(val) => handleSetBackground(val)}
+                      handleChangeOpenExperience={(val) =>
+                        setExperienceOpen(val)
+                      }
+                    />
+                  )}
+                </section>
+              )}
+              {currentUser && (
+                <section className="flex">
+                  {step !== STEPS.ROLE && (
+                    <Button
+                      onClick={() => {
+                        if (step === STEPS.BIO) setStep(STEPS.ROLE);
+                        if (step === STEPS.COMPENSATION) setStep(STEPS.BIO);
+                        if (step === STEPS.SOCIALS) setStep(STEPS.COMPENSATION);
+                        if (step === STEPS.EXP) setStep(STEPS.SOCIALS);
+
+                        setPercent(percent + 5);
+                      }}
+                    >
+                      Prev
+                    </Button>
+                  )}
+                  <Button
+                    className="ml-auto"
+                    onClick={() => {
+                      if (step === STEPS.ROLE) setStep(STEPS.BIO);
+                      if (step === STEPS.BIO) setStep(STEPS.COMPENSATION);
+                      if (step === STEPS.COMPENSATION) setStep(STEPS.SOCIALS);
+                      if (step === STEPS.SOCIALS) setStep(STEPS.EXP);
+
+                      setPercent(percent + 5);
+                    }}
+                  >
+                    Next
+                  </Button>
+                </section>
+              )}
             </div>
           </Card>
         </GridItemSix>
@@ -228,7 +338,7 @@ const FillProfilePage: NextPageWithLayout = () => {
         <GridItemSix className="">
           <Card className="bg-white p-4">
             <p>Preview of your profile:</p>
-            <div className={`h-8/10 scrollbar-hide w-full overflow-scroll`}>
+            <div className={`h-8/10 scrollbar-hide w-full overflow-scroll p-2`}>
               <div
                 className={`mb-4 flex w-full justify-center ${
                   step !== STEPS.ROLE ? "blur-sm brightness-50" : ""
@@ -236,9 +346,9 @@ const FillProfilePage: NextPageWithLayout = () => {
               >
                 <UserWithDescription
                   member={{
-                    discordName: currentUser?.discordName,
-                    discordAvatar: currentUser?.discordAvatar,
-                    discriminator: currentUser?.discriminator,
+                    discordName: state?.discordName,
+                    discordAvatar: state?.discordAvatar,
+                    discriminator: state?.discriminator,
                     memberRole: {
                       title: state.memberRole?.title as string,
                     },
@@ -320,6 +430,8 @@ const FillProfilePage: NextPageWithLayout = () => {
                   <UserBackground
                     background={state.background}
                     initialEndorsements={USER_MOCK.Result[1].endorsements}
+                    setExperienceOpen={setExperienceOpen}
+                    experienceOpen={experienceOpen}
                   />
                 )}
               </div>
@@ -343,11 +455,15 @@ export default FillProfilePage;
 const UserBackground = ({
   background,
   initialEndorsements,
+  experienceOpen,
+  setExperienceOpen,
 }: {
   background: any[];
   initialEndorsements: any[];
+  experienceOpen: number | null;
+  // eslint-disable-next-line no-unused-vars
+  setExperienceOpen: (val: any) => void;
 }) => {
-  const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
   const endorsements = initialEndorsements?.map((endorsement: any) => ({
     member: {
       discordName: endorsement.name,
@@ -366,29 +482,65 @@ const UserBackground = ({
         >
           🎡 Background
         </TextHeading3>
-        {background.map((item, index) => (
-          <div key={index} className="mb-4">
-            <div className="flex items-center">
-              <span
-                className="mr-3 cursor-pointer"
-                onClick={() =>
-                  setExperienceOpen(index === experienceOpen ? null : index)
-                }
-              >
-                {index === experienceOpen ? "▼" : "▶"}
-              </span>
-              <div className="min-w-30 flex h-8 w-1/2 items-center !rounded-full border-0 bg-cyan-200 px-4 outline-0">
-                {item.title}
+        {background.map((item, index) => {
+          const empty = !item.bio && !item.startDate && !item.endDate;
+
+          return (
+            <div key={index} className="mb-4">
+              <div className="mb-2 flex items-center">
+                <span
+                  className={`mr-3 ${
+                    empty ? "cursor-default text-slate-400" : "cursor-pointer"
+                  }`}
+                  onClick={() => {
+                    if (!empty)
+                      setExperienceOpen(
+                        index === experienceOpen ? null : index
+                      );
+                  }}
+                >
+                  {!empty && index === experienceOpen ? "▼" : "▶"}
+                </span>
+                <div className="min-w-30 flex h-8 w-1/2 items-center !rounded-full border-0 bg-cyan-200 px-4 outline-0">
+                  {item.title}
+                </div>
+                {index < 2 && <span className="ml-3 text-xl">⭐️</span>}
               </div>
-              {index < 2 && <span className="ml-3 text-xl">⭐️</span>}
+              {index === experienceOpen && (
+                <Card border className="grid grid-cols-2 py-4 px-6">
+                  <div className="col-span-1">
+                    <TextLabel>Bio</TextLabel>
+                    <p>{item.bio}</p>
+                  </div>
+                  <div className="col-span-1">
+                    <TextLabel>Timeline</TextLabel>
+                    {item.startDate && (
+                      <p>
+                        {`${new Date(Number(item.startDate)).toLocaleString(
+                          "default",
+                          {
+                            month: "short",
+                          }
+                        )} ${new Date(
+                          Number(item.startDate)
+                        ).getFullYear()} - ${
+                          item.endDate
+                            ? `${new Date(Number(item.endDate)).toLocaleString(
+                                "default",
+                                { month: "short" }
+                              )} ${new Date(
+                                Number(item.endDate)
+                              ).getFullYear()}`
+                            : "present"
+                        }`}
+                      </p>
+                    )}
+                  </div>
+                </Card>
+              )}
             </div>
-            {index === experienceOpen && (
-              <div>
-                <p>{item.bio}</p>
-              </div>
-            )}
-          </div>
-        ))}
+          );
+        })}
       </div>
       {endorsements?.length > 0 && (
         <div className="mt-3">
