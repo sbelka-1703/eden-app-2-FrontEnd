@@ -1,10 +1,9 @@
 import { GrantsContext, GrantsModal } from "@eden/package-context";
 import {
   DiscoverTalentDropdownModal,
-  // PrioritizeModal,
   ProjectsMatchesModal,
-  RequirementsModal,
   SkipFlowModal,
+  WarningModal,
 } from "@eden/package-ui";
 import { useContext, useEffect, useState } from "react";
 
@@ -70,7 +69,7 @@ export const GrantsModalContainer = ({
           openModal={openModal === GrantsModal.SKILLS_CATEGORY}
           onClose={() => {
             setOpenModal(GrantsModal.SKIP_ALERT);
-            setNextStep(GrantsModal.PRIORITIZE);
+            setNextStep(GrantsModal.SKILLS_SUBCATEGORY);
           }}
           // eslint-disable-next-line no-unused-vars
           onSubmit={(val: string[]) => {
@@ -92,7 +91,7 @@ export const GrantsModalContainer = ({
           openModal={openModal === GrantsModal.SKILLS_SUBCATEGORY}
           onClose={() => {
             setOpenModal(GrantsModal.SKIP_ALERT);
-            setNextStep(GrantsModal.REQUIREMENTS);
+            setNextStep(GrantsModal.WARNING);
           }}
           // eslint-disable-next-line no-unused-vars
           onSubmit={(val: string[] | null) => {
@@ -100,7 +99,7 @@ export const GrantsModalContainer = ({
             if (val) {
               if (setNodeIdArray) setNodeIdArray([...nodeIdArray, ...val]);
             }
-            setOpenModal(GrantsModal.REQUIREMENTS);
+            setOpenModal(GrantsModal.WARNING);
           }}
           title={`Who are you looking for?`}
           subTitle={`Select what you want them to help you with.`}
@@ -109,39 +108,18 @@ export const GrantsModalContainer = ({
         />
       )}
 
-      {/* {openModal === GrantsModal.PRIORITIZE && (
-        <PrioritizeModal
-          key={"" + project?.role?.length}
-          battery
-          openModal={openModal === GrantsModal.PRIORITIZE}
-          onClose={() => {
-            setOpenModal(GrantsModal.SKIP_ALERT);
-            setNextStep(GrantsModal.REQUIREMENTS);
-          }}
-          onSubmit={(val) => {
-            console.log(val);
-            setOpenModal(GrantsModal.REQUIREMENTS);
-          }}
-          numMatches={38}
-        />
-      )} */}
-
-      {openModal === GrantsModal.REQUIREMENTS && (
-        <RequirementsModal
-          salaryData={rangeNumbers}
-          battery
-          openModal={openModal === GrantsModal.REQUIREMENTS}
-          onClose={() => {
-            // setOpenModal(LaunchProjectModal.PROJECT_INFO);
+      {openModal === GrantsModal.WARNING && (
+        <WarningModal
+          openModal
+          profilePercentage={20}
+          canSeeProjects={true}
+          canProjectsSee={false}
+          onSkip={function (): void {
             setOpenModal(null);
           }}
-          onSubmit={(val) => {
-            console.log(val);
+          onNext={function (): void {
             setOpenModal(null);
-            // setOpenModal(null);
           }}
-          numMatches={23}
-          matchType={matchType}
         />
       )}
     </>
