@@ -301,7 +301,7 @@ const FillProfilePage: NextPageWithLayout = () => {
                 </section>
               )}
               {currentUser && (
-                <section className="flex">
+                <section className="flex pb-4">
                   {step !== STEPS.ROLE && (
                     <Button
                       onClick={() => {
@@ -316,19 +316,32 @@ const FillProfilePage: NextPageWithLayout = () => {
                       Prev
                     </Button>
                   )}
-                  <Button
-                    className="ml-auto"
-                    onClick={() => {
-                      if (step === STEPS.ROLE) setStep(STEPS.BIO);
-                      if (step === STEPS.BIO) setStep(STEPS.COMPENSATION);
-                      if (step === STEPS.COMPENSATION) setStep(STEPS.SOCIALS);
-                      if (step === STEPS.SOCIALS) setStep(STEPS.EXP);
+                  {step !== STEPS.EXP && (
+                    <Button
+                      className="ml-auto"
+                      onClick={() => {
+                        if (step === STEPS.ROLE) setStep(STEPS.BIO);
+                        if (step === STEPS.BIO) setStep(STEPS.COMPENSATION);
+                        if (step === STEPS.COMPENSATION) setStep(STEPS.SOCIALS);
+                        if (step === STEPS.SOCIALS) setStep(STEPS.EXP);
 
-                      setPercent(percent + 5);
-                    }}
-                  >
-                    Next
-                  </Button>
+                        setPercent(percent + 5);
+                      }}
+                    >
+                      Next
+                    </Button>
+                  )}
+                  {step === STEPS.EXP && (
+                    <Button
+                      variant="primary"
+                      className="ml-auto"
+                      onClick={() => {
+                        console.log("submit", state);
+                      }}
+                    >
+                      Submit
+                    </Button>
+                  )}
                 </section>
               )}
             </div>
