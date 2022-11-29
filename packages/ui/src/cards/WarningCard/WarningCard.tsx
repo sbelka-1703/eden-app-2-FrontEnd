@@ -2,7 +2,7 @@ import { Button, Card } from "@eden/package-ui";
 import { ExclamationIcon } from "@heroicons/react/solid";
 
 export interface WarningCardProps {
-  profilePercentage: number | null | undefined;
+  profilePercentage?: number | null | undefined;
   onClickCompleteProfile?: () => void;
 }
 

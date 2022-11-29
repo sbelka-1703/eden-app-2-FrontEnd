@@ -3,6 +3,7 @@ export * from "./cards";
 export * from "./components";
 export * from "./containers";
 export * from "./elements";
+export * from "./info";
 export * from "./layout";
 export * from "./lists";
 export * from "./modals";
