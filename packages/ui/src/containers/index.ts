@@ -4,6 +4,7 @@ export * from "./ConfettiContainer";
 export * from "./CreateProjectTempContainer";
 export * from "./DiscoverModalContainer";
 export * from "./EditProfileContainer";
+export * from "./GrantsModalContainer";
 export * from "./LaunchProjectContainer";
 export * from "./NewProfileContainer";
 export * from "./OnboardPartyContainer";
