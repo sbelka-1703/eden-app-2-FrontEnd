@@ -9,6 +9,7 @@ import {
   EndorsementList,
   GridItemSix,
   GridLayout,
+  Loading,
   RoleSelector,
   SalaryRangeChart,
   SEO,
@@ -114,7 +115,7 @@ const FillProfilePage: NextPageWithLayout = () => {
         <GridItemSix className="">
           <Card className="overflow-scroll bg-white p-4">
             <div className="scrollbar-hide h-8/10 ">
-              <section className="grid grid-cols-4 gap-2 ">
+              <section className="mb-4 grid grid-cols-4 gap-2">
                 <div className="col-span-3">
                   <h2 className="mb-2 text-lg font-medium">
                     Hello & Welcome! Let’s complete your profile step by step 🚀
@@ -128,6 +129,11 @@ const FillProfilePage: NextPageWithLayout = () => {
                   <BatteryStepper batteryPercentage={percent} />
                 </div>
               </section>
+              {!currentUser && (
+                <div className="h-80">
+                  <Loading title="Loading your profile..." />
+                </div>
+              )}
               {currentUser && (
                 <section className="mb-4">
                   {step === STEPS.ROLE && (
@@ -332,7 +338,7 @@ const FillProfilePage: NextPageWithLayout = () => {
         <GridItemSix className="">
           <Card className="bg-white p-4">
             <p>Preview of your profile:</p>
-            <div className={`h-8/10 scrollbar-hide w-full overflow-scroll`}>
+            <div className={`h-8/10 scrollbar-hide w-full overflow-scroll p-2`}>
               <div
                 className={`mb-4 flex w-full justify-center ${
                   step !== STEPS.ROLE ? "blur-sm brightness-50" : ""
