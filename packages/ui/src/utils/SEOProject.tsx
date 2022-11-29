@@ -6,7 +6,7 @@ const DEFAULT_TITLE = process.env.NEXT_PUBLIC_ENV_BRANCH
   : `Eden protocol - alpha`;
 const DEFAULT_DESCRIPTION = `Together, let's build the perfect breeding ground for everyone to do work they love. Eden's talent coordination protocol is how.`;
 
-const DEFAULT_IMAGE = `https://pbs.twimg.com/profile_images/1563942271170617344/4Tpfr8SY_400x400.jpg`;
+const DEFAULT_IMAGE = `https://pbs.twimg.com/profile_images/1595723986524045312/fqOO4ZI__400x400.jpg`;
 
 export interface SEOProjectProps {
   title?: string;
