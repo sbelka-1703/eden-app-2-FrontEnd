@@ -1,9 +1,9 @@
 import { GrantTemplate, Maybe } from "@eden/package-graphql/generated";
 import {
   Avatar,
+  AvatarList,
   Badge,
   Button,
-  LongText,
   Modal,
   TextHeading2,
   TextHeading3,
@@ -32,12 +32,8 @@ export const GrantsModal = ({ grant, open, onClose }: IGrantsModalProps) => {
             >
               {grant?.name}
             </div>
-            <div className="flex">
-              <LongText
-                cutText={100}
-                text={(grant?.smallDescription as string) || ""}
-                className={`text-darkGreen font-Inter my-2 text-sm`}
-              />
+            <div className="flex text-sm text-zinc-400">
+              {grant?.smallDescription}
             </div>
             <div className={``}>
               {grant?.tags && (
@@ -60,31 +56,74 @@ export const GrantsModal = ({ grant, open, onClose }: IGrantsModalProps) => {
             </div>
           </div>
         </div>
-        <div className={`grid grid-cols-3`}>
+        <div className={`mt-4 grid grid-cols-3 gap-4`}>
           <div className={`col-span-2`}>
             <div>
-              <div className={`font-Inter text-md font-medium text-zinc-400`}>
+              <div
+                className={`font-Inter text-md mb-2 font-medium text-zinc-400`}
+              >
                 📃 Description of the grant
               </div>
-              <div>words</div>
+              <div className={`text-darkGreen`}>{grant?.description}</div>
             </div>
             <div>
-              <div className={`font-Inter text-md font-medium text-zinc-400`}>
+              <div
+                className={`font-Inter text-md my-2 font-medium text-zinc-400`}
+              >
                 💲 requirements for the grant
               </div>
-              <div>words</div>
+              <div className={`list-disc`}>
+                {grant?.requirments?.map((requirement, index) => (
+                  <li
+                    key={index}
+                    className={`text-darkGreen list-disc text-sm`}
+                  >
+                    {requirement}
+                  </li>
+                ))}
+              </div>
             </div>
             <div>
-              <div className={`font-Inter text-md font-medium text-zinc-400`}>
+              <div
+                className={`font-Inter text-md my-2 font-medium text-zinc-400`}
+              >
                 🎀 application process & our support
               </div>
-              <div>words</div>
+              <div className={`list-disc`}>
+                {grant?.applicationProcess?.map((requirement, index) => (
+                  <li
+                    key={index}
+                    className={`text-darkGreen list-disc text-sm`}
+                  >
+                    {requirement}
+                  </li>
+                ))}
+              </div>
             </div>
             <div>
-              <div className={`font-Inter text-md font-medium text-zinc-400`}>
+              <div
+                className={`font-Inter text-md my-2 font-medium text-zinc-400`}
+              >
                 🎊 D_D members who got aavE grant{" "}
               </div>
-              <div>avatars</div>
+              {grant?.membersApplied && (
+                <div className={`flex`}>
+                  <AvatarList
+                    className="inline-block !w-auto !justify-start"
+                    avatars={grant?.membersApplied
+                      .slice(0, 5)
+                      .map((member: any) => ({
+                        size: "xs",
+                        src: member?.discordAvatar,
+                      }))}
+                  />
+                  {grant?.membersApplied.slice(5).length > 0 && (
+                    <p className="text-soilGray ml-6 inline">
+                      +{grant?.membersApplied.slice(8).length} more
+                    </p>
+                  )}
+                </div>
+              )}
             </div>
           </div>
           <div className={`col-span-1`}>
@@ -99,7 +138,7 @@ export const GrantsModal = ({ grant, open, onClose }: IGrantsModalProps) => {
                 🎤 resources
               </div>
               <div className={`my-1 rounded-xl bg-blue-50 p-4 shadow-md`}>
-                box
+                {/* box */}
               </div>
             </div>
             <div className={`my-4`}>
@@ -119,7 +158,7 @@ export const GrantsModal = ({ grant, open, onClose }: IGrantsModalProps) => {
               <div
                 className={`text-accentColor my-1 rounded-xl bg-blue-50 p-4 text-xl uppercase shadow-md`}
               >
-                {grant?.discributed}/20
+                {grant?.distributed}/{grant?.maxDistributed}
               </div>
             </div>
           </div>

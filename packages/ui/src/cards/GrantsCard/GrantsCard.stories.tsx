@@ -1,5 +1,4 @@
-import { matchNodesToMembersMock } from "@eden/package-mock";
-// import { faker } from "@faker-js/faker";
+import { getGrantTemplateTypeMock } from "@eden/package-mock";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { GrantsCard } from "./GrantsCard";
@@ -16,5 +15,5 @@ const Template: ComponentStory<typeof GrantsCard> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  matchMember: matchNodesToMembersMock(),
+  grant: getGrantTemplateTypeMock(),
 };

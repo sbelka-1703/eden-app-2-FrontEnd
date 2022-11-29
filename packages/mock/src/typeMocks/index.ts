@@ -1,4 +1,5 @@
 export * from "./EndorsementsTypeMock";
+export * from "./GrantTemplateTypeMock";
 export * from "./MatchProjectRolesTypeMock";
 export * from "./MatchSkillsToProjectsOutputMock";
 export * from "./NodesTypeMock";

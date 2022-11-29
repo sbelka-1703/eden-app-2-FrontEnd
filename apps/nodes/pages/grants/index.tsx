@@ -26,19 +26,34 @@ export const FIND_GRANTS = gql`
   query ($fields: findGrantsInput) {
     findGrants(fields: $fields) {
       _id
-      avatar
       name
       smallDescription
+      description
+      avatar
+      tags
+      distributed
+      maxDistributed
       amount
-      applicationProcess
       difficulty
-      discributed
+      applicationProcess
       requirments
       resources {
         name
         url
       }
-      tags
+      nodes {
+        nodeData {
+          _id
+          name
+          node
+        }
+      }
+      serverID
+      membersApplied {
+        _id
+        discordName
+        discordAvatar
+      }
     }
   }
 `;
