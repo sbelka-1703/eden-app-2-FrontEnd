@@ -1,7 +1,7 @@
-import { DiscoverContext, DiscoverModal } from "@eden/package-context";
+import { GrantsContext, GrantsModal } from "@eden/package-context";
 import {
   DiscoverTalentDropdownModal,
-  PrioritizeModal,
+  // PrioritizeModal,
   ProjectsMatchesModal,
   RequirementsModal,
   SkipFlowModal,
@@ -14,15 +14,16 @@ for (let i = 0; i < 500; i++) {
   rangeNumbers.push(Math.floor(Math.random() * 80) + 1);
 }
 
-export interface IDiscoverModalContainerProps {
+export interface IGrantsModalContainerProps {
   // eslint-disable-next-line no-unused-vars
   setArrayOfNodes?: (val: string[]) => void;
 }
 
-export const DiscoverModalContainer = ({
+export const GrantsModalContainer = ({
   setArrayOfNodes,
-}: IDiscoverModalContainerProps) => {
-  const { project, openModal, setOpenModal } = useContext(DiscoverContext);
+}: IGrantsModalContainerProps) => {
+  // const { project, openModal, setOpenModal } = useContext(GrantsContext);
+  const { openModal, setOpenModal } = useContext(GrantsContext);
 
   const [nextStep, setNextStep] = useState<any>(null);
   const [nodeIdArray, setNodeIdArray] = useState<string[]>([]);
@@ -33,25 +34,29 @@ export const DiscoverModalContainer = ({
     }
   }, [nodeIdArray]);
 
-  const matchType = `People`;
+  const matchType = `Grants`;
+
+  console.log("grants modal container", openModal);
 
   return (
     <>
-      {openModal === DiscoverModal.SKIP_ALERT && (
+      {openModal === GrantsModal.SKIP_ALERT && (
         <SkipFlowModal
-          openModal={openModal === DiscoverModal.SKIP_ALERT}
+          openModal={openModal === GrantsModal.SKIP_ALERT}
           onSkipStep={() => setOpenModal(nextStep)}
           onSkipFlow={() => setOpenModal(null)}
           percentage={50}
         />
       )}
 
-      {openModal === DiscoverModal.START_INFO && (
+      {openModal === GrantsModal.START_INFO && (
         <ProjectsMatchesModal
-          openModal={openModal === DiscoverModal.START_INFO}
+          openModal={openModal === GrantsModal.START_INFO}
           onSubmit={() => {
-            setOpenModal(DiscoverModal.SKILLS_CATEGORY);
+            setOpenModal(GrantsModal.SKILLS_CATEGORY);
           }}
+          header1={"Looking for a Grant?"}
+          header2={"Let's help you find one!"}
           batteryPercentageBefore={10}
           numMatchesBefore={210}
           batteryPercentageAfter={70}
@@ -60,12 +65,12 @@ export const DiscoverModalContainer = ({
         />
       )}
 
-      {openModal === DiscoverModal.SKILLS_CATEGORY && (
+      {openModal === GrantsModal.SKILLS_CATEGORY && (
         <DiscoverTalentDropdownModal
-          openModal={openModal === DiscoverModal.SKILLS_CATEGORY}
+          openModal={openModal === GrantsModal.SKILLS_CATEGORY}
           onClose={() => {
-            setOpenModal(DiscoverModal.SKIP_ALERT);
-            setNextStep(DiscoverModal.PRIORITIZE);
+            setOpenModal(GrantsModal.SKIP_ALERT);
+            setNextStep(GrantsModal.PRIORITIZE);
           }}
           // eslint-disable-next-line no-unused-vars
           onSubmit={(val: string[]) => {
@@ -73,7 +78,7 @@ export const DiscoverModalContainer = ({
             if (val) {
               if (setNodeIdArray) setNodeIdArray([...nodeIdArray, ...val]);
             }
-            setOpenModal(DiscoverModal.SKILLS_SUBCATEGORY);
+            setOpenModal(GrantsModal.SKILLS_SUBCATEGORY);
           }}
           title={`Who are you looking for?`}
           subTitle={`Select what you want them to help you with.`}
@@ -82,12 +87,12 @@ export const DiscoverModalContainer = ({
         />
       )}
 
-      {openModal === DiscoverModal.SKILLS_SUBCATEGORY && (
+      {openModal === GrantsModal.SKILLS_SUBCATEGORY && (
         <DiscoverTalentDropdownModal
-          openModal={openModal === DiscoverModal.SKILLS_SUBCATEGORY}
+          openModal={openModal === GrantsModal.SKILLS_SUBCATEGORY}
           onClose={() => {
-            setOpenModal(DiscoverModal.SKIP_ALERT);
-            setNextStep(DiscoverModal.PRIORITIZE);
+            setOpenModal(GrantsModal.SKIP_ALERT);
+            setNextStep(GrantsModal.REQUIREMENTS);
           }}
           // eslint-disable-next-line no-unused-vars
           onSubmit={(val: string[] | null) => {
@@ -95,9 +100,7 @@ export const DiscoverModalContainer = ({
             if (val) {
               if (setNodeIdArray) setNodeIdArray([...nodeIdArray, ...val]);
             }
-
-            // if (setArrayOfNodes) setArrayOfNodes(val);
-            setOpenModal(DiscoverModal.PRIORITIZE);
+            setOpenModal(GrantsModal.REQUIREMENTS);
           }}
           title={`Who are you looking for?`}
           subTitle={`Select what you want them to help you with.`}
@@ -106,28 +109,28 @@ export const DiscoverModalContainer = ({
         />
       )}
 
-      {openModal === DiscoverModal.PRIORITIZE && (
+      {/* {openModal === GrantsModal.PRIORITIZE && (
         <PrioritizeModal
           key={"" + project?.role?.length}
           battery
-          openModal={openModal === DiscoverModal.PRIORITIZE}
+          openModal={openModal === GrantsModal.PRIORITIZE}
           onClose={() => {
-            setOpenModal(DiscoverModal.SKIP_ALERT);
-            setNextStep(DiscoverModal.REQUIREMENTS);
+            setOpenModal(GrantsModal.SKIP_ALERT);
+            setNextStep(GrantsModal.REQUIREMENTS);
           }}
           onSubmit={(val) => {
             console.log(val);
-            setOpenModal(DiscoverModal.REQUIREMENTS);
+            setOpenModal(GrantsModal.REQUIREMENTS);
           }}
           numMatches={38}
         />
-      )}
+      )} */}
 
-      {openModal === DiscoverModal.REQUIREMENTS && (
+      {openModal === GrantsModal.REQUIREMENTS && (
         <RequirementsModal
           salaryData={rangeNumbers}
           battery
-          openModal={openModal === DiscoverModal.REQUIREMENTS}
+          openModal={openModal === GrantsModal.REQUIREMENTS}
           onClose={() => {
             // setOpenModal(LaunchProjectModal.PROJECT_INFO);
             setOpenModal(null);
@@ -138,6 +141,7 @@ export const DiscoverModalContainer = ({
             // setOpenModal(null);
           }}
           numMatches={23}
+          matchType={matchType}
         />
       )}
     </>

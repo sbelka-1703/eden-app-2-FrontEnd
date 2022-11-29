@@ -45,6 +45,7 @@ export interface IDiscoverTalentDropdownModalProps {
   title?: string;
   subTitle?: string;
   nodeType?: string;
+  matchType?: string;
 }
 
 export const DiscoverTalentDropdownModal = ({
@@ -54,6 +55,7 @@ export const DiscoverTalentDropdownModal = ({
   title = `Alright, tell me who should I find to help you with your project?`,
   subTitle = `Please pick only one role for now!`,
   nodeType,
+  matchType,
 }: IDiscoverTalentDropdownModalProps) => {
   // console.log("hackathon talent dropdown modal", dataNodes);
   const section: Data = useMemo(
@@ -181,7 +183,7 @@ export const DiscoverTalentDropdownModal = ({
                 <BatteryStepper
                   numMatches={numMatches}
                   batteryPercentage={batteryPercentage}
-                  text={`People`}
+                  text={matchType}
                 />
               )}
             </div>

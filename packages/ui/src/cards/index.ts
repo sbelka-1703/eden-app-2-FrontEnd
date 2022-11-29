@@ -3,6 +3,7 @@ export * from "./CandidateProfileCard";
 export * from "./EditProfileOnboardPartyCard";
 export * from "./EndorsementCard";
 export * from "./FiltersCard";
+export * from "./GrantsCard";
 export * from "./MemberMatchCard";
 export * from "./MemberProfileCard";
 export * from "./OpenPositionCard";
