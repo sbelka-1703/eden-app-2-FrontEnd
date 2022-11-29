@@ -30,8 +30,6 @@ export const GrantsModal = ({ grant, open, onClose }: IGrantsModalProps) => {
   const [applyGrant] = useMutation(APPLY_GRANT, {
     onCompleted({ applyGrant }: Mutation) {
       if (!applyGrant) console.log("applyGrant is null");
-      console.log("applyGrant", applyGrant);
-      // setSubmitting(false);
       toast.success("Successfully Applied to Grant");
       setIsApplying(false);
     },
