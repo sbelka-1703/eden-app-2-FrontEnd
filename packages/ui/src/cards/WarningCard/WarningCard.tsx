@@ -1,4 +1,4 @@
-import { Button, Card, TextHeading3 } from "@eden/package-ui";
+import { Button, Card } from "@eden/package-ui";
 import { ExclamationIcon } from "@heroicons/react/solid";
 import { FaCheck } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
