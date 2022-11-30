@@ -541,7 +541,7 @@ const UserBackground = ({
               {index === experienceOpen && (
                 <Card border className="grid grid-cols-2 py-4 px-6">
                   <div className="col-span-1">
-                    <TextLabel>Bio</TextLabel>
+                    <TextLabel>Description</TextLabel>
                     <p>{item.bio}</p>
                   </div>
                   <div className="col-span-1">
