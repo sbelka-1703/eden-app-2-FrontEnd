@@ -1,4 +1,4 @@
-import { Button, Modal, TextHeading1, TextHeading3 } from "@eden/package-ui";
+import { Button, Modal, TextHeading3 } from "@eden/package-ui";
 import { FaCheck } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
 import { IoIosWarning } from "react-icons/io";
@@ -13,6 +13,7 @@ export interface WarningModalProps {
 }
 
 export const WarningModal = ({
+  // eslint-disable-next-line no-unused-vars
   profilePercentage,
   canSeeProjects,
   canProjectsSee,
@@ -24,28 +25,21 @@ export const WarningModal = ({
     <Modal open={openModal} closeOnEsc={false}>
       <div>
         <div className="justify-between">
-          <div className="pb-3">
-            <TextHeading1>Danger Zone!</TextHeading1>
-          </div>
-          <div className="pl-2">
-            <TextHeading3>
-              {
-                "Don't forget to finish your profile later to become visible on Eden platform. We only show profiles that are 60%+ complete!"
-              }
+          <div className="mb-4">
+            <TextHeading3 className="text-center">
+              Your profile is not visible to the Eden network!
             </TextHeading3>
           </div>
         </div>
-        <div className="">
+        <div className="mb-6">
           <div className="mt-auto flex w-full justify-center">
             <IoIosWarning size={70} color={"FF7E5C"} />
           </div>
-          <div className="mt-auto flex w-full justify-center">
-            <TextHeading3>
-              {`At this stage your profile is ${profilePercentage}% complete.`}
-            </TextHeading3>
+          <div className="mt-auto flex w-full justify-center text-slate-400">
+            <p>{`Your profile has to be 60% + complete`}</p>
           </div>
         </div>
-        <div className="justify-center pl-20 pb-10">
+        <div className="justify-center pl-20 pr-12 pb-10">
           <div className="mt-auto flex w-full justify-start pt-5">
             <div className="pr-10 pt-2">
               {canSeeProjects ? (
@@ -67,13 +61,12 @@ export const WarningModal = ({
               )}
             </div>
             <div>
-              <TextHeading3>{`Projects ${
-                canProjectsSee ? "can" : "can't"
-              } see you.`}</TextHeading3>
               <TextHeading3>
                 {`You ${
                   canProjectsSee ? "can" : "can't"
-                } apply to the project & bounties`}
+                } apply to a project & projects ${
+                  canProjectsSee ? "can" : "can't"
+                } see your profile`}
               </TextHeading3>
             </div>
           </div>
