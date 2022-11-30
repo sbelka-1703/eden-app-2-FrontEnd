@@ -188,7 +188,7 @@ const ExperienceForm = ({
         <div className="mb-4 grid w-full grid-cols-2 gap-8 border-b border-b-gray-300 pb-4 pt-4">
           <div>
             <p className="mb-3 w-full text-left text-sm font-medium">
-              Description:
+              Description: {`(optional)`}
             </p>
             <TextArea
               rows={5}
@@ -239,7 +239,7 @@ const ExperienceForm = ({
             <div>
               <div className="mt-3">
                 <p className="mb-3 w-full text-left text-sm font-medium">
-                  Timeline:
+                  Timeline: {`(optional)`}
                 </p>
 
                 <Calendar
