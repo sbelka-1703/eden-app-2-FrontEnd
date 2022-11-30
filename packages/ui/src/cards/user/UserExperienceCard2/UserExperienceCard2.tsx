@@ -65,7 +65,7 @@ export const UserExperienceCard2 = ({
       <p className="mb-4 text-slate-400">
         A ⭐️ marks your top 2 most relevant experiences
       </p>
-      <p className="mb-4 flex text-slate-400">
+      <p className="mb-4 flex text-slate-600">
         <span className="ml-8">What did you do?</span>
         <span className="ml-24">Where did you do it?</span>
       </p>
