@@ -26,7 +26,6 @@ import {
 import { useContext, useEffect, useState } from "react";
 
 import FILL_PROFILE_MOCK from "../../utils/mock/fill-profile-mock";
-import USER_MOCK from "../../utils/mock/userMock";
 import { NextPageWithLayout } from "../_app";
 
 // eslint-disable-next-line no-unused-vars
@@ -60,7 +59,7 @@ const FillProfilePage: NextPageWithLayout = () => {
     hoursPerWeek: currentUser?.hoursPerWeek,
     expectedSalary: 0,
     links: currentUser?.links,
-    background: USER_MOCK.Result[1].background as any,
+    background: [] as any[],
   });
   const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
 
@@ -113,18 +112,27 @@ const FillProfilePage: NextPageWithLayout = () => {
   }, [currentUser]);
 
   const handleSubmitForm = () => {
+    const fields = {
+      _id: currentUser?._id,
+      // serverID: [],
+      bio: state?.bio,
+      hoursPerWeek: state?.hoursPerWeek,
+      links: state?.links?.map((item) => ({
+        url: item?.url,
+        name: item?.name,
+      })),
+      memberRole: state?.memberRole?._id || undefined,
+      previusProjects: state?.background?.map((item: any) => ({
+        description: item.bio,
+        endDate: item.endDate,
+        startDate: item.startDate,
+        title: item.title,
+      })),
+    };
+
     updateMember({
       variables: {
-        fields: {
-          ...currentUser,
-          _id: currentUser?._id,
-          // serverID: [],
-          bio: state?.bio,
-          hoursPerWeek: state?.hoursPerWeek,
-          links: state?.links,
-          memberRole: state?.memberRole,
-          previusProjects: state?.background,
-        },
+        fields: fields,
       },
     });
   };
@@ -454,14 +462,14 @@ const FillProfilePage: NextPageWithLayout = () => {
               <div
                 className={`${
                   step !== STEPS.EXP && step !== STEPS.EXP_DETAIL
-                    ? "blur-sm brightness-50"
+                    ? "blur-sm"
                     : ""
                 }`}
               >
                 {state.background && (
                   <UserBackground
                     background={state.background}
-                    initialEndorsements={USER_MOCK.Result[1].endorsements}
+                    initialEndorsements={[]}
                     setExperienceOpen={setExperienceOpen}
                     experienceOpen={experienceOpen}
                   />
