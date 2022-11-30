@@ -1,4 +1,6 @@
+import { useMutation } from "@apollo/client";
 import { UserContext, UserProvider } from "@eden/package-context";
+import { UPDATE_MEMBER } from "@eden/package-graphql";
 import { LinkType, Maybe, RoleTemplate } from "@eden/package-graphql/generated";
 import {
   AppUserLayout,
@@ -62,6 +64,8 @@ const FillProfilePage: NextPageWithLayout = () => {
   });
   const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
 
+  const [updateMember] = useMutation(UPDATE_MEMBER, {});
+
   const handleSetRole = (value: RoleTemplate) => {
     setState({
       ...state,
@@ -107,6 +111,23 @@ const FillProfilePage: NextPageWithLayout = () => {
       links: currentUser?.links,
     });
   }, [currentUser]);
+
+  const handleSubmitForm = () => {
+    updateMember({
+      variables: {
+        fields: {
+          ...currentUser,
+          _id: currentUser?._id,
+          // serverID: [],
+          bio: state?.bio,
+          hoursPerWeek: state?.hoursPerWeek,
+          links: state?.links,
+          memberRole: state?.memberRole,
+          previusProjects: state?.background,
+        },
+      },
+    });
+  };
 
   return (
     <>
@@ -335,9 +356,7 @@ const FillProfilePage: NextPageWithLayout = () => {
                     <Button
                       variant="primary"
                       className="ml-auto"
-                      onClick={() => {
-                        console.log("submit", state);
-                      }}
+                      onClick={() => handleSubmitForm()}
                     >
                       Submit
                     </Button>
