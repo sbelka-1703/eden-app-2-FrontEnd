@@ -18,6 +18,9 @@
     "@faker-js/faker": "^7.4.0",
     "@headlessui/react": "^1.6.6",
     "@heroicons/react": "^1.0.6",
+    "@jaames/iro": "^5.5.2",
+    "@swc/core": "^1.3.21",
+    "@swc/jest": "^0.2.23",
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.8",
     "@types/uuid": "^8.3.4",
@@ -31,8 +34,7 @@
     "react-confetti": "^6.1.0",
     "react-multi-date-picker": "^3.3.0",
     "react-tooltip": "^4.2.21",
-    "typescript": "^4.8.4",
-    "@jaames/iro": "^5.5.2"
+    "typescript": "^4.8.4"
   },
   "dependencies": {
     "chart.js": "^3.9.1",
