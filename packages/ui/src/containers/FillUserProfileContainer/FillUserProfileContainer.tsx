@@ -11,6 +11,7 @@ import {
 } from "@eden/package-graphql/generated";
 import { STEPS } from "@eden/package-ui/utils/enums/fill-profile-steps";
 import { getFillProfilePercentage } from "@eden/package-ui/utils/fill-profile-percentage";
+import { useRouter } from "next/router";
 import {
   Dispatch,
   SetStateAction,
@@ -56,11 +57,20 @@ export const FillUserProfileContainer = ({
   setStep,
   setExperienceOpen,
 }: IFillUserProfileContainerProps) => {
+  const router = useRouter();
   const { currentUser } = useContext(UserContext);
   const [percent, setPercent] = useState(getFillProfilePercentage(state));
   //   const [salaries, setSalaries] = useState<number[]>([]);
+  const [submitting, setSubmitting] = useState(false);
 
-  const [updateMember] = useMutation(UPDATE_MEMBER, {});
+  const [updateMember] = useMutation(UPDATE_MEMBER, {
+    onCompleted: (data) => {
+      setSubmitting(false);
+      if (data?.updateMember) {
+        router.back();
+      }
+    },
+  });
 
   const { data: dataRoles } = useQuery(FIND_ROLE_TEMPLATES, {
     variables: {
@@ -128,6 +138,8 @@ export const FillUserProfileContainer = ({
   }, [currentUser]);
 
   const handleSubmitForm = () => {
+    setSubmitting(true);
+
     const fields = {
       _id: currentUser?._id,
       // serverID: [],
@@ -175,7 +187,12 @@ export const FillUserProfileContainer = ({
             <Loading title="Loading your profile..." />
           </div>
         )}
-        {currentUser && (
+        {submitting && (
+          <div className="h-80">
+            <Loading title="Submitting..." />
+          </div>
+        )}
+        {currentUser && !submitting && (
           <section className="mb-4">
             {step === STEPS.ROLE && (
               <>
@@ -316,7 +333,7 @@ export const FillUserProfileContainer = ({
             )}
           </section>
         )}
-        {currentUser && (
+        {currentUser && !submitting && (
           <section className="relative flex pb-4">
             {step === STEPS.EXP && percent < 50 && (
               <section className="absolute right-0 -top-6">
