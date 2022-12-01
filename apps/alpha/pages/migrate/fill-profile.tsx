@@ -52,12 +52,16 @@ const FillProfilePage: NextPageWithLayout = () => {
       hoursPerWeek: currentUser?.hoursPerWeek,
       //   expectedSalary: 0,
       links: currentUser?.links,
-      background: currentUser?.previusProjects?.map((proj) => ({
-        title: proj?.title,
-        bio: proj?.description,
-        startDate: proj?.startDate,
-        endDate: proj?.endDate,
-      })),
+      background:
+        currentUser?.previusProjects?.length &&
+        currentUser?.previusProjects?.length > 0
+          ? currentUser?.previusProjects?.map((proj) => ({
+              title: proj?.title,
+              bio: proj?.description,
+              startDate: proj?.startDate,
+              endDate: proj?.endDate,
+            }))
+          : [{ ...INITIAL_EXP }, { ...INITIAL_EXP }, { ...INITIAL_EXP }],
     });
   }, [currentUser]);
 
