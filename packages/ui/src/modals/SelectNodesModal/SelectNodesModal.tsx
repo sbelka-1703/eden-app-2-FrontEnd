@@ -51,7 +51,7 @@ export const SelectNodesModal = ({
     if (selectedItems) {
       const selectedNodeId: string[] = [];
 
-      console.log("selectedItems", selectedItems);
+      // console.log("selectedItems", selectedItems);
 
       forEach(selectedItems, (el) => {
         if (!isEmpty(el)) {

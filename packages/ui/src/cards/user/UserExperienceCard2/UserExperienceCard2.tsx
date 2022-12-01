@@ -19,7 +19,7 @@ const INITIAL_DATA = {
 };
 
 export interface UserExperienceCard2Props {
-  fields?: any[];
+  background?: any[];
   // eslint-disable-next-line no-unused-vars
   handleSubmit?: (val: any) => void;
   // eslint-disable-next-line no-unused-vars
@@ -29,24 +29,20 @@ export interface UserExperienceCard2Props {
 }
 
 export const UserExperienceCard2 = ({
-  // fields,
+  background = [{ ...INITIAL_DATA }, { ...INITIAL_DATA }, { ...INITIAL_DATA }],
   // eslint-disable-next-line no-unused-vars
   handleSubmit,
   handleChange,
   handleChangeOpenExperience,
 }: UserExperienceCard2Props) => {
-  const [experiences, setExperiences] = useState([
-    { ...INITIAL_DATA },
-    { ...INITIAL_DATA },
-    { ...INITIAL_DATA },
-  ]);
-  const [experienceOpen, setExperienceOpen] = useState<number | null>(0);
+  const [experiences, setExperiences] = useState(background);
+  const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
 
   const handleAddExperience = () => {
     setExperiences([...experiences, { ...INITIAL_DATA }]);
   };
-  const handleOpenExperience = (index: number) => {
-    setExperienceOpen(index === experienceOpen ? null : index);
+  const handleOpenExperience = (index: number, open: boolean) => {
+    setExperienceOpen(open ? index : null);
   };
 
   useEffect(() => {
@@ -63,15 +59,18 @@ export const UserExperienceCard2 = ({
         Share most Important experience!
       </TextHeading3>
       <p className="mb-4 text-slate-400">
-        Format is ROLE + COMPANY/UNIVERSITY/DAO
-        <br />A ⭐️ marks your top 2 most relevant experiences
+        A ⭐️ marks your top 2 most relevant experiences
+      </p>
+      <p className="mb-4 flex text-slate-600">
+        <span className="ml-8">What did you do?</span>
+        <span className="ml-24">Where did you do it?</span>
       </p>
       {experiences.map((item, index) => (
         <ExperienceForm
           key={index}
           open={experienceOpen === index}
-          handleOpen={() => {
-            handleOpenExperience(index);
+          handleOpen={(open: boolean) => {
+            handleOpenExperience(index, open);
           }}
           handleChange={(val: any) => {
             const newExperiences = [...experiences];
@@ -82,6 +81,9 @@ export const UserExperienceCard2 = ({
             newExperiences[index].endDate = val?.endDate;
 
             setExperiences(newExperiences);
+            if (!newExperiences[index].title && index === experienceOpen) {
+              handleOpenExperience(index, false);
+            }
           }}
           relevant={index < 2}
           defaultValue={experiences[index]}
@@ -106,42 +108,85 @@ const ExperienceForm = ({
 }: {
   defaultValue?: any;
   open?: boolean;
-  handleOpen?: () => void;
+  // eslint-disable-next-line no-unused-vars
+  handleOpen?: (open: boolean) => void;
   // eslint-disable-next-line no-unused-vars
   handleChange?: (val: any) => void;
   relevant?: boolean;
 }) => {
   const [val, setVal] = useState<Experience>({
-    title: "",
-    bio: "",
-    startDate: "",
-    endDate: "",
+    title: defaultValue.title,
+    bio: defaultValue.bio,
+    startDate: defaultValue.startDate,
+    endDate: defaultValue.endDate,
   });
+  const [role, setRole] = useState<string[]>([
+    defaultValue.title.split(" in ")[0] || "",
+    defaultValue.title.split(" in ")[1] || "",
+  ]);
 
   useEffect(() => {
     if (handleChange) handleChange(val);
   }, [val]);
 
+  useEffect(() => {
+    if (role[0] && !role[1]) {
+      setVal({ ...val, title: role[0] });
+    } else if (role[0] && role[1]) {
+      setVal({ ...val, title: `${role[0]} in ${role[1]}` });
+    } else if (!role[0] && role[1]) {
+      setRole(["", ""]);
+      setVal({ ...val, title: "" });
+    } else if (!role[0] && !role[1]) {
+      setVal({ ...val, title: "" });
+    }
+
+    if (handleOpen && role[0].length > 0 && !open) {
+      handleOpen(true);
+    }
+  }, [role]);
+
   return (
     <div className="mb-2">
       <div className="flex items-center">
-        <span className="mr-3 cursor-pointer" onClick={handleOpen}>
+        <span
+          className={`mr-3 ${
+            !role[0] ? "cursor-default text-slate-400" : "cursor-pointer"
+          }`}
+          onClick={() => {
+            if (!role[0]) return;
+            if (handleOpen) handleOpen(!open);
+          }}
+        >
           {open ? "▼" : "▶"}
         </span>
-        <div className="min-w-30 w-1/2">
-          <TextField
-            defaultValue={defaultValue?.title}
-            placeholder="Start typing here..."
-            onChange={(e) => setVal({ ...val, title: e.target.value })}
-            className="h-8 !rounded-full border-0 bg-cyan-200 outline-0"
-          />
+        <div className="flex items-center gap-3">
+          <div className="w-48">
+            <TextField
+              defaultValue={role[0]}
+              placeholder="Type your role"
+              onChange={(e) => setRole([e.target.value, role[1]])}
+              className="h-8 !rounded-full"
+            />
+          </div>
+          <span>x</span>
+          <div className="w-48">
+            <TextField
+              defaultValue={role[1]}
+              placeholder="Company/project/DAO"
+              onChange={(e) => setRole([role[0], e.target.value])}
+              className="h-8 !rounded-full"
+            />
+          </div>
         </div>
         {relevant && <span className="ml-3 text-xl">⭐️</span>}
       </div>
       {open && (
         <div className="mb-4 grid w-full grid-cols-2 gap-8 border-b border-b-gray-300 pb-4 pt-4">
           <div>
-            <p className="mb-3 w-full text-left text-sm font-medium">Bio:</p>
+            <p className="mb-3 w-full text-left text-sm font-medium">
+              Description: {`(optional)`}
+            </p>
             <TextArea
               rows={5}
               name="bio"
@@ -191,7 +236,7 @@ const ExperienceForm = ({
             <div>
               <div className="mt-3">
                 <p className="mb-3 w-full text-left text-sm font-medium">
-                  Timeline:
+                  Timeline: {`(optional)`}
                 </p>
 
                 <Calendar
