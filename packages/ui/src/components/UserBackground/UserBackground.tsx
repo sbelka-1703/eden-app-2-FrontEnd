@@ -46,10 +46,10 @@ export const UserBackground = ({
 
   return (
     <div>
-      <div className="mb-4">
+      <div className="mb-6">
         <TextHeading3
           style={{ fontWeight: 700 }}
-          className=" text-sm uppercase text-gray-500"
+          className="mb-4 text-sm uppercase text-gray-500"
         >
           🎡 Background
         </TextHeading3>
