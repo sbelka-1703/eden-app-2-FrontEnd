@@ -94,6 +94,39 @@ export const FillUserProfileContainer = ({
     setPercent(getFillProfilePercentage(state));
   }, [state]);
 
+  useEffect(() => {
+    if (currentUser?.links)
+      setState({
+        ...state,
+        links: state?.links?.map((link: LinkType) => {
+          let newLink = { ...link };
+
+          if (link.name === "twitter")
+            newLink = {
+              ...newLink,
+              url: link?.url?.replace("https://twitter.com/", ""),
+            };
+          if (link.name === "github")
+            newLink = {
+              ...newLink,
+              url: link?.url?.replace("https://github.com/", ""),
+            };
+          if (link.name === "lens")
+            newLink = {
+              ...newLink,
+              url: link?.url?.replace("https://www.lensfrens.xyz/", ""),
+            };
+          if (link.name === "telegram")
+            newLink = {
+              ...newLink,
+              url: link?.url?.replace("https://t.me/", ""),
+            };
+
+          return newLink;
+        }),
+      });
+  }, [currentUser]);
+
   const handleSubmitForm = () => {
     const fields = {
       _id: currentUser?._id,
@@ -188,18 +221,21 @@ export const FillUserProfileContainer = ({
             {step === STEPS.SOCIALS && (
               <>
                 <p>{`Share your socials!`}</p>
-                {["twitter", "github", "telegram"].map((item) => {
+                {["twitter", "github", "telegram", "lens"].map((item) => {
                   let placeholder = "";
 
                   switch (item) {
                     case "twitter":
-                      placeholder = "https://twitter.com/vitalik";
+                      placeholder = `${item} handle`;
                       break;
                     case "github":
-                      placeholder = "https://github.com/vitalik";
+                      placeholder = `${item} handle`;
                       break;
                     case "telegram":
-                      placeholder = "https://t.me/vitalik";
+                      placeholder = `${item} handle`;
+                      break;
+                    case "lens":
+                      placeholder = `${item} handle`;
                       break;
                     default:
                       placeholder = "";
@@ -222,15 +258,39 @@ export const FillUserProfileContainer = ({
 
                         if (hasLink) {
                           newLinks = newLinks.map((link) => {
+                            let newUrl = e.target.value;
+
+                            if (link.name === "twitter")
+                              newUrl = "https://twitter.com/" + e.target.value;
+                            if (link.name === "github")
+                              newUrl = "https://github.com/" + e.target.value;
+                            if (link.name === "lens")
+                              newUrl =
+                                "https://www.lensfrens.xyz/" + e.target.value;
+                            if (link.name === "telegram")
+                              newUrl = "https://t.me/" + e.target.value;
+
                             return link?.name === item
-                              ? { ...link, url: e.target.value }
+                              ? { ...link, url: newUrl }
                               : link;
                           });
                         } else {
+                          let newUrl = e.target.value;
+
+                          if (item === "twitter")
+                            newUrl = "https://twitter.com/" + e.target.value;
+                          if (item === "github")
+                            newUrl = "https://github.com/" + e.target.value;
+                          if (item === "lens")
+                            newUrl =
+                              "https://www.lensfrens.xyz/" + e.target.value;
+                          if (item === "telegram")
+                            newUrl = "https://t.me/" + e.target.value;
+
                           newLinks.push({
                             __typename: "linkType",
                             name: item,
-                            url: e.target.value,
+                            url: newUrl,
                           });
                         }
 
