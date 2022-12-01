@@ -34,7 +34,6 @@ export const CandidateSelectionList = ({
   // if (members.length > 0) console.log("members", members);
 
   useEffect(() => {
-    console.log("currentRole", currentRole);
     if (currentRole?.skills && onSelectRole) {
       const indexSkills = [];
 
