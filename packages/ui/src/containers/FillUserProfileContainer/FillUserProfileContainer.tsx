@@ -10,7 +10,14 @@ import {
   Scalars,
 } from "@eden/package-graphql/generated";
 import { STEPS } from "@eden/package-ui/utils/enums/fill-profile-steps";
-import { Dispatch, SetStateAction, useContext, useState } from "react";
+import { getFillProfilePercentage } from "@eden/package-ui/utils/fill-profile-percentage";
+import {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 import { UserExperienceCard2 } from "../../cards";
 import { SocialMediaInput } from "../../components";
@@ -50,7 +57,7 @@ export const FillUserProfileContainer = ({
   setExperienceOpen,
 }: IFillUserProfileContainerProps) => {
   const { currentUser } = useContext(UserContext);
-  const [percent, setPercent] = useState(36);
+  const [percent, setPercent] = useState(getFillProfilePercentage(state));
   //   const [salaries, setSalaries] = useState<number[]>([]);
 
   const [updateMember] = useMutation(UPDATE_MEMBER, {});
@@ -82,6 +89,10 @@ export const FillUserProfileContainer = ({
       background: value,
     });
   };
+
+  useEffect(() => {
+    setPercent(getFillProfilePercentage(state));
+  }, [state]);
 
   const handleSubmitForm = () => {
     const fields = {
@@ -119,11 +130,11 @@ export const FillUserProfileContainer = ({
             </h2>
             <p>
               {`Your profile is at ${percent}% right now. In order to be visible to
-                other members your profile should be at least 70% complete.`}
+                other members your profile should be at least 50% complete.`}
             </p>
           </div>
           <div className="col-span-1">
-            <BatteryStepper batteryPercentage={percent} />
+            <BatteryStepper showPercentage batteryPercentage={percent} />
           </div>
         </section>
         {!currentUser && (
@@ -177,43 +188,61 @@ export const FillUserProfileContainer = ({
             {step === STEPS.SOCIALS && (
               <>
                 <p>{`Share your socials!`}</p>
-                {["twitter", "github", "telegram"].map((item) => (
-                  <SocialMediaInput
-                    key={item}
-                    platform={item}
-                    placeholder={`Handle`}
-                    value={
-                      state.links?.find((link: LinkType) => link?.name === item)
-                        ?.url || ""
-                    }
-                    onChange={(e) => {
-                      let newLinks = state.links ? [...state.links] : [];
-                      const hasLink = state.links?.some(
-                        (link: LinkType) => link?.name === item
-                      );
+                {["twitter", "github", "telegram"].map((item) => {
+                  let placeholder = "";
 
-                      if (hasLink) {
-                        newLinks = newLinks.map((link) => {
-                          return link?.name === item
-                            ? { ...link, url: e.target.value }
-                            : link;
-                        });
-                      } else {
-                        newLinks.push({
-                          __typename: "linkType",
-                          name: item,
-                          url: e.target.value,
-                        });
+                  switch (item) {
+                    case "twitter":
+                      placeholder = "https://twitter.com/vitalik";
+                      break;
+                    case "github":
+                      placeholder = "https://github.com/vitalik";
+                      break;
+                    case "telegram":
+                      placeholder = "https://t.me/vitalik";
+                      break;
+                    default:
+                      placeholder = "";
+                  }
+                  return (
+                    <SocialMediaInput
+                      key={item}
+                      platform={item}
+                      placeholder={placeholder}
+                      value={
+                        state.links?.find(
+                          (link: LinkType) => link?.name === item
+                        )?.url || ""
                       }
+                      onChange={(e) => {
+                        let newLinks = state.links ? [...state.links] : [];
+                        const hasLink = state.links?.some(
+                          (link: LinkType) => link?.name === item
+                        );
 
-                      setState({
-                        ...state,
-                        links: newLinks,
-                      });
-                    }}
-                    shape="rounded"
-                  />
-                ))}
+                        if (hasLink) {
+                          newLinks = newLinks.map((link) => {
+                            return link?.name === item
+                              ? { ...link, url: e.target.value }
+                              : link;
+                          });
+                        } else {
+                          newLinks.push({
+                            __typename: "linkType",
+                            name: item,
+                            url: e.target.value,
+                          });
+                        }
+
+                        setState({
+                          ...state,
+                          links: newLinks,
+                        });
+                      }}
+                      shape="rounded"
+                    />
+                  );
+                })}
               </>
             )}
             {step === STEPS.EXP && (
@@ -228,15 +257,17 @@ export const FillUserProfileContainer = ({
           </section>
         )}
         {currentUser && (
-          <section className="flex pb-4">
+          <section className="relative flex pb-4">
+            {step === STEPS.EXP && percent < 50 && (
+              <section className="absolute right-0 -top-6">
+                <span className="text-red-400">fill minimum 50%</span>
+              </section>
+            )}
             {step !== STEPS.ROLE && (
               <Button
                 onClick={() => {
                   if (step === STEPS.BIO && setStep) setStep(STEPS.ROLE);
-                  if (step === STEPS.COMPENSATION && setStep)
-                    setStep(STEPS.BIO);
-                  if (step === STEPS.SOCIALS && setStep)
-                    setStep(STEPS.COMPENSATION);
+                  if (step === STEPS.SOCIALS && setStep) setStep(STEPS.BIO);
                   if (step === STEPS.EXP && setStep) setStep(STEPS.SOCIALS);
 
                   setPercent(percent + 5);
@@ -252,8 +283,6 @@ export const FillUserProfileContainer = ({
                   if (step === STEPS.ROLE && setStep) setStep(STEPS.BIO);
                   if (step === STEPS.BIO && setStep) setStep(STEPS.SOCIALS);
                   if (step === STEPS.SOCIALS && setStep) setStep(STEPS.EXP);
-
-                  setPercent(percent + 5);
                 }}
               >
                 Next
@@ -262,7 +291,8 @@ export const FillUserProfileContainer = ({
             {step === STEPS.EXP && (
               <Button
                 variant="primary"
-                className="ml-auto"
+                className={`ml-auto disabled:border-slate-300 disabled:bg-slate-300 disabled:text-slate-200`}
+                disabled={percent < 50}
                 onClick={() => handleSubmitForm()}
               >
                 Submit
