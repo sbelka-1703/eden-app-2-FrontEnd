@@ -4,11 +4,17 @@ import { UserContext } from "@eden/package-context";
 import {
   ENTER_ROOM,
   FIND_ROOM,
+  MATCH_NODES_MEMBERS,
   MEMBER_UPDATED,
   ROOM_UPDATED,
   UPDATE_MEMBER,
 } from "@eden/package-graphql";
-import { Members, SkillType_Member } from "@eden/package-graphql/generated";
+import {
+  MatchMembersToSkillOutput,
+  Maybe,
+  Members,
+  SkillType_Member,
+} from "@eden/package-graphql/generated";
 import {
   AppPublicLayout,
   Avatar,
@@ -17,6 +23,7 @@ import {
   GridItemNine,
   GridItemThree,
   GridLayout,
+  MatchAvatar,
   NodesOnboardPartyContainer,
   SEO,
   TextHeading2,
@@ -35,6 +42,30 @@ const OnboardPartyPage: NextPageWithLayout = () => {
   const [isRoomExist, setIsRoomExist] = useState(true);
 
   const { currentUser } = useContext(UserContext);
+  const [nodesID, setNodesID] = useState<string[] | null>(null);
+  const [serverID, setServerID] = useState<string | null>("996558082098339953");
+
+  const { data: dataMembers } = useQuery(MATCH_NODES_MEMBERS, {
+    variables: {
+      fields: {
+        nodesID: nodesID,
+        // TODO: change to selectedServer
+        serverID: serverID,
+      },
+    },
+    skip: !nodesID || !serverID,
+    context: { serviceName: "soilservice" },
+  });
+
+  useEffect(() => {
+    if (currentUser && currentUser.nodes) {
+      const nodesID = currentUser?.nodes.map((node) => node?.nodeData?._id);
+
+      setNodesID(nodesID as string[]);
+    }
+  }, [currentUser]);
+
+  // if (dataMembers) console.log("dataMembers", dataMembers?.matchNodesToMembers);
 
   const { data: dataRoom } = useQuery(FIND_ROOM, {
     variables: {
@@ -167,14 +198,14 @@ const OnboardPartyPage: NextPageWithLayout = () => {
     if (!partyId || !currentUser) return;
 
     let bio = currentUser?.bio || null;
-    let role = currentUser?.memberRole?._id || null;
+    // let role = currentUser?.memberRole?._id || null;
 
     if (name === "bio") {
       bio = val;
     }
-    if (name === "role") {
-      role = val._id;
-    }
+    // if (name === "role") {
+    //   role = val._id;
+    // }
 
     updateMember({
       variables: {
@@ -188,7 +219,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
             };
           }),
           bio: bio,
-          memberRole: role,
+          // memberRole: role,
         },
       },
     });
@@ -250,18 +281,36 @@ const OnboardPartyPage: NextPageWithLayout = () => {
                 <div className={`text-sm text-zinc-500`}>
                   Powered by Eden AI
                 </div>
-                <div className={`mt-2 flex`}>
-                  <div className={`flex-col content-center text-center`}>
-                    <div className={`m-auto`}>
-                      <Avatar
-                        isProject
-                        size={`sm`}
-                        src={`https://pbs.twimg.com/profile_images/1595723986524045312/fqOO4ZI__400x400.jpg`}
-                      />
-                    </div>
+                <div className={`mt-2 flex space-x-12`}>
+                  {dataMembers?.matchNodesToMembers &&
+                    dataMembers?.matchNodesToMembers.map(
+                      (
+                        member: Maybe<MatchMembersToSkillOutput>,
+                        index: number
+                      ) => {
+                        return (
+                          <div
+                            key={index}
+                            className={`flex-col content-center text-center`}
+                          >
+                            <div className={`m-auto`}>
+                              <MatchAvatar
+                                src={member?.member?.discordAvatar as string}
+                                percentage={
+                                  member?.matchPercentage
+                                    ?.totalPercentage as number
+                                }
+                                size={`md`}
+                              />
+                            </div>
 
-                    <div className={`font-medium text-zinc-500`}>@name</div>
-                  </div>
+                            <div className={`font-medium text-zinc-500`}>
+                              @{member?.member?.discordName}
+                            </div>
+                          </div>
+                        );
+                      }
+                    )}
                 </div>
               </div>
             </Card>
