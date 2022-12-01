@@ -22,6 +22,13 @@ export const MEMBER_UPDATED = gql`
         _id
         title
       }
+      nodes {
+        nodeData {
+          _id
+          name
+          node
+        }
+      }
     }
   }
 `;

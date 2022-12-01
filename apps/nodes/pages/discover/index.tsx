@@ -1,10 +1,11 @@
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import {
   DiscoverContext,
   DiscoverModal,
   DiscoverProvider,
   UserContext,
 } from "@eden/package-context";
+import { MATCH_NODES_MEMBERS } from "@eden/package-graphql";
 import { MatchMembersToSkillOutput } from "@eden/package-graphql/generated";
 import {
   AppUserSubmenuLayout,
@@ -20,50 +21,6 @@ import {
 import { useContext, useEffect, useState } from "react";
 
 import type { NextPageWithLayout } from "../_app";
-
-export const MATCH_NODES_MEMBERS = gql`
-  query ($fields: matchNodesToMembersInput) {
-    matchNodesToMembers(fields: $fields) {
-      member {
-        _id
-        discordName
-        discordAvatar
-        discriminator
-        bio
-        hoursPerWeek
-        timeZone
-        endorsements {
-          arweaveTransactionID
-          endorsementMessage
-          endorser {
-            _id
-            discordAvatar
-            discordName
-            discriminator
-          }
-        }
-        memberRole {
-          _id
-          title
-        }
-        nodes {
-          nodeData {
-            _id
-            name
-            node
-          }
-        }
-        links {
-          name
-          url
-        }
-      }
-      matchPercentage {
-        totalPercentage
-      }
-    }
-  }
-`;
 
 const DiscoverPage: NextPageWithLayout = () => {
   const { setOpenModal } = useContext(DiscoverContext);
