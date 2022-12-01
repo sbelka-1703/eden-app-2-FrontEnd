@@ -19,7 +19,7 @@ const INITIAL_DATA = {
 };
 
 export interface UserExperienceCard2Props {
-  fields?: any[];
+  background?: any[];
   // eslint-disable-next-line no-unused-vars
   handleSubmit?: (val: any) => void;
   // eslint-disable-next-line no-unused-vars
@@ -29,17 +29,13 @@ export interface UserExperienceCard2Props {
 }
 
 export const UserExperienceCard2 = ({
-  // fields,
+  background = [{ ...INITIAL_DATA }, { ...INITIAL_DATA }, { ...INITIAL_DATA }],
   // eslint-disable-next-line no-unused-vars
   handleSubmit,
   handleChange,
   handleChangeOpenExperience,
 }: UserExperienceCard2Props) => {
-  const [experiences, setExperiences] = useState([
-    { ...INITIAL_DATA },
-    { ...INITIAL_DATA },
-    { ...INITIAL_DATA },
-  ]);
+  const [experiences, setExperiences] = useState(background);
   const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
 
   const handleAddExperience = () => {
@@ -119,12 +115,15 @@ const ExperienceForm = ({
   relevant?: boolean;
 }) => {
   const [val, setVal] = useState<Experience>({
-    title: "",
-    bio: "",
-    startDate: "",
-    endDate: "",
+    title: defaultValue.title,
+    bio: defaultValue.bio,
+    startDate: defaultValue.startDate,
+    endDate: defaultValue.endDate,
   });
-  const [role, setRole] = useState<string[]>(["", ""]);
+  const [role, setRole] = useState<string[]>([
+    defaultValue.title.split(" in ")[0] || "",
+    defaultValue.title.split(" in ")[1] || "",
+  ]);
 
   useEffect(() => {
     if (handleChange) handleChange(val);
@@ -164,21 +163,19 @@ const ExperienceForm = ({
         <div className="flex items-center gap-3">
           <div className="w-48">
             <TextField
-              defaultValue={defaultValue?.title}
+              defaultValue={role[0]}
               placeholder="Type your role"
               onChange={(e) => setRole([e.target.value, role[1]])}
               className="h-8 !rounded-full"
-              value={role[0]}
             />
           </div>
           <span>x</span>
           <div className="w-48">
             <TextField
-              defaultValue={defaultValue?.title}
+              defaultValue={role[1]}
               placeholder="Company/project/DAO"
               onChange={(e) => setRole([role[0], e.target.value])}
               className="h-8 !rounded-full"
-              value={role[1]}
             />
           </div>
         </div>

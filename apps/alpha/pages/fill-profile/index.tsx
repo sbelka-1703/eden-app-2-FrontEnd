@@ -44,6 +44,14 @@ enum STEPS {
   EXP_DETAIL = "EXP_DETAIL",
 }
 
+const INITIAL_EXP = {
+  title: "",
+  skills: [],
+  startDate: "",
+  endDate: "",
+  bio: "",
+};
+
 const FillProfilePage: NextPageWithLayout = () => {
   const { currentUser } = useContext(UserContext);
   const [percent, setPercent] = useState(36);
@@ -59,7 +67,11 @@ const FillProfilePage: NextPageWithLayout = () => {
     hoursPerWeek: currentUser?.hoursPerWeek,
     expectedSalary: 0,
     links: currentUser?.links,
-    background: [] as any[],
+    background: [
+      { ...INITIAL_EXP },
+      { ...INITIAL_EXP },
+      { ...INITIAL_EXP },
+    ] as any[],
   });
   const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
 
@@ -321,6 +333,7 @@ const FillProfilePage: NextPageWithLayout = () => {
                   )}
                   {step === STEPS.EXP && (
                     <UserExperienceCard2
+                      background={state.background}
                       handleChange={(val) => handleSetBackground(val)}
                       handleChangeOpenExperience={(val) =>
                         setExperienceOpen(val)
