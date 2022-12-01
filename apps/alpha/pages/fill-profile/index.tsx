@@ -167,7 +167,7 @@ const FillProfilePage: NextPageWithLayout = () => {
                   </h2>
                   <p>
                     {`Your profile is at ${percent}% right now. In order to be visible to
-                other members your profile should be at least 70% complete.`}
+                other members your profile should be at least 50% complete.`}
                   </p>
                 </div>
                 <div className="col-span-1">
