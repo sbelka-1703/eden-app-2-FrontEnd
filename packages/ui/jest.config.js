@@ -3,7 +3,6 @@
 // };
 
 const config = {
-  preset: "ts-jest/presets/js-with-ts",
   testMatch: ["**/?(*.)(spec|test).{js,jsx,ts,tsx}"],
   coveragePathIgnorePatterns: [
     ".turbo/",
@@ -34,6 +33,9 @@ const config = {
   },
   setupFilesAfterEnv: ["../config/jest/setup.ts"],
   testEnvironment: "jsdom",
+  transform: {
+    "^.+\\.(t|j)sx?$": ["@swc/jest"],
+  },
 };
 
 module.exports = config;
