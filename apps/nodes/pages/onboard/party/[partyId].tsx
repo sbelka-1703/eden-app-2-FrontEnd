@@ -31,6 +31,7 @@ import {
 } from "@eden/package-ui";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
+import { BiRefresh } from "react-icons/bi";
 
 import type { NextPageWithLayout } from "../../_app";
 
@@ -43,19 +44,23 @@ const OnboardPartyPage: NextPageWithLayout = () => {
 
   const { currentUser } = useContext(UserContext);
   const [nodesID, setNodesID] = useState<string[] | null>(null);
+  // eslint-disable-next-line no-unused-vars
   const [serverID, setServerID] = useState<string | null>("996558082098339953");
 
-  const { data: dataMembers } = useQuery(MATCH_NODES_MEMBERS, {
-    variables: {
-      fields: {
-        nodesID: nodesID,
-        // TODO: change to selectedServer
-        serverID: serverID,
+  const { data: dataMembers, refetch: refetchMatchMembers } = useQuery(
+    MATCH_NODES_MEMBERS,
+    {
+      variables: {
+        fields: {
+          nodesID: nodesID,
+          // TODO: change to selectedServer
+          serverID: serverID,
+        },
       },
-    },
-    skip: !nodesID || !serverID,
-    context: { serviceName: "soilservice" },
-  });
+      skip: !nodesID || !serverID,
+      context: { serviceName: "soilservice" },
+    }
+  );
 
   useEffect(() => {
     if (currentUser && currentUser.nodes) {
@@ -311,6 +316,9 @@ const OnboardPartyPage: NextPageWithLayout = () => {
                         );
                       }
                     )}
+                  <button onClick={() => refetchMatchMembers()}>
+                    <BiRefresh className="text-3xl text-zinc-400" />
+                  </button>
                 </div>
               </div>
             </Card>
