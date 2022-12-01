@@ -18,6 +18,7 @@ import {
   GridItemThree,
   GridLayout,
   NodesOnboardPartyContainer,
+  SEO,
   TextHeading2,
   TextHeading3,
 } from "@eden/package-ui";
@@ -194,76 +195,81 @@ const OnboardPartyPage: NextPageWithLayout = () => {
   };
 
   return (
-    <GridLayout>
-      <GridItemThree>
-        <div className={`h-85 scrollbar-hide space-y-4 overflow-scroll p-1`}>
-          <Card shadow className={` bg-white p-4`}>
-            <div className={`flex`}>
-              <div className={``}>
-                <Avatar
-                  isProject
-                  size={`sm`}
-                  src={`https://pbs.twimg.com/profile_images/1595723986524045312/fqOO4ZI__400x400.jpg`}
-                />
-              </div>
-              <div className={`my-auto ml-4`}>
-                <TextHeading2>Eden x Art Basel</TextHeading2>
-              </div>
-            </div>
-            <div className={`mt-2 flex`}>
-              <div>📍</div>
-              <div
-                className={`text-darkGreen font-poppins ml-4 space-y-4 text-sm`}
-              >
-                <p>
-                  IRL: Miami beach boat dock 🛥Virtual Meet-up in Gather Town🚀
-                </p>
-                <p>
-                  Be the first one to hear about Eden Microgrant Incentive
-                  Program 🌱 & connect with special guests IRL and on Gather
-                  Town!
-                </p>
-              </div>
-            </div>
-          </Card>
-          {!currentUser ? (
-            <p>
-              You must be logged in to edit your profile.
-              <br />
-              If you can&rsquo;t log in ask the onboarder for help
-            </p>
-          ) : (
-            <EditProfileOnboardPartyNodesCard
-              handleUpdateUser={handleUpdateUser}
-            />
-          )}
-        </div>
-      </GridItemThree>
-      <GridItemNine>
-        <div className={`h-85 flex flex-col gap-4`}>
-          <Card shadow className={`bg-white p-4`}>
-            <div className={``}>
-              <TextHeading3>Best people for you to meet:</TextHeading3>
-              <div className={`text-sm text-zinc-500`}>Powered by Eden AI</div>
-              <div className={`mt-2 flex`}>
-                <div className={`flex-col content-center text-center`}>
-                  <div className={`m-auto`}>
-                    <Avatar
-                      isProject
-                      size={`sm`}
-                      src={`https://pbs.twimg.com/profile_images/1595723986524045312/fqOO4ZI__400x400.jpg`}
-                    />
-                  </div>
-
-                  <div className={`font-medium text-zinc-500`}>@name</div>
+    <>
+      <SEO />
+      <GridLayout>
+        <GridItemThree>
+          <div className={`h-85 scrollbar-hide space-y-4 overflow-scroll p-1`}>
+            <Card shadow className={` bg-white p-4`}>
+              <div className={`flex`}>
+                <div className={``}>
+                  <Avatar
+                    isProject
+                    size={`sm`}
+                    src={`https://pbs.twimg.com/profile_images/1595723986524045312/fqOO4ZI__400x400.jpg`}
+                  />
+                </div>
+                <div className={`my-auto ml-4`}>
+                  <TextHeading2>Eden x Art Basel</TextHeading2>
                 </div>
               </div>
-            </div>
-          </Card>
-          <NodesOnboardPartyContainer members={members} />
-        </div>
-      </GridItemNine>
-    </GridLayout>
+              <div className={`mt-2 flex`}>
+                <div>📍</div>
+                <div
+                  className={`text-darkGreen font-poppins ml-4 space-y-4 text-sm`}
+                >
+                  <p>
+                    IRL: Miami beach boat dock 🛥Virtual Meet-up in Gather Town🚀
+                  </p>
+                  <p>
+                    Be the first one to hear about Eden Microgrant Incentive
+                    Program 🌱 & connect with special guests IRL and on Gather
+                    Town!
+                  </p>
+                </div>
+              </div>
+            </Card>
+            {!currentUser ? (
+              <p>
+                You must be logged in to edit your profile.
+                <br />
+                If you can&rsquo;t log in ask the onboarder for help
+              </p>
+            ) : (
+              <EditProfileOnboardPartyNodesCard
+                handleUpdateUser={handleUpdateUser}
+              />
+            )}
+          </div>
+        </GridItemThree>
+        <GridItemNine>
+          <div className={`h-85 flex flex-col gap-4`}>
+            <Card shadow className={`bg-white p-4`}>
+              <div className={``}>
+                <TextHeading3>Best people for you to meet:</TextHeading3>
+                <div className={`text-sm text-zinc-500`}>
+                  Powered by Eden AI
+                </div>
+                <div className={`mt-2 flex`}>
+                  <div className={`flex-col content-center text-center`}>
+                    <div className={`m-auto`}>
+                      <Avatar
+                        isProject
+                        size={`sm`}
+                        src={`https://pbs.twimg.com/profile_images/1595723986524045312/fqOO4ZI__400x400.jpg`}
+                      />
+                    </div>
+
+                    <div className={`font-medium text-zinc-500`}>@name</div>
+                  </div>
+                </div>
+              </div>
+            </Card>
+            <NodesOnboardPartyContainer members={members} />
+          </div>
+        </GridItemNine>
+      </GridLayout>
+    </>
   );
 };
 
