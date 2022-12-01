@@ -44,6 +44,14 @@ enum STEPS {
   EXP_DETAIL = "EXP_DETAIL",
 }
 
+const INITIAL_EXP = {
+  title: "",
+  skills: [],
+  startDate: "",
+  endDate: "",
+  bio: "",
+};
+
 const FillProfilePage: NextPageWithLayout = () => {
   const { currentUser } = useContext(UserContext);
   const [percent, setPercent] = useState(36);
@@ -59,7 +67,9 @@ const FillProfilePage: NextPageWithLayout = () => {
     hoursPerWeek: currentUser?.hoursPerWeek,
     expectedSalary: 0,
     links: currentUser?.links,
-    background: [] as any[],
+    background: [{ ...INITIAL_EXP }, { ...INITIAL_EXP }, { ...INITIAL_EXP }] as
+      | any[]
+      | undefined,
   });
   const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
 
@@ -108,6 +118,12 @@ const FillProfilePage: NextPageWithLayout = () => {
       hoursPerWeek: currentUser?.hoursPerWeek,
       expectedSalary: 0,
       links: currentUser?.links,
+      background: currentUser?.previusProjects?.map((proj) => ({
+        title: proj?.title,
+        bio: proj?.description,
+        startDate: proj?.startDate,
+        endDate: proj?.endDate,
+      })),
     });
   }, [currentUser]);
 
@@ -321,6 +337,7 @@ const FillProfilePage: NextPageWithLayout = () => {
                   )}
                   {step === STEPS.EXP && (
                     <UserExperienceCard2
+                      background={state.background}
                       handleChange={(val) => handleSetBackground(val)}
                       handleChangeOpenExperience={(val) =>
                         setExperienceOpen(val)
@@ -498,7 +515,7 @@ const UserBackground = ({
   experienceOpen,
   setExperienceOpen,
 }: {
-  background: any[];
+  background: any[] | undefined;
   initialEndorsements: any[];
   experienceOpen: number | null;
   // eslint-disable-next-line no-unused-vars
@@ -522,7 +539,7 @@ const UserBackground = ({
         >
           🎡 Background
         </TextHeading3>
-        {background.map((item, index) => {
+        {background?.map((item, index) => {
           const empty = !item.bio && !item.startDate && !item.endDate;
 
           return (
