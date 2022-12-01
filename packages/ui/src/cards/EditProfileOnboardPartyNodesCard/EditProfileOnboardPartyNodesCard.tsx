@@ -5,6 +5,7 @@ import {
   Avatar,
   Badge,
   Card,
+  // FindRoleSelector,
   // NumberCircle,
   ProgressBarGeneric,
   SelectNodesModal,
@@ -74,17 +75,25 @@ export const EditProfileOnboardPartyNodesCard = ({
         {currentUser?.discordAvatar && (
           <Avatar src={currentUser?.discordAvatar} size="sm" />
         )}
-        {currentUser?.discordName && (
-          <span className="text-darkGreen ml-2 mb-2 text-2xl font-medium">
-            {currentUser?.discordName}
-          </span>
-        )}
-        {currentUser?.discriminator && (
-          <span className="mt-3 mb-2 text-xs font-medium text-zinc-400">
-            #{currentUser?.discriminator}
-          </span>
-        )}
+        <div>
+          <div>
+            {currentUser?.discordName && (
+              <span className="text-darkGreen ml-2 mb-2 text-2xl font-medium">
+                {currentUser?.discordName}
+              </span>
+            )}
+            {currentUser?.discriminator && (
+              <span className="mt-3 mb-2 pl-1 text-xs font-medium text-zinc-400">
+                #{currentUser?.discriminator}
+              </span>
+            )}
+          </div>
+          <div className={`text-md ml-2 font-medium text-zinc-400`}>
+            {currentUser?.memberRole?.title}
+          </div>
+        </div>
       </div>
+
       <div className="mb-2">
         <div className="mb-1 flex items-baseline">
           <TextLabel>PROFILE PROGRESS</TextLabel>
@@ -92,6 +101,10 @@ export const EditProfileOnboardPartyNodesCard = ({
         </div>
         <ProgressBarGeneric progress={progress} />
       </div>
+      {/* Add Roles */}
+
+      {/* <TextLabel>Current Role:</TextLabel>
+      <FindRoleSelector onSelect={_handleUpdateUserRole} /> */}
 
       <div className="flex items-center justify-between space-x-2 py-1">
         <TextLabel>PREFERRED PROJECTS</TextLabel>

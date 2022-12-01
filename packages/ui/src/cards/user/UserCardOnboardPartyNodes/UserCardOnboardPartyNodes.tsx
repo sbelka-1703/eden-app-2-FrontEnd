@@ -29,15 +29,22 @@ export const UserCardOnboardPartyNodes = ({
             <Avatar src={member.discordAvatar} size="md" />
           </div>
         )}
+
         <div>
-          <TextHeading3 className="-mt-3">{member.discordName}</TextHeading3>
-          {member.memberRole && (
-            <p className="text-xs font-medium leading-none">
-              <span className="mr-1">💼</span>
-              {member.memberRole.title?.toUpperCase()}
-            </p>
-          )}
-          {/* <SocialMediaComp links={member.links} title="" size="18px" /> */}
+          <div>
+            <TextHeading3 className="-mt-3">{member.discordName}</TextHeading3>
+            {member.memberRole && (
+              <p className="text-xs font-medium leading-none">
+                <span className="mr-1">💼</span>
+                {member.memberRole.title?.toUpperCase()}
+              </p>
+            )}
+            {/* <SocialMediaComp links={member.links} title="" size="18px" /> */}
+          </div>
+
+          <div className={`text-md ml-2 font-medium text-zinc-400`}>
+            {member?.memberRole?.title}
+          </div>
         </div>
       </div>
       <div className="mb-2">
