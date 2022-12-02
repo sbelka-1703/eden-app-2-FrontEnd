@@ -13,9 +13,6 @@ import {
   Button,
   Card,
   GrantsInfo,
-  GridItemEight,
-  GridItemTwo,
-  GridLayout,
   Loading,
   Missing404Section,
   SEOGrants,
@@ -69,6 +66,10 @@ const GrantsIdPage = ({
     });
   };
 
+  const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
+    ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+    : "localhost:3000";
+
   return (
     <>
       <SEOGrants
@@ -76,44 +77,34 @@ const GrantsIdPage = ({
         image={grant?.avatar || ""}
         description={grant?.smallDescription || ""}
       />
-      <AppUserSubmenuLayout showSubmenu={false}>
-        <GridLayout className={`bg-background h-screen`}>
-          <GridItemTwo> </GridItemTwo>
-          <GridItemEight>
-            <Card
-              shadow
-              className={`h-85 scrollbar-hide overflow-y-scroll bg-white p-6`}
-            >
-              {isApplying ? (
-                <Loading title={`Applying...`} />
-              ) : (
-                <>
-                  <div
-                    className={`h-7/10 scrollbar-hide w-full overflow-scroll`}
-                  >
-                    <GrantsInfo grant={grant} />
-                  </div>
-                  <div className={`flex justify-between`}>
-                    <Button
-                      onClick={() => {
-                        navigator.clipboard.writeText(
-                          `${process.env.NEXT_PUBLIC_VERCEL_URL}${router.asPath}`
-                        );
-                        toast.success("grant link copied to clipboard");
-                      }}
-                    >
-                      Share
-                    </Button>
-                    <Button variant={`primary`} onClick={() => handleApply()}>
-                      Apply
-                    </Button>
-                  </div>
-                </>
-              )}
-            </Card>
-          </GridItemEight>
-          <GridItemTwo> </GridItemTwo>
-        </GridLayout>
+      <AppUserSubmenuLayout showSubmenu={true}>
+        <Card
+          shadow
+          className={`h-85 scrollbar-hide overflow-y-scroll bg-white p-6`}
+        >
+          {isApplying ? (
+            <Loading title={`Applying...`} />
+          ) : (
+            <>
+              <div className={`h-7/10 scrollbar-hide w-full overflow-scroll`}>
+                <GrantsInfo grant={grant} />
+              </div>
+              <div className={`flex justify-between`}>
+                <Button
+                  onClick={() => {
+                    navigator.clipboard.writeText(`${baseUrl}${router.asPath}`);
+                    toast.success("grant link copied to clipboard");
+                  }}
+                >
+                  Share
+                </Button>
+                <Button variant={`primary`} onClick={() => handleApply()}>
+                  Apply
+                </Button>
+              </div>
+            </>
+          )}
+        </Card>
       </AppUserSubmenuLayout>
     </>
   );
