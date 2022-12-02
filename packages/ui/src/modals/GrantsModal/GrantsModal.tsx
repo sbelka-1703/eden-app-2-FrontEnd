@@ -70,7 +70,7 @@ export const GrantsModal = ({ grant, open, onClose }: IGrantsModalProps) => {
             "https://eden-alpha-develop.vercel.app/profile/" +
             currentUser?.discordName,
         },
-        { name: "prefill_Microgrant+Name", value: "DD microgrant" },
+        { name: "prefill_Microgrant+Name", value: grant.name || "" },
         {
           name: "prefill_Discord+Handle",
           value:
