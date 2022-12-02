@@ -51,7 +51,7 @@ export const GrantsModal = ({ grant, open, onClose }: IGrantsModalProps) => {
       toast.error("Your profile must be filled 50% minimum");
       return;
     }
-    setIsApplying(true);
+    // setIsApplying(true);
     // applyGrant({
     //   variables: {
     //     fields: {
@@ -61,9 +61,8 @@ export const GrantsModal = ({ grant, open, onClose }: IGrantsModalProps) => {
     //   },
     // });
 
-    window.location.href = getDynamicURL(
-      "https://airtable.com/shrs5Y5wNEISaB7Uc",
-      [
+    window.open(
+      getDynamicURL("https://airtable.com/shrs5Y5wNEISaB7Uc", [
         {
           name: "prefill_Eden+Profile",
           value:
@@ -76,7 +75,8 @@ export const GrantsModal = ({ grant, open, onClose }: IGrantsModalProps) => {
           value:
             `${currentUser?.discordName}#${currentUser?.discriminator}` || "",
         },
-      ]
+      ]),
+      "_blank"
     );
   };
 

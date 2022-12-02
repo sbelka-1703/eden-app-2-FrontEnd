@@ -18,16 +18,16 @@ import {
 import { useContext, useState } from "react";
 import { BiCommentAdd } from "react-icons/bi";
 
-import { getUserProgressNodes } from "../../../utils/user-progress-nodes";
+import { getFillProfilePercentage } from "../../../utils/fill-profile-percentage";
 
-export const ADD_NODES = gql`
+const ADD_NODES = gql`
   mutation ($fields: addNodesToMemberInRoomInput) {
     addNodesToMemberInRoom(fields: $fields) {
       _id
     }
   }
 `;
-// export const ADD_NODES = gql`
+// const ADD_NODES = gql`
 //   mutation ($fields: addNodesToMemberInput!) {
 //     addNodesToMember(fields: $fields) {
 //       _id
@@ -35,7 +35,7 @@ export const ADD_NODES = gql`
 //   }
 // `;
 
-export const DELETE_NODES = gql`
+const DELETE_NODES = gql`
   mutation ($fields: deleteNodesFromMemberInRoomInput) {
     deleteNodesFromMemberInRoom(fields: $fields) {
       _id
@@ -43,7 +43,7 @@ export const DELETE_NODES = gql`
   }
 `;
 
-// export const DELETE_NODES = gql`
+// const DELETE_NODES = gql`
 //   mutation ($fields: deleteNodesFromMemberInput!) {
 //     deleteNodesFromMember(fields: $fields) {
 //       _id
@@ -74,7 +74,7 @@ export const EditProfileOnboardPartyNodesCard = ({
     context: { serviceName: "soilservice" },
   });
 
-  const progress = getUserProgressNodes(currentUser || {});
+  const progress = getFillProfilePercentage(currentUser || {});
 
   const _handleUpdateUser = (e: any) => {
     handleUpdateUser(e.target.value, e.target.name);
