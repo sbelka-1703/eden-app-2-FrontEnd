@@ -6,6 +6,7 @@ import {
   Mutation,
 } from "@eden/package-graphql/generated";
 import { Button, GrantsInfo, Loading, Modal } from "@eden/package-ui";
+import { getDynamicURL } from "@eden/package-ui/utils/dynamic-url";
 import { useContext, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -27,6 +28,7 @@ export const GrantsModal = ({ grant, open, onClose }: IGrantsModalProps) => {
   const { currentUser } = useContext(UserContext);
   const [isApplying, setIsApplying] = useState(false);
 
+  // eslint-disable-next-line no-unused-vars
   const [applyGrant] = useMutation(APPLY_GRANT, {
     onCompleted({ applyGrant }: Mutation) {
       if (!applyGrant) console.log("applyGrant is null");
@@ -42,15 +44,40 @@ export const GrantsModal = ({ grant, open, onClose }: IGrantsModalProps) => {
       toast.error("You must be logged in to apply for a grant");
       return;
     }
+    if (
+      !currentUser.onbording?.signup ||
+      currentUser.onbording?.percentage! < 50
+    ) {
+      toast.error("Your profile must be filled 50% minimum");
+      return;
+    }
     setIsApplying(true);
-    applyGrant({
-      variables: {
-        fields: {
-          grantID: grant._id,
-          memberID: currentUser._id,
+    // applyGrant({
+    //   variables: {
+    //     fields: {
+    //       grantID: grant._id,
+    //       memberID: currentUser._id,
+    //     },
+    //   },
+    // });
+
+    window.location.href = getDynamicURL(
+      "https://airtable.com/shrs5Y5wNEISaB7Uc",
+      [
+        {
+          name: "prefill_Eden+Profile",
+          value:
+            "https://eden-alpha-develop.vercel.app/profile/" +
+            currentUser?.discordName,
         },
-      },
-    });
+        { name: "prefill_Microgrant+Name", value: "DD microgrant" },
+        {
+          name: "prefill_Discord+Handle",
+          value:
+            `${currentUser?.discordName}#${currentUser?.discriminator}` || "",
+        },
+      ]
+    );
   };
 
   const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
@@ -61,7 +88,7 @@ export const GrantsModal = ({ grant, open, onClose }: IGrantsModalProps) => {
     <Modal open={open} onClose={onClose}>
       <div className={`h-8/10 scrollbar-hide w-full overflow-scroll`}>
         {isApplying ? (
-          <Loading title={`Applying...`} />
+          <Loading title={`Redirecting...`} />
         ) : (
           <GrantsInfo grant={grant} />
         )}

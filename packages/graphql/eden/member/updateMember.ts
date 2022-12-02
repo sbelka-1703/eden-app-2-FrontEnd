@@ -23,6 +23,10 @@ export const UPDATE_MEMBER = gql`
         _id
         title
       }
+      onbording {
+        signup
+        percentage
+      }
     }
   }
 `;
