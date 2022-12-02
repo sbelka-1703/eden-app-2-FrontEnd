@@ -79,8 +79,8 @@ export const GrantsModalContainer = ({
             }
             setOpenModal(GrantsModal.SKILLS_SUBCATEGORY);
           }}
-          title={`Who are you looking for?`}
-          subTitle={`Select what you want them to help you with.`}
+          title={`First select your role`}
+          subTitle={`Choose any role you want!`}
           nodeType={`expertise`}
           matchType={matchType}
           batteryPercentage={20}
@@ -102,8 +102,8 @@ export const GrantsModalContainer = ({
             }
             setOpenModal(GrantsModal.WARNING);
           }}
-          title={`Who are you looking for?`}
-          subTitle={`Select what you want them to help you with.`}
+          title={`Let's get you sorted! What type of projects are you looking for?`}
+          subTitle={`You can choose any area of interest!`}
           nodeType={`typeProject`}
           matchType={matchType}
           batteryPercentage={60}
