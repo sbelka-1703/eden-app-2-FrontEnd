@@ -40,43 +40,39 @@ export const ProjectsMatchesModal = ({
   <>
     <Modal open={openModal} closeOnEsc={false}>
       <div className="space-y-4 pl-4">
-        <div>
-          <p className="text-2xl ">{header1}</p>
-        </div>
-        <div>
-          <p className="tracking-wider">{header2}</p>
-        </div>
+        <h1 className="text-2xl">{header1}</h1>
+        <h2 className="tracking-wider">{header2}</h2>
       </div>
-      <div className="my-4 flex justify-center space-x-6 px-6">
-        <div className="flex h-60 w-60 justify-center rounded-md border-2">
-          <div className="flex flex-col items-center justify-center space-y-2">
-            <div>{topLeftText}</div>
-            <div className="mx-4">
+      <ol className="my-4 flex justify-center space-x-6 px-6">
+        <li className="flex h-60 w-60 justify-center rounded-md border-2">
+          <ol className="flex flex-col items-center justify-center space-y-2">
+            <li>{topLeftText}</li>
+            <li className="mx-4">
               <BatteryStepper
                 batteryPercentage={batteryPercentageBefore}
                 numMatches={numMatchesBefore}
                 size={"sm"}
                 text={matchType}
               />
-            </div>
-            <div>{bottomLeftText}</div>
-          </div>
-        </div>
-        <div className="flex h-60 w-60 justify-center rounded-md border-2">
-          <div className="flex flex-col items-center justify-center space-y-2">
-            <div> {topRightText}</div>
-            <div className="mx-4">
+            </li>
+            <li>{bottomLeftText}</li>
+          </ol>
+        </li>
+        <li className="flex h-60 w-60 justify-center rounded-md border-2">
+          <ol className="flex flex-col items-center justify-center space-y-2">
+            <li>{topRightText}</li>
+            <li className="mx-4">
               <BatteryStepper
                 batteryPercentage={batteryPercentageAfter}
                 numMatches={numMatchesAfter}
                 size={"sm"}
                 text={matchType}
               />
-            </div>
-            <div>{bottomRightText}</div>
-          </div>
-        </div>
-      </div>
+            </li>
+            <li>{bottomRightText}</li>
+          </ol>
+        </li>
+      </ol>
       <div className="flex justify-end">
         <Button
           radius="rounded"
