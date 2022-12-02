@@ -8,6 +8,7 @@ import {
   ViewUserProfileContainer,
 } from "@eden/package-ui";
 import { STEPS } from "@eden/package-ui/utils";
+import { getDynamicURL } from "@eden/package-ui/utils/dynamic-url";
 import { useContext, useEffect, useState } from "react";
 
 import { NextPageWithLayout } from "../_app";
@@ -70,6 +71,39 @@ const FillProfilePage: NextPageWithLayout = () => {
       <SEO />
       <GridLayout>
         <GridItemSix className="">
+          <a
+            href={getDynamicURL("https://airtable.com/shrs5Y5wNEISaB7Uc", [
+              {
+                name: "prefill_Eden+Profile",
+                value:
+                  "https://eden-alpha-develop.vercel.app/profile/" +
+                  currentUser?.discordName,
+              },
+              { name: "prefill_Microgrant+Name", value: "DD microgrant" },
+              {
+                name: "prefill_Discord+Handle",
+                value:
+                  `${currentUser?.discordName}#${currentUser?.discriminator}` ||
+                  "",
+              },
+            ])}
+          >
+            {getDynamicURL("https://airtable.com/shrs5Y5wNEISaB7Uc", [
+              {
+                name: "prefill_Eden+Profile",
+                value:
+                  "https://eden-alpha-develop.vercel.app/profile/" +
+                  currentUser?.discordName,
+              },
+              { name: "prefill_Microgrant+Name", value: "DD microgrant" },
+              {
+                name: "prefill_Discord+Handle",
+                value:
+                  `${currentUser?.discordName}#${currentUser?.discriminator}` ||
+                  "",
+              },
+            ])}
+          </a>
           <FillUserProfileContainer
             step={step}
             state={state}

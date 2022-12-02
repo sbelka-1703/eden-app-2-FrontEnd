@@ -46,6 +46,7 @@ export interface IDiscoverTalentDropdownModalProps {
   subTitle?: string;
   nodeType?: string;
   matchType?: string;
+  batteryPercentage?: number;
 }
 
 export const DiscoverTalentDropdownModal = ({
@@ -55,7 +56,9 @@ export const DiscoverTalentDropdownModal = ({
   title = `Alright, tell me who should I find to help you with your project?`,
   subTitle = `Please pick only one role for now!`,
   nodeType,
+  // eslint-disable-next-line no-unused-vars
   matchType,
+  batteryPercentage,
 }: IDiscoverTalentDropdownModalProps) => {
   // console.log("hackathon talent dropdown modal", dataNodes);
   const section: Data = useMemo(
@@ -71,7 +74,7 @@ export const DiscoverTalentDropdownModal = ({
     [title, subTitle]
   );
 
-  const [batteryPercentage, setBatteryPercentage] = useState(0);
+  // const [batteryPercentage, setBatteryPercentage] = useState(0);
   const [selectedItems, setSelectedItems] = useState<{
     [key: string]: Node[];
   }>({});
@@ -101,23 +104,23 @@ export const DiscoverTalentDropdownModal = ({
   };
 
   useEffect(() => {
-    let _numMatches = numMatches;
-    let batteryPercentage = 50;
+    const _numMatches = numMatches;
+    // let batteryPercentage = 50;
 
-    // eslint-disable-next-line no-unused-vars
-    forEach(selectedItems, (el, key) => {
-      if (!isEmpty(el)) {
-        // numMatches += +get(section, `items.${key}.numMatches`, 1); //replace 1 with 0
-        const newFakeNum = _numMatches - Math.round(Math.random() * 15);
+    // // eslint-disable-next-line no-unused-vars
+    // forEach(selectedItems, (el, key) => {
+    //   if (!isEmpty(el)) {
+    //     // numMatches += +get(section, `items.${key}.numMatches`, 1); //replace 1 with 0
+    //     const newFakeNum = _numMatches - Math.round(Math.random() * 15);
 
-        _numMatches = newFakeNum > 0 ? newFakeNum : _numMatches;
+    //     _numMatches = newFakeNum > 0 ? newFakeNum : _numMatches;
 
-        batteryPercentage += 10;
-      }
-    });
+    //     batteryPercentage += 10;
+    //   }
+    // });
 
     if (_numMatches) setNumMatches(_numMatches);
-    setBatteryPercentage(batteryPercentage);
+    // setBatteryPercentage(batteryPercentage);
   }, [numMatches, selectedItems]);
 
   useEffect(() => {
@@ -181,9 +184,10 @@ export const DiscoverTalentDropdownModal = ({
             <div>
               {section?.battery && (
                 <BatteryStepper
-                  numMatches={numMatches}
-                  batteryPercentage={batteryPercentage}
-                  text={matchType}
+                  // numMatches={numMatches}
+                  batteryPercentage={batteryPercentage || 50}
+                  showPercentage
+                  // text={matchType}
                 />
               )}
             </div>
