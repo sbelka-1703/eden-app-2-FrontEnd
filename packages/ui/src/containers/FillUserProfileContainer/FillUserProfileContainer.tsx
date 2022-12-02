@@ -156,6 +156,10 @@ export const FillUserProfileContainer = ({
         startDate: item.startDate,
         title: item.title,
       })),
+      onbording: {
+        signup: true,
+        percentage: getFillProfilePercentage(state),
+      },
     };
 
     updateMember({
