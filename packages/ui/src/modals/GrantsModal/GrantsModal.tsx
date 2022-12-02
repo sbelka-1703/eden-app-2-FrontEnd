@@ -54,7 +54,7 @@ export const GrantsModal = ({ grant, open, onClose }: IGrantsModalProps) => {
   };
 
   const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
-    ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+    ? `https://eden-nodes.vercel.app/`
     : "localhost:3000";
 
   return (
