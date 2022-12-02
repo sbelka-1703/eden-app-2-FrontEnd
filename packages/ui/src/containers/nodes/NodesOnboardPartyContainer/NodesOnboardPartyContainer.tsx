@@ -5,7 +5,7 @@ import {
   UserCardOnboardPartyNodes,
 } from "@eden/package-ui";
 
-import { getUserProgress } from "../../../../utils/user-progress";
+import { getUserProgressNodes } from "../../../../utils/user-progress-nodes";
 
 export interface INodesOnboardPartyContainerProps {
   members: Members[];
@@ -21,11 +21,11 @@ export const NodesOnboardPartyContainer = ({
     >
       <div>
         <TextHeading3 className="mb-2">Other People to Know</TextHeading3>
-        <section className="grid gap-5 md:grid-cols-2 2xl:grid-cols-3">
+        <section className="grid gap-5 pt-2 pb-6 md:grid-cols-2 2xl:grid-cols-3">
           {[...members]
             .sort(
               (a: Members, b: Members) =>
-                (getUserProgress(b) || 0) - (getUserProgress(a) || 0)
+                (getUserProgressNodes(b) || 0) - (getUserProgressNodes(a) || 0)
             )
             .map((member: Members, index: number) => (
               <UserCardOnboardPartyNodes key={index} member={member} />

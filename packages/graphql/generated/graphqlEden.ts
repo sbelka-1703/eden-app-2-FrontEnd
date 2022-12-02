@@ -148,6 +148,7 @@ export type Mutation = {
   addNewMember?: Maybe<Members>;
   addNodesToGrant?: Maybe<GrantTemplate>;
   addNodesToMember?: Maybe<Members>;
+  addNodesToMemberInRoom?: Maybe<Members>;
   addNodesToProjectRole?: Maybe<Project>;
   addProjectRole?: Maybe<Project>;
   addSkillToMember?: Maybe<Members>;
@@ -166,6 +167,7 @@ export type Mutation = {
   createSkills?: Maybe<Array<Maybe<Skills>>>;
   deleteMember?: Maybe<Members>;
   deleteNodesFromMember?: Maybe<Members>;
+  deleteNodesFromMemberInRoom?: Maybe<Members>;
   deleteNodesToProjectRole?: Maybe<Project>;
   endorseAttribute?: Maybe<Members>;
   enterRoom?: Maybe<Rooms>;
@@ -215,6 +217,11 @@ export type MutationAddNodesToGrantArgs = {
 
 export type MutationAddNodesToMemberArgs = {
   fields: AddNodesToMemberInput;
+};
+
+
+export type MutationAddNodesToMemberInRoomArgs = {
+  fields?: InputMaybe<AddNodesToMemberInRoomInput>;
 };
 
 
@@ -305,6 +312,11 @@ export type MutationDeleteMemberArgs = {
 
 export type MutationDeleteNodesFromMemberArgs = {
   fields: DeleteNodesFromMemberInput;
+};
+
+
+export type MutationDeleteNodesFromMemberInRoomArgs = {
+  fields?: InputMaybe<DeleteNodesFromMemberInRoomInput>;
 };
 
 
@@ -941,6 +953,12 @@ export type AddNodesToGrantInput = {
   nodesID?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
+export type AddNodesToMemberInRoomInput = {
+  RoomID?: InputMaybe<Scalars['ID']>;
+  memberID?: InputMaybe<Scalars['ID']>;
+  nodesID?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
 export type AddNodesToMemberInput = {
   memberID?: InputMaybe<Scalars['ID']>;
   nodesID?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -1178,6 +1196,12 @@ export type DatesType = {
 
 export type DeleteMemberInput = {
   memberID?: InputMaybe<Scalars['ID']>;
+};
+
+export type DeleteNodesFromMemberInRoomInput = {
+  RoomID?: InputMaybe<Scalars['ID']>;
+  memberID?: InputMaybe<Scalars['ID']>;
+  nodesID?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 export type DeleteNodesFromMemberInput = {
