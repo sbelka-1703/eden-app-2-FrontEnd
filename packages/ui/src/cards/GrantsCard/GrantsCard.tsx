@@ -90,7 +90,7 @@ export const GrantsCard = ({ grant }: IGrantsCardProps) => {
       <div className={`font-Inter text-lg font-medium text-zinc-400`}>
         Distributed to date:{" "}
         <span className={`text-accentColor text-xl uppercase`}>
-          {grant?.distributed}/{grant?.maxDistributed}
+          {grant?.distributed || 0}/{grant?.maxDistributed}
         </span>
       </div>
 

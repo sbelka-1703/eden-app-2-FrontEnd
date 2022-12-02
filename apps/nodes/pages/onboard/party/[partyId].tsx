@@ -279,6 +279,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
             <Card shadow className={`bg-white p-4`}>
               <div className={``}>
                 <TextHeading3>Best people for you to meet:</TextHeading3>
+
                 <div className={`text-sm text-zinc-500`}>
                   Powered by Eden AI
                 </div>
@@ -317,6 +318,12 @@ const OnboardPartyPage: NextPageWithLayout = () => {
                         );
                       }
                     )}
+                  {currentUser?.nodes?.length === 0 && (
+                    <TextHeading3 className={`text-blue-700`}>
+                      Add Skills and Preferred Projects on Your Profile to find
+                      best matches
+                    </TextHeading3>
+                  )}
                   <button onClick={() => refetchMatchMembers()}>
                     <BiRefresh className="text-3xl text-zinc-400" />
                   </button>

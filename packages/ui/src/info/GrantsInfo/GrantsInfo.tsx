@@ -15,6 +15,7 @@ export interface IGrantsInfoProps {
 
 export const GrantsInfo = ({ grant }: IGrantsInfoProps) => {
   if (!grant) return null;
+
   return (
     <div>
       <div className={`flex`}>
@@ -145,7 +146,7 @@ export const GrantsInfo = ({ grant }: IGrantsInfoProps) => {
             <div
               className={`text-accentColor my-1 rounded-xl bg-blue-50 p-4 text-xl uppercase shadow-md`}
             >
-              {grant?.distributed}/{grant?.maxDistributed}
+              {grant?.distributed || 0}/{grant?.maxDistributed}
             </div>
           </div>
         </div>

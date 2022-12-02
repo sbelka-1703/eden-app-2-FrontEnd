@@ -6,7 +6,7 @@ import {
   UserCardOnboardPartyNodes,
 } from "@eden/package-ui";
 
-import { getUserProgressNodes } from "../../../../utils/user-progress-nodes";
+import { getFillProfilePercentage } from "../../../../utils/fill-profile-percentage";
 
 export interface INodesOnboardPartyContainerProps {
   members: Members[];
@@ -26,7 +26,8 @@ export const NodesOnboardPartyContainer = ({
           {[...members]
             .sort(
               (a: Members, b: Members) =>
-                (getUserProgressNodes(b) || 0) - (getUserProgressNodes(a) || 0)
+                (getFillProfilePercentage(b) || 0) -
+                (getFillProfilePercentage(a) || 0)
             )
             .map((member: Members, index: number) => (
               <UserCardOnboardPartyNodes key={index} member={member} />
