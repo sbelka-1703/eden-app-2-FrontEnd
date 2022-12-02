@@ -35,7 +35,7 @@ export const GrantsModalContainer = ({
 
   const matchType = `Grants`;
 
-  console.log("grants modal container", openModal);
+  // console.log("grants modal container", openModal);
 
   return (
     <>

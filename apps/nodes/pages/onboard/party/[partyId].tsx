@@ -13,7 +13,6 @@ import {
   MatchMembersToSkillOutput,
   Maybe,
   Members,
-  SkillType_Member,
 } from "@eden/package-graphql/generated";
 import {
   AppPublicLayout,
@@ -103,7 +102,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
     skip: !membersIds,
     context: { serviceName: "soilservice" },
     onData: ({ data }) => {
-      const newMemberData = data?.data?.subscriptionData?.data?.memberUpdated;
+      const newMemberData = data?.data?.memberUpdated;
 
       setMembers(
         members.map((member: Members) => {
@@ -144,6 +143,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
           memberID: currentUser?._id,
         },
       },
+      context: { serviceName: "soilservice" },
     });
   }, [currentUser, membersIds, partyId]);
 
@@ -217,16 +217,11 @@ const OnboardPartyPage: NextPageWithLayout = () => {
         fields: {
           _id: currentUser?._id,
           serverID: currentUser?.serverID,
-          skills: currentUser?.skills?.map((skill: SkillType_Member | null) => {
-            return {
-              id: skill?.skillInfo?._id,
-              level: skill?.level,
-            };
-          }),
           bio: bio,
           // memberRole: role,
         },
       },
+      context: { serviceName: "soilservice" },
     });
   };
 
@@ -273,6 +268,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
               </p>
             ) : (
               <EditProfileOnboardPartyNodesCard
+                RoomId={partyId as string}
                 handleUpdateUser={handleUpdateUser}
               />
             )}
@@ -294,24 +290,29 @@ const OnboardPartyPage: NextPageWithLayout = () => {
                         index: number
                       ) => {
                         return (
-                          <div
-                            key={index}
-                            className={`flex-col content-center text-center`}
-                          >
-                            <div className={`m-auto`}>
-                              <MatchAvatar
-                                src={member?.member?.discordAvatar as string}
-                                percentage={
-                                  member?.matchPercentage
-                                    ?.totalPercentage as number
-                                }
-                                size={`md`}
-                              />
-                            </div>
+                          <div key={index}>
+                            {currentUser?._id !== member?.member?._id && (
+                              <div
+                                className={`flex-col content-center text-center`}
+                              >
+                                <div className={`m-auto`}>
+                                  <MatchAvatar
+                                    src={
+                                      member?.member?.discordAvatar as string
+                                    }
+                                    percentage={
+                                      member?.matchPercentage
+                                        ?.totalPercentage as number
+                                    }
+                                    size={`md`}
+                                  />
+                                </div>
 
-                            <div className={`font-medium text-zinc-500`}>
-                              @{member?.member?.discordName}
-                            </div>
+                                <div className={`font-medium text-zinc-500`}>
+                                  @{member?.member?.discordName}
+                                </div>
+                              </div>
+                            )}
                           </div>
                         );
                       }

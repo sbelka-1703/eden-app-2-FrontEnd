@@ -10,7 +10,7 @@ import {
   TextLabel,
 } from "@eden/package-ui";
 
-import { getUserProgress } from "../../../../utils/user-progress";
+import { getUserProgressNodes } from "../../../../utils/user-progress-nodes";
 
 export interface IUserCardOnboardPartyNodesProps {
   member: Members;
@@ -19,7 +19,7 @@ export interface IUserCardOnboardPartyNodesProps {
 export const UserCardOnboardPartyNodes = ({
   member,
 }: IUserCardOnboardPartyNodesProps) => {
-  const progress = getUserProgress(member);
+  const progress = getUserProgressNodes(member);
 
   return (
     <Card border className="border-soilGray col-span-1 bg-white p-3">

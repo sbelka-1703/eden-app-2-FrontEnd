@@ -17,8 +17,15 @@ import {
 import { useContext, useState } from "react";
 import { BiCommentAdd } from "react-icons/bi";
 
-import { getUserProgress } from "../../../utils/user-progress";
+import { getUserProgressNodes } from "../../../utils/user-progress-nodes";
 
+// export const ADD_NODES = gql`
+//   mutation ($fields: addNodesToMemberInRoomInput) {
+//     addNodesToMemberInRoom(fields: $fields) {
+//       _id
+//     }
+//   }
+// `;
 export const ADD_NODES = gql`
   mutation ($fields: addNodesToMemberInput!) {
     addNodesToMember(fields: $fields) {
@@ -27,19 +34,37 @@ export const ADD_NODES = gql`
   }
 `;
 
+// export const DELETE_NODES = gql`
+//   mutation ($fields: deleteNodesFromMemberInRoomInput) {
+//     deleteNodesFromMemberInRoom(fields: $fields) {
+//       _id
+//     }
+//   }
+// `;
+
+export const DELETE_NODES = gql`
+  mutation ($fields: deleteNodesFromMemberInput!) {
+    deleteNodesFromMember(fields: $fields) {
+      _id
+    }
+  }
+`;
+
 export interface IEditProfileOnboardPartyNodesCardProps {
+  RoomId: string;
   // eslint-disable-next-line no-unused-vars
   handleUpdateUser: (val: any, name: string) => void;
 }
 
 export const EditProfileOnboardPartyNodesCard = ({
+  RoomId,
   handleUpdateUser,
 }: IEditProfileOnboardPartyNodesCardProps) => {
   const { currentUser } = useContext(UserContext);
   const [openModalExpertise, setOpenModalExpertise] = useState(false);
   const [openModalTypeProject, setOpenModalTypeProject] = useState(false);
 
-  const progress = getUserProgress(currentUser || {});
+  const progress = getUserProgressNodes(currentUser || {});
 
   const _handleUpdateUser = (e: any) => {
     handleUpdateUser(e.target.value, e.target.name);
@@ -54,17 +79,53 @@ export const EditProfileOnboardPartyNodesCard = ({
       // console.log("updateMember", addNodesToMember);
       // setSubmitting(false);
     },
+    onError(error) {
+      console.log("error", error);
+    },
+  });
+
+  const [deleteNodes] = useMutation(DELETE_NODES, {
+    onCompleted({ deleteNodesFromMember }: Mutation) {
+      if (!deleteNodesFromMember) console.log("addNodesToMember is null");
+      // console.log("updateMember", addNodesToMember);
+      // setSubmitting(false);
+    },
+    onError(error) {
+      console.log("error", error);
+    },
   });
 
   const handleSaveNodes = (data: string[]) => {
-    if (!currentUser) return;
+    if (!RoomId || !currentUser) return;
+
+    // console.log(currentUser._id, RoomId, data);
+
     addNodes({
       variables: {
         fields: {
           memberID: currentUser._id,
           nodesID: data,
+          // RoomID: RoomId,
         },
       },
+      context: { serviceName: "soilservice" },
+    });
+  };
+
+  const handleDeleteNodes = (data: string[]) => {
+    if (!RoomId || !currentUser) return;
+
+    // console.log(currentUser._id, RoomId, data);
+
+    deleteNodes({
+      variables: {
+        fields: {
+          memberID: currentUser._id,
+          nodesID: data,
+          // RoomID: RoomId,
+        },
+      },
+      context: { serviceName: "soilservice" },
     });
   };
 
@@ -123,6 +184,10 @@ export const EditProfileOnboardPartyNodesCard = ({
                 colorRGB={`209,247,196`}
                 className={`font-Inter text-sm`}
                 cutText={16}
+                closeButton={true}
+                onClose={() => {
+                  handleDeleteNodes([`${item?.nodeData?._id}`]);
+                }}
               />
             );
           }
@@ -146,6 +211,10 @@ export const EditProfileOnboardPartyNodesCard = ({
                 colorRGB={`235,225,255`}
                 className={`font-Inter text-sm`}
                 cutText={16}
+                closeButton={true}
+                onClose={() => {
+                  handleDeleteNodes([`${item?.nodeData?._id}`]);
+                }}
               />
             );
           }

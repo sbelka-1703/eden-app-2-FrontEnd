@@ -53,6 +53,10 @@ export const GrantsModal = ({ grant, open, onClose }: IGrantsModalProps) => {
     });
   };
 
+  const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
+    ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+    : "localhost:3000";
+
   return (
     <Modal open={open} onClose={onClose}>
       <div className={`h-8/10 scrollbar-hide w-full overflow-scroll`}>
@@ -66,9 +70,7 @@ export const GrantsModal = ({ grant, open, onClose }: IGrantsModalProps) => {
         <div className={`flex justify-between`}>
           <Button
             onClick={() => {
-              navigator.clipboard.writeText(
-                `${process.env.NEXT_PUBLIC_VERCEL_URL}/grants/${grant?._id}`
-              );
+              navigator.clipboard.writeText(`${baseUrl}/grants/${grant?._id}`);
               toast.success("grant link copied to clipboard");
             }}
           >
