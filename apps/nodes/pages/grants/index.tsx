@@ -124,13 +124,13 @@ const GrantsPage: NextPageWithLayout = () => {
             <GridItemThree>
               <Card className={`h-85 flex flex-col gap-2`}>
                 <UserProfileCard />
-                {/* {currentUser?.onbording?.percentage! < 50 ||
-                  (!currentUser?.onbording?.signup && ( */}
-                <WarningCard
-                  profilePercentage={20}
-                  onClickCompleteProfile={() => setView("profile")}
-                />
-                {/* ))} */}
+                {currentUser?.onbording?.percentage! < 50 ||
+                  (!currentUser?.onbording?.signup && (
+                    <WarningCard
+                      profilePercentage={20}
+                      onClickCompleteProfile={() => setView("profile")}
+                    />
+                  ))}
               </Card>
             </GridItemThree>
             <GridItemNine>
