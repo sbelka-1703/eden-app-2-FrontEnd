@@ -1,4 +1,4 @@
-import { GrantsContext, GrantsModal } from "@eden/package-context";
+import { GrantsContext, GrantsModal, UserContext } from "@eden/package-context";
 import {
   DiscoverTalentDropdownModal,
   ProjectsMatchesModal,
@@ -6,6 +6,8 @@ import {
   WarningModal,
 } from "@eden/package-ui";
 import { useContext, useEffect, useState } from "react";
+
+import { getFillProfilePercentage } from "../../../utils/fill-profile-percentage";
 
 const rangeNumbers: number[] = [];
 
@@ -21,7 +23,7 @@ export interface IGrantsModalContainerProps {
 export const GrantsModalContainer = ({
   setArrayOfNodes,
 }: IGrantsModalContainerProps) => {
-  // const { project, openModal, setOpenModal } = useContext(GrantsContext);
+  const { currentUser } = useContext(UserContext);
   const { openModal, setOpenModal } = useContext(GrantsContext);
 
   const [nextStep, setNextStep] = useState<any>(null);
@@ -44,7 +46,7 @@ export const GrantsModalContainer = ({
           openModal={openModal === GrantsModal.SKIP_ALERT}
           onSkipStep={() => setOpenModal(nextStep)}
           onSkipFlow={() => setOpenModal(null)}
-          percentage={30}
+          percentage={getFillProfilePercentage(currentUser || {})}
         />
       )}
 
@@ -73,7 +75,7 @@ export const GrantsModalContainer = ({
           }}
           // eslint-disable-next-line no-unused-vars
           onSubmit={(val: string[]) => {
-            console.log("val", val);
+            // console.log("val", val);
             if (val) {
               if (setNodeIdArray) setNodeIdArray([...nodeIdArray, ...val]);
             }
@@ -83,7 +85,7 @@ export const GrantsModalContainer = ({
           subTitle={`Choose any role you want!`}
           nodeType={`expertise`}
           matchType={matchType}
-          batteryPercentage={20}
+          batteryPercentage={getFillProfilePercentage(currentUser || {})}
         />
       )}
 
@@ -96,24 +98,28 @@ export const GrantsModalContainer = ({
           }}
           // eslint-disable-next-line no-unused-vars
           onSubmit={(val: string[] | null) => {
-            console.log("val", val);
+            // console.log("val", val);
             if (val) {
               if (setNodeIdArray) setNodeIdArray([...nodeIdArray, ...val]);
             }
-            setOpenModal(GrantsModal.WARNING);
+            if (getFillProfilePercentage(currentUser || {}) < 60) {
+              setOpenModal(GrantsModal.WARNING);
+            } else {
+              setOpenModal(null);
+            }
           }}
           title={`Let's get you sorted! What type of projects are you looking for?`}
           subTitle={`You can choose any area of interest!`}
           nodeType={`typeProject`}
           matchType={matchType}
-          batteryPercentage={60}
+          batteryPercentage={getFillProfilePercentage(currentUser || {})}
         />
       )}
 
       {openModal === GrantsModal.WARNING && (
         <WarningModal
           openModal
-          profilePercentage={20}
+          profilePercentage={getFillProfilePercentage(currentUser || {})}
           canSeeProjects={true}
           canProjectsSee={false}
           onSkip={function (): void {

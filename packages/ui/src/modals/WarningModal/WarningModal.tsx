@@ -36,7 +36,7 @@ export const WarningModal = ({
             <IoIosWarning size={70} color={"FF7E5C"} />
           </div>
           <div className="mt-auto flex w-full justify-center text-slate-400">
-            <p>{`Your profile has to be 60% + complete`}</p>
+            <p>{`Your profile has to be 50% + complete`}</p>
           </div>
         </div>
         <div className="justify-center pl-20 pr-12 pb-10">

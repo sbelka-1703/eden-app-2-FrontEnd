@@ -10,7 +10,7 @@ import {
   TextLabel,
 } from "@eden/package-ui";
 
-import { getUserProgressNodes } from "../../../../utils/user-progress-nodes";
+import { getFillProfilePercentage } from "../../../../utils/fill-profile-percentage";
 
 export interface IUserCardOnboardPartyNodesProps {
   member: Members;
@@ -19,7 +19,7 @@ export interface IUserCardOnboardPartyNodesProps {
 export const UserCardOnboardPartyNodes = ({
   member,
 }: IUserCardOnboardPartyNodesProps) => {
-  const progress = getUserProgressNodes(member);
+  const progress = getFillProfilePercentage(member);
 
   return (
     <Card border className="border-soilGray col-span-1 bg-white p-3">
@@ -34,16 +34,12 @@ export const UserCardOnboardPartyNodes = ({
           <div>
             <TextHeading3 className="-mt-3">{member.discordName}</TextHeading3>
             {member.memberRole && (
-              <p className="text-xs font-medium leading-none">
+              <p className="text-xs font-medium leading-none text-zinc-500">
                 <span className="mr-1">💼</span>
                 {member.memberRole.title?.toUpperCase()}
               </p>
             )}
             {/* <SocialMediaComp links={member.links} title="" size="18px" /> */}
-          </div>
-
-          <div className={`text-md ml-2 font-medium text-zinc-400`}>
-            {member?.memberRole?.title}
           </div>
         </div>
       </div>

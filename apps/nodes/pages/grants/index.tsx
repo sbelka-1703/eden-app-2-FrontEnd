@@ -1,14 +1,17 @@
 /* eslint-disable no-unused-vars */
-import { useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import {
   GrantsContext,
   GrantsModal,
   GrantsProvider,
   UserContext,
-  UserProvider,
 } from "@eden/package-context";
 import { FIND_GRANTS } from "@eden/package-graphql";
-import { GrantTemplate } from "@eden/package-graphql/generated";
+import {
+  GrantTemplate,
+  LinkType,
+  Mutation,
+} from "@eden/package-graphql/generated";
 import {
   AppUserSubmenuLayout,
   Card,
@@ -27,6 +30,34 @@ import {
 import { useContext, useEffect, useState } from "react";
 
 import type { NextPageWithLayout } from "../_app";
+
+const ADD_NODES = gql`
+  mutation ($fields: addNodesToMemberInput!) {
+    addNodesToMember(fields: $fields) {
+      _id
+    }
+  }
+`;
+
+const getFillProfilePercentage = (user: any) => {
+  let progress = 0;
+
+  if (!!user.nodes?.length) progress += 5 * Math.min(user.nodes?.length, 12);
+  if (!!user?.memberRole) progress += 10;
+  if (!!user?.links)
+    progress += user?.links.reduce((acc: number, link: LinkType) => {
+      return !!link.url && acc < 10 ? acc + 5 : acc;
+    }, 0);
+  if (!!user?.bio) progress += 20;
+  if (!!user?.background)
+    progress += user?.background.reduce((acc: number, experience: any) => {
+      return !!experience.title && acc < 30 ? acc + 10 : acc;
+    }, 0);
+
+  if (progress > 100) progress = 100;
+
+  return Math.ceil(progress);
+};
 
 const INITIAL_EXP = {
   title: "",
@@ -58,6 +89,17 @@ const GrantsPage: NextPageWithLayout = () => {
   });
 
   // if (dataGrants) console.log("dataGrants", dataGrants);
+
+  const [addNodes] = useMutation(ADD_NODES, {
+    onCompleted({ addNodesToMember }: Mutation) {
+      if (!addNodesToMember) console.log("addNodesToMember is null");
+      // console.log("updateMember", addNodesToMember);
+      // setSubmitting(false);
+    },
+    onError(error) {
+      console.log("error", error);
+    },
+  });
 
   useEffect(() => {
     setOpenModal(GrantsModal.START_INFO);
@@ -114,6 +156,19 @@ const GrantsPage: NextPageWithLayout = () => {
           : [{ ...INITIAL_EXP }, { ...INITIAL_EXP }, { ...INITIAL_EXP }],
     });
   }, [currentUser]);
+
+  const handleAddNodes = (val: string[]) => {
+    if (!currentUser || !val) return;
+    addNodes({
+      variables: {
+        fields: {
+          memberID: currentUser?._id,
+          nodesID: val,
+        },
+      },
+      context: { serviceName: "soilservice" },
+    });
+  };
 
   return (
     <>
@@ -180,6 +235,7 @@ const GrantsPage: NextPageWithLayout = () => {
         setArrayOfNodes={(val) => {
           // console.log("array of nodes val", val);
           setNodesID(val);
+          handleAddNodes(val);
         }}
       />
     </>
@@ -188,9 +244,7 @@ const GrantsPage: NextPageWithLayout = () => {
 
 GrantsPage.getLayout = (page) => (
   <GrantsProvider>
-    <UserProvider>
-      <AppUserSubmenuLayout showSubmenu={false}>{page}</AppUserSubmenuLayout>
-    </UserProvider>
+    <AppUserSubmenuLayout showSubmenu={false}>{page}</AppUserSubmenuLayout>
   </GrantsProvider>
 );
 
