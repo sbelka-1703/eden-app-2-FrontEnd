@@ -1,6 +1,7 @@
 import { Members } from "@eden/package-graphql/generated";
 import {
   Card,
+  CardGrid,
   TextHeading3,
   UserCardOnboardPartyNodes,
 } from "@eden/package-ui";
@@ -21,7 +22,7 @@ export const NodesOnboardPartyContainer = ({
     >
       <div>
         <TextHeading3 className="mb-2">Other People to Know</TextHeading3>
-        <section className="grid gap-5 pt-2 pb-6 md:grid-cols-2 2xl:grid-cols-3">
+        <CardGrid>
           {[...members]
             .sort(
               (a: Members, b: Members) =>
@@ -30,7 +31,7 @@ export const NodesOnboardPartyContainer = ({
             .map((member: Members, index: number) => (
               <UserCardOnboardPartyNodes key={index} member={member} />
             ))}
-        </section>
+        </CardGrid>
       </div>
     </Card>
   );

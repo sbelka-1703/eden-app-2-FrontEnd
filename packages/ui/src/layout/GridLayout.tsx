@@ -70,3 +70,13 @@ export const GridItemNine: FC<Props> = ({ children, className = "" }) => {
 export const GridItemTwelve: FC<Props> = ({ children, className = "" }) => {
   return <div className={`col-span-12 ${className}`}>{children}</div>;
 };
+
+export const CardGrid: FC<Props> = ({ children, className = "" }) => {
+  return (
+    <div
+      className={`grid gap-5 pt-2 pb-6 md:grid-cols-2 2xl:grid-cols-3 ${className}`}
+    >
+      {children}
+    </div>
+  );
+};
