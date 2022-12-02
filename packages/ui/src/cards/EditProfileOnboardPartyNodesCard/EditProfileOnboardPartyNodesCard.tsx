@@ -1,13 +1,14 @@
-import { gql, useMutation } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
-import { Mutation } from "@eden/package-graphql/generated";
+import { FIND_ROLE_TEMPLATES } from "@eden/package-graphql";
+import { Maybe, Mutation, RoleTemplate } from "@eden/package-graphql/generated";
 import {
   Avatar,
   Badge,
   Card,
-  // FindRoleSelector,
   // NumberCircle,
   ProgressBarGeneric,
+  RoleSelector,
   SelectNodesModal,
   // SocialMediaInput,
   TextArea,
@@ -19,36 +20,36 @@ import { BiCommentAdd } from "react-icons/bi";
 
 import { getUserProgressNodes } from "../../../utils/user-progress-nodes";
 
-// export const ADD_NODES = gql`
-//   mutation ($fields: addNodesToMemberInRoomInput) {
-//     addNodesToMemberInRoom(fields: $fields) {
-//       _id
-//     }
-//   }
-// `;
 export const ADD_NODES = gql`
-  mutation ($fields: addNodesToMemberInput!) {
-    addNodesToMember(fields: $fields) {
+  mutation ($fields: addNodesToMemberInRoomInput) {
+    addNodesToMemberInRoom(fields: $fields) {
       _id
     }
   }
 `;
-
-// export const DELETE_NODES = gql`
-//   mutation ($fields: deleteNodesFromMemberInRoomInput) {
-//     deleteNodesFromMemberInRoom(fields: $fields) {
+// export const ADD_NODES = gql`
+//   mutation ($fields: addNodesToMemberInput!) {
+//     addNodesToMember(fields: $fields) {
 //       _id
 //     }
 //   }
 // `;
 
 export const DELETE_NODES = gql`
-  mutation ($fields: deleteNodesFromMemberInput!) {
-    deleteNodesFromMember(fields: $fields) {
+  mutation ($fields: deleteNodesFromMemberInRoomInput) {
+    deleteNodesFromMemberInRoom(fields: $fields) {
       _id
     }
   }
 `;
+
+// export const DELETE_NODES = gql`
+//   mutation ($fields: deleteNodesFromMemberInput!) {
+//     deleteNodesFromMember(fields: $fields) {
+//       _id
+//     }
+//   }
+// `;
 
 export interface IEditProfileOnboardPartyNodesCardProps {
   RoomId: string;
@@ -64,18 +65,27 @@ export const EditProfileOnboardPartyNodesCard = ({
   const [openModalExpertise, setOpenModalExpertise] = useState(false);
   const [openModalTypeProject, setOpenModalTypeProject] = useState(false);
 
+  const { data: dataRoles } = useQuery(FIND_ROLE_TEMPLATES, {
+    variables: {
+      fields: {
+        _id: null,
+      },
+    },
+    context: { serviceName: "soilservice" },
+  });
+
   const progress = getUserProgressNodes(currentUser || {});
 
   const _handleUpdateUser = (e: any) => {
     handleUpdateUser(e.target.value, e.target.name);
   };
-  // const _handleUpdateUserRole = (val: any) => {
-  //   handleUpdateUser(val, "role");
-  // };
+  const _handleUpdateUserRole = (val: any) => {
+    handleUpdateUser(val, "role");
+  };
 
   const [addNodes] = useMutation(ADD_NODES, {
-    onCompleted({ addNodesToMember }: Mutation) {
-      if (!addNodesToMember) console.log("addNodesToMember is null");
+    onCompleted({ addNodesToMemberInRoom }: Mutation) {
+      if (!addNodesToMemberInRoom) console.log("addNodesToMember is null");
       // console.log("updateMember", addNodesToMember);
       // setSubmitting(false);
     },
@@ -85,8 +95,8 @@ export const EditProfileOnboardPartyNodesCard = ({
   });
 
   const [deleteNodes] = useMutation(DELETE_NODES, {
-    onCompleted({ deleteNodesFromMember }: Mutation) {
-      if (!deleteNodesFromMember) console.log("addNodesToMember is null");
+    onCompleted({ deleteNodesFromMemberInRoom }: Mutation) {
+      if (!deleteNodesFromMemberInRoom) console.log("addNodesToMember is null");
       // console.log("updateMember", addNodesToMember);
       // setSubmitting(false);
     },
@@ -105,7 +115,7 @@ export const EditProfileOnboardPartyNodesCard = ({
         fields: {
           memberID: currentUser._id,
           nodesID: data,
-          // RoomID: RoomId,
+          RoomID: RoomId,
         },
       },
       context: { serviceName: "soilservice" },
@@ -122,7 +132,7 @@ export const EditProfileOnboardPartyNodesCard = ({
         fields: {
           memberID: currentUser._id,
           nodesID: data,
-          // RoomID: RoomId,
+          RoomID: RoomId,
         },
       },
       context: { serviceName: "soilservice" },
@@ -164,8 +174,14 @@ export const EditProfileOnboardPartyNodesCard = ({
       </div>
       {/* Add Roles */}
 
-      {/* <TextLabel>Current Role:</TextLabel>
-      <FindRoleSelector onSelect={_handleUpdateUserRole} /> */}
+      <TextLabel>Current Role:</TextLabel>
+      <RoleSelector
+        value={currentUser?.memberRole?.title || ""}
+        roles={
+          dataRoles?.findRoleTemplates as Maybe<Array<Maybe<RoleTemplate>>>
+        }
+        onSelect={_handleUpdateUserRole}
+      />
 
       <div className="flex items-center justify-between space-x-2 py-1">
         <TextLabel>PREFERRED PROJECTS</TextLabel>

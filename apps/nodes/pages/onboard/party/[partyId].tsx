@@ -5,7 +5,7 @@ import {
   ENTER_ROOM,
   FIND_ROOM,
   MATCH_NODES_MEMBERS,
-  MEMBER_UPDATED,
+  MEMBER_UPDATED_IN_ROOM_SUB,
   ROOM_UPDATED,
   UPDATE_MEMBER,
 } from "@eden/package-graphql";
@@ -95,14 +95,14 @@ const OnboardPartyPage: NextPageWithLayout = () => {
       )
     : dataRoom?.findRoom?.members.map((member: Members) => member._id);
 
-  useSubscription(MEMBER_UPDATED, {
+  useSubscription(MEMBER_UPDATED_IN_ROOM_SUB, {
     variables: {
-      fields: { _id: membersIds },
+      fields: { _id: partyId },
     },
-    skip: !membersIds,
+    skip: !partyId,
     context: { serviceName: "soilservice" },
     onData: ({ data }) => {
-      const newMemberData = data?.data?.memberUpdated;
+      const newMemberData = data?.data?.memberUpdatedInRoom;
 
       setMembers(
         members.map((member: Members) => {
@@ -203,14 +203,14 @@ const OnboardPartyPage: NextPageWithLayout = () => {
     if (!partyId || !currentUser) return;
 
     let bio = currentUser?.bio || null;
-    // let role = currentUser?.memberRole?._id || null;
+    let role = currentUser?.memberRole?._id || null;
 
     if (name === "bio") {
       bio = val;
     }
-    // if (name === "role") {
-    //   role = val._id;
-    // }
+    if (name === "role") {
+      role = val._id;
+    }
 
     updateMember({
       variables: {
@@ -218,7 +218,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
           _id: currentUser?._id,
           serverID: currentUser?.serverID,
           bio: bio,
-          // memberRole: role,
+          memberRole: role,
         },
       },
       context: { serviceName: "soilservice" },
