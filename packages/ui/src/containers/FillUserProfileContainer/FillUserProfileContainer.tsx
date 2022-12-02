@@ -11,7 +11,6 @@ import {
 } from "@eden/package-graphql/generated";
 import { STEPS } from "@eden/package-ui/utils/enums/fill-profile-steps";
 import { getFillProfilePercentage } from "@eden/package-ui/utils/fill-profile-percentage";
-import { useRouter } from "next/router";
 import {
   Dispatch,
   SetStateAction,
@@ -32,6 +31,7 @@ export interface IFillUserProfileContainerProps {
   step?: string | undefined;
   // eslint-disable-next-line no-unused-vars
   setStep: Dispatch<SetStateAction<STEPS>>;
+  setView?: Dispatch<SetStateAction<"grants" | "profile">>;
   user?: {
     bio?: Maybe<Scalars["String"]>;
 
@@ -55,9 +55,9 @@ export const FillUserProfileContainer = ({
   state,
   setState,
   setStep,
+  setView,
   setExperienceOpen,
 }: IFillUserProfileContainerProps) => {
-  const router = useRouter();
   const { currentUser } = useContext(UserContext);
   const [percent, setPercent] = useState(getFillProfilePercentage(state));
   //   const [salaries, setSalaries] = useState<number[]>([]);
@@ -66,9 +66,12 @@ export const FillUserProfileContainer = ({
   const [updateMember] = useMutation(UPDATE_MEMBER, {
     onCompleted: (data) => {
       setSubmitting(false);
-      if (data?.updateMember) {
-        router.back();
+      if (setView && data?.updateMember) {
+        setView("grants");
       }
+    },
+    onError: () => {
+      setSubmitting(false);
     },
   });
 

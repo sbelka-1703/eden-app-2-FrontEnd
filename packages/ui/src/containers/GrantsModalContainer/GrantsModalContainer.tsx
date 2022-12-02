@@ -35,7 +35,7 @@ export const GrantsModalContainer = ({
 
   const matchType = `Grants`;
 
-  console.log("grants modal container", openModal);
+  // console.log("grants modal container", openModal);
 
   return (
     <>
@@ -44,7 +44,7 @@ export const GrantsModalContainer = ({
           openModal={openModal === GrantsModal.SKIP_ALERT}
           onSkipStep={() => setOpenModal(nextStep)}
           onSkipFlow={() => setOpenModal(null)}
-          percentage={50}
+          percentage={30}
         />
       )}
 
@@ -83,6 +83,7 @@ export const GrantsModalContainer = ({
           subTitle={`Select what you want them to help you with.`}
           nodeType={`expertise`}
           matchType={matchType}
+          batteryPercentage={20}
         />
       )}
 
@@ -105,6 +106,7 @@ export const GrantsModalContainer = ({
           subTitle={`Select what you want them to help you with.`}
           nodeType={`typeProject`}
           matchType={matchType}
+          batteryPercentage={60}
         />
       )}
 
