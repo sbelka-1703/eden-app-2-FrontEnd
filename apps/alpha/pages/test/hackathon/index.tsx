@@ -60,7 +60,7 @@ const LaunchPage: NextPageWithLayout = () => {
           <UserProfileCard />
           <WarningCard
             profilePercentage={20}
-            onClickCompleteProfile={() => router.push("/fill-profile")}
+            onClickCompleteProfile={() => router.push("/migrate/fill-profile")}
           />
         </GridItemThree>
 
