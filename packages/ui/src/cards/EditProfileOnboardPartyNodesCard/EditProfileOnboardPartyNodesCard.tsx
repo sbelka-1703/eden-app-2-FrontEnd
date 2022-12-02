@@ -187,7 +187,7 @@ export const EditProfileOnboardPartyNodesCard = ({
         <TextLabel>PREFERRED PROJECTS</TextLabel>
         {/* {learningSkills && <NumberCircle value={learningSkills?.length} />} */}
         <button onClick={() => setOpenModalTypeProject(true)}>
-          <BiCommentAdd className="text-2xl text-zinc-400" />
+          <BiCommentAdd className="text-soilPurple hover:text-accentColor text-2xl" />
         </button>
       </div>
       <div>
@@ -214,7 +214,7 @@ export const EditProfileOnboardPartyNodesCard = ({
         <TextLabel>SKILLS</TextLabel>
         {/* {skilledSkills && <NumberCircle value={skilledSkills?.length} />} */}
         <button onClick={() => setOpenModalExpertise(true)}>
-          <BiCommentAdd className="text-2xl text-zinc-400" />
+          <BiCommentAdd className="text-soilPurple hover:text-accentColor text-2xl" />
         </button>{" "}
       </div>
       <div>
