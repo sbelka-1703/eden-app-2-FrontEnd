@@ -1,7 +1,7 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
 import { FIND_ROLE_TEMPLATES } from "@eden/package-graphql";
-import { Maybe, Mutation, RoleTemplate } from "@eden/package-graphql/generated";
+import { Maybe, RoleTemplate } from "@eden/package-graphql/generated";
 import {
   Avatar,
   Badge,
@@ -15,7 +15,7 @@ import {
   TextHeading3,
   TextLabel,
 } from "@eden/package-ui";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BiCommentAdd } from "react-icons/bi";
 
 import { getFillProfilePercentage } from "../../../utils/fill-profile-percentage";
@@ -64,6 +64,7 @@ export const EditProfileOnboardPartyNodesCard = ({
   const { currentUser } = useContext(UserContext);
   const [openModalExpertise, setOpenModalExpertise] = useState(false);
   const [openModalTypeProject, setOpenModalTypeProject] = useState(false);
+  const [firstTimeView, setFirstTimeView] = useState(false);
 
   const { data: dataRoles } = useQuery(FIND_ROLE_TEMPLATES, {
     variables: {
@@ -84,22 +85,12 @@ export const EditProfileOnboardPartyNodesCard = ({
   };
 
   const [addNodes] = useMutation(ADD_NODES, {
-    onCompleted({ addNodesToMemberInRoom }: Mutation) {
-      if (!addNodesToMemberInRoom) console.log("addNodesToMember is null");
-      // console.log("updateMember", addNodesToMember);
-      // setSubmitting(false);
-    },
     onError(error) {
       console.log("error", error);
     },
   });
 
   const [deleteNodes] = useMutation(DELETE_NODES, {
-    onCompleted({ deleteNodesFromMemberInRoom }: Mutation) {
-      if (!deleteNodesFromMemberInRoom) console.log("addNodesToMember is null");
-      // console.log("updateMember", addNodesToMember);
-      // setSubmitting(false);
-    },
     onError(error) {
       console.log("error", error);
     },
@@ -107,9 +98,6 @@ export const EditProfileOnboardPartyNodesCard = ({
 
   const handleSaveNodes = (data: string[]) => {
     if (!RoomId || !currentUser) return;
-
-    // console.log(currentUser._id, RoomId, data);
-
     addNodes({
       variables: {
         fields: {
@@ -124,9 +112,6 @@ export const EditProfileOnboardPartyNodesCard = ({
 
   const handleDeleteNodes = (data: string[]) => {
     if (!RoomId || !currentUser) return;
-
-    // console.log(currentUser._id, RoomId, data);
-
     deleteNodes({
       variables: {
         fields: {
@@ -139,27 +124,35 @@ export const EditProfileOnboardPartyNodesCard = ({
     });
   };
 
+  useEffect(() => {
+    if (currentUser) {
+      console.log("CURRENT USER", currentUser);
+      if (currentUser?.nodes?.length === 0 && !firstTimeView) {
+        setOpenModalExpertise(true);
+        setFirstTimeView(true);
+      }
+    }
+  }, [currentUser, firstTimeView]);
+
   return (
     <Card shadow className="bg-white p-4">
-      <TextHeading3 className="mb-2">Your Profile</TextHeading3>
-      <div className="mb-4 flex items-center">
+      <TextHeading3 className="mb-2 text-lg">Your Profile</TextHeading3>
+      <div className="mb-2 flex items-center">
         {currentUser?.discordAvatar && (
           <Avatar src={currentUser?.discordAvatar} size="sm" />
         )}
         <div>
           <div>
-            {currentUser?.discordName && (
-              <span className="text-darkGreen ml-2 mb-2 text-2xl font-medium">
-                {currentUser?.discordName}
-              </span>
-            )}
+            <span className="text-darkGreen ml-2 mb-2 text-2xl font-medium">
+              {currentUser?.discordName}
+            </span>
             {currentUser?.discriminator && (
               <span className="mt-3 mb-2 pl-1 text-xs font-medium text-zinc-400">
                 #{currentUser?.discriminator}
               </span>
             )}
           </div>
-          <div className={`text-md ml-2 font-medium text-zinc-400`}>
+          <div className={`ml-2 text-sm font-medium text-zinc-400`}>
             {currentUser?.memberRole?.title}
           </div>
         </div>
@@ -249,11 +242,21 @@ export const EditProfileOnboardPartyNodesCard = ({
         maxLength={280}
       />
       {/* <TextLabel>SOCIAL MEDIA</TextLabel>
-      <SocialMediaInput platform="twitter" onChange={handleUpdateUser} />
-      <SocialMediaInput platform="linkedin" onChange={handleUpdateUser} /> */}
+      <SocialMediaInput
+        platform="twitter"
+        onChange={(e) => console.log(e.target.value)}
+      />
+      <SocialMediaInput
+        platform="github"
+        onChange={(e) => console.log(e.target.value)}
+      />
+      <SocialMediaInput
+        platform="lens"
+        onChange={(e) => console.log(e.target.value)}
+      /> */}
 
       <SelectNodesModal
-        title="Add the Types of Projects that you like"
+        title="What Types of Projects Do You Prefer?"
         openModal={openModalTypeProject}
         onClose={() => {
           setOpenModalTypeProject(false);
@@ -266,7 +269,12 @@ export const EditProfileOnboardPartyNodesCard = ({
       />
 
       <SelectNodesModal
-        title="Add your Expertise"
+        welcomeMessage={
+          firstTimeView
+            ? `Hi Frens!  Please tell the room about yourself 😃`
+            : ""
+        }
+        title="What is Your Background?"
         openModal={openModalExpertise}
         onClose={() => {
           setOpenModalExpertise(false);

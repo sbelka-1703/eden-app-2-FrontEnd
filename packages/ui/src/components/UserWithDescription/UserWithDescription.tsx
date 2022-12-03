@@ -1,15 +1,25 @@
 import { Maybe, Members } from "@eden/package-graphql/generated";
-import { Avatar, TextHeading3, TextLabel } from "@eden/package-ui";
+import { MatchAvatar, TextHeading3, TextLabel } from "@eden/package-ui";
 
 export interface IUserWithDescriptionProps {
   member?: Maybe<Members>;
+  percentage?: number;
 }
 
-export const UserWithDescription = ({ member }: IUserWithDescriptionProps) => {
+export const UserWithDescription = ({
+  member,
+  percentage,
+}: IUserWithDescriptionProps) => {
   if (!member) return null;
   return (
     <div className={`desc font-Inter flex-col content-center text-center`}>
-      <Avatar src={member?.discordAvatar as string} />
+      <div className={`flex w-full justify-center`}>
+        <MatchAvatar
+          src={member?.discordAvatar as string}
+          percentage={percentage as number}
+          size={`md`}
+        />
+      </div>
       <div className="flex justify-center">
         <TextHeading3>@{member?.discordName}</TextHeading3>
         {member?.discriminator && (
