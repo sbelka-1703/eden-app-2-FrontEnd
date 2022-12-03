@@ -141,8 +141,8 @@ export const EditProfileOnboardPartyNodesCard = ({
 
   return (
     <Card shadow className="bg-white p-4">
-      <TextHeading3 className="mb-2">Your Profile</TextHeading3>
-      <div className="mb-4 flex items-center">
+      <TextHeading3 className="mb-2 text-lg">Your Profile</TextHeading3>
+      <div className="mb-2 flex items-center">
         {currentUser?.discordAvatar && (
           <Avatar src={currentUser?.discordAvatar} size="sm" />
         )}
@@ -159,7 +159,7 @@ export const EditProfileOnboardPartyNodesCard = ({
               </span>
             )}
           </div>
-          <div className={`text-md ml-2 font-medium text-zinc-400`}>
+          <div className={`ml-2 text-sm font-medium text-zinc-400`}>
             {currentUser?.memberRole?.title}
           </div>
         </div>

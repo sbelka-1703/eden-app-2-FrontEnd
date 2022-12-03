@@ -23,6 +23,7 @@ import {
   GridItemThree,
   GridLayout,
   MatchAvatar,
+  MemberModal,
   NodesOnboardPartyContainer,
   SEO,
   TextHeading2,
@@ -45,6 +46,11 @@ const OnboardPartyPage: NextPageWithLayout = () => {
   const [nodesID, setNodesID] = useState<string[] | null>(null);
   // eslint-disable-next-line no-unused-vars
   const [serverID, setServerID] = useState<string | null>("996558082098339953");
+
+  const [selectedMember, setSelectedMember] = useState<Members | null>(null);
+  const [selectedMemberPercentage, setSelectedMemberPercentage] =
+    useState<number>(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { data: dataMembers, refetch: refetchMatchMembers } = useQuery(
     MATCH_NODES_MEMBERS,
@@ -231,7 +237,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
       <GridLayout>
         <GridItemThree>
           <div className={`h-85 scrollbar-hide space-y-4 overflow-scroll p-1`}>
-            <Card shadow className={` bg-white p-4`}>
+            <Card shadow className={`bg-white p-4`}>
               <div className={`flex`}>
                 <div className={``}>
                   <Avatar
@@ -247,7 +253,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
               <div className={`mt-2 flex`}>
                 <div>📍</div>
                 <div
-                  className={`text-darkGreen font-poppins ml-4 space-y-4 text-sm`}
+                  className={`text-darkGreen font-poppins xl:text-md ml-4 space-y-4 text-xs sm:text-sm`}
                 >
                   <p>
                     IRL: Miami beach boat dock 🛥Virtual Meet-up in Gather Town🚀
@@ -294,23 +300,41 @@ const OnboardPartyPage: NextPageWithLayout = () => {
                           <div key={index}>
                             {currentUser?._id !== member?.member?._id && (
                               <div
-                                className={`flex-col content-center text-center`}
+                                className={`flex-col  justify-center text-center`}
                               >
-                                <div className={`m-auto`}>
-                                  <MatchAvatar
-                                    src={
-                                      member?.member?.discordAvatar as string
-                                    }
-                                    percentage={
-                                      member?.matchPercentage
-                                        ?.totalPercentage as number
-                                    }
-                                    size={`md`}
-                                  />
+                                <div className={`mx-4`}>
+                                  <button
+                                    onClick={() => {
+                                      setIsModalOpen(true);
+                                      setSelectedMember(
+                                        member?.member as Members
+                                      );
+                                      setSelectedMemberPercentage(
+                                        member?.matchPercentage
+                                          ?.totalPercentage as number
+                                      );
+                                    }}
+                                  >
+                                    <MatchAvatar
+                                      src={
+                                        member?.member?.discordAvatar as string
+                                      }
+                                      percentage={
+                                        member?.matchPercentage
+                                          ?.totalPercentage as number
+                                      }
+                                      size={`md`}
+                                    />
+                                  </button>
                                 </div>
 
                                 <div className={`font-medium text-zinc-500`}>
                                   @{member?.member?.discordName}
+                                </div>
+                                <div
+                                  className={`text-xs font-medium text-zinc-600`}
+                                >
+                                  {member?.member?.memberRole?.title}
                                 </div>
                               </div>
                             )}
@@ -324,12 +348,21 @@ const OnboardPartyPage: NextPageWithLayout = () => {
                       best matches
                     </TextHeading3>
                   )}
-                  <button onClick={() => refetchMatchMembers()}>
-                    <BiRefresh className="text-3xl text-zinc-400" />
-                  </button>
+                  {currentUser?.nodes?.length !== 0 && (
+                    <button onClick={() => refetchMatchMembers()}>
+                      <BiRefresh className="text-3xl text-zinc-400" />
+                    </button>
+                  )}
                 </div>
               </div>
+              <MemberModal
+                open={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                member={selectedMember}
+                percentage={selectedMemberPercentage}
+              />
             </Card>
+
             <NodesOnboardPartyContainer members={members} />
           </div>
         </GridItemNine>

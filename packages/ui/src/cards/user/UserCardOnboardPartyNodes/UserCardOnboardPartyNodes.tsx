@@ -4,11 +4,13 @@ import {
   Badge,
   Card,
   // NumberCircle,
+  MemberModal,
   ProgressBarGeneric,
   // SocialMediaComp,
   TextHeading3,
   TextLabel,
 } from "@eden/package-ui";
+import { useState } from "react";
 
 import { getFillProfilePercentage } from "../../../../utils/fill-profile-percentage";
 
@@ -19,15 +21,18 @@ export interface IUserCardOnboardPartyNodesProps {
 export const UserCardOnboardPartyNodes = ({
   member,
 }: IUserCardOnboardPartyNodesProps) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const progress = getFillProfilePercentage(member);
 
   return (
     <Card border className="border-soilGray col-span-1 bg-white p-3">
       <div className="flex items-center">
         {member.discordAvatar && (
-          <div className="mr-3">
-            <Avatar src={member.discordAvatar} size="md" />
-          </div>
+          <button onClick={() => setIsModalOpen(true)}>
+            <div className="mr-3">
+              <Avatar src={member.discordAvatar} size="md" />
+            </div>
+          </button>
         )}
 
         <div>
@@ -90,6 +95,11 @@ export const UserCardOnboardPartyNodes = ({
       <div className={`text-darkGreen font-poppins text-sm font-medium`}>
         {member.bio}
       </div>
+      <MemberModal
+        member={member}
+        open={isModalOpen}
+        onClose={() => setIsModalOpen(!isModalOpen)}
+      />
     </Card>
   );
 };
