@@ -55,7 +55,7 @@ export const BatteryStepper = ({
       <div className={`${btrHeadCls} battery-head`}></div>
       <div className={`${btrBodyCls} battery-body`}>
         <div
-          className="charge"
+          className="charge -mb-px"
           style={{
             height: `${batteryPercentage}%`,
             background: `${batteryColor}`,

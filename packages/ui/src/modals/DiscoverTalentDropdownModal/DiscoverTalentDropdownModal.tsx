@@ -185,7 +185,10 @@ export const DiscoverTalentDropdownModal = ({
               {section?.battery && (
                 <BatteryStepper
                   // numMatches={numMatches}
-                  batteryPercentage={batteryPercentage || 50}
+                  batteryPercentage={Math.min(
+                    (batteryPercentage || 0) + selectedNodes.length * 5,
+                    30
+                  )}
                   showPercentage
                   // text={matchType}
                 />

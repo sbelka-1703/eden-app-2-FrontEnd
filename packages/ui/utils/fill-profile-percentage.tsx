@@ -3,7 +3,7 @@ import { LinkType } from "@eden/package-graphql/generated";
 export const getFillProfilePercentage = (user: any) => {
   let progress = 0;
 
-  if (!!user.nodes?.length) progress += 5 * Math.min(user.nodes?.length, 12);
+  if (!!user.nodes?.length) progress += 5 * Math.min(user.nodes?.length, 6);
   if (!!user?.memberRole) progress += 10;
   if (!!user?.links)
     progress += user?.links.reduce((acc: number, link: LinkType) => {

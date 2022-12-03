@@ -27,6 +27,7 @@ import {
   ViewUserProfileContainer,
   WarningCard,
 } from "@eden/package-ui";
+import { getFillProfilePercentage } from "@eden/package-ui/utils/fill-profile-percentage";
 import { useContext, useEffect, useState } from "react";
 
 import type { NextPageWithLayout } from "../_app";
@@ -38,26 +39,6 @@ const ADD_NODES = gql`
     }
   }
 `;
-
-const getFillProfilePercentage = (user: any) => {
-  let progress = 0;
-
-  if (!!user.nodes?.length) progress += 5 * Math.min(user.nodes?.length, 12);
-  if (!!user?.memberRole) progress += 10;
-  if (!!user?.links)
-    progress += user?.links.reduce((acc: number, link: LinkType) => {
-      return !!link.url && acc < 10 ? acc + 5 : acc;
-    }, 0);
-  if (!!user?.bio) progress += 20;
-  if (!!user?.background)
-    progress += user?.background.reduce((acc: number, experience: any) => {
-      return !!experience.title && acc < 30 ? acc + 10 : acc;
-    }, 0);
-
-  if (progress > 100) progress = 100;
-
-  return Math.ceil(progress);
-};
 
 const INITIAL_EXP = {
   title: "",
@@ -179,13 +160,29 @@ const GrantsPage: NextPageWithLayout = () => {
             <GridItemThree>
               <Card className={`h-85 flex flex-col gap-2`}>
                 <UserProfileCard />
-                {currentUser?.onbording?.percentage! < 50 ||
-                  (!currentUser?.onbording?.signup && (
+                {currentUser &&
+                  getFillProfilePercentage({
+                    ...currentUser,
+                    nodes:
+                      currentUser &&
+                      currentUser.nodes &&
+                      currentUser.nodes?.length > (nodesID || []).length
+                        ? currentUser.nodes
+                        : nodesID,
+                  }) < 50 && (
                     <WarningCard
-                      profilePercentage={20}
+                      profilePercentage={getFillProfilePercentage({
+                        ...currentUser,
+                        nodes:
+                          currentUser &&
+                          currentUser.nodes &&
+                          currentUser.nodes?.length > (nodesID || []).length
+                            ? currentUser.nodes
+                            : nodesID,
+                      })}
                       onClickCompleteProfile={() => setView("profile")}
                     />
-                  ))}
+                  )}
               </Card>
             </GridItemThree>
             <GridItemNine>
@@ -215,6 +212,15 @@ const GrantsPage: NextPageWithLayout = () => {
                   setStep={setStep}
                   setExperienceOpen={setExperienceOpen}
                   setView={setView}
+                  percentage={getFillProfilePercentage({
+                    ...currentUser,
+                    nodes:
+                      currentUser &&
+                      currentUser.nodes &&
+                      currentUser.nodes?.length > (nodesID || []).length
+                        ? currentUser.nodes
+                        : nodesID,
+                  })}
                 />
               </Card>
             </GridItemSix>
@@ -237,6 +243,15 @@ const GrantsPage: NextPageWithLayout = () => {
           setNodesID(val);
           handleAddNodes(val);
         }}
+        percentage={getFillProfilePercentage({
+          ...currentUser,
+          nodes:
+            currentUser &&
+            currentUser.nodes &&
+            currentUser.nodes?.length > (nodesID || []).length
+              ? currentUser.nodes
+              : nodesID,
+        })}
       />
     </>
   );
