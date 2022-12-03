@@ -7,7 +7,7 @@ import {
   MATCH_NODES_MEMBERS,
   MEMBER_UPDATED_IN_ROOM_SUB,
   ROOM_UPDATED,
-  UPDATE_MEMBER,
+  UPDATE_MEMBER_IN_ROOM,
 } from "@eden/package-graphql";
 import {
   MatchMembersToSkillOutput,
@@ -123,7 +123,6 @@ const OnboardPartyPage: NextPageWithLayout = () => {
     onCompleted: () => {
       console.log("enterRoom completed");
     },
-    // errorPolicy: "ignore",
     onError: (error) => {
       console.log("error", error);
       if (error) setIsRoomExist(false);
@@ -203,7 +202,11 @@ const OnboardPartyPage: NextPageWithLayout = () => {
     }
   );
 
-  const [updateMember] = useMutation(UPDATE_MEMBER, {});
+  const [updateMember] = useMutation(UPDATE_MEMBER_IN_ROOM, {
+    onError: (error) => {
+      console.log("error", error);
+    },
+  });
 
   const handleUpdateUser = (val: any, name: any) => {
     if (!partyId || !currentUser) return;
@@ -221,10 +224,11 @@ const OnboardPartyPage: NextPageWithLayout = () => {
     updateMember({
       variables: {
         fields: {
-          _id: currentUser?._id,
-          serverID: currentUser?.serverID,
+          memberID: currentUser?._id,
+          serverID: serverID,
           bio: bio,
-          memberRole: role,
+          memberRole: { _id: role },
+          roomID: partyId,
         },
       },
       context: { serviceName: "soilservice" },
@@ -255,13 +259,13 @@ const OnboardPartyPage: NextPageWithLayout = () => {
                 <div
                   className={`text-darkGreen font-poppins xl:text-md ml-4 space-y-4 text-xs sm:text-sm`}
                 >
+                  {/* <p>
+                    {`IRL: Miami beach boat dock 🛥Virtual Meet-up in Gather Town🚀`}
+                  </p> */}
                   <p>
-                    IRL: Miami beach boat dock 🛥Virtual Meet-up in Gather Town🚀
-                  </p>
-                  <p>
-                    Be the first one to hear about Eden Microgrant Incentive
+                    {`Be the first one to hear about Eden Microgrant Incentive
                     Program 🌱 & connect with special guests IRL and on Gather
-                    Town!
+                    Town!`}
                   </p>
                 </div>
               </div>
