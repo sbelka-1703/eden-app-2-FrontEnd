@@ -15,7 +15,7 @@ import {
   TextHeading3,
   TextLabel,
 } from "@eden/package-ui";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BiCommentAdd } from "react-icons/bi";
 
 import { getFillProfilePercentage } from "../../../utils/fill-profile-percentage";
@@ -64,6 +64,7 @@ export const EditProfileOnboardPartyNodesCard = ({
   const { currentUser } = useContext(UserContext);
   const [openModalExpertise, setOpenModalExpertise] = useState(false);
   const [openModalTypeProject, setOpenModalTypeProject] = useState(false);
+  const [firstTimeView, setFirstTimeView] = useState(false);
 
   const { data: dataRoles } = useQuery(FIND_ROLE_TEMPLATES, {
     variables: {
@@ -122,6 +123,16 @@ export const EditProfileOnboardPartyNodesCard = ({
       context: { serviceName: "soilservice" },
     });
   };
+
+  useEffect(() => {
+    if (currentUser) {
+      console.log("CURRENT USER", currentUser);
+      if (currentUser?.nodes?.length === 0 && !firstTimeView) {
+        setOpenModalExpertise(true);
+        setFirstTimeView(true);
+      }
+    }
+  }, [currentUser, firstTimeView]);
 
   return (
     <Card shadow className="bg-white p-4">
@@ -258,7 +269,12 @@ export const EditProfileOnboardPartyNodesCard = ({
       />
 
       <SelectNodesModal
-        title="What Skills are You Best at?"
+        welcomeMessage={
+          firstTimeView
+            ? `Hi Frens!  Please tell the room about yourself 😃`
+            : ""
+        }
+        title="What is Your Background?"
         openModal={openModalExpertise}
         onClose={() => {
           setOpenModalExpertise(false);
