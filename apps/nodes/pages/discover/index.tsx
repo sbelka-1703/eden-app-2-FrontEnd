@@ -10,6 +10,7 @@ import { MatchMembersToSkillOutput } from "@eden/package-graphql/generated";
 import {
   AppUserSubmenuLayout,
   Card,
+  CardGrid,
   DiscoverModalContainer,
   GridItemNine,
   GridItemThree,
@@ -68,13 +69,13 @@ const DiscoverPage: NextPageWithLayout = () => {
             shadow
             className="scrollbar-hide h-85 overflow-scroll bg-white p-4"
           >
-            <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            <CardGrid>
               {dataMembers?.matchNodesToMembers?.map(
                 (member: MatchMembersToSkillOutput, index: number) => (
                   <UserDiscoverCard key={index} matchMember={member} />
                 )
               )}
-            </div>
+            </CardGrid>
           </Card>
         </GridItemNine>
       </GridLayout>

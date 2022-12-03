@@ -93,7 +93,7 @@ export const SelectNodesModal = ({
               </div>
             </div>
             <section className="mt-4">
-              <div className={`h-44`}>
+              <div className={`h-24`}>
                 {map(selectedItems, (el, key) => {
                   return (
                     <div key={key} className={`flex flex-wrap`}>
