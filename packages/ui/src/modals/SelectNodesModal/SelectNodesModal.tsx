@@ -6,6 +6,7 @@ import {
   Loading,
   Modal,
   SelectBoxNode,
+  TextHeading2,
   TextHeading3,
 } from "@eden/package-ui";
 import { forEach, isEmpty, map } from "lodash";
@@ -29,7 +30,7 @@ export interface ISelectNodesModalProps {
   onClose: () => void;
   // eslint-disable-next-line no-unused-vars
   onSubmit?: (val: string[] | null) => void;
-  mockData?: any;
+  welcomeMessage?: string;
   title?: string;
   subTitle?: string;
   nodeType?: string;
@@ -39,6 +40,7 @@ export const SelectNodesModal = ({
   onClose,
   openModal,
   onSubmit,
+  welcomeMessage,
   title,
   nodeType,
 }: ISelectNodesModalProps) => {
@@ -89,6 +91,7 @@ export const SelectNodesModal = ({
           <div>
             <div className="flex justify-between">
               <div className="flex-1">
+                <TextHeading2>{welcomeMessage}</TextHeading2>
                 <TextHeading3>{title}</TextHeading3>
               </div>
             </div>
