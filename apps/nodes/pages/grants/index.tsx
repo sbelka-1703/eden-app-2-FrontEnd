@@ -162,7 +162,7 @@ const GrantsPage: NextPageWithLayout = () => {
                 <UserProfileCard />
                 {currentUser &&
                   getFillProfilePercentage({
-                    ...currentUser,
+                    ...state,
                     nodes:
                       currentUser &&
                       currentUser.nodes &&
@@ -172,7 +172,7 @@ const GrantsPage: NextPageWithLayout = () => {
                   }) < 50 && (
                     <WarningCard
                       profilePercentage={getFillProfilePercentage({
-                        ...currentUser,
+                        ...state,
                         nodes:
                           currentUser &&
                           currentUser.nodes &&
@@ -213,7 +213,7 @@ const GrantsPage: NextPageWithLayout = () => {
                   setExperienceOpen={setExperienceOpen}
                   setView={setView}
                   percentage={getFillProfilePercentage({
-                    ...currentUser,
+                    ...state,
                     nodes:
                       currentUser &&
                       currentUser.nodes &&
@@ -244,7 +244,7 @@ const GrantsPage: NextPageWithLayout = () => {
           handleAddNodes(val);
         }}
         percentage={getFillProfilePercentage({
-          ...currentUser,
+          ...state,
           nodes:
             currentUser &&
             currentUser.nodes &&
