@@ -17,6 +17,7 @@ export const WarningModal = ({
   profilePercentage,
   canSeeProjects,
   canProjectsSee,
+  // eslint-disable-next-line no-unused-vars
   onSkip,
   openModal,
   onNext,
@@ -72,12 +73,17 @@ export const WarningModal = ({
           </div>
         </div>
         <div className="flex justify-between">
-          <div>
+          {/* <div>
             <Button radius="rounded" variant={`secondary`} onClick={onSkip}>
               Skip
             </Button>
-          </div>
-          <Button radius="rounded" variant={`secondary`} onClick={onNext}>
+          </div> */}
+          <Button
+            className="ml-auto"
+            radius="rounded"
+            variant={`secondary`}
+            onClick={onNext}
+          >
             Next
           </Button>
         </div>
