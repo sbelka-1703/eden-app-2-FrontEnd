@@ -45,7 +45,9 @@ const OnboardPartyPage: NextPageWithLayout = () => {
   const { currentUser } = useContext(UserContext);
   const [nodesID, setNodesID] = useState<string[] | null>(null);
   // eslint-disable-next-line no-unused-vars
-  const [serverID, setServerID] = useState<string | null>("996558082098339953");
+  const [serverID, setServerID] = useState<string | null>(
+    "1048598413463257148"
+  );
 
   const [selectedMember, setSelectedMember] = useState<Members | null>(null);
   const [selectedMemberPercentage, setSelectedMemberPercentage] =

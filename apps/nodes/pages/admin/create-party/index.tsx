@@ -13,6 +13,7 @@ import {
   UserProfileCard,
 } from "@eden/package-ui";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 import type { NextPageWithLayout } from "../../_app";
 
@@ -69,19 +70,48 @@ const DiscoverPage: NextPageWithLayout = () => {
                 <TextHeading2>Create a Room</TextHeading2>
                 <Card>
                   <TextField
+                    label={`Room Name`}
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                   />
-                  <Button onClick={() => handleCreateRoom()}>
-                    Create Room
-                  </Button>
+                  <div className={`my-6`}>
+                    <Button onClick={() => handleCreateRoom()}>
+                      Create Room
+                    </Button>
+                  </div>
                 </Card>
               </div>
               <div className={`col-span-1`}>
                 <TextHeading2>Room Url</TextHeading2>
-                <Card>
-                  <TextHeading3>{roomUrl}</TextHeading3>
-                </Card>
+                {roomUrl && (
+                  <Card>
+                    <TextHeading3>{`https://eden-nodes.vercel.app/onboard/party/${roomUrl}`}</TextHeading3>
+                    <div className={`my-6`}>
+                      <Button
+                        onClick={() => {
+                          navigator.clipboard.writeText(
+                            `https://eden-nodes.vercel.app/onboard/party/${roomUrl}`
+                          );
+                          toast.success("grant link copied to clipboard");
+                        }}
+                      >
+                        Copy Link
+                      </Button>
+                    </div>
+                    <div className={`my-6`}>
+                      <Button
+                        onClick={() =>
+                          window.open(
+                            `https://eden-nodes.vercel.app/onboard/party/${roomUrl}`,
+                            "_blank"
+                          )
+                        }
+                      >
+                        Go to Room
+                      </Button>
+                    </div>
+                  </Card>
+                )}
               </div>
             </div>
           </Card>
