@@ -1,23 +1,23 @@
 import { BatteryStepper, Button, Card, TextHeading3 } from "@eden/package-ui";
 import { useState } from "react";
 
-export interface CreateProjectVeiws6Props {
+export interface CreateProjectViews6Props {
   onBack: () => void;
   onNext: () => void;
   onLaunch: () => void;
   onNewPosition: () => void;
 }
 
-export const CreateProjectVeiws6 = ({
+export const CreateProjectViews6 = ({
   onBack,
   onNext,
   onLaunch,
   onNewPosition,
-}: CreateProjectVeiws6Props) => {
+}: CreateProjectViews6Props) => {
   const [skipped, setSkipped] = useState(false);
 
   return (
-    <Card shadow className="pt-3 pb-6">
+    <Card shadow className="bg-white pt-3 pb-6">
       <div
         style={{ minHeight: "65vh" }}
         className="flex flex-col justify-between"

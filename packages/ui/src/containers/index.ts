@@ -1,6 +1,7 @@
 export * from "./ApplyByRoleContainer";
 export * from "./ChampionMatchContainer";
 export * from "./ConfettiContainer";
+export * from "./CreateProject";
 export * from "./CreateProjectTempContainer";
 export * from "./DiscoverModalContainer";
 export * from "./EditProfileContainer";

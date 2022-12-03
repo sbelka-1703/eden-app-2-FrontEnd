@@ -91,18 +91,18 @@ function reducer(state: ProfileData, action: any): ProfileData {
   }
 }
 
-export interface CreateProjectVeiws3Props {
+export interface CreateProjectViews3Props {
   onBack: () => void;
   onSkip: () => void;
   // eslint-disable-next-line no-unused-vars
   onNext: (data: ProfileData) => void;
 }
 
-export const CreateProjectVeiws3 = ({
+export const CreateProjectViews3 = ({
   onBack,
   onSkip,
   onNext,
-}: CreateProjectVeiws3Props) => {
+}: CreateProjectViews3Props) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const handleUpdateState = ({
@@ -143,7 +143,7 @@ export const CreateProjectVeiws3 = ({
   };
 
   return (
-    <Card shadow className="px-7 pt-3 pb-6">
+    <Card shadow className="bg-white px-7 pt-3 pb-6">
       <div>
         <TextHeading3>Complete your profile:</TextHeading3>
         <div className="mb-4 flex items-center justify-between gap-6">
