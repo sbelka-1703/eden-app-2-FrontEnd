@@ -1,4 +1,4 @@
-import { GrantsContext, GrantsModal, UserContext } from "@eden/package-context";
+import { GrantsContext, GrantsModal } from "@eden/package-context";
 import {
   DiscoverTalentDropdownModal,
   ProjectsMatchesModal,
@@ -6,8 +6,6 @@ import {
   WarningModal,
 } from "@eden/package-ui";
 import { useContext, useEffect, useState } from "react";
-
-import { getFillProfilePercentage } from "../../../utils/fill-profile-percentage";
 
 const rangeNumbers: number[] = [];
 
@@ -18,12 +16,14 @@ for (let i = 0; i < 500; i++) {
 export interface IGrantsModalContainerProps {
   // eslint-disable-next-line no-unused-vars
   setArrayOfNodes?: (val: string[]) => void;
+  percentage?: number;
 }
 
 export const GrantsModalContainer = ({
   setArrayOfNodes,
+  percentage = 0,
 }: IGrantsModalContainerProps) => {
-  const { currentUser } = useContext(UserContext);
+  // const { currentUser } = useContext(UserContext);
   const { openModal, setOpenModal } = useContext(GrantsContext);
 
   const [nextStep, setNextStep] = useState<any>(null);
@@ -46,7 +46,7 @@ export const GrantsModalContainer = ({
           openModal={openModal === GrantsModal.SKIP_ALERT}
           onSkipStep={() => setOpenModal(nextStep)}
           onSkipFlow={() => setOpenModal(null)}
-          percentage={getFillProfilePercentage(currentUser || {})}
+          percentage={percentage}
         />
       )}
 
@@ -58,7 +58,7 @@ export const GrantsModalContainer = ({
           }}
           header1={"Looking for a Grant?"}
           header2={"Let's help you find one!"}
-          batteryPercentageBefore={10}
+          batteryPercentageBefore={percentage}
           numMatchesBefore={210}
           batteryPercentageAfter={70}
           numMatchesAfter={8}
@@ -85,7 +85,7 @@ export const GrantsModalContainer = ({
           subTitle={`Choose any role you want!`}
           nodeType={`expertise`}
           matchType={matchType}
-          batteryPercentage={getFillProfilePercentage(currentUser || {})}
+          batteryPercentage={percentage}
         />
       )}
 
@@ -102,7 +102,7 @@ export const GrantsModalContainer = ({
             if (val) {
               if (setNodeIdArray) setNodeIdArray([...nodeIdArray, ...val]);
             }
-            if (getFillProfilePercentage(currentUser || {}) < 60) {
+            if (percentage < 50) {
               setOpenModal(GrantsModal.WARNING);
             } else {
               setOpenModal(null);
@@ -112,14 +112,14 @@ export const GrantsModalContainer = ({
           subTitle={`You can choose any area of interest!`}
           nodeType={`typeProject`}
           matchType={matchType}
-          batteryPercentage={getFillProfilePercentage(currentUser || {})}
+          batteryPercentage={percentage}
         />
       )}
 
       {openModal === GrantsModal.WARNING && (
         <WarningModal
           openModal
-          profilePercentage={getFillProfilePercentage(currentUser || {})}
+          profilePercentage={percentage}
           canSeeProjects={true}
           canProjectsSee={false}
           onSkip={function (): void {
