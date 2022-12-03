@@ -1,4 +1,4 @@
-import { Button, Card } from "@eden/package-ui";
+import { BatteryStepper, Button, Card } from "@eden/package-ui";
 import { ExclamationIcon } from "@heroicons/react/solid";
 import { FaCheck } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
@@ -16,6 +16,13 @@ export const WarningCard = ({
   return (
     <Card shadow className="w-full border-[2px] bg-white p-10 font-semibold">
       <div className="flex flex-col content-center items-center justify-center justify-items-center tracking-wide">
+        <div className="absolute right-4 top-4">
+          <BatteryStepper
+            size="sm"
+            showPercentage
+            batteryPercentage={profilePercentage || 0}
+          />
+        </div>
         <div className="mt-3">
           <ExclamationIcon color="#ff9c59" width={100} />
         </div>

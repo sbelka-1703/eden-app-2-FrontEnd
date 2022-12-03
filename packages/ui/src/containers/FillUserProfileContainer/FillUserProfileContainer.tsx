@@ -10,7 +10,6 @@ import {
   Scalars,
 } from "@eden/package-graphql/generated";
 import { STEPS } from "@eden/package-ui/utils/enums/fill-profile-steps";
-import { getFillProfilePercentage } from "@eden/package-ui/utils/fill-profile-percentage";
 import {
   Dispatch,
   SetStateAction,
@@ -46,6 +45,7 @@ export interface IFillUserProfileContainerProps {
     background?: Maybe<Array<Maybe<PreviusProjectsType>>>;
   };
   experienceOpen?: number | null;
+  percentage?: number;
   // eslint-disable-next-line no-unused-vars
   setExperienceOpen?: (val: number | null) => void;
 }
@@ -57,9 +57,9 @@ export const FillUserProfileContainer = ({
   setStep,
   setView,
   setExperienceOpen,
+  percentage = 0,
 }: IFillUserProfileContainerProps) => {
   const { currentUser } = useContext(UserContext);
-  const [percent, setPercent] = useState(getFillProfilePercentage(state));
   //   const [salaries, setSalaries] = useState<number[]>([]);
   const [submitting, setSubmitting] = useState(false);
 
@@ -102,10 +102,6 @@ export const FillUserProfileContainer = ({
       background: value,
     });
   };
-
-  useEffect(() => {
-    setPercent(getFillProfilePercentage(state));
-  }, [state]);
 
   useEffect(() => {
     if (currentUser?.links)
@@ -161,7 +157,7 @@ export const FillUserProfileContainer = ({
       })),
       onbording: {
         signup: true,
-        percentage: getFillProfilePercentage(state),
+        percentage: percentage,
       },
     };
 
@@ -181,12 +177,12 @@ export const FillUserProfileContainer = ({
               Hello & Welcome! Let’s complete your profile step by step 🚀
             </h2>
             <p>
-              {`Your profile is at ${percent}% right now. In order to be visible to
+              {`Your profile is at ${percentage}% right now. In order to be visible to
                 other members your profile should be at least 50% complete.`}
             </p>
           </div>
           <div className="col-span-1">
-            <BatteryStepper showPercentage batteryPercentage={percent} />
+            <BatteryStepper showPercentage batteryPercentage={percentage} />
           </div>
         </section>
         {!currentUser && (
@@ -342,7 +338,7 @@ export const FillUserProfileContainer = ({
         )}
         {currentUser && !submitting && (
           <section className="relative flex pb-4">
-            {step === STEPS.EXP && percent < 50 && (
+            {step === STEPS.EXP && percentage < 50 && (
               <section className="absolute right-0 -top-6">
                 <span className="text-red-400">fill minimum 50%</span>
               </section>
@@ -353,8 +349,6 @@ export const FillUserProfileContainer = ({
                   if (step === STEPS.BIO && setStep) setStep(STEPS.ROLE);
                   if (step === STEPS.SOCIALS && setStep) setStep(STEPS.BIO);
                   if (step === STEPS.EXP && setStep) setStep(STEPS.SOCIALS);
-
-                  setPercent(percent + 5);
                 }}
               >
                 Prev
@@ -376,7 +370,7 @@ export const FillUserProfileContainer = ({
               <Button
                 variant="primary"
                 className={`ml-auto disabled:border-slate-300 disabled:bg-slate-300 disabled:text-slate-200`}
-                disabled={percent < 50}
+                disabled={percentage < 50}
                 onClick={() => handleSubmitForm()}
               >
                 Submit
