@@ -15,6 +15,7 @@ import {
 import {
   AppUserSubmenuLayout,
   Card,
+  CardGrid,
   FillUserProfileContainer,
   GrantsCard,
   GrantsModalContainer,
@@ -193,13 +194,13 @@ const GrantsPage: NextPageWithLayout = () => {
                 shadow
                 className="scrollbar-hide h-85 overflow-scroll bg-white p-4"
               >
-                <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                <CardGrid>
                   {dataGrants?.findGrants?.map(
                     (grant: GrantTemplate, index: number) => (
                       <GrantsCard key={index} grant={grant} />
                     )
                   )}
-                </div>
+                </CardGrid>
               </Card>
             </GridItemNine>
           </>
@@ -244,7 +245,9 @@ const GrantsPage: NextPageWithLayout = () => {
 
 GrantsPage.getLayout = (page) => (
   <GrantsProvider>
-    <AppUserSubmenuLayout showSubmenu={false}>{page}</AppUserSubmenuLayout>
+    <AppUserSubmenuLayout showSubmenu={false} inApp={false}>
+      {page}
+    </AppUserSubmenuLayout>
   </GrantsProvider>
 );
 
