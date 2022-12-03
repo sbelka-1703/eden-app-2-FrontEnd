@@ -1,21 +1,19 @@
 import { render } from "@testing-library/react";
 
-import { CreateProjectVeiws6 } from ".";
+import { CreateProjectViews3 } from ".";
 
-describe("CreateProjectVeiws6", () => {
+describe("CreateProjectViews3", () => {
   it("renders without throwing", () => {
     const { container } = render(
-      <CreateProjectVeiws6
+      <CreateProjectViews3
         onBack={function (): void {
           throw new Error("Function not implemented.");
         }}
-        onNext={function (): void {
+        onSkip={function (): void {
           throw new Error("Function not implemented.");
         }}
-        onLaunch={function (): void {
-          throw new Error("Function not implemented.");
-        }}
-        onNewPosition={function (): void {
+        onNext={function (data): void {
+          console.info({ data });
           throw new Error("Function not implemented.");
         }}
       />

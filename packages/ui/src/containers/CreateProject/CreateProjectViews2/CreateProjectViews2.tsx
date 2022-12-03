@@ -24,7 +24,7 @@ const initialState = {
 
 function reducer(state: ProjectData, action: any): ProjectData {
   switch (action.type) {
-    case "HANDLE PROJECT VIEW 2 TEXT":
+    case "HANDLE INPUT TEXT":
       return {
         ...state,
         [action.field]: action.payload.value,
@@ -34,27 +34,28 @@ function reducer(state: ProjectData, action: any): ProjectData {
   }
 }
 
-export interface CreateProjectVeiws2Props {
+export interface CreateProjectViews2Props {
   onBack: () => void;
   // eslint-disable-next-line no-unused-vars
   onNext: (data: ProjectData) => void;
 }
 
-export const CreateProjectVeiws2 = ({
+export const CreateProjectViews2 = ({
   onBack,
   onNext,
-}: CreateProjectVeiws2Props) => {
-  const [state] = useReducer(reducer, initialState);
+}: CreateProjectViews2Props) => {
+  const [state, dispath] = useReducer(reducer, initialState);
   const [projectOwner, setProjectOwner] = useState(true);
+
   const handleUpdateState = (value: any, field: string) => {
     console.log(value, field);
-    // dispath({
-    //   type: "HANDLE INPUT TEXT",
-    //   field: field,
-    //   payload: {
-    //     value,
-    //   },
-    // });
+    dispath({
+      type: "HANDLE INPUT TEXT",
+      field: field,
+      payload: {
+        value,
+      },
+    });
   };
 
   const handleProjectOwner = (e: any) => {
@@ -62,7 +63,7 @@ export const CreateProjectVeiws2 = ({
   };
 
   return (
-    <Card shadow className="pt-3 pb-6">
+    <Card shadow className="bg-white pt-3 pb-6">
       <div className="px-5">
         <div className="flex flex-row justify-between">
           <TextHeading3>Complete your profile:</TextHeading3>
@@ -111,8 +112,9 @@ export const CreateProjectVeiws2 = ({
                       radius="pill"
                       name="username"
                       placeholder={`Type @username`}
-                      // value={discordUrl}
-                      onChange={(e) => console.log(e.target.value)}
+                      onChange={(e) => {
+                        handleUpdateState(e.target.value, "username");
+                      }}
                     />
                   </div>
                 </div>

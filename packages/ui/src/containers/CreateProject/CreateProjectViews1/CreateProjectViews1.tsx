@@ -45,16 +45,16 @@ function reducer(state: ProjectData, action: any): ProjectData {
   }
 }
 
-export interface CreateProjectVeiws1Props {
-  onBack: () => void;
+export interface CreateProjectViews1Props {
+  onBack?: () => void;
   // eslint-disable-next-line no-unused-vars
   onNext: (data: ProjectData) => void;
 }
 
-export const CreateProjectVeiws1 = ({
+export const CreateProjectViews1 = ({
   onBack,
   onNext,
-}: CreateProjectVeiws1Props) => {
+}: CreateProjectViews1Props) => {
   const [state, dispath] = useReducer(reducer, initialState);
 
   const handleUpdateState = (value: any, field: string) => {
@@ -68,7 +68,7 @@ export const CreateProjectVeiws1 = ({
   };
 
   return (
-    <Card shadow className="pt-3 pb-6">
+    <Card shadow className="bg-white pt-3 pb-6">
       <div>
         <TextHeading3 className="ml-8 mb-4">
           Complete your profile:
@@ -132,9 +132,13 @@ export const CreateProjectVeiws1 = ({
             />
           </div>
           <div className="flex justify-between">
-            <Button variant="secondary" onClick={onBack}>
-              Back
-            </Button>
+            <div>
+              {onBack && (
+                <Button variant="secondary" onClick={onBack}>
+                  Back
+                </Button>
+              )}
+            </div>
             <Button variant="secondary" onClick={() => onNext(state)}>
               Next
             </Button>

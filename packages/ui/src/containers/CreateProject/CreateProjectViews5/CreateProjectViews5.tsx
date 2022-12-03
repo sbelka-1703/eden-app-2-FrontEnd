@@ -65,7 +65,7 @@ export const CreateProjectViews5 = ({
   };
 
   return (
-    <Card shadow className="pt-3 pb-6">
+    <Card shadow className="bg-white pt-3 pb-6">
       <div className="px-5">
         <div className="flex flex-row justify-between">
           <div>
