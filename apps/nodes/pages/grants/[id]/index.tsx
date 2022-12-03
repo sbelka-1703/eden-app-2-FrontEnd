@@ -77,7 +77,7 @@ const GrantsIdPage = ({
         image={grant?.avatar || ""}
         description={grant?.smallDescription || ""}
       />
-      <AppUserSubmenuLayout showSubmenu={true}>
+      <AppUserSubmenuLayout showSubmenu={true} inApp={false}>
         <Card
           shadow
           className={`h-85 scrollbar-hide overflow-y-scroll bg-white p-6`}
