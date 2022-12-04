@@ -9,7 +9,7 @@ export const getFillProfilePercentage = (user: any) => {
     progress += user?.links.reduce((acc: number, link: LinkType) => {
       return !!link.url && acc < 10 ? acc + 5 : acc;
     }, 0);
-  if (!!user?.bio) progress += 20;
+  if (!!user?.bio) progress += 10;
   if (!!user?.background)
     progress += user?.background.reduce((acc: number, experience: any) => {
       return !!experience.title && acc < 30 ? acc + 10 : acc;
