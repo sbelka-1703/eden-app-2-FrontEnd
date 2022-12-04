@@ -1,14 +1,15 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
 import { FIND_ROLE_TEMPLATES } from "@eden/package-graphql";
-import { Members, Mutation } from "@eden/package-graphql/generated";
+import { Members } from "@eden/package-graphql/generated";
 import {
   AppUserSubmenuLayout,
   Badge,
   Button,
   Card,
   EditProfileContainer,
-  NewProfileContainer,
+  MemberInfo,
+  // NewProfileContainer,
   SelectNodesModal,
   SEO,
 } from "@eden/package-ui";
@@ -18,6 +19,14 @@ import { FaUserAlt, FaUserEdit } from "react-icons/fa";
 export const ADD_NODES = gql`
   mutation ($fields: addNodesToMemberInput!) {
     addNodesToMember(fields: $fields) {
+      _id
+    }
+  }
+`;
+
+const DELETE_NODES = gql`
+  mutation ($fields: deleteNodesFromMemberInput!) {
+    deleteNodesFromMember(fields: $fields) {
       _id
     }
   }
@@ -56,14 +65,18 @@ const ProfilePage: NextPageWithLayout = () => {
   const [openModalTypeProject, setopenModalTypeProject] = useState(false);
 
   const [addNodes] = useMutation(ADD_NODES, {
-    onCompleted({ addNodesToMember }: Mutation) {
-      if (!addNodesToMember) console.log("addNodesToMember is null");
-      console.log("updateMember", addNodesToMember);
-      // setSubmitting(false);
+    onError(error) {
+      console.log("error", error);
     },
   });
 
-  const handleSaveNodes = (data: any) => {
+  const [deleteNodes] = useMutation(DELETE_NODES, {
+    onError(error) {
+      console.log("error", error);
+    },
+  });
+
+  const handleSaveNodes = (data: string[]) => {
     if (!currentUser) return;
     addNodes({
       variables: {
@@ -72,6 +85,19 @@ const ProfilePage: NextPageWithLayout = () => {
           nodesID: data,
         },
       },
+    });
+  };
+
+  const handleDeleteNodes = (data: string[]) => {
+    if (!currentUser) return;
+    deleteNodes({
+      variables: {
+        fields: {
+          memberID: currentUser._id,
+          nodesID: data,
+        },
+      },
+      context: { serviceName: "soilservice" },
     });
   };
 
@@ -84,7 +110,9 @@ const ProfilePage: NextPageWithLayout = () => {
           className={`h-85 scrollbar-hide overflow-y-scroll bg-white`}
         >
           {activeIndex === 0 && (
-            <NewProfileContainer user={currentUser as Members} />
+            <div className={`p-4 md:p-8`}>
+              <MemberInfo member={currentUser as Members} />
+            </div>
           )}
           {activeIndex === 1 && (
             <>
@@ -107,6 +135,10 @@ const ProfilePage: NextPageWithLayout = () => {
                             colorRGB={`209,247,196`}
                             className={`font-Inter text-sm`}
                             cutText={16}
+                            closeButton={true}
+                            onClose={() => {
+                              handleDeleteNodes([`${item?.nodeData?._id}`]);
+                            }}
                           />
                         );
                       }
@@ -136,6 +168,10 @@ const ProfilePage: NextPageWithLayout = () => {
                             colorRGB={`209,147,296`}
                             className={`font-Inter text-sm`}
                             cutText={16}
+                            closeButton={true}
+                            onClose={() => {
+                              handleDeleteNodes([`${item?.nodeData?._id}`]);
+                            }}
                           />
                         );
                       }

@@ -34,20 +34,33 @@ export interface ISelectNodesModalProps {
   title?: string;
   subTitle?: string;
   nodeType?: string;
+  submitButtonLabel?: string;
 }
 
 export const SelectNodesModal = ({
-  onClose,
   openModal,
+  onClose,
   onSubmit,
   welcomeMessage,
   title,
   nodeType,
+  submitButtonLabel = `Finished`,
 }: ISelectNodesModalProps) => {
   const [selectedItems, setSelectedItems] = useState<{
     [key: string]: Node[];
   }>({});
   const [selectedNodes, setSelectedNodes] = useState<string[] | null>(null);
+
+  const { data: dataNodes } = useQuery(FIND_NODES, {
+    variables: {
+      fields: {
+        node: nodeType,
+      },
+    },
+    skip: !nodeType,
+    context: { serviceName: "soilservice" },
+  });
+  // if (dataNodes?.findNodes) console.log("dataNodes", dataNodes?.findNodes);
 
   useEffect(() => {
     if (selectedItems) {
@@ -65,20 +78,6 @@ export const SelectNodesModal = ({
       setSelectedNodes(selectedNodeId);
     }
   }, [selectedItems]);
-
-  const { data: dataNodes } = useQuery(FIND_NODES, {
-    variables: {
-      fields: {
-        node: nodeType,
-      },
-    },
-    skip: !nodeType,
-    context: { serviceName: "soilservice" },
-  });
-
-  // console.log("dataNodes = " , dataNodes)
-
-  // if (dataNodes?.findNodes) console.log("dataNodes", dataNodes?.findNodes);
 
   const handleFinish = () => {
     onSubmit && onSubmit(selectedNodes as any);
@@ -138,6 +137,7 @@ export const SelectNodesModal = ({
                           caption={item?.name}
                           items={item?.subNodes}
                           onChange={(val) => {
+                            console.log("val", val);
                             setSelectedItems((prevState) => ({
                               ...prevState,
                               [item?._id]: val,
@@ -157,7 +157,7 @@ export const SelectNodesModal = ({
         <div className="flex justify-between">
           <div></div>
           <Button radius="rounded" variant={`secondary`} onClick={handleFinish}>
-            Finished
+            {submitButtonLabel}
           </Button>
         </div>
       </div>
