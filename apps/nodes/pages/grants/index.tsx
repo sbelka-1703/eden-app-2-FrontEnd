@@ -84,8 +84,10 @@ const GrantsPage: NextPageWithLayout = () => {
   });
 
   useEffect(() => {
-    setOpenModal(GrantsModal.START_INFO);
-  }, []);
+    if (currentUser && !currentUser?.nodes?.length) {
+      setOpenModal(GrantsModal.START_INFO);
+    }
+  }, [currentUser]);
 
   useEffect(() => {
     if (memberServers) {
@@ -170,7 +172,8 @@ const GrantsPage: NextPageWithLayout = () => {
                       currentUser.nodes?.length > (nodesID || []).length
                         ? currentUser.nodes
                         : nodesID,
-                  }) < 50 && (
+                  }) < 50 &&
+                  !state.background?.some((bg: any) => !!bg.title) && (
                     <WarningCard
                       profilePercentage={getFillProfilePercentage({
                         ...state,

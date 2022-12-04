@@ -7,7 +7,7 @@ import {
   MATCH_NODES_MEMBERS,
   MEMBER_UPDATED_IN_ROOM_SUB,
   ROOM_UPDATED,
-  UPDATE_MEMBER_IN_ROOM,
+  // UPDATE_MEMBER_IN_ROOM,
 } from "@eden/package-graphql";
 import {
   MatchMembersToSkillOutput,
@@ -163,13 +163,6 @@ const OnboardPartyPage: NextPageWithLayout = () => {
           discordAvatar
           discordName
           bio
-          skills {
-            skillInfo {
-              _id
-              name
-            }
-            level
-          }
           links {
             name
             url
@@ -204,45 +197,45 @@ const OnboardPartyPage: NextPageWithLayout = () => {
     }
   );
 
-  const [updateMember] = useMutation(UPDATE_MEMBER_IN_ROOM, {
-    onError: (error) => {
-      console.log("error", error);
-    },
-  });
+  // const [updateMember] = useMutation(UPDATE_MEMBER_IN_ROOM, {
+  //   onError: (error) => {
+  //     console.log("error", error);
+  //   },
+  // });
 
-  const handleUpdateUser = (val: any, name: any) => {
-    if (!partyId || !currentUser) return;
+  // const handleUpdateUser = (val: any, name: any) => {
+  //   if (!partyId || !currentUser) return;
 
-    let bio = currentUser?.bio || null;
-    let role = currentUser?.memberRole?._id || null;
+  //   let bio = currentUser?.bio || null;
+  //   let role = currentUser?.memberRole?._id || null;
 
-    if (name === "bio") {
-      bio = val;
-    }
-    if (name === "role") {
-      role = val._id;
-    }
+  //   if (name === "bio") {
+  //     bio = val;
+  //   }
+  //   if (name === "role") {
+  //     role = val._id;
+  //   }
 
-    updateMember({
-      variables: {
-        fields: {
-          memberID: currentUser?._id,
-          serverID: serverID,
-          bio: bio,
-          memberRole: { _id: role },
-          roomID: partyId,
-        },
-      },
-      context: { serviceName: "soilservice" },
-    });
-  };
+  //   updateMember({
+  //     variables: {
+  //       fields: {
+  //         memberID: currentUser?._id,
+  //         serverID: serverID,
+  //         roomID: partyId,
+  //         bio: bio,
+  //         memberRole: { _id: role },
+  //       },
+  //     },
+  //     context: { serviceName: "soilservice" },
+  //   });
+  // };
 
   return (
     <>
       <SEO />
       <GridLayout>
         <GridItemThree>
-          <div className={`h-85 scrollbar-hide space-y-4 overflow-scroll p-1`}>
+          <div className={`h-85 flex flex-col gap-4`}>
             <Card shadow className={`bg-white p-4`}>
               <div className={`flex`}>
                 <div className={``}>
@@ -280,8 +273,9 @@ const OnboardPartyPage: NextPageWithLayout = () => {
               </p>
             ) : (
               <EditProfileOnboardPartyNodesCard
-                RoomId={partyId as string}
-                handleUpdateUser={handleUpdateUser}
+                serverID={serverID as string}
+                RoomID={partyId as string}
+                // handleUpdateUser={handleUpdateUser}
               />
             )}
           </div>
@@ -295,7 +289,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
                 <div className={`text-sm text-zinc-500`}>
                   Powered by Eden AI
                 </div>
-                <div className={`mt-2 flex space-x-12`}>
+                <div className={`mt-2 flex flex-wrap`}>
                   {dataMembers?.matchNodesToMembers &&
                     dataMembers?.matchNodesToMembers.map(
                       (
@@ -303,47 +297,49 @@ const OnboardPartyPage: NextPageWithLayout = () => {
                         index: number
                       ) => {
                         return (
-                          <div key={index}>
-                            {currentUser?._id !== member?.member?._id && (
-                              <div
-                                className={`flex-col  justify-center text-center`}
-                              >
-                                <div className={`mx-4`}>
-                                  <button
-                                    onClick={() => {
-                                      setIsModalOpen(true);
-                                      setSelectedMember(
-                                        member?.member as Members
-                                      );
-                                      setSelectedMemberPercentage(
-                                        member?.matchPercentage
-                                          ?.totalPercentage as number
-                                      );
-                                    }}
-                                  >
-                                    <MatchAvatar
-                                      src={
-                                        member?.member?.discordAvatar as string
-                                      }
-                                      percentage={
-                                        member?.matchPercentage
-                                          ?.totalPercentage as number
-                                      }
-                                      size={`md`}
-                                    />
-                                  </button>
-                                </div>
-
-                                <div className={`font-medium text-zinc-500`}>
-                                  @{member?.member?.discordName}
-                                </div>
+                          <div key={index} className={``}>
+                            {currentUser?._id !== member?.member?._id &&
+                              index < 7 && (
                                 <div
-                                  className={`text-xs font-medium text-zinc-600`}
+                                  className={`mx-2 flex-col justify-center text-center`}
                                 >
-                                  {member?.member?.memberRole?.title}
+                                  <div className={`mx-4`}>
+                                    <button
+                                      onClick={() => {
+                                        setIsModalOpen(true);
+                                        setSelectedMember(
+                                          member?.member as Members
+                                        );
+                                        setSelectedMemberPercentage(
+                                          member?.matchPercentage
+                                            ?.totalPercentage as number
+                                        );
+                                      }}
+                                    >
+                                      <MatchAvatar
+                                        src={
+                                          member?.member
+                                            ?.discordAvatar as string
+                                        }
+                                        percentage={
+                                          member?.matchPercentage
+                                            ?.totalPercentage as number
+                                        }
+                                        size={`md`}
+                                      />
+                                    </button>
+                                  </div>
+
+                                  <div className={`font-medium text-zinc-500`}>
+                                    @{member?.member?.discordName}
+                                  </div>
+                                  <div
+                                    className={`text-xs font-medium text-zinc-600`}
+                                  >
+                                    {member?.member?.memberRole?.title}
+                                  </div>
                                 </div>
-                              </div>
-                            )}
+                              )}
                           </div>
                         );
                       }
@@ -355,7 +351,10 @@ const OnboardPartyPage: NextPageWithLayout = () => {
                     </TextHeading3>
                   )}
                   {currentUser?.nodes?.length !== 0 && (
-                    <button onClick={() => refetchMatchMembers()}>
+                    <button
+                      onClick={() => refetchMatchMembers()}
+                      className={`mx-4`}
+                    >
                       <BiRefresh className="text-3xl text-zinc-400" />
                     </button>
                   )}

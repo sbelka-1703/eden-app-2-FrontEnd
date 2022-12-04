@@ -338,11 +338,13 @@ export const FillUserProfileContainer = ({
         )}
         {currentUser && !submitting && (
           <section className="relative flex pb-4">
-            {step === STEPS.EXP && percentage < 50 && (
-              <section className="absolute right-0 -top-6">
-                <span className="text-red-400">fill minimum 50%</span>
-              </section>
-            )}
+            {step === STEPS.EXP &&
+              percentage < 50 &&
+              !state.background.some((bg: any) => !!bg.title) && (
+                <section className="absolute right-0 -top-6">
+                  <span className="text-red-400">{`fill minimum 50% and 1 background`}</span>
+                </section>
+              )}
             {step !== STEPS.ROLE && (
               <Button
                 onClick={() => {
@@ -370,7 +372,10 @@ export const FillUserProfileContainer = ({
               <Button
                 variant="primary"
                 className={`ml-auto disabled:border-slate-300 disabled:bg-slate-300 disabled:text-slate-200`}
-                disabled={percentage < 50}
+                disabled={
+                  percentage < 50 &&
+                  !state.background.some((bg: any) => !!bg.title)
+                }
                 onClick={() => handleSubmitForm()}
               >
                 Submit
