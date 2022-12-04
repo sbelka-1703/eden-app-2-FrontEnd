@@ -8,11 +8,7 @@ describe("EditProfileOnboardPartyNodesCard", () => {
   it("renders without throwing", () => {
     const { container } = render(
       <MockedProvider>
-        <EditProfileOnboardPartyNodesCard
-          handleUpdateUser={function (): void {
-            throw new Error("Function not implemented.");
-          }}
-        />
+        <EditProfileOnboardPartyNodesCard serverID={`12345`} RoomID={`12345`} />
       </MockedProvider>
     );
 
