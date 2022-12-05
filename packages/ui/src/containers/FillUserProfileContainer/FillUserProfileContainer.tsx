@@ -18,7 +18,7 @@ import {
   useState,
 } from "react";
 
-import { UserExperienceCard2 } from "../../cards";
+import { UserExperienceCard } from "../../cards";
 import { SocialMediaInput } from "../../components";
 import { Button, Card, Loading, TextArea } from "../../elements";
 import { RoleSelector } from "../../selectors";
@@ -326,7 +326,7 @@ export const FillUserProfileContainer = ({
               </>
             )}
             {step === STEPS.EXP && (
-              <UserExperienceCard2
+              <UserExperienceCard
                 background={state.background}
                 handleChange={(val) => handleSetBackground(val)}
                 handleChangeOpenExperience={(val) => {
