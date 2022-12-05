@@ -1,4 +1,8 @@
-import { ProjectMemberType } from "@eden/package-graphql/generated";
+import {
+  Maybe,
+  PhaseType,
+  ProjectMemberType,
+} from "@eden/package-graphql/generated";
 import {
   Avatar,
   Button,
@@ -17,6 +21,32 @@ export interface ProjectStatusCardProps {
   kickoffDateData?: DateCardProps;
 }
 
+export const getProgressFrom = (phase?: Maybe<PhaseType>) => {
+  return [
+    {
+      name: "Applied",
+      completed:
+        phase === "engaged" ||
+        phase === "invited" ||
+        phase === "shortlisted" ||
+        phase === "committed",
+    },
+    {
+      name: "Invited to Project",
+      completed:
+        phase === "invited" || phase === "shortlisted" || phase === "committed",
+    },
+    {
+      name: "Application Reviewed",
+      completed: phase === "shortlisted" || phase === "committed",
+    },
+    {
+      name: "Application Accepted",
+      completed: phase === "committed",
+    },
+  ];
+};
+
 export const ProjectStatusCard: React.FC<ProjectStatusCardProps> = ({
   project,
   roleName,
@@ -24,32 +54,7 @@ export const ProjectStatusCard: React.FC<ProjectStatusCardProps> = ({
 }) => {
   const [cardStatus, setCardStatus] = useState(false);
 
-  const steps = [
-    {
-      name: "Applied",
-      completed:
-        project?.phase === "engaged" ||
-        project?.phase === "invited" ||
-        project?.phase === "shortlisted" ||
-        project?.phase === "committed",
-    },
-    {
-      name: "Invited to Project",
-      completed:
-        project?.phase === "invited" ||
-        project?.phase === "shortlisted" ||
-        project?.phase === "committed",
-    },
-    {
-      name: "Application Reviewed",
-      completed:
-        project?.phase === "shortlisted" || project?.phase === "committed",
-    },
-    {
-      name: "Application Accepted",
-      completed: project?.phase === "committed",
-    },
-  ];
+  const steps = getProgressFrom(project?.phase);
 
   // console.log("project", project);
 
