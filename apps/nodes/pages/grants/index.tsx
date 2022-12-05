@@ -110,9 +110,11 @@ const GrantsPage: NextPageWithLayout = () => {
     hoursPerWeek: currentUser?.hoursPerWeek,
     // expectedSalary: 0,
     links: currentUser?.links,
-    background: [{ ...INITIAL_EXP }, { ...INITIAL_EXP }, { ...INITIAL_EXP }] as
-      | any[]
-      | undefined,
+    background: !!currentUser?.previusProjects?.length
+      ? currentUser?.previusProjects
+      : ([{ ...INITIAL_EXP }, { ...INITIAL_EXP }, { ...INITIAL_EXP }] as
+          | any[]
+          | undefined),
   });
   const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
 
@@ -137,7 +139,7 @@ const GrantsPage: NextPageWithLayout = () => {
               startDate: proj?.startDate,
               endDate: proj?.endDate,
             }))
-          : [{ ...INITIAL_EXP }, { ...INITIAL_EXP }, { ...INITIAL_EXP }],
+          : state.background,
     });
   }, [currentUser]);
 
