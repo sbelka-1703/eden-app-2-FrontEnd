@@ -4,11 +4,11 @@ import {
   DataReviewModal,
   FindTalentDropdownModal,
   PrioritizeModal,
-  ProjectsMatchesModal,
   RequirementsModal,
   ReviewModal,
   SkipFlowModal,
   WarningModal,
+  WelcomeModal,
   //   SavingProjectModal,
 } from "@eden/package-ui";
 import { useContext, useState } from "react";
@@ -24,12 +24,14 @@ for (let i = 0; i < 500; i++) {
 // -----------------
 
 export interface IHackathonModalContainerProps {
+  image?: any;
   // eslint-disable-next-line no-unused-vars
   setSubmittingTalentAttributes?: (val: any) => void;
   mockData?: any;
 }
 
 export const HackathonModalContainer = ({
+  image,
   setSubmittingTalentAttributes,
   mockData,
 }: IHackathonModalContainerProps) => {
@@ -109,24 +111,12 @@ export const HackathonModalContainer = ({
       )}
 
       {openModal === HackathonProjectModal.START_INFO && (
-        <ProjectsMatchesModal
+        <WelcomeModal
+          image={image}
           openModal={openModal === HackathonProjectModal.START_INFO}
-          onSubmit={() => {
+          onNext={() => {
             setOpenModal(HackathonProjectModal.USER_ROLE);
           }}
-          header1={"Find your ideal project!"}
-          header2={
-            "We will help you find the perfect match based on your skills and preferences."
-          }
-          topLeftText={"We have"}
-          bottomLeftText={"in Eden today"}
-          matchType={"Projects"}
-          topRightText={"AI will find the best"}
-          bottomRightText={"for you to choose from"}
-          batteryPercentageBefore={10}
-          numMatchesBefore={125}
-          batteryPercentageAfter={70}
-          numMatchesAfter={8}
         />
       )}
 

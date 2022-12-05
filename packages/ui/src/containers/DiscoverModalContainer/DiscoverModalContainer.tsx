@@ -2,7 +2,6 @@ import { DiscoverContext, DiscoverModal } from "@eden/package-context";
 import {
   DiscoverTalentDropdownModal,
   PrioritizeModal,
-  // ProjectsMatchesModal,
   RequirementsModal,
   SkipFlowModal,
   WelcomeModal,
@@ -57,17 +56,6 @@ export const DiscoverModalContainer = ({
             setOpenModal(DiscoverModal.SKILLS_CATEGORY);
           }}
         />
-        // <ProjectsMatchesModal
-        //   openModal={openModal === DiscoverModal.START_INFO}
-        //   onSubmit={() => {
-        //     setOpenModal(DiscoverModal.SKILLS_CATEGORY);
-        //   }}
-        //   batteryPercentageBefore={10}
-        //   numMatchesBefore={210}
-        //   batteryPercentageAfter={70}
-        //   numMatchesAfter={8}
-        //   matchType={matchType}
-        // />
       )}
 
       {openModal === DiscoverModal.SKILLS_CATEGORY && (
@@ -77,9 +65,8 @@ export const DiscoverModalContainer = ({
             setOpenModal(DiscoverModal.SKIP_ALERT);
             setNextStep(DiscoverModal.PRIORITIZE);
           }}
-          // eslint-disable-next-line no-unused-vars
           onSubmit={(val: string[]) => {
-            console.log("val", val);
+            // console.log("val", val);
             if (val) {
               if (setNodeIdArray) setNodeIdArray([...nodeIdArray, ...val]);
             }
@@ -99,9 +86,8 @@ export const DiscoverModalContainer = ({
             setOpenModal(DiscoverModal.SKIP_ALERT);
             setNextStep(DiscoverModal.PRIORITIZE);
           }}
-          // eslint-disable-next-line no-unused-vars
           onSubmit={(val: string[] | null) => {
-            console.log("val", val);
+            // console.log("val", val);
             if (val) {
               if (setNodeIdArray) setNodeIdArray([...nodeIdArray, ...val]);
             }

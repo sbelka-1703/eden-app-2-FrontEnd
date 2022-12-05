@@ -17,6 +17,7 @@ import {
 } from "@eden/package-ui";
 import { useContext, useEffect, useState } from "react";
 
+import welcome from "../../../public/welcome.png";
 import USER_MOCK from "../../../utils/mock/userMock";
 import type { NextPageWithLayout } from "../../_app";
 
@@ -92,6 +93,7 @@ const UserPage: NextPageWithLayout = () => {
         </GridItemNine>
       </GridLayout>
       <ShortlistModalContainerStoryFilter
+        image={welcome.src}
         matchType="People"
         setSubmittingTalentAttributes={(val) => {
           setRoleFilter(val);
