@@ -3,12 +3,6 @@ import userEvent from "@testing-library/user-event";
 
 import { ProjectsMatchesModal } from ".";
 
-window.IntersectionObserver = jest.fn().mockReturnValue({
-  observe: () => null,
-  unobserve: () => null,
-  disconnect: () => null,
-});
-
 test("openModal controls whether modal is rendered", () => {
   const { rerender } = render(<ProjectsMatchesModal openModal={false} />);
 
