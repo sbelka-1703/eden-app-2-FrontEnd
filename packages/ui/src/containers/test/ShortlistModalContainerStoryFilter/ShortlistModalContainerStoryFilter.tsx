@@ -10,11 +10,11 @@ import {
   CongratulationsModal,
   FindTalentDropdownModal,
   PrioritizeModal,
-  ProjectsMatchesModal,
   RequirementsModal,
   ReviewModal,
   SavingProjectModal,
   SkipFlowModal,
+  WelcomeModal,
 } from "@eden/package-ui";
 import { useContext, useEffect, useState } from "react";
 
@@ -29,6 +29,7 @@ for (let i = 0; i < 500; i++) {
 // -----------------
 
 export interface IShortlistModalContainerStoryFilterProps {
+  image?: any;
   // eslint-disable-next-line no-unused-vars
   setSubmittingTalentAttributes?: (val: any) => void;
   mockData?: any;
@@ -36,9 +37,9 @@ export interface IShortlistModalContainerStoryFilterProps {
 }
 
 export const ShortlistModalContainerStoryFilter = ({
+  image,
   setSubmittingTalentAttributes,
   mockData,
-  matchType,
 }: IShortlistModalContainerStoryFilterProps) => {
   const {
     project,
@@ -169,16 +170,12 @@ export const ShortlistModalContainerStoryFilter = ({
       )}
 
       {openModal === LaunchProjectModal.START_INFO && (
-        <ProjectsMatchesModal
+        <WelcomeModal
+          image={image}
           openModal={openModal === LaunchProjectModal.START_INFO}
-          onSubmit={() => {
+          onNext={() => {
             setOpenModal(LaunchProjectModal.SKILLS_CATEGORY);
           }}
-          batteryPercentageBefore={10}
-          numMatchesBefore={210}
-          batteryPercentageAfter={70}
-          numMatchesAfter={8}
-          matchType={matchType}
         />
       )}
 
