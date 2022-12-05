@@ -6,12 +6,14 @@ import {
   RoleTemplate,
   Scalars,
 } from "@eden/package-graphql/generated";
+import {
+  Card,
+  SocialMediaComp,
+  TextHeading3,
+  UserBackground,
+  UserWithDescription,
+} from "@eden/package-ui";
 import { STEPS } from "@eden/package-ui/utils/enums/fill-profile-steps";
-
-import { TextHeading3 } from "../../atoms";
-import { SocialMediaComp, UserWithDescription } from "../../components";
-import { UserBackground } from "../../components/UserBackground";
-import { Card } from "../../elements";
 
 export interface IViewUserProfileContainerProps {
   step?: string | null;
