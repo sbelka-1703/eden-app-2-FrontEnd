@@ -20,7 +20,7 @@ import {
   TextArea,
   TextHeading3,
   TextLabel,
-  UserExperienceCard2,
+  UserExperienceCard,
   UserWithDescription,
 } from "@eden/package-ui";
 import { useContext, useEffect, useState } from "react";
@@ -336,7 +336,7 @@ const FillProfilePage: NextPageWithLayout = () => {
                     </>
                   )}
                   {step === STEPS.EXP && (
-                    <UserExperienceCard2
+                    <UserExperienceCard
                       background={state.background}
                       handleChange={(val) => handleSetBackground(val)}
                       handleChangeOpenExperience={(val) =>
