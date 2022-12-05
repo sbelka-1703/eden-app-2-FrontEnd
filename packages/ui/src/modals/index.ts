@@ -30,3 +30,4 @@ export * from "./SocialMediaModel";
 export * from "./StaticModal";
 export * from "./UserDiscoverModal";
 export * from "./WarningModal";
+export * from "./WelcomeModal";
