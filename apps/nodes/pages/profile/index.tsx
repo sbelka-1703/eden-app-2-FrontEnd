@@ -36,6 +36,7 @@ import type { NextPageWithLayout } from "../_app";
 
 const ProfilePage: NextPageWithLayout = () => {
   const { currentUser } = useContext(UserContext);
+  // const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
 
   const { data: dataRoles } = useQuery(FIND_ROLE_TEMPLATES, {
     variables: {
