@@ -95,7 +95,7 @@ export const UserDiscoverCard = ({ matchMember }: IUserDiscoverCardProps) => {
         </div>
       )}
 
-      {member?.endorsements && (
+      {member?.endorsements && member?.endorsements.length > 0 && (
         <div className="mt-4">
           <p className="font-Inter mb-1 text-sm font-bold text-zinc-500">
             🎙 ENDORSEMENTS
