@@ -36,7 +36,7 @@ import type { NextPageWithLayout } from "../_app";
 
 const ProfilePage: NextPageWithLayout = () => {
   const { currentUser } = useContext(UserContext);
-  // const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
+  const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
 
   const { data: dataRoles } = useQuery(FIND_ROLE_TEMPLATES, {
     variables: {
@@ -112,7 +112,11 @@ const ProfilePage: NextPageWithLayout = () => {
         >
           {activeIndex === 0 && (
             <div className={`p-4 md:p-8`}>
-              <MemberInfo member={currentUser as Members} />
+              <MemberInfo
+                member={currentUser as Members}
+                setExperienceOpen={setExperienceOpen!}
+                experienceOpen={experienceOpen!}
+              />
             </div>
           )}
           {activeIndex === 1 && (
