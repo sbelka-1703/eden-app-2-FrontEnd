@@ -21,6 +21,7 @@ import {
 } from "@eden/package-ui";
 import { useContext, useEffect, useState } from "react";
 
+import welcome from "../../public/welcome.png";
 import type { NextPageWithLayout } from "../_app";
 
 const DiscoverPage: NextPageWithLayout = () => {
@@ -80,6 +81,7 @@ const DiscoverPage: NextPageWithLayout = () => {
         </GridItemNine>
       </GridLayout>
       <DiscoverModalContainer
+        image={welcome.src}
         setArrayOfNodes={(val) => {
           // console.log("array of nodes val", val);
           setNodesID(val);

@@ -2,9 +2,9 @@ import { DiscoverContext, DiscoverModal } from "@eden/package-context";
 import {
   DiscoverTalentDropdownModal,
   PrioritizeModal,
-  ProjectsMatchesModal,
   RequirementsModal,
   SkipFlowModal,
+  WelcomeModal,
 } from "@eden/package-ui";
 import { useContext, useEffect, useState } from "react";
 
@@ -15,11 +15,13 @@ for (let i = 0; i < 500; i++) {
 }
 
 export interface IDiscoverModalContainerProps {
+  image?: any;
   // eslint-disable-next-line no-unused-vars
   setArrayOfNodes?: (val: string[]) => void;
 }
 
 export const DiscoverModalContainer = ({
+  image,
   setArrayOfNodes,
 }: IDiscoverModalContainerProps) => {
   const { project, openModal, setOpenModal } = useContext(DiscoverContext);
@@ -47,16 +49,12 @@ export const DiscoverModalContainer = ({
       )}
 
       {openModal === DiscoverModal.START_INFO && (
-        <ProjectsMatchesModal
+        <WelcomeModal
+          image={image}
           openModal={openModal === DiscoverModal.START_INFO}
-          onSubmit={() => {
+          onNext={() => {
             setOpenModal(DiscoverModal.SKILLS_CATEGORY);
           }}
-          batteryPercentageBefore={10}
-          numMatchesBefore={210}
-          batteryPercentageAfter={70}
-          numMatchesAfter={8}
-          matchType={matchType}
         />
       )}
 
@@ -67,9 +65,8 @@ export const DiscoverModalContainer = ({
             setOpenModal(DiscoverModal.SKIP_ALERT);
             setNextStep(DiscoverModal.PRIORITIZE);
           }}
-          // eslint-disable-next-line no-unused-vars
           onSubmit={(val: string[]) => {
-            console.log("val", val);
+            // console.log("val", val);
             if (val) {
               if (setNodeIdArray) setNodeIdArray([...nodeIdArray, ...val]);
             }
@@ -89,9 +86,8 @@ export const DiscoverModalContainer = ({
             setOpenModal(DiscoverModal.SKIP_ALERT);
             setNextStep(DiscoverModal.PRIORITIZE);
           }}
-          // eslint-disable-next-line no-unused-vars
           onSubmit={(val: string[] | null) => {
-            console.log("val", val);
+            // console.log("val", val);
             if (val) {
               if (setNodeIdArray) setNodeIdArray([...nodeIdArray, ...val]);
             }
