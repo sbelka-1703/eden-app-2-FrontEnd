@@ -41,6 +41,10 @@ export const ShortlistModalContainer = ({}: IShortlistModalContainerProps) => {
   } = useContext(LaunchProjectContext);
   const { currentUser } = useContext(UserContext);
 
+  useEffect(() => {
+    setOpenModal(LaunchProjectModal.ROLE);
+  }, []);
+
   const [updateProject, {}] = useMutation(UPDATE_PROJECT, {
     onCompleted({ updateProject }: Mutation) {
       if (!updateProject) console.log("updateProject is null");

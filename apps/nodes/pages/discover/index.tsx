@@ -1,10 +1,5 @@
 import { useQuery } from "@apollo/client";
-import {
-  DiscoverContext,
-  DiscoverModal,
-  DiscoverProvider,
-  UserContext,
-} from "@eden/package-context";
+import { DiscoverProvider, UserContext } from "@eden/package-context";
 import { MATCH_NODES_MEMBERS } from "@eden/package-graphql";
 import { MatchMembersToSkillOutput } from "@eden/package-graphql/generated";
 import {
@@ -25,7 +20,6 @@ import welcome from "../../public/welcome.png";
 import type { NextPageWithLayout } from "../_app";
 
 const DiscoverPage: NextPageWithLayout = () => {
-  const { setOpenModal } = useContext(DiscoverContext);
   const { memberServers } = useContext(UserContext);
   const [nodesID, setNodesID] = useState<string[] | null>(null);
   const [serverID, setServerID] = useState<string | null>(null);
@@ -43,10 +37,6 @@ const DiscoverPage: NextPageWithLayout = () => {
   });
 
   // if (dataMembers) console.log("dataMembers", dataMembers);
-
-  useEffect(() => {
-    setOpenModal(DiscoverModal.START_INFO);
-  }, []);
 
   useEffect(() => {
     if (memberServers) {
@@ -83,7 +73,6 @@ const DiscoverPage: NextPageWithLayout = () => {
       <DiscoverModalContainer
         image={welcome.src}
         setArrayOfNodes={(val) => {
-          // console.log("array of nodes val", val);
           setNodesID(val);
         }}
       />

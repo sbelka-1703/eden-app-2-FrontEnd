@@ -1,5 +1,4 @@
 /* eslint-disable camelcase */
-import { LaunchContext } from "@eden/package-context";
 import {
   Maybe,
   Role,
@@ -10,6 +9,7 @@ import { Button, Card, Dropdown, Modal, SearchSkill } from "@eden/package-ui";
 import { useContext, useState } from "react";
 
 import { SkillsCard } from "../../../cards/SkillsCard";
+import { LaunchContext } from "../context";
 
 const levels = [
   {

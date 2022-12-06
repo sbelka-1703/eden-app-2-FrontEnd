@@ -1,5 +1,5 @@
 import { gql, useMutation } from "@apollo/client";
-import { LaunchContext, UserContext } from "@eden/package-context";
+import { UserContext } from "@eden/package-context";
 import {
   Maybe,
   Mutation,
@@ -21,6 +21,7 @@ import {
   LaunchViewSuccess,
   LaunchViewVerify,
 } from "./";
+import { LaunchContext } from "./context";
 
 const LAUNCH_PROJECT = gql`
   mutation ($fields: updateProjectInput!) {

@@ -10,7 +10,7 @@ export interface DiscoverContextType {
   project?: Project;
   dispatchProject?: React.Dispatch<DiscoverAction>;
   openModal?: DiscoverModal | null;
-  setOpenModal?: any;
+  setOpenModal: React.Dispatch<React.SetStateAction<DiscoverModal | null>>;
   selectedRole?: RoleType | null;
   setSelectedRole?: any;
   selectedMemberId?: string | null;
@@ -27,4 +27,6 @@ export interface DiscoverContextType {
 
 export const DiscoverContext = createContext<DiscoverContextType>({
   matchMembersPage: 0,
+  // eslint-disable-next-line no-empty-function
+  setOpenModal: () => {},
 });
