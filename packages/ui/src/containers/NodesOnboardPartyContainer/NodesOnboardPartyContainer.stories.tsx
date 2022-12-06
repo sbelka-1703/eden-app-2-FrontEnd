@@ -4,7 +4,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { NodesOnboardPartyContainer } from "./NodesOnboardPartyContainer";
 
 export default {
-  title: "Containers/Nodes/NodesOnboardPartyContainer",
+  title: "Containers/NodesOnboardPartyContainer",
   component: NodesOnboardPartyContainer,
   argTypes: {},
 } as ComponentMeta<typeof NodesOnboardPartyContainer>;
