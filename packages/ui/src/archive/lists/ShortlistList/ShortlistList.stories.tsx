@@ -7,7 +7,6 @@ export default {
   title: "Lists/ShortlistList",
   component: ShortlistList,
   argTypes: {},
-  // decorators: [ApolloDecorator],
 } as ComponentMeta<typeof ShortlistList>;
 
 const Template: ComponentStory<typeof ShortlistList> = (args) => (

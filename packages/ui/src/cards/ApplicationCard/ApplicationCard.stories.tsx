@@ -5,7 +5,6 @@ import {
 } from "@eden/package-graphql/generated";
 import { getProject, getRoleTypeMock } from "@eden/package-mock";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { CurrentUserDecorator } from "storybook/.storybook/decorator";
 
 import { ApplicationCard } from "./ApplicationCard";
 
@@ -13,7 +12,6 @@ export default {
   title: "Cards/ApplicationCard",
   component: ApplicationCard,
   argTypes: {},
-  decorators: [CurrentUserDecorator],
 } as ComponentMeta<typeof ApplicationCard>;
 
 const Template: ComponentStory<typeof ApplicationCard> = (args) => {

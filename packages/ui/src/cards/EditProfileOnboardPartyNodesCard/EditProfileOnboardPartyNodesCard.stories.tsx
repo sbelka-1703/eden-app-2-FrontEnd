@@ -1,5 +1,4 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { CurrentUserDecorator } from "storybook/.storybook/decorator";
 
 import { EditProfileOnboardPartyNodesCard } from "./EditProfileOnboardPartyNodesCard";
 
@@ -7,7 +6,6 @@ export default {
   title: "Cards/EditProfileOnboardPartyNodesCard",
   component: EditProfileOnboardPartyNodesCard,
   argTypes: {},
-  decorators: [CurrentUserDecorator],
 } as ComponentMeta<typeof EditProfileOnboardPartyNodesCard>;
 
 const Template: ComponentStory<typeof EditProfileOnboardPartyNodesCard> = (
