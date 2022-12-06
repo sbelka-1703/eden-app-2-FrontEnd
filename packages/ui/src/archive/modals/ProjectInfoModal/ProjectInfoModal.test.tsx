@@ -1,6 +1,6 @@
 import { Maybe, RoleTemplate } from "@eden/package-graphql/generated";
 
-import { render } from "../../../utils/jest-apollo";
+import { render } from "../../../../utils/jest-apollo";
 import { ProjectInfoModal } from ".";
 
 describe("ProjectInfoModal", () => {

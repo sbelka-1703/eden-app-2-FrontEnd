@@ -1,7 +1,7 @@
 import { render } from "../../../utils/jest-apollo";
 import { ShortlistMemberModal } from ".";
 
-describe("ProjectInfoModal", () => {
+describe("ShortlistMemberModal", () => {
   it("renders without throwing", () => {
     const { container } = render(
       <ShortlistMemberModal

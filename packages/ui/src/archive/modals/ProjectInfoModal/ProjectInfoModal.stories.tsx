@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { ProjectInfoModal } from "./ProjectInfoModal";
 
 export default {
-  title: "Modals/ProjectInfoModal",
+  title: "Archive/Modals/ProjectInfoModal",
   component: ProjectInfoModal,
   argTypes: {},
 } as ComponentMeta<typeof ProjectInfoModal>;

@@ -60,19 +60,6 @@ export const GrantsModalContainer = ({
             setOpenModal(GrantsModal.SKILLS_CATEGORY);
           }}
         />
-        // <ProjectsMatchesModal
-        //   openModal={openModal === GrantsModal.START_INFO}
-        //   onSubmit={() => {
-        //     setOpenModal(GrantsModal.SKILLS_CATEGORY);
-        //   }}
-        //   header1={"Looking for a Grant?"}
-        //   header2={"Let's help you find one!"}
-        //   batteryPercentageBefore={percentage}
-        //   numMatchesBefore={210}
-        //   batteryPercentageAfter={70}
-        //   numMatchesAfter={8}
-        //   matchType={matchType}
-        // />
       )}
 
       {openModal === GrantsModal.SKILLS_CATEGORY && (
