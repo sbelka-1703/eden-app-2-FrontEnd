@@ -23,6 +23,7 @@ export const parameters = {
         "Components",
         "Containers",
         "Elements",
+        "Info",
         "Layout",
         "Lists",
         "Modals",
