@@ -13,7 +13,6 @@ export * from "./NodesOnboardPartyContainer";
 export * from "./OnboardPartyContainer";
 export * from "./ShortlistContainer";
 export * from "./ShortlistMemberContainer";
-export * from "./ShortlistModalContainer";
 export * from "./ShortlistSideContainer";
 export * from "./SignUpContainerMain";
 export * from "./SignUpContainerSide";

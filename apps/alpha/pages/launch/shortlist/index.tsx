@@ -15,7 +15,6 @@ import {
   SEO,
   ShortlistContainer,
   ShortlistMemberContainer,
-  // ShortlistModalContainer,
   // ShortlistModalContainerStory,
   ShortlistModalContainerTest,
   // ShortlistSideContainer,
@@ -139,7 +138,6 @@ const LaunchPage: NextPageWithLayout = () => {
           </>
         )}
       </GridLayout>
-      {/* <ShortlistModalContainer /> */}
       {/* <ShortlistModalContainerStory /> */}
       <ShortlistModalContainerTest />
     </>
