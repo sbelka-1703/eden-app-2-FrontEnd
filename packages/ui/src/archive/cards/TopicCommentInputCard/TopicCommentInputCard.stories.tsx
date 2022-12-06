@@ -4,7 +4,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { TopicCommentInputCard } from "./TopicCommentInputCard";
 
 export default {
-  title: "Cards/TopicCommentInputCard",
+  title: "Archive/Cards/TopicCommentInputCard",
   component: TopicCommentInputCard,
   argTypes: {},
 } as ComponentMeta<typeof TopicCommentInputCard>;

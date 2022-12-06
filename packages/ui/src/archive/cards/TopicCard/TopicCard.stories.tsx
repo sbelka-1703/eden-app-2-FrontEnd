@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { TopicCard } from "./TopicCard";
 
 export default {
-  title: "Cards/TopicCard",
+  title: "Archive/Cards/TopicCard",
   component: TopicCard,
   argTypes: {},
 } as ComponentMeta<typeof TopicCard>;
