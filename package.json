@@ -30,6 +30,7 @@
   "devDependencies": {
     "@eden/package-config": "*",
     "husky": "^8.0.0",
+    "lint-staged": ">=10",
     "prettier": "latest",
     "prettier-plugin-tailwindcss": "^0.1.13",
     "turbo": "latest"
@@ -39,5 +40,8 @@
     "node": ">=14.0.0"
   },
   "dependencies": {},
-  "packageManager": "yarn@1.22.18"
+  "packageManager": "yarn@1.22.18",
+  "lint-staged": {
+    "*": "prettier --write --ignore-unknown"
+  }
 }
