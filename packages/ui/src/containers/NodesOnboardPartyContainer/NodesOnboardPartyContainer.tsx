@@ -6,7 +6,7 @@ import {
   UserCardOnboardPartyNodes,
 } from "@eden/package-ui";
 
-import { getFillProfilePercentage } from "../../../../utils/fill-profile-percentage";
+import { getFillProfilePercentage } from "../../../utils/fill-profile-percentage";
 
 export interface INodesOnboardPartyContainerProps {
   members: Members[];

@@ -4,7 +4,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { ProjectsContainer } from "./ProjectsContainer";
 
 export default {
-  title: "Containers/ProjectsContainer",
+  title: "Archive/Containers/ProjectsContainer",
   component: ProjectsContainer,
   argTypes: {},
 } as ComponentMeta<typeof ProjectsContainer>;
