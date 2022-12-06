@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { BioComponent } from "./BioComponent";
 
 export default {
-  title: "Components/BioComponent",
+  title: "Archive/Components/BioComponent",
   component: BioComponent,
   argTypes: {},
 } as ComponentMeta<typeof BioComponent>;

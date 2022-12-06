@@ -1,5 +1,4 @@
 export * from "./AvailabilityComp";
-export * from "./BioComponent";
 export * from "./CalendarComp";
 export * from "./CalendarComp";
 export * from "./CategoryExpandable";
