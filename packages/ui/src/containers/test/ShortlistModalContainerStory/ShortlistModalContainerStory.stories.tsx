@@ -1,3 +1,4 @@
+import { LaunchProjectProvider } from "@eden/package-context";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { ShortlistModalContainerStory } from "./ShortlistModalContainerStory";
@@ -10,7 +11,11 @@ export default {
 
 const Template: ComponentStory<typeof ShortlistModalContainerStory> = (
   args
-) => <ShortlistModalContainerStory {...args} />;
+) => (
+  <LaunchProjectProvider>
+    <ShortlistModalContainerStory {...args} />
+  </LaunchProjectProvider>
+);
 
 export const Default = Template.bind({});
 Default.args = {};

@@ -10,7 +10,7 @@ export interface LaunchProjectContextType {
   project?: Project;
   dispatchProject?: React.Dispatch<ProjectAction>;
   openModal?: LaunchProjectModal | null;
-  setOpenModal?: any;
+  setOpenModal: React.Dispatch<React.SetStateAction<LaunchProjectModal | null>>;
   selectedRole?: RoleType | null;
   setSelectedRole?: any;
   selectedMemberId?: string | null;
@@ -27,4 +27,6 @@ export interface LaunchProjectContextType {
 
 export const LaunchProjectContext = createContext<LaunchProjectContextType>({
   matchMembersPage: 0,
+  // eslint-disable-next-line no-empty-function
+  setOpenModal: () => {},
 });

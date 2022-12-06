@@ -13,4 +13,8 @@ const Template: ComponentStory<typeof HomeHeroSection> = (args) => (
 );
 
 export const Default = Template.bind({});
-Default.args = {};
+Default.args = {
+  opportunityPage: true,
+  discoverPage: true,
+  launchPage: true,
+};

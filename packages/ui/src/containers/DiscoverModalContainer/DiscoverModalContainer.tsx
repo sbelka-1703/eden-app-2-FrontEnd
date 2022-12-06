@@ -35,6 +35,10 @@ export const DiscoverModalContainer = ({
     }
   }, [nodeIdArray]);
 
+  useEffect(() => {
+    setOpenModal(DiscoverModal.START_INFO);
+  }, []);
+
   const matchType = `People`;
 
   return (

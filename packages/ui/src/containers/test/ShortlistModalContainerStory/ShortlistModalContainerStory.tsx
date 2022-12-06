@@ -43,6 +43,10 @@ export const ShortlistModalContainerStory =
     const [talentAttributes, setTalentAttributes] = useState({});
 
     useEffect(() => {
+      setOpenModal(LaunchProjectModal.SKILLS_CATEGORY);
+    }, []);
+
+    useEffect(() => {
       if (talentAttributes) console.log("talentAttributes", talentAttributes);
     }, [talentAttributes]);
 
