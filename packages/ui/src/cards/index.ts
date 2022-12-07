@@ -14,3 +14,4 @@ export * from "./SignUpRoleSelectCard";
 export * from "./StaticCard";
 export * from "./user";
 export * from "./WarningCard";
+export * from "./OnboardRoomCard";
