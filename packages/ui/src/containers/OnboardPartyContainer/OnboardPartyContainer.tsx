@@ -1,5 +1,10 @@
 import { Members } from "@eden/package-graphql/generated";
-import { Card, TextHeading3, UserCardOnboardParty } from "@eden/package-ui";
+import {
+  Card,
+  CardGrid,
+  TextHeading3,
+  UserCardOnboardParty,
+} from "@eden/package-ui";
 
 import { getUserProgress } from "../../../utils/user-progress";
 
@@ -16,7 +21,7 @@ export const OnboardPartyContainer = ({
       className="h-85 scrollbar-hide overflow-y-scroll bg-white py-3 px-6"
     >
       <TextHeading3 className="mb-2">See Other Profiles</TextHeading3>
-      <section className="grid grid-cols-3 gap-5">
+      <CardGrid>
         {[...members]
           .sort(
             (a: Members, b: Members) =>
@@ -25,7 +30,7 @@ export const OnboardPartyContainer = ({
           .map((member: Members, index: number) => (
             <UserCardOnboardParty key={index} member={member} />
           ))}
-      </section>
+      </CardGrid>
     </Card>
   );
 };
