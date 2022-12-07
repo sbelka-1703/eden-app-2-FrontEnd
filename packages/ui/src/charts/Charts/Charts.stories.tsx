@@ -1,9 +1,9 @@
+import { getSkillsPercentageArray } from "@eden/package-mock";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { Charts } from "./Charts";
-import { getSkillsPercentageArray } from "@eden/package-mock";
 export default {
-  title: "Components/Charts",
+  title: "Charts/Charts",
   component: Charts,
   argTypes: {},
 } as ComponentMeta<typeof Charts>;

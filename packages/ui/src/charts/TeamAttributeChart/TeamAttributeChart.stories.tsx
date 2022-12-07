@@ -4,7 +4,7 @@ import { mockTeamData } from "./mockData";
 import { TeamAttributeChart } from "./TeamAttributeChart";
 
 export default {
-  title: "Components/TeamAttributeChart",
+  title: "Charts/TeamAttributeChart",
   component: TeamAttributeChart,
   argTypes: {},
 } as ComponentMeta<typeof TeamAttributeChart>;

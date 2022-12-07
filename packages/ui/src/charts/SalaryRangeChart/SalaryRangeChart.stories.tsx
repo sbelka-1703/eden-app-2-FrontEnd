@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { SalaryRangeChart } from "./SalaryRangeChart";
 
 export default {
-  title: "Components/SalaryRangeChart",
+  title: "Charts/SalaryRangeChart",
   component: SalaryRangeChart,
   argTypes: {},
 } as ComponentMeta<typeof SalaryRangeChart>;

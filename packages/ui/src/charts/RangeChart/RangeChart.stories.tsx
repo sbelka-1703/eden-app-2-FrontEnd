@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { RangeChart } from "./RangeChart";
 
 export default {
-  title: "Components/RangeChart",
+  title: "Charts/RangeChart",
   component: RangeChart,
   argTypes: {},
 } as ComponentMeta<typeof RangeChart>;

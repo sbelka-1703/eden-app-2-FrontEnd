@@ -15,10 +15,8 @@ import {
   SEO,
   ShortlistContainer,
   ShortlistMemberContainer,
-  // ShortlistModalContainerStory,
   ShortlistModalContainerTest,
-  // ShortlistSideContainer,
-  ShortlistSideContainerTest,
+  ShortlistSideContainer,
   TextHeading3,
   TextLabel,
 } from "@eden/package-ui";
@@ -89,7 +87,7 @@ const LaunchPage: NextPageWithLayout = () => {
       <GridLayout>
         <GridItemThree className="h-8/10 scrollbar-hide overflow-scroll">
           {project && (
-            <ShortlistSideContainerTest matchingMembers={filteredMembers} />
+            <ShortlistSideContainer matchingMembers={filteredMembers} />
           )}
         </GridItemThree>
 
@@ -138,7 +136,6 @@ const LaunchPage: NextPageWithLayout = () => {
           </>
         )}
       </GridLayout>
-      {/* <ShortlistModalContainerStory /> */}
       <ShortlistModalContainerTest />
     </>
   );
