@@ -23,9 +23,9 @@ import {
   MatchAvatar,
   MemberModal,
   NodesOnboardPartyContainer,
+  OnboardRoomCard,
   SEO,
   TextHeading3,
-  OnboardRoomCard,
 } from "@eden/package-ui";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
