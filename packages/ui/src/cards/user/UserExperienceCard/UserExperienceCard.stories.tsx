@@ -1,4 +1,3 @@
-import { findRoleTemplates } from "@eden/package-mock";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { UserExperienceCard } from "./UserExperienceCard";
@@ -14,6 +13,4 @@ const Template: ComponentStory<typeof UserExperienceCard> = (args) => (
 );
 
 export const Default = Template.bind({});
-Default.args = {
-  roles: findRoleTemplates,
-};
+Default.args = {};

@@ -45,6 +45,7 @@ const FillProfilePage: NextPageWithLayout = () => {
     setStep((prev) => prev + 1);
   };
 
+  // eslint-disable-next-line no-unused-vars
   const handleOnLaunch = () => {
     updateProject({
       variables: {
@@ -79,10 +80,29 @@ const FillProfilePage: NextPageWithLayout = () => {
     });
   };
 
+  const onClickLaunch = () => {
+    updateProject({
+      variables: {
+        fields: {
+          title: state[1].name,
+          emoji: state[1].emoji,
+          descriptionOneLine: state[1].description,
+          // tags: state[1].tags,
+          backColorEmoji: state[1].color,
+          description: state[2].description,
+          // username: state[2].username,
+          // role: state[2].selectedRole,
+          budget: { perHour: state[5].hrsWeek, token: "", totalBudget: "" },
+          stepsJoinProject: ["step1", "step2", "step3"],
+        },
+      },
+    });
+  };
+
   const stepView = () => {
     switch (step) {
       case 1:
-        return <CreateProjectViews1 onNext={onNext} />;
+        return <CreateProjectViews1 data={state[1]} onNext={onNext} />;
 
       case 2:
         return (
@@ -117,7 +137,7 @@ const FillProfilePage: NextPageWithLayout = () => {
         return (
           <CreateProjectViews6
             onNext={() => null}
-            onLaunch={() => handleOnLaunch()}
+            onLaunch={onClickLaunch}
             onNewPosition={() => null}
             onBack={() => setStep((prev) => prev - 1)}
           />

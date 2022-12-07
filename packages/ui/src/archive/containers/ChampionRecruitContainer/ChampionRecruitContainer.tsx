@@ -2,7 +2,6 @@ import { gql, useMutation } from "@apollo/client";
 import { Members, Project, TeamType } from "@eden/package-graphql/generated";
 import {
   AvailabilityComp,
-  BioComponent,
   Button,
   SkillList,
   // Loading,
@@ -14,6 +13,7 @@ import {
 import { useEffect, useState } from "react";
 
 import { UserInformationCard } from "../../cards/user/UserInformationCard";
+import { BioComponent } from "../../components/BioComponent/BioComponent";
 
 const SET_APPLY_TO_PROJECT = gql`
   mutation ($fields: changeTeamMember_Phase_ProjectInput!) {

@@ -47,3 +47,9 @@ jest.mock("react-chartjs-2", () => ({
   Bar: () => null,
   Radar: () => null,
 }));
+
+window.IntersectionObserver = jest.fn().mockReturnValue({
+  observe: () => null,
+  unobserve: () => null,
+  disconnect: () => null,
+});

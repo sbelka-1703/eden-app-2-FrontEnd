@@ -7,7 +7,6 @@ import {
   MATCH_NODES_MEMBERS,
   MEMBER_UPDATED_IN_ROOM_SUB,
   ROOM_UPDATED,
-  UPDATE_MEMBER_IN_ROOM,
 } from "@eden/package-graphql";
 import {
   MatchMembersToSkillOutput,
@@ -16,7 +15,6 @@ import {
 } from "@eden/package-graphql/generated";
 import {
   AppPublicLayout,
-  Avatar,
   Card,
   EditProfileOnboardPartyNodesCard,
   GridItemNine,
@@ -25,8 +23,8 @@ import {
   MatchAvatar,
   MemberModal,
   NodesOnboardPartyContainer,
+  OnboardRoomCard,
   SEO,
-  TextHeading2,
   TextHeading3,
 } from "@eden/package-ui";
 import { useRouter } from "next/router";
@@ -163,13 +161,6 @@ const OnboardPartyPage: NextPageWithLayout = () => {
           discordAvatar
           discordName
           bio
-          skills {
-            skillInfo {
-              _id
-              name
-            }
-            level
-          }
           links {
             name
             url
@@ -204,74 +195,13 @@ const OnboardPartyPage: NextPageWithLayout = () => {
     }
   );
 
-  const [updateMember] = useMutation(UPDATE_MEMBER_IN_ROOM, {
-    onError: (error) => {
-      console.log("error", error);
-    },
-  });
-
-  const handleUpdateUser = (val: any, name: any) => {
-    if (!partyId || !currentUser) return;
-
-    let bio = currentUser?.bio || null;
-    let role = currentUser?.memberRole?._id || null;
-
-    if (name === "bio") {
-      bio = val;
-    }
-    if (name === "role") {
-      role = val._id;
-    }
-
-    updateMember({
-      variables: {
-        fields: {
-          memberID: currentUser?._id,
-          serverID: serverID,
-          bio: bio,
-          memberRole: { _id: role },
-          roomID: partyId,
-        },
-      },
-      context: { serviceName: "soilservice" },
-    });
-  };
-
   return (
     <>
       <SEO />
       <GridLayout>
         <GridItemThree>
-          <div className={`h-85 scrollbar-hide space-y-4 overflow-scroll p-1`}>
-            <Card shadow className={`bg-white p-4`}>
-              <div className={`flex`}>
-                <div className={``}>
-                  <Avatar
-                    isProject
-                    size={`sm`}
-                    src={`https://pbs.twimg.com/profile_images/1595723986524045312/fqOO4ZI__400x400.jpg`}
-                  />
-                </div>
-                <div className={`my-auto ml-4`}>
-                  <TextHeading2>Eden x Art Basel</TextHeading2>
-                </div>
-              </div>
-              <div className={`mt-2 flex`}>
-                <div>📍</div>
-                <div
-                  className={`text-darkGreen font-poppins xl:text-md ml-4 space-y-4 text-xs sm:text-sm`}
-                >
-                  {/* <p>
-                    {`IRL: Miami beach boat dock 🛥Virtual Meet-up in Gather Town🚀`}
-                  </p> */}
-                  <p>
-                    {`Be the first one to hear about Eden Microgrant Incentive
-                    Program 🌱 & connect with special guests IRL and on Gather
-                    Town!`}
-                  </p>
-                </div>
-              </div>
-            </Card>
+          <div className={`lg:h-85 mb-8 flex flex-col gap-4 lg:mb-0`}>
+            <OnboardRoomCard />
             {!currentUser ? (
               <p>
                 You must be logged in to edit your profile.
@@ -280,14 +210,14 @@ const OnboardPartyPage: NextPageWithLayout = () => {
               </p>
             ) : (
               <EditProfileOnboardPartyNodesCard
-                RoomId={partyId as string}
-                handleUpdateUser={handleUpdateUser}
+                serverID={serverID as string}
+                RoomID={partyId as string}
               />
             )}
           </div>
         </GridItemThree>
         <GridItemNine>
-          <div className={`h-85 flex flex-col gap-4`}>
+          <div className={`lg:h-85 flex flex-col gap-4`}>
             <Card shadow className={`bg-white p-4`}>
               <div className={``}>
                 <TextHeading3>Best people for you to meet:</TextHeading3>
@@ -295,7 +225,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
                 <div className={`text-sm text-zinc-500`}>
                   Powered by Eden AI
                 </div>
-                <div className={`mt-2 flex space-x-12`}>
+                <div className={`mt-2 flex flex-wrap`}>
                   {dataMembers?.matchNodesToMembers &&
                     dataMembers?.matchNodesToMembers.map(
                       (
@@ -303,47 +233,49 @@ const OnboardPartyPage: NextPageWithLayout = () => {
                         index: number
                       ) => {
                         return (
-                          <div key={index}>
-                            {currentUser?._id !== member?.member?._id && (
-                              <div
-                                className={`flex-col  justify-center text-center`}
-                              >
-                                <div className={`mx-4`}>
-                                  <button
-                                    onClick={() => {
-                                      setIsModalOpen(true);
-                                      setSelectedMember(
-                                        member?.member as Members
-                                      );
-                                      setSelectedMemberPercentage(
-                                        member?.matchPercentage
-                                          ?.totalPercentage as number
-                                      );
-                                    }}
-                                  >
-                                    <MatchAvatar
-                                      src={
-                                        member?.member?.discordAvatar as string
-                                      }
-                                      percentage={
-                                        member?.matchPercentage
-                                          ?.totalPercentage as number
-                                      }
-                                      size={`md`}
-                                    />
-                                  </button>
-                                </div>
-
-                                <div className={`font-medium text-zinc-500`}>
-                                  @{member?.member?.discordName}
-                                </div>
+                          <div key={index} className={``}>
+                            {currentUser?._id !== member?.member?._id &&
+                              index < 7 && (
                                 <div
-                                  className={`text-xs font-medium text-zinc-600`}
+                                  className={`mx-2 flex-col justify-center text-center`}
                                 >
-                                  {member?.member?.memberRole?.title}
+                                  <div className={`mx-4`}>
+                                    <button
+                                      onClick={() => {
+                                        setIsModalOpen(true);
+                                        setSelectedMember(
+                                          member?.member as Members
+                                        );
+                                        setSelectedMemberPercentage(
+                                          member?.matchPercentage
+                                            ?.totalPercentage as number
+                                        );
+                                      }}
+                                    >
+                                      <MatchAvatar
+                                        src={
+                                          member?.member
+                                            ?.discordAvatar as string
+                                        }
+                                        percentage={
+                                          member?.matchPercentage
+                                            ?.totalPercentage as number
+                                        }
+                                        size={`md`}
+                                      />
+                                    </button>
+                                  </div>
+
+                                  <div className={`font-medium text-zinc-500`}>
+                                    @{member?.member?.discordName}
+                                  </div>
+                                  <div
+                                    className={`text-xs font-medium text-zinc-600`}
+                                  >
+                                    {member?.member?.memberRole?.title}
+                                  </div>
                                 </div>
-                              </div>
-                            )}
+                              )}
                           </div>
                         );
                       }
@@ -355,7 +287,10 @@ const OnboardPartyPage: NextPageWithLayout = () => {
                     </TextHeading3>
                   )}
                   {currentUser?.nodes?.length !== 0 && (
-                    <button onClick={() => refetchMatchMembers()}>
+                    <button
+                      onClick={() => refetchMatchMembers()}
+                      className={`mx-4`}
+                    >
                       <BiRefresh className="text-3xl text-zinc-400" />
                     </button>
                   )}

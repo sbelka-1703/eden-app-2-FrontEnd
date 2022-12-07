@@ -1,9 +1,9 @@
 import { GrantsContext, GrantsModal } from "@eden/package-context";
 import {
   DiscoverTalentDropdownModal,
-  ProjectsMatchesModal,
   SkipFlowModal,
   WarningModal,
+  WelcomeModal,
 } from "@eden/package-ui";
 import { useContext, useEffect, useState } from "react";
 
@@ -14,12 +14,14 @@ for (let i = 0; i < 500; i++) {
 }
 
 export interface IGrantsModalContainerProps {
+  image?: any;
   // eslint-disable-next-line no-unused-vars
   setArrayOfNodes?: (val: string[]) => void;
   percentage?: number;
 }
 
 export const GrantsModalContainer = ({
+  image,
   setArrayOfNodes,
   percentage = 0,
 }: IGrantsModalContainerProps) => {
@@ -51,18 +53,12 @@ export const GrantsModalContainer = ({
       )}
 
       {openModal === GrantsModal.START_INFO && (
-        <ProjectsMatchesModal
+        <WelcomeModal
+          image={image}
           openModal={openModal === GrantsModal.START_INFO}
-          onSubmit={() => {
+          onNext={() => {
             setOpenModal(GrantsModal.SKILLS_CATEGORY);
           }}
-          header1={"Looking for a Grant?"}
-          header2={"Let's help you find one!"}
-          batteryPercentageBefore={percentage}
-          numMatchesBefore={210}
-          batteryPercentageAfter={70}
-          numMatchesAfter={8}
-          matchType={matchType}
         />
       )}
 

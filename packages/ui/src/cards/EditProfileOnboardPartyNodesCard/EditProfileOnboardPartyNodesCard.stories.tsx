@@ -14,7 +14,9 @@ const Template: ComponentStory<typeof EditProfileOnboardPartyNodesCard> = (
 
 export const Default = Template.bind({});
 Default.args = {
-  handleUpdateUser: function (): void {
-    //
-  },
+  RoomID: "60f1b1f1b1b1b1b1b1b1b1b1",
+  serverID: "60f1b1f1b1b1b1b1b1b1b1b1",
+  // handleUpdateUser: function (): void {
+  //   //
+  // },
 };

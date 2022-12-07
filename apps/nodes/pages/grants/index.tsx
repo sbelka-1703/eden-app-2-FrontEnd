@@ -13,6 +13,7 @@ import {
   Mutation,
 } from "@eden/package-graphql/generated";
 import {
+  AppPublicLayout,
   AppUserSubmenuLayout,
   Card,
   CardGrid,
@@ -31,6 +32,7 @@ import {
 import { getFillProfilePercentage } from "@eden/package-ui/utils/fill-profile-percentage";
 import { useContext, useEffect, useState } from "react";
 
+import welcome from "../../public/welcome.png";
 import type { NextPageWithLayout } from "../_app";
 
 const ADD_NODES = gql`
@@ -163,7 +165,7 @@ const GrantsPage: NextPageWithLayout = () => {
         {view === "grants" && (
           <>
             <GridItemThree>
-              <Card className={`h-85 flex flex-col gap-2`}>
+              <Card className={`lg:h-85 flex flex-col gap-2`}>
                 <UserProfileCard />
                 {currentUser &&
                   getFillProfilePercentage({
@@ -244,6 +246,7 @@ const GrantsPage: NextPageWithLayout = () => {
         )}
       </GridLayout>
       <GrantsModalContainer
+        image={welcome.src}
         setArrayOfNodes={(val) => {
           // console.log("array of nodes val", val);
           setNodesID(val);
@@ -265,9 +268,7 @@ const GrantsPage: NextPageWithLayout = () => {
 
 GrantsPage.getLayout = (page) => (
   <GrantsProvider>
-    <AppUserSubmenuLayout showSubmenu={false} inApp={false}>
-      {page}
-    </AppUserSubmenuLayout>
+    <AppPublicLayout>{page}</AppPublicLayout>
   </GrantsProvider>
 );
 

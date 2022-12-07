@@ -1,6 +1,7 @@
-import { LaunchContext } from "@eden/package-context";
 import { Calendar, TextArea, TextField } from "@eden/package-ui";
 import { useContext } from "react";
+
+import { LaunchContext } from "../context";
 
 export const LaunchViewBudget = () => {
   const { projectDescription, setProjectDescription } =

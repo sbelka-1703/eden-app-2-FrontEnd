@@ -1,5 +1,6 @@
 // import { render } from "../../../utils/jest-apollo";
 import { MockedProvider } from "@apollo/client/testing";
+import { getMember } from "@eden/package-mock";
 import { render } from "@testing-library/react";
 
 import { EditProfileOnboardPartyCard } from ".";
@@ -9,12 +10,7 @@ describe("EditProfileOnboardPartyCard", () => {
     const { container } = render(
       <MockedProvider>
         <EditProfileOnboardPartyCard
-          currentUser={{
-            _id: "123412342134",
-            discordAvatar: undefined,
-            discordName: undefined,
-            skills: undefined,
-          }}
+          currentUser={getMember()}
           handleUpdateUser={function (): void {
             throw new Error("Function not implemented.");
           }}

@@ -1,5 +1,4 @@
 export * from "./AvailabilityComp";
-export * from "./BioComponent";
 export * from "./CalendarComp";
 export * from "./CalendarComp";
 export * from "./CategoryExpandable";
@@ -23,5 +22,6 @@ export * from "./SocialMediaComponent";
 export * from "./SocialMediaInput";
 export * from "./TeamAttributeChart";
 export * from "./UserAttributeChart";
+export * from "./UserBackground";
 export * from "./UserSkillSocialAval";
 export * from "./UserWithDescription";

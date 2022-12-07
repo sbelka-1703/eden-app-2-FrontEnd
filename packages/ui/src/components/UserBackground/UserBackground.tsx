@@ -1,29 +1,16 @@
-import { ChangeEvent } from "react";
 import {
-  FaDiscord,
-  FaGithub,
-  FaTelegram,
-  FaTwitter,
-  FaLinkedin,
-} from "react-icons/fa";
-import { SiNotion } from "react-icons/si";
-import clsx from "clsx";
+  Endorsements,
+  Maybe,
+  PreviusProjectsType,
+} from "@eden/package-graphql/generated";
+
 import { TextHeading3, TextLabel } from "../../atoms";
 import { Card } from "../../elements";
 import { EndorsementList } from "../../lists";
 
-enum Platforms {
-  "twitter",
-  "discord",
-  "github",
-  "notion",
-  "telegram",
-  "linkedin",
-}
-
 export interface IUserBackgroundProps {
-  background: any[] | undefined;
-  initialEndorsements: any[];
+  background: Array<Maybe<PreviusProjectsType>>;
+  initialEndorsements: Array<Maybe<Endorsements>>;
   experienceOpen: number | null;
   // eslint-disable-next-line no-unused-vars
   setExperienceOpen: (val: number | null) => void;
@@ -37,11 +24,11 @@ export const UserBackground = ({
 }: IUserBackgroundProps) => {
   const endorsements = initialEndorsements?.map((endorsement: any) => ({
     member: {
-      discordName: endorsement.name,
-      discordAvatar: endorsement.avatar,
+      discordName: endorsement?.endorser?.discordName,
+      discordAvatar: endorsement?.endorser?.discordAvatar,
     },
-    text: endorsement.endorsement,
-    level: endorsement.level.name,
+    text: endorsement?.endorsementMessage,
+    level: endorsement?.level?.name,
   }));
 
   return (
@@ -54,7 +41,8 @@ export const UserBackground = ({
           🎡 Background
         </TextHeading3>
         {background?.map((item, index) => {
-          const empty = !item.bio && !item.startDate && !item.endDate;
+          const empty =
+            !item?.description && !item?.startDate && !item?.endDate;
 
           return (
             <div key={index} className="mb-4">
@@ -73,7 +61,7 @@ export const UserBackground = ({
                   {!empty && index === experienceOpen ? "▼" : "▶"}
                 </span>
                 <div className="min-w-30 flex h-8 w-1/2 items-center !rounded-full border-0 bg-cyan-200 px-4 outline-0">
-                  {item.title}
+                  {item?.title}
                 </div>
                 {index < 2 && <span className="ml-3 text-xl">⭐️</span>}
               </div>
@@ -81,26 +69,26 @@ export const UserBackground = ({
                 <Card border className="grid grid-cols-2 py-4 px-6">
                   <div className="col-span-1">
                     <TextLabel>Description</TextLabel>
-                    <p>{item.bio}</p>
+                    <p>{item?.description}</p>
                   </div>
                   <div className="col-span-1">
                     <TextLabel>Timeline</TextLabel>
-                    {item.startDate && (
+                    {item?.startDate && (
                       <p>
-                        {`${new Date(Number(item.startDate)).toLocaleString(
+                        {`${new Date(Number(item?.startDate)).toLocaleString(
                           "default",
                           {
                             month: "short",
                           }
                         )} ${new Date(
-                          Number(item.startDate)
+                          Number(item?.startDate)
                         ).getFullYear()} - ${
-                          item.endDate
-                            ? `${new Date(Number(item.endDate)).toLocaleString(
+                          item?.endDate
+                            ? `${new Date(Number(item?.endDate)).toLocaleString(
                                 "default",
                                 { month: "short" }
                               )} ${new Date(
-                                Number(item.endDate)
+                                Number(item?.endDate)
                               ).getFullYear()}`
                             : "present"
                         }`}
