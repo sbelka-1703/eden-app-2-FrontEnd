@@ -1,5 +1,4 @@
 /* eslint-disable react/no-unescaped-entities */
-import { LaunchContext } from "@eden/package-context";
 import { ServerTemplate } from "@eden/package-graphql/generated";
 import { Dropdown, TextField } from "@eden/package-ui";
 import { useContext } from "react";
@@ -10,6 +9,8 @@ import {
   FaTelegram,
 } from "react-icons/fa";
 import { SiNotion } from "react-icons/si";
+
+import { LaunchContext } from "../context";
 
 export interface LaunchViewLinksProps {
   servers: ServerTemplate[];

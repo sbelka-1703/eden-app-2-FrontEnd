@@ -67,8 +67,6 @@ const DELETE_NODES = gql`
 export interface IEditProfileOnboardPartyNodesCardProps {
   serverID: string;
   RoomID: string;
-  // eslint-disable-next-line no-unused-vars
-  // handleUpdateUser: (val: any, name: string) => void;
 }
 
 // eslint-disable-next-line no-unused-vars

@@ -1,3 +1,4 @@
+import { DiscoverProvider } from "@eden/package-context";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { DiscoverModalContainer } from "./DiscoverModalContainer";
@@ -8,9 +9,13 @@ export default {
   argTypes: {},
 } as ComponentMeta<typeof DiscoverModalContainer>;
 
-const Template: ComponentStory<typeof DiscoverModalContainer> = (args) => (
-  <DiscoverModalContainer {...args} />
-);
+const Template: ComponentStory<typeof DiscoverModalContainer> = (args) => {
+  return (
+    <DiscoverProvider>
+      <DiscoverModalContainer {...args} />
+    </DiscoverProvider>
+  );
+};
 
 export const Default = Template.bind({});
 Default.args = {};

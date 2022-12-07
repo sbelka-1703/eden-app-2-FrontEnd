@@ -1,5 +1,6 @@
-// import { faker } from "@faker-js/faker";
+import { getMember } from "@eden/package-mock";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { useState } from "react";
 
 import { UserBackground } from "./UserBackground";
 
@@ -9,17 +10,20 @@ export default {
   argTypes: {},
 } as ComponentMeta<typeof UserBackground>;
 
-const Template: ComponentStory<typeof UserBackground> = (args) => (
-  <UserBackground {...args} />
-);
+const Template: ComponentStory<typeof UserBackground> = (args) => {
+  const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
+
+  return (
+    <UserBackground
+      {...args}
+      experienceOpen={experienceOpen}
+      setExperienceOpen={setExperienceOpen}
+    />
+  );
+};
 
 export const Default = Template.bind({});
 Default.args = {
-  background: undefined,
-  initialEndorsements: [],
-  experienceOpen: null,
-  // eslint-disable-next-line no-unused-vars
-  setExperienceOpen: function (val: any): void {
-    throw new Error("Function not implemented.");
-  },
+  background: getMember().previusProjects,
+  initialEndorsements: getMember().endorsements,
 };

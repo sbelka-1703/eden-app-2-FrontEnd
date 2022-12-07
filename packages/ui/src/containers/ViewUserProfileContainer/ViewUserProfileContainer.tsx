@@ -6,12 +6,14 @@ import {
   RoleTemplate,
   Scalars,
 } from "@eden/package-graphql/generated";
+import {
+  Card,
+  SocialMediaComp,
+  TextHeading3,
+  UserBackground,
+  UserWithDescription,
+} from "@eden/package-ui";
 import { STEPS } from "@eden/package-ui/utils/enums/fill-profile-steps";
-
-import { TextHeading3 } from "../../atoms";
-import { SocialMediaComp, UserWithDescription } from "../../components";
-import { UserBackground } from "../../components/UserBackground";
-import { Card } from "../../elements";
 
 export interface IViewUserProfileContainerProps {
   step?: string | null;
@@ -129,17 +131,22 @@ export const ViewUserProfileContainer = ({
               background={user.background}
               initialEndorsements={[
                 {
-                  avatar: "https://cdn.discordapp.com/embed/avatars/4.png",
-                  name: "BluePanda",
-                  endorsement:
-                    "One of the finest people I’ve ever known in business or any field. Simply the most brilliant opportunity creator I've ever worked with.",
-                  level: {
-                    name: 2000,
-                    smallName: "L2",
-                    meaning: "Community Favourite",
-                    SuccessfulEndorsementsGive: "23",
-                    SuccessfulEndorsementsReceive: "12",
+                  endorser: {
+                    discordAvatar:
+                      "https://cdn.discordapp.com/embed/avatars/4.png",
+                    discordName: "BluePanda",
+                    discriminator: "0001",
                   },
+                  endorsementMessage:
+                    "One of the finest people I’ve ever known in business or any field. Simply the most brilliant opportunity creator I've ever worked with.",
+                  arweaveTransactionID: "123",
+                  // level: {
+                  //   name: 2000,
+                  //   smallName: "L2",
+                  //   meaning: "Community Favourite",
+                  //   SuccessfulEndorsementsGive: "23",
+                  //   SuccessfulEndorsementsReceive: "12",
+                  // },
                 },
               ]}
               setExperienceOpen={setExperienceOpen!}

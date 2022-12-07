@@ -46,16 +46,18 @@ function reducer(state: ProjectData, action: any): ProjectData {
 }
 
 export interface CreateProjectViews1Props {
+  data?: ProjectData;
   onBack?: () => void;
   // eslint-disable-next-line no-unused-vars
   onNext: (data: ProjectData) => void;
 }
 
 export const CreateProjectViews1 = ({
+  data,
   onBack,
   onNext,
 }: CreateProjectViews1Props) => {
-  const [state, dispath] = useReducer(reducer, initialState);
+  const [state, dispath] = useReducer(reducer, data || initialState);
 
   const handleUpdateState = (value: any, field: string) => {
     dispath({
@@ -111,6 +113,7 @@ export const CreateProjectViews1 = ({
               Write short one-liner to introduce your project:
             </p>
             <TextArea
+              value={state.description}
               onChange={(e) => {
                 handleUpdateState(e.target.value, "description");
               }}
