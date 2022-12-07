@@ -141,15 +141,17 @@ export const UserProvider = ({ children }: UserProviderProps) => {
               // console.log("servers", servers);
               setMemberServers(servers);
               setSelectedServer(servers[0]);
-
-              updateMember({
-                variables: {
-                  fields: {
-                    _id: session?.user?.id,
-                    serverID: serverIds,
+              if (serverIds.length > 0) {
+                updateMember({
+                  variables: {
+                    fields: {
+                      _id: session?.user?.id,
+                      serverID: serverIds,
+                    },
                   },
-                },
-              });
+                });
+              }
+
               setMutualGuildsSearched(true);
             })
             .catch((err) => {
