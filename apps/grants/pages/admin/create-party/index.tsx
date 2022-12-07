@@ -85,12 +85,12 @@ const DiscoverPage: NextPageWithLayout = () => {
                 <TextHeading2>Room Url</TextHeading2>
                 {roomUrl && (
                   <Card>
-                    <TextHeading3>{`https://eden-nodes.vercel.app/onboard/party/${roomUrl}`}</TextHeading3>
+                    <TextHeading3>{`https://eden-grants.vercel.app/onboard/party/${roomUrl}`}</TextHeading3>
                     <div className={`my-6`}>
                       <Button
                         onClick={() => {
                           navigator.clipboard.writeText(
-                            `https://eden-nodes.vercel.app/onboard/party/${roomUrl}`
+                            `https://eden-grants.vercel.app/onboard/party/${roomUrl}`
                           );
                           toast.success("grant link copied to clipboard");
                         }}
@@ -102,7 +102,7 @@ const DiscoverPage: NextPageWithLayout = () => {
                       <Button
                         onClick={() =>
                           window.open(
-                            `https://eden-nodes.vercel.app/onboard/party/${roomUrl}`,
+                            `https://eden-grants.vercel.app/onboard/party/${roomUrl}`,
                             "_blank"
                           )
                         }

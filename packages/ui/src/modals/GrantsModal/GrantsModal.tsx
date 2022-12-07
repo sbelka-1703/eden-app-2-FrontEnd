@@ -66,7 +66,7 @@ export const GrantsModal = ({ grant, open, onClose }: IGrantsModalProps) => {
         {
           name: "prefill_Eden+Profile",
           value:
-            "https://eden-alpha-develop.vercel.app/profile/" +
+            "https://eden-grants.vercel.app/profile/" +
             currentUser?.discordName,
         },
         { name: "prefill_Microgrant+Name", value: grant.name || "" },
@@ -81,7 +81,7 @@ export const GrantsModal = ({ grant, open, onClose }: IGrantsModalProps) => {
   };
 
   const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
-    ? `https://eden-nodes.vercel.app/`
+    ? `https://eden-nodes.vercel.app`
     : "localhost:3000";
 
   return (
