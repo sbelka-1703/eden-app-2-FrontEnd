@@ -17,6 +17,7 @@ import {
   Missing404Section,
   SEOGrants,
 } from "@eden/package-ui";
+import { getDynamicURL } from "@eden/package-ui/utils/dynamic-url";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { toast } from "react-toastify";
@@ -40,6 +41,7 @@ const GrantsIdPage = ({
   const { currentUser } = React.useContext(UserContext);
   const [isApplying, setIsApplying] = React.useState(false);
 
+  // eslint-disable-next-line no-unused-vars
   const [applyGrant] = useMutation(APPLY_GRANT, {
     onCompleted({ applyGrant }: Mutation) {
       if (!applyGrant) console.log("applyGrant is null");
@@ -56,18 +58,36 @@ const GrantsIdPage = ({
       return;
     }
     setIsApplying(true);
-    applyGrant({
-      variables: {
-        fields: {
-          grantID: grant._id,
-          memberID: currentUser._id,
+    // applyGrant({
+    //   variables: {
+    //     fields: {
+    //       grantID: grant._id,
+    //       memberID: currentUser._id,
+    //     },
+    //   },
+    // });
+
+    window.open(
+      getDynamicURL("https://airtable.com/shrs5Y5wNEISaB7Uc", [
+        {
+          name: "prefill_Eden+Profile",
+          value:
+            "https://eden-grants.vercel.app/profile/" +
+            currentUser?.discordName,
         },
-      },
-    });
+        { name: "prefill_Microgrant+Name", value: grant.name || "" },
+        {
+          name: "prefill_Discord+Handle",
+          value:
+            `${currentUser?.discordName}#${currentUser?.discriminator}` || "",
+        },
+      ]),
+      "_blank"
+    );
   };
 
   const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
-    ? `https://eden-nodes.vercel.app/`
+    ? `https://eden-grants.vercel.app`
     : "localhost:3000";
 
   return (
