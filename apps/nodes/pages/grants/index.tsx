@@ -13,6 +13,7 @@ import {
   Mutation,
 } from "@eden/package-graphql/generated";
 import {
+  AppPublicLayout,
   AppUserSubmenuLayout,
   Card,
   CardGrid,
@@ -164,7 +165,7 @@ const GrantsPage: NextPageWithLayout = () => {
         {view === "grants" && (
           <>
             <GridItemThree>
-              <Card className={`h-85 flex flex-col gap-2`}>
+              <Card className={`lg:h-85 flex flex-col gap-2`}>
                 <UserProfileCard />
                 {currentUser &&
                   getFillProfilePercentage({
@@ -267,9 +268,7 @@ const GrantsPage: NextPageWithLayout = () => {
 
 GrantsPage.getLayout = (page) => (
   <GrantsProvider>
-    <AppUserSubmenuLayout showSubmenu={false} inApp={false}>
-      {page}
-    </AppUserSubmenuLayout>
+    <AppPublicLayout>{page}</AppPublicLayout>
   </GrantsProvider>
 );
 

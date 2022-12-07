@@ -7,6 +7,7 @@ export * from "./FiltersCard";
 export * from "./GrantsCard";
 export * from "./MemberMatchCard";
 export * from "./MemberProfileCard";
+export * from "./OnboardRoomCard";
 export * from "./OpenPositionCard";
 export * from "./project";
 export * from "./RoleSmallCard";

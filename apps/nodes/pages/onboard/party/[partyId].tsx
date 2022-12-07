@@ -7,7 +7,6 @@ import {
   MATCH_NODES_MEMBERS,
   MEMBER_UPDATED_IN_ROOM_SUB,
   ROOM_UPDATED,
-  // UPDATE_MEMBER_IN_ROOM,
 } from "@eden/package-graphql";
 import {
   MatchMembersToSkillOutput,
@@ -16,7 +15,6 @@ import {
 } from "@eden/package-graphql/generated";
 import {
   AppPublicLayout,
-  Avatar,
   Card,
   EditProfileOnboardPartyNodesCard,
   GridItemNine,
@@ -25,8 +23,8 @@ import {
   MatchAvatar,
   MemberModal,
   NodesOnboardPartyContainer,
+  OnboardRoomCard,
   SEO,
-  TextHeading2,
   TextHeading3,
 } from "@eden/package-ui";
 import { useRouter } from "next/router";
@@ -197,74 +195,13 @@ const OnboardPartyPage: NextPageWithLayout = () => {
     }
   );
 
-  // const [updateMember] = useMutation(UPDATE_MEMBER_IN_ROOM, {
-  //   onError: (error) => {
-  //     console.log("error", error);
-  //   },
-  // });
-
-  // const handleUpdateUser = (val: any, name: any) => {
-  //   if (!partyId || !currentUser) return;
-
-  //   let bio = currentUser?.bio || null;
-  //   let role = currentUser?.memberRole?._id || null;
-
-  //   if (name === "bio") {
-  //     bio = val;
-  //   }
-  //   if (name === "role") {
-  //     role = val._id;
-  //   }
-
-  //   updateMember({
-  //     variables: {
-  //       fields: {
-  //         memberID: currentUser?._id,
-  //         serverID: serverID,
-  //         roomID: partyId,
-  //         bio: bio,
-  //         memberRole: { _id: role },
-  //       },
-  //     },
-  //     context: { serviceName: "soilservice" },
-  //   });
-  // };
-
   return (
     <>
       <SEO />
       <GridLayout>
         <GridItemThree>
-          <div className={`h-85 flex flex-col gap-4`}>
-            <Card shadow className={`bg-white p-4`}>
-              <div className={`flex`}>
-                <div className={``}>
-                  <Avatar
-                    isProject
-                    size={`sm`}
-                    src={`https://pbs.twimg.com/profile_images/1595723986524045312/fqOO4ZI__400x400.jpg`}
-                  />
-                </div>
-                <div className={`my-auto ml-4`}>
-                  <TextHeading2>Eden x Art Basel</TextHeading2>
-                </div>
-              </div>
-              <div className={`mt-2 flex`}>
-                <div>📍</div>
-                <div
-                  className={`text-darkGreen font-poppins xl:text-md ml-4 space-y-4 text-xs sm:text-sm`}
-                >
-                  {/* <p>
-                    {`IRL: Miami beach boat dock 🛥Virtual Meet-up in Gather Town🚀`}
-                  </p> */}
-                  <p>
-                    {`Be the first one to hear about Eden Microgrant Incentive
-                    Program 🌱 & connect with special guests IRL and on Gather
-                    Town!`}
-                  </p>
-                </div>
-              </div>
-            </Card>
+          <div className={`lg:h-85 mb-8 flex flex-col gap-4 lg:mb-0`}>
+            <OnboardRoomCard />
             {!currentUser ? (
               <p>
                 You must be logged in to edit your profile.
@@ -275,13 +212,12 @@ const OnboardPartyPage: NextPageWithLayout = () => {
               <EditProfileOnboardPartyNodesCard
                 serverID={serverID as string}
                 RoomID={partyId as string}
-                // handleUpdateUser={handleUpdateUser}
               />
             )}
           </div>
         </GridItemThree>
         <GridItemNine>
-          <div className={`h-85 flex flex-col gap-4`}>
+          <div className={`lg:h-85 flex flex-col gap-4`}>
             <Card shadow className={`bg-white p-4`}>
               <div className={``}>
                 <TextHeading3>Best people for you to meet:</TextHeading3>
