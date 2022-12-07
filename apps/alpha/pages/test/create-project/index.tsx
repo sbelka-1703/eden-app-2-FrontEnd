@@ -45,6 +45,41 @@ const FillProfilePage: NextPageWithLayout = () => {
     setStep((prev) => prev + 1);
   };
 
+  // eslint-disable-next-line no-unused-vars
+  const handleOnLaunch = () => {
+    updateProject({
+      variables: {
+        fields: {
+          // serverID: serverId,
+          // champion: currentUser?._id,
+          title: "test",
+          // description: projectDescription,
+          // role: projectRoles,
+          // collaborationLinks: [
+          //   {
+          //     title: "github",
+          //     link: githubUrl,
+          //   },
+          //   {
+          //     title: "discord",
+          //     link: discordUrl,
+          //   },
+          //   {
+          //     title: "notion",
+          //     link: notionUrl,
+          //   },
+          //   {
+          //     title: "telegram",
+          //     link: telegramUrl,
+          //   },
+          // ],
+          // budget: { perHour: "", token: "", totalBudget: "" },
+          // stepsJoinProject: ["step1", "step2", "step3"],
+        },
+      },
+    });
+  };
+
   const onClickLaunch = () => {
     updateProject({
       variables: {
