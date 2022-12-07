@@ -1,7 +1,7 @@
 import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
 import { FIND_MEMBER } from "@eden/package-graphql";
 import {
-  AppUserSubmenuLayout,
+  AppPublicLayout,
   Card,
   GridItemEight,
   GridItemTwo,
@@ -20,7 +20,7 @@ const ProfilePage = ({ member }: { member: Members }) => {
         image={member?.discordAvatar || ""}
         role={member?.memberRole?.title || ""}
       />
-      <AppUserSubmenuLayout showSubmenu={false}>
+      <AppPublicLayout>
         <GridLayout className={`bg-background h-screen`}>
           <GridItemTwo> </GridItemTwo>
           <GridItemEight>
@@ -37,7 +37,7 @@ const ProfilePage = ({ member }: { member: Members }) => {
           </GridItemEight>
           <GridItemTwo> </GridItemTwo>
         </GridLayout>
-      </AppUserSubmenuLayout>
+      </AppPublicLayout>
     </>
   );
 };
