@@ -1,4 +1,6 @@
+import { gql, useMutation } from "@apollo/client";
 import { UserProvider } from "@eden/package-context";
+import { Mutation } from "@eden/package-graphql/generated";
 import {
   AppUserLayout,
   CreateProjectViews1,
@@ -15,14 +17,66 @@ import { useEffect, useState } from "react";
 
 import { NextPageWithLayout } from "../../_app";
 
+const LAUNCH_PROJECT = gql`
+  mutation ($fields: updateProjectInput!) {
+    updateProject(fields: $fields) {
+      _id
+    }
+  }
+`;
+
 const FillProfilePage: NextPageWithLayout = () => {
   const [step, setStep] = useState(1);
 
   const [state, setState] = useState<any>({});
 
+  const [updateProject, {}] = useMutation(LAUNCH_PROJECT, {
+    onCompleted({ updateProject }: Mutation) {
+      if (!updateProject) console.log("updateProject is null");
+      console.log("updateProject", updateProject);
+    },
+    onError(error) {
+      console.log(error);
+    },
+  });
+
   const onNext = (data: any) => {
     setState((prev: any) => ({ ...prev, [step]: data }));
     setStep((prev) => prev + 1);
+  };
+
+  const handleOnLaunch = () => {
+    updateProject({
+      variables: {
+        fields: {
+          // serverID: serverId,
+          // champion: currentUser?._id,
+          title: "test",
+          // description: projectDescription,
+          // role: projectRoles,
+          // collaborationLinks: [
+          //   {
+          //     title: "github",
+          //     link: githubUrl,
+          //   },
+          //   {
+          //     title: "discord",
+          //     link: discordUrl,
+          //   },
+          //   {
+          //     title: "notion",
+          //     link: notionUrl,
+          //   },
+          //   {
+          //     title: "telegram",
+          //     link: telegramUrl,
+          //   },
+          // ],
+          // budget: { perHour: "", token: "", totalBudget: "" },
+          // stepsJoinProject: ["step1", "step2", "step3"],
+        },
+      },
+    });
   };
 
   const stepView = () => {
@@ -63,7 +117,7 @@ const FillProfilePage: NextPageWithLayout = () => {
         return (
           <CreateProjectViews6
             onNext={() => null}
-            onLaunch={() => null}
+            onLaunch={() => handleOnLaunch()}
             onNewPosition={() => null}
             onBack={() => setStep((prev) => prev - 1)}
           />
