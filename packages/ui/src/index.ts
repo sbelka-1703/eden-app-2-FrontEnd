@@ -10,6 +10,6 @@ export * from "./lists";
 export * from "./modals";
 export * from "./sections";
 export * from "./selectors";
+export * from "./SEO";
 export * from "./steppers";
 export * from "./test";
-export * from "./utils";
