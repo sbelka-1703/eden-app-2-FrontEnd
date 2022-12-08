@@ -7,12 +7,16 @@ import {
   GridItemTwo,
   GridLayout,
   Loading,
-  NewProfileContainer,
+  MemberInfo,
   SEOProfile,
 } from "@eden/package-ui";
 import * as React from "react";
 
 const ProfilePage = ({ member }: { member: Members }) => {
+  const [experienceOpen, setExperienceOpen] = React.useState<number | null>(
+    null
+  );
+
   return (
     <>
       <SEOProfile
@@ -26,10 +30,14 @@ const ProfilePage = ({ member }: { member: Members }) => {
           <GridItemEight>
             <Card
               shadow
-              className={`h-85 scrollbar-hide overflow-y-scroll bg-white`}
+              className={`h-85 scrollbar-hide overflow-y-scroll bg-white p-6`}
             >
               {member ? (
-                <NewProfileContainer user={member} />
+                <MemberInfo
+                  member={member}
+                  setExperienceOpen={setExperienceOpen!}
+                  experienceOpen={experienceOpen!}
+                />
               ) : (
                 <Loading title={`Searching...`} />
               )}

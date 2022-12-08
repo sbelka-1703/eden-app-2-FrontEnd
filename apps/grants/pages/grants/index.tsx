@@ -196,7 +196,7 @@ const GrantsPage: NextPageWithLayout = () => {
             <GridItemNine>
               <Card
                 shadow
-                className="scrollbar-hide h-85 overflow-scroll bg-white p-4"
+                className="scrollbar-hide lg:h-85 overflow-scroll bg-white p-4"
               >
                 <CardGrid>
                   {dataGrants &&

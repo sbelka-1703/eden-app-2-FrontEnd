@@ -12,16 +12,6 @@ export const FIND_MEMBER = gql`
         mostProud
         showCaseAbility
       }
-      attributes {
-        Coordinator
-        Director
-        Helper
-        Inspirer
-        Motivator
-        Observer
-        Reformer
-        Supporter
-      }
       archiveProjects
       discriminator
       hoursPerWeek
@@ -50,6 +40,19 @@ export const FIND_MEMBER = gql`
       memberRole {
         _id
         title
+      }
+      nodes {
+        nodeData {
+          _id
+          name
+          node
+        }
+      }
+      previusProjects {
+        title
+        description
+        startDate
+        endDate
       }
       endorsements {
         endorser {
