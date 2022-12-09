@@ -140,6 +140,7 @@ export const CreateProjectViews7 = ({
                   </div>
                 </div>
                 <ToggleElement
+                  isOptional
                   className="my-4"
                   title="Write a description of this role:"
                 >
@@ -153,6 +154,7 @@ export const CreateProjectViews7 = ({
                   />
                 </ToggleElement>
                 <ToggleElement
+                  isOptional
                   className="my-4"
                   title="What are the expectations for this role?"
                 >
@@ -166,6 +168,7 @@ export const CreateProjectViews7 = ({
                   />
                 </ToggleElement>
                 <ToggleElement
+                  isOptional
                   className="my-4"
                   title="What are the benfits of this role?"
                 >
