@@ -17,6 +17,19 @@ const navItems = [
     bgColor: "rgba(255, 242, 104, 0.3",
     description: "Find a grant and apply for it!",
   },
+  {
+    title: "Find Projects",
+    href: "/test/hackathon",
+    bgColor: "rgba(155, 242, 104, 0.3",
+    description: "Find a project and apply for it!",
+  },
+  {
+    title: "Find Users",
+    href: "/test/user",
+    bgColor: "rgba(255, 142, 104, 0.3",
+    description:
+      "Find Members of Eden to collaborate create projects and apply for grants",
+  },
 ];
 
 const HomePage: NextPageWithLayout = () => {
