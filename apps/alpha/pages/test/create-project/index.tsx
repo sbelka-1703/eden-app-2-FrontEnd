@@ -1,14 +1,12 @@
-import { gql, useMutation } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { UserProvider } from "@eden/package-context";
 import { Mutation } from "@eden/package-graphql/generated";
 import {
   AppUserLayout,
   CreateProjectViews1,
   CreateProjectViews2,
-  CreateProjectViews3,
-  CreateProjectViews4,
-  CreateProjectViews5,
   CreateProjectViews6,
+  CreateProjectViews7,
   GridItemSix,
   GridLayout,
   SEO,
@@ -21,6 +19,20 @@ const LAUNCH_PROJECT = gql`
   mutation ($fields: updateProjectInput!) {
     updateProject(fields: $fields) {
       _id
+    }
+  }
+`;
+
+const FIND_NODES = gql`
+  query ($fields: findNodesInput) {
+    findNodes(fields: $fields) {
+      _id
+      name
+      node
+      subNodes {
+        _id
+        name
+      }
     }
   }
 `;
@@ -89,15 +101,33 @@ const FillProfilePage: NextPageWithLayout = () => {
           descriptionOneLine: state[1].description,
           // tags: state[1].tags,
           backColorEmoji: state[1].color,
-          description: state[2].description,
+          description: state[3].description,
           // username: state[2].username,
           // role: state[2].selectedRole,
-          budget: { perHour: state[5].hrsWeek, token: "", totalBudget: "" },
+          budget: { perHour: state[3].hrsWeek, token: "", totalBudget: "" },
           stepsJoinProject: ["step1", "step2", "step3"],
         },
       },
     });
   };
+
+  const { data: typeProjectNodes } = useQuery(FIND_NODES, {
+    variables: {
+      fields: {
+        node: "typeProject",
+      },
+    },
+    context: { serviceName: "soilservice" },
+  });
+
+  const { data: expertiseNodes } = useQuery(FIND_NODES, {
+    variables: {
+      fields: {
+        node: "expertise",
+      },
+    },
+    context: { serviceName: "soilservice" },
+  });
 
   const stepView = () => {
     switch (step) {
@@ -108,32 +138,19 @@ const FillProfilePage: NextPageWithLayout = () => {
         return (
           <CreateProjectViews2
             onNext={onNext}
+            projects={typeProjectNodes?.findNodes}
             onBack={() => setStep((prev) => prev - 1)}
           />
         );
       case 3:
         return (
-          <CreateProjectViews3
+          <CreateProjectViews7
             onNext={onNext}
-            onSkip={() => setStep((prev) => prev + 1)}
+            expertise={expertiseNodes?.findNodes}
             onBack={() => setStep((prev) => prev - 1)}
           />
         );
       case 4:
-        return (
-          <CreateProjectViews4
-            onNext={onNext}
-            onBack={() => setStep((prev) => prev - 1)}
-          />
-        );
-      case 5:
-        return (
-          <CreateProjectViews5
-            onNext={onNext}
-            onBack={() => setStep((prev) => prev - 1)}
-          />
-        );
-      case 6:
         return (
           <CreateProjectViews6
             onNext={() => null}
@@ -157,7 +174,9 @@ const FillProfilePage: NextPageWithLayout = () => {
     <>
       <SEO />
       <GridLayout>
-        <GridItemSix>{stepView()}</GridItemSix>
+        <GridItemSix className={`h-85 scrollbar-hide overflow-y-scroll `}>
+          {stepView()}
+        </GridItemSix>
 
         <GridItemSix>
           <div />

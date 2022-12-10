@@ -3,7 +3,6 @@ import {
   Button,
   Card,
   ColorPicker,
-  Dropdown,
   EmojiSelector,
   TextArea,
   TextField,
@@ -11,19 +10,19 @@ import {
 } from "@eden/package-ui";
 import { useReducer } from "react";
 
-const TAGS = [
-  { _id: 1, name: "DApp" },
-  { _id: 2, name: "NFT" },
-  { _id: 3, name: "Infra" },
-  { _id: 4, name: "DeFi/DeSci" },
-];
+// const TAGS = [
+//   { _id: 1, name: "DApp" },
+//   { _id: 2, name: "NFT" },
+//   { _id: 3, name: "Infra" },
+//   { _id: 4, name: "DeFi/DeSci" },
+// ];
 
 interface ProjectData {
   name: string;
   emoji: string;
   color: string;
   description: string;
-  tags?: { _id: string; name: string };
+  // tags?: { _id: string; name: string };
 }
 
 const initialState = {
@@ -83,7 +82,7 @@ export const CreateProjectViews1 = ({
         </div>
         <div className="px-7">
           <TextHeading3 className="mb-4">
-            Start by naming your project and picking a visual 💯
+            Name your project and pick a visual!
           </TextHeading3>
           <div className="mb-3">
             <p className="text-sm font-medium">Name your project</p>
@@ -120,7 +119,7 @@ export const CreateProjectViews1 = ({
               placeholder="Start typing here..."
             />
           </div>
-          <div className="mb-8">
+          {/* <div className="mb-8">
             <p className="mb-4 text-sm font-medium">
               Select tags that best describe your project:
             </p>
@@ -133,7 +132,7 @@ export const CreateProjectViews1 = ({
                 handleUpdateState(tags, "tags");
               }}
             />
-          </div>
+          </div> */}
           <div className="flex justify-between">
             <div>
               {onBack && (
