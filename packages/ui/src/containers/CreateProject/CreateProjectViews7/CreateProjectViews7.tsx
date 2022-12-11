@@ -1,10 +1,12 @@
+import { useQuery } from "@apollo/client";
+import { FIND_ROLE_TEMPLATES } from "@eden/package-graphql";
 import {
   BatteryStepper,
   Button,
   Card,
   GridItemFour,
   GridLayout,
-  SelectBox,
+  RoleSelector,
   SelectBoxNode,
   TextArea,
   TextField,
@@ -65,6 +67,17 @@ export const CreateProjectViews7 = ({
     // });
   };
 
+  const { data: dataRoles } = useQuery(FIND_ROLE_TEMPLATES, {
+    variables: {
+      fields: {
+        _id: null,
+      },
+    },
+    context: { serviceName: "soilservice" },
+  });
+
+  console.log("dataRoles = ", dataRoles);
+
   return (
     <Card shadow className="bg-white pt-3 pb-6">
       <div className="px-5">
@@ -73,7 +86,7 @@ export const CreateProjectViews7 = ({
         </div>
         <div className="flex flex-row items-end justify-between">
           <TextHeading3>
-            You can add as many position as you want. Start with this one!
+            Find members of Eden 🌱 Network for your project.
           </TextHeading3>
           <BatteryStepper size="sm" batteryPercentage={60} />
         </div>
@@ -88,13 +101,18 @@ export const CreateProjectViews7 = ({
                     </p>
                   </div>
                   <div className="w-2/4">
-                    <SelectBox
+                    {/* <SelectBox
                       caption={"Select a role"}
                       items={[]}
                       onChange={(selectedItems) => {
                         console.log(selectedItems);
                       }}
                       btnBGcolor="bg-transparent"
+                    /> */}
+                    <RoleSelector
+                      // value={currentUser?.memberRole?.title || ""}
+                      roles={dataRoles?.findRoleTemplates}
+                      // onSelect={(e) => setRole(e?._id as string)}
                     />
                   </div>
                 </div>

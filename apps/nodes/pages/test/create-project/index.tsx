@@ -19,6 +19,7 @@ const LAUNCH_PROJECT = gql`
   mutation ($fields: updateProjectInput!) {
     updateProject(fields: $fields) {
       _id
+      title
     }
   }
 `;
@@ -153,9 +154,9 @@ const FillProfilePage: NextPageWithLayout = () => {
       case 4:
         return (
           <CreateProjectViews6
-            onNext={() => null}
+            onNext={onClickLaunch}
             onLaunch={onClickLaunch}
-            onNewPosition={() => null}
+            onNewPosition={() => setStep((prev) => prev - 1)}
             onBack={() => setStep((prev) => prev - 1)}
           />
         );
