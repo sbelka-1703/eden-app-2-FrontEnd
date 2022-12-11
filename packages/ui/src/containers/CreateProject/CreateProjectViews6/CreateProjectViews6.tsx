@@ -36,9 +36,9 @@ export const CreateProjectViews6 = ({
               </TextHeading3>
               <TextHeading3>Do you want to open another position?</TextHeading3>
               <div className="mt-4 flex justify-center gap-7">
-                <Button variant="secondary" onClick={() => setSkipped(true)}>
+                {/* <Button variant="secondary" onClick={() => setSkipped(true)}>
                   Skip
-                </Button>
+                </Button> */}
                 <Button variant="secondary" onClick={() => onNewPosition()}>
                   Add New Position
                 </Button>
@@ -62,7 +62,7 @@ export const CreateProjectViews6 = ({
             Back
           </Button>
           <Button variant="secondary" onClick={onNext}>
-            Next
+            Done
           </Button>
         </div>
       </div>

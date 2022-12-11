@@ -117,6 +117,7 @@ export const CreateProjectViews1 = ({
                 handleUpdateState(e.target.value, "description");
               }}
               placeholder="Start typing here..."
+              rows={2}
             />
           </div>
           {/* <div className="mb-8">
