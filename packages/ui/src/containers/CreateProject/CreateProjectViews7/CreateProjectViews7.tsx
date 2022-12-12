@@ -1,12 +1,9 @@
-import { useQuery } from "@apollo/client";
-import { FIND_ROLE_TEMPLATES } from "@eden/package-graphql";
 import {
   BatteryStepper,
   Button,
   Card,
   GridItemFour,
   GridLayout,
-  RoleSelector,
   SelectBoxNode,
   TextArea,
   TextField,
@@ -71,16 +68,16 @@ export const CreateProjectViews7 = ({
     // });
   };
 
-  const { data: dataRoles } = useQuery(FIND_ROLE_TEMPLATES, {
-    variables: {
-      fields: {
-        _id: null,
-      },
-    },
-    context: { serviceName: "soilservice" },
-  });
+  // const { data: dataRoles } = useQuery(FIND_ROLE_TEMPLATES, {
+  //   variables: {
+  //     fields: {
+  //       _id: null,
+  //     },
+  //   },
+  //   context: { serviceName: "soilservice" },
+  // });
 
-  console.log("dataRoles = ", dataRoles);
+  // console.log("dataRoles = ", dataRoles);
 
   return (
     <Card shadow className="bg-white pt-3 pb-6">
