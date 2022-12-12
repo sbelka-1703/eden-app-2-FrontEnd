@@ -43,6 +43,8 @@ const FillProfilePage: NextPageWithLayout = () => {
 
   const [state, setState] = useState<any>({});
 
+  const [battery, setBattery] = useState(5);
+
   const [updateProject, {}] = useMutation(LAUNCH_PROJECT, {
     onCompleted({ updateProject }: Mutation) {
       if (!updateProject) console.log("updateProject is null");
@@ -133,11 +135,20 @@ const FillProfilePage: NextPageWithLayout = () => {
   const stepView = () => {
     switch (step) {
       case 1:
-        return <CreateProjectViews1 data={state[1]} onNext={onNext} />;
+        return (
+          <CreateProjectViews1
+            battery={battery}
+            setBattery={setBattery}
+            data={state[1]}
+            onNext={onNext}
+          />
+        );
 
       case 2:
         return (
           <CreateProjectViews2
+            battery={battery}
+            setBattery={setBattery}
             onNext={onNext}
             projects={typeProjectNodes?.findNodes}
             onBack={() => setStep((prev) => prev - 1)}
@@ -146,6 +157,8 @@ const FillProfilePage: NextPageWithLayout = () => {
       case 3:
         return (
           <CreateProjectViews7
+            battery={battery}
+            setBattery={setBattery}
             onNext={onNext}
             expertise={expertiseNodes?.findNodes}
             onBack={() => setStep((prev) => prev - 1)}
