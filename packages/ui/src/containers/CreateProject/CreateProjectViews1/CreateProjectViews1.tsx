@@ -46,6 +46,8 @@ function reducer(state: ProjectData, action: any): ProjectData {
 
 export interface CreateProjectViews1Props {
   data?: ProjectData;
+  battery: number;
+  setBattery: (level: number) => void;
   onBack?: () => void;
   // eslint-disable-next-line no-unused-vars
   onNext: (data: ProjectData) => void;
@@ -53,6 +55,8 @@ export interface CreateProjectViews1Props {
 
 export const CreateProjectViews1 = ({
   data,
+  battery,
+  setBattery,
   onBack,
   onNext,
 }: CreateProjectViews1Props) => {
@@ -78,7 +82,11 @@ export const CreateProjectViews1 = ({
           <TextHeading3>
             Hello & Welcome! Let’s launch your first project🚀
           </TextHeading3>
-          <BatteryStepper size="sm" batteryPercentage={10} />
+          <BatteryStepper
+            size="sm"
+            batteryPercentage={battery ? battery : 10}
+            // batteryPercentage={battery}
+          />
         </div>
         <div className="px-7">
           <TextHeading3 className="mb-4">
@@ -89,7 +97,11 @@ export const CreateProjectViews1 = ({
             <TextField
               value={state.name}
               placeholder="Start typing here..."
-              onChange={(e) => handleUpdateState(e.target.value, "name")}
+              onChange={(e) => {
+                handleUpdateState(e.target.value, "name");
+                setBattery(battery < 20 ? battery + 10 : battery);
+                // setBattery(battery ? battery : 10 + 10);
+              }}
             />
           </div>
           <div className="mb-3">
@@ -115,6 +127,7 @@ export const CreateProjectViews1 = ({
               value={state.description}
               onChange={(e) => {
                 handleUpdateState(e.target.value, "description");
+                setBattery(battery < 30 ? battery + 10 : battery);
               }}
               placeholder="Start typing here..."
               rows={2}

@@ -24,7 +24,7 @@ export const CreateProjectViews6 = ({
       >
         <div>
           <TextHeading3 className="ml-8 mb-4">
-            Complete your profile:
+            Complete your project:
           </TextHeading3>
           <div className="flex justify-end px-7">
             <BatteryStepper size="sm" batteryPercentage={100} />

@@ -1,12 +1,9 @@
-import { useQuery } from "@apollo/client";
-import { FIND_ROLE_TEMPLATES } from "@eden/package-graphql";
 import {
   BatteryStepper,
   Button,
   Card,
   GridItemFour,
   GridLayout,
-  RoleSelector,
   SelectBoxNode,
   TextArea,
   TextField,
@@ -45,6 +42,8 @@ function reducer(state: ProjectData, action: any): ProjectData {
 
 export interface CreateProjectViews7Props {
   expertise?: any[];
+  battery: number;
+  setBattery: (level: number) => void;
   onBack: () => void;
   // eslint-disable-next-line no-unused-vars
   onNext: (data: ProjectData) => void;
@@ -52,6 +51,8 @@ export interface CreateProjectViews7Props {
 
 export const CreateProjectViews7 = ({
   onBack,
+  battery,
+  setBattery,
   onNext,
   expertise = [],
 }: CreateProjectViews7Props) => {
@@ -67,75 +68,63 @@ export const CreateProjectViews7 = ({
     // });
   };
 
-  const { data: dataRoles } = useQuery(FIND_ROLE_TEMPLATES, {
-    variables: {
-      fields: {
-        _id: null,
-      },
-    },
-    context: { serviceName: "soilservice" },
-  });
+  // const { data: dataRoles } = useQuery(FIND_ROLE_TEMPLATES, {
+  //   variables: {
+  //     fields: {
+  //       _id: null,
+  //     },
+  //   },
+  //   context: { serviceName: "soilservice" },
+  // });
 
-  console.log("dataRoles = ", dataRoles);
+  // console.log("dataRoles = ", dataRoles);
 
   return (
     <Card shadow className="bg-white pt-3 pb-6">
       <div className="px-5">
         <div>
-          <TextHeading3>Complete your profile:</TextHeading3>
+          <TextHeading3>Complete your project:</TextHeading3>
         </div>
         <div className="flex flex-row items-end justify-between">
           <TextHeading3>
             Find members of Eden 🌱 Network for your project.
           </TextHeading3>
-          <BatteryStepper size="sm" batteryPercentage={60} />
+          <BatteryStepper size="sm" batteryPercentage={battery} />
         </div>
         <div>
           <div className="mb-3 mt-3">
             <div>
               <div className="mb-3">
                 <div className="mt-3 w-4/6">
+                  <br />
                   <div>
                     <p className="text-sm font-normal">
                       {`What role are you looking to fill`}
                     </p>
                   </div>
-                  <div className="w-2/4">
-                    {/* <SelectBox
-                      caption={"Select a role"}
-                      items={[]}
-                      onChange={(selectedItems) => {
-                        console.log(selectedItems);
-                      }}
-                      btnBGcolor="bg-transparent"
-                    /> */}
+                  {/* <div className="w-2/4">
                     <RoleSelector
                       // value={currentUser?.memberRole?.title || ""}
                       roles={dataRoles?.findRoleTemplates}
                       // onSelect={(e) => setRole(e?._id as string)}
                     />
-                  </div>
-                </div>
-                <div className="mt-3">
-                  <div>
-                    <p className="text-sm font-normal">
-                      {`Write a short one-liner to explain the role:`}
-                    </p>
-                  </div>
-                  <div>
-                    <TextArea
-                      onChange={(e) => {
-                        handleUpdateState(e.target.value, "description");
-                      }}
+                  </div> */}
+                  <div className="mb-3">
+                    <TextField
+                      // value={state.name}
                       placeholder="Start typing here..."
-                      rows={3}
+                      onChange={(e) => {
+                        handleUpdateState(e.target.value, "name");
+                        setBattery(battery < 20 ? battery + 10 : battery);
+                        // setBattery(battery ? battery : 10 + 10);
+                      }}
                     />
                   </div>
                 </div>
                 <div className="mt-3">
                   <div>
                     <p className="text-sm font-normal">
-                      {`Select tags that best describe the role:`}
+                      {`Select the Role: 🤖`}
                     </p>
                   </div>
                   <div className="flex w-full flex-wrap justify-center gap-1">
@@ -148,6 +137,7 @@ export const CreateProjectViews7 = ({
                           items={item?.subNodes}
                           onChange={(val) => {
                             console.log("val", val);
+                            setBattery(battery < 99 ? battery + 10 : battery);
                             // setSelectedItems((prevState) => ({
                             //   ...prevState,
                             //   [item?._id]: val,
@@ -157,6 +147,24 @@ export const CreateProjectViews7 = ({
                       ))}
                   </div>
                 </div>
+                <div className="mt-3">
+                  <div>
+                    <p className="text-sm font-normal">
+                      {`Write a short one-liner to explain the role:`}
+                    </p>
+                  </div>
+                  <div>
+                    <TextArea
+                      onChange={(e) => {
+                        handleUpdateState(e.target.value, "description");
+                        setBattery(battery < 70 ? battery + 10 : battery);
+                      }}
+                      placeholder="Start typing here..."
+                      rows={2}
+                    />
+                  </div>
+                </div>
+
                 <ToggleElement
                   isOptional
                   className="my-4"
@@ -234,7 +242,7 @@ export const CreateProjectViews7 = ({
                           }}
                         />
                       </div>
-                      <div className="ml-3 text-sm font-normal text-gray-400">{`hours / week`}</div>
+                      <div className="ml-3 text-sm font-normal text-gray-400">{`$`}</div>
                     </div>
                   </GridItemFour>
                   <GridItemFour>
@@ -253,7 +261,7 @@ export const CreateProjectViews7 = ({
                           }}
                         />
                       </div>
-                      <div className="ml-3 text-sm font-normal text-gray-400">{`hours / week`}</div>
+                      <div className="ml-3 text-sm font-normal text-gray-400">{``}</div>
                     </div>
                   </GridItemFour>
                 </GridLayout>

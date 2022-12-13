@@ -35,6 +35,8 @@ function reducer(state: ProjectData, action: any): ProjectData {
 
 export interface CreateProjectViews2Props {
   projects?: any[];
+  battery: number;
+  setBattery: (level: number) => void;
   onBack: () => void;
   // eslint-disable-next-line no-unused-vars
   onNext: (data: ProjectData) => void;
@@ -42,6 +44,8 @@ export interface CreateProjectViews2Props {
 
 export const CreateProjectViews2 = ({
   onBack,
+  battery,
+  setBattery,
   onNext,
   projects = [],
 }: CreateProjectViews2Props) => {
@@ -49,7 +53,7 @@ export const CreateProjectViews2 = ({
   // const [projectOwner, setProjectOwner] = useState(true);
 
   const handleUpdateState = (value: any, field: string) => {
-    console.log(value, field);
+    console.log("aaaa = ", value, field);
     dispath({
       type: "HANDLE INPUT TEXT",
       field: field,
@@ -68,21 +72,9 @@ export const CreateProjectViews2 = ({
       <div className="px-5">
         <div className="flex flex-row justify-between">
           <TextHeading3>Complete your profile:</TextHeading3>
-          <BatteryStepper size="sm" batteryPercentage={30} />
+          <BatteryStepper size="sm" batteryPercentage={battery} />
         </div>
         <div>
-          <div className="mb-3">
-            <p className="mb-4 text-sm font-medium">
-              Write a full description of your project
-            </p>
-            <TextArea
-              onChange={(e) => {
-                handleUpdateState(e.target.value, "description");
-              }}
-              placeholder="Start typing here..."
-              rows={7}
-            />
-          </div>
           <div className="mb-4">
             <p className="mb-2 text-sm font-medium">
               Pick what is your project Type
@@ -97,6 +89,7 @@ export const CreateProjectViews2 = ({
                     items={item?.subNodes}
                     onChange={(val) => {
                       console.log("val", val);
+                      setBattery(battery < 60 ? battery + 10 : battery);
                       // setSelectedItems((prevState) => ({
                       //   ...prevState,
                       //   [item?._id]: val,
@@ -105,6 +98,20 @@ export const CreateProjectViews2 = ({
                   />
                 ))}
             </div>
+          </div>
+          <div className="mb-3">
+            <p className="mb-4 text-sm font-medium">
+              Write a full description of your project:
+              <span className="text-xs text-gray-500"> (Optional)</span>
+            </p>
+            <TextArea
+              onChange={(e) => {
+                handleUpdateState(e.target.value, "description");
+                setBattery(battery < 40 ? battery + 10 : battery);
+              }}
+              placeholder="Start typing here..."
+              rows={7}
+            />
           </div>
 
           {/* <div className="mb-3">
