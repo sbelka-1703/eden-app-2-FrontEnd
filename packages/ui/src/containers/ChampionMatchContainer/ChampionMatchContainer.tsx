@@ -5,7 +5,12 @@ import {
   RoleType,
   TeamType,
 } from "@eden/package-graphql/generated";
-import { MemberMatchCard, TabsSelector, TextHeading3 } from "@eden/package-ui";
+import {
+  CardGrid,
+  MemberMatchCard,
+  TabsSelector,
+  TextHeading3,
+} from "@eden/package-ui";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import { useEffect, useState } from "react";
 export interface ChampionMatchContainerProps {
@@ -144,9 +149,7 @@ const ActiveTabMembers = ({
 
   return (
     <div className="flex flex-col content-between justify-between">
-      <div
-        className={`mb-4 grid gap-x-4 gap-y-4 md:grid-cols-2 xl:grid-cols-3`}
-      >
+      <CardGrid>
         {teamMembers && teamMembers?.length > 0 ? (
           teamMembersPages[teamMembersPageNo]?.map(
             (member: any | TeamType, index: number) => {
@@ -172,7 +175,7 @@ const ActiveTabMembers = ({
         ) : (
           <TextHeading3 className="mb-4">No matching candidates</TextHeading3>
         )}
-      </div>
+      </CardGrid>
       <section className="flex justify-evenly">
         {!!teamMembers && teamMembersPageNo > 0 && (
           <span

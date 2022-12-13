@@ -66,7 +66,7 @@ export const CreateProjectViews4 = ({
   };
 
   return (
-    <Card shadow className="pt-3 pb-6">
+    <Card shadow className="bg-white pt-3 pb-6">
       <div className="px-5">
         <div className="flex flex-row justify-between">
           <div>
@@ -99,7 +99,7 @@ export const CreateProjectViews4 = ({
                 <div className="mb-3">
                   <div>
                     <p className="text-base font-medium">
-                      You can add as many position as you want.
+                      Find members of Eden to collaborate with on your project.
                     </p>
                     <p className="text-base font-medium">
                       Start with this one!

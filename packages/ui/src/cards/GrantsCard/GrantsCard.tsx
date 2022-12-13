@@ -1,4 +1,4 @@
-import { GrantTemplate, Maybe } from "@eden/package-graphql/generated";
+import { GrantTemplate } from "@eden/package-graphql/generated";
 import {
   Avatar,
   Badge,
@@ -15,8 +15,7 @@ import { useState } from "react";
 // import { round } from "../../../utils";
 
 export interface IGrantsCardProps {
-  grant?: Maybe<GrantTemplate>;
-  item?: any;
+  grant?: GrantTemplate;
 }
 
 export const GrantsCard = ({ grant }: IGrantsCardProps) => {
@@ -27,9 +26,9 @@ export const GrantsCard = ({ grant }: IGrantsCardProps) => {
 
   return (
     <Card border>
-      <div className={`flex justify-between`}>
-        <div>
-          <div className={`relative flex flex-col items-center`}>
+      <div className={`flex`}>
+        <div className={``}>
+          <div className={`relative flex flex-col`}>
             <div className="relative">
               <Avatar isProject src={grant?.avatar as string} />
 
@@ -43,7 +42,7 @@ export const GrantsCard = ({ grant }: IGrantsCardProps) => {
             </div>
           </div>
         </div>
-        <div>
+        <div className={`ml-4`}>
           <div className={`text-darkGreen font-poppins text-xl font-semibold`}>
             {grant?.name}
           </div>
@@ -91,7 +90,7 @@ export const GrantsCard = ({ grant }: IGrantsCardProps) => {
       <div className={`font-Inter text-lg font-medium text-zinc-400`}>
         Distributed to date:{" "}
         <span className={`text-accentColor text-xl uppercase`}>
-          {grant?.discributed}/20
+          {grant?.distributed || 0}/{grant?.maxDistributed}
         </span>
       </div>
 

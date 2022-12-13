@@ -1,14 +1,11 @@
-import { gql, useQuery } from "@apollo/client";
-import {
-  DiscoverContext,
-  DiscoverModal,
-  DiscoverProvider,
-  UserContext,
-} from "@eden/package-context";
+import { useQuery } from "@apollo/client";
+import { DiscoverProvider, UserContext } from "@eden/package-context";
+import { MATCH_NODES_MEMBERS } from "@eden/package-graphql";
 import { MatchMembersToSkillOutput } from "@eden/package-graphql/generated";
 import {
   AppUserSubmenuLayout,
   Card,
+  CardGrid,
   DiscoverModalContainer,
   GridItemNine,
   GridItemThree,
@@ -19,54 +16,10 @@ import {
 } from "@eden/package-ui";
 import { useContext, useEffect, useState } from "react";
 
+import welcome from "../../public/welcome.png";
 import type { NextPageWithLayout } from "../_app";
 
-export const MATCH_NODES_MEMBERS = gql`
-  query ($fields: matchNodesToMembersInput) {
-    matchNodesToMembers(fields: $fields) {
-      member {
-        _id
-        discordName
-        discordAvatar
-        discriminator
-        bio
-        hoursPerWeek
-        timeZone
-        endorsements {
-          arweaveTransactionID
-          endorsementMessage
-          endorser {
-            _id
-            discordAvatar
-            discordName
-            discriminator
-          }
-        }
-        memberRole {
-          _id
-          title
-        }
-        nodes {
-          nodeData {
-            _id
-            name
-            node
-          }
-        }
-        links {
-          name
-          url
-        }
-      }
-      matchPercentage {
-        totalPercentage
-      }
-    }
-  }
-`;
-
 const DiscoverPage: NextPageWithLayout = () => {
-  const { setOpenModal } = useContext(DiscoverContext);
   const { memberServers } = useContext(UserContext);
   const [nodesID, setNodesID] = useState<string[] | null>(null);
   const [serverID, setServerID] = useState<string | null>(null);
@@ -84,10 +37,6 @@ const DiscoverPage: NextPageWithLayout = () => {
   });
 
   // if (dataMembers) console.log("dataMembers", dataMembers);
-
-  useEffect(() => {
-    setOpenModal(DiscoverModal.START_INFO);
-  }, []);
 
   useEffect(() => {
     if (memberServers) {
@@ -111,19 +60,19 @@ const DiscoverPage: NextPageWithLayout = () => {
             shadow
             className="scrollbar-hide h-85 overflow-scroll bg-white p-4"
           >
-            <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            <CardGrid>
               {dataMembers?.matchNodesToMembers?.map(
                 (member: MatchMembersToSkillOutput, index: number) => (
                   <UserDiscoverCard key={index} matchMember={member} />
                 )
               )}
-            </div>
+            </CardGrid>
           </Card>
         </GridItemNine>
       </GridLayout>
       <DiscoverModalContainer
+        image={welcome.src}
         setArrayOfNodes={(val) => {
-          // console.log("array of nodes val", val);
           setNodesID(val);
         }}
       />

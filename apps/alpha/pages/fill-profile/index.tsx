@@ -1,4 +1,6 @@
+import { useMutation } from "@apollo/client";
 import { UserContext, UserProvider } from "@eden/package-context";
+import { UPDATE_MEMBER } from "@eden/package-graphql";
 import { LinkType, Maybe, RoleTemplate } from "@eden/package-graphql/generated";
 import {
   AppUserLayout,
@@ -18,13 +20,12 @@ import {
   TextArea,
   TextHeading3,
   TextLabel,
-  UserExperienceCard2,
+  UserExperienceCard,
   UserWithDescription,
 } from "@eden/package-ui";
 import { useContext, useEffect, useState } from "react";
 
 import FILL_PROFILE_MOCK from "../../utils/mock/fill-profile-mock";
-import USER_MOCK from "../../utils/mock/userMock";
 import { NextPageWithLayout } from "../_app";
 
 // eslint-disable-next-line no-unused-vars
@@ -43,6 +44,14 @@ enum STEPS {
   EXP_DETAIL = "EXP_DETAIL",
 }
 
+const INITIAL_EXP = {
+  title: "",
+  skills: [],
+  startDate: "",
+  endDate: "",
+  bio: "",
+};
+
 const FillProfilePage: NextPageWithLayout = () => {
   const { currentUser } = useContext(UserContext);
   const [percent, setPercent] = useState(36);
@@ -58,9 +67,13 @@ const FillProfilePage: NextPageWithLayout = () => {
     hoursPerWeek: currentUser?.hoursPerWeek,
     expectedSalary: 0,
     links: currentUser?.links,
-    background: USER_MOCK.Result[1].background as any,
+    background: [{ ...INITIAL_EXP }, { ...INITIAL_EXP }, { ...INITIAL_EXP }] as
+      | any[]
+      | undefined,
   });
   const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
+
+  const [updateMember] = useMutation(UPDATE_MEMBER, {});
 
   const handleSetRole = (value: RoleTemplate) => {
     setState({
@@ -105,8 +118,40 @@ const FillProfilePage: NextPageWithLayout = () => {
       hoursPerWeek: currentUser?.hoursPerWeek,
       expectedSalary: 0,
       links: currentUser?.links,
+      background: currentUser?.previusProjects?.map((proj) => ({
+        title: proj?.title,
+        bio: proj?.description,
+        startDate: proj?.startDate,
+        endDate: proj?.endDate,
+      })),
     });
   }, [currentUser]);
+
+  const handleSubmitForm = () => {
+    const fields = {
+      _id: currentUser?._id,
+      // serverID: [],
+      bio: state?.bio,
+      hoursPerWeek: state?.hoursPerWeek,
+      links: state?.links?.map((item) => ({
+        url: item?.url,
+        name: item?.name,
+      })),
+      memberRole: state?.memberRole?._id || undefined,
+      previusProjects: state?.background?.map((item: any) => ({
+        description: item.bio,
+        endDate: item.endDate,
+        startDate: item.startDate,
+        title: item.title,
+      })),
+    };
+
+    updateMember({
+      variables: {
+        fields: fields,
+      },
+    });
+  };
 
   return (
     <>
@@ -122,7 +167,7 @@ const FillProfilePage: NextPageWithLayout = () => {
                   </h2>
                   <p>
                     {`Your profile is at ${percent}% right now. In order to be visible to
-                other members your profile should be at least 70% complete.`}
+                other members your profile should be at least 50% complete.`}
                   </p>
                 </div>
                 <div className="col-span-1">
@@ -291,7 +336,8 @@ const FillProfilePage: NextPageWithLayout = () => {
                     </>
                   )}
                   {step === STEPS.EXP && (
-                    <UserExperienceCard2
+                    <UserExperienceCard
+                      background={state.background}
                       handleChange={(val) => handleSetBackground(val)}
                       handleChangeOpenExperience={(val) =>
                         setExperienceOpen(val)
@@ -335,9 +381,7 @@ const FillProfilePage: NextPageWithLayout = () => {
                     <Button
                       variant="primary"
                       className="ml-auto"
-                      onClick={() => {
-                        console.log("submit", state);
-                      }}
+                      onClick={() => handleSubmitForm()}
                     >
                       Submit
                     </Button>
@@ -435,14 +479,14 @@ const FillProfilePage: NextPageWithLayout = () => {
               <div
                 className={`${
                   step !== STEPS.EXP && step !== STEPS.EXP_DETAIL
-                    ? "blur-sm brightness-50"
+                    ? "blur-sm"
                     : ""
                 }`}
               >
                 {state.background && (
                   <UserBackground
                     background={state.background}
-                    initialEndorsements={USER_MOCK.Result[1].endorsements}
+                    initialEndorsements={[]}
                     setExperienceOpen={setExperienceOpen}
                     experienceOpen={experienceOpen}
                   />
@@ -471,7 +515,7 @@ const UserBackground = ({
   experienceOpen,
   setExperienceOpen,
 }: {
-  background: any[];
+  background: any[] | undefined;
   initialEndorsements: any[];
   experienceOpen: number | null;
   // eslint-disable-next-line no-unused-vars
@@ -495,7 +539,7 @@ const UserBackground = ({
         >
           🎡 Background
         </TextHeading3>
-        {background.map((item, index) => {
+        {background?.map((item, index) => {
           const empty = !item.bio && !item.startDate && !item.endDate;
 
           return (
@@ -522,7 +566,7 @@ const UserBackground = ({
               {index === experienceOpen && (
                 <Card border className="grid grid-cols-2 py-4 px-6">
                   <div className="col-span-1">
-                    <TextLabel>Bio</TextLabel>
+                    <TextLabel>Description</TextLabel>
                     <p>{item.bio}</p>
                   </div>
                   <div className="col-span-1">

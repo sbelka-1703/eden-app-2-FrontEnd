@@ -2,7 +2,6 @@
 import { UserContext } from "@eden/package-context";
 import { Maybe, SkillType_Member } from "@eden/package-graphql/generated";
 import {
-  BioComponent,
   Button,
   Card,
   SearchSkill,
@@ -13,6 +12,7 @@ import { useContext, useState } from "react";
 import { AiOutlineCheck } from "react-icons/ai";
 
 import { UserInformationCard } from "../../cards/user/UserInformationCard";
+import { BioComponent } from "../../components/BioComponent/BioComponent";
 
 const levels = [
   {

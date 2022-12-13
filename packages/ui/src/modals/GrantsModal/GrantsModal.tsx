@@ -1,15 +1,22 @@
-import { GrantTemplate, Maybe } from "@eden/package-graphql/generated";
+import { gql, useMutation } from "@apollo/client";
+import { UserContext } from "@eden/package-context";
 import {
-  Avatar,
-  Badge,
-  Button,
-  LongText,
-  Modal,
-  TextHeading2,
-  TextHeading3,
-} from "@eden/package-ui";
+  GrantTemplate,
+  Maybe,
+  Mutation,
+} from "@eden/package-graphql/generated";
+import { Button, GrantsInfo, Loading, Modal } from "@eden/package-ui";
+import { getDynamicURL } from "@eden/package-ui/utils/dynamic-url";
+import { useContext, useState } from "react";
+import { toast } from "react-toastify";
 
-// import { round } from "../../../utils";
+export const APPLY_GRANT = gql`
+  mutation ($fields: applyGrantInput!) {
+    applyGrant(fields: $fields) {
+      _id
+    }
+  }
+`;
 
 export interface IGrantsModalProps {
   grant?: Maybe<GrantTemplate>;
@@ -18,118 +25,89 @@ export interface IGrantsModalProps {
 }
 
 export const GrantsModal = ({ grant, open, onClose }: IGrantsModalProps) => {
+  const { currentUser } = useContext(UserContext);
+  const [isApplying, setIsApplying] = useState(false);
+
+  // eslint-disable-next-line no-unused-vars
+  const [applyGrant] = useMutation(APPLY_GRANT, {
+    onCompleted({ applyGrant }: Mutation) {
+      if (!applyGrant) console.log("applyGrant is null");
+      toast.success("Successfully Applied to Grant");
+      setIsApplying(false);
+    },
+  });
+
   if (!grant) return null;
+
+  const handleApply = () => {
+    if (!currentUser) {
+      toast.error("You must be logged in to apply for a grant");
+      return;
+    }
+    if (
+      !currentUser.onbording?.signup ||
+      currentUser.onbording?.percentage! < 50
+    ) {
+      toast.error("Your profile must be filled 50% minimum");
+      return;
+    }
+    // setIsApplying(true);
+    // applyGrant({
+    //   variables: {
+    //     fields: {
+    //       grantID: grant._id,
+    //       memberID: currentUser._id,
+    //     },
+    //   },
+    // });
+
+    window.open(
+      getDynamicURL("https://airtable.com/shrs5Y5wNEISaB7Uc", [
+        {
+          name: "prefill_Eden+Profile",
+          value:
+            "https://eden-grants.vercel.app/profile/" +
+            currentUser?.discordName,
+        },
+        { name: "prefill_Microgrant+Name", value: grant.name || "" },
+        {
+          name: "prefill_Discord+Handle",
+          value:
+            `${currentUser?.discordName}#${currentUser?.discriminator}` || "",
+        },
+      ]),
+      "_blank"
+    );
+  };
+
+  const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
+    ? `https://eden-grants.vercel.app`
+    : "localhost:3000";
+
   return (
     <Modal open={open} onClose={onClose}>
       <div className={`h-8/10 scrollbar-hide w-full overflow-scroll`}>
-        <div className={`flex`}>
-          <div>
-            <Avatar isProject src={grant?.avatar as string} />
-          </div>
-          <div className={`ml-4`}>
-            <div
-              className={`text-darkGreen font-poppins text-xl font-semibold`}
-            >
-              {grant?.name}
-            </div>
-            <div className="flex">
-              <LongText
-                cutText={100}
-                text={(grant?.smallDescription as string) || ""}
-                className={`text-darkGreen font-Inter my-2 text-sm`}
-              />
-            </div>
-            <div className={``}>
-              {grant?.tags && (
-                <div>
-                  <div>
-                    {grant &&
-                      grant?.tags &&
-                      grant?.tags
-                        .slice(0, 6)
-                        .map((tag, index) => (
-                          <Badge
-                            text={tag || ""}
-                            key={index}
-                            className={`bg-[#FF6F8980] py-px text-xs`}
-                          />
-                        ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-        <div className={`grid grid-cols-3`}>
-          <div className={`col-span-2`}>
-            <div>
-              <div className={`font-Inter text-md font-medium text-zinc-400`}>
-                📃 Description of the grant
-              </div>
-              <div>words</div>
-            </div>
-            <div>
-              <div className={`font-Inter text-md font-medium text-zinc-400`}>
-                💲 requirements for the grant
-              </div>
-              <div>words</div>
-            </div>
-            <div>
-              <div className={`font-Inter text-md font-medium text-zinc-400`}>
-                🎀 application process & our support
-              </div>
-              <div>words</div>
-            </div>
-            <div>
-              <div className={`font-Inter text-md font-medium text-zinc-400`}>
-                🎊 D_D members who got aavE grant{" "}
-              </div>
-              <div>avatars</div>
-            </div>
-          </div>
-          <div className={`col-span-1`}>
-            <div
-              className={`mb-4 w-full rounded-2xl bg-gradient-to-r from-[#00E0FD33] to-[#F800CD33] p-4 text-center shadow-md`}
-            >
-              <TextHeading2>{grant?.amount}</TextHeading2>
-              <TextHeading3>🗓 by Dec 15th</TextHeading3>
-            </div>
-            <div className={`my-4`}>
-              <div className={`font-Inter text-md font-medium text-zinc-400`}>
-                🎤 resources
-              </div>
-              <div className={`my-1 rounded-xl bg-blue-50 p-4 shadow-md`}>
-                box
-              </div>
-            </div>
-            <div className={`my-4`}>
-              <div className={`font-Inter text-md font-medium text-zinc-400`}>
-                💪🏼 difficulty
-              </div>
-              <div
-                className={`text-accentColor my-1 rounded-xl bg-blue-50 p-4 text-xl uppercase shadow-md`}
-              >
-                {grant?.difficulty}
-              </div>
-            </div>
-            <div className={`my-4`}>
-              <div className={`font-Inter text-md font-medium text-zinc-400`}>
-                🎏 distributed
-              </div>
-              <div
-                className={`text-accentColor my-1 rounded-xl bg-blue-50 p-4 text-xl uppercase shadow-md`}
-              >
-                {grant?.discributed}/20
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className={`flex justify-end`}>
-          <Button variant={`primary`} onClick={() => console.log("apply")}>
+        {isApplying ? (
+          <Loading title={`Redirecting...`} />
+        ) : (
+          <GrantsInfo grant={grant} />
+        )}
+      </div>
+      {!isApplying && (
+        <div className={`flex justify-between`}>
+          <Button
+            onClick={() => {
+              navigator.clipboard.writeText(`${baseUrl}/grants/${grant?._id}`);
+              toast.success("grant link copied to clipboard");
+            }}
+          >
+            Share
+          </Button>
+          <Button variant={`primary`} onClick={() => handleApply()}>
             Apply
           </Button>
         </div>
-      </div>
+      )}
     </Modal>
   );
 };

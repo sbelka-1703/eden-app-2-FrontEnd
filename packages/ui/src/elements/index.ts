@@ -23,4 +23,5 @@ export * from "./SelectBoxNode";
 export * from "./SwitchButton";
 export * from "./TextArea";
 export * from "./TextField";
+export * from "./ToggleElement";
 export * from "./Tooltip";

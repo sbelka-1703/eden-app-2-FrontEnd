@@ -18,6 +18,7 @@ import {
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 
+import welcome from "../../../public/welcome.png";
 import HACK2_MOCK from "../../../utils/mock/skillTreeWorks_Hackathon_Project2";
 import type { NextPageWithLayout } from "../../_app";
 
@@ -60,7 +61,7 @@ const LaunchPage: NextPageWithLayout = () => {
           <UserProfileCard />
           <WarningCard
             profilePercentage={20}
-            onClickCompleteProfile={() => router.push("/fill-profile")}
+            onClickCompleteProfile={() => router.push("/migrate/fill-profile")}
           />
         </GridItemThree>
 
@@ -83,6 +84,7 @@ const LaunchPage: NextPageWithLayout = () => {
         </GridItemNine>
       </GridLayout>
       <HackathonModalContainer
+        image={welcome.src}
         setSubmittingTalentAttributes={(val: any) => {
           setRoleFilter(val);
         }}

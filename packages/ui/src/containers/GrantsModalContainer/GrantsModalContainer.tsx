@@ -1,10 +1,9 @@
 import { GrantsContext, GrantsModal } from "@eden/package-context";
 import {
   DiscoverTalentDropdownModal,
-  // PrioritizeModal,
-  ProjectsMatchesModal,
-  RequirementsModal,
   SkipFlowModal,
+  WarningModal,
+  WelcomeModal,
 } from "@eden/package-ui";
 import { useContext, useEffect, useState } from "react";
 
@@ -15,14 +14,18 @@ for (let i = 0; i < 500; i++) {
 }
 
 export interface IGrantsModalContainerProps {
+  image?: any;
   // eslint-disable-next-line no-unused-vars
   setArrayOfNodes?: (val: string[]) => void;
+  percentage?: number;
 }
 
 export const GrantsModalContainer = ({
+  image,
   setArrayOfNodes,
+  percentage = 0,
 }: IGrantsModalContainerProps) => {
-  // const { project, openModal, setOpenModal } = useContext(GrantsContext);
+  // const { currentUser } = useContext(UserContext);
   const { openModal, setOpenModal } = useContext(GrantsContext);
 
   const [nextStep, setNextStep] = useState<any>(null);
@@ -36,7 +39,7 @@ export const GrantsModalContainer = ({
 
   const matchType = `Grants`;
 
-  console.log("grants modal container", openModal);
+  // console.log("grants modal container", openModal);
 
   return (
     <>
@@ -45,23 +48,17 @@ export const GrantsModalContainer = ({
           openModal={openModal === GrantsModal.SKIP_ALERT}
           onSkipStep={() => setOpenModal(nextStep)}
           onSkipFlow={() => setOpenModal(null)}
-          percentage={50}
+          percentage={percentage}
         />
       )}
 
       {openModal === GrantsModal.START_INFO && (
-        <ProjectsMatchesModal
+        <WelcomeModal
+          image={image}
           openModal={openModal === GrantsModal.START_INFO}
-          onSubmit={() => {
+          onNext={() => {
             setOpenModal(GrantsModal.SKILLS_CATEGORY);
           }}
-          header1={"Looking for a Grant?"}
-          header2={"Let's help you find one!"}
-          batteryPercentageBefore={10}
-          numMatchesBefore={210}
-          batteryPercentageAfter={70}
-          numMatchesAfter={8}
-          matchType={matchType}
         />
       )}
 
@@ -70,20 +67,21 @@ export const GrantsModalContainer = ({
           openModal={openModal === GrantsModal.SKILLS_CATEGORY}
           onClose={() => {
             setOpenModal(GrantsModal.SKIP_ALERT);
-            setNextStep(GrantsModal.PRIORITIZE);
+            setNextStep(GrantsModal.SKILLS_SUBCATEGORY);
           }}
           // eslint-disable-next-line no-unused-vars
           onSubmit={(val: string[]) => {
-            console.log("val", val);
+            // console.log("val", val);
             if (val) {
               if (setNodeIdArray) setNodeIdArray([...nodeIdArray, ...val]);
             }
             setOpenModal(GrantsModal.SKILLS_SUBCATEGORY);
           }}
-          title={`Who are you looking for?`}
-          subTitle={`Select what you want them to help you with.`}
+          title={`First select your role`}
+          subTitle={`Choose any role you want!`}
           nodeType={`expertise`}
           matchType={matchType}
+          batteryPercentage={percentage}
         />
       )}
 
@@ -92,56 +90,40 @@ export const GrantsModalContainer = ({
           openModal={openModal === GrantsModal.SKILLS_SUBCATEGORY}
           onClose={() => {
             setOpenModal(GrantsModal.SKIP_ALERT);
-            setNextStep(GrantsModal.REQUIREMENTS);
+            setNextStep(GrantsModal.WARNING);
           }}
           // eslint-disable-next-line no-unused-vars
           onSubmit={(val: string[] | null) => {
-            console.log("val", val);
+            // console.log("val", val);
             if (val) {
               if (setNodeIdArray) setNodeIdArray([...nodeIdArray, ...val]);
             }
-            setOpenModal(GrantsModal.REQUIREMENTS);
+            if (percentage < 50) {
+              setOpenModal(GrantsModal.WARNING);
+            } else {
+              setOpenModal(null);
+            }
           }}
-          title={`Who are you looking for?`}
-          subTitle={`Select what you want them to help you with.`}
+          title={`Let's get you sorted! What type of projects are you looking for?`}
+          subTitle={`You can choose any area of interest!`}
           nodeType={`typeProject`}
           matchType={matchType}
+          batteryPercentage={percentage}
         />
       )}
 
-      {/* {openModal === GrantsModal.PRIORITIZE && (
-        <PrioritizeModal
-          key={"" + project?.role?.length}
-          battery
-          openModal={openModal === GrantsModal.PRIORITIZE}
-          onClose={() => {
-            setOpenModal(GrantsModal.SKIP_ALERT);
-            setNextStep(GrantsModal.REQUIREMENTS);
-          }}
-          onSubmit={(val) => {
-            console.log(val);
-            setOpenModal(GrantsModal.REQUIREMENTS);
-          }}
-          numMatches={38}
-        />
-      )} */}
-
-      {openModal === GrantsModal.REQUIREMENTS && (
-        <RequirementsModal
-          salaryData={rangeNumbers}
-          battery
-          openModal={openModal === GrantsModal.REQUIREMENTS}
-          onClose={() => {
-            // setOpenModal(LaunchProjectModal.PROJECT_INFO);
+      {openModal === GrantsModal.WARNING && (
+        <WarningModal
+          openModal
+          profilePercentage={percentage}
+          canSeeProjects={true}
+          canProjectsSee={false}
+          onSkip={function (): void {
             setOpenModal(null);
           }}
-          onSubmit={(val) => {
-            console.log(val);
+          onNext={function (): void {
             setOpenModal(null);
-            // setOpenModal(null);
           }}
-          numMatches={23}
-          matchType={matchType}
         />
       )}
     </>

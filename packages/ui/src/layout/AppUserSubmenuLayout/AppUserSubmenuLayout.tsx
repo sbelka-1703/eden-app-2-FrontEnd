@@ -13,6 +13,7 @@ export interface IAppUserSubmenuLayoutProps {
   showSubmenu?: boolean;
   submenu?: any;
   activeIndex?: number;
+  inApp?: boolean;
 }
 
 export const AppUserSubmenuLayout = ({
@@ -20,6 +21,7 @@ export const AppUserSubmenuLayout = ({
   showSubmenu = true,
   submenu,
   activeIndex,
+  inApp = true,
 }: IAppUserSubmenuLayoutProps) => {
   return (
     <>
@@ -27,7 +29,7 @@ export const AppUserSubmenuLayout = ({
         <title>Eden protocol</title>
       </Head>
       <div className="bg-background flex h-screen min-w-0 flex-col lg:overflow-y-hidden">
-        <AppHeader logoLink={`/home`} inApp />
+        <AppHeader logoLink={`/home`} inApp={inApp} />
         <main className="flex flex-grow">
           {showSubmenu ? (
             <GridLayout>

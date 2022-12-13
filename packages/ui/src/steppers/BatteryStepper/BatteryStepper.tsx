@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 
 export interface IBatteryStepperProps {
   batteryPercentage: number;
+  showPercentage?: boolean;
   numMatches?: number | string;
   text?: string;
   size?: "lg" | "sm";
@@ -12,6 +13,7 @@ export interface IBatteryStepperProps {
 
 export const BatteryStepper = ({
   numMatches,
+  showPercentage = false,
   batteryPercentage,
   text = "Projects",
   size = "lg",
@@ -53,7 +55,7 @@ export const BatteryStepper = ({
       <div className={`${btrHeadCls} battery-head`}></div>
       <div className={`${btrBodyCls} battery-body`}>
         <div
-          className="charge"
+          className="charge -mb-px"
           style={{
             height: `${batteryPercentage}%`,
             background: `${batteryColor}`,
@@ -63,6 +65,11 @@ export const BatteryStepper = ({
           <div className="font-poppins absolute left-2/4 top-2/4 -translate-x-2/4 -translate-y-2/4 text-center font-semibold">
             <p className={`${numMatchesTextCls}`}>{numMatches}</p>
             <p className={`${mathcesTextCls}`}>{text}</p>
+          </div>
+        )}
+        {showPercentage && (
+          <div className="font-poppins absolute left-2/4 top-2/4 -translate-x-2/4 -translate-y-2/4 text-center font-semibold">
+            <p className="text-2xl">{batteryPercentage}%</p>
           </div>
         )}
       </div>

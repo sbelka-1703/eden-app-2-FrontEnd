@@ -46,8 +46,8 @@ export const getPreviusProjects = () => ({
   positionName: faker.name.jobTitle(),
   description: faker.lorem.paragraph(),
   link: "https://www.google.com",
-  startDate: "Oct 2019",
-  endDate: "present",
+  startDate: "1669870800000",
+  endDate: "1659326400000",
   picture: faker.image.image(),
 });
 

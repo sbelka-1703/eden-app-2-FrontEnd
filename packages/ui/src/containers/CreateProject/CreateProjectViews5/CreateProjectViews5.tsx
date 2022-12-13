@@ -11,23 +11,28 @@ import { useReducer, useState } from "react";
 import { TextField } from "../../../elements";
 
 interface ProjectData {
-  username: string;
   description: string;
-  selectedRole?: string;
-  selectedTag?: string;
-  selectedEmoji?: string;
-  selectedColor?: string;
+  expectations: string;
+  benefits: string;
+  rate: number;
+  hrsWeek: number;
+  contractTime: number;
+  positions: number;
 }
 
-const initialState = {
-  username: "",
-  selectedRole: "",
+const initialState: ProjectData = {
   description: "",
+  expectations: "",
+  benefits: "",
+  rate: 10,
+  hrsWeek: 10,
+  contractTime: 100,
+  positions: 10,
 };
 
 function reducer(state: ProjectData, action: any): ProjectData {
   switch (action.type) {
-    case "HANDLE PROJECT VIEW 2 TEXT":
+    case "HANDLE INPUT TEXT":
       return {
         ...state,
         [action.field]: action.payload.value,
@@ -47,17 +52,17 @@ export const CreateProjectViews5 = ({
   onBack,
   onNext,
 }: CreateProjectViews5Props) => {
-  const [state] = useReducer(reducer, initialState);
+  const [state, dispath] = useReducer(reducer, initialState);
   const [hiringToggle, setHiringToggle] = useState(true);
+
   const handleUpdateState = (value: any, field: string) => {
-    console.log(value, field);
-    // dispath({
-    //   type: "HANDLE INPUT TEXT",
-    //   field: field,
-    //   payload: {
-    //     value,
-    //   },
-    // });
+    dispath({
+      type: "HANDLE INPUT TEXT",
+      field: field,
+      payload: {
+        value,
+      },
+    });
   };
 
   const handleHiringToggle = (e: any) => {
@@ -65,7 +70,7 @@ export const CreateProjectViews5 = ({
   };
 
   return (
-    <Card shadow className="pt-3 pb-6">
+    <Card shadow className="bg-white pt-3 pb-6">
       <div className="px-5">
         <div className="flex flex-row justify-between">
           <div>
@@ -87,19 +92,21 @@ export const CreateProjectViews5 = ({
                     Write a description of this role:
                   </p>
                   <TextArea
+                    value={state.description}
                     onChange={(e) => {
                       handleUpdateState(e.target.value, "description");
                     }}
-                    placeholder="Start typing here..."
                     rows={3}
+                    placeholder="Start typing here..."
                   />
                 </div>
                 <div className="mt-3 flex flex-row justify-between">
                   <div>
                     <p className="text-sm font-medium">{`Expectations:`}</p>
                     <TextArea
+                      value={state.expectations}
                       onChange={(e) => {
-                        handleUpdateState(e.target.value, "description");
+                        handleUpdateState(e.target.value, "expectations");
                       }}
                       placeholder="Start typing here..."
                       rows={3}
@@ -108,8 +115,9 @@ export const CreateProjectViews5 = ({
                   <div>
                     <p className="text-sm font-medium">{`Benefits:`}</p>
                     <TextArea
+                      value={state.benefits}
                       onChange={(e) => {
-                        handleUpdateState(e.target.value, "description");
+                        handleUpdateState(e.target.value, "benefits");
                       }}
                       placeholder="Start typing here..."
                       rows={3}
@@ -126,11 +134,10 @@ export const CreateProjectViews5 = ({
                       <div className="flex flex-row content-center items-center">
                         <div className="w-20">
                           <TextField
-                            name="hrs/week"
                             type="number"
-                            defaultValue={"10"}
-                            onChange={() => {
-                              console.log("onchange");
+                            value={state.hrsWeek}
+                            onChange={(e) => {
+                              handleUpdateState(+e.target.value, "hrsWeek");
                             }}
                           />
                         </div>
@@ -138,15 +145,15 @@ export const CreateProjectViews5 = ({
                       </div>
                     </div>
                     <div className="mt-2">
-                      <p className="text-sm font-normal">{`How many hours a week can you contribute?`}</p>
+                      <p className="text-sm font-normal">{`What’s your hourly rate?`}</p>
                       <div className="flex flex-row content-center items-center">
                         <div className="w-20">
                           <TextField
-                            name="hrs/week"
+                            name="rate"
                             type="number"
-                            defaultValue={"100"}
-                            onChange={() => {
-                              console.log("onchange");
+                            value={state.rate}
+                            onChange={(e) => {
+                              handleUpdateState(+e.target.value, "rate");
                             }}
                           />
                         </div>
@@ -159,11 +166,14 @@ export const CreateProjectViews5 = ({
                         <div className="flex flex-row content-center items-center">
                           <div className="w-20">
                             <TextField
-                              name="hrs/week"
                               type="number"
-                              defaultValue={"100"}
-                              onChange={() => {
-                                console.log("onchange");
+                              name="contractTime"
+                              value={state.contractTime}
+                              onChange={(e) => {
+                                handleUpdateState(
+                                  +e.target.value,
+                                  "contractTime"
+                                );
                               }}
                             />
                           </div>
@@ -186,11 +196,11 @@ export const CreateProjectViews5 = ({
                       <div className="flex flex-row content-center items-center">
                         <div className="w-20">
                           <TextField
-                            name="hrs/week"
+                            name="positions"
                             type="number"
-                            defaultValue={"10"}
-                            onChange={() => {
-                              console.log("onchange");
+                            value={state.positions}
+                            onChange={(e) => {
+                              handleUpdateState(+e.target.value, "description");
                             }}
                           />
                         </div>

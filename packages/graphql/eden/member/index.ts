@@ -6,3 +6,4 @@ export * from "./addSkillToMember";
 export * from "./addSkillToMemberInRoom";
 export * from "./memberUpdated";
 export * from "./matchMembertoSkills";
+export * from "./updateMemberInRoom";

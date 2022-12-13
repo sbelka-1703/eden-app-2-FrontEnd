@@ -1,7 +1,7 @@
 import { render } from "../../../utils/jest-apollo";
 import { RoleDescriptionModal } from ".";
 
-describe("ProjectInfoModal", () => {
+describe("RoleDescriptionModal", () => {
   it("renders without throwing", () => {
     const { container } = render(
       <RoleDescriptionModal

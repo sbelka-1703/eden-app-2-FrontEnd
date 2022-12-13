@@ -6,6 +6,7 @@ import {
   Loading,
   Modal,
   SelectBoxNode,
+  TextHeading2,
   TextHeading3,
 } from "@eden/package-ui";
 import { forEach, isEmpty, map } from "lodash";
@@ -29,29 +30,43 @@ export interface ISelectNodesModalProps {
   onClose: () => void;
   // eslint-disable-next-line no-unused-vars
   onSubmit?: (val: string[] | null) => void;
-  mockData?: any;
+  welcomeMessage?: string;
   title?: string;
   subTitle?: string;
   nodeType?: string;
+  submitButtonLabel?: string;
 }
 
 export const SelectNodesModal = ({
-  onClose,
   openModal,
+  onClose,
   onSubmit,
+  welcomeMessage,
   title,
   nodeType,
+  submitButtonLabel = `Finished`,
 }: ISelectNodesModalProps) => {
   const [selectedItems, setSelectedItems] = useState<{
     [key: string]: Node[];
   }>({});
   const [selectedNodes, setSelectedNodes] = useState<string[] | null>(null);
 
+  const { data: dataNodes } = useQuery(FIND_NODES, {
+    variables: {
+      fields: {
+        node: nodeType,
+      },
+    },
+    skip: !nodeType,
+    context: { serviceName: "soilservice" },
+  });
+  // if (dataNodes?.findNodes) console.log("dataNodes", dataNodes?.findNodes);
+
   useEffect(() => {
     if (selectedItems) {
       const selectedNodeId: string[] = [];
 
-      console.log("selectedItems", selectedItems);
+      // console.log("selectedItems", selectedItems);
 
       forEach(selectedItems, (el) => {
         if (!isEmpty(el)) {
@@ -64,20 +79,6 @@ export const SelectNodesModal = ({
     }
   }, [selectedItems]);
 
-  const { data: dataNodes } = useQuery(FIND_NODES, {
-    variables: {
-      fields: {
-        node: nodeType,
-      },
-    },
-    skip: !nodeType,
-    context: { serviceName: "soilservice" },
-  });
-
-  // console.log("dataNodes = " , dataNodes)
-
-  // if (dataNodes?.findNodes) console.log("dataNodes", dataNodes?.findNodes);
-
   const handleFinish = () => {
     onSubmit && onSubmit(selectedNodes as any);
   };
@@ -89,11 +90,12 @@ export const SelectNodesModal = ({
           <div>
             <div className="flex justify-between">
               <div className="flex-1">
+                <TextHeading2>{welcomeMessage}</TextHeading2>
                 <TextHeading3>{title}</TextHeading3>
               </div>
             </div>
             <section className="mt-4">
-              <div className={`h-44`}>
+              <div className={`h-24`}>
                 {map(selectedItems, (el, key) => {
                   return (
                     <div key={key} className={`flex flex-wrap`}>
@@ -135,6 +137,7 @@ export const SelectNodesModal = ({
                           caption={item?.name}
                           items={item?.subNodes}
                           onChange={(val) => {
+                            console.log("val", val);
                             setSelectedItems((prevState) => ({
                               ...prevState,
                               [item?._id]: val,
@@ -154,7 +157,7 @@ export const SelectNodesModal = ({
         <div className="flex justify-between">
           <div></div>
           <Button radius="rounded" variant={`secondary`} onClick={handleFinish}>
-            Finished
+            {submitButtonLabel}
           </Button>
         </div>
       </div>
