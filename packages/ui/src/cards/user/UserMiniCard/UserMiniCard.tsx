@@ -6,7 +6,7 @@ import {
   Avatar,
   Card,
   SocialMediaComp,
-  TextHeading2,
+  // TextHeading2,
   TextHeading3,
 } from "@eden/package-ui";
 import { GrExpand } from "react-icons/gr";
@@ -45,7 +45,7 @@ export const UserMiniCard = ({
               </div>
               <div className="flex justify-center">
                 <TextHeading3>
-                  @{member?.discordName || item?.name}
+                  @{member?.discordName || item?.discordName}
                 </TextHeading3>
               </div>
               <div className="flex justify-center">

@@ -179,7 +179,6 @@ const ProjectFlagType = ({ item }: IStaticCardTypeProps) => {
     },
   ];
 
-  console.log(item, "ssaitemns");
   return (
     <>
       <div className={`mt-4 flex`}>

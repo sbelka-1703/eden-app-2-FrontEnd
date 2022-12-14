@@ -60,7 +60,7 @@ const LaunchPage: NextPageWithLayout = () => {
 
       user.percentage = item.percentage;
       user.rolesPercentages = item.rolesPercentages;
-
+      user.discordName = "@zorroro";
       return user;
     }
   );
