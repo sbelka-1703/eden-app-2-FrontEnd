@@ -2,7 +2,6 @@ import {
   Avatar,
   Badge,
   Button,
-  Card,
   EmojiSelector,
   Modal,
   OpenPositionCard,
@@ -11,9 +10,11 @@ import {
   TextHeading2,
   TextHeading3,
   TimelineStepper,
+  UserMiniCard,
 } from "@eden/package-ui";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 
+// import { TextHeading1 } from "../../atoms";
 import { ReviewCard } from "../../cards/ReviewCard";
 import { EndorsementList } from "../../lists/EndorsementList";
 
@@ -178,6 +179,7 @@ const ProjectFlagType = ({ item }: IStaticCardTypeProps) => {
     },
   ];
 
+  console.log(item, "ssaitemns");
   return (
     <>
       <div className={`mt-4 flex`}>
@@ -192,7 +194,9 @@ const ProjectFlagType = ({ item }: IStaticCardTypeProps) => {
 
         <div className={`mx-4`}>
           <TextHeading2>{item?.name}</TextHeading2>
-          <div>{item?.description}</div>
+          <div className="text-soilGray/100	font-normal	tracking-wide">
+            {item?.description}
+          </div>
           <div>
             {item?.roles?.map((role: any, index: number) => (
               <Badge
@@ -211,26 +215,22 @@ const ProjectFlagType = ({ item }: IStaticCardTypeProps) => {
       </div>
       <div className={`grid grid-cols-3`}>
         <div className={`col-span-2`}>
-          <div className={`my-4 flex uppercase`}>
-            <TextHeading3>📃 Description of the project</TextHeading3>
+          <div className={`mt-5 mb-2 flex uppercase`}>
+            <p className="text-soilGray/100 font-medium tracking-wide">
+              📃 Description of the project
+            </p>
           </div>
-          <div>{item?.description}</div>
+          <div className="text-sm font-medium tracking-normal">
+            {item?.description}
+          </div>
         </div>
         <div className={`col-span-1`}>
           <div className={`my-4 flex uppercase`}>
-            <TextHeading3>🏆 Champion</TextHeading3>
+            <p className="text-soilGray/100 font-medium tracking-wide">
+              🏆 Champion
+            </p>
           </div>
-          <Card shadow border>
-            <div className={`text-center`}>
-              <div className={`flex w-full justify-center`}>
-                <Avatar size={`sm`} src={item?.championPicture} />
-              </div>
-              <div className={`font-Inter mt-4 text-lg font-medium`}>
-                @MelonMusk
-              </div>
-              <TextBody>3D DESIGNER</TextBody>
-            </div>
-          </Card>
+          <UserMiniCard item={item} />
         </div>
       </div>
 
@@ -238,7 +238,9 @@ const ProjectFlagType = ({ item }: IStaticCardTypeProps) => {
         <TimelineStepper steps={steps} />
       </div>
       <div className={`my-4 flex`}>
-        <TextHeading3>🎬 Open positions</TextHeading3>
+        <p className="text-soilGray/100 font-medium uppercase tracking-wide">
+          🎬 Open positions
+        </p>
       </div>
 
       <div className={`scrollbar-hide mb-4 flex flex-grow overflow-y-scroll`}>
@@ -247,6 +249,7 @@ const ProjectFlagType = ({ item }: IStaticCardTypeProps) => {
         >
           {item?.roles?.map((role: any, index: any) => (
             <OpenPositionCard
+              padding="-m-4"
               key={index}
               role={{
                 title: role.name,
@@ -261,6 +264,13 @@ const ProjectFlagType = ({ item }: IStaticCardTypeProps) => {
           ))}
         </div>
       </div>
+      {endorsements?.length > 0 && (
+        <div className={`my-4 flex`}>
+          <p className="text-soilGray/100 font-medium uppercase tracking-wide">
+            ⭐️ Reviews
+          </p>
+        </div>
+      )}
       <div
         className={`grid grow grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-3`}
       >

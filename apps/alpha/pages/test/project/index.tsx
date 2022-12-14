@@ -13,7 +13,6 @@ import {
   SEO,
   ShortlistModalContainerStoryFilter,
   StaticCard,
-  // StaticCard,
   UserProfileCard,
 } from "@eden/package-ui";
 import { useContext, useEffect, useState } from "react";
