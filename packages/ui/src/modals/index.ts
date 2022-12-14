@@ -26,7 +26,6 @@ export * from "./SkillsSubcategoryModal";
 export * from "./SkipFlowModal";
 export * from "./SocialMediaModel";
 export * from "./StaticModal";
-export * from "./StaticNewModal";
 export * from "./UserDiscoverModal";
 export * from "./WarningModal";
 export * from "./WelcomeModal";

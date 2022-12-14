@@ -9,8 +9,7 @@ import {
   LongText,
   ProfileExpandedModal,
   SocialMediaComp,
-  // StaticModal,
-  StaticNewModal,
+  StaticModal,
   TextBody,
   TextHeading3,
   TextLabel,
@@ -181,13 +180,7 @@ export const StaticCard = ({
           onClose={() => setIsOpen(!isOpen)}
         />
       ) : (
-        // <StaticModal
-        //   item={item}
-        //   resultPopUpFlag={resultPopUpFlag}
-        //   open={isOpen}
-        //   onClose={() => setIsOpen(!isOpen)}
-        // />
-        <StaticNewModal
+        <StaticModal
           item={item}
           resultPopUpFlag={resultPopUpFlag}
           open={isOpen}

@@ -13,7 +13,6 @@ import {
   SEO,
   ShortlistModalContainerStoryFilter,
   StaticCard,
-  // StaticCard,
   UserProfileCard,
 } from "@eden/package-ui";
 import { useContext, useEffect, useState } from "react";
@@ -61,7 +60,7 @@ const LaunchPage: NextPageWithLayout = () => {
 
       user.percentage = item.percentage;
       user.rolesPercentages = item.rolesPercentages;
-
+      user.discordName = "zorroro";
       return user;
     }
   );
