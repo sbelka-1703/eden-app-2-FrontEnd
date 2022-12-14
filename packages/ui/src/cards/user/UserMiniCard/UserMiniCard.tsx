@@ -19,10 +19,14 @@ export interface UserMiniCardProps {
   onExpand?: () => void;
 }
 
-export const UserMiniCard = ({ matchMember, onExpand }: UserMiniCardProps) => {
+export const UserMiniCard = ({
+  matchMember,
+  onExpand,
+  item,
+}: UserMiniCardProps) => {
   const member = matchMember?.member;
 
-  if (!matchMember) {
+  if (!matchMember && !item) {
     return null;
   }
   return (
@@ -33,14 +37,20 @@ export const UserMiniCard = ({ matchMember, onExpand }: UserMiniCardProps) => {
           <div>
             <div className={`relative flex flex-col items-center`}>
               <div className="relative">
-                <Avatar src={member?.discordAvatar as string} />
+                <Avatar
+                  src={
+                    (member?.discordAvatar as string) || item?.championPicture
+                  }
+                />
               </div>
               <div className="flex justify-center">
-                <TextHeading2>@{member?.discordName}</TextHeading2>
+                <TextHeading3>
+                  @{member?.discordName || item?.name}
+                </TextHeading3>
               </div>
               <div className="flex justify-center">
-                <TextHeading3 className="text-sm text-gray-600">
-                  {member?.memberRole?.title}
+                <TextHeading3 className="text-sm uppercase text-gray-400">
+                  {member?.memberRole?.title || item?.name}
                 </TextHeading3>
               </div>
               <div className="flex justify-center">
