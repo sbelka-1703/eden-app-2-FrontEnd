@@ -181,35 +181,39 @@ const ProjectFlagType = ({ item }: IStaticCardTypeProps) => {
 
   return (
     <>
-      <div className={`mt-4 flex`}>
-        <div>
-          <Avatar
-            size="lg"
-            isProject
-            emoji={item?.picture}
-            backColorEmoji={`#ABF0B3`}
-          />
-        </div>
-
-        <div className={`mx-4`}>
-          <TextHeading2>{item?.name}</TextHeading2>
-          <div className="text-soilGray/100	font-normal	tracking-wide">
-            {item?.description}
-          </div>
+      <div className={`mt-4 flex justify-between`}>
+        <div className="flex flex-row">
           <div>
-            {item?.roles?.map((role: any, index: number) => (
-              <Badge
-                text={role?.name}
-                key={index}
-                className={`bg-soilPurple/20 py-px text-xs`}
-              />
-            ))}
+            <Avatar
+              size="lg"
+              isProject
+              emoji={item?.picture}
+              backColorEmoji={`#ABF0B3`}
+            />
+          </div>
+
+          <div className={`mx-4`}>
+            <TextHeading2>{item?.name}</TextHeading2>
+            <div className="text-soilGray/100	font-normal	tracking-wide">
+              {item?.description}
+            </div>
+            <div>
+              {item?.roles?.map((role: any, index: number) => (
+                <Badge
+                  text={role?.name}
+                  key={index}
+                  className={`bg-soilPurple/20 py-px text-xs`}
+                />
+              ))}
+            </div>
           </div>
         </div>
-        <div className={`mt-6 pr-6`}>
-          <p className="text-soilPurple font-poppins text-4xl font-semibold">
-            {item.percentage}
-          </p>
+        <div>
+          <div className={`mt-6`}>
+            <p className="text-soilPurple font-poppins text-4xl font-semibold">
+              {item.percentage}
+            </p>
+          </div>
         </div>
       </div>
       <div className={`grid grid-cols-3`}>
