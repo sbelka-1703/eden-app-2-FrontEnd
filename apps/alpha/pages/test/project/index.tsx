@@ -61,6 +61,8 @@ const LaunchPage: NextPageWithLayout = () => {
       user.percentage = item.percentage;
       user.rolesPercentages = item.rolesPercentages;
       user.discordName = "zorroro";
+      user.designation = "3D Designer";
+      user.links = [{ name: "twitter", url: "twitter.com" }];
       return user;
     }
   );
