@@ -50,11 +50,15 @@ export const UserMiniCard = ({
               </div>
               <div className="flex justify-center">
                 <TextHeading3 className="text-sm uppercase text-gray-400">
-                  {member?.memberRole?.title || item?.name}
+                  {member?.memberRole?.title || item?.designation}
                 </TextHeading3>
               </div>
               <div className="flex justify-center">
-                <SocialMediaComp size="1.2rem" title="" links={member?.links} />
+                <SocialMediaComp
+                  size="1.2rem"
+                  title=""
+                  links={member?.links || item?.links}
+                />
               </div>
             </div>
           </div>

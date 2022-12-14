@@ -489,6 +489,18 @@ const Result = {
         description:
           "Work with the team to quickly iterate & design new products",
         "Open Seats": "2",
+        skills: [
+          {
+            skillData: {
+              name: "Design",
+            },
+          },
+          {
+            skillData: {
+              name: "Web Development",
+            },
+          },
+        ],
       },
       {
         name: "Product",
@@ -496,6 +508,18 @@ const Result = {
         description:
           "Support our CEO to coordinate the engineering & designer efforts",
         "Open Seats": "1",
+        skills: [
+          {
+            skillData: {
+              name: "Design",
+            },
+          },
+          {
+            skillData: {
+              name: "Web Development",
+            },
+          },
+        ],
       },
     ],
     endorsements: [
@@ -662,6 +686,18 @@ const Result = {
         description:
           "Work with the team to quickly iterate & design new products",
         "Open Seats": "2",
+        skills: [
+          {
+            skillData: {
+              name: "Design",
+            },
+          },
+          {
+            skillData: {
+              name: "Web Development",
+            },
+          },
+        ],
       },
       {
         name: "Product",
@@ -669,6 +705,18 @@ const Result = {
         description:
           "Support our CEO to coordinate the engineering & designer efforts",
         "Open Seats": "1",
+        skills: [
+          {
+            skillData: {
+              name: "Design",
+            },
+          },
+          {
+            skillData: {
+              name: "Web Development",
+            },
+          },
+        ],
       },
     ],
   },
@@ -692,24 +740,72 @@ const Result = {
         "time:": "12 weeks",
         description: "Build the bot that scrapes all the discords",
         "Open Seats": "1",
+        skills: [
+          {
+            skillData: {
+              name: "Design",
+            },
+          },
+          {
+            skillData: {
+              name: "Web Development",
+            },
+          },
+        ],
       },
       {
         name: "Backend",
         "time:": "12 weeks",
         description: "Build the AI that analyzes all the data from the scraper",
         "Open Seats": "1",
+        skills: [
+          {
+            skillData: {
+              name: "Design",
+            },
+          },
+          {
+            skillData: {
+              name: "Web Development",
+            },
+          },
+        ],
       },
       {
         name: "Design",
         "time:": "12 weeks",
         description: "Design the frontend for NFT popTrack",
         "Open Seats": "1",
+        skills: [
+          {
+            skillData: {
+              name: "Design",
+            },
+          },
+          {
+            skillData: {
+              name: "Web Development",
+            },
+          },
+        ],
       },
       {
         name: "Frontend",
         "time:": "12 weeks",
         description: "Implement the frontend for NFT popTrack",
         "Open Seats": "1",
+        skills: [
+          {
+            skillData: {
+              name: "Design",
+            },
+          },
+          {
+            skillData: {
+              name: "Web Development",
+            },
+          },
+        ],
       },
     ],
   },
@@ -732,12 +828,36 @@ const Result = {
         "time:": "12 weeks",
         description: "Build the trust dispersion mechanism for trustTree",
         "Open Seats": "1",
+        skills: [
+          {
+            skillData: {
+              name: "Design",
+            },
+          },
+          {
+            skillData: {
+              name: "Web Development",
+            },
+          },
+        ],
       },
       {
         name: "Frontend",
         "time:": "12 weeks",
         description: "Implement the frontend for trustTree",
         "Open Seats": "1",
+        skills: [
+          {
+            skillData: {
+              name: "Design",
+            },
+          },
+          {
+            skillData: {
+              name: "Web Development",
+            },
+          },
+        ],
       },
     ],
   },
@@ -762,12 +882,36 @@ const Result = {
         description:
           "Polygon smart contract developer who knows zero knowldge proofs",
         "Open Seats": "1",
+        skills: [
+          {
+            skillData: {
+              name: "Design",
+            },
+          },
+          {
+            skillData: {
+              name: "Web Development",
+            },
+          },
+        ],
       },
       {
         name: "Backend",
         "time:": "12 weeks",
         description: "Create a database for all the users of our platform",
         "Open Seats": "1",
+        skills: [
+          {
+            skillData: {
+              name: "Design",
+            },
+          },
+          {
+            skillData: {
+              name: "Web Development",
+            },
+          },
+        ],
       },
     ],
     whereDataComesFrom: "https://ethglobal.com/showcase/chain-statements-kdurw",
@@ -794,12 +938,36 @@ const Result = {
         description:
           "Game devlo[er that has experience buidling Blockchain games website",
         "Open Seats": "1",
+        skills: [
+          {
+            skillData: {
+              name: "Design",
+            },
+          },
+          {
+            skillData: {
+              name: "Web Development",
+            },
+          },
+        ],
       },
       {
         name: "FrontEnd",
         "time:": "12 weeks",
         description: "Can create an amazing interface for the game",
         "Open Seats": "1",
+        skills: [
+          {
+            skillData: {
+              name: "Design",
+            },
+          },
+          {
+            skillData: {
+              name: "Web Development",
+            },
+          },
+        ],
       },
     ],
     whereDataComesFrom: "https://ethglobal.com/showcase/dijza-oj2ht",
@@ -824,6 +992,18 @@ const Result = {
         "time:": "12 weeks",
         description: "Knows how to build smart contracts on Optimism",
         "Open Seats": "1",
+        skills: [
+          {
+            skillData: {
+              name: "Design",
+            },
+          },
+          {
+            skillData: {
+              name: "Web Development",
+            },
+          },
+        ],
       },
       {
         name: "FrontEnd",
@@ -854,6 +1034,18 @@ const Result = {
         "time:": "12 weeks",
         description: "Polygon smart contract developer famliar with NFTs",
         "Open Seats": "1",
+        skills: [
+          {
+            skillData: {
+              name: "Design",
+            },
+          },
+          {
+            skillData: {
+              name: "Web Development",
+            },
+          },
+        ],
       },
     ],
     whereDataComesFrom: "https://ethglobal.com/showcase/deedoo-ze167",
@@ -878,6 +1070,18 @@ const Result = {
         "time:": "12 weeks",
         description: "Backend developer with experince in MongoDB",
         "Open Seats": "1",
+        skills: [
+          {
+            skillData: {
+              name: "Design",
+            },
+          },
+          {
+            skillData: {
+              name: "Web Development",
+            },
+          },
+        ],
       },
       {
         name: "FrontEnd developer ",
@@ -914,12 +1118,36 @@ const Result = {
         "time:": "12 weeks",
         description: "Backend developer with experince in MongoDB",
         "Open Seats": "1",
+        skills: [
+          {
+            skillData: {
+              name: "Design",
+            },
+          },
+          {
+            skillData: {
+              name: "Web Development",
+            },
+          },
+        ],
       },
       {
         name: "FrontEnd developer ",
         "time:": "12 weeks",
         description: "Can build interfaces in NextJs ",
         "Open Seats": "1",
+        skills: [
+          {
+            skillData: {
+              name: "Design",
+            },
+          },
+          {
+            skillData: {
+              name: "Web Development",
+            },
+          },
+        ],
       },
       {
         name: "Data scientist",
@@ -951,6 +1179,18 @@ const Result = {
         "time:": "12 weeks",
         description: "FrontEnd developer with experince in building on AAVE",
         "Open Seats": "1",
+        skills: [
+          {
+            skillData: {
+              name: "Design",
+            },
+          },
+          {
+            skillData: {
+              name: "Web Development",
+            },
+          },
+        ],
       },
     ],
     whereDataComesFrom: "https://ethglobal.com/showcase/web3-board-8cp4f",
