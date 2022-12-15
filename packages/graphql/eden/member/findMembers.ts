@@ -7,6 +7,22 @@ export const FIND_MEMBERS = gql`
       discordAvatar
       discordName
       discriminator
+      bio
+      links {
+        name
+        url
+      }
+      memberRole {
+        _id
+        title
+      }
+      nodes {
+        nodeData {
+          _id
+          name
+          node
+        }
+      }
     }
   }
 `;
