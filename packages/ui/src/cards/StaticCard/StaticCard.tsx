@@ -20,12 +20,14 @@ export interface IStaticCardProps {
   item?: any;
   resultCardFlag?: any;
   resultPopUpFlag?: any;
+  onOpen?: (() => void) | null;
 }
 
 export const StaticCard = ({
   item,
   resultCardFlag,
   resultPopUpFlag,
+  onOpen = null,
 }: IStaticCardProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -79,7 +81,9 @@ export const StaticCard = ({
           )}
         </div>
         <div>
-          <Button onClick={() => setIsOpen(!isOpen)}>More</Button>
+          <Button onClick={() => (onOpen ? onOpen() : setIsOpen(!isOpen))}>
+            More
+          </Button>
         </div>
       </div>
       <div className="flex flex-col items-center justify-center">
