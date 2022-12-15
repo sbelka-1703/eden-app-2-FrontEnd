@@ -1,11 +1,18 @@
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 
 import { SwitchButton } from ".";
 
-describe("SwitchButton", () => {
-  it("renders without throwing", () => {
-    const { container } = render(<SwitchButton />);
+test("When a user interacts with the SwitchButton an onChange event will be trigered", async () => {
+  const onChange = jest.fn();
+  const user = userEvent.setup();
 
-    expect(container).toBeInTheDocument();
-  });
+  render(<SwitchButton onChange={onChange} label={"label"} />);
+  expect(screen.getByText("label")).toBeInTheDocument();
+
+  const button = screen.getByRole("checkbox");
+
+  //user presses the SwitchButton twice and the onChange is triggered twice
+  await user.dblClick(button);
+  expect(onChange).toHaveBeenCalledTimes(2);
 });
