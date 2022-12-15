@@ -16,7 +16,6 @@ import {
   ShortlistContainer,
   ShortlistMemberContainer,
   ShortlistModalContainerStory,
-  // ShortlistModalContainerTest,
   ShortlistSideContainer,
   TextHeading3,
   TextLabel,
@@ -136,7 +135,6 @@ const LaunchPage: any = () => {
         )}
       </GridLayout>
       <ShortlistModalContainerStory />
-      {/* <ShortlistModalContainerTest /> */}
     </>
   );
 };
