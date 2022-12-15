@@ -3,7 +3,7 @@ import { Maybe, Members } from "@eden/package-graphql/generated";
 import { Avatar, Badge, Button, Card } from "@eden/package-ui";
 import { useState } from "react";
 
-import { round } from "../../../../utils";
+import { round } from "../../../../../utils";
 
 const SET_APPLY_TO_PROJECT = gql`
   mutation ($fields: changeTeamMember_Phase_ProjectInput!) {

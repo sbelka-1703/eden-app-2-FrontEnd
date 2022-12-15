@@ -1,5 +1,6 @@
 import { Members, Project } from "@eden/package-graphql/generated";
-import { TabsSelector, UserCard, UserWithDescription } from "@eden/package-ui";
+import { TabsSelector, UserWithDescription } from "@eden/package-ui";
+import { UserCard } from "@eden/package-ui/src/archive/cards/user/UserCard/UserCard";
 import { useState } from "react";
 
 const tabs = ["Engaged Talent", "Committed Team"];
