@@ -13,8 +13,9 @@ import {
   TimelineStepper,
   UserMiniCard,
 } from "@eden/package-ui";
-import { ArrowsExpandIcon, CheckCircleIcon } from "@heroicons/react/solid";
+import { CheckCircleIcon } from "@heroicons/react/solid";
 import { useState } from "react";
+import { GiExpand } from "react-icons/gi";
 
 // import { TextHeading1 } from "../../atoms";
 import { ReviewCard } from "../../cards/ReviewCard";
@@ -294,8 +295,7 @@ const OpenPosition = ({ item }: { item: any }) => {
         </p>
         {expand && (
           <Button style={{ border: "none" }} onClick={() => setExpand(false)}>
-            Jellop
-            {/* <ArrowsExpandIcon /> */}
+            <GiExpand size="15px" />
           </Button>
         )}
       </div>
