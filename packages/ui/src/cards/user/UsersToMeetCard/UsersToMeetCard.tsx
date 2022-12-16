@@ -41,11 +41,10 @@ export const UsersToMeetCard = ({
                 return (
                   <div key={index} className={``}>
                     {currentUser?._id !== member?.member?._id && index < 7 && (
-                      <div
-                        className={`mx-2 flex-col justify-center text-center`}
-                      >
-                        <div className={`mx-4`}>
+                      <div className={`m-2 flex-col text-center`}>
+                        <div className={``}>
                           <button
+                            className={``}
                             onClick={() => {
                               setIsModalOpen(true);
                               setSelectedMember(member?.member as Members);
@@ -61,7 +60,7 @@ export const UsersToMeetCard = ({
                                 member?.matchPercentage
                                   ?.totalPercentage as number
                               }
-                              size={`md`}
+                              size={`sm`}
                             />
                           </button>
                         </div>

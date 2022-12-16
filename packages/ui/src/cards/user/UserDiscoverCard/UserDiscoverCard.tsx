@@ -3,16 +3,14 @@ import {
   Maybe,
 } from "@eden/package-graphql/generated";
 import {
-  Avatar,
   AvatarList,
   Badge,
   Button,
   Card,
   LongText,
   SocialMediaComp,
-  TextHeading3,
-  TextLabel,
   UserDiscoverModal,
+  UserWithDescription,
 } from "@eden/package-ui";
 import { useState } from "react";
 
@@ -38,38 +36,22 @@ export const UserDiscoverCard = ({ matchMember }: IUserDiscoverCardProps) => {
         <div></div>
         <div>
           <div className={`relative flex flex-col items-center`}>
-            <div className="relative">
-              <Avatar src={member?.discordAvatar as string} />
-
-              {matchPercentage?.totalPercentage && (
-                <div
-                  className={`text-soilPurple absolute -mt-9 ml-12 rounded-full bg-white px-1.5 text-xl font-semibold shadow-sm`}
-                >
-                  {round(Number(matchPercentage?.totalPercentage), 0)}%
-                </div>
-              )}
-            </div>
-            <div className="flex justify-center">
-              <TextHeading3>@{member?.discordName}</TextHeading3>
-              <TextLabel className="mt-2 pl-1">
-                #{member?.discriminator}
-              </TextLabel>
-            </div>
+            <UserWithDescription
+              member={member}
+              percentage={round(Number(matchPercentage?.totalPercentage), 0)}
+            />
+            {member?.links && (
+              <div className="flex justify-center">
+                <SocialMediaComp size="sm" title="" links={member?.links} />
+              </div>
+            )}
           </div>
         </div>
         <div>
           <Button onClick={() => setIsOpen(!isOpen)}>More</Button>
         </div>
       </div>
-      <div className="flex flex-col items-center justify-center">
-        <TextHeading3 className="text-sm  text-gray-600">
-          {member?.memberRole?.title}
-        </TextHeading3>
 
-        {member?.links && (
-          <SocialMediaComp size="1.2rem" title="" links={member?.links} />
-        )}
-      </div>
       <div className="flex">
         <LongText
           cutText={100}

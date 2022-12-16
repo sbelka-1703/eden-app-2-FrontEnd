@@ -19,8 +19,7 @@ export const RoleList: React.FC<RoleListProps> = ({
   roles,
   handleAddRole,
   handleSelectRole,
-  // eslint-disable-next-line no-unused-vars
-  handleEditRole,
+  // handleEditRole,
   selectedRole,
   members,
 }) => {

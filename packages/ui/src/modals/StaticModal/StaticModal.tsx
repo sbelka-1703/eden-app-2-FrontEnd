@@ -537,7 +537,7 @@ const UserFlagType = ({ item }: IStaticCardTypeProps) => {
                 name: link.name.toLowerCase(),
                 url: link.link,
               }))}
-              size="1.8rem"
+              size="sm"
             />
           )}
         </div>
