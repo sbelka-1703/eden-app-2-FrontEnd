@@ -114,7 +114,7 @@ export const ViewUserProfileContainer = ({
                     name: link?.name?.toLowerCase(),
                     url: link?.url,
                   }))}
-                  size="1.8rem"
+                  size="sm"
                 />
               )}
             </div>

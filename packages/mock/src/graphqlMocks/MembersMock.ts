@@ -150,7 +150,7 @@ export const getMemberArray = (total: number) =>
 export const getSkillsPercentage = () => ({
   info: {
     _id: String(faker.random.numeric(5)),
-    name: faker.helpers.uniqueArray(skills, 1)[0],
+    name: faker.helpers.uniqueArray(skills, 1)[0].name,
   },
   percentage100: 100,
   percentageReal: faker.datatype.number({ min: 10, max: 90, precision: 1 }),

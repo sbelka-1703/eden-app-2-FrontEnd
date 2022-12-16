@@ -6,7 +6,7 @@ import {
   // NumberCircle,
   MemberModal,
   ProgressBarGeneric,
-  // SocialMediaComp,
+  SocialMediaComp,
   TextHeading3,
   TextLabel,
 } from "@eden/package-ui";
@@ -39,12 +39,12 @@ export const UserCardOnboardPartyNodes = ({
           <div>
             <TextHeading3 className="-mt-3">{member.discordName}</TextHeading3>
             {member.memberRole && (
-              <p className="text-xs font-medium leading-none text-zinc-500">
+              <p className="mb-4 text-xs font-medium leading-none text-zinc-500">
                 <span className="mr-1">💼</span>
                 {member.memberRole.title?.toUpperCase()}
               </p>
             )}
-            {/* <SocialMediaComp links={member.links} title="" size="18px" /> */}
+            <SocialMediaComp links={member.links} title="" size="sm" />
           </div>
         </div>
       </div>

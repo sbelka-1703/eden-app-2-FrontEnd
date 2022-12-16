@@ -142,17 +142,6 @@ export const ShortlistSideContainer = ({
                   percentage={member.matchPercentage.totalPercentage}
                   selected={selectedMemberId === member.member?._id}
                 />
-
-                {/* ------ this is a UI test, do not remove yet :) ------ */}
-                {/* <UserCard
-              member={{
-                ...member.member,
-                skills: member.member.skills.slice(0, 2),
-              }}
-              percentage={member.matchPercentage.totalPercentage}
-              focused={selectedMemberId === member.member._id}
-            /> */}
-                {/* ---------------------------------------------------- */}
               </div>
             ))}{" "}
             <section className="flex justify-evenly">
