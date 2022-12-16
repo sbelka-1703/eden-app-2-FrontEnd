@@ -13,7 +13,7 @@ import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import { BsArrowRight } from "react-icons/bs";
 
-import { round } from "../../../../utils";
+import { round } from "../../../../../utils";
 
 const SET_FAVORITE = gql`
   mutation ($fields: addFavoriteProjectInput!) {
