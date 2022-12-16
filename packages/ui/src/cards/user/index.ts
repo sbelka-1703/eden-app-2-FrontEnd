@@ -1,4 +1,3 @@
-export * from "./UserCard";
 export * from "./UserCardOnboardParty";
 export * from "./UserCardOnboardPartyNodes";
 export * from "./UserDiscoverCard";
