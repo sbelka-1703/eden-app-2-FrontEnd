@@ -86,9 +86,9 @@ export const OpenPositionCard = ({
               variant="secondary"
               radius="default"
               size="sm"
-              onClick={() => onApply(role._id as string)}
+              onClick={() => onApply(role.title as string)}
             >
-              Apply
+              More
             </Button>
           </div>
         </div>
