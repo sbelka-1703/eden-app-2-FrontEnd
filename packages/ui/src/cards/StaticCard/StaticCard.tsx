@@ -93,7 +93,7 @@ export const StaticCard = ({
 
         {item?.socials && (
           <SocialMediaComp
-            size="1.2rem"
+            size="sm"
             title=""
             links={item.socials.map(
               (social: { name: string; link: string }) => ({

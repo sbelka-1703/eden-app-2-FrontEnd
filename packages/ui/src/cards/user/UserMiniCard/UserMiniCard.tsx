@@ -55,7 +55,7 @@ export const UserMiniCard = ({
               </div>
               <div className="flex justify-center">
                 <SocialMediaComp
-                  size="1.2rem"
+                  size="sm"
                   title=""
                   links={member?.links || item?.links}
                 />

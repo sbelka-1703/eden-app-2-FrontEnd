@@ -124,7 +124,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
     ) {
       return;
     }
-    if (!dataRoom) return;
+    if (!dataRoom || !dataRoom.findRoom) return;
     enterRoom({
       variables: {
         fields: {
