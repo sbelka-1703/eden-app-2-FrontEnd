@@ -4,21 +4,7 @@ import { faker } from "@faker-js/faker";
 import { getMemberArray } from "../graphqlMocks";
 import { getNodesTypeMockArray } from "./";
 
-export const getGrantTemplateTypeMockArray = (total: number) =>
-  Array.from({ length: total }, () => {
-    return {
-      // nodeData: faker.helpers.uniqueArray(nodes, 1)[0],
-    };
-  });
-
-// const requirements = (total: number) =>
-//   Array.from({ length: total }, () => {
-//     return {
-//       faker.lorem.sentences(1)
-//     };
-//   });
-
-export const getGrantTemplateTypeMock = () => {
+export const getGrantTemplateTypeMock = (): GrantTemplate => {
   return {
     _id: String(faker.random.numeric(5)),
     name: faker.name.firstName(),
@@ -46,5 +32,8 @@ export const getGrantTemplateTypeMock = () => {
     membersApplied: getMemberArray(
       faker.datatype.number({ min: 2, max: 36, precision: 1 })
     ),
-  } as GrantTemplate;
+  };
 };
+
+export const getGrantTemplateTypeMockArray = (total: number): GrantTemplate[] =>
+  Array.from({ length: total }, () => getGrantTemplateTypeMock());

@@ -1,12 +1,13 @@
-import { faker } from "@faker-js/faker";
+import {
+  MatchMembersToSkillOutput,
+  MatchPercentage,
+} from "@eden/package-graphql/generated";
 
-import { getMember, getSkillsPercentage } from "./MembersMock";
+import { getSkillsPercentageTypeMockArray } from "../typeMocks";
+import { randomPercentage } from "../utils";
+import { getMember } from "./MembersMock";
 
-export const randomPercentage = (): number => {
-  return faker.datatype.number({ min: 0, max: 100, precision: 0.00001 });
-};
-
-export const getMatchPercentage = () => ({
+export const getMatchPercentage = (): MatchPercentage => ({
   totalPercentage: randomPercentage(),
   skillTotalPercentage: randomPercentage(),
   hoursPercentage: randomPercentage(),
@@ -14,8 +15,8 @@ export const getMatchPercentage = () => ({
   realTotalPercentage: randomPercentage(),
 });
 
-export const matchSkillsToMembers = () => ({
+export const matchSkillsToMembers = (): MatchMembersToSkillOutput => ({
   matchPercentage: getMatchPercentage(),
-  members: getMember(),
-  skillsPercentage: getSkillsPercentage(),
+  member: getMember(),
+  skillsPercentage: getSkillsPercentageTypeMockArray(5),
 });

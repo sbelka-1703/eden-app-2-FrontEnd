@@ -1,9 +1,10 @@
+import { RoleType } from "@eden/package-graphql/generated";
 import { faker } from "@faker-js/faker";
 
-import { getSkillRoleTypeMockArray } from "./SkillRoleTypeMock";
+import { getSkillRoleTypeMockArray } from "./";
 
-export const getRoleTypeMock = () => ({
-  id: String(faker.random.numeric(5)),
+export const getRoleTypeMock = (): RoleType => ({
+  _id: String(faker.random.numeric(5)),
   archive: faker.datatype.boolean(),
   budget: {
     perHour: faker.finance.amount(0, 100, 2),
@@ -20,5 +21,5 @@ export const getRoleTypeMock = () => ({
   hoursPerWeek: faker.datatype.number({ min: 1, max: 40, precision: 1 }),
 });
 
-export const getRoleTypeMockArray = (total: number) =>
+export const getRoleTypeMockArray = (total: number): RoleType[] =>
   Array.from({ length: total }, () => getRoleTypeMock());

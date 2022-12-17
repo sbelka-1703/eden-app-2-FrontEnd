@@ -1,4 +1,4 @@
-import { getSkillsPercentageArray } from "@eden/package-mock";
+import { getSkillsPercentageTypeMockArray } from "@eden/package-mock";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { Charts } from "./Charts";
@@ -12,5 +12,5 @@ const Template: ComponentStory<typeof Charts> = (args) => <Charts {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-  data: getSkillsPercentageArray(5),
+  data: getSkillsPercentageTypeMockArray(5),
 };

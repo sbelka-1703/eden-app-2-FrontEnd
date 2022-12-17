@@ -1,16 +1,16 @@
-import {
-  Maybe,
-  Skills,
-  SkillsPercentage,
-} from "@eden/package-graphql/generated";
+import { SkillsPercentage } from "@eden/package-graphql/generated";
 import { faker } from "@faker-js/faker";
 
 import { skills } from "../data";
-import { randomPercentage } from "../graphqlMocks";
+import { randomPercentage } from "../utils";
 
-export const SkillsPercentageTypeMock = () =>
-  ({
-    info: faker.helpers.uniqueArray(skills, 1)[0] as Maybe<Skills>,
-    percentage100: randomPercentage(),
-    percentageReal: randomPercentage(),
-  } as SkillsPercentage);
+export const getSkillsPercentageTypeMock = (): SkillsPercentage => ({
+  info: faker.helpers.uniqueArray(skills, 1)[0],
+  percentage100: randomPercentage(),
+  percentageReal: randomPercentage(),
+});
+
+export const getSkillsPercentageTypeMockArray = (
+  total: number
+): SkillsPercentage[] =>
+  Array.from({ length: total }, () => getSkillsPercentageTypeMock());
