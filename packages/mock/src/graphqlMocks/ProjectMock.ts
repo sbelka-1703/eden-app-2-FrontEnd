@@ -19,8 +19,8 @@ export const project: Project = {
   title: faker.name.firstName(),
   description: faker.lorem.sentences(5),
   descriptionOneLine: faker.lorem.sentences(1),
-  emoji: faker.helpers.arrayElement(["🚀", "👨‍🚀", "👩‍🚀"]),
-  backColorEmoji: faker.helpers.arrayElement(["#ce6969", "#69cebd", "#df2a9d"]),
+  emoji: faker.internet.emoji(),
+  backColorEmoji: faker.color.rgb({ prefix: "#" }),
   budget: {
     perHour: faker.finance.amount(0, 100, 2),
     token: faker.finance.amount(0, 100, 2),
@@ -48,8 +48,13 @@ export const project: Project = {
   team: randomTeamType(),
   // eslint-disable-next-line camelcase
   garden_teams: getTeamTypeMockArray(Number(faker.random.numeric(1))),
-  role: getRoleTypeMockArray(5),
-  serverID: [faker.internet.url(), faker.internet.url(), faker.internet.url()],
+  role: getRoleTypeMockArray(
+    faker.datatype.number({ min: 1, max: 5, precision: 1 })
+  ),
+  serverID: Array.from(
+    { length: faker.datatype.number({ min: 2, max: 8, precision: 1 }) },
+    () => faker.random.numeric(12)
+  ),
   __typename: "Project",
 };
 
