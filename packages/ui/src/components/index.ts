@@ -7,7 +7,7 @@ export * from "./Expandable";
 export * from "./LifetimeTRST";
 export * from "./LoginButton";
 export * from "./ProjectChampion";
-export * from "./ProjectInfo";
+export * from "./ProjectHeader";
 export * from "./ReadMoreComp";
 export * from "./SearchSkill";
 export * from "./SendMessageToChampion";

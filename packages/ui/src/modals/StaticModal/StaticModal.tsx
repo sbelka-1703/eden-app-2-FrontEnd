@@ -153,6 +153,9 @@ const ProjectFlagType = ({ item }: IStaticCardTypeProps) => {
     member: {
       discordName: endorsement.name,
       discordAvatar: endorsement.avatar,
+      memberRole: {
+        title: "Web Developer",
+      },
     },
     text: endorsement.endorsement,
     level: endorsement.level?.name || "",
@@ -257,7 +260,7 @@ const ProjectFlagType = ({ item }: IStaticCardTypeProps) => {
           <>
             {endorsements?.map((endorsement: any, index: number) => (
               <div key={index}>
-                {index < 3 && <ReviewCard project={endorsement} />}
+                {index < 3 && <ReviewCard review={endorsement} />}
               </div>
             ))}
           </>

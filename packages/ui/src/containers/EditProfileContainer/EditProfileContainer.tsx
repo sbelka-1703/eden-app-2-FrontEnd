@@ -127,147 +127,145 @@ export const EditProfileContainer = ({ roles }: IEditProfileContainerProps) => {
   if (submitting) return <Loading title="Saving..." />;
 
   return (
-    <>
-      <Card className="mb-8 bg-white p-6">
-        <section className="mb-6 flex justify-between">
-          <TextHeading3>Edit Your Profile: </TextHeading3>
-          <Button
-            variant="primary"
-            className={``}
-            disabled={submitting}
-            onClick={() => handleSave()}
-          >
-            Save
-          </Button>
-        </section>
-        <section className="lg:grid lg:grid-cols-2 lg:gap-8">
-          <div className="col-span-1">
-            <div className="mb-3">
-              <TextBody>Personal</TextBody>
-            </div>
-            <div className="mb-3">
-              <TextBody>Your Role:</TextBody>
-              {/* Add Roles */}
-              <RoleSelector
-                roles={roles as Maybe<Maybe<RoleTemplate>[]>}
-                onSelect={(role) => {
-                  setSelectedRoleId(role?._id as string);
-                }}
-              />
+    <Card className="mb-8 bg-white p-6">
+      <section className="mb-6 flex justify-between">
+        <TextHeading3>Edit Your Profile: </TextHeading3>
+        <Button
+          variant="primary"
+          className={``}
+          disabled={submitting}
+          onClick={() => handleSave()}
+        >
+          Save
+        </Button>
+      </section>
+      <section className="lg:grid lg:grid-cols-2 lg:gap-8">
+        <div className="col-span-1">
+          <div className="mb-3">
+            <TextBody>Personal</TextBody>
+          </div>
+          <div className="mb-3">
+            <TextBody>Your Role:</TextBody>
+            {/* Add Roles */}
+            <RoleSelector
+              roles={roles as Maybe<Maybe<RoleTemplate>[]>}
+              onSelect={(role) => {
+                setSelectedRoleId(role?._id as string);
+              }}
+            />
 
-              <TextBody>Short Bio:</TextBody>
-              <TextArea
-                value={currentUser?.bio!}
-                onChange={(e) => setBio(e.target.value)}
-              />
+            <TextBody>Short Bio:</TextBody>
+            <TextArea
+              value={currentUser?.bio!}
+              onChange={(e) => setBio(e.target.value)}
+            />
 
-              <div>
-                <div className={`mt-4 text-center`}>
-                  <TextHeading3>What’s your availability?</TextHeading3>
-                </div>
-                <div className={`mx-auto w-40`}>
-                  <Dropdown
-                    value={timezone}
-                    items={timezones}
-                    placeholder={`Timezone`}
-                    onSelect={(val) => setTimezone(val.name)}
+            <div>
+              <div className={`mt-4 text-center`}>
+                <TextHeading3>What’s your availability?</TextHeading3>
+              </div>
+              <div className={`mx-auto w-40`}>
+                <Dropdown
+                  value={timezone}
+                  items={timezones}
+                  placeholder={`Timezone`}
+                  onSelect={(val) => setTimezone(val.name)}
+                />
+              </div>
+
+              <div className={`flex justify-center space-x-4`}>
+                <div className={`w-24`}>
+                  <TextField
+                    placeholder={`Hours`}
+                    radius="pill"
+                    type={`number`}
+                    value={hoursPerWeek.toString()}
+                    onChange={(e) => setHoursPerWeek(Number(e.target.value))}
                   />
                 </div>
-
-                <div className={`flex justify-center space-x-4`}>
-                  <div className={`w-24`}>
-                    <TextField
-                      placeholder={`Hours`}
-                      radius="pill"
-                      type={`number`}
-                      value={hoursPerWeek.toString()}
-                      onChange={(e) => setHoursPerWeek(Number(e.target.value))}
-                    />
-                  </div>
-                  <div className={`my-auto font-medium text-zinc-600`}>
-                    hrs. / week
-                  </div>
+                <div className={`my-auto font-medium text-zinc-600`}>
+                  hrs. / week
                 </div>
               </div>
             </div>
           </div>
-          <div className="col-span-1">
-            <div className="justify-around">
-              <TextBody className="mb-1">Your Skills</TextBody>
+        </div>
+        <div className="col-span-1">
+          <div className="justify-around">
+            <TextBody className="mb-1">Your Skills</TextBody>
 
-              <TextLabel>Add your Skill</TextLabel>
-              <SearchSkill
-                skills={currentUser?.skills}
-                setSkills={undefined}
-                levels={[
-                  {
-                    title: "learning",
-                    level: "learning",
-                  },
-                  {
-                    title: "Mid Level",
-                    level: "mid",
-                  },
-                  {
-                    title: "Senior",
-                    level: "senior",
-                  },
-                  {
-                    title: "Junior",
-                    level: "junior",
-                  },
-                ]}
-              />
+            <TextLabel>Add your Skill</TextLabel>
+            <SearchSkill
+              skills={currentUser?.skills}
+              setSkills={undefined}
+              levels={[
+                {
+                  title: "learning",
+                  level: "learning",
+                },
+                {
+                  title: "Mid Level",
+                  level: "mid",
+                },
+                {
+                  title: "Senior",
+                  level: "senior",
+                },
+                {
+                  title: "Junior",
+                  level: "junior",
+                },
+              ]}
+            />
 
-              <SkillVisualisationComp
-                skills={
-                  currentUser?.skills?.map((skill) => {
-                    return {
-                      skillData: {
-                        _id: skill?.skillInfo?._id,
-                        name: skill?.skillInfo?.name,
-                      },
-                      level: skill?.level,
-                    };
-                  }) as SkillRoleType[]
-                }
-              />
-            </div>
-            <div>
-              <TextBody>Social Links</TextBody>
-              <TextLabel>Please make sure all links are up to date</TextLabel>
-              <SocialMediaInput
-                platform="twitter"
-                placeholder={`Twitter Handle`}
-                value={twitterHandle}
-                onChange={(e) => setTwitterHandle(e.target.value)}
-                shape="rounded"
-              />
-              <SocialMediaInput
-                platform="github"
-                placeholder={`Github Handle`}
-                value={githubHandle}
-                onChange={(e) => setGithubHandle(e.target.value)}
-                shape="rounded"
-              />
-              <SocialMediaInput
-                platform="telegram"
-                placeholder={`Telegram Handle`}
-                value={telegramHandle}
-                onChange={(e) => setTelegramHandle(e.target.value)}
-                shape="rounded"
-              />
-              <SocialMediaInput
-                platform="lens"
-                placeholder={`Lens Handle`}
-                value={lensHandle}
-                onChange={(e) => setLensHandle(e.target.value)}
-                shape="rounded"
-              />
-            </div>
+            <SkillVisualisationComp
+              skills={
+                currentUser?.skills?.map((skill) => {
+                  return {
+                    skillData: {
+                      _id: skill?.skillInfo?._id,
+                      name: skill?.skillInfo?.name,
+                    },
+                    level: skill?.level,
+                  };
+                }) as SkillRoleType[]
+              }
+            />
           </div>
-        </section>
-      </Card>
-    </>
+          <div>
+            <TextBody>Social Links</TextBody>
+            <TextLabel>Please make sure all links are up to date</TextLabel>
+            <SocialMediaInput
+              platform="twitter"
+              placeholder={`Twitter Handle`}
+              value={twitterHandle}
+              onChange={(e) => setTwitterHandle(e.target.value)}
+              shape="rounded"
+            />
+            <SocialMediaInput
+              platform="github"
+              placeholder={`Github Handle`}
+              value={githubHandle}
+              onChange={(e) => setGithubHandle(e.target.value)}
+              shape="rounded"
+            />
+            <SocialMediaInput
+              platform="telegram"
+              placeholder={`Telegram Handle`}
+              value={telegramHandle}
+              onChange={(e) => setTelegramHandle(e.target.value)}
+              shape="rounded"
+            />
+            <SocialMediaInput
+              platform="lens"
+              placeholder={`Lens Handle`}
+              value={lensHandle}
+              onChange={(e) => setLensHandle(e.target.value)}
+              shape="rounded"
+            />
+          </div>
+        </div>
+      </section>
+    </Card>
   );
 };
