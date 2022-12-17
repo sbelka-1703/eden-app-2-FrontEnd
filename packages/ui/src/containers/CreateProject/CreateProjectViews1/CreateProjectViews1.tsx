@@ -3,7 +3,6 @@ import {
   Button,
   Card,
   ColorPicker,
-  Dropdown,
   EmojiSelector,
   TextArea,
   TextField,
@@ -11,19 +10,19 @@ import {
 } from "@eden/package-ui";
 import { useReducer } from "react";
 
-const TAGS = [
-  { _id: 1, name: "DApp" },
-  { _id: 2, name: "NFT" },
-  { _id: 3, name: "Infra" },
-  { _id: 4, name: "DeFi/DeSci" },
-];
+// const TAGS = [
+//   { _id: 1, name: "DApp" },
+//   { _id: 2, name: "NFT" },
+//   { _id: 3, name: "Infra" },
+//   { _id: 4, name: "DeFi/DeSci" },
+// ];
 
 interface ProjectData {
   name: string;
   emoji: string;
   color: string;
   description: string;
-  tags?: { _id: string; name: string };
+  // tags?: { _id: string; name: string };
 }
 
 const initialState = {
@@ -47,6 +46,8 @@ function reducer(state: ProjectData, action: any): ProjectData {
 
 export interface CreateProjectViews1Props {
   data?: ProjectData;
+  battery: number;
+  setBattery: (level: number) => void;
   onBack?: () => void;
   // eslint-disable-next-line no-unused-vars
   onNext: (data: ProjectData) => void;
@@ -54,6 +55,8 @@ export interface CreateProjectViews1Props {
 
 export const CreateProjectViews1 = ({
   data,
+  battery,
+  setBattery,
   onBack,
   onNext,
 }: CreateProjectViews1Props) => {
@@ -79,18 +82,26 @@ export const CreateProjectViews1 = ({
           <TextHeading3>
             Hello & Welcome! Let’s launch your first project🚀
           </TextHeading3>
-          <BatteryStepper size="sm" batteryPercentage={10} />
+          <BatteryStepper
+            size="sm"
+            batteryPercentage={battery ? battery : 10}
+            // batteryPercentage={battery}
+          />
         </div>
         <div className="px-7">
           <TextHeading3 className="mb-4">
-            Start by naming your project and picking a visual 💯
+            Name your project and pick a visual!
           </TextHeading3>
           <div className="mb-3">
             <p className="text-sm font-medium">Name your project</p>
             <TextField
               value={state.name}
               placeholder="Start typing here..."
-              onChange={(e) => handleUpdateState(e.target.value, "name")}
+              onChange={(e) => {
+                handleUpdateState(e.target.value, "name");
+                setBattery(battery < 20 ? battery + 10 : battery);
+                // setBattery(battery ? battery : 10 + 10);
+              }}
             />
           </div>
           <div className="mb-3">
@@ -116,11 +127,13 @@ export const CreateProjectViews1 = ({
               value={state.description}
               onChange={(e) => {
                 handleUpdateState(e.target.value, "description");
+                setBattery(battery < 30 ? battery + 10 : battery);
               }}
               placeholder="Start typing here..."
+              rows={2}
             />
           </div>
-          <div className="mb-8">
+          {/* <div className="mb-8">
             <p className="mb-4 text-sm font-medium">
               Select tags that best describe your project:
             </p>
@@ -133,7 +146,7 @@ export const CreateProjectViews1 = ({
                 handleUpdateState(tags, "tags");
               }}
             />
-          </div>
+          </div> */}
           <div className="flex justify-between">
             <div>
               {onBack && (

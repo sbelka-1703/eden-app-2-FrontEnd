@@ -1,4 +1,4 @@
-import { Card, ProjectInfo } from "@eden/package-ui";
+import { Card, ProjectHeader } from "@eden/package-ui";
 
 export interface IMyProjectContainerProps {}
 
@@ -11,7 +11,7 @@ export const MyProjectContainer = ({}: IMyProjectContainerProps) => {
       <div className={`font-Inter text-base text-zinc-500`}>
         Find more information below
       </div>
-      <ProjectInfo />
+      <ProjectHeader />
     </Card>
   );
 };

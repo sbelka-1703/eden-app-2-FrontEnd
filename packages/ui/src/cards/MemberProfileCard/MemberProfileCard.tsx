@@ -100,7 +100,7 @@ export const MemberProfileCard = ({
           <SkillList skills={member.skills!} colorRGB={"155, 103, 255, 0.44"} />
         </div>
         {!!member.links?.length && (
-          <SocialMediaComp title="Socials" links={member.links} size="1.8rem" />
+          <SocialMediaComp title="Socials" links={member.links} size="sm" />
         )}
         {member.hoursPerWeek && (
           <AvailabilityComp seed="1700" timePerWeek={member.hoursPerWeek!} />

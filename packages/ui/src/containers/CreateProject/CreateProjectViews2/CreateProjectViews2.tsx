@@ -2,13 +2,12 @@ import {
   BatteryStepper,
   Button,
   Card,
-  SelectBox,
-  SwitchButton,
+  SelectBoxNode,
   TextArea,
-  TextField,
   TextHeading3,
 } from "@eden/package-ui";
-import { useReducer, useState } from "react";
+import { isEmpty, map } from "lodash";
+import { useReducer } from "react";
 
 interface ProjectData {
   username: string;
@@ -35,6 +34,9 @@ function reducer(state: ProjectData, action: any): ProjectData {
 }
 
 export interface CreateProjectViews2Props {
+  projects?: any[];
+  battery: number;
+  setBattery: (level: number) => void;
   onBack: () => void;
   // eslint-disable-next-line no-unused-vars
   onNext: (data: ProjectData) => void;
@@ -42,13 +44,16 @@ export interface CreateProjectViews2Props {
 
 export const CreateProjectViews2 = ({
   onBack,
+  battery,
+  setBattery,
   onNext,
+  projects = [],
 }: CreateProjectViews2Props) => {
   const [state, dispath] = useReducer(reducer, initialState);
-  const [projectOwner, setProjectOwner] = useState(true);
+  // const [projectOwner, setProjectOwner] = useState(true);
 
   const handleUpdateState = (value: any, field: string) => {
-    console.log(value, field);
+    console.log("aaaa = ", value, field);
     dispath({
       type: "HANDLE INPUT TEXT",
       field: field,
@@ -58,32 +63,58 @@ export const CreateProjectViews2 = ({
     });
   };
 
-  const handleProjectOwner = (e: any) => {
-    setProjectOwner(e.target.checked);
-  };
+  // const handleProjectOwner = (e: any) => {
+  //   setProjectOwner(e.target.checked);
+  // };
 
   return (
     <Card shadow className="bg-white pt-3 pb-6">
       <div className="px-5">
         <div className="flex flex-row justify-between">
           <TextHeading3>Complete your profile:</TextHeading3>
-          <BatteryStepper size="sm" batteryPercentage={30} />
+          <BatteryStepper size="sm" batteryPercentage={battery} />
         </div>
         <div>
+          <div className="mb-4">
+            <p className="mb-2 text-sm font-medium">
+              Pick what is your project Type
+            </p>
+            <div className="flex gap-1">
+              {!isEmpty(projects) &&
+                map(projects, (item: any, key: number) => (
+                  <SelectBoxNode
+                    multiple
+                    key={key}
+                    caption={item?.name}
+                    items={item?.subNodes}
+                    onChange={(val) => {
+                      console.log("val", val);
+                      setBattery(battery < 60 ? battery + 10 : battery);
+                      // setSelectedItems((prevState) => ({
+                      //   ...prevState,
+                      //   [item?._id]: val,
+                      // }));
+                    }}
+                  />
+                ))}
+            </div>
+          </div>
           <div className="mb-3">
             <p className="mb-4 text-sm font-medium">
-              Write a full description of your project
+              Write a full description of your project:
+              <span className="text-xs text-gray-500"> (Optional)</span>
             </p>
             <TextArea
               onChange={(e) => {
                 handleUpdateState(e.target.value, "description");
+                setBattery(battery < 40 ? battery + 10 : battery);
               }}
               placeholder="Start typing here..."
               rows={7}
             />
           </div>
 
-          <div className="mb-3">
+          {/* <div className="mb-3">
             <p className="mb-4 text-sm font-medium">
               Are you a champion of this project?
             </p>
@@ -92,9 +123,9 @@ export const CreateProjectViews2 = ({
               onChange={handleProjectOwner}
               value={projectOwner}
             />
-          </div>
+          </div> */}
 
-          <div className="mb-3">
+          {/* <div className="mb-3">
             {projectOwner && (
               <div>
                 <div className="mb-3">
@@ -137,7 +168,7 @@ export const CreateProjectViews2 = ({
                 </div>
               </div>
             )}
-          </div>
+          </div> */}
 
           <div className="flex justify-between">
             <Button variant="secondary" onClick={onBack}>

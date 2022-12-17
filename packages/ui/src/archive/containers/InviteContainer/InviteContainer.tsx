@@ -62,7 +62,6 @@ export const InviteContainer = ({ project }: IInviteContainerProps) => {
           <div className={`font-Inter my-6 text-base text-zinc-500`}>
             Find more information below
           </div>
-          {/* <ProjectInfo /> */}
           <div className={`absolute bottom-2 flex w-full justify-between`}>
             <Button onClick={() => router.back()}>
               <span className={`my-auto pl-2`}>

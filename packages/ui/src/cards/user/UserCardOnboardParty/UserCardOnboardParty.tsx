@@ -48,7 +48,7 @@ export const UserCardOnboardParty = ({ member }: UserCardOnboardPartyProps) => {
               {member.memberRole.title?.toUpperCase()}
             </p>
           )}
-          {/* <SocialMediaComp links={member.links} title="" size="18px" /> */}
+          {/* <SocialMediaComp links={member.links} title="" size="sm" /> */}
         </div>
       </div>
       <div className="mb-2">

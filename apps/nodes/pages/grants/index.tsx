@@ -7,13 +7,8 @@ import {
   UserContext,
 } from "@eden/package-context";
 import { FIND_GRANTS } from "@eden/package-graphql";
+import { GrantTemplate, Mutation } from "@eden/package-graphql/generated";
 import {
-  GrantTemplate,
-  LinkType,
-  Mutation,
-} from "@eden/package-graphql/generated";
-import {
-  AppPublicLayout,
   AppUserSubmenuLayout,
   Card,
   CardGrid,
@@ -268,7 +263,7 @@ const GrantsPage: NextPageWithLayout = () => {
 
 GrantsPage.getLayout = (page) => (
   <GrantsProvider>
-    <AppPublicLayout>{page}</AppPublicLayout>
+    <AppUserSubmenuLayout showSubmenu={false}>{page}</AppUserSubmenuLayout>
   </GrantsProvider>
 );
 

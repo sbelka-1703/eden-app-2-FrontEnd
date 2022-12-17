@@ -20,13 +20,13 @@ export const Avatar = ({
 }: AvatarProps) => {
   const [imageSrc, setImageSrc] = useState(src);
   const btnCls = clsx(
-    "rounded-full shadow-lg inline-block overflow-hidden bg-gray-100",
+    "rounded-full shadow-md inline-block overflow-hidden bg-gray-100",
     {
       "w-8 h-8": size === "xs",
       "w-12 h-12": size === "sm",
       "w-16 h-16": size === "md",
       "w-20 h-20": size === "lg",
-      "w-25 h-25": size === "xl",
+      "w-24 h-24": size === "xl",
     }
   );
 
