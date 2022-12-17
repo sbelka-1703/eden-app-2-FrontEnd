@@ -1,4 +1,4 @@
-import { getSkills } from "@eden/package-mock";
+import { getSkillRoleTypeMockArray } from "@eden/package-mock";
 import { faker } from "@faker-js/faker";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
@@ -16,6 +16,8 @@ const Template: ComponentStory<typeof ProjectSkillFilterCard> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  skills: getSkills(faker.datatype.number({ min: 2, max: 15, precision: 1 })),
+  skills: getSkillRoleTypeMockArray(
+    faker.datatype.number({ min: 2, max: 15, precision: 1 })
+  ),
   roles: [],
 };
