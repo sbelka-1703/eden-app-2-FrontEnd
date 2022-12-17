@@ -3,7 +3,7 @@ import { Avatar, Button } from "@eden/package-ui";
 import HeartIcon from "@heroicons/react/outline/HeartIcon";
 import { BsArrowRight } from "react-icons/bs";
 
-export interface IProjectInfoProps {
+export interface IProjectHeaderProps {
   project?: Project;
   avatarSrc?: string;
   isFavoriteButton?: boolean;
@@ -14,7 +14,7 @@ export interface IProjectInfoProps {
   onSetFavorite?: () => void;
 }
 
-export const ProjectInfo = ({
+export const ProjectHeader = ({
   project,
   avatarSrc,
   isFavoriteButton,
@@ -23,7 +23,7 @@ export const ProjectInfo = ({
   isFavorite,
   onSwitchView,
   onSetFavorite,
-}: IProjectInfoProps) => {
+}: IProjectHeaderProps) => {
   return (
     <div className={`desc flex-col`}>
       <div className="p-2">

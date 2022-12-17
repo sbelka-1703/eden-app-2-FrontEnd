@@ -2,16 +2,16 @@ import { getProject } from "@eden/package-mock";
 import { faker } from "@faker-js/faker";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
-import { ProjectInfo } from "./ProjectInfo";
+import { ProjectHeader } from "./ProjectHeader";
 
 export default {
-  title: "Components/ProjectInfo",
-  component: ProjectInfo,
+  title: "Components/ProjectHeader",
+  component: ProjectHeader,
   argTypes: {},
-} as ComponentMeta<typeof ProjectInfo>;
+} as ComponentMeta<typeof ProjectHeader>;
 
-const Template: ComponentStory<typeof ProjectInfo> = (args) => (
-  <ProjectInfo {...args} />
+const Template: ComponentStory<typeof ProjectHeader> = (args) => (
+  <ProjectHeader {...args} />
 );
 
 export const Default = Template.bind({});

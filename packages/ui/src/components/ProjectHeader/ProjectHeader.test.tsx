@@ -1,10 +1,10 @@
 import { render } from "@testing-library/react";
 
-import { ProjectInfo } from ".";
+import { ProjectHeader } from ".";
 
-describe("ProjectInfo", () => {
+describe("ProjectHeader", () => {
   it("renders without throwing", () => {
-    const { container } = render(<ProjectInfo />);
+    const { container } = render(<ProjectHeader />);
 
     expect(container).toBeInTheDocument();
   });
