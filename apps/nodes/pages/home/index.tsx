@@ -6,7 +6,7 @@ const HomePage: NextPageWithLayout = () => {
   return (
     <>
       <SEO />
-      <HomeHeroSection opportunityPage discoverPage launchPage />
+      <HomeHeroSection grantsPage projectsPage usersPage launchPage />
     </>
   );
 };
