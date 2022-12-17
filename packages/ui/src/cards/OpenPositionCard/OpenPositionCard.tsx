@@ -24,9 +24,11 @@ export const OpenPositionCard = ({
         <div className={padding}>
           <div className="flex flex-row	justify-between">
             <span className="text-xl font-medium">{role?.title}</span>
-            <span className="text-soilPurple text-xl font-semibold">
-              {percentage}%
-            </span>
+            {percentage && (
+              <span className="text-soilPurple text-xl font-semibold">
+                {percentage}%
+              </span>
+            )}
           </div>
           <div className="mt-2 flex">
             {role?.skills?.map((skill, index) => {

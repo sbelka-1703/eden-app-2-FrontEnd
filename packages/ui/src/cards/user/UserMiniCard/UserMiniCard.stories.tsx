@@ -1,5 +1,4 @@
-import { matchNodesToMembersMock } from "@eden/package-mock";
-// import { faker } from "@faker-js/faker";
+import { getMember } from "@eden/package-mock";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { UserMiniCard } from "./UserMiniCard";
@@ -16,5 +15,5 @@ const Template: ComponentStory<typeof UserMiniCard> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  matchMember: matchNodesToMembersMock(),
+  member: getMember(),
 };

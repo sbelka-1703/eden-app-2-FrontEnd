@@ -24,11 +24,13 @@ export const ReviewCard = ({ review }: ReviewCardProps) => {
         <div className="mb-2 flex w-full content-center items-center justify-between">
           <div className="flex content-center items-center justify-start	p-3">
             <div>
-              <Avatar size="md" src={review?.member?.discordAvatar || ""} />
+              <Avatar size="sm" src={review?.member?.discordAvatar || ""} />
             </div>
             <div className="ml-4">
-              <TextHeading3>@{review?.member?.discordName}</TextHeading3>
-              <TextHeading3 className="text-gray-400">
+              <TextHeading3 className={`text-md`}>
+                @{review?.member?.discordName}
+              </TextHeading3>
+              <TextHeading3 className="text-sm text-gray-400">
                 {review?.member?.memberRole?.title}
               </TextHeading3>
             </div>
@@ -42,7 +44,7 @@ export const ReviewCard = ({ review }: ReviewCardProps) => {
             </div>
           </div>
         </div>
-        <div className="scrollbar-hide h-20 overflow-scroll px-6 text-left text-lg font-normal">
+        <div className="scrollbar-hide text-md h-20 overflow-scroll px-6 text-left font-normal">
           {review?.text}
         </div>
         <div className="mt-2 px-6 text-left text-lg font-normal">

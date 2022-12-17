@@ -6,6 +6,7 @@ export * from "./CategorySearchSkill";
 export * from "./Expandable";
 export * from "./LifetimeTRST";
 export * from "./LoginButton";
+export * from "./OpenPositions";
 export * from "./ProjectChampion";
 export * from "./ProjectHeader";
 export * from "./ReadMoreComp";

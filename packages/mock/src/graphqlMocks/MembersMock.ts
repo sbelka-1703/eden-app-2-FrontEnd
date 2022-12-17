@@ -4,6 +4,7 @@ import {
 } from "@eden/package-graphql/generated";
 import { faker } from "@faker-js/faker";
 
+import { memberBio } from "../data";
 import {
   getEndorsementsTypeMockArray,
   getLinkTypeMock,
@@ -48,7 +49,7 @@ export const getMember = (): Members => ({
     Reformer: Number(faker.random.numeric(1)),
     Supporter: Number(faker.random.numeric(1)),
   },
-  bio: faker.lorem.sentences(5),
+  bio: faker.helpers.uniqueArray(memberBio, 1)[0].bio,
   content: {
     interest: faker.lorem.lines(),
     mostProud: faker.lorem.sentences(5),
@@ -63,7 +64,10 @@ export const getMember = (): Members => ({
   memberRole: getRoleTemplateTypeMock(),
   previusProjects: getPreviusProjectsTypeMockArray(3),
   projects: getProjectMemberTypeMockArray(14),
-  serverID: Array.from({ length: 12 }, () => faker.random.numeric(12)),
+  serverID: Array.from(
+    { length: faker.datatype.number({ min: 2, max: 8, precision: 1 }) },
+    () => faker.random.numeric(12)
+  ),
   skills: getSkillTypeMemberMockArray(
     faker.datatype.number({ min: 2, max: 36, precision: 1 })
   ),
