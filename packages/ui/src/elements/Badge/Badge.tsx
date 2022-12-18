@@ -2,7 +2,7 @@ import { XIcon } from "@heroicons/react/outline";
 import { useEffect, useState } from "react";
 import ReactTooltip from "react-tooltip";
 
-export const useIsMounted = () => {
+const useIsMounted = () => {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
