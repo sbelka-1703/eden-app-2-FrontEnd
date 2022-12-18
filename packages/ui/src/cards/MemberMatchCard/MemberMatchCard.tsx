@@ -124,7 +124,7 @@ export const MemberMatchCard = ({
         <p className="text-soilLabel font-Inter mb-2 font-semibold uppercase">
           {member?.memberRole?.title}
         </p>
-        <SocialMediaComp links={member?.links} size="20px" title="" />
+        <SocialMediaComp links={member?.links} size="md" title="" />
         {requiredSkills && (
           <div className="mt-3 w-full self-start">
             <p className="text-soilGray text-soilLabel font-Inter font-semibold">

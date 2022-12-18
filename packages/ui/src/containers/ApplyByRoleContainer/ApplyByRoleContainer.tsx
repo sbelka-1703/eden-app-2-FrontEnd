@@ -18,7 +18,7 @@ import {
   NumberCircle,
   OpenPositionCard,
   ProjectChampion,
-  ProjectInfo,
+  ProjectHeader,
   TextHeading1,
 } from "@eden/package-ui";
 import { useContext, useEffect, useState } from "react";
@@ -124,7 +124,7 @@ export const ApplyByRoleContainer = ({
       </div>
       <div className={`grid grid-cols-3`}>
         <div className={`col-span-2`}>
-          <ProjectInfo
+          <ProjectHeader
             project={project}
             isFavoriteButton
             onSwitchView={() => setIsRoleView(!isRoleView)}

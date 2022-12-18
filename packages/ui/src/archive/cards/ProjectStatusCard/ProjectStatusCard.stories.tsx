@@ -1,4 +1,4 @@
-import { getMember } from "@eden/package-mock";
+import { getProjectMemberTypeMock } from "@eden/package-mock";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { ProjectStatusCard } from "./ProjectStatusCard";
@@ -15,7 +15,7 @@ const Template: ComponentStory<typeof ProjectStatusCard> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  project: getMember().projects[0],
+  project: getProjectMemberTypeMock(),
   roleName: "BackEnd Developer",
   appliedDateData: {
     type: "primary",

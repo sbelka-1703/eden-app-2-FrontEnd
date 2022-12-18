@@ -13,16 +13,13 @@ import {
 import {
   Avatar,
   Badge,
-  // Badge,
   Button,
   Card,
   Loading,
   Modal,
-  // NumberCircle,
   ProgressBarGeneric,
   RoleSelector,
   SelectBoxNode,
-  // SelectNodesModal,
   SocialMediaInput,
   TextArea,
   TextHeading2,
@@ -32,7 +29,6 @@ import {
 import { forEach, isEmpty, map } from "lodash";
 import { useContext, useEffect, useState } from "react";
 
-// import { BiCommentAdd } from "react-icons/bi";
 import { getFillProfilePercentage } from "../../../utils/fill-profile-percentage";
 
 const FIND_NODES = gql`
@@ -86,13 +82,10 @@ enum PARTY_STEPS {
 export const EditProfileOnboardPartyNodesCard = ({
   serverID,
   RoomID,
-}: // handleUpdateUser,
-IEditProfileOnboardPartyNodesCardProps) => {
+}: IEditProfileOnboardPartyNodesCardProps) => {
   const { currentUser } = useContext(UserContext);
   const [selectedModal, setSelectedModal] = useState("");
 
-  // const [openModalExpertise, setOpenModalExpertise] = useState(false);
-  // const [openModalTypeProject, setOpenModalTypeProject] = useState(false);
   const [firstTimeView, setFirstTimeView] = useState(false);
 
   const { data: dataRoles } = useQuery(FIND_ROLE_TEMPLATES, {
@@ -106,17 +99,6 @@ IEditProfileOnboardPartyNodesCardProps) => {
 
   const progress = getFillProfilePercentage(currentUser || {});
 
-  // const _handleUpdateUser = (e: any) => {
-  //   handleUpdateUser(e.target.value, e.target.name);
-  // };
-
-  // const _handleUpdateUserBio = (e: any) => {
-  //   handleUpdateUser(e, "bio");
-  // };
-
-  // const _handleUpdateUserRole = (val: any) => {
-  //   handleUpdateUser(val, "role");
-  // };
   const _handleUpdateUserLinks = (val: any) => {
     handleUpdateUser(val, "links");
   };
@@ -191,7 +173,6 @@ IEditProfileOnboardPartyNodesCardProps) => {
     });
   };
 
-  // eslint-disable-next-line no-unused-vars
   const handleDeleteNodes = (data: string[]) => {
     if (!RoomID || !currentUser) return;
     deleteNodes({
@@ -209,17 +190,11 @@ IEditProfileOnboardPartyNodesCardProps) => {
   useEffect(() => {
     if (currentUser) {
       if (currentUser?.nodes?.length === 0 && !firstTimeView) {
-        // setOpenModalExpertise(true);
         setFirstTimeView(true);
         setSelectedModal("WELCOME");
       }
     }
   }, [currentUser]);
-
-  // filter currentUser nodes to get an array of nodes id when node is equal to sub_expertise
-  // const expertise = currentUser?.nodes
-  //   ?.filter((node) => node?.nodeData?.node === "sub_expertise")
-  //   .map((node) => node?.nodeData);
 
   return (
     <Card shadow className="flex-grow bg-white p-4">
@@ -260,80 +235,6 @@ IEditProfileOnboardPartyNodesCardProps) => {
           Edit Profile
         </button>
       </div>
-      {/* Add Roles */}
-
-      {/* <TextLabel>Current Role:</TextLabel>
-      <RoleSelector
-        value={currentUser?.memberRole?.title || ""}
-        roles={
-          dataRoles?.findRoleTemplates as Maybe<Array<Maybe<RoleTemplate>>>
-        }
-        onSelect={_handleUpdateUserRole}
-      /> */}
-
-      {/* <div className="flex items-center justify-between space-x-2 py-1">
-        <TextLabel>PREFERRED PROJECTS</TextLabel>
-        <button onClick={() => setOpenModalTypeProject(true)}>
-          <BiCommentAdd className="text-soilPurple hover:text-accentColor text-2xl" />
-        </button>
-      </div>
-      <div>
-        {currentUser?.nodes?.map((item, index) => {
-          if (item?.nodeData?.node == "sub_typeProject") {
-            return (
-              <Badge
-                key={index}
-                text={item?.nodeData?.name || ""}
-                colorRGB={`209,247,196`}
-                className={`font-Inter text-sm`}
-                cutText={16}
-                closeButton={true}
-                onClose={() => {
-                  handleDeleteNodes([`${item?.nodeData?._id}`]);
-                }}
-              />
-            );
-          }
-        })}
-      </div> */}
-
-      {/* <div className="flex items-center justify-between space-x-2  py-1">
-        <TextLabel>SKILLS</TextLabel>
-        <button onClick={() => setOpenModalExpertise(true)}>
-          <BiCommentAdd className="text-soilPurple hover:text-accentColor text-2xl" />
-        </button>{" "}
-      </div>
-      <div>
-        {currentUser?.nodes?.map((item, index) => {
-          if (item?.nodeData?.node == "sub_expertise") {
-            return (
-              <Badge
-                key={index}
-                text={item?.nodeData?.name || ""}
-                colorRGB={`235,225,255`}
-                className={`font-Inter text-sm`}
-                cutText={16}
-                closeButton={true}
-                onClose={() => {
-                  handleDeleteNodes([`${item?.nodeData?._id}`]);
-                }}
-              />
-            );
-          }
-        })}
-      </div> */}
-
-      {/* <TextLabel>ABOUT ME</TextLabel>
-      <TextArea
-        name="bio"
-        placeholder={`Write a short description about yourself...`}
-        rows={5}
-        value={`${currentUser?.bio ? currentUser.bio : ""}`}
-        className="border-0 text-xs"
-        onChange={_handleUpdateUser}
-        debounceTime={2000}
-        maxLength={280}
-      /> */}
 
       <WelcomeModal
         openModal={selectedModal === PARTY_STEPS.WELCOME}
@@ -346,7 +247,6 @@ IEditProfileOnboardPartyNodesCardProps) => {
         onClose={() => setSelectedModal("PROJECT_TYPE")}
         onSubmit={(val: any) => {
           handleSaveNodes(val);
-          // setOpenModalExpertise(false);
           setSelectedModal("PROJECT_TYPE");
         }}
         onDeleteNode={(val: any) => {
@@ -360,12 +260,8 @@ IEditProfileOnboardPartyNodesCardProps) => {
         title="What Types of Projects Do You Prefer?"
         openModal={selectedModal === PARTY_STEPS.PROJECT_TYPE}
         onClose={() => setSelectedModal("BIO")}
-        // onClose={() => {
-        //   setOpenModalTypeProject(false);
-        // }}
         onSubmit={(val: any) => {
           handleSaveNodes(val);
-          // setOpenModalTypeProject(false);
           setSelectedModal("BIO");
         }}
         onDeleteNode={(val: any) => {
@@ -380,12 +276,9 @@ IEditProfileOnboardPartyNodesCardProps) => {
           dataRoles?.findRoleTemplates as Maybe<Array<Maybe<RoleTemplate>>>
         }
         openModal={selectedModal === PARTY_STEPS.BIO}
-        // onClose={() => setSelectedModal("SOCIAL")}
         onSubmit={(role: any, bio: any) => {
           handleUpdateUser(bio, "bio");
           handleUpdateUser(role, "role");
-
-          // setOpenModalBio(false);
           setSelectedModal("SOCIAL");
         }}
       />
@@ -393,7 +286,6 @@ IEditProfileOnboardPartyNodesCardProps) => {
       <SocialModal
         openModal={selectedModal === PARTY_STEPS.SOCIAL}
         onSubmit={(val: any) => {
-          // console.log(val);
           _handleUpdateUserLinks(val);
           setSelectedModal("");
         }}
@@ -475,8 +367,6 @@ const NodesModal = ({
   useEffect(() => {
     if (selectedItems) {
       const selectedNodeId: string[] = [];
-
-      // console.log("selectedItems", selectedItems);
 
       forEach(selectedItems, (el) => {
         if (!isEmpty(el)) {
@@ -574,7 +464,7 @@ const BioModal = ({ roles, openModal, onSubmit }: IBioModalProps) => {
   const { currentUser } = useContext(UserContext);
 
   const [bio, setBio] = useState("");
-  const [role, setRole] = useState("");
+  const [role, setRole] = useState(currentUser?.memberRole?._id || "");
 
   return (
     <Modal open={openModal} closeOnEsc={false}>
@@ -599,7 +489,6 @@ const BioModal = ({ roles, openModal, onSubmit }: IBioModalProps) => {
           value={`${currentUser?.bio ? currentUser.bio : ""}`}
           className="border-0 text-xs"
           onChange={(e) => setBio(e.target.value)}
-          // debounceTime={2000}
           maxLength={280}
         />
       </div>

@@ -1,5 +1,4 @@
 import { matchNodesToMembersMock } from "@eden/package-mock";
-// import { faker } from "@faker-js/faker";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { UserDiscoverCard } from "./UserDiscoverCard";

@@ -1,11 +1,16 @@
-import { getMatchPercentage } from "./MatchSkillsToMembersMock";
-import { getMember, getSkillsPercentage } from "./MembersMock";
+import { MatchMembersToSkillOutput } from "@eden/package-graphql/generated";
 
-export const matchNodesToMembersMock = () => ({
+import { getSkillsPercentageTypeMockArray } from "../typeMocks";
+import { getMatchPercentage } from "./MatchSkillsToMembersMock";
+import { getMember } from "./MembersMock";
+
+export const matchNodesToMembersMock = (): MatchMembersToSkillOutput => ({
   matchPercentage: getMatchPercentage(),
   member: getMember(),
-  skillsPercentage: getSkillsPercentage(),
+  skillsPercentage: getSkillsPercentageTypeMockArray(8),
 });
 
-export const matchNodesToMembersMockArray = (total: number) =>
+export const matchNodesToMembersMockArray = (
+  total: number
+): MatchMembersToSkillOutput[] =>
   Array.from({ length: total }, () => matchNodesToMembersMock());

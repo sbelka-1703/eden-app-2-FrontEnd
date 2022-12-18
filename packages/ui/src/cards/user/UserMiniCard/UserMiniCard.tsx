@@ -1,7 +1,4 @@
-import {
-  MatchMembersToSkillOutput,
-  Maybe,
-} from "@eden/package-graphql/generated";
+import { Maybe, Members } from "@eden/package-graphql/generated";
 import {
   Avatar,
   Card,
@@ -12,21 +9,13 @@ import {
 import { GrExpand } from "react-icons/gr";
 
 export interface UserMiniCardProps {
-  matchMember?: Maybe<MatchMembersToSkillOutput>;
+  member?: Maybe<Members>;
   item?: any;
-  resultCardFlag?: any;
-  resultPopUpFlag?: any;
   onExpand?: () => void;
 }
 
-export const UserMiniCard = ({
-  matchMember,
-  onExpand,
-  item,
-}: UserMiniCardProps) => {
-  const member = matchMember?.member;
-
-  if (!matchMember && !item) {
+export const UserMiniCard = ({ member, onExpand, item }: UserMiniCardProps) => {
+  if (!member && !item) {
     return null;
   }
   return (
@@ -55,7 +44,7 @@ export const UserMiniCard = ({
               </div>
               <div className="flex justify-center">
                 <SocialMediaComp
-                  size="1.2rem"
+                  size="sm"
                   title=""
                   links={member?.links || item?.links}
                 />
