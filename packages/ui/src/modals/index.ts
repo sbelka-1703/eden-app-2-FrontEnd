@@ -10,6 +10,8 @@ export * from "./MemberModal";
 export * from "./PrioritizeModal";
 export * from "./ProfileExpandedModal";
 export * from "./ProfileModal";
+export * from "./ProjectModal";
+export * from "./ProjectNodeMatchModal";
 export * from "./RequirementsModal";
 export * from "./ReviewModal";
 export * from "./RoleDescriptionModal";

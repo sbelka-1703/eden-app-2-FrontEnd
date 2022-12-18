@@ -1,4 +1,4 @@
-import { Project } from "@eden/package-graphql/generated";
+import { MatchSkillsToProjectsOutput } from "@eden/package-graphql/generated";
 import {
   Avatar,
   Badge,
@@ -8,15 +8,17 @@ import {
   UserMiniCard,
 } from "@eden/package-ui";
 
-export interface IProjectInfoProps {
-  project?: Project;
-  percentage?: number;
-  experienceOpen?: number | null;
-  // eslint-disable-next-line no-unused-vars
-  setExperienceOpen?: (val: number | null) => void;
+import { round } from "../../../utils";
+
+export interface IProjectNodeMatchInfoProps {
+  matchedProject: MatchSkillsToProjectsOutput;
 }
 
-export const ProjectInfo = ({ project }: IProjectInfoProps) => {
+export const ProjectNodeMatchInfo = ({
+  matchedProject,
+}: IProjectNodeMatchInfoProps) => {
+  const { project, matchPercentage, projectRoles } = matchedProject;
+
   if (!project) return null;
 
   const steps = [
@@ -72,7 +74,13 @@ export const ProjectInfo = ({ project }: IProjectInfoProps) => {
           </div>
         </div>
         <div>
-          <div className={`mt-6`}></div>
+          <div className={`mt-6`}>
+            {matchPercentage && (
+              <p className="text-soilPurple font-poppins text-4xl font-semibold">
+                {round(matchPercentage, 0)}%
+              </p>
+            )}
+          </div>
         </div>
       </div>
       <div className={`grid grid-cols-3`}>
@@ -99,7 +107,11 @@ export const ProjectInfo = ({ project }: IProjectInfoProps) => {
       <div className={`w-full p-4`}>
         <TimelineStepper steps={steps} />
       </div>
-      <OpenPositions project={project} />
+      <OpenPositions
+        project={project}
+        matchPercentage={matchPercentage}
+        projectRoles={projectRoles}
+      />
       {/* {endorsements?.length > 0 && (
         <div className={`my-4 flex`}>
           <p className="text-soilGray/100 font-medium uppercase tracking-wide">

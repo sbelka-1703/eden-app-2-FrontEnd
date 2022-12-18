@@ -9,6 +9,16 @@ import {
   RoleTemplate,
   Scalars,
 } from "@eden/package-graphql/generated";
+import {
+  BatteryStepper,
+  Button,
+  Card,
+  Loading,
+  RoleSelector,
+  SocialMediaInput,
+  TextArea,
+  UserExperienceCard,
+} from "@eden/package-ui";
 import { STEPS } from "@eden/package-ui/utils/enums/fill-profile-steps";
 import {
   Dispatch,
@@ -17,12 +27,6 @@ import {
   useEffect,
   useState,
 } from "react";
-
-import { UserExperienceCard } from "../../cards";
-import { SocialMediaInput } from "../../components";
-import { Button, Card, Loading, TextArea } from "../../elements";
-import { RoleSelector } from "../../selectors";
-import { BatteryStepper } from "../../steppers";
 
 export interface IFillUserProfileContainerProps {
   state: any;

@@ -1,8 +1,8 @@
 import {
+  MatchProjectRoles,
   Maybe,
   NodesType,
   Project,
-  RoleType,
 } from "@eden/package-graphql/generated";
 import {
   Avatar,
@@ -11,20 +11,47 @@ import {
   OpenPositionCard,
   TabsSelector,
 } from "@eden/package-ui";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GiExpand } from "react-icons/gi";
 
-export const OpenPositions = ({ project }: { project?: Project }) => {
+import { round } from "../../../utils";
+
+export interface IOpenPositionsProps {
+  project?: Maybe<Project>;
+  matchPercentage?: Maybe<number>;
+  projectRoles?: Maybe<Array<Maybe<MatchProjectRoles>>>;
+}
+
+export const OpenPositions = ({
+  project,
+  projectRoles,
+}: IOpenPositionsProps) => {
   const [expand, setExpand] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
+  const [allRoles, setAllRoles] = useState<MatchProjectRoles[]>([]);
 
-  if (!project) return null;
-  const tabs = project.role
-    ? project?.role.map((data: any) => `${data.title}`)
+  useEffect(() => {
+    const roles = projectRoles ? [...projectRoles] : [];
+
+    project?.role?.map((data) => {
+      const role = roles?.find((role) => role?.projectRole?._id === data?._id);
+      const addMatchProjectRole: MatchProjectRoles = {
+        projectRole: data,
+        matchPercentage: 0,
+      };
+
+      if (!role) roles?.push(addMatchProjectRole);
+    });
+
+    setAllRoles(roles as MatchProjectRoles[]);
+  }, [projectRoles, project]);
+
+  const tabs = allRoles
+    ? allRoles?.map((data: any) => `${data.projectRole.title}`)
     : [];
-  const role = project.role
-    ? project?.role.reduce((prev: any, curr: any) => {
-        const item = { [`${curr.title}`]: curr };
+  const role = allRoles
+    ? allRoles?.reduce((prev: any, curr: any) => {
+        const item = { [`${curr.projectRole.title}`]: curr };
 
         return { ...prev, ...item };
       }, {})
@@ -39,6 +66,8 @@ export const OpenPositions = ({ project }: { project?: Project }) => {
     setActiveTab(roleIndex);
     setExpand(true);
   };
+
+  if (!allRoles) return null;
 
   return (
     <div>
@@ -68,15 +97,16 @@ export const OpenPositions = ({ project }: { project?: Project }) => {
             <div
               className={`grid grow grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-3`}
             >
-              {project?.role?.map((role: Maybe<RoleType>, index: any) => (
-                <OpenPositionCard
-                  padding="-m-4"
-                  key={index}
-                  role={role}
-                  //   percentage={item.rolesPercentages[index] || 0}
-                  onApply={onExpand}
-                />
-              ))}
+              {allRoles &&
+                allRoles?.map((role: Maybe<MatchProjectRoles>, index: any) => (
+                  <OpenPositionCard
+                    padding="-m-4"
+                    percentage={Number(role?.matchPercentage)}
+                    key={index}
+                    role={role?.projectRole}
+                    onApply={onExpand}
+                  />
+                ))}
             </div>
           </div>
         </>
@@ -92,11 +122,12 @@ const PositionExpanded = ({
   setActiveTab,
 }: {
   tabs: string[];
-  activeItem: RoleType;
+  activeItem: MatchProjectRoles;
   activeTab: number;
   // eslint-disable-next-line no-unused-vars
   setActiveTab: (activeTab: number) => void;
 }) => {
+  // console.log(activeItem, "activeItem");
   return (
     <>
       <TabsSelector
@@ -120,14 +151,14 @@ const PositionExpanded = ({
               </div>
               <div className="ml-3">
                 <div className="text-xl	font-medium	tracking-wide	">
-                  {activeItem.title}
+                  {activeItem?.projectRole?.title}
                 </div>
                 <div className="text-soilGray/100	text-sm font-normal	tracking-wide">
-                  {activeItem.description}
+                  {activeItem?.projectRole?.description}
                 </div>
                 <div>
-                  {activeItem.nodes &&
-                    activeItem.nodes.map(
+                  {activeItem?.projectRole?.nodes &&
+                    activeItem?.projectRole?.nodes.map(
                       (node: Maybe<NodesType>, index: number) => (
                         <Badge
                           text={node?.nodeData?.name || ""}
@@ -140,9 +171,13 @@ const PositionExpanded = ({
               </div>
             </div>
             <div className="flex flex-row">
-              <div className="text-soilPurple font-poppins mr-3 text-3xl font-bold">
-                59%
-              </div>
+              {activeItem?.matchPercentage &&
+              activeItem?.matchPercentage > 0 ? (
+                <div className="text-soilPurple font-poppins mr-3 text-3xl font-bold">
+                  {round(activeItem?.matchPercentage, 0)}%
+                </div>
+              ) : null}
+
               <div>
                 <div className="flex flex-col content-between justify-between">
                   <Button
@@ -170,7 +205,9 @@ const PositionExpanded = ({
             <div className="text-soilGray/100 font-medium uppercase tracking-wide">
               📃 Description Of the role
             </div>
-            <div className="p-1 text-sm">{activeItem?.description}</div>
+            <div className="p-1 text-sm">
+              {activeItem?.projectRole?.description}
+            </div>
           </div>
           <div className="mb-3 flex flex-row justify-between">
             <div>
@@ -201,13 +238,14 @@ const PositionExpanded = ({
                 <div className="flex flex-row p-1">
                   <div>🕓</div>
                   <div className={`ml-1 capitalize text-slate-900	`}>
-                    {activeItem?.hoursPerWeek} hours/week
+                    {activeItem?.projectRole?.hoursPerWeek} hours/week
                   </div>
                 </div>
                 <div className="flex flex-row p-1">
                   <div>💰</div>
                   <div className={`ml-1 capitalize text-slate-900`}>
-                    TRST ${activeItem?.budget?.totalBudget || "N/A"}
+                    TRST $
+                    {activeItem?.projectRole?.budget?.totalBudget || "N/A"}
                   </div>
                 </div>
                 <div className="flex flex-row p-1">
@@ -219,7 +257,7 @@ const PositionExpanded = ({
                 <div className="flex flex-row p-1">
                   <div>🪑</div>
                   <div className={`ml-1 capitalize text-slate-900	`}>
-                    {activeItem?.openPositions} open position
+                    {activeItem?.projectRole?.openPositions} open position
                   </div>
                 </div>
               </div>
