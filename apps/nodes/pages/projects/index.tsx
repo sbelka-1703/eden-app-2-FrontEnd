@@ -83,7 +83,7 @@ const ProjectsPage: NextPageWithLayout = () => {
   useEffect(() => {
     if (
       currentUser &&
-      getFillProfilePercentage(currentUser) < 50 &&
+      getFillProfilePercentage(currentUser) < 30 &&
       !startWelcome
     ) {
       setOpenModal(ProjectsModal.START_WELCOME);

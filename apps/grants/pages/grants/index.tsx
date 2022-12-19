@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { gql, useMutation, useQuery } from "@apollo/client";
 import {
   GrantsContext,
@@ -7,13 +6,8 @@ import {
   UserContext,
 } from "@eden/package-context";
 import { FIND_GRANTS } from "@eden/package-graphql";
+import { GrantTemplate, Mutation } from "@eden/package-graphql/generated";
 import {
-  GrantTemplate,
-  LinkType,
-  Mutation,
-} from "@eden/package-graphql/generated";
-import {
-  AppPublicLayout,
   AppUserSubmenuLayout,
   Card,
   CardGrid,
@@ -29,6 +23,7 @@ import {
   ViewUserProfileContainer,
   WarningCard,
 } from "@eden/package-ui";
+import { STEPS } from "@eden/package-ui/utils";
 import { getFillProfilePercentage } from "@eden/package-ui/utils/fill-profile-percentage";
 import { useContext, useEffect, useState } from "react";
 
@@ -48,27 +43,21 @@ const INITIAL_EXP = {
   skills: [],
   startDate: "",
   endDate: "",
-  bio: "",
+  description: "",
 };
 
 const GrantsPage: NextPageWithLayout = () => {
   const { setOpenModal } = useContext(GrantsContext);
   const { currentUser } = useContext(UserContext);
-  const { memberServers } = useContext(UserContext);
-  const [nodesID, setNodesID] = useState<string[] | null>(null);
-  const [serverID, setServerID] = useState<string | null>(null);
   const [view, setView] = useState<"grants" | "profile">("grants");
+  const [startWelcome, setStartWelcome] = useState(false);
 
   const { data: dataGrants } = useQuery(FIND_GRANTS, {
     variables: {
       fields: {
         _id: null,
-        // nodesID: nodesID,
-        // TODO: change to selectedServer
-        // serverID: serverID,
       },
     },
-    // skip: !nodesID || !serverID,
     context: { serviceName: "soilservice" },
   });
 
@@ -86,18 +75,15 @@ const GrantsPage: NextPageWithLayout = () => {
   });
 
   useEffect(() => {
-    if (currentUser && !currentUser?.nodes?.length) {
-      setOpenModal(GrantsModal.START_INFO);
+    if (
+      currentUser &&
+      getFillProfilePercentage(currentUser) < 30 &&
+      !startWelcome
+    ) {
+      setOpenModal(GrantsModal.START_WELCOME);
+      setStartWelcome(true);
     }
   }, [currentUser]);
-
-  useEffect(() => {
-    if (memberServers) {
-      setServerID(memberServers[1]?._id);
-    }
-  }, [memberServers]);
-
-  // if (memberServers) console.log("memberServers", memberServers[1]._id);
 
   // ------- PROFILE VIEW -------
   const [step, setStep] = useState(STEPS.ROLE);
@@ -137,7 +123,7 @@ const GrantsPage: NextPageWithLayout = () => {
         currentUser?.previusProjects?.length > 0
           ? currentUser?.previusProjects?.map((proj) => ({
               title: proj?.title,
-              bio: proj?.description,
+              description: proj?.description,
               startDate: proj?.startDate,
               endDate: proj?.endDate,
             }))
@@ -158,6 +144,8 @@ const GrantsPage: NextPageWithLayout = () => {
     });
   };
 
+  if (!currentUser) return null;
+
   return (
     <>
       <SEO />
@@ -167,44 +155,25 @@ const GrantsPage: NextPageWithLayout = () => {
             <GridItemThree>
               <Card className={`lg:h-85 flex flex-col gap-2`}>
                 <UserProfileCard />
-                {(currentUser &&
-                  getFillProfilePercentage({
-                    ...state,
-                    nodes:
-                      currentUser &&
-                      currentUser.nodes &&
-                      currentUser.nodes?.length > (nodesID || []).length
-                        ? currentUser.nodes
-                        : nodesID,
-                  }) < 50) ||
-                !state.background?.some((bg: any) => !!bg.title) ? (
+                {currentUser && getFillProfilePercentage(currentUser) < 50 && (
                   <WarningCard
-                    profilePercentage={getFillProfilePercentage({
-                      ...state,
-                      nodes:
-                        currentUser &&
-                        currentUser.nodes &&
-                        currentUser.nodes?.length > (nodesID || []).length
-                          ? currentUser.nodes
-                          : nodesID,
-                    })}
+                    profilePercentage={getFillProfilePercentage(currentUser)}
                     onClickCompleteProfile={() => setView("profile")}
                   />
-                ) : null}
+                )}
               </Card>
             </GridItemThree>
             <GridItemNine>
               <Card
                 shadow
-                className="scrollbar-hide lg:h-85 overflow-scroll bg-white p-4"
+                className="scrollbar-hide h-85 overflow-scroll bg-white p-4"
               >
                 <CardGrid>
-                  {dataGrants &&
-                    dataGrants?.findGrants?.map(
-                      (grant: GrantTemplate, index: number) => (
-                        <GrantsCard key={index} grant={grant} />
-                      )
-                    )}
+                  {dataGrants?.findGrants?.map(
+                    (grant: GrantTemplate, index: number) => (
+                      <GrantsCard key={index} grant={grant} />
+                    )
+                  )}
                 </CardGrid>
               </Card>
             </GridItemNine>
@@ -221,15 +190,7 @@ const GrantsPage: NextPageWithLayout = () => {
                   setStep={setStep}
                   setExperienceOpen={setExperienceOpen}
                   setView={setView}
-                  percentage={getFillProfilePercentage({
-                    ...state,
-                    nodes:
-                      currentUser &&
-                      currentUser.nodes &&
-                      currentUser.nodes?.length > (nodesID || []).length
-                        ? currentUser.nodes
-                        : nodesID,
-                  })}
+                  percentage={getFillProfilePercentage(currentUser)}
                 />
               </Card>
             </GridItemSix>
@@ -250,18 +211,10 @@ const GrantsPage: NextPageWithLayout = () => {
         image={welcome.src}
         setArrayOfNodes={(val) => {
           // console.log("array of nodes val", val);
-          setNodesID(val);
           handleAddNodes(val);
         }}
-        percentage={getFillProfilePercentage({
-          ...state,
-          nodes:
-            currentUser &&
-            currentUser.nodes &&
-            currentUser.nodes?.length > (nodesID || []).length
-              ? currentUser.nodes
-              : nodesID,
-        })}
+        // percentage={0}
+        percentage={getFillProfilePercentage(currentUser)}
       />
     </>
   );
@@ -269,13 +222,12 @@ const GrantsPage: NextPageWithLayout = () => {
 
 GrantsPage.getLayout = (page) => (
   <GrantsProvider>
-    <AppPublicLayout>{page}</AppPublicLayout>
+    <AppUserSubmenuLayout showSubmenu={false}>{page}</AppUserSubmenuLayout>
   </GrantsProvider>
 );
 
 export default GrantsPage;
 
-import { STEPS } from "@eden/package-ui/utils";
 import { IncomingMessage, ServerResponse } from "http";
 import { getSession } from "next-auth/react";
 
