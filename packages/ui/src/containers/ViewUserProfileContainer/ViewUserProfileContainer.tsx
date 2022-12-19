@@ -1,11 +1,4 @@
-import {
-  Endorsements,
-  LinkType,
-  Maybe,
-  PreviusProjectsType,
-  RoleTemplate,
-  Scalars,
-} from "@eden/package-graphql/generated";
+import { LinkType, Maybe, Members } from "@eden/package-graphql/generated";
 import {
   Card,
   SocialMediaComp,
@@ -17,19 +10,7 @@ import { STEPS } from "@eden/package-ui/utils/enums/fill-profile-steps";
 
 export interface IViewUserProfileContainerProps {
   step?: string | null;
-  user?: {
-    bio?: Maybe<Scalars["String"]>;
-
-    discordAvatar?: Maybe<Scalars["String"]>;
-    discordName?: Maybe<Scalars["String"]>;
-    discriminator?: Maybe<Scalars["String"]>;
-    endorsements?: Maybe<Array<Maybe<Endorsements>>>;
-
-    hoursPerWeek?: Maybe<Scalars["Float"]>;
-    links?: Maybe<Array<Maybe<LinkType>>>;
-    memberRole?: Maybe<RoleTemplate>;
-    background?: Maybe<Array<Maybe<PreviusProjectsType>>>;
-  };
+  user?: Members;
   experienceOpen?: number | null;
   // eslint-disable-next-line no-unused-vars
   setExperienceOpen?: (val: number | null) => void;
@@ -123,9 +104,9 @@ export const ViewUserProfileContainer = ({
             step !== STEPS.EXP && step !== STEPS.EXP_DETAIL ? "blur-sm" : ""
           }`}
         >
-          {user?.background && (
+          {user?.previusProjects && (
             <UserBackground
-              background={user.background}
+              background={user.previusProjects}
               initialEndorsements={[
                 {
                   endorser: {

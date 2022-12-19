@@ -1,4 +1,8 @@
-import { getMember } from "@eden/package-mock";
+import {
+  getEndorsementsTypeMockArray,
+  // getMember,
+  getPreviusProjectsTypeMockArray,
+} from "@eden/package-mock";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { useState } from "react";
 
@@ -24,6 +28,6 @@ const Template: ComponentStory<typeof UserBackground> = (args) => {
 
 export const Default = Template.bind({});
 Default.args = {
-  background: getMember().previusProjects,
-  initialEndorsements: getMember().endorsements,
+  background: getPreviusProjectsTypeMockArray(3),
+  initialEndorsements: getEndorsementsTypeMockArray(3),
 };

@@ -6,7 +6,11 @@ import {
   UserContext,
 } from "@eden/package-context";
 import { FIND_GRANTS } from "@eden/package-graphql";
-import { GrantTemplate, Mutation } from "@eden/package-graphql/generated";
+import {
+  GrantTemplate,
+  Members,
+  Mutation,
+} from "@eden/package-graphql/generated";
 import {
   AppUserSubmenuLayout,
   Card,
@@ -38,19 +42,18 @@ const ADD_NODES = gql`
   }
 `;
 
-const INITIAL_EXP = {
-  title: "",
-  skills: [],
-  startDate: "",
-  endDate: "",
-  description: "",
-};
-
 const GrantsPage: NextPageWithLayout = () => {
   const { setOpenModal } = useContext(GrantsContext);
   const { currentUser } = useContext(UserContext);
   const [view, setView] = useState<"grants" | "profile">("grants");
   const [startWelcome, setStartWelcome] = useState(false);
+  const [userState, setUserState] = useState<Members>();
+
+  useEffect(() => {
+    if (currentUser) {
+      setUserState(currentUser);
+    }
+  }, [currentUser]);
 
   const { data: dataGrants } = useQuery(FIND_GRANTS, {
     variables: {
@@ -88,48 +91,7 @@ const GrantsPage: NextPageWithLayout = () => {
   // ------- PROFILE VIEW -------
   const [step, setStep] = useState(STEPS.ROLE);
 
-  const [state, setState] = useState({
-    discordName: currentUser?.discordName,
-    discordAvatar: currentUser?.discordAvatar,
-    discriminator: currentUser?.discriminator,
-    memberRole: currentUser?.memberRole,
-    bio: currentUser?.bio as string,
-    match: 100,
-    hoursPerWeek: currentUser?.hoursPerWeek,
-    // expectedSalary: 0,
-    links: currentUser?.links,
-    background: !!currentUser?.previusProjects?.length
-      ? currentUser?.previusProjects
-      : ([{ ...INITIAL_EXP }, { ...INITIAL_EXP }, { ...INITIAL_EXP }] as
-          | any[]
-          | undefined),
-  });
   const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
-
-  useEffect(() => {
-    setState({
-      ...state,
-      discordName: currentUser?.discordName,
-      discordAvatar: currentUser?.discordAvatar,
-      discriminator: currentUser?.discriminator,
-      memberRole: currentUser?.memberRole,
-      bio: currentUser?.bio as string,
-      match: 100,
-      hoursPerWeek: currentUser?.hoursPerWeek,
-      //   expectedSalary: 0,
-      links: currentUser?.links,
-      background:
-        currentUser?.previusProjects?.length &&
-        currentUser?.previusProjects?.length > 0
-          ? currentUser?.previusProjects?.map((proj) => ({
-              title: proj?.title,
-              description: proj?.description,
-              startDate: proj?.startDate,
-              endDate: proj?.endDate,
-            }))
-          : state.background,
-    });
-  }, [currentUser]);
 
   const handleAddNodes = (val: string[]) => {
     if (!currentUser || !val) return;
@@ -185,8 +147,8 @@ const GrantsPage: NextPageWithLayout = () => {
               <Card className={"h-85 bg-white shadow"}>
                 <FillUserProfileContainer
                   step={step}
-                  state={state}
-                  setState={setState}
+                  state={userState}
+                  setState={setUserState}
                   setStep={setStep}
                   setExperienceOpen={setExperienceOpen}
                   setView={setView}
@@ -198,7 +160,7 @@ const GrantsPage: NextPageWithLayout = () => {
               <Card className={"h-85 bg-white shadow"}>
                 <ViewUserProfileContainer
                   step={step}
-                  user={state}
+                  user={userState}
                   experienceOpen={experienceOpen}
                   setExperienceOpen={setExperienceOpen}
                 />

@@ -1,25 +1,18 @@
+import { Maybe, PreviusProjectsType } from "@eden/package-graphql/generated";
 import { Calendar, TextArea, TextField, TextHeading3 } from "@eden/package-ui";
 import { PlusCircleIcon } from "@heroicons/react/outline";
 import { useEffect, useState } from "react";
-
-interface Experience {
-  title: string;
-  description: string;
-  startDate: string;
-  endDate: string;
-  // skills: any[];
-}
 
 const INITIAL_DATA = {
   title: "",
   skills: [],
   startDate: "",
   endDate: "",
-  bio: "",
+  description: "",
 };
 
 export interface IUserExperienceCardProps {
-  background?: any[];
+  background?: Maybe<Maybe<PreviusProjectsType>[]>;
   // eslint-disable-next-line no-unused-vars
   handleSubmit?: (val: any) => void;
   // eslint-disable-next-line no-unused-vars
@@ -39,7 +32,7 @@ export const UserExperienceCard = ({
   const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
 
   const handleAddExperience = () => {
-    setExperiences([...experiences, { ...INITIAL_DATA }]);
+    setExperiences([...(experiences || []), { ...INITIAL_DATA }]);
   };
   const handleOpenExperience = (index: number, open: boolean) => {
     setExperienceOpen(open ? index : null);
@@ -65,7 +58,7 @@ export const UserExperienceCard = ({
         <span className="ml-8">What did you do?</span>
         <span className="ml-24">Where did you do it?</span>
       </p>
-      {experiences.map((item, index) => (
+      {experiences?.map((item, index) => (
         <ExperienceForm
           key={index}
           open={experienceOpen === index}
@@ -73,17 +66,12 @@ export const UserExperienceCard = ({
             handleOpenExperience(index, open);
           }}
           handleChange={(val: any) => {
-            const newExperiences = [...experiences];
+            setExperiences((prev) => {
+              const newExperiences = [...(prev || [])];
 
-            newExperiences[index].title = val?.title;
-            newExperiences[index].description = val?.description;
-            newExperiences[index].startDate = val?.startDate;
-            newExperiences[index].endDate = val?.endDate;
-
-            setExperiences(newExperiences);
-            if (!newExperiences[index].title && index === experienceOpen) {
-              handleOpenExperience(index, false);
-            }
+              newExperiences[index] = val;
+              return newExperiences;
+            });
           }}
           relevant={index < 2}
           defaultValue={experiences[index]}
@@ -106,7 +94,7 @@ const ExperienceForm = ({
   handleChange,
   relevant = false,
 }: {
-  defaultValue?: any;
+  defaultValue?: Maybe<PreviusProjectsType>;
   open?: boolean;
   // eslint-disable-next-line no-unused-vars
   handleOpen?: (open: boolean) => void;
@@ -114,15 +102,15 @@ const ExperienceForm = ({
   handleChange?: (val: any) => void;
   relevant?: boolean;
 }) => {
-  const [val, setVal] = useState<Experience>({
-    title: defaultValue.title,
-    description: defaultValue.description,
-    startDate: defaultValue.startDate,
-    endDate: defaultValue.endDate,
+  const [val, setVal] = useState<PreviusProjectsType>({
+    title: defaultValue?.title,
+    description: defaultValue?.description,
+    startDate: defaultValue?.startDate,
+    endDate: defaultValue?.endDate,
   });
   const [role, setRole] = useState<string[]>([
-    defaultValue.title.split(" in ")[0] || "",
-    defaultValue.title.split(" in ")[1] || "",
+    defaultValue?.title?.split(" in ")[0] || "",
+    defaultValue?.title?.split(" in ")[1] || "",
   ]);
 
   useEffect(() => {
@@ -192,47 +180,11 @@ const ExperienceForm = ({
               name="description"
               placeholder="Start typing here..."
               onChange={(e) => setVal({ ...val, description: e.target.value })}
-              value={defaultValue?.description}
+              value={defaultValue?.description || ""}
             />
           </div>
 
           <div>
-            {/* <div>
-              <p className="mb-3 w-full text-left text-sm font-medium">
-                Skills:
-              </p>
-              <SearchSkill
-                // setSkills={(skills: any) =>
-                //   handleUpdateRole(
-                //     skills,
-                //     "skills",
-                //     currentCategoryIndex,
-                //     +currentIndex
-                //   )
-                // }
-                // skills={state[currentCategoryIndex][currentIndex]?.skills}
-                skills={undefined}
-                setSkills={undefined}
-                levels={[
-                  {
-                    title: "learning",
-                    level: "learning",
-                  },
-                  {
-                    title: "Mid Level",
-                    level: "mid",
-                  },
-                  {
-                    title: "Senior",
-                    level: "senior",
-                  },
-                  {
-                    title: "Junior",
-                    level: "junior",
-                  },
-                ]}
-              />
-            </div> */}
             <div>
               <div className="mt-3">
                 <p className="mb-3 w-full text-left text-sm font-medium">
