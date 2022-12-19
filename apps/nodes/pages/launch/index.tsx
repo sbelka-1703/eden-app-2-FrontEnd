@@ -1,6 +1,7 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { Mutation } from "@eden/package-graphql/generated";
 import {
+  AppUserSubmenuLayout,
   CreateProjectViews1,
   CreateProjectViews2,
   CreateProjectViews6,
@@ -197,6 +198,10 @@ const LaunchPage: NextPageWithLayout = () => {
     </>
   );
 };
+
+LaunchPage.getLayout = (page) => (
+  <AppUserSubmenuLayout showSubmenu={false}>{page}</AppUserSubmenuLayout>
+);
 
 export default LaunchPage;
 

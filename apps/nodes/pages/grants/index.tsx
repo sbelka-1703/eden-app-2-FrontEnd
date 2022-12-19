@@ -44,7 +44,7 @@ const INITIAL_EXP = {
   skills: [],
   startDate: "",
   endDate: "",
-  bio: "",
+  description: "",
 };
 
 const GrantsPage: NextPageWithLayout = () => {
@@ -132,7 +132,7 @@ const GrantsPage: NextPageWithLayout = () => {
         currentUser?.previusProjects?.length > 0
           ? currentUser?.previusProjects?.map((proj) => ({
               title: proj?.title,
-              bio: proj?.description,
+              description: proj?.description,
               startDate: proj?.startDate,
               endDate: proj?.endDate,
             }))

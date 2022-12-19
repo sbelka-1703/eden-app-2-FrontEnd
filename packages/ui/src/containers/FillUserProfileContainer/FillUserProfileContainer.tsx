@@ -154,7 +154,7 @@ export const FillUserProfileContainer = ({
       })),
       memberRole: state?.memberRole?._id || undefined,
       previusProjects: state?.background?.map((item: any) => ({
-        description: item.bio,
+        description: item.description,
         endDate: item.endDate,
         startDate: item.startDate,
         title: item.title,

@@ -43,8 +43,10 @@ export interface ICreateProjectTempContainerProps {
   projectUIdata?: any;
   dataProject?: any;
   selectedRole?: any;
+  // eslint-disable-next-line no-unused-vars
   setProjectUIdata: (val: any) => void;
   onFetchProject: () => void;
+  // eslint-disable-next-line no-unused-vars
   setSelectedRole: (val: any) => void;
 }
 
@@ -56,7 +58,7 @@ export const CreateProjectTempContainer = ({
   onFetchProject,
   setSelectedRole,
 }: ICreateProjectTempContainerProps) => {
-  const { currentUser } = useContext(UserContext);
+  const { currentUser, selectedServer } = useContext(UserContext);
   const [submitting, setSubmitting] = useState(false);
 
   // const [projectID, setProjectID] = useState<string>("");
@@ -75,7 +77,9 @@ export const CreateProjectTempContainer = ({
     if (!currentUser) return;
     setSubmitting(true);
 
-    const field: any = {};
+    const field: any = {
+      champion: currentUser?._id,
+    };
 
     if (projectUIdata?._id) field._id = projectUIdata._id;
     if (projectUIdata?.title) field.title = projectUIdata.title;
@@ -156,7 +160,8 @@ export const CreateProjectTempContainer = ({
               <TextField
                 name="textfield"
                 type="text"
-                value={projectUIdata?.serverID.toString()}
+                // value={projectUIdata?.serverID.toString()}
+                value={selectedServer?._id as string}
                 onChange={(e) =>
                   setProjectUIdata({
                     ...projectUIdata,
