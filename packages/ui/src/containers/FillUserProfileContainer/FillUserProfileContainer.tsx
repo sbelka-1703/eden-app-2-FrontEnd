@@ -1,14 +1,7 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
 import { FIND_ROLE_TEMPLATES, UPDATE_MEMBER } from "@eden/package-graphql";
-import {
-  Endorsements,
-  LinkType,
-  Maybe,
-  PreviusProjectsType,
-  RoleTemplate,
-  Scalars,
-} from "@eden/package-graphql/generated";
+import { Maybe, Members, RoleTemplate } from "@eden/package-graphql/generated";
 import {
   BatteryStepper,
   Button,
@@ -29,25 +22,12 @@ import {
 } from "react";
 
 export interface IFillUserProfileContainerProps {
-  state: any;
+  state?: Members;
   setState: Dispatch<SetStateAction<any>>;
   step?: string | undefined;
   // eslint-disable-next-line no-unused-vars
   setStep: Dispatch<SetStateAction<STEPS>>;
   setView?: Dispatch<SetStateAction<"grants" | "profile">>;
-  user?: {
-    bio?: Maybe<Scalars["String"]>;
-
-    discordAvatar?: Maybe<Scalars["String"]>;
-    discordName?: Maybe<Scalars["String"]>;
-    discriminator?: Maybe<Scalars["String"]>;
-    endorsements?: Maybe<Array<Maybe<Endorsements>>>;
-
-    hoursPerWeek?: Maybe<Scalars["Float"]>;
-    links?: Maybe<Array<Maybe<LinkType>>>;
-    memberRole?: Maybe<RoleTemplate>;
-    background?: Maybe<Array<Maybe<PreviusProjectsType>>>;
-  };
   experienceOpen?: number | null;
   percentage?: number;
   // eslint-disable-next-line no-unused-vars
@@ -103,7 +83,7 @@ export const FillUserProfileContainer = ({
   const handleSetBackground = (value: any[]) => {
     setState({
       ...state,
-      background: value,
+      previusProjects: value,
     });
   };
 
@@ -111,25 +91,25 @@ export const FillUserProfileContainer = ({
     if (currentUser?.links)
       setState({
         ...state,
-        links: state?.links?.map((link: LinkType) => {
+        links: state?.links?.map((link) => {
           let newLink = { ...link };
 
-          if (link.name === "twitter")
+          if (link?.name === "twitter")
             newLink = {
               ...newLink,
               url: link?.url?.replace("https://twitter.com/", ""),
             };
-          if (link.name === "github")
+          if (link?.name === "github")
             newLink = {
               ...newLink,
               url: link?.url?.replace("https://github.com/", ""),
             };
-          if (link.name === "lens")
+          if (link?.name === "lens")
             newLink = {
               ...newLink,
               url: link?.url?.replace("https://www.lensfrens.xyz/", ""),
             };
-          if (link.name === "telegram")
+          if (link?.name === "telegram")
             newLink = {
               ...newLink,
               url: link?.url?.replace("https://t.me/", ""),
@@ -153,7 +133,7 @@ export const FillUserProfileContainer = ({
         name: item?.name,
       })),
       memberRole: state?.memberRole?._id || undefined,
-      previusProjects: state?.background?.map((item: any) => ({
+      previusProjects: state?.previusProjects?.map((item: any) => ({
         description: item.description,
         endDate: item.endDate,
         startDate: item.startDate,
@@ -178,7 +158,7 @@ export const FillUserProfileContainer = ({
         <section className="mb-4 grid grid-cols-4 gap-2">
           <div className="col-span-3">
             <h2 className="mb-2 text-lg font-medium">
-              Hello & Welcome! Let’s complete your profile step by step 🚀
+              {`Hello & Welcome! Let’s complete your profile step by step 🚀`}
             </h2>
             <p>
               {`Your profile is at ${percentage}% right now. In order to be visible to
@@ -205,7 +185,7 @@ export const FillUserProfileContainer = ({
               <>
                 <p>{`Let's start with your role:`}</p>
                 <RoleSelector
-                  value={state.memberRole?.title || ""}
+                  value={state?.memberRole?.title || ""}
                   roles={
                     dataRoles?.findRoleTemplates as Maybe<
                       Array<Maybe<RoleTemplate>>
@@ -270,28 +250,27 @@ export const FillUserProfileContainer = ({
                       platform={item}
                       placeholder={placeholder}
                       value={
-                        state.links?.find(
-                          (link: LinkType) => link?.name === item
-                        )?.url || ""
+                        state?.links?.find((link) => link?.name === item)
+                          ?.url || ""
                       }
                       onChange={(e) => {
-                        let newLinks = state.links ? [...state.links] : [];
-                        const hasLink = state.links?.some(
-                          (link: LinkType) => link?.name === item
+                        let newLinks = state?.links ? [...state.links] : [];
+                        const hasLink = state?.links?.some(
+                          (link) => link?.name === item
                         );
 
                         if (hasLink) {
                           newLinks = newLinks.map((link) => {
                             let newUrl = e.target.value;
 
-                            if (link.name === "twitter")
+                            if (link?.name === "twitter")
                               newUrl = "https://twitter.com/" + e.target.value;
-                            if (link.name === "github")
+                            if (link?.name === "github")
                               newUrl = "https://github.com/" + e.target.value;
-                            if (link.name === "lens")
+                            if (link?.name === "lens")
                               newUrl =
                                 "https://www.lensfrens.xyz/" + e.target.value;
-                            if (link.name === "telegram")
+                            if (link?.name === "telegram")
                               newUrl = "https://t.me/" + e.target.value;
 
                             return link?.name === item
@@ -331,7 +310,7 @@ export const FillUserProfileContainer = ({
             )}
             {step === STEPS.EXP && (
               <UserExperienceCard
-                background={state.background}
+                background={state?.previusProjects}
                 handleChange={(val) => handleSetBackground(val)}
                 handleChangeOpenExperience={(val) => {
                   if (setExperienceOpen) setExperienceOpen(val);
@@ -344,7 +323,7 @@ export const FillUserProfileContainer = ({
           <section className="relative flex pb-4">
             {step === STEPS.EXP &&
               percentage < 50 &&
-              !state.background.some((bg: any) => !!bg.title) && (
+              !state?.previusProjects?.some((bg: any) => !!bg.title) && (
                 <section className="absolute right-0 -top-6">
                   <span className="text-red-400">{`fill minimum 50% and 1 background`}</span>
                 </section>
@@ -378,7 +357,7 @@ export const FillUserProfileContainer = ({
                 className={`ml-auto disabled:border-slate-300 disabled:bg-slate-300 disabled:text-slate-200`}
                 disabled={
                   percentage < 50 &&
-                  !state.background.some((bg: any) => !!bg.title)
+                  !state?.previusProjects?.some((bg: any) => !!bg.title)
                 }
                 onClick={() => handleSubmitForm()}
               >
