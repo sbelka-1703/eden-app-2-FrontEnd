@@ -7,11 +7,13 @@ import {
   Button,
   Card,
   CreateProjectTempContainer,
+  GridItemEight,
+  GridItemTwo,
+  GridLayout,
   SelectNodesModal,
   SEO,
 } from "@eden/package-ui";
 import { useEffect, useState } from "react";
-import { FaUserEdit } from "react-icons/fa";
 
 import type { NextPageWithLayout } from "../_app";
 
@@ -23,22 +25,13 @@ export const ADD_NODES_PROJECT_ROLE = gql`
   }
 `;
 
-const ProfilePage: NextPageWithLayout = () => {
+const CreateProjectPage: NextPageWithLayout = () => {
   const { data: dataRoles } = useQuery(FIND_ROLE_TEMPLATES, {
     variables: {
       fields: {},
     },
     context: { serviceName: "soilservice" },
   });
-
-  const [activeIndex, setActiveIndex] = useState(0);
-  const submenu = [
-    {
-      Icon: <FaUserEdit size={25} />,
-      FunctionName: "Edit Profile",
-      onFunctionCallback: () => setActiveIndex(0),
-    },
-  ];
 
   const [openModalExpertise, setopenModalExpertise] = useState(false);
 
@@ -130,12 +123,14 @@ const ProfilePage: NextPageWithLayout = () => {
   return (
     <>
       <SEO />
-      <AppUserSubmenuLayout submenu={submenu} activeIndex={activeIndex}>
-        <Card
-          shadow
-          className={`h-85 scrollbar-hide overflow-y-scroll bg-white`}
-        >
-          {activeIndex === 0 && (
+
+      <GridLayout className={`bg-background h-screen`}>
+        <GridItemTwo> </GridItemTwo>
+        <GridItemEight>
+          <Card
+            shadow
+            className={`h-85 scrollbar-hide overflow-y-scroll bg-white`}
+          >
             <>
               {selectedRole > -1 ? (
                 <Card shadow className={`mb-4 p-6`}>
@@ -251,14 +246,19 @@ const ProfilePage: NextPageWithLayout = () => {
                 }}
               />
             </>
-          )}
-        </Card>
-      </AppUserSubmenuLayout>
+          </Card>
+        </GridItemEight>
+        <GridItemTwo> </GridItemTwo>
+      </GridLayout>
     </>
   );
 };
 
-export default ProfilePage;
+CreateProjectPage.getLayout = (page) => (
+  <AppUserSubmenuLayout showSubmenu={false}>{page}</AppUserSubmenuLayout>
+);
+
+export default CreateProjectPage;
 
 import { IncomingMessage, ServerResponse } from "http";
 import { getSession } from "next-auth/react";

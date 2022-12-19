@@ -11,6 +11,7 @@ export * from "./LaunchProjectContainer";
 export * from "./NewProfileContainer";
 export * from "./NodesOnboardPartyContainer";
 export * from "./OnboardPartyContainer";
+export * from "./ProjectsModalContainer";
 export * from "./ShortlistContainer";
 export * from "./ShortlistMemberContainer";
 export * from "./ShortlistSideContainer";

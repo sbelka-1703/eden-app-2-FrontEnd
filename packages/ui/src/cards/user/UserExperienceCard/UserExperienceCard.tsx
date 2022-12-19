@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 interface Experience {
   title: string;
-  bio: string;
+  description: string;
   startDate: string;
   endDate: string;
   // skills: any[];
@@ -76,7 +76,7 @@ export const UserExperienceCard = ({
             const newExperiences = [...experiences];
 
             newExperiences[index].title = val?.title;
-            newExperiences[index].bio = val?.bio;
+            newExperiences[index].description = val?.description;
             newExperiences[index].startDate = val?.startDate;
             newExperiences[index].endDate = val?.endDate;
 
@@ -116,7 +116,7 @@ const ExperienceForm = ({
 }) => {
   const [val, setVal] = useState<Experience>({
     title: defaultValue.title,
-    bio: defaultValue.bio,
+    description: defaultValue.description,
     startDate: defaultValue.startDate,
     endDate: defaultValue.endDate,
   });
@@ -189,10 +189,10 @@ const ExperienceForm = ({
             </p>
             <TextArea
               rows={5}
-              name="bio"
+              name="description"
               placeholder="Start typing here..."
-              onChange={(e) => setVal({ ...val, bio: e.target.value })}
-              value={defaultValue?.bio}
+              onChange={(e) => setVal({ ...val, description: e.target.value })}
+              value={defaultValue?.description}
             />
           </div>
 
@@ -238,7 +238,6 @@ const ExperienceForm = ({
                 <p className="mb-3 w-full text-left text-sm font-medium">
                   Timeline: {`(optional)`}
                 </p>
-
                 <Calendar
                   onlyMonthPicker
                   containerClassName="w-full mb-4"
