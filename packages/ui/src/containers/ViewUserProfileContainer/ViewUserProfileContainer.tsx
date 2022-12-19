@@ -103,20 +103,17 @@ export const ViewUserProfileContainer = ({
               />
             </div> */}
             <div
-              className={`mt-8 pl-14 ${
+              className={`pl-14 ${
                 step !== STEPS.SOCIALS ? "blur-sm brightness-50" : ""
               }`}
             >
-              {!!user?.links?.length && (
-                <SocialMediaComp
-                  title=""
-                  links={user.links?.map((link: Maybe<LinkType>) => ({
-                    name: link?.name?.toLowerCase(),
-                    url: link?.url,
-                  }))}
-                  size="sm"
-                />
-              )}
+              <SocialMediaComp
+                links={user?.links?.map((link: Maybe<LinkType>) => ({
+                  name: link?.name?.toLowerCase(),
+                  url: link?.url,
+                }))}
+                size="sm"
+              />
             </div>
           </div>
         </div>
