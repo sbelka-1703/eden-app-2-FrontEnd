@@ -18,7 +18,10 @@ export const WarningCard = ({
   text2 = "Projects can't see you",
 }: WarningCardProps) => {
   return (
-    <Card shadow className="w-full border-[2px] bg-white p-10 font-semibold">
+    <Card
+      shadow
+      className="w-full flex-grow border-[2px] bg-white p-10 font-semibold"
+    >
       <div className="flex flex-col content-center items-center justify-center justify-items-center tracking-wide">
         {profilePercentage !== null && (
           <div className="absolute right-4 top-4">

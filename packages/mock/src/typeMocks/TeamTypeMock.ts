@@ -1,14 +1,15 @@
 import { Team } from "@eden/package-graphql/generated";
 import { faker } from "@faker-js/faker";
 
-import { getMemberArray } from "../graphqlMocks/MembersMock";
+// TODO: NEED A LIGHTER MOCK FOR MEMBER, SLOW TOO LOAD
+// import { getMemberArray } from "../graphqlMocks/MembersMock";
 
 export const getTeamTypeMock = (): Team => ({
   _id: String(faker.random.numeric(5)),
   name: faker.name.firstName(),
-  champion: getMemberArray(Number(faker.random.numeric(1))),
+  // champion: getMemberArray(Number(faker.random.numeric(1))),
   description: faker.lorem.paragraph(),
-  members: getMemberArray(Number(faker.random.numeric(2))),
+  // members: getMemberArray(Number(faker.random.numeric(2))),
   serverID: ["996558082098339953"],
 });
 

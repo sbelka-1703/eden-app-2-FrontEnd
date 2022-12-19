@@ -1,6 +1,8 @@
 import { Maybe, RoleType } from "@eden/package-graphql/generated";
 import { Badge, Button, Card } from "@eden/package-ui";
 
+import { round } from "../../../utils";
+
 export interface OpenPositionCardProps {
   role?: Maybe<RoleType>;
   percentage?: number;
@@ -24,9 +26,11 @@ export const OpenPositionCard = ({
         <div className={padding}>
           <div className="flex flex-row	justify-between">
             <span className="text-xl font-medium">{role?.title}</span>
-            <span className="text-soilPurple text-xl font-semibold">
-              {percentage}%
-            </span>
+            {percentage && percentage > 0 ? (
+              <span className="text-soilPurple text-xl font-semibold">
+                {round(percentage, 0)}%
+              </span>
+            ) : null}
           </div>
           <div className="mt-2 flex">
             {role?.skills?.map((skill, index) => {

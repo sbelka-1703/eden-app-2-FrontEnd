@@ -24,6 +24,7 @@ import {
   ViewUserProfileContainer,
   WarningCard,
 } from "@eden/package-ui";
+import { STEPS } from "@eden/package-ui/utils";
 import { getFillProfilePercentage } from "@eden/package-ui/utils/fill-profile-percentage";
 import { useContext, useEffect, useState } from "react";
 
@@ -43,13 +44,12 @@ const INITIAL_EXP = {
   skills: [],
   startDate: "",
   endDate: "",
-  bio: "",
+  description: "",
 };
 
 const GrantsPage: NextPageWithLayout = () => {
   const { setOpenModal } = useContext(GrantsContext);
-  const { currentUser } = useContext(UserContext);
-  const { memberServers } = useContext(UserContext);
+  const { currentUser, memberServers } = useContext(UserContext);
   const [nodesID, setNodesID] = useState<string[] | null>(null);
   const [serverID, setServerID] = useState<string | null>(null);
   const [view, setView] = useState<"grants" | "profile">("grants");
@@ -132,7 +132,7 @@ const GrantsPage: NextPageWithLayout = () => {
         currentUser?.previusProjects?.length > 0
           ? currentUser?.previusProjects?.map((proj) => ({
               title: proj?.title,
-              bio: proj?.description,
+              description: proj?.description,
               startDate: proj?.startDate,
               endDate: proj?.endDate,
             }))
@@ -269,7 +269,6 @@ GrantsPage.getLayout = (page) => (
 
 export default GrantsPage;
 
-import { STEPS } from "@eden/package-ui/utils";
 import { IncomingMessage, ServerResponse } from "http";
 import { getSession } from "next-auth/react";
 

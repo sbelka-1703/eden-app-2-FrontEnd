@@ -11,8 +11,8 @@ export const getProjectMemberTypeMock = (): ProjectMemberType => ({
     _id: String(faker.random.numeric(5)),
     description: faker.lorem.sentences(5),
     descriptionOneLine: faker.lorem.sentence(),
-    emoji: "👨‍🎨",
-    backColorEmoji: "#F5F5F5",
+    emoji: faker.internet.emoji(),
+    backColorEmoji: faker.color.rgb({ prefix: "#" }),
     title: faker.name.firstName(),
     team: [
       {

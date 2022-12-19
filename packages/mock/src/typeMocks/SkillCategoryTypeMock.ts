@@ -9,7 +9,7 @@ import { skills } from "../data";
 export const getSkillCategoryTypeMock = (): SkillCategory => ({
   _id: String(faker.random.numeric(5)),
   description: faker.lorem.paragraph(),
-  emoji: faker.helpers.arrayElement(["🚀", "👨‍🚀", "👩‍🚀"]),
+  emoji: faker.internet.emoji(),
   name: faker.name.firstName(),
   skills: faker.helpers.uniqueArray(skills, 1),
   subCategorySkill: getSkillSubCategoryTypeMockArray(
@@ -24,7 +24,7 @@ export const getSkillSubCategoryTypeMock = (): SkillSubCategory => {
   return {
     _id: String(faker.random.numeric(5)),
     description: faker.lorem.paragraph(),
-    emoji: faker.helpers.arrayElement(["🚀", "👨‍🚀", "👩‍🚀"]),
+    emoji: faker.internet.emoji(),
     name: faker.name.firstName(),
     skills: faker.helpers.uniqueArray(skills, 1),
   };
