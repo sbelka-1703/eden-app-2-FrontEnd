@@ -1,4 +1,4 @@
-# `jest-presets`
+# `@eden/package-jest-presets`
 
 This packages holds shared `jest` configuration.
 
@@ -10,19 +10,19 @@ We currently have the following preset available:
 
 Follow these steps to add `jest` support to a new or existing package in our monorepo:
 
-1. Add `jest-presets`
+1. Add `@eden/package-jest-presets`
 
    ```sh
-   yarn workspace @eden/<package> add -D jest-presets@*
+   yarn workspace @eden/<package> add -D @eden/package-jest-presets@*
    ```
 
-1. Create `jest.config.ts` with the `jest-presets/jest/jsdom` preset
+1. Create `jest.config.ts` with the `@eden/package-jest-presets/jest/jsdom` preset
 
    ```ts
    import type { Config } from "jest";
 
    const config: Config = {
-     preset: "jest-presets/jest/jsdom",
+     preset: "@eden/package-jest-presets/jest/jsdom",
    };
 
    export default config;

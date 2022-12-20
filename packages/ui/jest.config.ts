@@ -1,7 +1,7 @@
 import type { Config } from "jest";
 
 const config: Config = {
-  preset: "jest-presets/jest/jsdom",
+  preset: "@eden/package-jest-presets/jest/jsdom",
 };
 
 export default config;

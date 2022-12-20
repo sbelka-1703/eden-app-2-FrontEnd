@@ -1,5 +1,5 @@
 {
-  "name": "jest-presets",
+  "name": "@eden/package-jest-presets",
   "private": true,
   "version": "0.0.0"
 }

@@ -28,7 +28,7 @@
     "emoji-picker-react": "^3.6.1",
     "eslint": "^8.20.0",
     "identity-obj-proxy": "^3.0.0",
-    "jest-presets": "*",
+    "@eden/package-jest-presets": "*",
     "next-router-mock": "^0.8.0",
     "react-chartjs-2": "^4.3.1",
     "react-confetti": "^6.1.0",
