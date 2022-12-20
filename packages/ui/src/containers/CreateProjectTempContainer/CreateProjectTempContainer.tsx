@@ -141,7 +141,7 @@ export const CreateProjectTempContainer = ({
                 />
               </div>
               <br />
-              <TextBody>Bio:</TextBody>
+              <TextBody>Description:</TextBody>
               <TextArea
                 // value={currentUser?.bio!}
                 // onChange={(e) => setBio(e.target.value)}
