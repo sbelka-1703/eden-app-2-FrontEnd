@@ -11,7 +11,7 @@
     "dev:alpha": "turbo run dev --filter=@eden/app-alpha... --parallel",
     "dev:nodes": "turbo run dev --filter=@eden/app-nodes... --parallel",
     "dev:grants": "turbo run dev --filter=@eden/app-grants... --parallel",
-    "storybook": "yarn workspace storybook sb",
+    "storybook": "yarn workspace storybook storybook",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{js,ts,tsx,md}\"",
     "test": "yarn workspace @eden/package-ui test",

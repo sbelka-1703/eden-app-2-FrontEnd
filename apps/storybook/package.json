@@ -6,7 +6,6 @@
     "storybook": "start-storybook -p 6006",
     "build:storybook": "build-storybook",
     "build-storybook": "build-storybook",
-    "sb": "yarn storybook",
     "start": "yarn build-storybook && http-server ./storybook-static",
     "clean": "rm -rf node_modules",
     "clean-windows": "rd /s /q node_modules"
