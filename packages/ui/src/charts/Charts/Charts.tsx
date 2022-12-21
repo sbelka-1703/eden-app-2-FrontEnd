@@ -8,6 +8,7 @@
 //   Legend,
 //   LabelList,
 // } from "recharts";
+import { SkillsPercentage } from "@eden/package-graphql/generated";
 import {
   CategoryScale,
   Chart as ChartJS,
@@ -19,7 +20,7 @@ import {
   Tooltip,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { SkillsPercentage } from "@eden/package-graphql/generated";
+
 export interface IChartsProps {
   data: Array<SkillsPercentage> | any;
   color?: string;

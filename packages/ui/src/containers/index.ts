@@ -1,5 +1,6 @@
 export * from "./ApplyByRoleContainer";
 export * from "./ChampionMatchContainer";
+export * from "./ChampionNodesMatchContainer";
 export * from "./ConfettiContainer";
 export * from "./CreateProject";
 export * from "./CreateProjectTempContainer";
@@ -11,6 +12,7 @@ export * from "./LaunchProjectContainer";
 export * from "./NewProfileContainer";
 export * from "./NodesOnboardPartyContainer";
 export * from "./OnboardPartyContainer";
+export * from "./ProjectsModalContainer";
 export * from "./ShortlistContainer";
 export * from "./ShortlistMemberContainer";
 export * from "./ShortlistSideContainer";

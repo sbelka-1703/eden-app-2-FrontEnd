@@ -1,28 +1,21 @@
-import {
-  MatchMembersToSkillOutput,
-  Maybe,
-} from "@eden/package-graphql/generated";
+import { Maybe, Members } from "@eden/package-graphql/generated";
 import {
   Avatar,
   Card,
   SocialMediaComp,
-  TextHeading2,
+  // TextHeading2,
   TextHeading3,
 } from "@eden/package-ui";
 import { GrExpand } from "react-icons/gr";
 
 export interface UserMiniCardProps {
-  matchMember?: Maybe<MatchMembersToSkillOutput>;
+  member?: Maybe<Members>;
   item?: any;
-  resultCardFlag?: any;
-  resultPopUpFlag?: any;
   onExpand?: () => void;
 }
 
-export const UserMiniCard = ({ matchMember, onExpand }: UserMiniCardProps) => {
-  const member = matchMember?.member;
-
-  if (!matchMember) {
+export const UserMiniCard = ({ member, onExpand, item }: UserMiniCardProps) => {
+  if (!member && !item) {
     return null;
   }
   return (
@@ -33,18 +26,28 @@ export const UserMiniCard = ({ matchMember, onExpand }: UserMiniCardProps) => {
           <div>
             <div className={`relative flex flex-col items-center`}>
               <div className="relative">
-                <Avatar src={member?.discordAvatar as string} />
+                <Avatar
+                  src={
+                    (member?.discordAvatar as string) || item?.championPicture
+                  }
+                />
               </div>
               <div className="flex justify-center">
-                <TextHeading2>@{member?.discordName}</TextHeading2>
-              </div>
-              <div className="flex justify-center">
-                <TextHeading3 className="text-sm text-gray-600">
-                  {member?.memberRole?.title}
+                <TextHeading3>
+                  @{member?.discordName || item?.discordName}
                 </TextHeading3>
               </div>
               <div className="flex justify-center">
-                <SocialMediaComp size="1.2rem" title="" links={member?.links} />
+                <TextHeading3 className="text-sm uppercase text-gray-400">
+                  {member?.memberRole?.title || item?.designation}
+                </TextHeading3>
+              </div>
+              <div className="flex justify-center">
+                <SocialMediaComp
+                  size="sm"
+                  title=""
+                  links={member?.links || item?.links}
+                />
               </div>
             </div>
           </div>

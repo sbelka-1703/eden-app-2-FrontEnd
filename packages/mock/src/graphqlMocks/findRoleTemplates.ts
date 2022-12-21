@@ -1,6 +1,6 @@
-import { Maybe, RoleTemplate } from "@eden/package-graphql/generated";
+import { RoleTemplate } from "@eden/package-graphql/generated";
 
-export const findRoleTemplates: Maybe<Array<Maybe<RoleTemplate>>> = [
+export const findRoleTemplates: RoleTemplate[] = [
   {
     _id: "62f14dc33235560004a48119",
     description: null,

@@ -14,15 +14,16 @@ export interface RoleListProps {
   handleEditRole?: (id: string) => void;
   // eslint-disable-next-line no-unused-vars
   handleSelectRole?: (val: Maybe<RoleType>) => void;
+  addRole?: boolean;
 }
 export const RoleList: React.FC<RoleListProps> = ({
   roles,
   handleAddRole,
   handleSelectRole,
-  // eslint-disable-next-line no-unused-vars
-  handleEditRole,
+  // handleEditRole,
   selectedRole,
   members,
+  addRole = true,
 }) => {
   const [seeMore, setSeeMore] = useState(false);
 
@@ -54,16 +55,18 @@ export const RoleList: React.FC<RoleListProps> = ({
       <div className="grid grid-cols-2 gap-2">
         {cards?.slice(0, 3)}
         {seeMore ? cards?.slice(3) : null}
-        <div className="col-span-1 flex items-center justify-center">
-          <Button
-            radius="rounded"
-            variant="secondary"
-            onClick={handleAddRole}
-            className="mx-auto"
-          >
-            <TextBody>Add role</TextBody>
-          </Button>
-        </div>
+        {addRole && (
+          <div className="col-span-1 flex items-center justify-center">
+            <Button
+              radius="rounded"
+              variant="secondary"
+              onClick={handleAddRole}
+              className="mx-auto"
+            >
+              <TextBody>Add role</TextBody>
+            </Button>
+          </div>
+        )}
       </div>
       {cards && cards.length >= 4 && (
         <p

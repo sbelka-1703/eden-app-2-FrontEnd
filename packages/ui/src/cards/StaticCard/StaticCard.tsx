@@ -9,8 +9,7 @@ import {
   LongText,
   ProfileExpandedModal,
   SocialMediaComp,
-  // StaticModal,
-  StaticNewModal,
+  StaticModal,
   TextBody,
   TextHeading3,
   TextLabel,
@@ -21,12 +20,14 @@ export interface IStaticCardProps {
   item?: any;
   resultCardFlag?: any;
   resultPopUpFlag?: any;
+  onOpen?: (() => void) | null;
 }
 
 export const StaticCard = ({
   item,
   resultCardFlag,
   resultPopUpFlag,
+  onOpen = null,
 }: IStaticCardProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -80,7 +81,9 @@ export const StaticCard = ({
           )}
         </div>
         <div>
-          <Button onClick={() => setIsOpen(!isOpen)}>More</Button>
+          <Button onClick={() => (onOpen ? onOpen() : setIsOpen(!isOpen))}>
+            More
+          </Button>
         </div>
       </div>
       <div className="flex flex-col items-center justify-center">
@@ -90,7 +93,7 @@ export const StaticCard = ({
 
         {item?.socials && (
           <SocialMediaComp
-            size="1.2rem"
+            size="sm"
             title=""
             links={item.socials.map(
               (social: { name: string; link: string }) => ({
@@ -181,13 +184,7 @@ export const StaticCard = ({
           onClose={() => setIsOpen(!isOpen)}
         />
       ) : (
-        // <StaticModal
-        //   item={item}
-        //   resultPopUpFlag={resultPopUpFlag}
-        //   open={isOpen}
-        //   onClose={() => setIsOpen(!isOpen)}
-        // />
-        <StaticNewModal
+        <StaticModal
           item={item}
           resultPopUpFlag={resultPopUpFlag}
           open={isOpen}

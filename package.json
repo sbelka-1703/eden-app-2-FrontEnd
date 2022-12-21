@@ -23,7 +23,6 @@
     "build": "turbo run build --filter=web...",
     "build:alpha": "turbo run build --filter=@eden/app-alpha...",
     "build:nodes": "turbo run build --filter=@eden/app-nodes...",
-    "build:grants": "turbo run build --filter=@eden/app-grants...",
     "build:storybook": "turbo run build:storybook --filter=storybook...",
     "build-storybook": "yarn workspace storybook build-storybook",
     "prepare": "husky install",

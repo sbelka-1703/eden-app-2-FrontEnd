@@ -1,4 +1,5 @@
 import { LinkType, Maybe } from "@eden/package-graphql/generated";
+import clsx from "clsx";
 import { useEffect, useState } from "react";
 import {
   FaDiscord,
@@ -14,10 +15,11 @@ export interface ISocialMediaCompProps {
   size?: string;
   color?: string;
 }
+import { TextHeading3 } from "@eden/package-ui";
 
 export const SocialMediaComp = ({
   links,
-  size = "2rem",
+  size = "md",
   color,
   title = "SOCIALS",
 }: ISocialMediaCompProps) => {
@@ -29,7 +31,22 @@ export const SocialMediaComp = ({
   const [notionLink, setNotionLink] = useState("");
   const [lensLink, setLensLink] = useState("");
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const sizeCls = clsx({
+    "1rem": size === "xs",
+    "1.2rem": size === "sm",
+    "2rem": size === "md",
+    "2.5rem": size === "lg",
+    "3rem": size === "xl",
+  });
+
+  const sizeSVG = clsx({
+    "w-4 h-4": size === "xs",
+    "w-5 h-5": size === "sm",
+    "w-8 h-8": size === "md",
+    "w-10 h-10": size === "lg",
+    "w-12 h-12": size === "xl",
+  });
+
   useEffect(() => {
     if (links) {
       const twitter = links.find((link) => link?.name === "twitter");
@@ -48,66 +65,72 @@ export const SocialMediaComp = ({
       if (linkedin) setLinkedinUrl(linkedin.url ?? "");
       if (lens) setLensLink(lens.url ?? "");
     }
-  }),
+  }, [links]),
     [links];
 
   // console.log("links", links);
   return (
     <div>
       {title && (
-        <div
-          className={`mb-3 text-sm font-semibold tracking-widest subpixel-antialiased`}
+        // <div
+        //   className={`mb-3 text-sm font-semibold tracking-widest subpixel-antialiased`}
+        // >
+        //   {title}
+        // </div>
+        <TextHeading3
+          style={{ fontWeight: 700 }}
+          className="mb-2 text-sm uppercase text-gray-500"
         >
           {title}
-        </div>
+        </TextHeading3>
       )}
       <div className={`flex flex-wrap`}>
         {twitterUrl && (
           <div className="mr-2 mb-2">
             <a href={`${twitterUrl}`} target="_blank" rel="noreferrer">
-              <FaTwitter size={size} color={color ? color : "#00acee"} />
+              <FaTwitter size={sizeCls} color={color ? color : "#00acee"} />
             </a>
           </div>
         )}
         {telegramUrl && (
           <div className="mr-2 mb-2">
             <a href={`${telegramUrl}`} target="_blank" rel="noreferrer">
-              <FaTelegram size={size} color={color ? color : "#BCBCBC"} />
+              <FaTelegram size={sizeCls} color={color ? color : "#BCBCBC"} />
             </a>
           </div>
         )}
         {discordUrl && (
           <div className="mr-2 mb-2">
             <a href={`${discordUrl}`} target="_blank" rel="noreferrer">
-              <FaDiscord size={size} color={color ? color : "#BCBCBC"} />
+              <FaDiscord size={sizeCls} color={color ? color : "#BCBCBC"} />
             </a>
           </div>
         )}
         {githubUrl && (
           <div className="mr-2 mb-2">
             <a href={`${githubUrl}`} target="_blank" rel="noreferrer">
-              <FaGithub size={size} color={color ? color : "#BCBCBC"} />
+              <FaGithub size={sizeCls} color={color ? color : "#BCBCBC"} />
             </a>
           </div>
         )}
         {linkedinUrl && (
           <div className="mr-2 mb-2">
             <a href={`${githubUrl}`} target="_blank" rel="noreferrer">
-              <FaLinkedin size={size} color={color ? color : "#0e76a8"} />
+              <FaLinkedin size={sizeCls} color={color ? color : "#0e76a8"} />
             </a>
           </div>
         )}
         {notionLink && (
           <div className="mr-2 mb-2">
             <a href={`${notionLink}`} target="_blank" rel="noreferrer">
-              <SiNotion size={size} color={color ? color : "#BCBCBC"} />
+              <SiNotion size={sizeCls} color={color ? color : "#BCBCBC"} />
             </a>
           </div>
         )}
         {lensLink && (
           <div className="mr-2 mb-2">
             <a href={`${lensLink}`} target="_blank" rel="noreferrer">
-              <LensIcon />
+              <LensIcon sizeSVG={sizeSVG} />
             </a>
           </div>
         )}
@@ -116,10 +139,10 @@ export const SocialMediaComp = ({
   );
 };
 
-const LensIcon = () => {
+const LensIcon = ({ sizeSVG }: { sizeSVG: string }) => {
   return (
     <svg
-      className="h-8 w-8 text-gray-900"
+      className={`${sizeSVG} text-gray-900`}
       fill="none"
       stroke="currentColor"
       viewBox="0 0 450 450"

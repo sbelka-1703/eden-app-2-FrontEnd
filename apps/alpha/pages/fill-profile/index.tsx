@@ -49,7 +49,7 @@ const INITIAL_EXP = {
   skills: [],
   startDate: "",
   endDate: "",
-  bio: "",
+  description: "",
 };
 
 const FillProfilePage: NextPageWithLayout = () => {
@@ -120,7 +120,7 @@ const FillProfilePage: NextPageWithLayout = () => {
       links: currentUser?.links,
       background: currentUser?.previusProjects?.map((proj) => ({
         title: proj?.title,
-        bio: proj?.description,
+        description: proj?.description,
         startDate: proj?.startDate,
         endDate: proj?.endDate,
       })),
@@ -139,7 +139,7 @@ const FillProfilePage: NextPageWithLayout = () => {
       })),
       memberRole: state?.memberRole?._id || undefined,
       previusProjects: state?.background?.map((item: any) => ({
-        description: item.bio,
+        description: item.description,
         endDate: item.endDate,
         startDate: item.startDate,
         title: item.title,
@@ -469,7 +469,7 @@ const FillProfilePage: NextPageWithLayout = () => {
                           name: link?.name?.toLowerCase(),
                           url: link?.url,
                         }))}
-                        size="1.8rem"
+                        size="sm"
                       />
                     )}
                   </div>

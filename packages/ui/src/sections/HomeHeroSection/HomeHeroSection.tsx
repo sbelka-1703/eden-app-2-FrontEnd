@@ -14,18 +14,46 @@ export interface IHomeHeroSectionProps {
   opportunityPage?: boolean;
   discoverPage?: boolean;
   launchPage?: boolean;
+  grantsPage?: boolean;
+  projectsPage?: boolean;
+  usersPage?: boolean;
 }
 
 export const HomeHeroSection = ({
   opportunityPage,
   discoverPage,
   launchPage,
+  grantsPage,
+  projectsPage,
+  usersPage,
 }: IHomeHeroSectionProps) => {
   const router = useRouter();
   const [displayNav, setDisplayNav] = useState<INavItems[]>([]);
 
   useEffect(() => {
     const navItems = [
+      {
+        title: "Discover Grants",
+        href: "/grants",
+        bgColor: "rgba(255, 242, 104, 0.3",
+        description: "Find a grant and apply for it!",
+        display: grantsPage,
+      },
+      {
+        title: "Find Projects",
+        href: "/projects",
+        bgColor: "rgba(155, 103, 255, 0.3)",
+        description: "Find a project, and apply for it!",
+        display: projectsPage,
+      },
+      {
+        title: "Find Users",
+        href: "/discover",
+        bgColor: "rgba(116, 250, 109, 0.3)",
+        description:
+          "Find Members of Eden to collaborate, create projects, and apply for grants!",
+        display: usersPage,
+      },
       {
         title: "Discover Opportunities",
         href: "/signup",
@@ -45,7 +73,7 @@ export const HomeHeroSection = ({
       {
         title: "Launch new Project",
         href: "/launch",
-        bgColor: "rgba(116, 250, 109, 0.3)",
+        bgColor: "rgba(255, 242, 104, 0.3)",
         description:
           "Become a Champion of your own adventure! + gather a team of your dreams :)",
         display: launchPage,
@@ -54,7 +82,14 @@ export const HomeHeroSection = ({
     const showNavItems = navItems.filter((item) => item.display);
 
     setDisplayNav(showNavItems);
-  }, [opportunityPage, discoverPage, launchPage]);
+  }, [
+    opportunityPage,
+    discoverPage,
+    launchPage,
+    grantsPage,
+    projectsPage,
+    usersPage,
+  ]);
 
   return (
     <Card

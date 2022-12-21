@@ -15,6 +15,7 @@ export interface RequirementsModalProps {
   battery?: boolean;
   numMatches?: number | string;
   matchType?: string;
+  text?: string;
   // eslint-disable-next-line no-unused-vars
   onSubmit: (salaryRange: {
     domain: number[];
@@ -55,7 +56,7 @@ export const RequirementsModal = ({
 
           {battery && (
             <BatteryStepper
-              batteryPercentage={90}
+              batteryPercentage={Number(numMatches) || 90}
               numMatches={numMatches}
               text={matchType}
             />
