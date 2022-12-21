@@ -219,28 +219,30 @@ const PositionExpanded = ({
                   >
                     Refer 💸
                   </Button> */}
-                    <Button
-                      variant="secondary"
-                      radius="default"
-                      size="sm"
-                      className="mt-2"
-                      onClick={() => {
-                        if (!currentUser?._id || !project?._id) return;
-                        setApplying(true);
-                        changeTeamMemberPhaseProject({
-                          variables: {
-                            fields: {
-                              projectID: project?._id,
-                              memberID: currentUser?._id,
-                              roleID: activeItem?.projectRole?._id,
-                              phase: "engaged",
+                    {currentUser && (
+                      <Button
+                        variant="secondary"
+                        radius="default"
+                        size="sm"
+                        className="mt-2"
+                        onClick={() => {
+                          if (!currentUser?._id || !project?._id) return;
+                          setApplying(true);
+                          changeTeamMemberPhaseProject({
+                            variables: {
+                              fields: {
+                                projectID: project?._id,
+                                memberID: currentUser?._id,
+                                roleID: activeItem?.projectRole?._id,
+                                phase: "engaged",
+                              },
                             },
-                          },
-                        });
-                      }}
-                    >
-                      Apply
-                    </Button>
+                          });
+                        }}
+                      >
+                        Apply
+                      </Button>
+                    )}
                   </div>
                 </div>
               </div>
