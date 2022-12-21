@@ -29,7 +29,6 @@ import type { NextPageWithLayout } from "../_app";
 
 const ProfilePage: NextPageWithLayout = () => {
   const { currentUser } = useContext(UserContext);
-  // const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
   const [view, setView] = useState<"grants" | "profile">("grants");
 
   const [activeIndex, setActiveIndex] = useState(0);
@@ -47,9 +46,7 @@ const ProfilePage: NextPageWithLayout = () => {
   ];
 
   const [userState, setUserState] = useState<Members>();
-
   const [step, setStep] = useState(STEPS.ROLE);
-
   const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
 
   useEffect(() => {
