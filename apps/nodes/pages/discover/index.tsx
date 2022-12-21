@@ -113,7 +113,14 @@ const DiscoverPage: NextPageWithLayout = () => {
             <CardGrid>
               {dataMembers?.matchNodesToMembers?.map(
                 (member: MatchMembersToSkillOutput, index: number) => (
-                  <UserDiscoverCard key={index} matchMember={member} />
+                  <UserDiscoverCard
+                    key={index}
+                    matchMember={member}
+                    role={selectedRole}
+                    project={dataProject?.findProject}
+                    invite
+                    phase=""
+                  />
                 )
               )}
             </CardGrid>

@@ -61,7 +61,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   const { id } = session?.user || { id: null };
 
   const [memberFound, setMemberFound] = useState(false);
-  const [mutualGuildsSearched, setMutualGuildsSearched] = useState(false);
+  // const [mutualGuildsSearched, setMutualGuildsSearched] = useState(false);
   const [memberServers, setMemberServers] = useState<any>(null);
   const [selectedServer, setSelectedServer] = useState<any>();
 
@@ -115,51 +115,52 @@ export const UserProvider = ({ children }: UserProviderProps) => {
             console.log("err", err);
           });
       } else {
-        if (!mutualGuildsSearched) {
-          const servers: any[] = [];
-          const serverIds: string[] = [];
+        // TODO: testing error on deployment
+        // if (!mutualGuildsSearched) {
+        const servers: any[] = [];
+        const serverIds: string[] = [];
 
-          // if (isEdenStaff.includes(data.findMember._id))
-          //   servers.push(isAllServers);
-          servers.push(isAllServers);
+        // if (isEdenStaff.includes(data.findMember._id))
+        //   servers.push(isAllServers);
+        servers.push(isAllServers);
 
-          findMutualGuilds()
-            .then((data) => {
-              const mutualGuilds = data.guilds;
+        findMutualGuilds()
+          .then((data) => {
+            const mutualGuilds = data.guilds;
 
-              mutualGuilds.forEach((guild: any) => {
-                if (!serverIds.includes(guild._id)) {
-                  serverIds.push(guild._id);
-                }
-              });
-
-              // console.log("mutualGuilds", mutualGuilds);
-
-              // console.log("serverIds", serverIds);
-              servers.push(...mutualGuilds);
-
-              // console.log("servers", servers);
-              setMemberServers(servers);
-              setSelectedServer(servers[0]);
-              if (serverIds.length > 0) {
-                updateMember({
-                  variables: {
-                    fields: {
-                      _id: session?.user?.id,
-                      serverID: serverIds,
-                    },
-                  },
-                });
+            mutualGuilds.forEach((guild: any) => {
+              if (!serverIds.includes(guild._id)) {
+                serverIds.push(guild._id);
               }
-
-              setMutualGuildsSearched(true);
-            })
-            .catch((err) => {
-              console.log("err", err);
             });
-        }
-        setMemberFound(true);
+
+            // console.log("mutualGuilds", mutualGuilds);
+
+            // console.log("serverIds", serverIds);
+            servers.push(...mutualGuilds);
+
+            // console.log("servers", servers);
+            setMemberServers(servers);
+            setSelectedServer(servers[0]);
+            if (serverIds.length > 0) {
+              updateMember({
+                variables: {
+                  fields: {
+                    _id: session?.user?.id,
+                    serverID: serverIds,
+                  },
+                },
+              });
+            }
+
+            // setMutualGuildsSearched(true);
+          })
+          .catch((err) => {
+            console.log("err", err);
+          });
       }
+      setMemberFound(true);
+      // }
     },
   });
 

@@ -1,6 +1,6 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { FIND_PROJECT, FIND_ROLE_TEMPLATES } from "@eden/package-graphql";
-import { Mutation } from "@eden/package-graphql/generated";
+import { Mutation, UpdateProjectInput } from "@eden/package-graphql/generated";
 import {
   AppUserSubmenuLayout,
   Badge,
@@ -65,12 +65,12 @@ const CreateProjectPage: NextPageWithLayout = () => {
     });
   };
 
-  const [projectUIdata, setProjectUIdata] = useState<any>({
-    _id: "",
+  const [projectUIdata, setProjectUIdata] = useState<UpdateProjectInput>({
+    _id: null,
     title: "",
     description: "",
-    emoji: "",
-    serverID: "",
+    emoji: "👋",
+    backColorEmoji: "#ffffff",
   });
 
   const { data: dataProject, refetch: refetchProject } = useQuery(
