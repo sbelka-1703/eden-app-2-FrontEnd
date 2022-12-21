@@ -1,3 +1,4 @@
+import { RoleType } from "@eden/package-graphql/generated";
 import {
   BatteryStepper,
   Button,
@@ -13,24 +14,14 @@ import {
 import { isEmpty, map } from "lodash";
 import { useReducer } from "react";
 
-interface ProjectData {
-  username: string;
-  description: string;
-  selectedRole?: string;
-  selectedTag?: string;
-  selectedEmoji?: string;
-  selectedColor?: string;
-}
-
-const initialState = {
-  username: "",
-  selectedRole: "",
+const initialState: RoleType = {
+  title: "",
   description: "",
 };
 
-function reducer(state: ProjectData, action: any): ProjectData {
+function reducer(state: RoleType, action: any): RoleType {
   switch (action.type) {
-    case "HANDLE PROJECT VIEW 2 TEXT":
+    case "HANDLE INPUT":
       return {
         ...state,
         [action.field]: action.payload.value,
@@ -43,10 +34,11 @@ function reducer(state: ProjectData, action: any): ProjectData {
 export interface CreateProjectViews7Props {
   expertise?: any[];
   battery: number;
+  // eslint-disable-next-line no-unused-vars
   setBattery: (level: number) => void;
   onBack: () => void;
   // eslint-disable-next-line no-unused-vars
-  onNext: (data: ProjectData) => void;
+  onNext: (data: RoleType) => void;
 }
 
 export const CreateProjectViews7 = ({
@@ -56,16 +48,16 @@ export const CreateProjectViews7 = ({
   onNext,
   expertise = [],
 }: CreateProjectViews7Props) => {
-  const [state] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, initialState);
   const handleUpdateState = (value: any, field: string) => {
     console.log(value, field);
-    // dispath({
-    //   type: "HANDLE INPUT TEXT",
-    //   field: field,
-    //   payload: {
-    //     value,
-    //   },
-    // });
+    dispatch({
+      type: "HANDLE INPUT",
+      field: field,
+      payload: {
+        value,
+      },
+    });
   };
 
   // const { data: dataRoles } = useQuery(FIND_ROLE_TEMPLATES, {
@@ -114,7 +106,7 @@ export const CreateProjectViews7 = ({
                       // value={state.name}
                       placeholder="Start typing here..."
                       onChange={(e) => {
-                        handleUpdateState(e.target.value, "name");
+                        handleUpdateState(e.target.value, "title");
                         setBattery(battery < 20 ? battery + 10 : battery);
                         // setBattery(battery ? battery : 10 + 10);
                       }}
@@ -138,10 +130,7 @@ export const CreateProjectViews7 = ({
                           onChange={(val) => {
                             console.log("val", val);
                             setBattery(battery < 99 ? battery + 10 : battery);
-                            // setSelectedItems((prevState) => ({
-                            //   ...prevState,
-                            //   [item?._id]: val,
-                            // }));
+                            handleUpdateState(val, "nodes");
                           }}
                         />
                       ))}

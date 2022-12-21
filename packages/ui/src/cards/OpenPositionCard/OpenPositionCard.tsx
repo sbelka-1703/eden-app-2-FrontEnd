@@ -17,8 +17,8 @@ export const OpenPositionCard = ({
   percentage,
   padding,
   onApply,
-  onRefer,
-}: OpenPositionCardProps) => {
+}: // onRefer,
+OpenPositionCardProps) => {
   if (!role) return null;
   return (
     <>
@@ -77,15 +77,16 @@ export const OpenPositionCard = ({
               </div>
             </div>
           </div>
-          <div className="mt-2 flex flex-row justify-between">
-            <Button
+          <div className="mt-2 flex flex-row justify-end">
+            {/* TODO: Refer feature is not developed yet */}
+            {/* <Button
               variant="secondary"
               radius="default"
               size="sm"
               onClick={onRefer}
             >
               Refer 💸
-            </Button>
+            </Button> */}
             <Button
               variant="secondary"
               radius="default"

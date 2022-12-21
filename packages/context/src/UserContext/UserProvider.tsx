@@ -115,6 +115,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
             console.log("err", err);
           });
       } else {
+        // TODO: not 100 sure if this is causing an issue when a user hasn't been added to the db yet
         if (!mutualGuildsSearched) {
           const servers: any[] = [];
           const serverIds: string[] = [];
