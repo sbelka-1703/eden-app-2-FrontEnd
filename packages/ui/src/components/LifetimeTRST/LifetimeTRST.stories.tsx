@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { LifetimeTRST } from "./LifetimeTRST";
 
 export default {
-  title: "Archive/Components/LifetimeTRST",
+  title: "Components/LifetimeTRST",
   component: LifetimeTRST,
   argTypes: {},
 } as ComponentMeta<typeof LifetimeTRST>;
