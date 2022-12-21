@@ -1,7 +1,12 @@
 import { gql, useMutation } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
 import { UPDATE_PROJECT } from "@eden/package-graphql";
-import { Maybe, Mutation, RoleTemplate } from "@eden/package-graphql/generated";
+import {
+  Maybe,
+  Mutation,
+  RoleTemplate,
+  UpdateProjectInput,
+} from "@eden/package-graphql/generated";
 import {
   Button,
   Card,
@@ -14,6 +19,7 @@ import {
   TextHeading3,
 } from "@eden/package-ui";
 import { useContext, useState } from "react";
+import { toast } from "react-toastify";
 
 export const ADD_PROJECT_ROLE = gql`
   mutation ($fields: addProjectRoleInput!) {
@@ -40,7 +46,7 @@ export const ADD_PROJECT_ROLE = gql`
 export interface ICreateProjectTempContainerProps {
   roles?: Maybe<Array<Maybe<RoleTemplate>>>;
   projectData?: any;
-  projectUIdata?: any;
+  projectUIdata?: UpdateProjectInput;
   dataProject?: any;
   selectedRole?: any;
   // eslint-disable-next-line no-unused-vars
@@ -74,32 +80,37 @@ export const CreateProjectTempContainer = ({
   });
 
   const handleSave = () => {
-    if (!currentUser) return;
-    setSubmitting(true);
+    if (!currentUser || !selectedServer?._id) {
+      toast.error("must select a server");
 
-    const field: any = {
+      return;
+    }
+    // setSubmitting(true);
+
+    const field: UpdateProjectInput = {
+      ...projectUIdata,
+      serverID: [selectedServer?._id],
       champion: currentUser?._id,
     };
 
-    if (projectUIdata?._id) field._id = projectUIdata._id;
-    if (projectUIdata?.title) field.title = projectUIdata.title;
-    if (projectUIdata?.description)
-      field.description = projectUIdata.description;
-    if (projectUIdata?.serverID) field.serverID = projectUIdata.serverID;
+    // if (projectUIdata?._id) field._id = projectUIdata._id;
+    // if (projectUIdata?.title) field.title = projectUIdata.title;
+    // if (projectUIdata?.description)
+    //   field.description = projectUIdata.description;
 
     console.log("field = ", field);
 
-    updateProject({
-      variables: {
-        fields: { ...field },
-      },
-    });
+    // updateProject({
+    //   variables: {
+    //     fields: { ...field },
+    //   },
+    // });
   };
 
   const [addProjectRole] = useMutation(ADD_PROJECT_ROLE, {
     onCompleted({ addProjectRole }: Mutation) {
       if (!addProjectRole) console.log("addProjectRole is null");
-      // console.log("updateMember", addProjectRole);
+      console.log("addProjectRole", addProjectRole);
       // setSubmitting(false);
       // refetchProject();
     },
@@ -122,80 +133,77 @@ export const CreateProjectTempContainer = ({
           </Button>
         </section>
         <section className="lg:grid lg:grid-cols-2 lg:gap-8">
-          <div className="col-span-1">
-            <div className="mb-3">
-              <TextBody>Title:</TextBody>
-              <div className={`flex justify-center space-x-4`}>
-                <TextField
-                  name="textfield"
-                  type="text"
-                  // value={titleProject.toString()}
-                  // onChange={(e) => setTitleProject(e.target.value)}
-                  value={projectUIdata?.title}
+          <div className="col-span-1 space-y-4">
+            <div className="flex justify-between p-3">
+              <EmojiSelector
+                size={80}
+                emoji={projectUIdata?.emoji || "👋"}
+                bgColor={projectUIdata?.backColorEmoji || "#ffffff"}
+                onSelection={(value) =>
+                  setProjectUIdata({
+                    ...projectUIdata,
+                    emoji: value,
+                  })
+                }
+              />
+              <div className="flex h-[80px] w-[80px] items-center overflow-hidden rounded-full border-2 border-zinc-400/50">
+                <input
+                  type="color"
+                  className="-m-2 h-[100px] w-[100px] cursor-pointer"
+                  value={projectUIdata?.backColorEmoji || "#ffffff"}
                   onChange={(e) =>
                     setProjectUIdata({
                       ...projectUIdata,
-                      title: e.target.value,
+                      backColorEmoji: e.target.value,
                     })
                   }
                 />
               </div>
-              <br />
-              <TextBody>Description:</TextBody>
-              <TextArea
-                // value={currentUser?.bio!}
-                // onChange={(e) => setBio(e.target.value)}
-                value={projectUIdata?.description}
-                onChange={(e) =>
-                  setProjectUIdata({
-                    ...projectUIdata,
-                    description: e.target.value,
-                  })
-                }
-              />
             </div>
-
-            <TextBody>serverID:</TextBody>
-            <div className={`flex justify-center space-x-4`}>
-              <TextField
-                name="textfield"
-                type="text"
-                // value={projectUIdata?.serverID.toString()}
-                value={selectedServer?._id as string}
-                onChange={(e) =>
-                  setProjectUIdata({
-                    ...projectUIdata,
-                    serverID: e.target.value,
-                  })
-                }
-              />
-            </div>
-            <br />
+            <TextField
+              name="textfield"
+              label="Title:"
+              type="text"
+              value={projectUIdata?.title || ""}
+              onChange={(e) =>
+                setProjectUIdata({
+                  ...projectUIdata,
+                  title: e.target.value,
+                })
+              }
+            />
+            <TextField
+              name="textfield"
+              label="Project One-Liner:"
+              type="text"
+              value={projectUIdata?.descriptionOneLine || ""}
+              onChange={(e) =>
+                setProjectUIdata({
+                  ...projectUIdata,
+                  descriptionOneLine: e.target.value,
+                })
+              }
+            />
+            <TextArea
+              label="Description :"
+              value={projectUIdata?.description || ""}
+              onChange={(e) =>
+                setProjectUIdata({
+                  ...projectUIdata,
+                  description: e.target.value,
+                })
+              }
+            />
           </div>
           <div className="col-span-1">
             <div className="justify-around">
-              <TextBody className="mb-1">Select Emoji</TextBody>
-
-              <div className="p-3">
-                <EmojiSelector
-                  size={80}
-                  emoji={projectUIdata?.emoji}
-                  // onSelection={(value) => setEmoji(value)}
-                  onSelection={(value) =>
-                    setProjectUIdata({
-                      ...projectUIdata,
-                      emoji: value,
-                    })
-                  }
-                />
-              </div>
               <br />
               <TextBody>Project ID:</TextBody>
               <div className={`flex justify-center space-x-4`}>
                 <TextField
                   name="textfield"
                   type="text"
-                  value={projectUIdata?._id}
+                  value={projectUIdata?._id || ""}
                   onChange={(e) =>
                     setProjectUIdata({
                       ...projectUIdata,
