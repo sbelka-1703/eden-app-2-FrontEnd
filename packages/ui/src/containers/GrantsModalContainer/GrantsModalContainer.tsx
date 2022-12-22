@@ -52,22 +52,22 @@ export const GrantsModalContainer = ({
         />
       )}
 
-      {openModal === GrantsModal.START_INFO && (
+      {openModal === GrantsModal.START_WELCOME && (
         <WelcomeModal
           image={image}
-          openModal={openModal === GrantsModal.START_INFO}
+          openModal={openModal === GrantsModal.START_WELCOME}
           onNext={() => {
-            setOpenModal(GrantsModal.SKILLS_CATEGORY);
+            setOpenModal(GrantsModal.NODES_ROLE);
           }}
         />
       )}
 
-      {openModal === GrantsModal.SKILLS_CATEGORY && (
+      {openModal === GrantsModal.NODES_ROLE && (
         <DiscoverTalentDropdownModal
-          openModal={openModal === GrantsModal.SKILLS_CATEGORY}
+          openModal={openModal === GrantsModal.NODES_ROLE}
           onClose={() => {
             setOpenModal(GrantsModal.SKIP_ALERT);
-            setNextStep(GrantsModal.SKILLS_SUBCATEGORY);
+            setNextStep(GrantsModal.NODES_PROJECTS);
           }}
           // eslint-disable-next-line no-unused-vars
           onSubmit={(val: string[]) => {
@@ -75,7 +75,7 @@ export const GrantsModalContainer = ({
             if (val) {
               if (setNodeIdArray) setNodeIdArray([...nodeIdArray, ...val]);
             }
-            setOpenModal(GrantsModal.SKILLS_SUBCATEGORY);
+            setOpenModal(GrantsModal.NODES_PROJECTS);
           }}
           title={`First select your role`}
           subTitle={`Choose any role you want!`}
@@ -85,9 +85,9 @@ export const GrantsModalContainer = ({
         />
       )}
 
-      {openModal === GrantsModal.SKILLS_SUBCATEGORY && (
+      {openModal === GrantsModal.NODES_PROJECTS && (
         <DiscoverTalentDropdownModal
-          openModal={openModal === GrantsModal.SKILLS_SUBCATEGORY}
+          openModal={openModal === GrantsModal.NODES_PROJECTS}
           onClose={() => {
             setOpenModal(GrantsModal.SKIP_ALERT);
             setNextStep(GrantsModal.WARNING);
@@ -98,11 +98,11 @@ export const GrantsModalContainer = ({
             if (val) {
               if (setNodeIdArray) setNodeIdArray([...nodeIdArray, ...val]);
             }
-            if (percentage < 50) {
-              setOpenModal(GrantsModal.WARNING);
-            } else {
-              setOpenModal(null);
-            }
+            // if (percentage < 50) {
+            setOpenModal(GrantsModal.WARNING);
+            // } else {
+            //   setOpenModal(null);
+            // }
           }}
           title={`Let's get you sorted! What type of projects are you looking for?`}
           subTitle={`You can choose any area of interest!`}

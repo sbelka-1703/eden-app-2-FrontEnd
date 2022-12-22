@@ -95,7 +95,7 @@ export const MemberInfo = ({
           </div>
         </div>
       </div>
-      <div>
+      <div className={`my-4`}>
         <UserBackground
           background={member?.previusProjects || []}
           initialEndorsements={member?.endorsements || []}

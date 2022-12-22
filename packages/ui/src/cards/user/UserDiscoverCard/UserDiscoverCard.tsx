@@ -1,6 +1,8 @@
 import {
   MatchMembersToSkillOutput,
   Maybe,
+  Project,
+  RoleType,
 } from "@eden/package-graphql/generated";
 import {
   AvatarList,
@@ -10,6 +12,7 @@ import {
   LongText,
   SocialMediaComp,
   UserDiscoverModal,
+  UserInviteModal,
   UserWithDescription,
 } from "@eden/package-ui";
 import { useState } from "react";
@@ -18,12 +21,19 @@ import { round } from "../../../../utils";
 
 export interface IUserDiscoverCardProps {
   matchMember?: Maybe<MatchMembersToSkillOutput>;
-  item?: any;
-  resultCardFlag?: any;
-  resultPopUpFlag?: any;
+  project?: Maybe<Project>;
+  role?: Maybe<RoleType>;
+  invite?: boolean;
+  phase?: string;
 }
 
-export const UserDiscoverCard = ({ matchMember }: IUserDiscoverCardProps) => {
+export const UserDiscoverCard = ({
+  matchMember,
+  project,
+  role,
+  invite,
+  phase,
+}: IUserDiscoverCardProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const member = matchMember?.member;
   const matchPercentage = matchMember?.matchPercentage;
@@ -116,12 +126,24 @@ export const UserDiscoverCard = ({ matchMember }: IUserDiscoverCardProps) => {
         </div>
       )} */}
 
-      <UserDiscoverModal
-        open={isOpen}
-        member={member}
-        matchPercentage={matchPercentage}
-        onClose={() => setIsOpen(!isOpen)}
-      />
+      {invite && project && role ? (
+        <UserInviteModal
+          open={isOpen}
+          member={member}
+          project={project}
+          role={role}
+          phase={phase}
+          matchPercentage={matchPercentage}
+          onClose={() => setIsOpen(!isOpen)}
+        />
+      ) : (
+        <UserDiscoverModal
+          open={isOpen}
+          member={member}
+          matchPercentage={matchPercentage}
+          onClose={() => setIsOpen(!isOpen)}
+        />
+      )}
     </Card>
   );
 };
