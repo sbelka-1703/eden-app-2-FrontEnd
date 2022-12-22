@@ -9,7 +9,7 @@ import {
   TextArea,
   TextField,
   TextHeading3,
-  ToggleElement,
+  // ToggleElement,
 } from "@eden/package-ui";
 import { isEmpty, map } from "lodash";
 import { useReducer } from "react";
@@ -59,6 +59,9 @@ export const CreateProjectViews7 = ({
       },
     });
   };
+
+  const nextDisabled =
+    !state.title || !state.description || state.nodes?.length == 0;
 
   // const { data: dataRoles } = useQuery(FIND_ROLE_TEMPLATES, {
   //   variables: {
@@ -139,7 +142,7 @@ export const CreateProjectViews7 = ({
                 <div className="mt-3">
                   <div>
                     <p className="text-sm font-normal">
-                      {`Write a short one-liner to explain the role:`}
+                      {`Write a description of this role:`}
                     </p>
                   </div>
                   <div>
@@ -154,7 +157,7 @@ export const CreateProjectViews7 = ({
                   </div>
                 </div>
 
-                <ToggleElement
+                {/* <ToggleElement
                   isOptional
                   className="my-4"
                   title="Write a description of this role:"
@@ -167,8 +170,8 @@ export const CreateProjectViews7 = ({
                     rows={3}
                     placeholder="Start typing here..."
                   />
-                </ToggleElement>
-                <ToggleElement
+                </ToggleElement> */}
+                {/* <ToggleElement
                   isOptional
                   className="my-4"
                   title="What are the expectations for this role?"
@@ -181,8 +184,8 @@ export const CreateProjectViews7 = ({
                     rows={3}
                     placeholder="Start typing here..."
                   />
-                </ToggleElement>
-                <ToggleElement
+                </ToggleElement> */}
+                {/* <ToggleElement
                   isOptional
                   className="my-4"
                   title="What are the benfits of this role?"
@@ -195,7 +198,7 @@ export const CreateProjectViews7 = ({
                     placeholder="Start typing here..."
                     rows={3}
                   />
-                </ToggleElement>
+                </ToggleElement> */}
                 <GridLayout className="bg-white">
                   <GridItemFour>
                     <p className="text-sm font-normal">
@@ -208,7 +211,7 @@ export const CreateProjectViews7 = ({
                           type="number"
                           // value={state.hrsWeek}
                           onChange={(e) => {
-                            handleUpdateState(+e.target.value, "hrsWeek");
+                            handleUpdateState(+e.target.value, "hoursPerWeek");
                           }}
                         />
                       </div>
@@ -262,7 +265,11 @@ export const CreateProjectViews7 = ({
             <Button variant="secondary" onClick={onBack}>
               Back
             </Button>
-            <Button variant="secondary" onClick={() => onNext(state)}>
+            <Button
+              variant="secondary"
+              onClick={() => onNext(state)}
+              disabled={nextDisabled}
+            >
               Next
             </Button>
           </div>

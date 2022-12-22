@@ -1,5 +1,5 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
-import { UserProvider } from "@eden/package-context";
+import { UserContext, UserProvider } from "@eden/package-context";
 import { Maybe, Mutation, RoleType } from "@eden/package-graphql/generated";
 import {
   AppUserLayout,
@@ -12,7 +12,7 @@ import {
   SEO,
 } from "@eden/package-ui";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { NextPageWithLayout } from "../_app";
 import { ADD_NODES_PROJECT_ROLE } from "../create-project-fake";
@@ -45,6 +45,7 @@ const FIND_NODES = gql`
 
 const FillProfilePage: NextPageWithLayout = () => {
   const router = useRouter();
+  const { currentUser } = useContext(UserContext);
   const [step, setStep] = useState(1);
 
   const [state, setState] = useState<any>({});
@@ -102,6 +103,7 @@ const FillProfilePage: NextPageWithLayout = () => {
     updateProject({
       variables: {
         fields: {
+          champion: currentUser?._id,
           title: state[1].name,
           emoji: state[1].emoji,
           backColorEmoji: state[1].color,
