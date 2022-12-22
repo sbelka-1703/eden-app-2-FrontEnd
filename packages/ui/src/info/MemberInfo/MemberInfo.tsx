@@ -28,8 +28,8 @@ export const MemberInfo = ({
   return (
     <div>
       <UserWithDescription member={member} percentage={percentage} />
-      <div className="mb-4 grid grid-cols-5">
-        <div className="col-span-3 flex flex-col items-start justify-center">
+      <div className="mb-4 grid grid-cols-1 sm:grid-cols-5">
+        <div className="sm:col-span-3 my-4 sm:my-0 flex flex-col items-start justify-center">
           <TextHeading3
             style={{ fontWeight: 700 }}
             className="mb-2 text-sm uppercase text-gray-500"
@@ -42,7 +42,7 @@ export const MemberInfo = ({
         <SocialMediaComp links={member?.links} />
       </div>
       <div>
-        <div className={`grid grid-cols-2 gap-4`}>
+        <div className={`grid grid-cols-1 md:grid-cols-2 gap-4`}>
           <div className={`flex flex-col`}>
             <div className="space-y-2 py-1">
               <TextHeading3
