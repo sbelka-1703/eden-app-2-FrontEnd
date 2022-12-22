@@ -1,7 +1,6 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { DiscoverTalentDropdownModal } from "./DiscoverTalentDropdownModal";
-import mockData from "./mockData";
 
 export default {
   title: "Modals/DiscoverTalentDropdownModal",
@@ -16,8 +15,11 @@ const Template: ComponentStory<typeof DiscoverTalentDropdownModal> = (args) => (
 export const Default = Template.bind({});
 Default.args = {
   openModal: true,
-  mockData: mockData,
   nodeType: "expertise",
+  title: `Who are you looking for?`,
+  subTitle: `Select what you want them to help you with.`,
+  matchType: "People",
+  batteryPercentage: 50,
   onClose: () => null,
   onSubmit: (data) => {
     console.log(data);
