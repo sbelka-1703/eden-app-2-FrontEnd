@@ -8,7 +8,7 @@ import { ApplyByRoleContainer } from "./";
 
 jest.mock("react-confetti");
 
-it("User can get to the YOU DID IT modal ", async () => {
+test("User can get to the YOU DID IT modal ", async () => {
   const user = userEvent.setup();
 
   await render(
