@@ -31,7 +31,7 @@ test("User can get to the YOU DID IT modal ", async () => {
  */
   //User selects the timezone from the dropdown
   await user.click(screen.getByRole("combobox"));
-  await user.click(screen.getByText("UTC-10"));
+  await user.click(screen.getByRole("option", { name: "UTC-10" }));
   await expect(screen.getByDisplayValue("UTC-10")).toBeInTheDocument();
 
   //User types in that they can work 69 hour/week
