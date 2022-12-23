@@ -35,33 +35,21 @@ test("User can get to the YOU DID IT modal ", async () => {
   await expect(screen.getByDisplayValue("UTC-10")).toBeInTheDocument();
 
   //User types in that they can work 69 hour/week
-  const hoursInput = screen.getByPlaceholderText("Hours");
-
-  await user.click(hoursInput);
-  await user.type(hoursInput, "69");
+  await user.type(screen.getByPlaceholderText("Hours"), "69");
   await expect(screen.getByDisplayValue("69")).toBeInTheDocument();
 
   //User inputs their social handles
 
   //Twitter
-  const twitterHandleInput = screen.getByPlaceholderText("Twitter Handle");
-
-  await user.click(twitterHandleInput);
-  await user.type(twitterHandleInput, "sbelka");
+  await user.type(screen.getByPlaceholderText("Twitter Handle", "sbelka");
   await expect(screen.getByDisplayValue("sbelka")).toBeInTheDocument();
 
   //GitHub
-  const GitHubHandleInput = screen.getByPlaceholderText("Github Handle");
-
-  await user.click(GitHubHandleInput);
-  await user.type(GitHubHandleInput, "sbelka-1703");
+  await user.type(screen.getByPlaceholderText("Github Handle", "sbelka-1703");
   await expect(screen.getByDisplayValue("sbelka-1703")).toBeInTheDocument();
 
   //Telegram
-  const TelegramHandleInput = screen.getByPlaceholderText("Telegram Handle");
-
-  await user.click(TelegramHandleInput);
-  await user.type(TelegramHandleInput, "sbelka_1703");
+  await user.type(screen.getByPlaceholderText("Telegram Handle", "sbelka_1703");
   await expect(screen.getByDisplayValue("sbelka_1703")).toBeInTheDocument();
 
   //User clicks on the Submit Button and sees the YOU DID IT! modal with confetti
