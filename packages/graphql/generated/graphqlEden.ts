@@ -3,12 +3,10 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
 };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
+  { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
+  { [SubKey in K]: Maybe<T[SubKey]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -25,6 +23,7 @@ export type Ai = {
   edenAI?: Maybe<EdenAi>;
   mentioned?: Maybe<Array<Maybe<Scalars["ID"]>>>;
   message?: Maybe<Scalars["String"]>;
+  serverID?: Maybe<Scalars["String"]>;
 };
 
 export type Chats = {
@@ -53,6 +52,11 @@ export type EdenAi = {
   __typename?: "EdenAI";
   keywords?: Maybe<Array<Maybe<Keyword>>>;
   nodes?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+};
+
+export type EdenAiInput = {
+  keywords?: InputMaybe<Array<InputMaybe<KeywordInput>>>;
+  nodes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
 };
 
 export type Epic = {
@@ -106,8 +110,13 @@ export type GrantTemplate = {
 
 export type Keyword = {
   __typename?: "Keyword";
-  embedding?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  embedding?: Maybe<Array<Maybe<Scalars["Float"]>>>;
   keywords?: Maybe<Scalars["String"]>;
+};
+
+export type KeywordInput = {
+  embedding?: InputMaybe<Array<InputMaybe<Scalars["Float"]>>>;
+  keywords?: InputMaybe<Scalars["String"]>;
 };
 
 export type MatchPercentage = {
@@ -211,6 +220,7 @@ export type Mutation = {
   updateGrant?: Maybe<GrantTemplate>;
   updateMember?: Maybe<Members>;
   updateMemberInRoom?: Maybe<Members>;
+  updateMessage?: Maybe<Ai>;
   updateProject?: Maybe<Project>;
   updateRoleTemplate?: Maybe<RoleTemplate>;
   updateServer?: Maybe<ServerTemplate>;
@@ -386,6 +396,10 @@ export type MutationUpdateMemberInRoomArgs = {
   fields?: InputMaybe<UpdateMemberInRoomInput>;
 };
 
+export type MutationUpdateMessageArgs = {
+  fields?: InputMaybe<UpdateMessageInput>;
+};
+
 export type MutationUpdateProjectArgs = {
   fields: UpdateProjectInput;
 };
@@ -427,6 +441,12 @@ export type PageInfo = {
   hasNextPage?: Maybe<Scalars["Boolean"]>;
   hasPrevPage?: Maybe<Scalars["Boolean"]>;
   start?: Maybe<Scalars["String"]>;
+};
+
+export type PaginatedMessages = {
+  __typename?: "PaginatedMessages";
+  data?: Maybe<Array<Maybe<Ai>>>;
+  pageInfo?: Maybe<PageInfo>;
 };
 
 export type PaginatedSkills = {
@@ -493,7 +513,7 @@ export type Query = {
   findGrants?: Maybe<Array<Maybe<GrantTemplate>>>;
   findMember?: Maybe<Members>;
   findMembers?: Maybe<Array<Maybe<Members>>>;
-  findMessage?: Maybe<Array<Maybe<Ai>>>;
+  findMessage?: Maybe<PaginatedMessages>;
   findNode?: Maybe<Node>;
   findNodes?: Maybe<Array<Maybe<Node>>>;
   findProject?: Maybe<Project>;
@@ -567,7 +587,7 @@ export type QueryFindMembersArgs = {
 };
 
 export type QueryFindMessageArgs = {
-  fields?: InputMaybe<FindMessageInput>;
+  fields?: InputMaybe<FindMessageInputPaginated>;
 };
 
 export type QueryFindNodeArgs = {
@@ -804,6 +824,11 @@ export type SkillsPercentage = {
   percentageReal?: Maybe<Scalars["Float"]>;
 };
 
+export type SortByMessage = {
+  direction?: InputMaybe<SortDirection>;
+  field?: InputMaybe<SortableMessageFields>;
+};
+
 export type SortBySkill = {
   direction?: InputMaybe<SortDirection>;
   field?: InputMaybe<SortableSkillFields>;
@@ -812,6 +837,11 @@ export type SortBySkill = {
 export enum SortDirection {
   Asc = "ASC",
   Desc = "DESC",
+}
+
+export enum SortableMessageFields {
+  Id = "_id",
+  CreatedAt = "createdAt",
 }
 
 export enum SortableSkillFields {
@@ -884,6 +914,7 @@ export type AddMessageInput = {
   creator?: InputMaybe<Scalars["ID"]>;
   mentioned?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   message?: InputMaybe<Scalars["String"]>;
+  serverID?: InputMaybe<Scalars["String"]>;
 };
 
 export type AddMessagesInput = {
@@ -1263,6 +1294,15 @@ export type FindMembersInput = {
 
 export type FindMessageInput = {
   discordID?: InputMaybe<Scalars["ID"]>;
+  serverID?: InputMaybe<Scalars["ID"]>;
+};
+
+export type FindMessageInputPaginated = {
+  after?: InputMaybe<Scalars["String"]>;
+  before?: InputMaybe<Scalars["String"]>;
+  limit?: InputMaybe<Scalars["Int"]>;
+  request?: InputMaybe<FindMessageInput>;
+  sortBy?: InputMaybe<SortByMessage>;
 };
 
 export type FindNodeInput = {
@@ -1878,6 +1918,11 @@ export type UpdateMemberInput = {
   serverID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
   skills?: InputMaybe<Array<InputMaybe<SkillInput_Member>>>;
   timeZone?: InputMaybe<Scalars["String"]>;
+};
+
+export type UpdateMessageInput = {
+  edenAI?: InputMaybe<EdenAiInput>;
+  messageID?: InputMaybe<Scalars["ID"]>;
 };
 
 export type UpdateProjectInput = {
