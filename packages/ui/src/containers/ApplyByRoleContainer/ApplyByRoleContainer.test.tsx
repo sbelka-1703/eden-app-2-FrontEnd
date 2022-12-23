@@ -12,13 +12,13 @@ test("User can get to the YOU DID IT modal ", async () => {
   const user = userEvent.setup();
 
   await render(
-    <RouterContext.Provider value={createMockRouter({})}>
+    <MockRouter>
       <ApplyByRoleContainer
         onViewProject={(val) => console.log(val)}
         loadingProject={false}
         project={getProject()}
       />
-    </RouterContext.Provider>
+    </MockRouter>
   );
 
   //There are multiple roles on a page with multiple "more" buttons. Here I am clicking on the first one:
