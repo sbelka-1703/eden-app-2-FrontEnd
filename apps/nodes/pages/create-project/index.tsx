@@ -9,6 +9,7 @@ import {
   CreateProjectViews7,
   GridItemSix,
   GridLayout,
+  Loading,
   SEO,
 } from "@eden/package-ui";
 import { useRouter } from "next/router";
@@ -47,6 +48,7 @@ const FillProfilePage: NextPageWithLayout = () => {
   const router = useRouter();
   const { currentUser } = useContext(UserContext);
   const [step, setStep] = useState(1);
+  const [submitting, setSubmitting] = useState<boolean>(false);
 
   const [state, setState] = useState<any>({});
 
@@ -67,6 +69,8 @@ const FillProfilePage: NextPageWithLayout = () => {
 
   const [updateProject, {}] = useMutation(LAUNCH_PROJECT, {
     onCompleted({ updateProject }: Mutation) {
+      setSubmitting(false);
+      setStep(0);
       if (!updateProject) console.log("updateProject is null");
       console.log("updateProject", updateProject);
       // router.push(`/${router.query.from}?project=${updateProject?._id}`);
@@ -82,6 +86,7 @@ const FillProfilePage: NextPageWithLayout = () => {
       });
     },
     onError(error) {
+      setSubmitting(false);
       console.log(error);
     },
   });
@@ -100,6 +105,7 @@ const FillProfilePage: NextPageWithLayout = () => {
   };
 
   const onClickLaunch = () => {
+    setSubmitting(true);
     updateProject({
       variables: {
         fields: {
@@ -179,6 +185,7 @@ const FillProfilePage: NextPageWithLayout = () => {
             onLaunch={onClickLaunch}
             onNewPosition={() => setStep((prev) => prev - 1)}
             onBack={() => setStep((prev) => prev - 1)}
+            submitting={submitting}
           />
         );
 
@@ -197,7 +204,7 @@ const FillProfilePage: NextPageWithLayout = () => {
       <SEO />
       <GridLayout>
         <GridItemSix className={`h-85 scrollbar-hide overflow-y-scroll `}>
-          {stepView()}
+          {submitting ? <Loading title={`Submitting...`} /> : stepView()}
         </GridItemSix>
 
         <GridItemSix>

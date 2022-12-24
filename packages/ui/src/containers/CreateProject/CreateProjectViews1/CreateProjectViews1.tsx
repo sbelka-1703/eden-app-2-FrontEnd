@@ -2,7 +2,7 @@ import {
   BatteryStepper,
   Button,
   Card,
-  ColorPicker,
+  // ColorPicker,
   EmojiSelector,
   TextArea,
   TextField,
