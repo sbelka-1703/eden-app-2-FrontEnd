@@ -1,9 +1,8 @@
 import { getProject } from "@eden/package-mock";
 import userEvent from "@testing-library/user-event";
-import { RouterContext } from "next/dist/shared/lib/router-context";
 
 import { render, screen } from "../../../utils/jest-apollo";
-import { createMockRouter } from "../../../utils/test-utils/createMockRouter";
+import { MockRouter } from "../../../utils/test-utils/createMockRouter";
 import { ApplyByRoleContainer } from "./";
 
 jest.mock("react-confetti");
@@ -41,15 +40,18 @@ test("User can get to the YOU DID IT modal ", async () => {
   //User inputs their social handles
 
   //Twitter
-  await user.type(screen.getByPlaceholderText("Twitter Handle", "sbelka");
+  await user.type(screen.getByPlaceholderText("Twitter Handle"), "sbelka");
   await expect(screen.getByDisplayValue("sbelka")).toBeInTheDocument();
 
   //GitHub
-  await user.type(screen.getByPlaceholderText("Github Handle", "sbelka-1703");
+  await user.type(screen.getByPlaceholderText("Github Handle"), "sbelka-1703");
   await expect(screen.getByDisplayValue("sbelka-1703")).toBeInTheDocument();
 
   //Telegram
-  await user.type(screen.getByPlaceholderText("Telegram Handle", "sbelka_1703");
+  await user.type(
+    screen.getByPlaceholderText("Telegram Handle"),
+    "sbelka_1703"
+  );
   await expect(screen.getByDisplayValue("sbelka_1703")).toBeInTheDocument();
 
   //User clicks on the Submit Button and sees the YOU DID IT! modal with confetti
