@@ -1,13 +1,13 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import {
-  ProjectsContext,
-  ProjectsModal,
-  ProjectsProvider,
+  GrantsContext,
+  GrantsModal,
+  GrantsProvider,
   UserContext,
 } from "@eden/package-context";
-import { MATCH_NODES_TO_PROJECT_ROLES } from "@eden/package-graphql";
+import { FIND_GRANTS } from "@eden/package-graphql";
 import {
-  MatchSkillsToProjectsOutput,
+  GrantTemplate,
   Members,
   Mutation,
 } from "@eden/package-graphql/generated";
@@ -16,12 +16,12 @@ import {
   Card,
   CardGrid,
   FillUserProfileContainer,
+  GrantsCard,
+  GrantsModalContainer,
   GridItemNine,
   GridItemSix,
   GridItemThree,
   GridLayout,
-  ProjectNodeMatchCard,
-  ProjectsModalContainer,
   SEO,
   UserProfileCard,
   ViewUserProfileContainer,
@@ -42,13 +42,11 @@ const ADD_NODES = gql`
   }
 `;
 
-const ProjectsPage: NextPageWithLayout = () => {
-  const { setOpenModal } = useContext(ProjectsContext);
-  const { currentUser, selectedServer } = useContext(UserContext);
-  const [nodesID, setNodesID] = useState<string[] | null>(null);
+const GrantsPage: NextPageWithLayout = () => {
+  const { setOpenModal } = useContext(GrantsContext);
+  const { currentUser } = useContext(UserContext);
   const [view, setView] = useState<"grants" | "profile">("grants");
   const [startWelcome, setStartWelcome] = useState(false);
-
   const [userState, setUserState] = useState<Members>();
 
   useEffect(() => {
@@ -57,18 +55,16 @@ const ProjectsPage: NextPageWithLayout = () => {
     }
   }, [currentUser]);
 
-  const { data: dataProjects } = useQuery(MATCH_NODES_TO_PROJECT_ROLES, {
+  const { data: dataGrants } = useQuery(FIND_GRANTS, {
     variables: {
       fields: {
-        nodesID: nodesID,
-        serverID: selectedServer?._id,
+        _id: null,
       },
     },
-    skip: !nodesID || !selectedServer?._id,
     context: { serviceName: "soilservice" },
   });
 
-  // if (dataProjects) console.log("dataProjects", dataProjects);
+  // if (dataGrants) console.log("dataGrants", dataGrants);
 
   const [addNodes] = useMutation(ADD_NODES, {
     onCompleted({ addNodesToMember }: Mutation) {
@@ -87,19 +83,8 @@ const ProjectsPage: NextPageWithLayout = () => {
       getFillProfilePercentage(currentUser) < 30 &&
       !startWelcome
     ) {
-      setOpenModal(ProjectsModal.START_WELCOME);
+      setOpenModal(GrantsModal.START_WELCOME);
       setStartWelcome(true);
-    }
-
-    if (currentUser) {
-      const nodes: string[] = [];
-
-      currentUser?.nodes?.find((item) => {
-        // if (item?.nodeData?.node == "sub_typeProject") {
-        nodes.push(item?.nodeData?._id as string);
-        // }
-      });
-      setNodesID(nodes);
     }
   }, [currentUser]);
 
@@ -146,12 +131,9 @@ const ProjectsPage: NextPageWithLayout = () => {
                 className="scrollbar-hide h-85 overflow-scroll bg-white p-4"
               >
                 <CardGrid>
-                  {dataProjects?.matchNodesToProjectRoles?.map(
-                    (project: MatchSkillsToProjectsOutput, index: number) => (
-                      <ProjectNodeMatchCard
-                        key={index}
-                        matchedProject={project}
-                      />
+                  {dataGrants?.findGrants?.map(
+                    (grant: GrantTemplate, index: number) => (
+                      <GrantsCard key={index} grant={grant} />
                     )
                   )}
                 </CardGrid>
@@ -162,7 +144,7 @@ const ProjectsPage: NextPageWithLayout = () => {
         {view === "profile" && (
           <>
             <GridItemSix>
-              <Card shadow className={"h-85 bg-white"}>
+              <Card className={"h-85 bg-white shadow"}>
                 <FillUserProfileContainer
                   step={step}
                   state={userState}
@@ -175,7 +157,7 @@ const ProjectsPage: NextPageWithLayout = () => {
               </Card>
             </GridItemSix>
             <GridItemSix>
-              <Card shadow className={"h-85 bg-white"}>
+              <Card className={"h-85 bg-white shadow"}>
                 <ViewUserProfileContainer
                   step={step}
                   user={userState}
@@ -187,7 +169,7 @@ const ProjectsPage: NextPageWithLayout = () => {
           </>
         )}
       </GridLayout>
-      <ProjectsModalContainer
+      <GrantsModalContainer
         image={welcome.src}
         setArrayOfNodes={(val) => {
           // console.log("array of nodes val", val);
@@ -200,13 +182,13 @@ const ProjectsPage: NextPageWithLayout = () => {
   );
 };
 
-ProjectsPage.getLayout = (page) => (
-  <ProjectsProvider>
+GrantsPage.getLayout = (page) => (
+  <GrantsProvider>
     <AppUserSubmenuLayout showSubmenu={false}>{page}</AppUserSubmenuLayout>
-  </ProjectsProvider>
+  </GrantsProvider>
 );
 
-export default ProjectsPage;
+export default GrantsPage;
 
 import { IncomingMessage, ServerResponse } from "http";
 import { getSession } from "next-auth/react";
@@ -217,10 +199,12 @@ export async function getServerSideProps(ctx: {
 }) {
   const session = await getSession(ctx);
 
+  const url = ctx.req.url?.replace("/", "");
+
   if (!session) {
     return {
       redirect: {
-        destination: `/login`,
+        destination: `/login?redirect=${url}`,
         permanent: false,
       },
     };

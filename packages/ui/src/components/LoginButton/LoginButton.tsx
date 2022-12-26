@@ -18,7 +18,7 @@ const menuItems = [
   },
   {
     name: "⭐️  Find a project",
-    href: "/signup",
+    href: "/projects",
   },
   {
     name: "🎯  Active applications",
@@ -26,7 +26,7 @@ const menuItems = [
   },
   {
     name: "🚀  Launch A Project",
-    href: "/launch",
+    href: "/create-project",
   },
   {
     name: "🏆  Champion Projects",
