@@ -24,7 +24,7 @@ import {
 } from "@eden/package-ui";
 import { useContext, useEffect, useState } from "react";
 
-import { timezones } from "../../../constants";
+import { timezones } from "../../../../constants";
 
 export interface IEditProfileContainerProps {
   roles?: Maybe<Array<Maybe<RoleTemplate>>>;

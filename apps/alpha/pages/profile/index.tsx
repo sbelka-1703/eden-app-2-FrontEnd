@@ -1,4 +1,3 @@
-import { gql } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
 import { Members } from "@eden/package-graphql/generated";
 import {
@@ -11,19 +10,10 @@ import {
   SEO,
   ViewUserProfileContainer,
 } from "@eden/package-ui";
+import { STEPS } from "@eden/package-ui/utils";
 import { getFillProfilePercentage } from "@eden/package-ui/utils/fill-profile-percentage";
 import { useContext, useEffect, useState } from "react";
 import { FaUserAlt, FaUserEdit } from "react-icons/fa";
-
-export const ADD_NODES = gql`
-  mutation ($fields: addNodesToMemberInput!) {
-    addNodesToMember(fields: $fields) {
-      _id
-    }
-  }
-`;
-
-import { STEPS } from "@eden/package-ui/utils";
 
 import type { NextPageWithLayout } from "../_app";
 
