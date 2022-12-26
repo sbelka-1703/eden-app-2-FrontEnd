@@ -68,7 +68,7 @@ const ProfilePage: NextPageWithLayout = () => {
           >
             <div className={`p-4 md:p-8`}>
               <MemberInfo
-                member={currentUser as Members}
+                member={currentUser}
                 setExperienceOpen={setExperienceOpen!}
                 experienceOpen={experienceOpen!}
               />

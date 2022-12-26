@@ -1,12 +1,11 @@
 import { useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
 import { FIND_ROLE_TEMPLATES } from "@eden/package-graphql";
-import { Members } from "@eden/package-graphql/generated";
 import {
   AppUserSubmenuLayout,
   Card,
   EditProfileContainer,
-  NewProfileContainer,
+  MemberInfo,
   SEO,
 } from "@eden/package-ui";
 import { useContext, useState } from "react";
@@ -38,22 +37,38 @@ const ProfilePage: NextPageWithLayout = () => {
     },
   ];
 
+  const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
+
   return (
     <>
       <SEO />
-      <AppUserSubmenuLayout submenu={submenu} activeIndex={activeIndex}>
-        <Card
-          shadow
-          className={`h-85 scrollbar-hide overflow-y-scroll bg-white`}
-        >
-          {activeIndex === 0 && (
-            <NewProfileContainer user={currentUser as Members} />
-          )}
-          {activeIndex === 1 && (
+
+      {activeIndex === 0 && (
+        <AppUserSubmenuLayout submenu={submenu} activeIndex={activeIndex}>
+          <Card
+            shadow
+            className={`h-85 scrollbar-hide overflow-y-scroll bg-white`}
+          >
+            <div className={`p-4 md:p-8`}>
+              <MemberInfo
+                member={currentUser}
+                setExperienceOpen={setExperienceOpen!}
+                experienceOpen={experienceOpen!}
+              />
+            </div>
+          </Card>
+        </AppUserSubmenuLayout>
+      )}
+      {activeIndex === 1 && (
+        <AppUserSubmenuLayout submenu={submenu} activeIndex={activeIndex}>
+          <Card
+            shadow
+            className={`h-85 scrollbar-hide overflow-y-scroll bg-white`}
+          >
             <EditProfileContainer roles={dataRoles?.findRoleTemplates} />
-          )}
-        </Card>
-      </AppUserSubmenuLayout>
+          </Card>
+        </AppUserSubmenuLayout>
+      )}
     </>
   );
 };
