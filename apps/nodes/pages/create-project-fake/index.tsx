@@ -17,7 +17,7 @@ import { useEffect, useState } from "react";
 
 import type { NextPageWithLayout } from "../_app";
 
-export const ADD_NODES_PROJECT_ROLE = gql`
+const ADD_NODES_PROJECT_ROLE = gql`
   mutation ($fields: addNodesToProjectRoleInput!) {
     addNodesToProjectRole(fields: $fields) {
       _id

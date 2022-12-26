@@ -102,7 +102,7 @@ export const ChampionNodesMatchContainer = ({
   );
 };
 
-interface ActiveTabMembersProps {
+interface IActiveTabMembersProps {
   project?: Project;
   role?: Maybe<RoleType>;
   matchingMembers?: Array<Maybe<MatchMembersToSkillOutput>>;
@@ -114,10 +114,7 @@ const ActiveTabMembers = ({
   role,
   matchingMembers,
   teamMembers,
-}: ActiveTabMembersProps) => {
-  console.log("teamMembers", teamMembers);
-  console.log("matchingMembers", matchingMembers);
-
+}: IActiveTabMembersProps) => {
   return (
     <div className="flex flex-col content-between justify-between">
       <CardGrid>

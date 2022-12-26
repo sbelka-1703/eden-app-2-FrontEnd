@@ -9,7 +9,6 @@ export * from "./EditProfileContainer";
 export * from "./FillUserProfileContainer";
 export * from "./GrantsModalContainer";
 export * from "./LaunchProjectContainer";
-export * from "./NewProfileContainer";
 export * from "./NodesOnboardPartyContainer";
 export * from "./OnboardPartyContainer";
 export * from "./ProjectsModalContainer";

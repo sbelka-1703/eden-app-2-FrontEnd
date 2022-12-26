@@ -3,7 +3,7 @@ import {
   BatteryStepper,
   Button,
   Card,
-  SelectBoxNode,
+  // SelectBoxNode,
   TextArea,
   TextHeading3,
 } from "@eden/package-ui";
@@ -36,6 +36,7 @@ function reducer(state: ProjectData, action: any): ProjectData {
 export interface CreateProjectViews2Props {
   projects?: any[];
   battery: number;
+  // eslint-disable-next-line no-unused-vars
   setBattery: (level: number) => void;
   onBack: () => void;
   // eslint-disable-next-line no-unused-vars
@@ -49,6 +50,7 @@ export const CreateProjectViews2 = ({
   battery,
   setBattery,
   onNext,
+  // eslint-disable-next-line no-unused-vars
   projects = [],
   setProject,
   project,
@@ -91,7 +93,7 @@ export const CreateProjectViews2 = ({
           <BatteryStepper size="sm" batteryPercentage={battery} />
         </div>
         <div>
-          <div className="mb-4">
+          {/* <div className="mb-4">
             <p className="mb-2 text-sm font-medium">
               Pick what is your project Type
             </p>
@@ -114,7 +116,7 @@ export const CreateProjectViews2 = ({
                   />
                 ))}
             </div>
-          </div>
+          </div> */}
           <div className="mb-3">
             <p className="mb-4 text-sm font-medium">
               Write a full description of your project:

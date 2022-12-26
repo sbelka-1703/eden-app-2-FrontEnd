@@ -75,7 +75,7 @@ export const ProjectInfo = ({ project }: IProjectInfoProps) => {
           <div className={`mt-6`}></div>
         </div>
       </div>
-      <div className={`grid grid-cols-3`}>
+      <div className={`grid grid-cols-1 md:grid-cols-3`}>
         <div className={`col-span-2`}>
           <div className={`mt-5 mb-2 flex uppercase`}>
             <p className="text-soilGray/100 font-medium tracking-wide">

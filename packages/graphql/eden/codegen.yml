@@ -1,4 +1,7 @@
 schema: "https://oasis-development.up.railway.app/graphql"
+hooks:
+  afterAllFileWrite:
+    - prettier --write
 generates:
   generated/graphqlEden.ts:
     plugins:

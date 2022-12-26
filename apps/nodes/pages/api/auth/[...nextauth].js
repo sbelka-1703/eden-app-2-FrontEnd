@@ -6,7 +6,6 @@ export default NextAuth({
     DiscordProvider({
       clientId: process.env.DISCORD_CLIENT_ID,
       clientSecret: process.env.DISCORD_CLIENT_SECRET,
-      secret: process.env.NEXT_PUBLIC_SECRET,
       authorization: { params: { scope: "identify email guilds" } },
     }),
   ],

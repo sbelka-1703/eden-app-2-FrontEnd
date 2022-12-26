@@ -41,7 +41,6 @@ export interface IDiscoverTalentDropdownModalProps {
   onClose: () => void;
   // eslint-disable-next-line no-unused-vars
   onSubmit?: (val: string[]) => void;
-  mockData?: any;
   title?: string;
   subTitle?: string;
   nodeType?: "expertise" | "typeProject";
