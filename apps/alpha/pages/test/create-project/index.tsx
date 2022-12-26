@@ -12,7 +12,7 @@ import {
   SEO,
   ViewProjectContainer,
 } from "@eden/package-ui";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { NextPageWithLayout } from "../../_app";
 
