@@ -196,7 +196,7 @@ export const CreateProjectViews1 = ({
             />
           </div> */}
           <div className="flex justify-between">
-            {JSON.stringify(state)}
+            {/* {JSON.stringify(state)} */}
             <div>
               {onBack && (
                 <Button variant="secondary" onClick={onBack}>
