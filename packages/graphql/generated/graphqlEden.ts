@@ -1693,15 +1693,19 @@ export type RoleType = {
   _id?: Maybe<Scalars["ID"]>;
   archive?: Maybe<Scalars["Boolean"]>;
   budget?: Maybe<BudgetType>;
+  ratePerWeek?: Maybe<Scalars["Int"]>;
   dateRangeEnd?: Maybe<Scalars["String"]>;
   dateRangeStart?: Maybe<Scalars["String"]>;
   description?: Maybe<Scalars["String"]>;
+  shortDescription?: Maybe<Scalars["String"]>;
   hoursPerWeek?: Maybe<Scalars["Int"]>;
   keyRosponsibilities?: Maybe<Scalars["String"]>;
   nodes?: Maybe<Array<Maybe<NodesType>>>;
   openPositions?: Maybe<Scalars["Int"]>;
   skills?: Maybe<Array<Maybe<SkillRoleType>>>;
   title?: Maybe<Scalars["String"]>;
+  expectations?: Maybe<Scalars["String"]>;
+  benefits?: Maybe<Scalars["String"]>;
 };
 
 export enum ServerTypeEnum {
