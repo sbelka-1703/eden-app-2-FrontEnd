@@ -6,7 +6,7 @@ import { NewProfileContainer } from "./NewProfileContainer";
 const member = getMember();
 
 export default {
-  title: "Containers/NewProfileContainer",
+  title: "Archive/Containers/NewProfileContainer",
   component: NewProfileContainer,
   argTypes: {},
 } as ComponentMeta<typeof NewProfileContainer>;
