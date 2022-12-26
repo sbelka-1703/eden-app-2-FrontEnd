@@ -1,3 +1,4 @@
+import { Project } from "@eden/package-graphql/generated";
 import {
   BatteryStepper,
   Button,
@@ -8,8 +9,7 @@ import {
   TextField,
   TextHeading3,
 } from "@eden/package-ui";
-import { useReducer } from "react";
-
+import { Dispatch, SetStateAction, useReducer } from "react";
 // const TAGS = [
 //   { _id: 1, name: "DApp" },
 //   { _id: 2, name: "NFT" },
@@ -51,6 +51,8 @@ export interface CreateProjectViews1Props {
   onBack?: () => void;
   // eslint-disable-next-line no-unused-vars
   onNext: (data: ProjectData) => void;
+  setProject: Dispatch<SetStateAction<any>>;
+  project?: Project;
 }
 
 export const CreateProjectViews1 = ({
@@ -59,6 +61,8 @@ export const CreateProjectViews1 = ({
   setBattery,
   onBack,
   onNext,
+  setProject,
+  project,
 }: CreateProjectViews1Props) => {
   const [state, dispath] = useReducer(reducer, data || initialState);
 
@@ -69,6 +73,34 @@ export const CreateProjectViews1 = ({
       payload: {
         value,
       },
+    });
+    if (field == "name") {
+      setProject({
+        ...project,
+        title: value,
+      });
+    }
+    if (field == "emoji") {
+      setProject({
+        ...project,
+        emoji: value,
+      });
+    }
+    if (field == "description") {
+      setProject({
+        ...project,
+        descriptionOneLine: value,
+      });
+    }
+  };
+
+  const handleSetProject = (value: any) => {
+    setProject({
+      ...project,
+      title: value.name,
+      descriptionOneLine: value.description,
+      emoji: value.emoji,
+      backColorEmoji: value.color,
     });
   };
 
@@ -155,7 +187,13 @@ export const CreateProjectViews1 = ({
                 </Button>
               )}
             </div>
-            <Button variant="secondary" onClick={() => onNext(state)}>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                handleSetProject(state);
+                onNext(state);
+              }}
+            >
               Next
             </Button>
           </div>
