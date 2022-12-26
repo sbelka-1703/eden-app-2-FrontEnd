@@ -72,7 +72,7 @@ export const HomeHeroSection = ({
       },
       {
         title: "Launch new Project",
-        href: "/launch",
+        href: "/create-project",
         bgColor: "rgba(255, 242, 104, 0.3)",
         description:
           "Become a Champion of your own adventure! + gather a team of your dreams :)",
