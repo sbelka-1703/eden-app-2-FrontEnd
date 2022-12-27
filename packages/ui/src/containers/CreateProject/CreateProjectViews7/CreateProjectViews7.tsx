@@ -79,16 +79,16 @@ export const CreateProjectViews7 = ({
       if (value.length > 0) {
         setShowRoleForm(true);
       }
-      const roleData = {
+      const roleData: RoleType = {
         title: value,
         description: "",
         hoursPerWeek: 0,
         shortDescription: "",
         keyRosponsibilities: "",
         openPositions: 0,
-        ratePerWeek: 0,
-        expectations: "",
-        benefits: "",
+        ratePerHour: 0,
+        expectations: [""],
+        benefits: [""],
       };
 
       const newRole = projectRole;
@@ -143,7 +143,7 @@ export const CreateProjectViews7 = ({
       const newRole = projectRole;
 
       if (newRole[roleIndex]) {
-        newRole[roleIndex].ratePerWeek = value;
+        newRole[roleIndex].ratePerHour = value;
         setProjectRole(newRole);
       }
     }

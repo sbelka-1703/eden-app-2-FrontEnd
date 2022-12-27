@@ -58,7 +58,7 @@ IViewProjectContainerProps) => {
   }, [project, project?.role]);
   return (
     <Card className="bg-white p-4">
-      <p>Preview of your profile:</p>
+      <p>Preview of your project:</p>
       <div className="h-8/10 scrollbar-hide w-full overflow-scroll p-2">
         <div
           className={`flex justify-between ${
@@ -119,7 +119,7 @@ IViewProjectContainerProps) => {
                 🏆 Champion
               </p>
             </div>
-            <UserMiniCard item={currentUser} />
+            <UserMiniCard member={currentUser} />
           </div>
         </div>
         {tabs?.length && (

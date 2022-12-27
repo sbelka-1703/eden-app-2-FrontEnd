@@ -1,6 +1,11 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
-import { UserContext, UserProvider } from "@eden/package-context";
-import { Maybe, Mutation, RoleType } from "@eden/package-graphql/generated";
+import { UserContext } from "@eden/package-context";
+import {
+  Maybe,
+  Mutation,
+  Project,
+  RoleType,
+} from "@eden/package-graphql/generated";
 import {
   AppUserLayout,
   CreateProjectViews1,
@@ -11,6 +16,7 @@ import {
   GridLayout,
   Loading,
   SEO,
+  ViewProjectContainer,
 } from "@eden/package-ui";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
@@ -56,6 +62,8 @@ const FillProfilePage: NextPageWithLayout = () => {
   const { currentUser } = useContext(UserContext);
   const [step, setStep] = useState(1);
   const [submitting, setSubmitting] = useState<boolean>(false);
+  const [project, setProject] = useState<Project>();
+  const projectRoleLength = project?.role?.length;
 
   const [state, setState] = useState<any>({});
 
@@ -162,6 +170,8 @@ const FillProfilePage: NextPageWithLayout = () => {
             setBattery={setBattery}
             data={state[1]}
             onNext={onNext}
+            setProject={setProject}
+            project={project}
           />
         );
 
@@ -173,6 +183,8 @@ const FillProfilePage: NextPageWithLayout = () => {
             onNext={onNext}
             projects={typeProjectNodes?.findNodes}
             onBack={() => setStep((prev) => prev - 1)}
+            setProject={setProject}
+            project={project}
           />
         );
       case 3:
@@ -183,6 +195,9 @@ const FillProfilePage: NextPageWithLayout = () => {
             onNext={roleOnNext}
             expertise={expertiseNodes?.findNodes}
             onBack={() => setStep((prev) => prev - 1)}
+            setProject={setProject}
+            project={project}
+            roleIndex={projectRoleLength}
           />
         );
       case 4:
@@ -215,17 +230,13 @@ const FillProfilePage: NextPageWithLayout = () => {
         </GridItemSix>
 
         <GridItemSix>
-          <div />
+          <ViewProjectContainer step={String(step)} project={project} />
         </GridItemSix>
       </GridLayout>
     </>
   );
 };
 
-FillProfilePage.getLayout = (page) => (
-  <AppUserLayout>
-    <UserProvider>{page}</UserProvider>
-  </AppUserLayout>
-);
+FillProfilePage.getLayout = (page) => <AppUserLayout>{page}</AppUserLayout>;
 
 export default FillProfilePage;

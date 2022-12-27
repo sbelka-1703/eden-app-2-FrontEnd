@@ -3,12 +3,10 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
 };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
+  { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
+  { [SubKey in K]: Maybe<T[SubKey]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -1809,13 +1807,17 @@ export enum ResultEnum {
 export type RoleInput = {
   _id?: InputMaybe<Scalars["ID"]>;
   archive?: InputMaybe<Scalars["Boolean"]>;
+  benefits?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
   budget?: InputMaybe<BudgetInput>;
   dateRangeEnd?: InputMaybe<Scalars["String"]>;
   dateRangeStart?: InputMaybe<Scalars["String"]>;
   description?: InputMaybe<Scalars["String"]>;
+  expectations?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
   hoursPerWeek?: InputMaybe<Scalars["Int"]>;
   keyRosponsibilities?: InputMaybe<Scalars["String"]>;
   openPositions?: InputMaybe<Scalars["Int"]>;
+  ratePerHour?: InputMaybe<Scalars["Int"]>;
+  shortDescription?: InputMaybe<Scalars["String"]>;
   skills?: InputMaybe<Array<InputMaybe<SkillRoleInput>>>;
   title?: InputMaybe<Scalars["String"]>;
 };
@@ -1824,20 +1826,20 @@ export type RoleType = {
   __typename?: "roleType";
   _id?: Maybe<Scalars["ID"]>;
   archive?: Maybe<Scalars["Boolean"]>;
+  benefits?: Maybe<Array<Maybe<Scalars["String"]>>>;
   budget?: Maybe<BudgetType>;
-  ratePerWeek?: Maybe<Scalars["Int"]>;
   dateRangeEnd?: Maybe<Scalars["String"]>;
   dateRangeStart?: Maybe<Scalars["String"]>;
   description?: Maybe<Scalars["String"]>;
-  shortDescription?: Maybe<Scalars["String"]>;
+  expectations?: Maybe<Array<Maybe<Scalars["String"]>>>;
   hoursPerWeek?: Maybe<Scalars["Int"]>;
   keyRosponsibilities?: Maybe<Scalars["String"]>;
   nodes?: Maybe<Array<Maybe<NodesType>>>;
   openPositions?: Maybe<Scalars["Int"]>;
+  ratePerHour?: Maybe<Scalars["Int"]>;
+  shortDescription?: Maybe<Scalars["String"]>;
   skills?: Maybe<Array<Maybe<SkillRoleType>>>;
   title?: Maybe<Scalars["String"]>;
-  expectations?: Maybe<Scalars["String"]>;
-  benefits?: Maybe<Scalars["String"]>;
 };
 
 export enum ServerTypeEnum {
