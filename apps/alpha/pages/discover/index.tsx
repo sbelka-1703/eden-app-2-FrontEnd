@@ -26,16 +26,15 @@ import type { NextPageWithLayout } from "../_app";
 
 const DiscoverPage: NextPageWithLayout = () => {
   const router = useRouter();
-  const { memberServers } = useContext(UserContext);
+  const { selectedServer, memberServerIDs } = useContext(UserContext);
   const [nodesID, setNodesID] = useState<string[] | null>(null);
-  const [serverID, setServerID] = useState<string | null>(null);
+  const [serverID, setServerID] = useState<string[] | null>(null);
   const [selectedRole, setSelectedRole] = useState<RoleType | null>(null);
 
   const { data: dataMembers } = useQuery(MATCH_NODES_MEMBERS, {
     variables: {
       fields: {
         nodesID: nodesID,
-        // TODO: change to selectedServer
         serverID: serverID,
       },
     },
@@ -56,10 +55,14 @@ const DiscoverPage: NextPageWithLayout = () => {
   // if (dataMembers) console.log("dataMembers", dataMembers);
 
   useEffect(() => {
-    if (memberServers) {
-      setServerID(memberServers[1]._id);
+    if (selectedServer?._id) {
+      console.log("selectedServer", selectedServer);
+      setServerID([selectedServer?._id]);
+      // setServerID(memberServers[1]._id);
+    } else {
+      setServerID(memberServerIDs);
     }
-  }, [memberServers]);
+  }, [selectedServer]);
 
   // if (memberServers) console.log("memberServers", memberServers[1]._id);
 
