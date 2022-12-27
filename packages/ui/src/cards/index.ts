@@ -10,6 +10,7 @@ export * from "./MemberProfileCard";
 export * from "./OnboardRoomCard";
 export * from "./OpenPositionCard";
 export * from "./project";
+export * from "./ReviewCard";
 export * from "./RoleSmallCard";
 export * from "./SignUpRoleSelectCard";
 export * from "./StaticCard";

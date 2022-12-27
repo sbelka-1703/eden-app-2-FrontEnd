@@ -20,4 +20,5 @@ export * from "./test/HackathonModalContainer";
 export * from "./test/ShortlistModalContainerStory";
 export * from "./test/ShortlistModalContainerStoryFilter";
 export * from "./test/ShortlistModalContainerTest";
+export * from "./ViewProjectContainer";
 export * from "./ViewUserProfileContainer";

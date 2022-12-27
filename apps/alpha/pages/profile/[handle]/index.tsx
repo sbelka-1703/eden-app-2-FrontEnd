@@ -13,8 +13,9 @@ import {
 import * as React from "react";
 
 const ProfilePage = ({ member }: { member: Members }) => {
-  const [experienceOpen, setExperienceOpen] =
-    React.useState<number | null>(null);
+  const [experienceOpen, setExperienceOpen] = React.useState<number | null>(
+    null
+  );
 
   return (
     <>

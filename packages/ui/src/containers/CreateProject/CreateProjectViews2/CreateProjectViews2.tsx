@@ -1,3 +1,4 @@
+import { Project } from "@eden/package-graphql/generated";
 import {
   BatteryStepper,
   Button,
@@ -6,9 +7,8 @@ import {
   TextArea,
   TextHeading3,
 } from "@eden/package-ui";
-// import { isEmpty, map } from "lodash";
-import { useReducer } from "react";
-
+import { isEmpty, map } from "lodash";
+import { Dispatch, SetStateAction, useReducer } from "react";
 interface ProjectData {
   username: string;
   description: string;
@@ -41,6 +41,8 @@ export interface CreateProjectViews2Props {
   onBack: () => void;
   // eslint-disable-next-line no-unused-vars
   onNext: (data: ProjectData) => void;
+  setProject: Dispatch<SetStateAction<any>>;
+  project?: Project;
 }
 
 export const CreateProjectViews2 = ({
@@ -50,18 +52,32 @@ export const CreateProjectViews2 = ({
   onNext,
   // eslint-disable-next-line no-unused-vars
   projects = [],
+  setProject,
+  project,
 }: CreateProjectViews2Props) => {
   const [state, dispath] = useReducer(reducer, initialState);
   // const [projectOwner, setProjectOwner] = useState(true);
 
   const handleUpdateState = (value: any, field: string) => {
-    console.log("aaaa = ", value, field);
     dispath({
       type: "HANDLE INPUT TEXT",
       field: field,
       payload: {
         value,
       },
+    });
+    if (field == "description") {
+      setProject({
+        ...project,
+        description: value,
+      });
+    }
+  };
+
+  const handleSetProject = (value: any) => {
+    setProject({
+      ...project,
+      description: value.description,
     });
   };
 
@@ -176,7 +192,13 @@ export const CreateProjectViews2 = ({
             <Button variant="secondary" onClick={onBack}>
               Back
             </Button>
-            <Button variant="secondary" onClick={() => onNext(state)}>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                handleSetProject(state);
+                onNext(state);
+              }}
+            >
               Next
             </Button>
           </div>
