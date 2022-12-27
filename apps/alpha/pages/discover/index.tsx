@@ -56,9 +56,7 @@ const DiscoverPage: NextPageWithLayout = () => {
 
   useEffect(() => {
     if (selectedServer?._id) {
-      console.log("selectedServer", selectedServer);
       setServerID([selectedServer?._id]);
-      // setServerID(memberServers[1]._id);
     } else {
       setServerID(memberServerIDs);
     }
