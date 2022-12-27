@@ -38,6 +38,18 @@ const OnboardPartyPage: NextPageWithLayout = () => {
     "1048598413463257148"
   );
 
+  const { data: dataRoom } = useQuery(FIND_ROOM, {
+    variables: {
+      fields: {
+        _id: partyId,
+      },
+    },
+    skip: !partyId,
+    context: { serviceName: "soilservice" },
+  });
+
+  // if (dataRoom?.findRoom) console.log("dataRoom", dataRoom?.findRoom);
+
   const { data: dataMembers, refetch: refetchMatchMembers } = useQuery(
     MATCH_NODES_MEMBERS,
     {
@@ -62,18 +74,6 @@ const OnboardPartyPage: NextPageWithLayout = () => {
   }, [currentUser]);
 
   // if (dataMembers) console.log("dataMembers", dataMembers?.matchNodesToMembers);
-
-  const { data: dataRoom } = useQuery(FIND_ROOM, {
-    variables: {
-      fields: {
-        _id: partyId,
-      },
-    },
-    skip: !partyId,
-    context: { serviceName: "soilservice" },
-  });
-
-  // console.log("dataRoom", dataRoom);
 
   const { data: dataRoomSubscription } = useSubscription(ROOM_UPDATED, {
     variables: {
@@ -157,7 +157,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
       <GridLayout>
         <GridItemThree>
           <div className={`lg:h-85 mb-8 flex flex-col gap-4 lg:mb-0`}>
-            <OnboardRoomCard />
+            <OnboardRoomCard room={dataRoom?.findRoom} />
             {!currentUser ? (
               <p>
                 You must be logged in to edit your profile.
