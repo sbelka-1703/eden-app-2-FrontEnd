@@ -48,7 +48,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
     context: { serviceName: "soilservice" },
   });
 
-  if (dataRoom?.findRoom) console.log("dataRoom", dataRoom?.findRoom);
+  // if (dataRoom?.findRoom) console.log("dataRoom", dataRoom?.findRoom);
 
   const { data: dataMembers, refetch: refetchMatchMembers } = useQuery(
     MATCH_NODES_MEMBERS,

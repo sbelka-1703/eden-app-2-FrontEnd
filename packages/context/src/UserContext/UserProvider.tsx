@@ -1,6 +1,10 @@
 import { gql, useMutation, useQuery, useSubscription } from "@apollo/client";
 import { FIND_CURRENTUSER, FIND_CURRENTUSER_SUB } from "@eden/package-graphql";
-import { Members, Mutation } from "@eden/package-graphql/generated";
+import {
+  Members,
+  Mutation,
+  ServerTemplate,
+} from "@eden/package-graphql/generated";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 
@@ -64,6 +68,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   const [mutualGuildsSearched, setMutualGuildsSearched] = useState(false);
   const [memberServers, setMemberServers] = useState<any>(null);
   const [selectedServer, setSelectedServer] = useState<any>();
+  const [memberServerIDs, setMemberServerIDs] = useState<string[]>([]);
 
   const [addNewMember, {}] = useMutation(ADD_NEW_MEMBER, {
     onCompleted({ addNewMember }: Mutation) {
@@ -118,7 +123,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
             });
         } else {
           if (!mutualGuildsSearched) {
-            const servers: any[] = [];
+            const servers: ServerTemplate[] = [];
             const serverIds: string[] = [];
 
             // if (isEdenStaff.includes(data.findMember._id))
@@ -144,6 +149,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
                 setMemberServers(servers);
                 setSelectedServer(servers[0]);
                 if (serverIds.length > 0) {
+                  setMemberServerIDs(serverIds);
                   updateMember({
                     variables: {
                       fields: {
@@ -205,6 +211,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     },
     refechProfile: refechProfile,
     memberServers,
+    memberServerIDs,
     selectedServer,
     setSelectedServer,
   };
