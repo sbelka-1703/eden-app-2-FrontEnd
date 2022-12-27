@@ -32,11 +32,13 @@ const ProfilePage = ({ member }: { member: Members }) => {
               className={`h-85 scrollbar-hide overflow-y-scroll bg-white`}
             >
               {member ? (
-                <MemberInfo
-                  member={member}
-                  setExperienceOpen={setExperienceOpen!}
-                  experienceOpen={experienceOpen!}
-                />
+                <div className={`p-4 md:p-8`}>
+                  <MemberInfo
+                    member={member}
+                    setExperienceOpen={setExperienceOpen!}
+                    experienceOpen={experienceOpen!}
+                  />
+                </div>
               ) : (
                 <Loading title={`Searching...`} />
               )}

@@ -31,37 +31,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
   const { currentUser } = useContext(UserContext);
 
   const [members, setMembers] = useState<Members[]>([]);
-
   const [nodesID, setNodesID] = useState<string[] | null>(null);
-  // eslint-disable-next-line no-unused-vars
-  const [serverID, setServerID] = useState<string | null>(
-    "1048598413463257148"
-  );
-
-  const { data: dataMembers, refetch: refetchMatchMembers } = useQuery(
-    MATCH_NODES_MEMBERS,
-    {
-      variables: {
-        fields: {
-          nodesID: nodesID,
-          // TODO: change to selectedServer
-          serverID: serverID,
-        },
-      },
-      skip: !nodesID || !serverID,
-      context: { serviceName: "soilservice" },
-    }
-  );
-
-  useEffect(() => {
-    if (currentUser && currentUser.nodes) {
-      const nodesID = currentUser?.nodes.map((node) => node?.nodeData?._id);
-
-      setNodesID(nodesID as string[]);
-    }
-  }, [currentUser]);
-
-  // if (dataMembers) console.log("dataMembers", dataMembers?.matchNodesToMembers);
 
   const { data: dataRoom } = useQuery(FIND_ROOM, {
     variables: {
@@ -73,7 +43,31 @@ const OnboardPartyPage: NextPageWithLayout = () => {
     context: { serviceName: "soilservice" },
   });
 
-  // console.log("dataRoom", dataRoom);
+  if (dataRoom?.findRoom) console.log("dataRoom", dataRoom?.findRoom);
+
+  const { data: dataMembers, refetch: refetchMatchMembers } = useQuery(
+    MATCH_NODES_MEMBERS,
+    {
+      variables: {
+        fields: {
+          nodesID: nodesID,
+          serverID: dataRoom?.findRoom?.serverID,
+        },
+      },
+      skip: !nodesID || !dataRoom?.findRoom?.serverID,
+      context: { serviceName: "soilservice" },
+    }
+  );
+
+  // if (dataMembers) console.log("dataMembers", dataMembers?.matchNodesToMembers);
+
+  useEffect(() => {
+    if (currentUser && currentUser.nodes) {
+      const nodesID = currentUser?.nodes.map((node) => node?.nodeData?._id);
+
+      setNodesID(nodesID as string[]);
+    }
+  }, [currentUser]);
 
   const { data: dataRoomSubscription } = useSubscription(ROOM_UPDATED, {
     variables: {
@@ -157,7 +151,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
       <GridLayout>
         <GridItemThree>
           <div className={`lg:h-85 mb-8 flex flex-col gap-4 lg:mb-0`}>
-            <OnboardRoomCard />
+            <OnboardRoomCard room={dataRoom?.findRoom} />
             {!currentUser ? (
               <p>
                 You must be logged in to edit your profile.
@@ -166,7 +160,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
               </p>
             ) : (
               <EditProfileOnboardPartyNodesCard
-                serverID={serverID as string}
+                serverID={dataRoom?.findRoom?.serverID || ""}
                 RoomID={partyId as string}
               />
             )}
