@@ -449,6 +449,8 @@ export type Node = {
   matchRelativePosition_server?: Maybe<
     Array<Maybe<MatchRelativePosition_ServerType>>
   >;
+  match_v2?: Maybe<Array<Maybe<Match_V2Type>>>;
+  match_v2_update?: Maybe<Match_V2_UpdateType>;
   name?: Maybe<Scalars["String"]>;
   node?: Maybe<Scalars["String"]>;
   registeredAt?: Maybe<Scalars["String"]>;
@@ -547,6 +549,7 @@ export type Query = {
   findRoleTemplates?: Maybe<Array<Maybe<RoleTemplate>>>;
   findRoles?: Maybe<Array<Maybe<Role>>>;
   findRoom?: Maybe<Rooms>;
+  findRooms?: Maybe<Array<Maybe<Rooms>>>;
   findServers?: Maybe<Array<Maybe<ServerTemplate>>>;
   findSkill?: Maybe<Skills>;
   findSkillCategories?: Maybe<Array<Maybe<SkillCategory>>>;
@@ -562,8 +565,13 @@ export type Query = {
   matchMembersToSkills?: Maybe<Array<Maybe<MatchMembersToSkillOutput>>>;
   matchMembersToUser?: Maybe<Array<Maybe<MatchMembersToUserOutput>>>;
   matchNodesToMembers?: Maybe<Array<Maybe<MatchMembersToSkillOutput>>>;
+  matchNodesToMembers_old?: Maybe<Array<Maybe<MatchMembersToSkillOutput>>>;
   matchNodesToProjectRoles?: Maybe<Array<Maybe<MatchSkillsToProjectsOutput>>>;
+  matchNodesToProjectRoles_old?: Maybe<
+    Array<Maybe<MatchSkillsToProjectsOutput>>
+  >;
   matchPrepareNode?: Maybe<Node>;
+  matchPrepareNode_old?: Maybe<Node>;
   matchPrepareSkillToMembers?: Maybe<Skills>;
   matchPrepareSkillToProjectRoles?: Maybe<Skills>;
   matchProjectsToMember?: Maybe<Array<Maybe<Project>>>;
@@ -656,6 +664,10 @@ export type QueryFindRoomArgs = {
   fields?: InputMaybe<FindRoomsInput>;
 };
 
+export type QueryFindRoomsArgs = {
+  fields?: InputMaybe<FindRoomsInput>;
+};
+
 export type QueryFindServersArgs = {
   fields?: InputMaybe<FindServersInput>;
 };
@@ -708,11 +720,23 @@ export type QueryMatchNodesToMembersArgs = {
   fields?: InputMaybe<MatchNodesToMembersInput>;
 };
 
+export type QueryMatchNodesToMembers_OldArgs = {
+  fields?: InputMaybe<MatchNodesToMembersInput>;
+};
+
 export type QueryMatchNodesToProjectRolesArgs = {
   fields?: InputMaybe<MatchNodesToProjectRolesInput>;
 };
 
+export type QueryMatchNodesToProjectRoles_OldArgs = {
+  fields?: InputMaybe<MatchNodesToProjectRolesInput>;
+};
+
 export type QueryMatchPrepareNodeArgs = {
+  fields?: InputMaybe<MatchPrepareNodeInput>;
+};
+
+export type QueryMatchPrepareNode_OldArgs = {
   fields?: InputMaybe<MatchPrepareNodeInput>;
 };
 
@@ -786,6 +810,7 @@ export type Rooms = {
   _id?: Maybe<Scalars["ID"]>;
   avatar?: Maybe<Scalars["String"]>;
   description?: Maybe<Scalars["String"]>;
+  hosts?: Maybe<Array<Maybe<Members>>>;
   members?: Maybe<Array<Maybe<Members>>>;
   name?: Maybe<Scalars["String"]>;
   registeredAt?: Maybe<Scalars["String"]>;
@@ -1189,6 +1214,7 @@ export type CreateRoomInput = {
   _id?: InputMaybe<Scalars["String"]>;
   avatar?: InputMaybe<Scalars["String"]>;
   description?: InputMaybe<Scalars["String"]>;
+  hostID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
   name?: InputMaybe<Scalars["String"]>;
   serverID?: InputMaybe<Scalars["String"]>;
 };
@@ -1284,8 +1310,7 @@ export type FindChatInput = {
 
 export enum FindEnum {
   Member = "Member",
-  Project = "Project",
-  Role = "Role",
+  ProjectRole = "ProjectRole",
 }
 
 export type FindEpicInput = {
@@ -1343,10 +1368,9 @@ export type FindNodeInput = {
 
 export type FindNodesInput = {
   _id?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
-  matchByServer_update?: InputMaybe<Scalars["Boolean"]>;
   node?: InputMaybe<Scalars["String"]>;
-  recalculateMembers?: InputMaybe<Scalars["Boolean"]>;
-  recalculateProjectRoles?: InputMaybe<Scalars["Boolean"]>;
+  recalculate_en?: InputMaybe<RecalculateEnum>;
+  show_match_v2?: InputMaybe<Scalars["Boolean"]>;
 };
 
 export type FindProjectInput = {
@@ -1399,6 +1423,7 @@ export type FindRolesInput = {
 
 export type FindRoomsInput = {
   _id?: InputMaybe<Scalars["ID"]>;
+  serverID?: InputMaybe<Scalars["String"]>;
 };
 
 export type FindServersInput = {
@@ -1620,6 +1645,21 @@ export type Match_ProjectToUserInput = {
   serverID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
+export type Match_V2Type = {
+  __typename?: "match_v2Type";
+  nodeResID?: Maybe<Scalars["ID"]>;
+  numPath?: Maybe<Scalars["Float"]>;
+  serverID?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  type?: Maybe<TypeEnumMp>;
+  wh_sum?: Maybe<Scalars["Float"]>;
+};
+
+export type Match_V2_UpdateType = {
+  __typename?: "match_v2_updateType";
+  member?: Maybe<Scalars["Boolean"]>;
+  projectRole?: Maybe<Scalars["Boolean"]>;
+};
+
 export type Members_AutocompleteInput = {
   search?: InputMaybe<Scalars["String"]>;
 };
@@ -1717,6 +1757,12 @@ export type ProjectUserMatchType = {
   skillsMatch?: Maybe<Array<Maybe<Skills>>>;
 };
 
+export enum RecalculateEnum {
+  All = "All",
+  Member = "Member",
+  ProjectRole = "ProjectRole",
+}
+
 export type RelatedNodeInput = {
   _id?: InputMaybe<Scalars["ID"]>;
   relatedNode_id?: InputMaybe<Scalars["ID"]>;
@@ -1763,13 +1809,17 @@ export enum ResultEnum {
 export type RoleInput = {
   _id?: InputMaybe<Scalars["ID"]>;
   archive?: InputMaybe<Scalars["Boolean"]>;
+  benefits?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
   budget?: InputMaybe<BudgetInput>;
   dateRangeEnd?: InputMaybe<Scalars["String"]>;
   dateRangeStart?: InputMaybe<Scalars["String"]>;
   description?: InputMaybe<Scalars["String"]>;
+  expectations?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
   hoursPerWeek?: InputMaybe<Scalars["Int"]>;
   keyRosponsibilities?: InputMaybe<Scalars["String"]>;
   openPositions?: InputMaybe<Scalars["Int"]>;
+  ratePerHour?: InputMaybe<Scalars["Int"]>;
+  shortDescription?: InputMaybe<Scalars["String"]>;
   skills?: InputMaybe<Array<InputMaybe<SkillRoleInput>>>;
   title?: InputMaybe<Scalars["String"]>;
 };
@@ -1778,20 +1828,20 @@ export type RoleType = {
   __typename?: "roleType";
   _id?: Maybe<Scalars["ID"]>;
   archive?: Maybe<Scalars["Boolean"]>;
+  benefits?: Maybe<Array<Maybe<Scalars["String"]>>>;
   budget?: Maybe<BudgetType>;
-  ratePerWeek?: Maybe<Scalars["Int"]>;
   dateRangeEnd?: Maybe<Scalars["String"]>;
   dateRangeStart?: Maybe<Scalars["String"]>;
   description?: Maybe<Scalars["String"]>;
-  shortDescription?: Maybe<Scalars["String"]>;
+  expectations?: Maybe<Array<Maybe<Scalars["String"]>>>;
   hoursPerWeek?: Maybe<Scalars["Int"]>;
   keyRosponsibilities?: Maybe<Scalars["String"]>;
   nodes?: Maybe<Array<Maybe<NodesType>>>;
   openPositions?: Maybe<Scalars["Int"]>;
+  ratePerHour?: Maybe<Scalars["Int"]>;
+  shortDescription?: Maybe<Scalars["String"]>;
   skills?: Maybe<Array<Maybe<SkillRoleType>>>;
   title?: Maybe<Scalars["String"]>;
-  expectations?: Maybe<Scalars["String"]>;
-  benefits?: Maybe<Scalars["String"]>;
 };
 
 export enum ServerTypeEnum {
@@ -1902,6 +1952,11 @@ export type TweetsType = {
   registeredAt?: Maybe<Scalars["String"]>;
   title?: Maybe<Scalars["String"]>;
 };
+
+export enum TypeEnumMp {
+  Member = "Member",
+  ProjectRole = "ProjectRole",
+}
 
 export type UpdateChatReplyInput = {
   _id?: InputMaybe<Scalars["ID"]>;
