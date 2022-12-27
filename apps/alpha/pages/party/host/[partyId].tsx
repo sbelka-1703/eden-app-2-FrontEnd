@@ -37,10 +37,18 @@ const OnboardPartyPage: NextPageWithLayout = () => {
   const [members, setMembers] = useState<Members[]>([]);
   const [memberID, setMemberID] = useState("");
   const [nodesID, setNodesID] = useState<string[] | null>(null);
-  // eslint-disable-next-line no-unused-vars
-  const [serverID, setServerID] = useState<string | null>(
-    "1048598413463257148"
-  );
+
+  const { data: dataRoom } = useQuery(FIND_ROOM, {
+    variables: {
+      fields: {
+        _id: partyId,
+      },
+    },
+    skip: !partyId,
+    context: { serviceName: "soilservice" },
+  });
+
+  if (dataRoom?.findRoom) console.log("dataRoom", dataRoom?.findRoom);
 
   const { data: dataMembers, refetch: refetchMatchMembers } = useQuery(
     MATCH_NODES_MEMBERS,
@@ -48,14 +56,15 @@ const OnboardPartyPage: NextPageWithLayout = () => {
       variables: {
         fields: {
           nodesID: nodesID,
-          // TODO: change to selectedServer
-          serverID: serverID,
+          serverID: dataRoom?.findRoom?.serverID,
         },
       },
-      skip: !nodesID || !serverID,
+      skip: !nodesID || !dataRoom?.findRoom?.serverID,
       context: { serviceName: "soilservice" },
     }
   );
+
+  // if (dataMembers) console.log("dataMembers", dataMembers?.matchNodesToMembers);
 
   const { data: dataMember, refetch: refetchMember } = useQuery(FIND_MEMBER, {
     variables: {
@@ -67,17 +76,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
     context: { serviceName: "soilservice" },
   });
 
-  // if (dataMembers) console.log("dataMembers", dataMembers?.matchNodesToMembers);
-
-  const { data: dataRoom } = useQuery(FIND_ROOM, {
-    variables: {
-      fields: {
-        _id: partyId,
-      },
-    },
-    skip: !partyId,
-    context: { serviceName: "soilservice" },
-  });
+  // if (dataMember) console.log("dataMember", dataMember?.findMember);
 
   const { data: dataRoomSubscription } = useSubscription(ROOM_UPDATED, {
     variables: {
@@ -182,7 +181,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
       <GridLayout>
         <GridItemThree>
           <div className={`lg:h-85 mb-8 flex flex-col gap-4 lg:mb-0`}>
-            <OnboardRoomCard />
+            <OnboardRoomCard room={dataRoom?.findRoom} />
             {!currentUser ? (
               <p>
                 You must be logged in to edit your profile.

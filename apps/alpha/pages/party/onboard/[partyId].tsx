@@ -31,12 +31,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
   const { currentUser } = useContext(UserContext);
 
   const [members, setMembers] = useState<Members[]>([]);
-
   const [nodesID, setNodesID] = useState<string[] | null>(null);
-  // eslint-disable-next-line no-unused-vars
-  const [serverID, setServerID] = useState<string | null>(
-    "1048598413463257148"
-  );
 
   const { data: dataRoom } = useQuery(FIND_ROOM, {
     variables: {
@@ -48,7 +43,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
     context: { serviceName: "soilservice" },
   });
 
-  // if (dataRoom?.findRoom) console.log("dataRoom", dataRoom?.findRoom);
+  if (dataRoom?.findRoom) console.log("dataRoom", dataRoom?.findRoom);
 
   const { data: dataMembers, refetch: refetchMatchMembers } = useQuery(
     MATCH_NODES_MEMBERS,
@@ -56,14 +51,15 @@ const OnboardPartyPage: NextPageWithLayout = () => {
       variables: {
         fields: {
           nodesID: nodesID,
-          // TODO: change to selectedServer
-          serverID: serverID,
+          serverID: dataRoom?.findRoom?.serverID,
         },
       },
-      skip: !nodesID || !serverID,
+      skip: !nodesID || !dataRoom?.findRoom?.serverID,
       context: { serviceName: "soilservice" },
     }
   );
+
+  // if (dataMembers) console.log("dataMembers", dataMembers?.matchNodesToMembers);
 
   useEffect(() => {
     if (currentUser && currentUser.nodes) {
@@ -72,8 +68,6 @@ const OnboardPartyPage: NextPageWithLayout = () => {
       setNodesID(nodesID as string[]);
     }
   }, [currentUser]);
-
-  // if (dataMembers) console.log("dataMembers", dataMembers?.matchNodesToMembers);
 
   const { data: dataRoomSubscription } = useSubscription(ROOM_UPDATED, {
     variables: {
@@ -166,7 +160,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
               </p>
             ) : (
               <EditProfileOnboardPartyNodesCard
-                serverID={serverID as string}
+                serverID={dataRoom?.findRoom?.serverID || ""}
                 RoomID={partyId as string}
               />
             )}
