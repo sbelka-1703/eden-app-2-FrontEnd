@@ -1,10 +1,7 @@
 import { Members } from "@eden/package-graphql/generated";
-import {
-  Card,
-  EndorsementList,
-  UserSkillSocialAval,
-  UserWithDescription,
-} from "@eden/package-ui";
+import { Card, EndorsementList, UserWithDescription } from "@eden/package-ui";
+
+import { UserSkillSocialAval } from "../../components/UserSkillSocialAval/UserSkillSocialAval";
 
 export interface NewProfileContainerProps {
   user: Members;

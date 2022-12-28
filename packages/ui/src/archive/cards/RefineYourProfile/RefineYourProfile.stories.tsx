@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { RefineYourProfile } from "./RefineYourProfile";
 
 export default {
-  title: "Cards/RefineYourProfile",
+  title: "Archive/Cards/RefineYourProfile",
   component: RefineYourProfile,
   argTypes: {},
 } as ComponentMeta<typeof RefineYourProfile>;
