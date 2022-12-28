@@ -58,7 +58,7 @@ export const getMember = (): Members => ({
   discordAvatar: faker.internet.avatar(),
   discordName: faker.internet.userName(),
   discriminator: faker.random.numeric(4),
-  hoursPerWeek: faker.datatype.number({ min: 2, max: 36, precision: 1 }),
+  hoursPerWeek: faker.datatype.number({ min: 5, max: 36, precision: 1 }),
   interest: faker.lorem.paragraph(),
   links: getLinkTypeMock,
   memberRole: getRoleTemplateTypeMock(),
@@ -72,10 +72,10 @@ export const getMember = (): Members => ({
     faker.datatype.number({ min: 2, max: 36, precision: 1 })
   ),
   nodes: getNodesTypeMockArray(
-    faker.datatype.number({ min: 2, max: 36, precision: 1 })
+    faker.datatype.number({ min: 2, max: 24, precision: 1 })
   ),
   endorsements: getEndorsementsTypeMockArray(
-    faker.datatype.number({ min: 2, max: 36, precision: 1 })
+    faker.datatype.number({ min: 2, max: 20, precision: 1 })
   ),
   timeZone: faker.address.timeZone(),
 });

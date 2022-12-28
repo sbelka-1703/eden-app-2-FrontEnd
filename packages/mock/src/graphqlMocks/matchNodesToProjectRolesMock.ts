@@ -1,4 +1,5 @@
 import { MatchSkillsToProjectsOutput } from "@eden/package-graphql/generated";
+import { faker } from "@faker-js/faker";
 
 import {
   getMatchProjectRolesTypeMockArray,
@@ -11,8 +12,12 @@ export const matchNodesToProjectRolesMock =
   (): MatchSkillsToProjectsOutput => ({
     matchPercentage: randomPercentage(),
     project: getProject(),
-    commonSkills: getSkillsTypeMockArray(10),
-    projectRoles: getMatchProjectRolesTypeMockArray(8),
+    commonSkills: getSkillsTypeMockArray(
+      faker.datatype.number({ min: 2, max: 10, precision: 1 })
+    ),
+    projectRoles: getMatchProjectRolesTypeMockArray(
+      faker.datatype.number({ min: 2, max: 5, precision: 1 })
+    ),
   });
 
 export const matchNodesToProjectRolesMockArray = (
