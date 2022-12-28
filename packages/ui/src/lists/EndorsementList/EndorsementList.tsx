@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { AvatarList, EndorsementCard } from "@eden/package-ui";
+import { AvatarList, CardGrid, EndorsementCard } from "@eden/package-ui";
 import { QuestionMarkCircleIcon } from "@heroicons/react/outline";
 import React, { useEffect, useState } from "react";
 
@@ -55,7 +55,7 @@ export const EndorsementList: React.FC<EndorsementListProps> = ({
           </div>
         </span>
       </div>
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
+      <CardGrid>
         {endorsements.slice(0, 3).map((endorsement, index) => (
           <div key={index} className="col-span-1">
             <EndorsementCard
@@ -66,7 +66,7 @@ export const EndorsementList: React.FC<EndorsementListProps> = ({
             />
           </div>
         ))}
-      </div>
+      </CardGrid>
       {endorsements.slice(3, 8).length > 0 && (
         <div className="mt-4 flex items-center">
           <AvatarList

@@ -50,7 +50,7 @@ export const GrantsInfo = ({ grant }: IGrantsInfoProps) => {
           </div>
         </div>
       </div>
-      <div className={`mt-4 grid grid-cols-3 gap-4`}>
+      <div className={`mt-4 grid gap-4 sm:grid-cols-3`}>
         <div className={`col-span-2`}>
           <div>
             <div
@@ -121,14 +121,13 @@ export const GrantsInfo = ({ grant }: IGrantsInfoProps) => {
             <TextHeading2>{grant?.amount}</TextHeading2>
             <TextHeading3>🗓 by Dec 15th</TextHeading3>
           </div>
-          <div className={`my-4`}>
+          {/* <div className={`my-4`}>
             <div className={`font-Inter text-md font-medium text-zinc-400`}>
               🎤 resources
             </div>
             <div className={`my-1 rounded-xl bg-blue-50 p-4 shadow-md`}>
-              {/* box */}
             </div>
-          </div>
+          </div> */}
           <div className={`my-4`}>
             <div className={`font-Inter text-md font-medium text-zinc-400`}>
               💪🏼 difficulty

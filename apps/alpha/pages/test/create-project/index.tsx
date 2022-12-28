@@ -1,6 +1,6 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
-import { UserProvider } from "@eden/package-context";
-import { Mutation } from "@eden/package-graphql/generated";
+import { UserContext } from "@eden/package-context";
+import { Mutation, Project } from "@eden/package-graphql/generated";
 import {
   AppUserLayout,
   CreateProjectViews1,
@@ -10,8 +10,9 @@ import {
   GridItemSix,
   GridLayout,
   SEO,
+  ViewProjectContainer,
 } from "@eden/package-ui";
-import { useEffect, useState } from "react";
+import { useContext, useState } from "react";
 
 import { NextPageWithLayout } from "../../_app";
 
@@ -39,12 +40,12 @@ const FIND_NODES = gql`
 `;
 
 const FillProfilePage: NextPageWithLayout = () => {
+  const { currentUser } = useContext(UserContext);
   const [step, setStep] = useState(1);
-
   const [state, setState] = useState<any>({});
-
   const [battery, setBattery] = useState(5);
-
+  const [project, setProject] = useState<Project>();
+  const projectRoleLength = project?.role?.length;
   const [updateProject, {}] = useMutation(LAUNCH_PROJECT, {
     onCompleted({ updateProject }: Mutation) {
       if (!updateProject) console.log("updateProject is null");
@@ -102,6 +103,7 @@ const FillProfilePage: NextPageWithLayout = () => {
           title: state[1].name,
           emoji: state[1].emoji,
           descriptionOneLine: state[1].description,
+          champion: currentUser?._id,
           // tags: state[1].tags,
           backColorEmoji: state[1].color,
           description: state[3].description,
@@ -141,6 +143,8 @@ const FillProfilePage: NextPageWithLayout = () => {
             setBattery={setBattery}
             data={state[1]}
             onNext={onNext}
+            setProject={setProject}
+            project={project}
           />
         );
 
@@ -152,6 +156,8 @@ const FillProfilePage: NextPageWithLayout = () => {
             onNext={onNext}
             projects={typeProjectNodes?.findNodes}
             onBack={() => setStep((prev) => prev - 1)}
+            setProject={setProject}
+            project={project}
           />
         );
       case 3:
@@ -162,6 +168,9 @@ const FillProfilePage: NextPageWithLayout = () => {
             onNext={onNext}
             expertise={expertiseNodes?.findNodes}
             onBack={() => setStep((prev) => prev - 1)}
+            setProject={setProject}
+            project={project}
+            roleIndex={projectRoleLength}
           />
         );
       case 4:
@@ -180,10 +189,6 @@ const FillProfilePage: NextPageWithLayout = () => {
     }
   };
 
-  useEffect(() => {
-    console.info({ state });
-  }, [state]);
-
   return (
     <>
       <SEO />
@@ -191,19 +196,14 @@ const FillProfilePage: NextPageWithLayout = () => {
         <GridItemSix className={`h-85 scrollbar-hide overflow-y-scroll `}>
           {stepView()}
         </GridItemSix>
-
         <GridItemSix>
-          <div />
+          <ViewProjectContainer step={String(step)} project={project} />
         </GridItemSix>
       </GridLayout>
     </>
   );
 };
 
-FillProfilePage.getLayout = (page) => (
-  <AppUserLayout>
-    <UserProvider>{page}</UserProvider>
-  </AppUserLayout>
-);
+FillProfilePage.getLayout = (page) => <AppUserLayout>{page}</AppUserLayout>;
 
 export default FillProfilePage;

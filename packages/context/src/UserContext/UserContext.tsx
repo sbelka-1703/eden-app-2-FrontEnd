@@ -5,14 +5,13 @@ import {
 } from "@eden/package-graphql/generated";
 import { createContext, Dispatch } from "react";
 
-type userProfile = Members;
-
 export interface UserContextType {
-  currentUser?: userProfile;
+  currentUser?: Members;
   memberFound: boolean;
-  setCurrentUser: Dispatch<userProfile>;
+  setCurrentUser: Dispatch<Members>;
   refechProfile: () => void;
-  memberServers: any;
+  memberServers: ServerTemplate[];
+  memberServerIDs: string[];
   selectedServer: Maybe<ServerTemplate>;
   setSelectedServer: Dispatch<string>;
 }
@@ -24,7 +23,8 @@ export const UserContext = createContext<UserContextType>({
   setCurrentUser: () => {},
   // eslint-disable-next-line no-empty-function
   refechProfile: () => {},
-  memberServers: undefined,
+  memberServers: [],
+  memberServerIDs: [],
   selectedServer: {},
   // eslint-disable-next-line no-empty-function
   setSelectedServer: () => {},

@@ -18,6 +18,7 @@ export const UserMiniCard = ({ member, onExpand, item }: UserMiniCardProps) => {
   if (!member && !item) {
     return null;
   }
+
   return (
     <div>
       <Card border shadow>

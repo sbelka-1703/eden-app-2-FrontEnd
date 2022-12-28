@@ -1,15 +1,15 @@
+import { Project } from "@eden/package-graphql/generated";
 import {
   BatteryStepper,
   Button,
   Card,
-  ColorPicker,
+  // ColorPicker,
   EmojiSelector,
   TextArea,
   TextField,
   TextHeading3,
 } from "@eden/package-ui";
-import { useReducer } from "react";
-
+import { Dispatch, SetStateAction, useReducer } from "react";
 // const TAGS = [
 //   { _id: 1, name: "DApp" },
 //   { _id: 2, name: "NFT" },
@@ -46,19 +46,24 @@ function reducer(state: ProjectData, action: any): ProjectData {
 
 export interface CreateProjectViews1Props {
   data?: ProjectData;
-  battery: number;
+  battery?: number;
+  // eslint-disable-next-line no-unused-vars
   setBattery: (level: number) => void;
   onBack?: () => void;
   // eslint-disable-next-line no-unused-vars
   onNext: (data: ProjectData) => void;
+  setProject: Dispatch<SetStateAction<any>>;
+  project?: Project;
 }
 
 export const CreateProjectViews1 = ({
   data,
-  battery,
+  battery = 0,
   setBattery,
   onBack,
   onNext,
+  setProject,
+  project,
 }: CreateProjectViews1Props) => {
   const [state, dispath] = useReducer(reducer, data || initialState);
 
@@ -70,7 +75,38 @@ export const CreateProjectViews1 = ({
         value,
       },
     });
+    if (field == "name") {
+      setProject({
+        ...project,
+        title: value,
+      });
+    }
+    if (field == "emoji") {
+      setProject({
+        ...project,
+        emoji: value,
+      });
+    }
+    if (field == "description") {
+      setProject({
+        ...project,
+        descriptionOneLine: value,
+      });
+    }
   };
+
+  const handleSetProject = (value: any) => {
+    setProject({
+      ...project,
+      title: value.name,
+      descriptionOneLine: value.description,
+      emoji: value.emoji,
+      backColorEmoji: value.color,
+    });
+  };
+
+  // const nextDisabled =
+  //   !state.name || !state.description || !state.emoji || !state.color;
 
   return (
     <Card shadow className="bg-white pt-3 pb-6">
@@ -112,11 +148,23 @@ export const CreateProjectViews1 = ({
               <EmojiSelector
                 size={100}
                 onSelection={(value) => handleUpdateState(value, "emoji")}
+                bgColor={state.color || "#e8e8e8"}
               />
-              <ColorPicker
+              {/* removed this one cos couldn't make it work */}
+              {/* <ColorPicker
                 width={100}
-                onChange={(color) => handleUpdateState(color, "color")}
-              />
+                onChange={(color) => {
+                  handleUpdateState(color, "color");
+                }}
+              /> */}
+              <div className="flex h-[100px] w-[100px] items-center overflow-hidden rounded-full border-2 border-zinc-400/50">
+                <input
+                  type="color"
+                  className="-m-2 h-[140px] w-[140px] cursor-pointer"
+                  value={state.color}
+                  onChange={(e) => handleUpdateState(e.target.value, "color")}
+                />
+              </div>
             </div>
           </div>
           <div className="mb-3">
@@ -148,6 +196,7 @@ export const CreateProjectViews1 = ({
             />
           </div> */}
           <div className="flex justify-between">
+            {/* {JSON.stringify(state)} */}
             <div>
               {onBack && (
                 <Button variant="secondary" onClick={onBack}>
@@ -155,7 +204,13 @@ export const CreateProjectViews1 = ({
                 </Button>
               )}
             </div>
-            <Button variant="secondary" onClick={() => onNext(state)}>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                handleSetProject(state);
+                onNext(state);
+              }}
+            >
               Next
             </Button>
           </div>

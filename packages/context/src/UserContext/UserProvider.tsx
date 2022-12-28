@@ -1,6 +1,10 @@
 import { gql, useMutation, useQuery, useSubscription } from "@apollo/client";
 import { FIND_CURRENTUSER, FIND_CURRENTUSER_SUB } from "@eden/package-graphql";
-import { Members, Mutation } from "@eden/package-graphql/generated";
+import {
+  Members,
+  Mutation,
+  ServerTemplate,
+} from "@eden/package-graphql/generated";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 
@@ -64,17 +68,18 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   const [mutualGuildsSearched, setMutualGuildsSearched] = useState(false);
   const [memberServers, setMemberServers] = useState<any>(null);
   const [selectedServer, setSelectedServer] = useState<any>();
+  const [memberServerIDs, setMemberServerIDs] = useState<string[]>([]);
 
   const [addNewMember, {}] = useMutation(ADD_NEW_MEMBER, {
     onCompleted({ addNewMember }: Mutation) {
       if (!addNewMember) console.log("addNewMember is null");
       // console.log("addNewMember", addNewMember);
       setMemberFound(true);
-      refetch();
+      refechProfile();
     },
     onError() {
       // console.log("error", error);
-      refetch();
+      refechProfile();
     },
   });
 
@@ -85,84 +90,87 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     },
   });
 
-  const { data: dataMember, refetch } = useQuery(FIND_CURRENTUSER, {
-    variables: {
-      fields: {
-        _id: id,
+  const { data: dataMember, refetch: refechProfile } = useQuery(
+    FIND_CURRENTUSER,
+    {
+      variables: {
+        fields: {
+          _id: id,
+        },
       },
-    },
-    skip: !id,
-    context: { serviceName: "soilservice" },
-    ssr: false,
-    onCompleted: async (data) => {
-      // console.log("data", data);
-      if (!data.findMember) {
-        await findMember()
-          .then((member) => {
-            // console.log("member NOT found", member.member);
-            addNewMember({
-              variables: {
-                fields: {
-                  _id: session?.user?.id,
-                  discordName: session?.user?.name,
-                  discordAvatar: session?.user?.image,
-                  discriminator: member?.member?.discriminator || "",
-                },
-              },
-            });
-          })
-          .catch((err) => {
-            console.log("err", err);
-          });
-      } else {
-        // TODO: not 100 sure if this is causing an issue when a user hasn't been added to the db yet
-        if (!mutualGuildsSearched) {
-          const servers: any[] = [];
-          const serverIds: string[] = [];
-
-          // if (isEdenStaff.includes(data.findMember._id))
-          //   servers.push(isAllServers);
-          servers.push(isAllServers);
-
-          findMutualGuilds()
-            .then((data) => {
-              const mutualGuilds = data.guilds;
-
-              mutualGuilds.forEach((guild: any) => {
-                if (!serverIds.includes(guild._id)) {
-                  serverIds.push(guild._id);
-                }
-              });
-
-              // console.log("mutualGuilds", mutualGuilds);
-
-              // console.log("serverIds", serverIds);
-              servers.push(...mutualGuilds);
-
-              // console.log("servers", servers);
-              setMemberServers(servers);
-              setSelectedServer(servers[0]);
-              if (serverIds.length > 0) {
-                updateMember({
-                  variables: {
-                    fields: {
-                      _id: session?.user?.id,
-                      serverID: serverIds,
-                    },
+      skip: !id,
+      context: { serviceName: "soilservice" },
+      ssr: false,
+      onCompleted: async (data) => {
+        // console.log("data", data);
+        if (!data.findMember) {
+          await findMember()
+            .then((member) => {
+              // console.log("member NOT found", member.member);
+              addNewMember({
+                variables: {
+                  fields: {
+                    _id: session?.user?.id,
+                    discordName: session?.user?.name,
+                    discordAvatar: session?.user?.image,
+                    discriminator: member?.member?.discriminator || "",
                   },
-                });
-              }
-
-              setMutualGuildsSearched(true);
+                },
+              });
             })
             .catch((err) => {
               console.log("err", err);
             });
+        } else {
+          if (!mutualGuildsSearched) {
+            const servers: ServerTemplate[] = [];
+            const serverIds: string[] = [];
+
+            // if (isEdenStaff.includes(data.findMember._id))
+            //   servers.push(isAllServers);
+            servers.push(isAllServers);
+
+            findMutualGuilds()
+              .then((data) => {
+                const mutualGuilds = data.guilds;
+
+                mutualGuilds.forEach((guild: any) => {
+                  if (!serverIds.includes(guild._id)) {
+                    serverIds.push(guild._id);
+                  }
+                });
+
+                // console.log("mutualGuilds", mutualGuilds);
+
+                // console.log("serverIds", serverIds);
+                servers.push(...mutualGuilds);
+
+                // console.log("servers", servers);
+                setMemberServers(servers);
+                setSelectedServer(servers[0]);
+                if (serverIds.length > 0) {
+                  setMemberServerIDs(serverIds);
+                  updateMember({
+                    variables: {
+                      fields: {
+                        _id: session?.user?.id,
+                        serverID: serverIds,
+                      },
+                    },
+                  });
+                }
+
+                setMutualGuildsSearched(true);
+              })
+              .catch((err) => {
+                console.log("err", err);
+              });
+          }
+          setMemberFound(true);
         }
-        setMemberFound(true);
-      }
-    },
-  });
+      },
+    }
+  );
 
   // console.log("dataMember", dataMember);
 
@@ -201,8 +209,9 @@ export const UserProvider = ({ children }: UserProviderProps) => {
       console.log("setCurrentUser", user);
       // injectContext.currentUser = user;
     },
-    refechProfile: () => refetch,
+    refechProfile: refechProfile,
     memberServers,
+    memberServerIDs,
     selectedServer,
     setSelectedServer,
   };

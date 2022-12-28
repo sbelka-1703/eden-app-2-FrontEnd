@@ -157,7 +157,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
       <GridLayout>
         <GridItemThree>
           <div className={`lg:h-85 mb-8 flex flex-col gap-4 lg:mb-0`}>
-            <OnboardRoomCard />
+            <OnboardRoomCard room={dataRoom?.findRoom} />
             {!currentUser ? (
               <p>
                 You must be logged in to edit your profile.

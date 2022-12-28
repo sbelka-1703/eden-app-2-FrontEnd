@@ -1,6 +1,11 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
-import { UserProvider } from "@eden/package-context";
-import { Maybe, Mutation, RoleType } from "@eden/package-graphql/generated";
+import { UserContext } from "@eden/package-context";
+import {
+  Maybe,
+  Mutation,
+  Project,
+  RoleType,
+} from "@eden/package-graphql/generated";
 import {
   AppUserLayout,
   CreateProjectViews1,
@@ -9,13 +14,22 @@ import {
   CreateProjectViews7,
   GridItemSix,
   GridLayout,
+  Loading,
   SEO,
+  ViewProjectContainer,
 } from "@eden/package-ui";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { NextPageWithLayout } from "../_app";
-import { ADD_NODES_PROJECT_ROLE } from "../create-project-fake";
+
+const ADD_NODES_PROJECT_ROLE = gql`
+  mutation ($fields: addNodesToProjectRoleInput!) {
+    addNodesToProjectRole(fields: $fields) {
+      _id
+    }
+  }
+`;
 
 const LAUNCH_PROJECT = gql`
   mutation ($fields: updateProjectInput!) {
@@ -45,7 +59,11 @@ const FIND_NODES = gql`
 
 const FillProfilePage: NextPageWithLayout = () => {
   const router = useRouter();
+  const { currentUser } = useContext(UserContext);
   const [step, setStep] = useState(1);
+  const [submitting, setSubmitting] = useState<boolean>(false);
+  const [project, setProject] = useState<Project>();
+  const projectRoleLength = project?.role?.length;
 
   const [state, setState] = useState<any>({});
 
@@ -66,6 +84,8 @@ const FillProfilePage: NextPageWithLayout = () => {
 
   const [updateProject, {}] = useMutation(LAUNCH_PROJECT, {
     onCompleted({ updateProject }: Mutation) {
+      setSubmitting(false);
+      setStep(0);
       if (!updateProject) console.log("updateProject is null");
       console.log("updateProject", updateProject);
       // router.push(`/${router.query.from}?project=${updateProject?._id}`);
@@ -81,6 +101,7 @@ const FillProfilePage: NextPageWithLayout = () => {
       });
     },
     onError(error) {
+      setSubmitting(false);
       console.log(error);
     },
   });
@@ -99,9 +120,11 @@ const FillProfilePage: NextPageWithLayout = () => {
   };
 
   const onClickLaunch = () => {
+    setSubmitting(true);
     updateProject({
       variables: {
         fields: {
+          champion: currentUser?._id,
           title: state[1].name,
           emoji: state[1].emoji,
           backColorEmoji: state[1].color,
@@ -147,6 +170,8 @@ const FillProfilePage: NextPageWithLayout = () => {
             setBattery={setBattery}
             data={state[1]}
             onNext={onNext}
+            setProject={setProject}
+            project={project}
           />
         );
 
@@ -158,6 +183,8 @@ const FillProfilePage: NextPageWithLayout = () => {
             onNext={onNext}
             projects={typeProjectNodes?.findNodes}
             onBack={() => setStep((prev) => prev - 1)}
+            setProject={setProject}
+            project={project}
           />
         );
       case 3:
@@ -168,6 +195,9 @@ const FillProfilePage: NextPageWithLayout = () => {
             onNext={roleOnNext}
             expertise={expertiseNodes?.findNodes}
             onBack={() => setStep((prev) => prev - 1)}
+            setProject={setProject}
+            project={project}
+            roleIndex={projectRoleLength}
           />
         );
       case 4:
@@ -177,6 +207,7 @@ const FillProfilePage: NextPageWithLayout = () => {
             onLaunch={onClickLaunch}
             onNewPosition={() => setStep((prev) => prev - 1)}
             onBack={() => setStep((prev) => prev - 1)}
+            submitting={submitting}
           />
         );
 
@@ -195,21 +226,17 @@ const FillProfilePage: NextPageWithLayout = () => {
       <SEO />
       <GridLayout>
         <GridItemSix className={`h-85 scrollbar-hide overflow-y-scroll `}>
-          {stepView()}
+          {submitting ? <Loading title={`Submitting...`} /> : stepView()}
         </GridItemSix>
 
         <GridItemSix>
-          <div />
+          <ViewProjectContainer step={String(step)} project={project} />
         </GridItemSix>
       </GridLayout>
     </>
   );
 };
 
-FillProfilePage.getLayout = (page) => (
-  <AppUserLayout>
-    <UserProvider>{page}</UserProvider>
-  </AppUserLayout>
-);
+FillProfilePage.getLayout = (page) => <AppUserLayout>{page}</AppUserLayout>;
 
 export default FillProfilePage;

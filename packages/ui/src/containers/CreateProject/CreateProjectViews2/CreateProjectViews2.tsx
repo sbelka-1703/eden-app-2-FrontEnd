@@ -1,14 +1,14 @@
+import { Project } from "@eden/package-graphql/generated";
 import {
   BatteryStepper,
   Button,
   Card,
-  SelectBoxNode,
+  // SelectBoxNode,
   TextArea,
   TextHeading3,
 } from "@eden/package-ui";
-import { isEmpty, map } from "lodash";
-import { useReducer } from "react";
-
+// import { isEmpty, map } from "lodash";
+import { Dispatch, SetStateAction, useReducer } from "react";
 interface ProjectData {
   username: string;
   description: string;
@@ -36,10 +36,13 @@ function reducer(state: ProjectData, action: any): ProjectData {
 export interface CreateProjectViews2Props {
   projects?: any[];
   battery: number;
+  // eslint-disable-next-line no-unused-vars
   setBattery: (level: number) => void;
   onBack: () => void;
   // eslint-disable-next-line no-unused-vars
   onNext: (data: ProjectData) => void;
+  setProject: Dispatch<SetStateAction<any>>;
+  project?: Project;
 }
 
 export const CreateProjectViews2 = ({
@@ -47,19 +50,34 @@ export const CreateProjectViews2 = ({
   battery,
   setBattery,
   onNext,
+  // eslint-disable-next-line no-unused-vars
   projects = [],
+  setProject,
+  project,
 }: CreateProjectViews2Props) => {
   const [state, dispath] = useReducer(reducer, initialState);
   // const [projectOwner, setProjectOwner] = useState(true);
 
   const handleUpdateState = (value: any, field: string) => {
-    console.log("aaaa = ", value, field);
     dispath({
       type: "HANDLE INPUT TEXT",
       field: field,
       payload: {
         value,
       },
+    });
+    if (field == "description") {
+      setProject({
+        ...project,
+        description: value,
+      });
+    }
+  };
+
+  const handleSetProject = (value: any) => {
+    setProject({
+      ...project,
+      description: value.description,
     });
   };
 
@@ -75,7 +93,7 @@ export const CreateProjectViews2 = ({
           <BatteryStepper size="sm" batteryPercentage={battery} />
         </div>
         <div>
-          <div className="mb-4">
+          {/* <div className="mb-4">
             <p className="mb-2 text-sm font-medium">
               Pick what is your project Type
             </p>
@@ -98,7 +116,7 @@ export const CreateProjectViews2 = ({
                   />
                 ))}
             </div>
-          </div>
+          </div> */}
           <div className="mb-3">
             <p className="mb-4 text-sm font-medium">
               Write a full description of your project:
@@ -174,7 +192,13 @@ export const CreateProjectViews2 = ({
             <Button variant="secondary" onClick={onBack}>
               Back
             </Button>
-            <Button variant="secondary" onClick={() => onNext(state)}>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                handleSetProject(state);
+                onNext(state);
+              }}
+            >
               Next
             </Button>
           </div>
