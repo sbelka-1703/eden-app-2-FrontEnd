@@ -12,7 +12,7 @@ import {
   TextHeading3,
 } from "@eden/package-ui";
 
-import { round } from "../../../../utils";
+import { round } from "../../../../../utils";
 
 export interface IProjectMatchCardProps {
   matchProject?: Maybe<MatchSkillsToProjectsOutput>;

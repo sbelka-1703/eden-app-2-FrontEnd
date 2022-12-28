@@ -4,7 +4,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { SignUpRoleSelectCard } from "./SignUpRoleSelectCard";
 
 export default {
-  title: "Cards/SignUpRoleSelectCard",
+  title: "Archive/Cards/SignUpRoleSelectCard",
   component: SignUpRoleSelectCard,
   argTypes: {},
 } as ComponentMeta<typeof SignUpRoleSelectCard>;
