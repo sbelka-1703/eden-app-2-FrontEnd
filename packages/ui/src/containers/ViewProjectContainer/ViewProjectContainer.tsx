@@ -122,7 +122,7 @@ IViewProjectContainerProps) => {
             <UserMiniCard member={currentUser} />
           </div>
         </div>
-        {tabs?.length && (
+        {tabs?.length > 0 && (
           <div
             className={`mt-3 ${
               step == "3" || step == "4" ? "" : "blur-sm brightness-50"

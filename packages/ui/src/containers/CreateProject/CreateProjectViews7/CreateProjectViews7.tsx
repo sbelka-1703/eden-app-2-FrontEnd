@@ -58,13 +58,26 @@ export const CreateProjectViews7 = ({
   expertise = [],
   setProject,
   project,
-  roleIndex,
 }: CreateProjectViews7Props) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [projectRole, setProjectRole] = useState<RoleType[]>([]);
   const [showRoleForm, setShowRoleForm] = useState<boolean>(false);
 
-  const projectRoleLength = roleIndex ? roleIndex : 0;
+  let roleIndex = 0;
+  // const [firstRoleIndex, setFirstRoleIndex] = useState(
+  //   roleIndex ? roleIndex - 1 : 0
+  // );
+
+  // useEffect(() => {
+  //   console.log("projectRoleLength", firstRoleIndex);
+  // }, [roleIndex]);
+
+  useEffect(() => {
+    if (project?.role) {
+      setProjectRole(project?.role);
+    }
+  }, []);
+
   const handleUpdateState = (value: any, field: string) => {
     dispatch({
       type: "HANDLE INPUT",
@@ -73,7 +86,6 @@ export const CreateProjectViews7 = ({
         value,
       },
     });
-    let roleIndex = 0;
 
     if (field == "title") {
       if (value.length > 0) {
@@ -81,21 +93,12 @@ export const CreateProjectViews7 = ({
       }
       const roleData: RoleType = {
         title: value,
-        description: "",
-        hoursPerWeek: 0,
-        shortDescription: "",
-        keyRosponsibilities: "",
-        openPositions: 0,
-        ratePerHour: 0,
-        expectations: [""],
-        benefits: [""],
       };
 
       const newRole = projectRole;
 
-      newRole[projectRoleLength] = roleData;
+      newRole[roleIndex] = roleData;
       roleIndex = newRole ? newRole.findIndex((obj) => obj?.title == value) : 0;
-
       setProjectRole(newRole);
     }
 
@@ -166,8 +169,7 @@ export const CreateProjectViews7 = ({
       } else {
         newRoleArray = projectRole;
       }
-      console.log(project);
-      console.log(newRoleArray);
+
       setProject({ ...project, role: newRoleArray });
     }
   }, [projectRole]);
