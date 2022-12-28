@@ -14,8 +14,6 @@ export * from "./ProjectsModalContainer";
 export * from "./ShortlistContainer";
 export * from "./ShortlistMemberContainer";
 export * from "./ShortlistSideContainer";
-export * from "./SignUpContainerMain";
-export * from "./SignUpContainerSide";
 export * from "./test/HackathonModalContainer";
 export * from "./test/ShortlistModalContainerStory";
 export * from "./test/ShortlistModalContainerStoryFilter";

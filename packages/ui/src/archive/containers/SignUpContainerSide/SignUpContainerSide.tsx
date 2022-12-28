@@ -17,7 +17,7 @@ import {
 } from "@eden/package-ui";
 import { useContext, useState } from "react";
 
-import { round } from "../../../utils";
+import { round } from "../../../../utils";
 
 export interface ISignUpContainerSideProps {
   matchedProjects?: Maybe<Array<Maybe<MatchSkillsToProjectsOutput>>>;

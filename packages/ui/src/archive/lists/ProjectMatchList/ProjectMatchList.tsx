@@ -3,13 +3,10 @@ import {
   MatchSkillsToProjectsOutput,
   Maybe,
 } from "@eden/package-graphql/generated";
-import {
-  Card,
-  Loading,
-  ProjectMatchCard,
-  TextHeading3,
-} from "@eden/package-ui";
+import { Card, Loading, TextHeading3 } from "@eden/package-ui";
 import { useContext } from "react";
+
+import { ProjectMatchCard } from "../../cards/project/ProjectMatchCard";
 
 export interface IProjectMatchListProps {
   matchedProjects?: Maybe<Array<Maybe<MatchSkillsToProjectsOutput>>>;
@@ -45,7 +42,7 @@ export const ProjectMatchList = ({
             <ProjectMatchCard
               key={index}
               matchProject={matchProject}
-              onSelected={(project) => {
+              onSelected={(project: any) => {
                 onSelectedProject(project?.project?._id || "");
                 onViewProject(true);
               }}

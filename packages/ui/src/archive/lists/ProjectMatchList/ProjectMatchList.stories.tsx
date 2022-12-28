@@ -5,7 +5,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { ProjectMatchList } from "./ProjectMatchList";
 
 export default {
-  title: "Lists/ProjectMatchList",
+  title: "Archive/Lists/ProjectMatchList",
   component: ProjectMatchList,
   argTypes: {},
 } as ComponentMeta<typeof ProjectMatchList>;
