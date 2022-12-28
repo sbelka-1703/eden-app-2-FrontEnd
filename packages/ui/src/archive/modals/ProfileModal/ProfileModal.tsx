@@ -10,13 +10,13 @@ import {
   Button,
   Modal,
   SendMessageToUser,
-  UserSkillSocialAval,
   UserWithDescription,
 } from "@eden/package-ui";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-import { round } from "../../../utils";
+import { round } from "../../../../utils";
+import { UserSkillSocialAval } from "../../components/UserSkillSocialAval/UserSkillSocialAval";
 
 const SET_APPLY_TO_PROJECT = gql`
   mutation ($fields: changeTeamMember_Phase_ProjectInput!) {

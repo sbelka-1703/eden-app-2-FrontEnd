@@ -4,7 +4,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { UserSkillSocialAval } from "./UserSkillSocialAval";
 
 export default {
-  title: "Components/UserSkillSocialAval",
+  title: "Archive/Components/UserSkillSocialAval",
   component: UserSkillSocialAval,
   argTypes: {},
 } as ComponentMeta<typeof UserSkillSocialAval>;

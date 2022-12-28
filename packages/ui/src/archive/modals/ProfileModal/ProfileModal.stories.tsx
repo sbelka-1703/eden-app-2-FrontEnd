@@ -4,7 +4,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { ProfileModal } from "./ProfileModal";
 
 export default {
-  title: "Modals/ProfileModal",
+  title: "Archive/Modals/ProfileModal",
   component: ProfileModal,
   argTypes: {},
 } as ComponentMeta<typeof ProfileModal>;
