@@ -1,4 +1,5 @@
 import { gql, useMutation } from "@apollo/client";
+import { UserContext } from "@eden/package-context";
 import {
   AppUserSubmenuLayout,
   Button,
@@ -12,7 +13,7 @@ import {
   TextHeading3,
   UserProfileCard,
 } from "@eden/package-ui";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { toast } from "react-toastify";
 
 import type { NextPageWithLayout } from "../../_app";
@@ -21,13 +22,17 @@ const CREATE_ROOM = gql`
   mutation ($fields: createRoomInput!) {
     createRoom(fields: $fields) {
       _id
-      name
     }
   }
 `;
 
 const DiscoverPage: NextPageWithLayout = () => {
+  const { currentUser, selectedServer } = useContext(UserContext);
+
   const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [avatar, setAvatar] = useState("");
+
   const [roomUrl, setRoomUrl] = useState("");
 
   const [createRoom] = useMutation(CREATE_ROOM, {
@@ -42,12 +47,19 @@ const DiscoverPage: NextPageWithLayout = () => {
   });
 
   const handleCreateRoom = () => {
+    if (!selectedServer?._id) toast.error("Please select a server");
+    if (!currentUser || !selectedServer?._id) return;
     createRoom({
       variables: {
         fields: {
-          name: name,
+          name,
+          description,
+          avatar,
+          hostID: [currentUser?._id],
+          serverID: selectedServer?._id,
         },
       },
+      context: { serviceName: "soilservice" },
     });
   };
 
@@ -74,6 +86,16 @@ const DiscoverPage: NextPageWithLayout = () => {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                   />
+                  <TextField
+                    label={`Room Description`}
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                  />
+                  <TextField
+                    label={`Room Image`}
+                    value={avatar}
+                    onChange={(e) => setAvatar(e.target.value)}
+                  />
                   <div className={`my-6`}>
                     <Button onClick={() => handleCreateRoom()}>
                       Create Room
@@ -85,12 +107,12 @@ const DiscoverPage: NextPageWithLayout = () => {
                 <TextHeading2>Room Url</TextHeading2>
                 {roomUrl && (
                   <Card>
-                    <TextHeading3>{`https://eden-nodes.vercel.app/party/onboard/${roomUrl}`}</TextHeading3>
+                    <TextHeading3>{`https://eden-alpha-develop.vercel.app/party/onboard/${roomUrl}`}</TextHeading3>
                     <div className={`my-6`}>
                       <Button
                         onClick={() => {
                           navigator.clipboard.writeText(
-                            `https://eden-nodes.vercel.app/party/onboard/${roomUrl}`
+                            `https://eden-alpha-develop.vercel.app/party/onboard/${roomUrl}`
                           );
                           toast.success("grant link copied to clipboard");
                         }}

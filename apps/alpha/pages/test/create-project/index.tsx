@@ -1,5 +1,5 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
-import { UserProvider } from "@eden/package-context";
+import { UserContext } from "@eden/package-context";
 import { Mutation, Project } from "@eden/package-graphql/generated";
 import {
   AppUserLayout,
@@ -12,7 +12,7 @@ import {
   SEO,
   ViewProjectContainer,
 } from "@eden/package-ui";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import { NextPageWithLayout } from "../../_app";
 
@@ -40,6 +40,7 @@ const FIND_NODES = gql`
 `;
 
 const FillProfilePage: NextPageWithLayout = () => {
+  const { currentUser } = useContext(UserContext);
   const [step, setStep] = useState(1);
   const [state, setState] = useState<any>({});
   const [battery, setBattery] = useState(5);
@@ -102,6 +103,7 @@ const FillProfilePage: NextPageWithLayout = () => {
           title: state[1].name,
           emoji: state[1].emoji,
           descriptionOneLine: state[1].description,
+          champion: currentUser?._id,
           // tags: state[1].tags,
           backColorEmoji: state[1].color,
           description: state[3].description,
@@ -202,10 +204,6 @@ const FillProfilePage: NextPageWithLayout = () => {
   );
 };
 
-FillProfilePage.getLayout = (page) => (
-  <AppUserLayout>
-    <UserProvider>{page}</UserProvider>
-  </AppUserLayout>
-);
+FillProfilePage.getLayout = (page) => <AppUserLayout>{page}</AppUserLayout>;
 
 export default FillProfilePage;

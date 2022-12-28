@@ -46,7 +46,7 @@ function reducer(state: ProjectData, action: any): ProjectData {
 
 export interface CreateProjectViews1Props {
   data?: ProjectData;
-  battery: number;
+  battery?: number;
   // eslint-disable-next-line no-unused-vars
   setBattery: (level: number) => void;
   onBack?: () => void;
@@ -58,7 +58,7 @@ export interface CreateProjectViews1Props {
 
 export const CreateProjectViews1 = ({
   data,
-  battery,
+  battery = 0,
   setBattery,
   onBack,
   onNext,
@@ -105,8 +105,8 @@ export const CreateProjectViews1 = ({
     });
   };
 
-  const nextDisabled =
-    !state.name || !state.description || !state.emoji || !state.color;
+  // const nextDisabled =
+  //   !state.name || !state.description || !state.emoji || !state.color;
 
   return (
     <Card shadow className="bg-white pt-3 pb-6">

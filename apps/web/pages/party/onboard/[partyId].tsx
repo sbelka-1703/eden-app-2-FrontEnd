@@ -2,7 +2,6 @@ import { useMutation, useQuery, useSubscription } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
 import {
   ENTER_ROOM,
-  FIND_MEMBER,
   FIND_MEMBERS,
   FIND_ROOM,
   MATCH_NODES_MEMBERS,
@@ -12,16 +11,13 @@ import {
 import { Members } from "@eden/package-graphql/generated";
 import {
   AppPublicLayout,
-  Card,
+  EditProfileOnboardPartyNodesCard,
   GridItemNine,
   GridItemThree,
   GridLayout,
-  // NodesOnboardPartyContainer,
+  NodesOnboardPartyContainer,
   OnboardRoomCard,
   SEO,
-  TextBody,
-  TextField,
-  TextHeading3,
   UsersToMeetCard,
 } from "@eden/package-ui";
 import { useRouter } from "next/router";
@@ -35,39 +31,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
   const { currentUser } = useContext(UserContext);
 
   const [members, setMembers] = useState<Members[]>([]);
-  const [memberID, setMemberID] = useState("");
   const [nodesID, setNodesID] = useState<string[] | null>(null);
-  // eslint-disable-next-line no-unused-vars
-  const [serverID, setServerID] = useState<string | null>(
-    "1048598413463257148"
-  );
-
-  const { data: dataMembers, refetch: refetchMatchMembers } = useQuery(
-    MATCH_NODES_MEMBERS,
-    {
-      variables: {
-        fields: {
-          nodesID: nodesID,
-          // TODO: change to selectedServer
-          serverID: serverID,
-        },
-      },
-      skip: !nodesID || !serverID,
-      context: { serviceName: "soilservice" },
-    }
-  );
-
-  const { data: dataMember, refetch: refetchMember } = useQuery(FIND_MEMBER, {
-    variables: {
-      fields: {
-        _id: memberID,
-      },
-    },
-    skip: !memberID,
-    context: { serviceName: "soilservice" },
-  });
-
-  // if (dataMembers) console.log("dataMembers", dataMembers?.matchNodesToMembers);
 
   const { data: dataRoom } = useQuery(FIND_ROOM, {
     variables: {
@@ -78,6 +42,32 @@ const OnboardPartyPage: NextPageWithLayout = () => {
     skip: !partyId,
     context: { serviceName: "soilservice" },
   });
+
+  // if (dataRoom?.findRoom) console.log("dataRoom", dataRoom?.findRoom);
+
+  const { data: dataMembers, refetch: refetchMatchMembers } = useQuery(
+    MATCH_NODES_MEMBERS,
+    {
+      variables: {
+        fields: {
+          nodesID: nodesID,
+          serverID: dataRoom?.findRoom?.serverID,
+        },
+      },
+      skip: !nodesID || !dataRoom?.findRoom?.serverID,
+      context: { serviceName: "soilservice" },
+    }
+  );
+
+  if (dataMembers) console.log("dataMembers", dataMembers?.matchNodesToMembers);
+
+  useEffect(() => {
+    if (currentUser && currentUser.nodes) {
+      const nodesID = currentUser?.nodes.map((node) => node?.nodeData?._id);
+
+      setNodesID(nodesID as string[]);
+    }
+  }, [currentUser]);
 
   const { data: dataRoomSubscription } = useSubscription(ROOM_UPDATED, {
     variables: {
@@ -140,27 +130,6 @@ const OnboardPartyPage: NextPageWithLayout = () => {
     });
   }, [currentUser, membersIds, partyId, dataRoom]);
 
-  useEffect(() => {
-    console.log("memberID = ", memberID);
-    console.log("dataMember = ", dataMember);
-
-    if (dataMember && dataMember.findMember && dataMember.findMember.nodes) {
-      // let nodesTS: string = [];
-      console.log("change = ");
-
-      const nodesTS = dataMember.findMember.nodes.map(
-        (node: { nodeData: any }) => {
-          return node.nodeData._id;
-        }
-      );
-
-      setNodesID(nodesTS);
-      console.log("nodesTS = ", nodesTS);
-
-      refetchMatchMembers();
-    }
-  }, [dataMember]);
-
   const {} = useQuery(FIND_MEMBERS, {
     variables: {
       fields: {
@@ -190,42 +159,20 @@ const OnboardPartyPage: NextPageWithLayout = () => {
                 If you can&rsquo;t log in ask the onboarder for help
               </p>
             ) : (
-              <Card shadow className="flex-grow bg-white p-4">
-                <TextHeading3 className="mb-2 text-lg">
-                  User Search Matches
-                </TextHeading3>
-                <TextBody>Discord ID:</TextBody>
-                <div className={`flex justify-center space-x-4`}>
-                  <TextField
-                    name="textfield"
-                    type="text"
-                    onChange={(e) => {
-                      setMemberID(e.target.value);
-                      refetchMember();
-                    }}
-                  />
-                </div>
-              </Card>
+              <EditProfileOnboardPartyNodesCard
+                serverID={dataRoom?.findRoom?.serverID || ""}
+                RoomID={partyId as string}
+              />
             )}
           </div>
         </GridItemThree>
         <GridItemNine>
           <div className={`lg:h-85 flex flex-col gap-4`}>
             <UsersToMeetCard
-              title={
-                !(
-                  dataMember &&
-                  dataMember.findMember &&
-                  dataMember.findMember.discordName
-                )
-                  ? `Search for Member`
-                  : ` Best people for ${dataMember.findMember.discordName}:`
-              }
               members={dataMembers?.matchNodesToMembers}
               refetchMatchMembers={refetchMatchMembers}
             />
-
-            {/* <NodesOnboardPartyContainer members={members} /> */}
+            <NodesOnboardPartyContainer members={members} />
           </div>
         </GridItemNine>
       </GridLayout>

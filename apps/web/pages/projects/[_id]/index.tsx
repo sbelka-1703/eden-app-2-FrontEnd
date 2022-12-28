@@ -1,5 +1,5 @@
 import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
-import { FIND_MEMBER } from "@eden/package-graphql";
+import { FIND_PROJECT } from "@eden/package-graphql";
 import {
   AppUserSubmenuLayout,
   Card,
@@ -7,22 +7,19 @@ import {
   GridItemTwo,
   GridLayout,
   Loading,
-  MemberInfo,
-  SEOProfile,
+  ProjectInfo,
+  SEOProject,
 } from "@eden/package-ui";
 import * as React from "react";
 
-const ProfilePage = ({ member }: { member: Members }) => {
-  const [experienceOpen, setExperienceOpen] = React.useState<number | null>(
-    null
-  );
-
+const ProfilePage = ({ project }: { project: Project }) => {
+  //   console.log("project", project);
   return (
     <>
-      <SEOProfile
-        handle={member?.discordName || ""}
-        image={member?.discordAvatar || ""}
-        role={member?.memberRole?.title || ""}
+      <SEOProject
+        project={project?.title || ""}
+        image={""}
+        role={"role here"}
       />
       <AppUserSubmenuLayout showSubmenu={false}>
         <GridLayout className={`bg-background h-screen`}>
@@ -30,16 +27,10 @@ const ProfilePage = ({ member }: { member: Members }) => {
           <GridItemEight>
             <Card
               shadow
-              className={`h-85 scrollbar-hide overflow-y-scroll bg-white`}
+              className={`h-85 scrollbar-hide overflow-y-scroll bg-white p-6`}
             >
-              {member ? (
-                <div className={`p-4 md:p-8`}>
-                  <MemberInfo
-                    member={member}
-                    setExperienceOpen={setExperienceOpen!}
-                    experienceOpen={experienceOpen!}
-                  />
-                </div>
+              {project ? (
+                <ProjectInfo project={project} />
               ) : (
                 <Loading title={`Searching...`} />
               )}
@@ -54,7 +45,7 @@ const ProfilePage = ({ member }: { member: Members }) => {
 
 export default ProfilePage;
 
-import { Members } from "@eden/package-graphql/generated";
+import { Project } from "@eden/package-graphql/generated";
 import type { GetServerSideProps } from "next";
 
 const client = new ApolloClient({
@@ -67,13 +58,13 @@ const client = new ApolloClient({
 });
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { handle } = context.query;
+  const { _id } = context.query;
 
   const { data } = await client.query({
-    query: FIND_MEMBER,
+    query: FIND_PROJECT,
     variables: {
       fields: {
-        discordName: handle,
+        _id,
       },
       ssr: true,
     },
@@ -81,7 +72,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return {
     props: {
-      member: data.findMember,
+      project: data.findProject,
     },
   };
 };

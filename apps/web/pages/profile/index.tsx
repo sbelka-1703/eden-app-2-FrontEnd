@@ -1,27 +1,25 @@
-import { useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
-import { FIND_ROLE_TEMPLATES } from "@eden/package-graphql";
+import { Members } from "@eden/package-graphql/generated";
 import {
   AppUserSubmenuLayout,
   Card,
-  EditProfileContainer,
+  FillUserProfileContainer,
+  GridItemSix,
+  GridLayout,
   MemberInfo,
   SEO,
+  ViewUserProfileContainer,
 } from "@eden/package-ui";
-import { useContext, useState } from "react";
+import { STEPS } from "@eden/package-ui/utils";
+import { getFillProfilePercentage } from "@eden/package-ui/utils/fill-profile-percentage";
+import { useContext, useEffect, useState } from "react";
 import { FaUserAlt, FaUserEdit } from "react-icons/fa";
 
 import type { NextPageWithLayout } from "../_app";
 
 const ProfilePage: NextPageWithLayout = () => {
   const { currentUser } = useContext(UserContext);
-
-  const { data: dataRoles } = useQuery(FIND_ROLE_TEMPLATES, {
-    variables: {
-      fields: {},
-    },
-    context: { serviceName: "soilservice" },
-  });
+  const [view, setView] = useState<"grants" | "profile">("grants");
 
   const [activeIndex, setActiveIndex] = useState(0);
   const submenu = [
@@ -33,17 +31,26 @@ const ProfilePage: NextPageWithLayout = () => {
     {
       Icon: <FaUserEdit size={25} />,
       FunctionName: "Edit Profile",
-      onFunctionCallback: () => setActiveIndex(1),
+      onFunctionCallback: () => setView("profile"),
     },
   ];
 
+  const [userState, setUserState] = useState<Members>();
+  const [step, setStep] = useState(STEPS.ROLE);
   const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (currentUser) {
+      setUserState(currentUser);
+    }
+  }, [currentUser]);
+
+  if (!currentUser) return null;
 
   return (
     <>
       <SEO />
-
-      {activeIndex === 0 && (
+      {view === "grants" && (
         <AppUserSubmenuLayout submenu={submenu} activeIndex={activeIndex}>
           <Card
             shadow
@@ -59,14 +66,33 @@ const ProfilePage: NextPageWithLayout = () => {
           </Card>
         </AppUserSubmenuLayout>
       )}
-      {activeIndex === 1 && (
-        <AppUserSubmenuLayout submenu={submenu} activeIndex={activeIndex}>
-          <Card
-            shadow
-            className={`h-85 scrollbar-hide overflow-y-scroll bg-white`}
-          >
-            <EditProfileContainer roles={dataRoles?.findRoleTemplates} />
-          </Card>
+      {view === "profile" && (
+        <AppUserSubmenuLayout showSubmenu={false}>
+          <GridLayout>
+            <GridItemSix>
+              <Card className={"h-85 bg-white shadow"}>
+                <FillUserProfileContainer
+                  step={step}
+                  state={userState}
+                  setState={setUserState}
+                  setStep={setStep}
+                  setExperienceOpen={setExperienceOpen}
+                  setView={setView}
+                  percentage={getFillProfilePercentage(currentUser)}
+                />
+              </Card>
+            </GridItemSix>
+            <GridItemSix>
+              <Card className={"h-85 bg-white shadow"}>
+                <ViewUserProfileContainer
+                  step={step}
+                  user={userState}
+                  experienceOpen={experienceOpen}
+                  setExperienceOpen={setExperienceOpen}
+                />
+              </Card>
+            </GridItemSix>
+          </GridLayout>
         </AppUserSubmenuLayout>
       )}
     </>
