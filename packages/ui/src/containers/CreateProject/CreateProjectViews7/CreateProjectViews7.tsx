@@ -166,8 +166,8 @@ export const CreateProjectViews7 = ({
       } else {
         newRoleArray = projectRole;
       }
-      console.log(project);
-      console.log(newRoleArray);
+      // console.log(project);
+      // console.log(newRoleArray);
       setProject({ ...project, role: newRoleArray });
     }
   }, [projectRole]);
@@ -198,6 +198,11 @@ export const CreateProjectViews7 = ({
   //     role: role,
   //   });
   // };
+  const nextDisabled =
+    !state.title ||
+    !state.shortDescription ||
+    !state.nodes ||
+    !state.nodes.length;
 
   return (
     <Card shadow className="bg-white pt-3 pb-6">
@@ -416,6 +421,7 @@ export const CreateProjectViews7 = ({
                 // handleSetProject(state);
                 onNext(state);
               }}
+              disabled={nextDisabled}
             >
               Next
             </Button>
