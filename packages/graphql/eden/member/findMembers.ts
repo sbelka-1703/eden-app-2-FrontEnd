@@ -12,6 +12,12 @@ export const FIND_MEMBERS = gql`
         name
         url
       }
+      previusProjects {
+        title
+        description
+        startDate
+        endDate
+      }
       memberRole {
         _id
         title
