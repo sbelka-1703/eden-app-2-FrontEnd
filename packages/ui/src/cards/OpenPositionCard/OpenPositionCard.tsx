@@ -32,6 +32,9 @@ OpenPositionCardProps) => {
               </span>
             ) : null}
           </div>
+          <div className="text-sm font-semibold text-soilGray/100 tracking-wide">
+            {role?.shortDescription}
+          </div>
           <div className="mt-2 flex">
             {role?.skills?.map((skill, index) => {
               return (
@@ -61,7 +64,7 @@ OpenPositionCardProps) => {
             <div className="flex flex-row p-1">
               <div>💰</div>
               <div className={`ml-1 capitalize text-slate-900`}>
-                TRST ${role?.budget?.totalBudget}
+                TRST ${role?.ratePerHour}
               </div>
             </div>
             <div className="flex flex-row p-1">
