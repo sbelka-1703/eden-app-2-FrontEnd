@@ -1,5 +1,4 @@
 export * from "./ApplyByRoleContainer";
-export * from "./ChampionMatchContainer";
 export * from "./ChampionNodesMatchContainer";
 export * from "./ConfettiContainer";
 export * from "./CreateProject";
@@ -14,8 +13,6 @@ export * from "./ProjectsModalContainer";
 export * from "./ShortlistContainer";
 export * from "./ShortlistMemberContainer";
 export * from "./ShortlistSideContainer";
-export * from "./SignUpContainerMain";
-export * from "./SignUpContainerSide";
 export * from "./test/HackathonModalContainer";
 export * from "./test/ShortlistModalContainerStory";
 export * from "./test/ShortlistModalContainerStoryFilter";

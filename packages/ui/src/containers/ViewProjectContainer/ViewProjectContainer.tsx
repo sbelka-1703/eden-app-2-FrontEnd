@@ -201,28 +201,32 @@ IViewProjectContainerProps) => {
                       💯 Expectations
                     </div>
                     <div className="text-sm">
-                      {activeRole?.expectations?.map((obj, index) => (
-                        <li key={index} className="overflow-auto">
-                          {obj}
-                        </li>
-                      ))}
+                      {activeRole?.expectations?.map(
+                        (obj: string, index: number) => (
+                          <li key={index} className="overflow-auto">
+                            {obj}
+                          </li>
+                        )
+                      )}
                     </div>
                   </div>
                   <div>
                     <div className="text-soilGray/100 font-medium uppercase tracking-wide">
-                      🦜Benefits
+                      🦜 Benefits
                     </div>
                     <div className="text-sm">
-                      {activeRole?.benefits?.map((obj, index) => (
-                        <li key={index} className="overflow-auto">
-                          {obj}
-                        </li>
-                      ))}
+                      {activeRole?.benefits?.map(
+                        (obj: string, index: number) => (
+                          <li key={index} className="overflow-auto">
+                            {obj}
+                          </li>
+                        )
+                      )}
                     </div>
                   </div>
                   <div>
                     <div className="text-soilGray/100 font-medium uppercase tracking-wide">
-                      🕵️‍♀️Details
+                      🕵️‍♀️ Details
                     </div>
                     <div className="text-xs font-medium">
                       <div className="flex flex-row p-1">

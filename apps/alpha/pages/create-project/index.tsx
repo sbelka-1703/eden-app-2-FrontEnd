@@ -111,13 +111,13 @@ const FillProfilePage: NextPageWithLayout = () => {
     setStep((prev) => prev + 1);
   };
 
-  // const roleOnNext = (data: any) => {
-  //   setState((prev: any) => ({
-  //     ...prev,
-  //     [step]: state[step] ? [...state[step], data] : [data],
-  //   }));
-  //   setStep((prev) => prev + 1);
-  // };
+  const roleOnNext = (data: any) => {
+    setState((prev: any) => ({
+      ...prev,
+      [step]: state[step] ? [...state[step], data] : [data],
+    }));
+    setStep((prev) => prev + 1);
+  };
 
   const onClickLaunch = () => {
     setSubmitting(true);
@@ -192,7 +192,7 @@ const FillProfilePage: NextPageWithLayout = () => {
           <CreateProjectViews7
             battery={battery}
             setBattery={setBattery}
-            onNext={onNext}
+            onNext={roleOnNext}
             expertise={expertiseNodes?.findNodes}
             onBack={() => setStep((prev) => prev - 1)}
             setProject={setProject}

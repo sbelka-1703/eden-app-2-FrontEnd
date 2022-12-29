@@ -166,7 +166,6 @@ export const CreateProjectViews7 = ({
       } else {
         newRoleArray = projectRole;
       }
-
       setProject({ ...project, role: newRoleArray });
     }
   }, [projectRole]);
@@ -413,6 +412,7 @@ export const CreateProjectViews7 = ({
                 handleSetProject(state);
                 onNext(state);
               }}
+              // disabled={nextDisabled}
             >
               Next
             </Button>

@@ -105,8 +105,8 @@ export const CreateProjectViews1 = ({
     });
   };
 
-  // const nextDisabled =
-  //   !state.name || !state.description || !state.emoji || !state.color;
+  const nextDisabled =
+    !state.name || !state.description || !state.emoji || !state.color;
 
   return (
     <Card shadow className="bg-white pt-3 pb-6">
@@ -210,6 +210,7 @@ export const CreateProjectViews1 = ({
                 handleSetProject(state);
                 onNext(state);
               }}
+              disabled={nextDisabled}
             >
               Next
             </Button>

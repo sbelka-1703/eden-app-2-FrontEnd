@@ -12,7 +12,6 @@ export * from "./OpenPositionCard";
 export * from "./project";
 export * from "./ReviewCard";
 export * from "./RoleSmallCard";
-export * from "./SignUpRoleSelectCard";
 export * from "./StaticCard";
 export * from "./user";
 export * from "./WarningCard";

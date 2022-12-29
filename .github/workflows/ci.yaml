@@ -32,8 +32,6 @@ jobs:
       - name: Build storybook
         run: yarn build:storybook
       - name: Build alpha
-        run: yarn build:alpha
-      - name: Build node
         run: yarn build:nodes
       - name: Build web
         run: yarn build
