@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { ShortlistSideContainer } from "./ShortlistSideContainer";
 
 export default {
-  title: "Containers/ShortlistSideContainer",
+  title: "Archive/Containers/ShortlistSideContainer",
   component: ShortlistSideContainer,
   argTypes: {},
 } as ComponentMeta<typeof ShortlistSideContainer>;
