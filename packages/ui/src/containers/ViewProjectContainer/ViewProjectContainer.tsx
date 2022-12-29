@@ -122,7 +122,7 @@ IViewProjectContainerProps) => {
             <UserMiniCard member={currentUser} />
           </div>
         </div>
-        {tabs?.length && (
+        {tabs?.length > 0 ? (
           <div
             className={`mt-3 ${
               step == "3" || step == "4" ? "" : "blur-sm brightness-50"
@@ -208,7 +208,7 @@ IViewProjectContainerProps) => {
                   </div>
                   <div>
                     <div className="text-soilGray/100 font-medium uppercase tracking-wide">
-                      🦜Benefits
+                      🦜 Benefits
                     </div>
                     <div className="text-sm">
                       <li>{activeRole?.benefits}</li>
@@ -216,7 +216,7 @@ IViewProjectContainerProps) => {
                   </div>
                   <div>
                     <div className="text-soilGray/100 font-medium uppercase tracking-wide">
-                      🕵️‍♀️Details
+                      🕵️‍♀️ Details
                     </div>
                     <div className="text-xs font-medium">
                       <div className="flex flex-row p-1">
@@ -243,7 +243,7 @@ IViewProjectContainerProps) => {
               </div>
             </div>
           </div>
-        )}
+        ) : null}
       </div>
     </Card>
   );
