@@ -4,7 +4,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { ShortlistContainer } from "./ShortlistContainer";
 
 export default {
-  title: "Containers/ShortlistContainer",
+  title: "Archive/Containers/ShortlistContainer",
   component: ShortlistContainer,
   argTypes: {},
 } as ComponentMeta<typeof ShortlistContainer>;
