@@ -59,7 +59,7 @@ export const CreateProjectViews7 = ({
   project,
 }: CreateProjectViews7Props) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [projectRole, setProjectRole] = useState<RoleType[]>([]);
+  const [projectRole, setProjectRole] = useState<any>([]);
   const [showRoleForm, setShowRoleForm] = useState<boolean>(false);
 
   let roleIndex = 0;
@@ -93,7 +93,9 @@ export const CreateProjectViews7 = ({
       const newRole = projectRole;
 
       newRole[roleIndex] = roleData;
-      roleIndex = newRole ? newRole.findIndex((obj) => obj?.title == value) : 0;
+      roleIndex = newRole
+        ? newRole.findIndex((obj: any) => obj?.title == value)
+        : 0;
       setProjectRole(newRole);
     }
 
