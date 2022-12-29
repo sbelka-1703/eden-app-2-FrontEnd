@@ -23,7 +23,7 @@ const FillProfilePage: NextPageWithLayout = () => {
           <div className={`h-7/10 grid grid-cols-1 content-center`}>
             <Card
               shadow
-              className={`bg-white p-8 text-center font-poppins text-3xl text-gray-600 font-semibold`}
+              className={`font-poppins bg-white p-8 text-center text-3xl font-semibold text-gray-600`}
             >
               Coming Soon
             </Card>

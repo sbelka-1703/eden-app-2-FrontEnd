@@ -32,7 +32,7 @@ OpenPositionCardProps) => {
               </span>
             ) : null}
           </div>
-          <div className="text-sm font-semibold text-soilGray/100 tracking-wide">
+          <div className="text-soilGray/100 text-sm font-semibold tracking-wide">
             {role?.shortDescription}
           </div>
           <div className="mt-2 flex">
