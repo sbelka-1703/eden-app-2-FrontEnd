@@ -22,16 +22,17 @@ import {
   PrioritizeModal,
   RequirementsModal,
   RoleDescriptionModal,
-  RoleModal,
   SavingProjectModal,
-  ShortlistMemberModal,
-  SkillsCategoryModal,
-  SkillsModal,
-  SkillsOnCategoryModal,
-  SkillsSubcategoryModal,
-  SocialMediaModel,
 } from "@eden/package-ui";
 import { useContext, useEffect } from "react";
+
+import { RoleModal } from "../../modals/RoleModal";
+import { ShortlistMemberModal } from "../../modals/ShortlistMemberModal";
+import { SkillsCategoryModal } from "../../modals/SkillsCategoryModal/SkillsCategoryModal";
+import { SkillsModal } from "../../modals/SkillsModal/SkillsModal";
+import { SkillsOnCategoryModal } from "../../modals/SkillsOnCategoryModal/SkillsOnCategoryModal";
+import { SkillsSubcategoryModal } from "../../modals/SkillsSubcategoryModal/SkillsSubcategoryModal";
+import { SocialMediaModel } from "../../modals/SocialMediaModel/SocialMediaModel";
 
 // @TODO mock data to be removed
 

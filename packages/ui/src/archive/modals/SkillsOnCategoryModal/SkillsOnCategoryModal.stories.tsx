@@ -1,26 +1,68 @@
 import { MockedProvider } from "@apollo/client/testing";
 import { FIND_ALL_CATEGORIES } from "@eden/package-graphql";
-import { getSkillRoleTypeMockArray } from "@eden/package-mock";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
-import { SkillsModal } from "./SkillsModal";
+import { SkillsOnCategoryModal } from "./SkillsOnCategoryModal";
 
 export default {
-  title: "Modals/SkillsModal",
-  component: SkillsModal,
+  title: "Archive/Modals/SkillsOnCategoryModal",
+  component: SkillsOnCategoryModal,
   argTypes: {},
-} as ComponentMeta<typeof SkillsModal>;
+} as ComponentMeta<typeof SkillsOnCategoryModal>;
 
-const Template: ComponentStory<typeof SkillsModal> = (args) => (
-  <SkillsModal {...args} />
+const Template: ComponentStory<typeof SkillsOnCategoryModal> = (args) => (
+  <SkillsOnCategoryModal {...args} />
 );
 
 export const Default = Template.bind({});
 Default.args = {
-  skills: getSkillRoleTypeMockArray(9),
+  skills: [
+    {
+      skillData: {
+        _id: "1",
+        name: "skill1",
+      },
+    },
+    {
+      skillData: {
+        _id: "2",
+        name: "skill2",
+      },
+    },
+    {
+      skillData: {
+        _id: "3",
+        name: "skill3",
+      },
+    },
+    {
+      skillData: {
+        _id: "4",
+        name: "skill4",
+      },
+    },
+    {
+      skillData: {
+        _id: "5",
+        name: "skill5",
+      },
+    },
+    {
+      skillData: {
+        _id: "6",
+        name: "skill6",
+      },
+    },
+    {
+      skillData: {
+        _id: "7",
+        name: "skill7",
+      },
+    },
+  ],
   isOpen: true,
   handelAddSkills() {
-    console.log("SkillsModal HandelAddSkills");
+    console.log("SkillsOnCategoryModal HandelAddSkills");
   },
 };
 

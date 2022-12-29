@@ -18,13 +18,14 @@ import {
 import {
   CongratulationsModal,
   RoleDescriptionModal,
-  RoleModal,
   SavingProjectModal,
-  ShortlistMemberModal,
-  SkillsModal,
-  SocialMediaModel,
 } from "@eden/package-ui";
 import { useContext, useEffect } from "react";
+
+import { RoleModal } from "../../modals/RoleModal";
+import { ShortlistMemberModal } from "../../modals/ShortlistMemberModal";
+import { SkillsModal } from "../../modals/SkillsModal/SkillsModal";
+import { SocialMediaModel } from "../../modals/SocialMediaModel/SocialMediaModel";
 
 export interface IShortlistModalContainerProps {}
 

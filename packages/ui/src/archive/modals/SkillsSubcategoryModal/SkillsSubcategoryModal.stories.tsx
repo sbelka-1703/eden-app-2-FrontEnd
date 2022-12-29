@@ -2,16 +2,16 @@ import { MockedProvider } from "@apollo/client/testing";
 import { FIND_ALL_CATEGORIES } from "@eden/package-graphql";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
-import { SkillsCategoryModal } from "./SkillsCategoryModal";
+import { SkillsSubcategoryModal } from "./SkillsSubcategoryModal";
 
 export default {
-  title: "Modals/SkillsCategoryModal",
-  component: SkillsCategoryModal,
+  title: "Archive/Modals/SkillsSubcategoryModal",
+  component: SkillsSubcategoryModal,
   argTypes: {},
-} as ComponentMeta<typeof SkillsCategoryModal>;
+} as ComponentMeta<typeof SkillsSubcategoryModal>;
 
-const Template: ComponentStory<typeof SkillsCategoryModal> = (args) => (
-  <SkillsCategoryModal {...args} />
+const Template: ComponentStory<typeof SkillsSubcategoryModal> = (args) => (
+  <SkillsSubcategoryModal {...args} />
 );
 
 export const Default = Template.bind({});

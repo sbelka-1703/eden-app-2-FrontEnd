@@ -4,7 +4,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { SocialMediaModel } from "./SocialMediaModel";
 
 export default {
-  title: "Modals/SocialMediaModel",
+  title: "Archive/Modals/SocialMediaModel",
   component: SocialMediaModel,
   argTypes: {},
 } as ComponentMeta<typeof SocialMediaModel>;

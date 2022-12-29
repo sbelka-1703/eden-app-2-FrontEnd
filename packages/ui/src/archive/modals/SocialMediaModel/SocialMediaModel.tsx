@@ -1,4 +1,3 @@
-// TODO: needs a test file
 import { Button, Modal, TextArea, TextField } from "@eden/package-ui";
 import { useState } from "react";
 import { AiFillGithub } from "react-icons/ai";

@@ -11,11 +11,12 @@ import {
   Card,
   MatchAvatar,
   SkillList,
-  SkillMatchModal,
   SocialMediaComp,
   TextHeading2,
 } from "@eden/package-ui";
 import { useState } from "react";
+
+import { SkillMatchModal } from "../../modals/SkillMatchModal/SkillMatchModal";
 
 export interface MemberMatchCardProps {
   percentage?: string;

@@ -3,13 +3,14 @@ import {
   Button,
   Card,
   EmojiSelector,
-  ProjectLayoutCard,
   TextBody,
   TextField,
   TextHeading3,
 } from "@eden/package-ui";
 import { useRouter } from "next/router";
 import { useContext } from "react";
+
+import { ProjectLayoutCard } from "../../cards/project/ProjectLayoutCard/ProjectLayoutCard";
 
 export interface ILaunchProjectContainerProps {}
 

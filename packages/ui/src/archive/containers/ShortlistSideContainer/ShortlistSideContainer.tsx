@@ -8,14 +8,11 @@ import {
   // eslint-disable-next-line camelcase
   SkillType_Member,
 } from "@eden/package-graphql/generated";
-import {
-  CandidateProfileCard,
-  Loading,
-  ProjectLayoutCard,
-} from "@eden/package-ui";
+import { CandidateProfileCard, Loading } from "@eden/package-ui";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import { useContext } from "react";
 
+import { ProjectLayoutCard } from "../../cards/project/ProjectLayoutCard/ProjectLayoutCard";
 import { ProjectSkillFilterCard } from "../../cards/project/ProjectSkillFilterCard/ProjectSkillFilterCard";
 
 export interface IShortlistSideContainerProps {
