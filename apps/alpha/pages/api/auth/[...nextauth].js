@@ -12,9 +12,6 @@ export default NextAuth({
   secret: process.env.NEXT_PUBLIC_SECRET,
   callbacks: {
     session: async ({ session, token }) => {
-      // console.log("session", session);
-      // console.log("user", user);
-      // console.log("token", token);
       if (session?.user) {
         session.user.id = token.uid;
       }

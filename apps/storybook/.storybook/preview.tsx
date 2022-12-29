@@ -52,13 +52,13 @@ export const parameters = {
 
 const injectContext: UserContextType = {
   currentUser: getMember(),
-  memberFound: true,
   setCurrentUser: (user: Members) => {
     console.log("setCurrentUser", user);
     // injectContext.currentUser = user;
   },
   refechProfile: () => {},
   memberServers: [],
+  memberServerIDs: [],
   selectedServer: null,
   setSelectedServer: () => {},
 };
