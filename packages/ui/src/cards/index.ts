@@ -5,7 +5,6 @@ export * from "./EditProfileOnboardPartyNodesCard";
 export * from "./EndorsementCard";
 export * from "./FiltersCard";
 export * from "./GrantsCard";
-export * from "./MemberMatchCard";
 export * from "./MemberProfileCard";
 export * from "./OnboardRoomCard";
 export * from "./OpenPositionCard";

@@ -3,15 +3,12 @@ import {
   LaunchProjectModal,
 } from "@eden/package-context";
 import { MatchMembersToSkillOutput } from "@eden/package-graphql/generated";
-import {
-  Button,
-  Card,
-  Loading,
-  MemberMatchCard,
-  TextHeading3,
-} from "@eden/package-ui";
+import { Button, Card, Loading, TextHeading3 } from "@eden/package-ui";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import { useContext } from "react";
+
+import { MemberMatchCard } from "../../cards/MemberMatchCard/MemberMatchCard";
+
 export interface IShortlistContainerProps {
   matchingMembers: MatchMembersToSkillOutput[] | any;
   overflow?: boolean;

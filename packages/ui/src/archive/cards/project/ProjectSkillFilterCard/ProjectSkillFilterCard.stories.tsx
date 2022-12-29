@@ -5,7 +5,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { ProjectSkillFilterCard } from "./ProjectSkillFilterCard";
 
 export default {
-  title: "Cards/Project/ProjectSkillFilterCard",
+  title: "Archive/Cards/Project/ProjectSkillFilterCard",
   component: ProjectSkillFilterCard,
   argTypes: {},
 } as ComponentMeta<typeof ProjectSkillFilterCard>;
