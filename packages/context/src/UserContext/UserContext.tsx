@@ -7,7 +7,6 @@ import { createContext, Dispatch } from "react";
 
 export interface UserContextType {
   currentUser?: Members;
-  memberFound: boolean;
   setCurrentUser: Dispatch<Members>;
   refechProfile: () => void;
   memberServers: ServerTemplate[];
@@ -18,7 +17,6 @@ export interface UserContextType {
 
 export const UserContext = createContext<UserContextType>({
   currentUser: undefined,
-  memberFound: false,
   // eslint-disable-next-line no-empty-function
   setCurrentUser: () => {},
   // eslint-disable-next-line no-empty-function
