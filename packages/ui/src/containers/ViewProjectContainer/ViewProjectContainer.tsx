@@ -201,9 +201,11 @@ IViewProjectContainerProps) => {
                       💯 Expectations
                     </div>
                     <div className="text-sm">
-                      <li className="overflow-auto">
-                        {activeRole?.expectations}
-                      </li>
+                      {activeRole?.expectations?.map((obj, index) => (
+                        <li key={index} className="overflow-auto">
+                          {obj}
+                        </li>
+                      ))}
                     </div>
                   </div>
                   <div>
@@ -211,7 +213,11 @@ IViewProjectContainerProps) => {
                       🦜Benefits
                     </div>
                     <div className="text-sm">
-                      <li>{activeRole?.benefits}</li>
+                      {activeRole?.benefits?.map((obj, index) => (
+                        <li key={index} className="overflow-auto">
+                          {obj}
+                        </li>
+                      ))}
                     </div>
                   </div>
                   <div>
@@ -228,7 +234,7 @@ IViewProjectContainerProps) => {
                       <div className="flex flex-row p-1">
                         <div>💰</div>
                         <div className={`ml-1 capitalize text-slate-900`}>
-                          {`TRST ${activeRole?.ratePerWeek} /week`}
+                          {`TRST ${activeRole?.ratePerHour} /week`}
                         </div>
                       </div>
                       <div className="flex flex-row p-1">

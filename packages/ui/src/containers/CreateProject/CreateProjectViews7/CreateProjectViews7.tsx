@@ -11,7 +11,7 @@ import {
   TextHeading3,
   ToggleElement,
 } from "@eden/package-ui";
-import { isEmpty, map } from "lodash";
+import { isEmpty, map, union } from "lodash";
 import {
   Dispatch,
   SetStateAction,
@@ -19,7 +19,6 @@ import {
   useReducer,
   useState,
 } from "react";
-
 const initialState: RoleType = {
   title: "",
   description: "",
@@ -67,10 +66,6 @@ export const CreateProjectViews7 = ({
   // const [firstRoleIndex, setFirstRoleIndex] = useState(
   //   roleIndex ? roleIndex - 1 : 0
   // );
-
-  // useEffect(() => {
-  //   console.log("projectRoleLength", firstRoleIndex);
-  // }, [roleIndex]);
 
   useEffect(() => {
     if (project?.role) {
@@ -120,17 +115,19 @@ export const CreateProjectViews7 = ({
     }
     if (field == "expectations") {
       const newRole = projectRole;
+      const expArray = value.split(" ");
 
       if (newRole[roleIndex]) {
-        newRole[roleIndex].expectations = value;
+        newRole[roleIndex].expectations = expArray;
         setProjectRole(newRole);
       }
     }
     if (field == "benefits") {
       const newRole = projectRole;
+      const benArray = value.split(" ");
 
       if (newRole[roleIndex]) {
-        newRole[roleIndex].benefits = value;
+        newRole[roleIndex].benefits = benArray;
         setProjectRole(newRole);
       }
     }
@@ -165,7 +162,7 @@ export const CreateProjectViews7 = ({
       let newRoleArray;
 
       if (project?.role) {
-        newRoleArray = project?.role?.concat(projectRole);
+        newRoleArray = union(project?.role, projectRole);
       } else {
         newRoleArray = projectRole;
       }
@@ -185,21 +182,19 @@ export const CreateProjectViews7 = ({
 
   // console.log("dataRoles = ", dataRoles);
 
-  // const handleSetProject = (value: any) => {
-  //   console.log("projectRole", projectRole);
-  //   console.log("project", project?.role);
-  //   let role = [];
+  const handleSetProject = (value: any) => {
+    if (setProject) {
+      let newRoleArray;
 
-  //   if (projectRole.length) {
-  //     role = [...project?.role, projectRole];
-  //   } else {
-  //     role = [...project?.role];
-  //   }
-  //   setProject({
-  //     ...project,
-  //     role: role,
-  //   });
-  // };
+      if (project?.role) {
+        newRoleArray = union(project?.role, projectRole);
+      } else {
+        newRoleArray = projectRole;
+      }
+
+      setProject({ ...project, role: newRoleArray });
+    }
+  };
 
   return (
     <Card shadow className="bg-white pt-3 pb-6">
@@ -307,7 +302,7 @@ export const CreateProjectViews7 = ({
                     <ToggleElement
                       isOptional
                       className="my-4"
-                      title="What are the expectations for this role?"
+                      title="What are the expectations for this role? (space seprated)"
                     >
                       <TextArea
                         // value={state.description}
@@ -321,7 +316,7 @@ export const CreateProjectViews7 = ({
                     <ToggleElement
                       isOptional
                       className="my-4"
-                      title="What are the benfits of this role?"
+                      title="What are the benfits of this role? (space seprated)"
                     >
                       <TextArea
                         // value={state.benefits}
@@ -415,7 +410,7 @@ export const CreateProjectViews7 = ({
             <Button
               variant="secondary"
               onClick={() => {
-                // handleSetProject(state);
+                handleSetProject(state);
                 onNext(state);
               }}
             >
