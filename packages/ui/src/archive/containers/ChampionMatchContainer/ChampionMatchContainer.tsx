@@ -5,14 +5,12 @@ import {
   RoleType,
   TeamType,
 } from "@eden/package-graphql/generated";
-import {
-  CardGrid,
-  MemberMatchCard,
-  TabsSelector,
-  TextHeading3,
-} from "@eden/package-ui";
+import { CardGrid, TabsSelector, TextHeading3 } from "@eden/package-ui";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import { useEffect, useState } from "react";
+
+import { MemberMatchCard } from "../../cards/MemberMatchCard/MemberMatchCard";
+
 export interface ChampionMatchContainerProps {
   project?: Project;
   selectedRole?: Maybe<RoleType> | null;

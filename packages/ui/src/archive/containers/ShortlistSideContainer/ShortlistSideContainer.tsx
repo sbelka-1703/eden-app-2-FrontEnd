@@ -12,10 +12,11 @@ import {
   CandidateProfileCard,
   Loading,
   ProjectLayoutCard,
-  ProjectSkillFilterCard,
 } from "@eden/package-ui";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import { useContext } from "react";
+
+import { ProjectSkillFilterCard } from "../../cards/project/ProjectSkillFilterCard/ProjectSkillFilterCard";
 
 export interface IShortlistSideContainerProps {
   matchingMembers: any[];
