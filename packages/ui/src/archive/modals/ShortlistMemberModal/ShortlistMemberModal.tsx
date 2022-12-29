@@ -6,7 +6,7 @@ import {
   TextHeading2,
 } from "@eden/package-ui";
 
-export interface ShortlistMemberModal {
+export interface IShortlistMemberModalProps {
   isModalOpen: boolean;
   roles: Maybe<Array<Maybe<RoleType>>>;
   members: Maybe<Maybe<TeamType>[]>;
@@ -20,7 +20,7 @@ export const ShortlistMemberModal = ({
   members,
   onClickNext,
   onClose,
-}: ShortlistMemberModal) => {
+}: IShortlistMemberModalProps) => {
   return (
     <Modal
       open={isModalOpen}

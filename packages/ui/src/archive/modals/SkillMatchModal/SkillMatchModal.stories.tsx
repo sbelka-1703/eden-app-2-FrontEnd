@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { SkillMatchModal } from "./SkillMatchModal";
 
 export default {
-  title: "Modals/SkillMatchModal",
+  title: "Archive/Modals/SkillMatchModal",
   component: SkillMatchModal,
   argTypes: {},
 } as ComponentMeta<typeof SkillMatchModal>;
@@ -17,8 +17,8 @@ Default.args = {
   isModalOpen: true,
   budget: 24,
   avaiability: 64,
-  projectCost: "70 USDC",
-  yourCost: "140 USDC",
+  projectCost: 70,
+  yourCost: 140,
   projectHr: 25,
   yourHr: 15,
   matchingPercentage: 81,

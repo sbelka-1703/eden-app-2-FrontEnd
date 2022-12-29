@@ -49,7 +49,7 @@ export const MemberInfo = ({
                 style={{ fontWeight: 700 }}
                 className="mb-2 text-sm uppercase text-gray-500"
               >
-                SKILLS
+                EXPERTISE
               </TextHeading3>
             </div>
             <div>

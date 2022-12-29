@@ -1,10 +1,10 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { findRoleTemplates } from "@eden/package-mock";
+import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { RoleModal } from "./RoleModal";
 
 export default {
-  title: "Modals/RoleModal",
+  title: "Archive/Modals/RoleModal",
   component: RoleModal,
   argTypes: {},
 } as ComponentMeta<typeof RoleModal>;

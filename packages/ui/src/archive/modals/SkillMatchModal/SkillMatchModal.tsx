@@ -1,8 +1,8 @@
-/* eslint-disable camelcase */
 // import { Maybe, RoleType, TeamType } from "@eden/package-graphql/generated";
-import { Charts, Modal } from "@eden/package-ui";
-import { useState } from "react";
 import { SkillsPercentage } from "@eden/package-graphql/generated";
+import { Charts, Modal } from "@eden/package-ui";
+// import { useState } from "react";
+
 export interface SkillMatchModalProps {
   isModalOpen?: boolean;
   chartData?: Array<SkillsPercentage> | any;
@@ -27,7 +27,7 @@ export const SkillMatchModal: React.FC<SkillMatchModalProps> = ({
   matchingPercentage,
   onCloseModal,
 }) => {
-  const [unpaid, setUnpaid] = useState(false);
+  // const [unpaid, setUnpaid] = useState(false);
 
   return (
     <Modal open={isModalOpen} onClose={onCloseModal}>

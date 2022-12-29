@@ -1,4 +1,4 @@
-import { render } from "../../../utils/jest-apollo";
+import { render } from "../../../../utils/jest-apollo";
 import { ShortlistMemberModal } from ".";
 
 describe("ShortlistMemberModal", () => {
