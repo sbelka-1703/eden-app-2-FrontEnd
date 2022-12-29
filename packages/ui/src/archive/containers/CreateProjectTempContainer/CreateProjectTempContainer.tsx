@@ -71,6 +71,7 @@ export const CreateProjectTempContainer = ({
 
   const [newRoleTitle, setNewRoleTitle] = useState<string>("");
 
+  // eslint-disable-next-line no-unused-vars
   const [updateProject] = useMutation(UPDATE_PROJECT, {
     onCompleted({ updateProject }: Mutation) {
       if (!updateProject) console.log("updateProject is null");
