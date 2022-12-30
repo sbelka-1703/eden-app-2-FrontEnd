@@ -16,7 +16,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (!token || !token?.accessToken) {
     return res.status(200).send({
       edenToken,
-      error: error,
+      error,
     });
     // return res.status(404).end();
   }
@@ -42,6 +42,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   return res.status(200).send({
     edenToken,
-    error: error,
+    error,
   });
 };

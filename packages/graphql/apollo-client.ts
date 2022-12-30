@@ -14,7 +14,6 @@ import { RetryLink } from "@apollo/client/link/retry";
 import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 import { createClient } from "graphql-ws";
 import { getMainDefinition } from "@apollo/client/utilities";
-import axios from "axios";
 
 import jwt_decode from "jwt-decode";
 
@@ -48,25 +47,23 @@ const edenLink = new ApolloLink((operation, forward) => {
   }
 
   return fromPromise(
-    axios(`/api/auth/fetchToken`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    })
+    fetch(`/api/auth/fetchToken`)
+      .then((res) => res.json())
       .then((data: any) => {
-        // console.log("DATA", data.data);
-        if (data.data.error || !data.data.edenToken)
+        // console.log("DATA", data);
+        // console.log("ERROR", data.error);
+        if (data.error) return toPromise(forward(operation));
+
+        const edenToken = data.edenToken;
+        if (edenToken) {
+          operation.setContext({
+            headers: {
+              authorization: `Bearer ${edenToken}`,
+            },
+          });
+          localStorage.setItem("eden_access_token", edenToken);
           return toPromise(forward(operation));
-        const edenToken = data.data.edenToken;
-        operation.setContext({
-          headers: {
-            authorization: `Bearer ${edenToken}`,
-          },
-        });
-        if (edenToken) localStorage.setItem("eden_access_token", edenToken);
-        return toPromise(forward(operation));
+        } else return toPromise(forward(operation));
       })
 
       .catch(() => {
