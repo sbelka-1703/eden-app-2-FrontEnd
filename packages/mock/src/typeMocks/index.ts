@@ -8,6 +8,7 @@ export * from "./PreviusProjectsTypeMock";
 export * from "./ProjectMemberTypeMock";
 export * from "./RoleTemplateTypeMock";
 export * from "./RoleTypeMock";
+export * from "./RoomTypeMock";
 export * from "./SkillCategoryTypeMock";
 export * from "./SkillRoleTypeMock";
 export * from "./SkillsPercentageTypeMock";

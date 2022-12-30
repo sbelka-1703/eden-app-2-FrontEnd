@@ -1,10 +1,12 @@
 import fetch from "cross-fetch";
 import {
   ApolloClient,
-  ApolloLink,
-  from,
-  HttpLink,
   InMemoryCache,
+  from,
+  fromPromise,
+  toPromise,
+  HttpLink,
+  ApolloLink,
   split,
 } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
@@ -13,20 +15,61 @@ import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 import { createClient } from "graphql-ws";
 import { getMainDefinition } from "@apollo/client/utilities";
 
+import jwt_decode from "jwt-decode";
+
+type decodedType = {
+  exp: number;
+  iat: number;
+  id: string;
+  role: string;
+};
+let decoded: decodedType;
+
 // Eden API endpoint
 const EDEN_API_WSS = process.env.NEXT_PUBLIC_GRAPHQL_WSS || "";
 const EDEN_API_URL = process.env.NEXT_PUBLIC_GRAPHQL_URL;
 const httpLinkEden = new HttpLink({ uri: EDEN_API_URL, fetch });
 
 const edenLink = new ApolloLink((operation, forward) => {
-  // Use the setContext method to set the HTTP headers.
-  operation.setContext({
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-    },
-  });
-  // Call the next link in the middleware chain.
-  return forward(operation);
+  const token = localStorage.getItem("eden_access_token");
+
+  if (token) decoded = jwt_decode(token as string);
+
+  if (token && decoded.exp > Math.floor(Date.now() / 1000)) {
+    if (process.env.NODE_ENV === "development")
+      console.log("TOKEN IS GOOD -> making request");
+    operation.setContext({
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    });
+    return forward(operation);
+  }
+
+  return fromPromise(
+    fetch(`/api/auth/fetchToken`)
+      .then((res) => res.json())
+      .then((data: any) => {
+        // console.log("DATA", data);
+        // console.log("ERROR", data.error);
+        if (data.error) return toPromise(forward(operation));
+
+        const edenToken = data.edenToken;
+        if (edenToken) {
+          operation.setContext({
+            headers: {
+              authorization: `Bearer ${edenToken}`,
+            },
+          });
+          localStorage.setItem("eden_access_token", edenToken);
+          return toPromise(forward(operation));
+        } else return toPromise(forward(operation));
+      })
+
+      .catch(() => {
+        return toPromise(forward(operation));
+      })
+  );
 });
 
 // Extra API endpoint
@@ -86,36 +129,7 @@ export const apolloClient = new ApolloClient({
   cache: new InMemoryCache({
     typePolicies: {
       Query: {
-        fields: {
-          // testing for caching current user
-          // findMember: cacheMerge(["fields", ["_id"]]),
-          // memberUpdated: cacheMerge(["fields", ["_id"]]),
-          // memberUpdated: {
-          //   keyArgs: false,
-          //   merge(existing = [], incoming: any[]) {
-          //     return [...existing, ...incoming];
-          //   },
-          // },
-          // findMember: {
-          //   keyArgs: ["_id"],
-          // },
-          // findMembers: {
-          //   keyArgs: ["_id"],
-          // },
-          // freezes the cache
-          // findProject: {
-          //   keyArgs: ["_id"],
-          // },
-          findProjects: {
-            keyArgs: ["_id"],
-          },
-          // findSkills: {
-          //   keyArgs: ["_id"],
-          // },
-          findRoom: {
-            keyArgs: ["_id"],
-          },
-        },
+        fields: {},
       },
     },
   }),

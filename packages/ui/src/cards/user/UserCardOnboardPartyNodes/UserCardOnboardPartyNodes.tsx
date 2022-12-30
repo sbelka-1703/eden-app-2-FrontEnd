@@ -5,14 +5,14 @@ import {
   Card,
   // NumberCircle,
   MemberModal,
-  ProgressBarGeneric,
+  // ProgressBarGeneric,
   SocialMediaComp,
   TextHeading3,
   TextLabel,
 } from "@eden/package-ui";
 import { useState } from "react";
 
-import { getFillProfilePercentage } from "../../../../utils/fill-profile-percentage";
+// import { getFillProfilePercentage } from "../../../../utils/fill-profile-percentage";
 
 export interface IUserCardOnboardPartyNodesProps {
   member: Members;
@@ -22,7 +22,7 @@ export const UserCardOnboardPartyNodes = ({
   member,
 }: IUserCardOnboardPartyNodesProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const progress = getFillProfilePercentage(member);
+  // const progress = getFillProfilePercentage(member);
 
   return (
     <Card border className="border-soilGray col-span-1 bg-white p-3">
@@ -48,13 +48,13 @@ export const UserCardOnboardPartyNodes = ({
           </div>
         </div>
       </div>
-      <div className="mb-2">
+      {/* <div className="mb-2">
         <div className="mb-1 flex items-baseline">
           <TextLabel>PROFILE PROGRESS</TextLabel>
           <span className="ml-auto">{progress}%</span>
         </div>
         <ProgressBarGeneric progress={progress} />
-      </div>
+      </div> */}
       <div className="flex items-center space-x-2 py-1">
         <TextLabel>PREFERRED PROJECTS</TextLabel>
       </div>
@@ -74,7 +74,7 @@ export const UserCardOnboardPartyNodes = ({
         })}
       </div>
       <div className="flex items-center space-x-2 py-1">
-        <TextLabel>SKILLS</TextLabel>
+        <TextLabel>EXPERTISE</TextLabel>
       </div>
       <div>
         {member?.nodes?.map((item, index) => {

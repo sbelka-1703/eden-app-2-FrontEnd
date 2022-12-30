@@ -122,7 +122,7 @@ IViewProjectContainerProps) => {
             <UserMiniCard member={currentUser} />
           </div>
         </div>
-        {tabs?.length && (
+        {tabs?.length > 0 && (
           <div
             className={`mt-3 ${
               step == "3" || step == "4" ? "" : "blur-sm brightness-50"
@@ -201,44 +201,64 @@ IViewProjectContainerProps) => {
                       💯 Expectations
                     </div>
                     <div className="text-sm">
-                      <li className="overflow-auto">
-                        {activeRole?.expectations}
-                      </li>
+                      {activeRole?.expectations?.map(
+                        (obj: string, index: number) => (
+                          <li key={index} className="overflow-auto">
+                            {obj}
+                          </li>
+                        )
+                      )}
                     </div>
                   </div>
                   <div>
                     <div className="text-soilGray/100 font-medium uppercase tracking-wide">
-                      🦜Benefits
+                      🦜 Benefits
                     </div>
                     <div className="text-sm">
-                      <li>{activeRole?.benefits}</li>
+                      {activeRole?.benefits?.map(
+                        (obj: string, index: number) => (
+                          <li key={index} className="overflow-auto">
+                            {obj}
+                          </li>
+                        )
+                      )}
                     </div>
                   </div>
-                  <div>
-                    <div className="text-soilGray/100 font-medium uppercase tracking-wide">
-                      🕵️‍♀️Details
+                  {(activeRole?.hoursPerWeek ||
+                    activeRole?.ratePerHour ||
+                    activeRole?.openPositions) && (
+                    <div>
+                      <div className="text-soilGray/100 font-medium uppercase tracking-wide">
+                        🕵️‍♀️ Details
+                      </div>
+                      <div className="text-xs font-medium">
+                        {activeRole?.hoursPerWeek && (
+                          <div className="flex flex-row p-1">
+                            <div>🕓</div>
+                            <div className={`ml-1 capitalize text-slate-900	`}>
+                              {`${activeRole?.hoursPerWeek} hours/week`}
+                            </div>
+                          </div>
+                        )}
+                        {activeRole?.ratePerHour && (
+                          <div className="flex flex-row p-1">
+                            <div>💰</div>
+                            <div className={`ml-1 capitalize text-slate-900`}>
+                              {`TRST ${activeRole?.ratePerHour} /week`}
+                            </div>
+                          </div>
+                        )}
+                        {activeRole?.openPositions && (
+                          <div className="flex flex-row p-1">
+                            <div>🪑</div>
+                            <div className={`ml-1 capitalize text-slate-900	`}>
+                              {`${activeRole?.openPositions} open position`}
+                            </div>
+                          </div>
+                        )}
+                      </div>
                     </div>
-                    <div className="text-xs font-medium">
-                      <div className="flex flex-row p-1">
-                        <div>🕓</div>
-                        <div className={`ml-1 capitalize text-slate-900	`}>
-                          {`${activeRole?.hoursPerWeek} hours/week`}
-                        </div>
-                      </div>
-                      <div className="flex flex-row p-1">
-                        <div>💰</div>
-                        <div className={`ml-1 capitalize text-slate-900`}>
-                          {`TRST ${activeRole?.ratePerWeek} /week`}
-                        </div>
-                      </div>
-                      <div className="flex flex-row p-1">
-                        <div>🪑</div>
-                        <div className={`ml-1 capitalize text-slate-900	`}>
-                          ${activeRole?.openPositions} open position
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  )}
                 </div>
               </div>
             </div>

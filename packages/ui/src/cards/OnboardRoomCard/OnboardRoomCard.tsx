@@ -2,10 +2,11 @@ import { Rooms } from "@eden/package-graphql/generated";
 import { Avatar, Card, TextHeading2 } from "@eden/package-ui";
 
 export interface IOnboardRoomCardProps {
-  room: Rooms;
+  room?: Rooms;
 }
 
 export const OnboardRoomCard = ({ room }: IOnboardRoomCardProps) => {
+  if (!room) return null;
   return (
     <Card shadow className={`bg-white p-4`}>
       <div className={`flex`}>

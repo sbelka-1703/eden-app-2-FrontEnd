@@ -182,7 +182,10 @@ const PositionExpanded = ({
                   <div className="text-xl	font-medium	tracking-wide	">
                     {activeItem?.projectRole?.title}
                   </div>
-                  <div className="text-soilGray/100	text-sm font-normal	tracking-wide">
+                  <div className="text-soilGray/100	text-sm font-semibold	tracking-wide">
+                    {activeItem?.projectRole?.shortDescription}
+                  </div>
+                  <div className="text-soilGray/90	text-sm font-normal	tracking-wide">
                     {activeItem?.projectRole?.description}
                   </div>
                   <div>
@@ -261,9 +264,14 @@ const PositionExpanded = ({
                   💯 Expectations
                 </div>
                 <div className="text-sm">
-                  <li>2 weekly sync calls</li>
+                  {activeItem?.projectRole?.expectations?.map(
+                    (expectation, index: number) => (
+                      <li key={index}>{expectation}</li>
+                    )
+                  )}
+                  {/* <li>2 weekly sync calls</li>
                   <li>leading a team of 10 people</li>
-                  <li>willing to learn</li>
+                  <li>willing to learn</li> */}
                 </div>
               </div>
               <div>
@@ -271,9 +279,11 @@ const PositionExpanded = ({
                   🦜Benefits
                 </div>
                 <div className="text-sm">
-                  <li>yearly IRL events</li>
-                  <li>flexible schedule</li>
-                  <li>Paid in the native token</li>
+                  {activeItem?.projectRole?.benefits?.map(
+                    (benefit, index: number) => (
+                      <li key={index}>{benefit}</li>
+                    )
+                  )}
                 </div>
               </div>
               <div>
@@ -290,8 +300,7 @@ const PositionExpanded = ({
                   <div className="flex flex-row p-1">
                     <div>💰</div>
                     <div className={`ml-1 capitalize text-slate-900`}>
-                      TRST $
-                      {activeItem?.projectRole?.budget?.totalBudget || "N/A"}
+                      TRST ${activeItem?.projectRole?.ratePerHour || "N/A"}
                     </div>
                   </div>
                   <div className="flex flex-row p-1">

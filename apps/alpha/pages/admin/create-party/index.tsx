@@ -124,7 +124,7 @@ const DiscoverPage: NextPageWithLayout = () => {
                       <Button
                         onClick={() =>
                           window.open(
-                            `https://eden-nodes.vercel.app/party/onboard/${roomUrl}`,
+                            `https://eden-alpha-develop.vercel.app/party/onboard/${roomUrl}`,
                             "_blank"
                           )
                         }

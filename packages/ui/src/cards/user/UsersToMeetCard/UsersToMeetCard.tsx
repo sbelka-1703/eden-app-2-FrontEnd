@@ -15,7 +15,7 @@ export interface IUsersToMeetCardProps {
 }
 
 export const UsersToMeetCard = ({
-  title = `Best people for you to meet:`,
+  title = `Others with interests similar to yours:`,
   members,
   refetchMatchMembers,
 }: IUsersToMeetCardProps) => {
@@ -79,7 +79,7 @@ export const UsersToMeetCard = ({
             )}
           {currentUser?.nodes?.length === 0 && (
             <TextHeading3 className={`text-blue-700`}>
-              Add Skills and Preferred Projects on Your Profile to find best
+              Add Expertise and Preferred Projects on Your Profile to find best
               matches
             </TextHeading3>
           )}
