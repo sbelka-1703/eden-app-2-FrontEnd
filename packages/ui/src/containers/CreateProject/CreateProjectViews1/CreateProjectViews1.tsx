@@ -105,8 +105,7 @@ export const CreateProjectViews1 = ({
     });
   };
 
-  const nextDisabled =
-    !state.name || !state.description || !state.emoji || !state.color;
+  const nextDisabled = !state.name || !state.description;
 
   return (
     <Card shadow className="bg-white pt-3 pb-6">
