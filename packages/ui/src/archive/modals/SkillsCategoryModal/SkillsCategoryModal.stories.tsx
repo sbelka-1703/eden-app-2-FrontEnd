@@ -1,5 +1,4 @@
-import { MockedProvider } from "@apollo/client/testing";
-import { FIND_ALL_CATEGORIES } from "@eden/package-graphql";
+import { FIND_ALL_MAIN_CATEGORIES } from "@eden/package-graphql";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { SkillsCategoryModal } from "./SkillsCategoryModal";
@@ -21,15 +20,14 @@ Default.args = {
 
 Default.parameters = {
   apolloClient: {
-    MockedProvider,
     mocks: [
       {
         request: {
-          query: FIND_ALL_CATEGORIES,
+          query: FIND_ALL_MAIN_CATEGORIES,
         },
         result: {
           data: {
-            findSkillSubCategories: [
+            findSkillCategories: [
               {
                 _id: "63098c32b003e10004f99c8e",
                 name: "Web Design and Development",
