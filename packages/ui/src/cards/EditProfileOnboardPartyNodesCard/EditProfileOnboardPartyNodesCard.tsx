@@ -125,7 +125,9 @@ export const EditProfileOnboardPartyNodesCard = ({
     if (!RoomID || !currentUser) return;
 
     let bio = currentUser?.bio || null;
-    let role = currentUser?.memberRole?._id || null;
+    const memberRole = {
+      _id: currentUser?.memberRole?._id || undefined,
+    };
     let links = currentUser?.links?.map((link: any) => {
       // eslint-disable-next-line no-unused-vars
       const { __typename, ...rest } = link;
@@ -137,7 +139,7 @@ export const EditProfileOnboardPartyNodesCard = ({
       bio = val;
     }
     if (name === "role") {
-      role = val;
+      memberRole._id = val;
     }
 
     if (name === "links") {
@@ -151,7 +153,7 @@ export const EditProfileOnboardPartyNodesCard = ({
           serverID: serverID,
           roomID: RoomID,
           bio: bio,
-          memberRole: { _id: role },
+          memberRole: memberRole._id ? memberRole : null,
           links: links,
         },
       },
@@ -242,7 +244,7 @@ export const EditProfileOnboardPartyNodesCard = ({
       />
 
       <NodesModal
-        title="What is Your Background?"
+        title="What Subjects Do You Have Expertise In?"
         openModal={selectedModal === PARTY_STEPS.EXPERTISE}
         onClose={() => setSelectedModal("PROJECT_TYPE")}
         onSubmit={(val: any) => {
@@ -302,11 +304,11 @@ interface IWelcomeModalProps {
 const WelcomeModal = ({ openModal, onClose }: IWelcomeModalProps) => {
   return (
     <Modal open={openModal} closeOnEsc={false}>
-      <div className="h-6/10 p-4">
-        <div className="space-y-8">
-          <TextHeading2 className="text-lg">Welcome</TextHeading2>
+      <div className="h-6/10 p-4 grid place-content-center">
+        <div className="space-y-12 text-center mb-12">
+          <TextHeading2 className="text-lg">gm Fren!</TextHeading2>
           <TextHeading3 className="text-lg">
-            Hi Frens! Please tell the room about yourself 😃
+            Please help the room get to know a little bit about you 😃
           </TextHeading3>
         </div>
       </div>
@@ -371,7 +373,7 @@ const NodesModal = ({
       forEach(selectedItems, (el) => {
         if (!isEmpty(el)) {
           forEach(el, (item) => {
-            console.log("item", item);
+            // console.log("item", item);
             selectedNodeId.push(item?._id as string);
           });
         }
@@ -390,7 +392,7 @@ const NodesModal = ({
         <div className={`mb-12 flex justify-between`}>
           <div>
             <div className="flex justify-between">
-              <div className="flex-1">
+              <div className="flex-1 text-center">
                 <TextHeading2>{welcomeMessage}</TextHeading2>
                 <TextHeading3>{title}</TextHeading3>
               </div>
@@ -469,28 +471,32 @@ const BioModal = ({ roles, openModal, onSubmit }: IBioModalProps) => {
   return (
     <Modal open={openModal} closeOnEsc={false}>
       <div className="h-6/10 space-y-8 p-4">
-        <TextHeading3 className="text-lg">
+        <TextHeading3 className="text-lg text-center">
           Select Your Current Role
         </TextHeading3>
-        <TextLabel>Current Role:</TextLabel>
-        <RoleSelector
-          value={currentUser?.memberRole?.title || ""}
-          roles={roles}
-          onSelect={(e) => setRole(e?._id as string)}
-        />
-        <TextHeading3 className="text-lg">
+        <div className={`space-y-2 my-6`}>
+          <TextLabel>Current Role:</TextLabel>
+          <RoleSelector
+            value={currentUser?.memberRole?.title || ""}
+            roles={roles}
+            onSelect={(e) => setRole(e?._id as string)}
+          />
+        </div>
+        <TextHeading3 className="text-lg text-center">
           Tell the Room About Yourself
         </TextHeading3>
-        <TextLabel>ABOUT ME</TextLabel>
-        <TextArea
-          name="bio"
-          placeholder={`Write a short description about yourself...`}
-          rows={5}
-          value={`${currentUser?.bio ? currentUser.bio : ""}`}
-          className="border-0 text-xs"
-          onChange={(e) => setBio(e.target.value)}
-          maxLength={280}
-        />
+        <div className={`space-y-2 my-6`}>
+          <TextLabel>ABOUT ME</TextLabel>
+          <TextArea
+            name="bio"
+            placeholder={`Write a short description about yourself...`}
+            rows={5}
+            value={`${currentUser?.bio ? currentUser.bio : ""}`}
+            className="border-0 text-xs"
+            onChange={(e) => setBio(e.target.value)}
+            maxLength={280}
+          />
+        </div>
       </div>
       <div className={`flex justify-end`}>
         <Button variant="secondary" onClick={() => onSubmit(role, bio)}>
@@ -513,7 +519,7 @@ const SocialModal = ({ openModal, onSubmit }: ISocialModalProps) => {
   return (
     <Modal open={openModal} closeOnEsc={false}>
       <div className="h-6/10 space-y-12 p-4">
-        <TextHeading3 className="text-lg">
+        <TextHeading3 className="text-lg text-center">
           Include Links so Others Can Find You
         </TextHeading3>
         <SocialView onChanges={(val) => setLinks(val)} />

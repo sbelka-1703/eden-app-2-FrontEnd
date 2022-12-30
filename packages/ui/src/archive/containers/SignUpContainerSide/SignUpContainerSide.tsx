@@ -9,15 +9,11 @@ import {
   SkillRoleType,
   SkillType_Member,
 } from "@eden/package-graphql/generated";
-import {
-  Avatar,
-  Card,
-  ProjectSkillFilterCard,
-  UserProfileCard,
-} from "@eden/package-ui";
+import { Avatar, Card, UserProfileCard } from "@eden/package-ui";
 import { useContext, useState } from "react";
 
 import { round } from "../../../../utils";
+import { ProjectSkillFilterCard } from "../../cards/project/ProjectSkillFilterCard/ProjectSkillFilterCard";
 
 export interface ISignUpContainerSideProps {
   matchedProjects?: Maybe<Array<Maybe<MatchSkillsToProjectsOutput>>>;

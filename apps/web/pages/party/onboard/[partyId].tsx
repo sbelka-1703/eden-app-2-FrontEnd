@@ -59,7 +59,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
     }
   );
 
-  if (dataMembers) console.log("dataMembers", dataMembers?.matchNodesToMembers);
+  // if (dataMembers) console.log("dataMembers", dataMembers?.matchNodesToMembers);
 
   useEffect(() => {
     if (currentUser && currentUser.nodes) {
