@@ -21,7 +21,7 @@ export const NodesOnboardPartyContainer = ({
       className="scrollbar-hide flex flex-grow overflow-y-scroll bg-white py-3 px-6"
     >
       <div>
-        <TextHeading3 className="mb-2">Other People to Know</TextHeading3>
+        <TextHeading3 className="mb-2">Members on this Call</TextHeading3>
         <CardGrid>
           {[...members]
             .sort(
