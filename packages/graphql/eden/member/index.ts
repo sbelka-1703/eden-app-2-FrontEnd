@@ -7,3 +7,4 @@ export * from "./addSkillToMemberInRoom";
 export * from "./memberUpdated";
 export * from "./matchMembertoSkills";
 export * from "./updateMemberInRoom";
+export * from "./findMemberInfo";

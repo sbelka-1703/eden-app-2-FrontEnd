@@ -21,7 +21,7 @@ export interface ISelectNodesModalProps {
   welcomeMessage?: string;
   title?: string;
   subTitle?: string;
-  nodeType?: string;
+  nodeType?: "typeProject" | "expertise";
   submitButtonLabel?: string;
 }
 
@@ -48,7 +48,8 @@ export const SelectNodesModal = ({
     skip: !nodeType,
     context: { serviceName: "soilservice" },
   });
-  // if (dataNodes?.findNodes) console.log("dataNodes", dataNodes?.findNodes);
+
+  if (dataNodes?.findNodes) console.log("dataNodes", dataNodes?.findNodes);
 
   useEffect(() => {
     if (selectedItems) {

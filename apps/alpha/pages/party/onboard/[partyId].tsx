@@ -4,7 +4,7 @@ import {
   ENTER_ROOM,
   FIND_MEMBERS,
   FIND_ROOM,
-  MATCH_NODES_MEMBERS,
+  MATCH_NODES_MEMBERS_LITE,
   MEMBER_UPDATED_IN_ROOM_SUB,
   ROOM_UPDATED,
 } from "@eden/package-graphql";
@@ -46,7 +46,7 @@ const OnboardPartyPage: NextPageWithLayout = () => {
   // if (dataRoom?.findRoom) console.log("dataRoom", dataRoom?.findRoom);
 
   const { data: dataMembers, refetch: refetchMatchMembers } = useQuery(
-    MATCH_NODES_MEMBERS,
+    MATCH_NODES_MEMBERS_LITE,
     {
       variables: {
         fields: {
