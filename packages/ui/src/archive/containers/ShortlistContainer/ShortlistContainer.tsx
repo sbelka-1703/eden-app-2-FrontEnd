@@ -35,14 +35,6 @@ export const ShortlistContainer = ({
 
   return (
     <>
-      {/* {selectedRole && (
-        <AddSkillsToRoleCard
-          numberOfMembers={matchingMembers.length}
-          roleTitle={selectedRole?.title || ""}
-          handleOpenSkillsModal={() => setOpenModal(LaunchProjectModal.SKILLS)}
-        />
-      )} */}
-
       {selectedRole && !selectedRole?.skills?.length && (
         <TextHeading3 className="mt-12 text-center">
           Add some skills to see matching candidates
