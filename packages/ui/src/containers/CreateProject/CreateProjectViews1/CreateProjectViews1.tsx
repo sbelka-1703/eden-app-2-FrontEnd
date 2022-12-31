@@ -10,6 +10,8 @@ import {
   TextHeading3,
 } from "@eden/package-ui";
 import { Dispatch, SetStateAction, useReducer } from "react";
+import { toast } from "react-toastify";
+
 // const TAGS = [
 //   { _id: 1, name: "DApp" },
 //   { _id: 2, name: "NFT" },
@@ -66,7 +68,7 @@ export const CreateProjectViews1 = ({
   project,
 }: CreateProjectViews1Props) => {
   const [state, dispath] = useReducer(reducer, data || initialState);
-
+  const nextDisabled = !state.name || !state.description;
   const handleUpdateState = (value: any, field: string) => {
     dispath({
       type: "HANDLE INPUT TEXT",
@@ -104,8 +106,19 @@ export const CreateProjectViews1 = ({
       backColorEmoji: value.color,
     });
   };
-
-  const nextDisabled = !state.name || !state.description;
+  const handleNext = (value: any) => {
+    if (!nextDisabled) {
+      handleSetProject(value);
+      onNext(value);
+    } else {
+      if (!!!state.name) {
+        toast.error("Missing Project Name");
+      }
+      if (!!!state.description) {
+        toast.error("Missing Project Description");
+      }
+    }
+  };
 
   return (
     <Card shadow className="bg-white pt-3 pb-6">
@@ -206,10 +219,9 @@ export const CreateProjectViews1 = ({
             <Button
               variant="secondary"
               onClick={() => {
-                handleSetProject(state);
-                onNext(state);
+                handleNext(state);
               }}
-              disabled={nextDisabled}
+              // disabled={nextDisabled}
             >
               Next
             </Button>
