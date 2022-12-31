@@ -11,13 +11,13 @@ import {
   TextHeading3,
   ToggleElement,
 } from "@eden/package-ui";
-import { isEmpty, map, union } from "lodash";
+import { isEmpty, map } from "lodash";
 import {
-  Dispatch,
-  SetStateAction,
+  // Dispatch,
+  // SetStateAction,
   useEffect,
   useReducer,
-  useState,
+  // useState,
 } from "react";
 const initialState: RoleType = {
   title: "",
@@ -44,7 +44,9 @@ export interface CreateProjectViews7Props {
   onBack: () => void;
   // eslint-disable-next-line no-unused-vars
   onNext: (data: RoleType) => void;
-  setProject: Dispatch<SetStateAction<any>>;
+  // eslint-disable-next-line no-unused-vars
+  onChange: (data: RoleType) => void;
+  // setProject: Dispatch<SetStateAction<any>>;
   project?: Project;
   roleIndex?: number;
 }
@@ -54,26 +56,33 @@ export const CreateProjectViews7 = ({
   battery,
   setBattery,
   onNext,
+  onChange,
   expertise = [],
-  setProject,
-  project,
-}: CreateProjectViews7Props) => {
+}: // setProject,
+// project,
+CreateProjectViews7Props) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [projectRole, setProjectRole] = useState<any>([]);
-  const [showRoleForm, setShowRoleForm] = useState<boolean>(false);
+  // const [projectRole, setProjectRole] = useState<any>([]);
+  // const [showRoleForm, setShowRoleForm] = useState<boolean>(false);
 
-  let roleIndex = 0;
+  // const roleIndex = 0;
   // const [firstRoleIndex, setFirstRoleIndex] = useState(
   //   roleIndex ? roleIndex - 1 : 0
   // );
 
-  useEffect(() => {
-    if (project?.role) {
-      setProjectRole(project?.role);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (project?.role) {
+  //     setProjectRole(project?.role);
+  //   }
+  // }, []);
 
-  const handleUpdateState = (value: any, field: string) => {
+  useEffect(() => {
+    if (state) {
+      onChange(state);
+    }
+  }, [state]);
+
+  const handleUpdateState = async (value: any, field: string) => {
     dispatch({
       type: "HANDLE INPUT",
       field: field,
@@ -82,119 +91,81 @@ export const CreateProjectViews7 = ({
       },
     });
 
-    if (field == "title") {
-      if (value.length > 0) {
-        setShowRoleForm(true);
-      }
-      const roleData: RoleType = {
-        title: value,
-      };
+    // if (field == "title") {
+    //   if (value.length > 0) {
+    //     setShowRoleForm(true);
+    //   }
+    //   const roleData: RoleType = {
+    //     title: value,
+    //   };
 
-      const newRole = projectRole;
+    //   const newRole = [...projectRole];
 
-      newRole[roleIndex] = roleData;
-      roleIndex = newRole
-        ? newRole.findIndex((obj: any) => obj?.title == value)
-        : 0;
-      setProjectRole(newRole);
-    }
+    //   newRole[roleIndex] = roleData;
+    //   roleIndex = newRole
+    //     ? newRole.findIndex((obj: any) => obj?.title == value)
+    //     : 0;
+    //   setProjectRole(newRole);
+    // }
 
-    if (field == "shortDescription") {
-      const newRole = projectRole;
+    // if (field == "shortDescription") {
+    //   const newRole = [...projectRole];
 
-      if (newRole[roleIndex]) {
-        newRole[roleIndex].shortDescription = value;
-        setProjectRole(newRole);
-      }
-    }
-    if (field == "description") {
-      const newRole = projectRole;
+    //   if (newRole[roleIndex]) {
+    //     newRole[roleIndex].shortDescription = value;
+    //     setProjectRole(newRole);
+    //   }
+    // }
+    // if (field == "description") {
+    //   const newRole = [...projectRole];
 
-      if (newRole[roleIndex]) {
-        newRole[roleIndex].description = value;
-        setProjectRole(newRole);
-      }
-    }
-    if (field == "expectations") {
-      const newRole = projectRole;
-      const expArray = value.split(" ");
+    //   if (newRole[roleIndex]) {
+    //     newRole[roleIndex].description = value;
+    //     setProjectRole(newRole);
+    //   }
+    // }
+    // if (field == "expectations") {
+    //   const newRole = [...projectRole];
+    //   const expArray = value.split(" ");
 
-      if (newRole[roleIndex]) {
-        newRole[roleIndex].expectations = expArray;
-        setProjectRole(newRole);
-      }
-    }
-    if (field == "benefits") {
-      const newRole = projectRole;
-      const benArray = value.split(" ");
+    //   if (newRole[roleIndex]) {
+    //     newRole[roleIndex].expectations = expArray;
+    //     setProjectRole(newRole);
+    //   }
+    // }
+    // if (field == "benefits") {
+    //   const newRole = [...projectRole];
+    //   const benArray = value.split(" ");
 
-      if (newRole[roleIndex]) {
-        newRole[roleIndex].benefits = benArray;
-        setProjectRole(newRole);
-      }
-    }
-    if (field == "hrsWeek") {
-      const newRole = projectRole;
+    //   if (newRole[roleIndex]) {
+    //     newRole[roleIndex].benefits = benArray;
+    //     setProjectRole(newRole);
+    //   }
+    // }
+    // if (field == "hrsWeek") {
+    //   const newRole = [...projectRole];
 
-      if (newRole[roleIndex]) {
-        newRole[roleIndex].hoursPerWeek = value;
-        setProjectRole(newRole);
-      }
-    }
-    if (field == "rate") {
-      const newRole = projectRole;
+    //   if (newRole[roleIndex]) {
+    //     newRole[roleIndex].hoursPerWeek = value;
+    //     setProjectRole(newRole);
+    //   }
+    // }
+    // if (field == "rate") {
+    //   const newRole = [...projectRole];
 
-      if (newRole[roleIndex]) {
-        newRole[roleIndex].ratePerHour = value;
-        setProjectRole(newRole);
-      }
-    }
-    if (field == "openPositions") {
-      const newRole = projectRole;
+    //   if (newRole[roleIndex]) {
+    //     newRole[roleIndex].ratePerHour = value;
+    //     setProjectRole(newRole);
+    //   }
+    // }
+    // if (field == "openPositions") {
+    //   const newRole = [...projectRole];
 
-      if (newRole[roleIndex]) {
-        newRole[roleIndex].openPositions = value;
-        setProjectRole(newRole);
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (setProject) {
-      let newRoleArray;
-
-      if (project?.role) {
-        newRoleArray = union(project?.role, projectRole);
-      } else {
-        newRoleArray = projectRole;
-      }
-      setProject({ ...project, role: newRoleArray });
-    }
-  }, [projectRole]);
-
-  // const { data: dataRoles } = useQuery(FIND_ROLE_TEMPLATES, {
-  //   variables: {
-  //     fields: {
-  //       _id: null,
-  //     },
-  //   },
-  //   context: { serviceName: "soilservice" },
-  // });
-
-  // console.log("dataRoles = ", dataRoles);
-
-  const handleSetProject = (value: any) => {
-    if (setProject) {
-      let newRoleArray;
-
-      if (project?.role) {
-        newRoleArray = union(project?.role, projectRole);
-      } else {
-        newRoleArray = projectRole;
-      }
-
-      setProject({ ...project, role: newRoleArray });
-    }
+    //   if (newRole[roleIndex]) {
+    //     newRole[roleIndex].openPositions = value;
+    //     setProjectRole(newRole);
+    //   }
+    // }
   };
 
   return (
@@ -239,7 +210,7 @@ export const CreateProjectViews7 = ({
                     />
                   </div>
                 </div>
-                {showRoleForm && (
+                {state.title && (
                   <>
                     <div className="mt-3">
                       <div>
@@ -411,7 +382,7 @@ export const CreateProjectViews7 = ({
             <Button
               variant="secondary"
               onClick={() => {
-                handleSetProject(state);
+                // handleSetProject();
                 onNext(state);
               }}
               // disabled={nextDisabled}
