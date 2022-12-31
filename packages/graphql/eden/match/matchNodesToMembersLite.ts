@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-export const MATCH_NODES_MEMBERS = gql`
+export const MATCH_NODES_MEMBERS_LITE = gql`
   query ($fields: matchNodesToMembersInput) {
     matchNodesToMembers(fields: $fields) {
       member {
@@ -9,26 +9,9 @@ export const MATCH_NODES_MEMBERS = gql`
         discordAvatar
         discriminator
         bio
-        endorsements {
-          arweaveTransactionID
-          endorsementMessage
-          endorser {
-            _id
-            discordAvatar
-            discordName
-            discriminator
-          }
-        }
         memberRole {
           _id
           title
-        }
-        nodes {
-          nodeData {
-            _id
-            name
-            node
-          }
         }
         links {
           name
@@ -37,6 +20,14 @@ export const MATCH_NODES_MEMBERS = gql`
       }
       matchPercentage {
         totalPercentage
+      }
+      nodesPercentage {
+        totalPercentage
+        node {
+          _id
+          name
+          node
+        }
       }
     }
   }

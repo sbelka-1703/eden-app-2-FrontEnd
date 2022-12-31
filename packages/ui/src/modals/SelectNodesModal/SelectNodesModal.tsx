@@ -1,4 +1,5 @@
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
+import { FIND_NODES } from "@eden/package-graphql";
 import { Node } from "@eden/package-graphql/generated";
 import {
   Badge,
@@ -12,19 +13,6 @@ import {
 import { forEach, isEmpty, map } from "lodash";
 import { useEffect, useState } from "react";
 
-const FIND_NODES = gql`
-  query ($fields: findNodesInput) {
-    findNodes(fields: $fields) {
-      _id
-      name
-      subNodes {
-        _id
-        name
-      }
-    }
-  }
-`;
-
 export interface ISelectNodesModalProps {
   openModal?: boolean;
   onClose: () => void;
@@ -33,7 +21,7 @@ export interface ISelectNodesModalProps {
   welcomeMessage?: string;
   title?: string;
   subTitle?: string;
-  nodeType?: string;
+  nodeType?: "typeProject" | "expertise";
   submitButtonLabel?: string;
 }
 
@@ -60,7 +48,8 @@ export const SelectNodesModal = ({
     skip: !nodeType,
     context: { serviceName: "soilservice" },
   });
-  // if (dataNodes?.findNodes) console.log("dataNodes", dataNodes?.findNodes);
+
+  if (dataNodes?.findNodes) console.log("dataNodes", dataNodes?.findNodes);
 
   useEffect(() => {
     if (selectedItems) {

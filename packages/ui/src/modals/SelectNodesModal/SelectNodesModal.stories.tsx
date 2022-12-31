@@ -1,6 +1,5 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
-import mockData from "./mockData";
 import { SelectNodesModal } from "./SelectNodesModal";
 
 export default {
@@ -16,9 +15,11 @@ const Template: ComponentStory<typeof SelectNodesModal> = (args) => (
 export const Default = Template.bind({});
 Default.args = {
   openModal: true,
-  mockData: mockData,
   onClose: () => null,
   onSubmit: (data) => {
     console.log(data);
   },
+  welcomeMessage: "Welcome to the Select Nodes Modal",
+  title: "Select Nodes",
+  subTitle: "Select the nodes you want to add",
 };

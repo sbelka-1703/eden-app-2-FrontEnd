@@ -38,7 +38,8 @@ export const getMatchingMemberArray = (
   Array.from({ length: total }, () => getMatchingMember());
 
 export const getMember = (): Members => ({
-  _id: String(faker.random.numeric(5)),
+  _id: "12345",
+  // _id: String(faker.random.numeric(5)),
   attributes: {
     Coordinator: Number(faker.random.numeric(1)),
     Director: Number(faker.random.numeric(1)),

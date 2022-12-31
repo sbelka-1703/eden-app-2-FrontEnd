@@ -19,6 +19,7 @@ import {
   useReducer,
   // useState,
 } from "react";
+import { toast } from "react-toastify";
 const initialState: RoleType = {
   title: "",
   description: "",
@@ -66,6 +67,7 @@ CreateProjectViews7Props) => {
   // const [showRoleForm, setShowRoleForm] = useState<boolean>(false);
 
   // const roleIndex = 0;
+  // const nextDisabled = !state.title || !state.shortDescription;
   // const [firstRoleIndex, setFirstRoleIndex] = useState(
   //   roleIndex ? roleIndex - 1 : 0
   // );
@@ -166,6 +168,19 @@ CreateProjectViews7Props) => {
     //     setProjectRole(newRole);
     //   }
     // }
+    //   if (!nextDisabled) {
+  };
+
+  const handleNext = (value: any) => {
+    // handleSetProject(value);
+    if (!!!state.title) {
+      toast.error("Missing Role Name");
+    }
+    if (!!!state.shortDescription) {
+      toast.error("Missing Role Short Description");
+    } else {
+      onNext(value);
+    }
   };
 
   return (
@@ -383,7 +398,8 @@ CreateProjectViews7Props) => {
               variant="secondary"
               onClick={() => {
                 // handleSetProject();
-                onNext(state);
+                // onNext(state);
+                handleNext(state);
               }}
               // disabled={nextDisabled}
             >

@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
 import { DiscoverProvider, UserContext } from "@eden/package-context";
-import { FIND_PROJECT, MATCH_NODES_MEMBERS } from "@eden/package-graphql";
+import { FIND_PROJECT, MATCH_NODES_MEMBERS_LITE } from "@eden/package-graphql";
 import {
   MatchMembersToSkillOutput,
   NodesType,
@@ -31,7 +31,7 @@ const DiscoverPage: NextPageWithLayout = () => {
   const [serverID, setServerID] = useState<string[] | null>(null);
   const [selectedRole, setSelectedRole] = useState<RoleType | null>(null);
 
-  const { data: dataMembers } = useQuery(MATCH_NODES_MEMBERS, {
+  const { data: dataMembers } = useQuery(MATCH_NODES_MEMBERS_LITE, {
     variables: {
       fields: {
         nodesID: nodesID,
