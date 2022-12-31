@@ -13,6 +13,10 @@ export const MATCH_NODES_MEMBERS_LITE = gql`
           _id
           title
         }
+        links {
+          name
+          url
+        }
       }
       matchPercentage {
         totalPercentage
