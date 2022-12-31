@@ -304,8 +304,8 @@ interface IWelcomeModalProps {
 const WelcomeModal = ({ openModal, onClose }: IWelcomeModalProps) => {
   return (
     <Modal open={openModal} closeOnEsc={false}>
-      <div className="h-6/10 p-4 grid place-content-center">
-        <div className="space-y-12 text-center mb-12">
+      <div className="h-6/10 grid place-content-center p-4">
+        <div className="mb-12 space-y-12 text-center">
           <TextHeading2 className="text-lg">gm Fren!</TextHeading2>
           <TextHeading3 className="text-lg">
             Please help the room get to know a little bit about you 😃
@@ -471,10 +471,10 @@ const BioModal = ({ roles, openModal, onSubmit }: IBioModalProps) => {
   return (
     <Modal open={openModal} closeOnEsc={false}>
       <div className="h-6/10 space-y-8 p-4">
-        <TextHeading3 className="text-lg text-center">
+        <TextHeading3 className="text-center text-lg">
           Select Your Current Role
         </TextHeading3>
-        <div className={`space-y-2 my-6`}>
+        <div className={`my-6 space-y-2`}>
           <TextLabel>Current Role:</TextLabel>
           <RoleSelector
             value={currentUser?.memberRole?.title || ""}
@@ -482,10 +482,10 @@ const BioModal = ({ roles, openModal, onSubmit }: IBioModalProps) => {
             onSelect={(e) => setRole(e?._id as string)}
           />
         </div>
-        <TextHeading3 className="text-lg text-center">
+        <TextHeading3 className="text-center text-lg">
           Tell the Room About Yourself
         </TextHeading3>
-        <div className={`space-y-2 my-6`}>
+        <div className={`my-6 space-y-2`}>
           <TextLabel>ABOUT ME</TextLabel>
           <TextArea
             name="bio"
@@ -519,7 +519,7 @@ const SocialModal = ({ openModal, onSubmit }: ISocialModalProps) => {
   return (
     <Modal open={openModal} closeOnEsc={false}>
       <div className="h-6/10 space-y-12 p-4">
-        <TextHeading3 className="text-lg text-center">
+        <TextHeading3 className="text-center text-lg">
           Include Links so Others Can Find You
         </TextHeading3>
         <SocialView onChanges={(val) => setLinks(val)} />
