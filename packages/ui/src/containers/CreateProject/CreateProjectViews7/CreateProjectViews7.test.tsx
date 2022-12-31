@@ -1,3 +1,4 @@
+import { RoleType } from "@eden/package-graphql/generated";
 import { render } from "@testing-library/react";
 
 import { CreateProjectViews7 } from ".";
@@ -15,6 +16,10 @@ describe("CreateProjectViews7", () => {
         }}
         onNext={function (data): void {
           console.info({ data });
+          throw new Error("Function not implemented.");
+        }}
+        // eslint-disable-next-line no-unused-vars
+        onChange={function (data: RoleType): void {
           throw new Error("Function not implemented.");
         }}
       />
