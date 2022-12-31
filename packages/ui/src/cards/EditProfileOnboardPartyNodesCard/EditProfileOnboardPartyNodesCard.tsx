@@ -1,6 +1,7 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
 import {
+  FIND_NODES,
   FIND_ROLE_TEMPLATES,
   UPDATE_MEMBER_IN_ROOM,
 } from "@eden/package-graphql";
@@ -12,11 +13,11 @@ import {
 } from "@eden/package-graphql/generated";
 import {
   Avatar,
-  Badge,
   Button,
   Card,
   Loading,
   Modal,
+  NodeList,
   ProgressBarGeneric,
   RoleSelector,
   SelectBoxNode,
@@ -31,20 +32,7 @@ import { useContext, useEffect, useState } from "react";
 
 import { getFillProfilePercentage } from "../../../utils/fill-profile-percentage";
 
-const FIND_NODES = gql`
-  query ($fields: findNodesInput) {
-    findNodes(fields: $fields) {
-      _id
-      name
-      subNodes {
-        _id
-        name
-      }
-    }
-  }
-`;
-
-const ADD_NODES = gql`
+const ADD_NODES_TO_MEMBER_IN_ROOM = gql`
   mutation ($fields: addNodesToMemberInRoomInput) {
     addNodesToMemberInRoom(fields: $fields) {
       _id
@@ -52,7 +40,7 @@ const ADD_NODES = gql`
   }
 `;
 
-const DELETE_NODES = gql`
+const DELETE_NODES_TO_MEMBER_IN_ROOM = gql`
   mutation ($fields: deleteNodesFromMemberInRoomInput) {
     deleteNodesFromMemberInRoom(fields: $fields) {
       _id
@@ -109,13 +97,13 @@ export const EditProfileOnboardPartyNodesCard = ({
     },
   });
 
-  const [addNodes] = useMutation(ADD_NODES, {
+  const [addNodes] = useMutation(ADD_NODES_TO_MEMBER_IN_ROOM, {
     onError(error) {
       console.log("error", error);
     },
   });
 
-  const [deleteNodes] = useMutation(DELETE_NODES, {
+  const [deleteNodes] = useMutation(DELETE_NODES_TO_MEMBER_IN_ROOM, {
     onError(error) {
       console.log("error", error);
     },
@@ -304,8 +292,8 @@ interface IWelcomeModalProps {
 const WelcomeModal = ({ openModal, onClose }: IWelcomeModalProps) => {
   return (
     <Modal open={openModal} closeOnEsc={false}>
-      <div className="h-6/10 p-4 grid place-content-center">
-        <div className="space-y-12 text-center mb-12">
+      <div className="h-6/10 grid place-content-center p-4">
+        <div className="mb-12 space-y-12 text-center">
           <TextHeading2 className="text-lg">gm Fren!</TextHeading2>
           <TextHeading3 className="text-lg">
             Please help the room get to know a little bit about you 😃
@@ -361,6 +349,7 @@ const NodesModal = ({
     skip: !nodeType,
     context: { serviceName: "soilservice" },
   });
+
   // if (dataNodes?.findNodes) console.log("dataNodes", dataNodes?.findNodes);
 
   const nodesFilter =
@@ -398,25 +387,17 @@ const NodesModal = ({
               </div>
             </div>
             <section className="mt-4">
-              <div className={`h-24`}>
-                {currentUser?.nodes?.map((item, index) => {
-                  if (item?.nodeData?.node === nodesFilter) {
-                    return (
-                      <Badge
-                        key={index}
-                        text={item?.nodeData?.name || ""}
-                        colorRGB={`209,247,196`}
-                        className={`font-Inter text-sm`}
-                        cutText={16}
-                        closeButton={true}
-                        onClose={() => {
-                          onDeleteNode([`${item?.nodeData?._id}`]);
-                        }}
-                      />
-                    );
-                  }
-                })}
-              </div>
+              <NodeList
+                closeButton
+                handleDeleteNode={(val) =>
+                  onDeleteNode([`${val?.nodeData?._id}`])
+                }
+                nodes={currentUser?.nodes?.filter(
+                  (node) => node?.nodeData?.node === nodesFilter
+                )}
+                colorRGB={`209,247,196`}
+              />
+
               <div className="my-8 ml-4 flex h-52 w-full flex-wrap justify-center gap-2">
                 {dataNodes?.findNodes ? (
                   <>
@@ -471,10 +452,10 @@ const BioModal = ({ roles, openModal, onSubmit }: IBioModalProps) => {
   return (
     <Modal open={openModal} closeOnEsc={false}>
       <div className="h-6/10 space-y-8 p-4">
-        <TextHeading3 className="text-lg text-center">
+        <TextHeading3 className="text-center text-lg">
           Select Your Current Role
         </TextHeading3>
-        <div className={`space-y-2 my-6`}>
+        <div className={`my-6 space-y-2`}>
           <TextLabel>Current Role:</TextLabel>
           <RoleSelector
             value={currentUser?.memberRole?.title || ""}
@@ -482,10 +463,10 @@ const BioModal = ({ roles, openModal, onSubmit }: IBioModalProps) => {
             onSelect={(e) => setRole(e?._id as string)}
           />
         </div>
-        <TextHeading3 className="text-lg text-center">
+        <TextHeading3 className="text-center text-lg">
           Tell the Room About Yourself
         </TextHeading3>
-        <div className={`space-y-2 my-6`}>
+        <div className={`my-6 space-y-2`}>
           <TextLabel>ABOUT ME</TextLabel>
           <TextArea
             name="bio"
@@ -519,7 +500,7 @@ const SocialModal = ({ openModal, onSubmit }: ISocialModalProps) => {
   return (
     <Modal open={openModal} closeOnEsc={false}>
       <div className="h-6/10 space-y-12 p-4">
-        <TextHeading3 className="text-lg text-center">
+        <TextHeading3 className="text-center text-lg">
           Include Links so Others Can Find You
         </TextHeading3>
         <SocialView onChanges={(val) => setLinks(val)} />
