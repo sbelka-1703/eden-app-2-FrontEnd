@@ -1,4 +1,5 @@
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
+import { FIND_NODES } from "@eden/package-graphql";
 import { Node } from "@eden/package-graphql/generated";
 import {
   Badge,
@@ -11,19 +12,6 @@ import {
 } from "@eden/package-ui";
 import { forEach, isEmpty, map } from "lodash";
 import { useEffect, useState } from "react";
-
-const FIND_NODES = gql`
-  query ($fields: findNodesInput) {
-    findNodes(fields: $fields) {
-      _id
-      name
-      subNodes {
-        _id
-        name
-      }
-    }
-  }
-`;
 
 export interface ISelectNodesModalProps {
   openModal?: boolean;

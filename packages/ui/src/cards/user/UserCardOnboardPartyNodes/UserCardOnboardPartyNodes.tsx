@@ -1,10 +1,10 @@
 import { Members } from "@eden/package-graphql/generated";
 import {
   Avatar,
-  Badge,
   Card,
   // NumberCircle,
   MemberModal,
+  NodeList,
   // ProgressBarGeneric,
   SocialMediaComp,
   TextHeading3,
@@ -23,6 +23,14 @@ export const UserCardOnboardPartyNodes = ({
 }: IUserCardOnboardPartyNodesProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   // const progress = getFillProfilePercentage(member);
+
+  const subExpertise = member?.nodes?.filter(
+    (node) => node?.nodeData?.node === "sub_expertise"
+  );
+
+  const projectType = member?.nodes?.filter(
+    (node) => node?.nodeData?.node === "sub_typeProject"
+  );
 
   return (
     <Card border className="border-soilGray col-span-1 bg-white p-3">
@@ -55,42 +63,11 @@ export const UserCardOnboardPartyNodes = ({
         </div>
         <ProgressBarGeneric progress={progress} />
       </div> */}
-      <div className="flex items-center space-x-2 py-1">
-        <TextLabel>PREFERRED PROJECTS</TextLabel>
-      </div>
-      <div>
-        {member?.nodes?.map((item, index) => {
-          if (item?.nodeData?.node == "sub_typeProject") {
-            return (
-              <Badge
-                key={index}
-                text={item?.nodeData?.name || ""}
-                colorRGB={`209,247,196`}
-                className={`font-Inter text-sm`}
-                cutText={16}
-              />
-            );
-          }
-        })}
-      </div>
-      <div className="flex items-center space-x-2 py-1">
-        <TextLabel>EXPERTISE</TextLabel>
-      </div>
-      <div>
-        {member?.nodes?.map((item, index) => {
-          if (item?.nodeData?.node == "sub_expertise") {
-            return (
-              <Badge
-                key={index}
-                text={item?.nodeData?.name || ""}
-                colorRGB={`235,225,255`}
-                className={`font-Inter text-sm`}
-                cutText={16}
-              />
-            );
-          }
-        })}
-      </div>
+
+      <TextLabel>EXPERTISES</TextLabel>
+      <NodeList nodes={subExpertise} colorRGB={`235,225,255`} />
+      <TextLabel>PREFERRED PROJECTS</TextLabel>
+      <NodeList nodes={projectType} colorRGB={`209,247,196`} />
       <TextLabel>ABOUT ME</TextLabel>
       <div className={`text-darkGreen font-poppins text-sm font-medium`}>
         {member.bio}

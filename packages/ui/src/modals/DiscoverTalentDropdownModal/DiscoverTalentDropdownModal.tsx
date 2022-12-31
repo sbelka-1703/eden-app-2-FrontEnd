@@ -1,4 +1,5 @@
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
+import { FIND_NODES } from "@eden/package-graphql";
 import { Node } from "@eden/package-graphql/generated";
 import {
   BatteryStepper,
@@ -12,19 +13,6 @@ import {
 import { forEach, isEmpty, map } from "lodash";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
-
-const FIND_NODES = gql`
-  query ($fields: findNodesInput) {
-    findNodes(fields: $fields) {
-      _id
-      name
-      subNodes {
-        _id
-        name
-      }
-    }
-  }
-`;
 
 type Data = {
   _id: string;

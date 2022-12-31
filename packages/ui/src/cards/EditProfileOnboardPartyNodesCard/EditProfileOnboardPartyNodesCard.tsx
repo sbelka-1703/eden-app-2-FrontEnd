@@ -1,6 +1,7 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
 import {
+  FIND_NODES,
   FIND_ROLE_TEMPLATES,
   UPDATE_MEMBER_IN_ROOM,
 } from "@eden/package-graphql";
@@ -12,11 +13,11 @@ import {
 } from "@eden/package-graphql/generated";
 import {
   Avatar,
-  Badge,
   Button,
   Card,
   Loading,
   Modal,
+  NodeList,
   ProgressBarGeneric,
   RoleSelector,
   SelectBoxNode,
@@ -31,20 +32,7 @@ import { useContext, useEffect, useState } from "react";
 
 import { getFillProfilePercentage } from "../../../utils/fill-profile-percentage";
 
-const FIND_NODES = gql`
-  query ($fields: findNodesInput) {
-    findNodes(fields: $fields) {
-      _id
-      name
-      subNodes {
-        _id
-        name
-      }
-    }
-  }
-`;
-
-const ADD_NODES = gql`
+const ADD_NODES_TO_MEMBER_IN_ROOM = gql`
   mutation ($fields: addNodesToMemberInRoomInput) {
     addNodesToMemberInRoom(fields: $fields) {
       _id
@@ -52,7 +40,7 @@ const ADD_NODES = gql`
   }
 `;
 
-const DELETE_NODES = gql`
+const DELETE_NODES_TO_MEMBER_IN_ROOM = gql`
   mutation ($fields: deleteNodesFromMemberInRoomInput) {
     deleteNodesFromMemberInRoom(fields: $fields) {
       _id
@@ -109,13 +97,13 @@ export const EditProfileOnboardPartyNodesCard = ({
     },
   });
 
-  const [addNodes] = useMutation(ADD_NODES, {
+  const [addNodes] = useMutation(ADD_NODES_TO_MEMBER_IN_ROOM, {
     onError(error) {
       console.log("error", error);
     },
   });
 
-  const [deleteNodes] = useMutation(DELETE_NODES, {
+  const [deleteNodes] = useMutation(DELETE_NODES_TO_MEMBER_IN_ROOM, {
     onError(error) {
       console.log("error", error);
     },
@@ -361,6 +349,7 @@ const NodesModal = ({
     skip: !nodeType,
     context: { serviceName: "soilservice" },
   });
+
   // if (dataNodes?.findNodes) console.log("dataNodes", dataNodes?.findNodes);
 
   const nodesFilter =
@@ -398,25 +387,17 @@ const NodesModal = ({
               </div>
             </div>
             <section className="mt-4">
-              <div className={`h-24`}>
-                {currentUser?.nodes?.map((item, index) => {
-                  if (item?.nodeData?.node === nodesFilter) {
-                    return (
-                      <Badge
-                        key={index}
-                        text={item?.nodeData?.name || ""}
-                        colorRGB={`209,247,196`}
-                        className={`font-Inter text-sm`}
-                        cutText={16}
-                        closeButton={true}
-                        onClose={() => {
-                          onDeleteNode([`${item?.nodeData?._id}`]);
-                        }}
-                      />
-                    );
-                  }
-                })}
-              </div>
+              <NodeList
+                closeButton
+                handleDeleteNode={(val) =>
+                  onDeleteNode([`${val?.nodeData?._id}`])
+                }
+                nodes={currentUser?.nodes?.filter(
+                  (node) => node?.nodeData?.node === nodesFilter
+                )}
+                colorRGB={`209,247,196`}
+              />
+
               <div className="my-8 ml-4 flex h-52 w-full flex-wrap justify-center gap-2">
                 {dataNodes?.findNodes ? (
                   <>

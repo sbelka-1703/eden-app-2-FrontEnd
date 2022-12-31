@@ -1,5 +1,6 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
+import { FIND_NODES } from "@eden/package-graphql";
 import { Mutation, Project } from "@eden/package-graphql/generated";
 import {
   AppUserLayout,
@@ -21,20 +22,6 @@ const LAUNCH_PROJECT = gql`
     updateProject(fields: $fields) {
       _id
       title
-    }
-  }
-`;
-
-const FIND_NODES = gql`
-  query ($fields: findNodesInput) {
-    findNodes(fields: $fields) {
-      _id
-      name
-      node
-      subNodes {
-        _id
-        name
-      }
     }
   }
 `;
