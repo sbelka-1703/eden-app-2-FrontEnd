@@ -10,13 +10,8 @@ import {
   MemberInfo,
   SEOProfile,
 } from "@eden/package-ui";
-import * as React from "react";
 
 const ProfilePage = ({ member }: { member: Members }) => {
-  const [experienceOpen, setExperienceOpen] = React.useState<number | null>(
-    null
-  );
-
   return (
     <>
       <SEOProfile
@@ -34,11 +29,7 @@ const ProfilePage = ({ member }: { member: Members }) => {
             >
               {member ? (
                 <div className={`p-4 md:p-8`}>
-                  <MemberInfo
-                    member={member}
-                    setExperienceOpen={setExperienceOpen!}
-                    experienceOpen={experienceOpen!}
-                  />
+                  <MemberInfo member={member} />
                 </div>
               ) : (
                 <Loading title={`Searching...`} />

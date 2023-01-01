@@ -1,6 +1,5 @@
 import { getMember } from "@eden/package-mock";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { useState } from "react";
 
 import { MemberInfo } from "./MemberInfo";
 
@@ -11,15 +10,7 @@ export default {
 } as ComponentMeta<typeof MemberInfo>;
 
 const Template: ComponentStory<typeof MemberInfo> = (args) => {
-  const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
-
-  return (
-    <MemberInfo
-      {...args}
-      experienceOpen={experienceOpen}
-      setExperienceOpen={setExperienceOpen}
-    />
-  );
+  return <MemberInfo {...args} />;
 };
 
 export const Default = Template.bind({});
