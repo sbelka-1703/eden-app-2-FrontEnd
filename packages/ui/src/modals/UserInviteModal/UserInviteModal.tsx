@@ -1,4 +1,5 @@
-import { gql, useMutation } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
+import { FIND_MEMBER_INFO } from "@eden/package-graphql";
 import {
   MatchPercentage,
   Maybe,
@@ -44,7 +45,17 @@ export const UserInviteModal = ({
   open,
   onClose,
 }: IUserInviteModalProps) => {
-  const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
+  const { data: dataMemberInfo } = useQuery(FIND_MEMBER_INFO, {
+    variables: {
+      fields: {
+        _id: member?._id,
+      },
+    },
+    skip: !member?._id,
+    context: { serviceName: "soilservice" },
+  });
+
+  const findMember = dataMemberInfo?.findMember;
   const [showInvite, setShowInvite] = useState(false);
 
   const [changeTeamMemberPhaseProject, {}] = useMutation(SET_APPLY_TO_PROJECT, {
@@ -143,10 +154,8 @@ export const UserInviteModal = ({
             </div>
           ) : (
             <MemberInfo
-              member={member}
+              member={findMember}
               percentage={matchPercentage?.totalPercentage || undefined}
-              setExperienceOpen={setExperienceOpen!}
-              experienceOpen={experienceOpen!}
             />
           )}
         </div>

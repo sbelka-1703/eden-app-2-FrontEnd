@@ -57,11 +57,7 @@ const ProfilePage: NextPageWithLayout = () => {
             className={`h-85 scrollbar-hide overflow-y-scroll bg-white`}
           >
             <div className={`p-4 md:p-8`}>
-              <MemberInfo
-                member={currentUser}
-                setExperienceOpen={setExperienceOpen!}
-                experienceOpen={experienceOpen!}
-              />
+              <MemberInfo member={currentUser} />
             </div>
           </Card>
         </AppUserSubmenuLayout>

@@ -10,8 +10,8 @@ import {
   Button,
   Card,
   LongText,
+  MemberModal,
   SocialMediaComp,
-  UserDiscoverModal,
   UserInviteModal,
   UserWithDescription,
 } from "@eden/package-ui";
@@ -137,10 +137,10 @@ export const UserDiscoverCard = ({
           onClose={() => setIsOpen(!isOpen)}
         />
       ) : (
-        <UserDiscoverModal
+        <MemberModal
           open={isOpen}
           member={member}
-          matchPercentage={matchPercentage}
+          percentage={matchPercentage?.totalPercentage || undefined}
           onClose={() => setIsOpen(!isOpen)}
         />
       )}
