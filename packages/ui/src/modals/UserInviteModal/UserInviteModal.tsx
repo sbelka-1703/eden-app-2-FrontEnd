@@ -106,6 +106,7 @@ export const UserInviteModal = ({
   };
 
   if (!member) return null;
+  if (!findMember) return null;
 
   return (
     <Modal open={open} onClose={onClose}>

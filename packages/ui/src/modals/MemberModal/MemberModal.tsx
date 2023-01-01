@@ -29,6 +29,7 @@ export const MemberModal = ({
   const findMember = dataMemberInfo?.findMember;
 
   if (!member) return null;
+  if (!findMember) return null;
 
   return (
     <Modal open={open} onClose={onClose}>
