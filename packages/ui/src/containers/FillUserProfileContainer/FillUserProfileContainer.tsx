@@ -146,8 +146,8 @@ export const FillUserProfileContainer = ({
   };
 
   return (
-    <Card className="overflow-scroll bg-white p-4">
-      <div className="scrollbar-hide h-8/10 ">
+    <Card className="bg-white p-4">
+      <div className="overflow-scroll scrollbar-hide h-8/10">
         <section className="mb-4 grid grid-cols-4 gap-2">
           <div className="col-span-3">
             <h2 className="mb-2 text-lg font-medium">

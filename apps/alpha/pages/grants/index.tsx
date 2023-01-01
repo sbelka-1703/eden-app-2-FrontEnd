@@ -144,7 +144,7 @@ const GrantsPage: NextPageWithLayout = () => {
         {view === "profile" && (
           <>
             <GridItemSix>
-              <Card className={"h-85 bg-white shadow"}>
+              <Card shadow className={"h-85 bg-white"}>
                 <FillUserProfileContainer
                   step={step}
                   state={userState}
@@ -157,7 +157,7 @@ const GrantsPage: NextPageWithLayout = () => {
               </Card>
             </GridItemSix>
             <GridItemSix>
-              <Card className={"h-85 bg-white shadow"}>
+              <Card shadow className={"h-85 bg-white"}>
                 <ViewUserProfileContainer
                   step={step}
                   user={userState}

@@ -12,9 +12,6 @@ export default {
 } as ComponentMeta<typeof ViewUserProfileContainer>;
 
 const Template: ComponentStory<typeof ViewUserProfileContainer> = (args) => {
-  // const [step, setStep] = useState(STEPS.ROLE);
-  const step = STEPS.ROLE;
-
   const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
 
   return (
@@ -22,7 +19,6 @@ const Template: ComponentStory<typeof ViewUserProfileContainer> = (args) => {
       {...args}
       experienceOpen={experienceOpen}
       setExperienceOpen={setExperienceOpen}
-      step={step}
     />
   );
 };
@@ -30,4 +26,5 @@ const Template: ComponentStory<typeof ViewUserProfileContainer> = (args) => {
 export const Default = Template.bind({});
 Default.args = {
   user: getMember(),
+  step: STEPS.ROLE,
 };
