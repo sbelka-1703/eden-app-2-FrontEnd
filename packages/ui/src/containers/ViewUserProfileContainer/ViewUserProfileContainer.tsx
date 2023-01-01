@@ -1,6 +1,7 @@
-import { LinkType, Maybe, Members } from "@eden/package-graphql/generated";
+import { Members } from "@eden/package-graphql/generated";
 import {
   Card,
+  NodeList,
   SocialMediaComp,
   TextHeading3,
   UserBackground,
@@ -9,7 +10,7 @@ import {
 import { STEPS } from "@eden/package-ui/utils/enums/fill-profile-steps";
 
 export interface IViewUserProfileContainerProps {
-  step?: string | null;
+  step?: STEPS;
   user?: Members;
   experienceOpen?: number | null;
   // eslint-disable-next-line no-unused-vars
@@ -22,29 +23,28 @@ export const ViewUserProfileContainer = ({
   experienceOpen,
   setExperienceOpen,
 }: IViewUserProfileContainerProps) => {
+  const subExpertise = user?.nodes?.filter(
+    (node) => node?.nodeData?.node === "sub_expertise"
+  );
+
+  const projectType = user?.nodes?.filter(
+    (node) => node?.nodeData?.node === "sub_typeProject"
+  );
+
   return (
     <Card className="bg-white p-4">
       <p>Preview of your profile:</p>
-      <div className={`h-8/10 scrollbar-hide w-full overflow-scroll p-2`}>
+      <div className={`h-75 scrollbar-hide w-full overflow-scroll p-2`}>
         <div
           className={`mb-4 flex w-full justify-center ${
             step !== STEPS.ROLE ? "blur-sm brightness-50" : ""
           }`}
         >
-          <UserWithDescription
-            member={{
-              discordName: user?.discordName,
-              discordAvatar: user?.discordAvatar,
-              discriminator: user?.discriminator,
-              memberRole: {
-                title: user?.memberRole?.title as string,
-              },
-            }}
-          />
+          <UserWithDescription member={user} />
         </div>
-        <div className="mb-4 grid grid-cols-12 gap-2">
+        <div className="mb-4 grid grid-cols-1 sm:grid-cols-5">
           <div
-            className={`col-span-5 ${
+            className={`my-4 flex flex-col items-start justify-center sm:col-span-3 sm:my-0 ${
               step !== STEPS.BIO ? "blur-sm brightness-50" : ""
             }`}
           >
@@ -56,51 +56,41 @@ export const ViewUserProfileContainer = ({
             </TextHeading3>
             <p className="text-soilBody font-Inter font-normal">{user?.bio}</p>
           </div>
+          <div></div>
           <div
-            className={`col-span-3 flex justify-center ${
-              step ? "blur-sm brightness-50" : ""
+            className={`pl-14 ${
+              step !== STEPS.SOCIALS ? "blur-sm brightness-50" : ""
             }`}
           >
-            <div>
-              <h1 className="text-soilHeading3 font-poppins text-soilGray -ml-2 font-medium">
-                ⚡️Match
-              </h1>
-              <p className="text-soilPurple font-poppins text-4xl font-semibold">
-                100%
-              </p>
-            </div>
-          </div>
-          <div className="col-span-4">
-            {/* <div
-              className={`${
-                step !== STEPS.COMPENSATION ? "blur-sm brightness-50" : ""
-              }`}
-            >
-              <AvailabilityComp
-                timePerWeek={user?.hoursPerWeek as number}
-                // seed={
-                //   user?.expectedSalary ? user?.expectedSalary.toString() : "0"
-                // }
-              />
-            </div> */}
-            <div
-              className={`pl-14 ${
-                step !== STEPS.SOCIALS ? "blur-sm brightness-50" : ""
-              }`}
-            >
-              <SocialMediaComp
-                links={user?.links?.map((link: Maybe<LinkType>) => ({
-                  name: link?.name?.toLowerCase(),
-                  url: link?.url,
-                }))}
-                size="sm"
-              />
-            </div>
+            <SocialMediaComp links={user?.links} />
           </div>
         </div>
-
+        <div className={`grid grid-cols-1 gap-4 md:grid-cols-2`}>
+          <div
+            className={`flex flex-col ${
+              step !== STEPS.EXPERTISE ? "blur-sm" : ""
+            }`}
+          >
+            <NodeList
+              label={`EXPERTISE`}
+              nodes={subExpertise}
+              colorRGB={`235,225,255`}
+            />
+          </div>
+          <div
+            className={`flex flex-col ${
+              step !== STEPS.PREFERRED_PROJECTS ? "blur-sm" : ""
+            }`}
+          >
+            <NodeList
+              label={`PREFERRED PROJECTS`}
+              nodes={projectType}
+              colorRGB={`209,247,196`}
+            />
+          </div>
+        </div>
         <div
-          className={`${
+          className={`my-4 ${
             step !== STEPS.EXP && step !== STEPS.EXP_DETAIL ? "blur-sm" : ""
           }`}
         >

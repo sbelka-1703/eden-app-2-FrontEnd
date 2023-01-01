@@ -23,7 +23,7 @@ export const MemberInfo = ({
   experienceOpen,
   setExperienceOpen,
 }: IMemberInfoProps) => {
-  const { data: dataMemberInfo } = useQuery(FIND_MEMBER_INFO, {
+  const { data: dataMemberInfo, loading } = useQuery(FIND_MEMBER_INFO, {
     variables: {
       fields: {
         _id: member?._id,
@@ -57,9 +57,18 @@ export const MemberInfo = ({
           >
             🪪 Short bio
           </TextHeading3>
-          <p className="text-soilBody font-Inter font-normal">
-            {findMember?.bio}
-          </p>
+          {!loading ? (
+            <p className="text-soilBody font-Inter font-normal">
+              {findMember?.bio}
+            </p>
+          ) : (
+            <div className="animate-pulse flex space-x-4 w-full">
+              <div className="flex-1 space-y-2 py-1">
+                <div className="h-3 bg-slate-200 rounded"></div>
+                <div className="h-3 bg-slate-200 rounded"></div>
+              </div>
+            </div>
+          )}
         </div>
         <div></div>
         <SocialMediaComp links={findMember?.links} />
