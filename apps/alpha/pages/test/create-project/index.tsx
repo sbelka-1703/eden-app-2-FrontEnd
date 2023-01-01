@@ -1,7 +1,7 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
 import { FIND_NODES } from "@eden/package-graphql";
-import { Mutation, Project } from "@eden/package-graphql/generated";
+import { Mutation, Project, RoleType } from "@eden/package-graphql/generated";
 import {
   AppUserLayout,
   CreateProjectViews1,
@@ -155,9 +155,13 @@ const FillProfilePage: NextPageWithLayout = () => {
             onNext={onNext}
             expertise={expertiseNodes?.findNodes}
             onBack={() => setStep((prev) => prev - 1)}
-            setProject={setProject}
+            // setProject={setProject}
             project={project}
             roleIndex={projectRoleLength}
+            // eslint-disable-next-line no-unused-vars
+            onChange={function (data: RoleType): void {
+              // throw new Error("Function not implemented.");
+            }}
           />
         );
       case 4:
