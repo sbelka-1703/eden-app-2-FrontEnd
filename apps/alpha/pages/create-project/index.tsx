@@ -20,7 +20,7 @@ import {
   ViewProjectContainer,
 } from "@eden/package-ui";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 
 import { NextPageWithLayout } from "../_app";
 
@@ -53,6 +53,7 @@ const FillProfilePage: NextPageWithLayout = () => {
   const projectRoleLength = project?.role?.length;
 
   const [state, setState] = useState<any>({});
+  const [currentRole, setCurrentRole] = useState<RoleType | null>();
 
   const [battery, setBattery] = useState(5);
 
@@ -98,12 +99,17 @@ const FillProfilePage: NextPageWithLayout = () => {
     setStep((prev) => prev + 1);
   };
 
-  const roleOnNext = (data: any) => {
+  const roleOnNext = (data: RoleType) => {
     setState((prev: any) => ({
       ...prev,
       [step]: state[step] ? [...state[step], data] : [data],
     }));
+    setProject({
+      ...project,
+      role: project?.role ? [...project.role, data] : [data],
+    });
     setStep((prev) => prev + 1);
+    setCurrentRole(null);
   };
 
   const onClickLaunch = () => {
@@ -180,9 +186,12 @@ const FillProfilePage: NextPageWithLayout = () => {
             battery={battery}
             setBattery={setBattery}
             onNext={roleOnNext}
+            onChange={(val: RoleType) => {
+              setCurrentRole(val);
+            }}
             expertise={expertiseNodes?.findNodes}
             onBack={() => setStep((prev) => prev - 1)}
-            setProject={setProject}
+            // setProject={setProject}
             project={project}
             roleIndex={projectRoleLength}
           />
@@ -203,20 +212,28 @@ const FillProfilePage: NextPageWithLayout = () => {
     }
   };
 
-  useEffect(() => {
-    console.info({ state });
-  }, [state]);
-
   return (
     <>
       <SEO />
       <GridLayout>
+        {/* -----{JSON.stringify(state[3])}----- ∫∫∫∫∫
+        {JSON.stringify(project?.role)}∫∫∫∫∫ */}
         <GridItemSix className={`h-85 scrollbar-hide overflow-y-scroll `}>
           {submitting ? <Loading title={`Submitting...`} /> : stepView()}
         </GridItemSix>
-
         <GridItemSix>
-          <ViewProjectContainer step={String(step)} project={project} />
+          <ViewProjectContainer
+            step={String(step)}
+            project={{
+              ...project,
+              role: currentRole
+                ? [
+                    ...(project?.role ? (project?.role as RoleType[]) : []),
+                    currentRole as RoleType, // adds the current role to the preview
+                  ]
+                : project?.role,
+            }}
+          />
         </GridItemSix>
       </GridLayout>
     </>

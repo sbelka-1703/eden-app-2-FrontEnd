@@ -58,6 +58,7 @@ IViewProjectContainerProps) => {
   }, [project, project?.role]);
   return (
     <Card className="bg-white p-4">
+      {/* {JSON.stringify(project)} */}
       <p>Preview of your project:</p>
       <div className="h-8/10 scrollbar-hide w-full overflow-scroll p-2">
         <div
@@ -189,39 +190,41 @@ IViewProjectContainerProps) => {
                     </div>
                   </div>
                 </div>
-                <div className="mt-4">
+                <div className="mt-4 mb-4">
                   <div className="text-soilGray/100 font-medium uppercase tracking-wide">
                     📃 Description Of the role
                   </div>
                   <div className="p-1 text-sm">{activeRole?.description}</div>
                 </div>
-                <div className="mb-3 flex flex-row justify-between">
-                  <div>
+                <div className="mb-3 grid grid-cols-2 gap-4">
+                  <div className="col-span-1">
                     <div className="text-soilGray/100 font-medium uppercase tracking-wide">
                       💯 Expectations
                     </div>
                     <div className="text-sm">
-                      {activeRole?.expectations?.map(
+                      {/* {activeRole?.expectations?.map(
                         (obj: string, index: number) => (
                           <li key={index} className="overflow-auto">
                             {obj}
                           </li>
                         )
-                      )}
+                      )} */}
+                      {activeRole?.expectations}
                     </div>
                   </div>
-                  <div>
+                  <div className="col-span-1">
                     <div className="text-soilGray/100 font-medium uppercase tracking-wide">
                       🦜 Benefits
                     </div>
                     <div className="text-sm">
-                      {activeRole?.benefits?.map(
+                      {/* {activeRole?.benefits?.map(
                         (obj: string, index: number) => (
                           <li key={index} className="overflow-auto">
                             {obj}
                           </li>
                         )
-                      )}
+                      )} */}
+                      {activeRole?.benefits}
                     </div>
                   </div>
                   {(activeRole?.hoursPerWeek ||
