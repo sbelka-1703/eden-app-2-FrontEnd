@@ -20,7 +20,7 @@ describe("CreateProjectViews7", () => {
         }}
         // eslint-disable-next-line no-unused-vars
         onChange={function (data: RoleType): void {
-          throw new Error("Function not implemented.");
+          console.log("no error :)");
         }}
       />
     );
