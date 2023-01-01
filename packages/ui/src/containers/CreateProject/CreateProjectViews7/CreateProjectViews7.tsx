@@ -144,7 +144,7 @@ CreateProjectViews7Props) => {
     //     setProjectRole(newRole);
     //   }
     // }
-    // if (field == "hrsWeek") {
+    // if (field == "hoursPerWeek") {
     //   const newRole = [...projectRole];
 
     //   if (newRole[roleIndex]) {
@@ -327,9 +327,12 @@ CreateProjectViews7Props) => {
                           <div className="w-20">
                             <TextField
                               type="number"
-                              // value={state.hrsWeek}
+                              // value={state.hoursPerWeek}
                               onChange={(e) => {
-                                handleUpdateState(+e.target.value, "hrsWeek");
+                                handleUpdateState(
+                                  +e.target.value,
+                                  "hoursPerWeek"
+                                );
                               }}
                             />
                           </div>
@@ -347,11 +350,14 @@ CreateProjectViews7Props) => {
                         <div className="flex flex-row content-center items-center">
                           <div className="w-20">
                             <TextField
-                              name="rate"
+                              name="ratePerHour"
                               type="number"
-                              // value={state.rate}
+                              // value={state.ratePerHour}
                               onChange={(e) => {
-                                handleUpdateState(+e.target.value, "rate");
+                                handleUpdateState(
+                                  +e.target.value,
+                                  "ratePerHour"
+                                );
                               }}
                             />
                           </div>
