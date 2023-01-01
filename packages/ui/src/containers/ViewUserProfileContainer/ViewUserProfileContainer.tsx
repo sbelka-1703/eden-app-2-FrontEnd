@@ -62,7 +62,7 @@ export const ViewUserProfileContainer = ({
               step !== STEPS.SOCIALS ? "blur-sm brightness-50" : ""
             }`}
           >
-            <SocialMediaComp links={user?.links} />
+            <SocialMediaComp size={`sm`} links={user?.links} />
           </div>
         </div>
         <div className={`grid grid-cols-1 gap-4 md:grid-cols-2`}>
