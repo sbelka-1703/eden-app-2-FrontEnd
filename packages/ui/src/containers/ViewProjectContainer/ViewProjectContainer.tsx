@@ -54,11 +54,16 @@ IViewProjectContainerProps) => {
   const activeRole = role ? role[activeTabName] : defaultRole;
 
   useEffect(() => {
+    setActiveTab((project?.role?.length || 1) - 1);
+  }, [project?.role]);
+
+  useEffect(() => {
     // console.log("project", project);
   }, [project, project?.role]);
   return (
     <Card className="bg-white p-4">
       {/* {JSON.stringify(project)} */}
+      {/* {JSON.stringify(activeTab)} */}
       <p>Preview of your project:</p>
       <div className="h-8/10 scrollbar-hide w-full overflow-scroll p-2">
         <div
@@ -130,6 +135,7 @@ IViewProjectContainerProps) => {
             }`}
           >
             <TabsSelector
+              key={activeTab}
               tabs={tabs}
               selectedTab={activeTab}
               onSelect={(val) => {
