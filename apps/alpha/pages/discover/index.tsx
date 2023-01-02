@@ -30,7 +30,7 @@ import { getFillProfilePercentage } from "@eden/package-ui/utils/fill-profile-pe
 import welcome from "../../public/welcome.png";
 import type { NextPageWithLayout } from "../_app";
 
-const newDiscoverPage: NextPageWithLayout = () => {
+const DiscoverPage: NextPageWithLayout = () => {
   const router = useRouter();
   const { memberServers } = useContext(UserContext);
   const [nodesID, setNodesID] = useState<string[] | null>(null);
@@ -144,13 +144,13 @@ const newDiscoverPage: NextPageWithLayout = () => {
   );
 };
 
-newDiscoverPage.getLayout = (page) => (
+DiscoverPage.getLayout = (page) => (
   <DiscoverProvider>
     <AppUserSubmenuLayout showSubmenu={false}>{page}</AppUserSubmenuLayout>
   </DiscoverProvider>
 );
 
-export default newDiscoverPage;
+export default DiscoverPage;
 
 import { Maybe } from "graphql/jsutils/Maybe";
 import { IncomingMessage, ServerResponse } from "http";
