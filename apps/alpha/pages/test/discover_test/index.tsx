@@ -28,7 +28,7 @@ import { useContext, useEffect, useState } from "react";
 import { getFillProfilePercentage } from "@eden/package-ui/utils/fill-profile-percentage";
 
 import welcome from "../../public/welcome.png";
-import type { NextPageWithLayout } from "../_app";
+import type { NextPageWithLayout } from "../../_app";
 
 const DiscoverPage: NextPageWithLayout = () => {
   const router = useRouter();
