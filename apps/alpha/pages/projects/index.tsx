@@ -1,75 +1,209 @@
-// import { useQuery } from "@apollo/client";
-// import { UserContext } from "@eden/package-context";
-// import {
-//   FIND_PROJECTS,
-//   FIND_PROJECTS_RECOMMENDED,
-// } from "@eden/package-graphql";
+import { gql, useMutation, useQuery } from "@apollo/client";
+import {
+  ProjectsContext,
+  ProjectsModal,
+  ProjectsProvider,
+  UserContext,
+} from "@eden/package-context";
+import { MATCH_NODES_TO_PROJECT_ROLES } from "@eden/package-graphql";
+import {
+  MatchSkillsToProjectsOutput,
+  Members,
+  Mutation,
+} from "@eden/package-graphql/generated";
 import {
   AppUserSubmenuLayout,
   Card,
-  // GridItemNine,
+  CardGrid,
+  FillUserProfileContainer,
+  GridItemNine,
   GridItemSix,
   GridItemThree,
   GridLayout,
+  ProjectNodeMatchCard,
+  ProjectsModalContainer,
+  SEO,
+  UserProfileCard,
+  ViewUserProfileContainer,
+  WarningCard,
 } from "@eden/package-ui";
+import { STEPS } from "@eden/package-ui/utils";
+import { getFillProfilePercentage } from "@eden/package-ui/utils/fill-profile-percentage";
+import { useContext, useEffect, useState } from "react";
 
-// import { useContext } from "react";
+import welcome from "../../public/welcome.png";
 import type { NextPageWithLayout } from "../_app";
 
+const ADD_NODES = gql`
+  mutation ($fields: addNodesToMemberInput!) {
+    addNodesToMember(fields: $fields) {
+      _id
+    }
+  }
+`;
+
 const ProjectsPage: NextPageWithLayout = () => {
-  //   const { currentUser } = useContext(UserContext);
+  const { setOpenModal } = useContext(ProjectsContext);
+  const { currentUser, selectedServer } = useContext(UserContext);
+  const [nodesID, setNodesID] = useState<string[] | null>(null);
+  const [view, setView] = useState<"grants" | "profile">("grants");
+  const [startWelcome, setStartWelcome] = useState(false);
 
-  // if (currentUser) console.log("currentUser", currentUser);
+  const [userState, setUserState] = useState<Members>();
 
-  //   const { data: dataProjectsAll } = useQuery(FIND_PROJECTS, {
-  //     variables: {
-  //       fields: {},
-  //     },
-  //     context: { serviceName: "soilservice" },
-  //   });
+  useEffect(() => {
+    if (currentUser) {
+      setUserState(currentUser);
+    }
+  }, [currentUser]);
 
-  // if (dataProjectsAll) console.log("dataProjectsAll", dataProjectsAll);
+  const { data: dataProjects } = useQuery(MATCH_NODES_TO_PROJECT_ROLES, {
+    variables: {
+      fields: {
+        nodesID: nodesID,
+        serverID: selectedServer?._id,
+      },
+    },
+    skip: !nodesID || !selectedServer?._id,
+    context: { serviceName: "soilservice" },
+  });
 
-  //   const { data: dataProjectsRecommended } = useQuery(
-  //     FIND_PROJECTS_RECOMMENDED,
-  //     {
-  //       variables: {
-  //         fields: {
-  //           memberID: currentUser?._id,
-  //         },
-  //       },
-  //       skip: !currentUser,
-  //       context: { serviceName: "soilservice" },
-  //     }
-  //   );
+  // if (dataProjects) console.log("dataProjects", dataProjects);
+
+  const [addNodes] = useMutation(ADD_NODES, {
+    onCompleted({ addNodesToMember }: Mutation) {
+      if (!addNodesToMember) console.log("addNodesToMember is null");
+      // console.log("updateMember", addNodesToMember);
+      // setSubmitting(false);
+    },
+    onError(error) {
+      console.log("error", error);
+    },
+  });
+
+  useEffect(() => {
+    if (
+      currentUser &&
+      getFillProfilePercentage(currentUser) < 30 &&
+      !startWelcome
+    ) {
+      setOpenModal(ProjectsModal.START_WELCOME);
+      setStartWelcome(true);
+    }
+
+    if (currentUser) {
+      const nodes: string[] = [];
+
+      currentUser?.nodes?.find((item) => {
+        // if (item?.nodeData?.node == "sub_typeProject") {
+        nodes.push(item?.nodeData?._id as string);
+        // }
+      });
+      setNodesID(nodes);
+    }
+  }, [currentUser]);
+
+  // ------- PROFILE VIEW -------
+  const [step, setStep] = useState(STEPS.ROLE);
+
+  const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
+
+  const handleAddNodes = (val: string[]) => {
+    if (!currentUser || !val) return;
+    addNodes({
+      variables: {
+        fields: {
+          memberID: currentUser?._id,
+          nodesID: val,
+        },
+      },
+      context: { serviceName: "soilservice" },
+    });
+  };
+
+  if (!currentUser) return null;
 
   return (
-    <GridLayout>
-      <GridItemThree>
-        <div className={`h-85 flex flex-col gap-4`}>
-          <Card className="flex flex-grow bg-blue-300 p-6"></Card>
-          <Card className="flex h-44 flex-grow bg-white p-6"></Card>
-        </div>
-      </GridItemThree>
-      <GridItemSix>
-        <Card className="h-85 bg-white p-6"></Card>
-      </GridItemSix>
-      <GridItemThree>
-        <Card className="bg-white p-6"></Card>
-      </GridItemThree>
-
-      {/* <GridItemNine>
-        <Card className="bg-white p-6"></Card>
-      </GridItemNine>
-      <GridItemThree>
-        <Card className="bg-white p-6"></Card>
-      </GridItemThree> */}
-    </GridLayout>
+    <>
+      <SEO />
+      <GridLayout>
+        {view === "grants" && (
+          <>
+            <GridItemThree>
+              <Card className={`lg:h-85 flex flex-col gap-2`}>
+                <UserProfileCard />
+                {currentUser && getFillProfilePercentage(currentUser) < 50 && (
+                  <WarningCard
+                    profilePercentage={getFillProfilePercentage(currentUser)}
+                    onClickCompleteProfile={() => setView("profile")}
+                  />
+                )}
+              </Card>
+            </GridItemThree>
+            <GridItemNine>
+              <Card
+                shadow
+                className="scrollbar-hide h-85 overflow-scroll bg-white p-4"
+              >
+                <CardGrid>
+                  {dataProjects?.matchNodesToProjectRoles?.map(
+                    (project: MatchSkillsToProjectsOutput, index: number) => (
+                      <ProjectNodeMatchCard
+                        key={index}
+                        matchedProject={project}
+                      />
+                    )
+                  )}
+                </CardGrid>
+              </Card>
+            </GridItemNine>
+          </>
+        )}
+        {view === "profile" && (
+          <>
+            <GridItemSix>
+              <Card shadow className={"h-85 bg-white"}>
+                <FillUserProfileContainer
+                  step={step}
+                  state={userState}
+                  setState={setUserState}
+                  setStep={setStep}
+                  setExperienceOpen={setExperienceOpen}
+                  setView={setView}
+                  percentage={getFillProfilePercentage(currentUser)}
+                />
+              </Card>
+            </GridItemSix>
+            <GridItemSix>
+              <Card shadow className={"h-85 bg-white"}>
+                <ViewUserProfileContainer
+                  step={step}
+                  user={userState}
+                  experienceOpen={experienceOpen}
+                  setExperienceOpen={setExperienceOpen}
+                />
+              </Card>
+            </GridItemSix>
+          </>
+        )}
+      </GridLayout>
+      <ProjectsModalContainer
+        image={welcome.src}
+        setArrayOfNodes={(val) => {
+          // console.log("array of nodes val", val);
+          handleAddNodes(val);
+        }}
+        // percentage={0}
+        percentage={getFillProfilePercentage(currentUser)}
+      />
+    </>
   );
 };
 
 ProjectsPage.getLayout = (page) => (
-  <AppUserSubmenuLayout showSubmenu={false}>{page}</AppUserSubmenuLayout>
+  <ProjectsProvider>
+    <AppUserSubmenuLayout showSubmenu={false}>{page}</AppUserSubmenuLayout>
+  </ProjectsProvider>
 );
 
 export default ProjectsPage;

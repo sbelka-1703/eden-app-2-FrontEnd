@@ -18,7 +18,7 @@ const menuItems = [
   },
   {
     name: "⭐️  Find a project",
-    href: "/signup",
+    href: "/projects",
   },
   {
     name: "🎯  Active applications",
@@ -26,7 +26,7 @@ const menuItems = [
   },
   {
     name: "🚀  Launch A Project",
-    href: "/launch",
+    href: "/create-project",
   },
   {
     name: "🏆  Champion Projects",
@@ -40,13 +40,13 @@ export interface ILoginButtonProps {
 
 export const LoginButton = ({ inApp }: ILoginButtonProps) => {
   const router = useRouter();
-  const { currentUser, memberFound } = useContext(UserContext);
+  const { currentUser } = useContext(UserContext);
 
   return (
     <div className="top-16 z-50 text-right">
       <Menu as="div" className="relative inline-block text-left">
         <>
-          {memberFound ? (
+          {currentUser ? (
             <Menu.Button className="bg-soilGreen-700 hover:bg-soilGreen-500 inline-flex w-full justify-center rounded-full text-sm font-medium text-black/70 shadow hover:text-black ">
               <div className={``}>
                 <Avatar size={`xs`} src={currentUser?.discordAvatar || ""} />
@@ -118,7 +118,10 @@ export const LoginButton = ({ inApp }: ILoginButtonProps) => {
               <Menu.Item>
                 {({ active }) => (
                   <button
-                    onClick={() => signOut()}
+                    onClick={() => {
+                      signOut();
+                      localStorage.removeItem("eden_access_token");
+                    }}
                     className={`${
                       active ? "bg-zinc-700 text-white" : "text-gray-900"
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}

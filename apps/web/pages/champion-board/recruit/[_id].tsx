@@ -1,32 +1,30 @@
-/* eslint-disable no-unused-vars */
 import { useQuery } from "@apollo/client";
-import {
-  FIND_MEMBER,
-  FIND_PROJECT,
-  MATCH_MEMBERS_TO_SKILLS,
-} from "@eden/package-graphql";
+import { UserContext } from "@eden/package-context";
+import { FIND_PROJECT, MATCH_NODES_MEMBERS } from "@eden/package-graphql";
+import { NodesType } from "@eden/package-graphql/generated";
 import {
   AppUserSubmenuLayout,
-  ChampionMatchContainer,
+  ChampionNodesMatchContainer,
   EditProjectModal,
   GridItemNine,
   GridItemThree,
   GridLayout,
-  ProfileModal,
   ProjectEditSelectorCard,
   SEO,
 } from "@eden/package-ui";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import type { NextPageWithLayout } from "../../_app";
 
 const ProjectPage: NextPageWithLayout = () => {
   const router = useRouter();
   const { _id } = router.query;
+  const { selectedServer } = useContext(UserContext);
 
   const [showModal, setShowModal] = useState(false);
 
+  // eslint-disable-next-line no-unused-vars
   const { data: dataProject, refetch: refetchProject } = useQuery(
     FIND_PROJECT,
     {
@@ -44,60 +42,32 @@ const ProjectPage: NextPageWithLayout = () => {
     dataProject?.findProject?.role[0]
   );
 
-  const [selectMember, setSelectMember] = useState<Maybe<Members>>(null);
-  const [selecMemberMatch, setSelectMemberMatch] = useState<string>("");
-  const [modalType, setModalType] = useState("New Match");
-
-  const { data: dataMember, refetch: refetchMember } = useQuery(FIND_MEMBER, {
+  const { data: matchingMembers } = useQuery(MATCH_NODES_MEMBERS, {
     variables: {
       fields: {
-        _id: selectMember,
-      },
-    },
-    skip: !selectMember,
-    context: { serviceName: "soilservice" },
-  });
-
-  const { data: matchingMembers } = useQuery(MATCH_MEMBERS_TO_SKILLS, {
-    variables: {
-      fields: {
-        skillsID: selectedRole?.skills?.flatMap(
-          (skill: any) => skill?.skillData?._id
+        nodesID: selectedRole?.nodes.map(
+          (node: NodesType) => node?.nodeData?._id
         ),
-        hoursPerWeek: null,
-        // page: matchMembersPage,
-        // limit: 9,
+        serverID: selectedServer?._id,
       },
     },
-    skip: !selectedRole,
+    skip: !selectedRole || !selectedServer?._id,
     context: { serviceName: "soilservice" },
   });
+
+  // if (matchingMembers) console.log("matchingMembers", matchingMembers);
 
   // project data with shortlist
-  if (!dataProject) {
-    return null;
-  }
-  // if (matchingMembers) console.log("matchingMembers", matchingMembers);
+  if (!dataProject) return null;
 
   return (
     <>
-      {selectMember && dataMember?.findMember && (
-        <ProfileModal
-          openModal={!!selectMember}
-          member={dataMember.findMember}
-          project={dataProject?.findProject}
-          role={selectedRole}
-          type={modalType}
-          memberMatch={selecMemberMatch}
-          onClose={() => setSelectMember(null)}
-        />
-      )}
+      <SEO />
       <EditProjectModal
         showModal={showModal}
         project={dataProject?.findProject}
         onClose={() => setShowModal(false)}
       />
-      <SEO />
       <GridLayout>
         <GridItemThree>
           <ProjectEditSelectorCard
@@ -111,13 +81,10 @@ const ProjectPage: NextPageWithLayout = () => {
           />
         </GridItemThree>
         <GridItemNine>
-          <ChampionMatchContainer
+          <ChampionNodesMatchContainer
             selectedRole={selectedRole}
-            onSelectMember={setSelectMember}
-            onSelectMemberMatch={setSelectMemberMatch}
-            onSelectedTab={(tab) => setModalType(tab)}
             project={dataProject.findProject}
-            matchingMembers={matchingMembers?.matchSkillsToMembers}
+            matchingMembers={matchingMembers?.matchNodesToMembers}
           />
         </GridItemNine>
       </GridLayout>
@@ -131,7 +98,6 @@ ProjectPage.getLayout = (page) => (
 
 export default ProjectPage;
 
-import { Maybe, Members } from "@eden/package-graphql/generated";
 import { IncomingMessage, ServerResponse } from "http";
 import { getSession } from "next-auth/react";
 

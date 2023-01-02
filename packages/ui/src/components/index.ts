@@ -22,6 +22,5 @@ export * from "./SkillVisualisationComp";
 export * from "./SocialMediaComponent";
 export * from "./SocialMediaInput";
 export * from "./UserBackground";
-export * from "./UserSkillSocialAval";
 export * from "./UserWithDescription";
 export * from "./WorkingHours";

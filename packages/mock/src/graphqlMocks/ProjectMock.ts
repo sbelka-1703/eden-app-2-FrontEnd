@@ -6,13 +6,16 @@ import { getRoleTypeMockArray, getTeamTypeMockArray } from "../typeMocks";
 import { getMember } from "./MembersMock";
 
 export const randomTeamType = () =>
-  Array.from({ length: 40 }, () => {
-    return {
-      _id: String(faker.random.numeric(5)),
-      phase: faker.helpers.arrayElements(phase, 1)[0] as PhaseType,
-      memberInfo: getMember(),
-    };
-  });
+  Array.from(
+    { length: faker.datatype.number({ min: 4, max: 12, precision: 1 }) },
+    () => {
+      return {
+        _id: String(faker.random.numeric(5)),
+        phase: faker.helpers.arrayElements(phase, 1)[0] as PhaseType,
+        memberInfo: getMember(),
+      };
+    }
+  );
 
 export const project: Project = {
   _id: String(faker.random.numeric(5)),
@@ -52,7 +55,7 @@ export const project: Project = {
     faker.datatype.number({ min: 1, max: 5, precision: 1 })
   ),
   serverID: Array.from(
-    { length: faker.datatype.number({ min: 2, max: 8, precision: 1 }) },
+    { length: faker.datatype.number({ min: 2, max: 6, precision: 1 }) },
     () => faker.random.numeric(12)
   ),
   __typename: "Project",
