@@ -4,6 +4,7 @@ export * from "./ChampionNodesMatchContainer";
 export * from "./ConfettiContainer";
 export * from "./CreateProject";
 export * from "./CreateProjectTempContainer";
+export * from "./DiscoverContainer";
 export * from "./DiscoverModalContainer";
 export * from "./EditProfileContainer";
 export * from "./FillUserProfileContainer";
