@@ -5,7 +5,6 @@ import {
   UserContext,
 } from "@eden/package-context";
 import { FIND_PROJECT, MATCH_NODES_MEMBERS } from "@eden/package-graphql";
-import { ExclamationIcon } from "@heroicons/react/solid";
 import {
   MatchMembersToSkillOutput,
   RoleType,
@@ -22,6 +21,7 @@ import {
   UserDiscoverCard,
   WarningCard,
 } from "@eden/package-ui";
+import { ExclamationIcon } from "@heroicons/react/solid";
 import { useContext, useEffect, useState } from "react";
 
 import type { NextPageWithLayout } from "../../_app";
