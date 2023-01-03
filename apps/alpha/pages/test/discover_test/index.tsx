@@ -8,7 +8,6 @@ import { FIND_PROJECT, MATCH_NODES_MEMBERS } from "@eden/package-graphql";
 import { ExclamationIcon } from "@heroicons/react/solid";
 import {
   MatchMembersToSkillOutput,
-  NodesType,
   RoleType,
 } from "@eden/package-graphql/generated";
 import {
@@ -19,15 +18,12 @@ import {
   GridItemEight,
   GridItemFour,
   GridLayout,
-  RoleList,
   SEO,
   UserDiscoverCard,
   WarningCard,
 } from "@eden/package-ui";
 import { useContext, useEffect, useState } from "react";
-import { getFillProfilePercentage } from "@eden/package-ui/utils/fill-profile-percentage";
 
-import welcome from "../../public/welcome.png";
 import type { NextPageWithLayout } from "../../_app";
 
 const DiscoverPage: NextPageWithLayout = () => {
@@ -35,8 +31,8 @@ const DiscoverPage: NextPageWithLayout = () => {
   const { memberServers } = useContext(UserContext);
   const [nodesID, setNodesID] = useState<string[] | null>(null);
   const [serverID, setServerID] = useState<string | null>(null);
-  const [selectedRole, setSelectedRole] = useState<RoleType | null>(null);
-  const { project, openModal, setOpenModal } = useContext(DiscoverContext);
+  const [selectedRole] = useState<RoleType | null>(null);
+  const { openModal } = useContext(DiscoverContext);
 
   const { data: dataMembers } = useQuery(MATCH_NODES_MEMBERS, {
     variables: {
@@ -152,7 +148,6 @@ DiscoverPage.getLayout = (page) => (
 
 export default DiscoverPage;
 
-import { Maybe } from "graphql/jsutils/Maybe";
 import { IncomingMessage, ServerResponse } from "http";
 import { useRouter } from "next/router";
 import { getSession } from "next-auth/react";
