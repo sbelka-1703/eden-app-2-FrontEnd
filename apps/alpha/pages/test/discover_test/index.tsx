@@ -28,9 +28,8 @@ import type { NextPageWithLayout } from "../../_app";
 
 const DiscoverPage: NextPageWithLayout = () => {
   const router = useRouter();
-  const { memberServers } = useContext(UserContext);
+  const { selectedServerID } = useContext(UserContext);
   const [nodesID, setNodesID] = useState<string[] | null>(null);
-  const [serverID, setServerID] = useState<string | null>(null);
   const [selectedRole] = useState<RoleType | null>(null);
   const { openModal } = useContext(DiscoverContext);
 
@@ -39,10 +38,10 @@ const DiscoverPage: NextPageWithLayout = () => {
       fields: {
         nodesID: nodesID,
         // TODO: change to selectedServer
-        serverID: serverID,
+        serverID: selectedServerID,
       },
     },
-    skip: !nodesID || !serverID,
+    skip: !nodesID || !selectedServerID,
     context: { serviceName: "soilservice" },
   });
 
@@ -55,12 +54,6 @@ const DiscoverPage: NextPageWithLayout = () => {
     skip: !router.query.project,
     context: { serviceName: "soilservice" },
   });
-
-  useEffect(() => {
-    if (memberServers) {
-      setServerID(memberServers[1]._id);
-    }
-  }, [memberServers]);
 
   return (
     <>
