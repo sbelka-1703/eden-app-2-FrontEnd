@@ -22,7 +22,7 @@ import {
   WarningCard,
 } from "@eden/package-ui";
 import { ExclamationIcon } from "@heroicons/react/solid";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 
 import type { NextPageWithLayout } from "../../_app";
 
