@@ -117,10 +117,8 @@ export const SendMessageToUser = ({
     ${message}
 
     please check out the project on Eden
-    https://eden-nodes.vercel.app/projects/${project?._id}
+    https://eden-alpha-develop.vercel.app/projects/${project?._id}
   `;
-
-  //    https://eden-alpha-develop.vercel.app/projects/${project?._id}
 
   const handleSendMessage = async () => {
     setSendingMessage(true);

@@ -35,6 +35,12 @@ export const FIND_CURRENTUSER_SUB = gql`
           node
         }
       }
+      previusProjects {
+        title
+        description
+        startDate
+        endDate
+      }
       projects {
         champion
         phase

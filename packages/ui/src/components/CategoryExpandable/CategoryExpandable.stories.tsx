@@ -1,4 +1,3 @@
-import { MockedProvider } from "@apollo/client/testing";
 import { FIND_SUBCATEGORIES_OF_CATEGORIES } from "@eden/package-graphql";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
@@ -33,7 +32,6 @@ Default.args = {
 
 Default.parameters = {
   apolloClient: {
-    MockedProvider,
     mocks: [
       {
         request: {

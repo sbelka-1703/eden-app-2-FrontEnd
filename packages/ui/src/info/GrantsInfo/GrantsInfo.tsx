@@ -50,7 +50,7 @@ export const GrantsInfo = ({ grant }: IGrantsInfoProps) => {
           </div>
         </div>
       </div>
-      <div className={`mt-4 grid sm:grid-cols-3 gap-4`}>
+      <div className={`mt-4 grid gap-4 sm:grid-cols-3`}>
         <div className={`col-span-2`}>
           <div>
             <div

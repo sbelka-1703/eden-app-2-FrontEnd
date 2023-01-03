@@ -9,7 +9,7 @@ export interface IServerSelectButtonProps {
 }
 
 export const ServerSelectButton = ({ inApp }: IServerSelectButtonProps) => {
-  const { selectedServer, memberServers, setSelectedServer, memberFound } =
+  const { selectedServer, memberServers, setSelectedServer, currentUser } =
     useContext(UserContext);
 
   //   console.log("selectedServer", selectedServer);
@@ -20,7 +20,7 @@ export const ServerSelectButton = ({ inApp }: IServerSelectButtonProps) => {
     <div className="w-62 top-16 z-50 text-right">
       <Menu as="div" className="relative inline-block text-left">
         <div>
-          {memberFound ? (
+          {currentUser ? (
             <Menu.Button className="bg-soilGreen-700 hover:bg-soilGreen-500 inline-flex w-full justify-center rounded-full text-sm font-medium text-black/70 shadow hover:text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
               <div className="flex w-full justify-between">
                 <div className={``}>

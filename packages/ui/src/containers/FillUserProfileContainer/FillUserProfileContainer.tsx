@@ -48,12 +48,6 @@ export const FillUserProfileContainer = ({
   const [submitting, setSubmitting] = useState(false);
 
   const [updateMember] = useMutation(UPDATE_MEMBER, {
-    onCompleted: (data) => {
-      setSubmitting(false);
-      if (setView && data?.updateMember) {
-        setView("grants");
-      }
-    },
     onError: () => {
       setSubmitting(false);
     },
@@ -121,8 +115,6 @@ export const FillUserProfileContainer = ({
   }, [currentUser]);
 
   const handleSubmitForm = () => {
-    setSubmitting(true);
-
     const fields = {
       _id: currentUser?._id,
       // serverID: [],
@@ -149,12 +141,13 @@ export const FillUserProfileContainer = ({
       variables: {
         fields: fields,
       },
+      context: { serviceName: "soilservice" },
     });
   };
 
   return (
-    <Card className="overflow-scroll bg-white p-4">
-      <div className="scrollbar-hide h-8/10 ">
+    <Card className="bg-white p-4">
+      <div className="overflow-scroll scrollbar-hide h-8/10">
         <section className="mb-4 grid grid-cols-4 gap-2">
           <div className="col-span-3">
             <h2 className="mb-2 text-lg font-medium">
@@ -343,9 +336,18 @@ export const FillUserProfileContainer = ({
               <Button
                 className="ml-auto"
                 onClick={() => {
-                  if (step === STEPS.ROLE && setStep) setStep(STEPS.BIO);
-                  if (step === STEPS.BIO && setStep) setStep(STEPS.SOCIALS);
-                  if (step === STEPS.SOCIALS && setStep) setStep(STEPS.EXP);
+                  if (step === STEPS.ROLE && setStep) {
+                    setStep(STEPS.BIO);
+                    handleSubmitForm();
+                  }
+                  if (step === STEPS.BIO && setStep) {
+                    setStep(STEPS.SOCIALS);
+                    handleSubmitForm();
+                  }
+                  if (step === STEPS.SOCIALS && setStep) {
+                    setStep(STEPS.EXP);
+                    handleSubmitForm();
+                  }
                 }}
               >
                 Next
@@ -359,7 +361,11 @@ export const FillUserProfileContainer = ({
                   percentage < 50 &&
                   !state?.previusProjects?.some((bg: any) => !!bg.title)
                 }
-                onClick={() => handleSubmitForm()}
+                onClick={() => {
+                  handleSubmitForm();
+                  setStep(STEPS.ROLE);
+                  setView && setView("grants");
+                }}
               >
                 Submit
               </Button>

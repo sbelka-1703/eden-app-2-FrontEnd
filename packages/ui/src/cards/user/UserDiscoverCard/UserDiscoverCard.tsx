@@ -10,8 +10,8 @@ import {
   Button,
   Card,
   LongText,
+  MemberModal,
   SocialMediaComp,
-  UserDiscoverModal,
   UserInviteModal,
   UserWithDescription,
 } from "@eden/package-ui";
@@ -37,6 +37,7 @@ export const UserDiscoverCard = ({
   const [isOpen, setIsOpen] = useState(false);
   const member = matchMember?.member;
   const matchPercentage = matchMember?.matchPercentage;
+  const nodesPercentage = matchMember?.nodesPercentage;
 
   if (!member) return null;
 
@@ -69,16 +70,15 @@ export const UserDiscoverCard = ({
           className={`text-darkGreen font-Inter my-2 text-sm`}
         />
       </div>
-
-      {member?.nodes && (
+      {nodesPercentage && (
         <div>
           <p className="font-Inter mb-1 text-sm font-bold text-zinc-500">
             🛠 Top skills
           </p>
           <div>
-            {member?.nodes.slice(0, 6).map((node, index) => (
+            {nodesPercentage.slice(0, 6).map((node, index) => (
               <Badge
-                text={node?.nodeData?.name || ""}
+                text={node?.node?.name || ""}
                 key={index}
                 className={`bg-soilPurple/20 py-px text-xs`}
               />
@@ -137,10 +137,10 @@ export const UserDiscoverCard = ({
           onClose={() => setIsOpen(!isOpen)}
         />
       ) : (
-        <UserDiscoverModal
+        <MemberModal
           open={isOpen}
           member={member}
-          matchPercentage={matchPercentage}
+          percentage={matchPercentage?.totalPercentage || undefined}
           onClose={() => setIsOpen(!isOpen)}
         />
       )}

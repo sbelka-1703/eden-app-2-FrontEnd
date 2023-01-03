@@ -6,6 +6,7 @@ export interface CreateProjectViews6Props {
   onNext: () => void;
   onLaunch: () => void;
   onNewPosition: () => void;
+  submitting?: boolean;
 }
 
 export const CreateProjectViews6 = ({
@@ -13,6 +14,7 @@ export const CreateProjectViews6 = ({
   onNext,
   onLaunch,
   onNewPosition,
+  submitting = false,
 }: CreateProjectViews6Props) => {
   const [skipped, setSkipped] = useState(false);
 
@@ -61,7 +63,7 @@ export const CreateProjectViews6 = ({
           <Button variant="secondary" onClick={onBack}>
             Back
           </Button>
-          <Button variant="secondary" onClick={onNext}>
+          <Button variant="secondary" disabled={submitting} onClick={onNext}>
             Done
           </Button>
         </div>

@@ -7,10 +7,9 @@ import {
   GridItemTwo,
   GridLayout,
   Loading,
-  NewProfileContainer,
+  MemberInfo,
   SEOProfile,
 } from "@eden/package-ui";
-import * as React from "react";
 
 const ProfilePage = ({ member }: { member: Members }) => {
   return (
@@ -29,7 +28,9 @@ const ProfilePage = ({ member }: { member: Members }) => {
               className={`h-85 scrollbar-hide overflow-y-scroll bg-white`}
             >
               {member ? (
-                <NewProfileContainer user={member} />
+                <div className={`p-4 md:p-8`}>
+                  <MemberInfo member={member} />
+                </div>
               ) : (
                 <Loading title={`Searching...`} />
               )}

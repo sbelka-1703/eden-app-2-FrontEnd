@@ -17,5 +17,6 @@ export const Default = Template.bind({});
 Default.args = {
   open: true,
   member: getMember(),
+  // matchPercentage:
   onClose: () => null,
 };

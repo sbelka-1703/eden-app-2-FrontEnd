@@ -1,4 +1,4 @@
-import { getRoleTypeMock } from "@eden/package-mock";
+import { getRoomTypeMock } from "@eden/package-mock";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { OnboardRoomCard } from "./OnboardRoomCard";
@@ -14,4 +14,6 @@ const Template: ComponentStory<typeof OnboardRoomCard> = (args) => {
 };
 
 export const Default = Template.bind({});
-Default.args = {};
+Default.args = {
+  room: getRoomTypeMock(),
+};

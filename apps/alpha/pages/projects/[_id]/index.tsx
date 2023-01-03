@@ -1,13 +1,13 @@
 import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
 import { FIND_PROJECT } from "@eden/package-graphql";
 import {
-  ApplyByRoleContainer,
   AppUserSubmenuLayout,
   Card,
   GridItemEight,
   GridItemTwo,
   GridLayout,
   Loading,
+  ProjectInfo,
   SEOProject,
 } from "@eden/package-ui";
 import * as React from "react";
@@ -27,13 +27,10 @@ const ProfilePage = ({ project }: { project: Project }) => {
           <GridItemEight>
             <Card
               shadow
-              className={`h-85 scrollbar-hide overflow-y-scroll bg-white`}
+              className={`h-85 scrollbar-hide overflow-y-scroll bg-white p-6`}
             >
               {project ? (
-                <ApplyByRoleContainer
-                  project={project}
-                  onViewProject={() => console.log("switch")}
-                />
+                <ProjectInfo project={project} />
               ) : (
                 <Loading title={`Searching...`} />
               )}

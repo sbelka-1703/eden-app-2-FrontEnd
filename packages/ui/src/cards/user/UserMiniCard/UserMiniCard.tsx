@@ -2,10 +2,12 @@ import { Maybe, Members } from "@eden/package-graphql/generated";
 import {
   Avatar,
   Card,
+  MemberModal,
   SocialMediaComp,
   // TextHeading2,
   TextHeading3,
 } from "@eden/package-ui";
+import { useState } from "react";
 import { GrExpand } from "react-icons/gr";
 
 export interface UserMiniCardProps {
@@ -14,10 +16,13 @@ export interface UserMiniCardProps {
   onExpand?: () => void;
 }
 
-export const UserMiniCard = ({ member, onExpand, item }: UserMiniCardProps) => {
+export const UserMiniCard = ({ member, item }: UserMiniCardProps) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   if (!member && !item) {
     return null;
   }
+
   return (
     <div>
       <Card border shadow>
@@ -54,13 +59,18 @@ export const UserMiniCard = ({ member, onExpand, item }: UserMiniCardProps) => {
           <div>
             <button
               className={`basis-1/8 w-full text-zinc-400`}
-              onClick={onExpand}
+              onClick={() => setIsModalOpen(!isModalOpen)}
             >
               <GrExpand size="15px" />
             </button>
           </div>
         </div>
       </Card>
+      <MemberModal
+        member={member}
+        open={isModalOpen}
+        onClose={() => setIsModalOpen(!isModalOpen)}
+      />
     </div>
   );
 };
