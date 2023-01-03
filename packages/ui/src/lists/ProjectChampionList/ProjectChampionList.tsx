@@ -2,6 +2,7 @@ import { UserContext } from "@eden/package-context";
 import {
   Avatar,
   Card,
+  CommonServerAvatarList,
   NumberCircle,
   TextBody,
   TextHeading3,
@@ -10,7 +11,9 @@ import { useRouter } from "next/router";
 import { useContext } from "react";
 
 export const ProjectChampionList = () => {
-  const { currentUser, selectedServer } = useContext(UserContext);
+  // const { currentUser, selectedServerID } = useContext(UserContext);
+  const { currentUser } = useContext(UserContext);
+
   const router = useRouter();
 
   // filter out of the current user's projects for projects they are a champion of
@@ -18,16 +21,16 @@ export const ProjectChampionList = () => {
     (project) => project?.champion
   );
 
-  // console.log("champions", champions);
-
   // find the serverID from champions serverID array that matches the selectedServer id
-  const serverChampions = champions?.filter((champion) =>
-    champion?.info?.serverID?.includes(selectedServer?._id as string)
-  );
+  // const serverChampions = champions?.filter((champion) =>
+  //   champion?.info?.serverID?.includes(selectedServer?._id as string)
+  // );
+  // const serverChampions = champions?.filter((champion) =>
+  //   champion?.info?.serverID?.includes(selectedServerID)
+  // );
 
-  // console.log("serverChampions", serverChampions);
-
-  const projectsToDisplay = selectedServer?._id ? serverChampions : champions;
+  // const projectsToDisplay = selectedServerID ? serverChampions : champions;
+  const projectsToDisplay = champions;
 
   return (
     <div
@@ -75,6 +78,9 @@ export const ProjectChampionList = () => {
                     className="ml-2 inline-block h-7 w-7 font-semibold text-white"
                   />
                 </div>
+                <CommonServerAvatarList
+                  serverID={item?.info?.serverID as string[]}
+                />
               </div>
             </div>
           </Card>

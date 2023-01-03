@@ -23,7 +23,7 @@ import {
   GridItemThree,
   GridLayout,
   SEO,
-  UserProfileCard,
+  SubmenuSelector,
   ViewUserProfileContainer,
   WarningCard,
 } from "@eden/package-ui";
@@ -59,6 +59,7 @@ const GrantsPage: NextPageWithLayout = () => {
     variables: {
       fields: {
         _id: null,
+        // serverID: selectedServerID,
       },
     },
     context: { serviceName: "soilservice" },
@@ -116,7 +117,9 @@ const GrantsPage: NextPageWithLayout = () => {
           <>
             <GridItemThree>
               <Card className={`lg:h-85 flex flex-col gap-2`}>
-                <UserProfileCard />
+                <Card shadow className={"bg-white p-6"}>
+                  <SubmenuSelector title={`Good Morning,`} />
+                </Card>
                 {currentUser && getFillProfilePercentage(currentUser) < 50 && (
                   <WarningCard
                     profilePercentage={getFillProfilePercentage(currentUser)}
@@ -175,7 +178,6 @@ const GrantsPage: NextPageWithLayout = () => {
           // console.log("array of nodes val", val);
           handleAddNodes(val);
         }}
-        // percentage={0}
         percentage={getFillProfilePercentage(currentUser)}
       />
     </>

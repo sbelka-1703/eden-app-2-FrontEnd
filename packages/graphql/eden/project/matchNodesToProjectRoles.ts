@@ -10,6 +10,7 @@ export const MATCH_NODES_TO_PROJECT_ROLES = gql`
         description
         emoji
         backColorEmoji
+        serverID
         champion {
           _id
           discordName

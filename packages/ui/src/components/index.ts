@@ -13,6 +13,7 @@ export * from "./ReadMoreComp";
 export * from "./SearchSkill";
 export * from "./SendMessageToChampion";
 export * from "./SendMessageToUser";
+export * from "./ServerFilter";
 export * from "./ServerSelectButton";
 export * from "./SkillCategoryList";
 export * from "./SkillVisualisationComp";

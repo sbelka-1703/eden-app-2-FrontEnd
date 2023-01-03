@@ -1,4 +1,4 @@
-import { LoginButton, ServerSelectButton } from "@eden/package-ui";
+import { LoginButton } from "@eden/package-ui";
 import Link from "next/link";
 
 export interface IAppHeaderProps {
@@ -25,7 +25,6 @@ export const AppHeader = ({ logoLink, inApp }: IAppHeaderProps) => {
               </span>
             </Link>
           )}
-          <ServerSelectButton inApp={inApp} />
           <LoginButton inApp={inApp} />
         </div>
       </nav>
