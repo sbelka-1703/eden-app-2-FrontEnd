@@ -9,22 +9,20 @@ export const UserProfileCard = ({}: IUserProfileCardProps) => {
 
   return (
     <Card shadow className="mb-4 w-full bg-white p-4">
-      <div className={``}>
-        <div className={` font-poppins text-xl font-medium`}>Your Profile</div>
-        <div className={`my-3 flex`}>
+      <div className={` font-poppins text-xl font-medium`}>Your Profile</div>
+      <div className={`my-3 flex`}>
+        <div>
+          <Avatar src={currentUser?.discordAvatar || ""} size="md" />
+        </div>
+        <div className={`font-poppins pl-4 text-2xl font-medium`}>
           <div>
-            <Avatar src={currentUser?.discordAvatar || ""} size="md" />
+            @{currentUser?.discordName}
+            {currentUser?.discriminator && (
+              <TextLabel> #{currentUser?.discriminator}</TextLabel>
+            )}
           </div>
-          <div className={`font-poppins pl-4 text-2xl font-medium`}>
-            <div>
-              @{currentUser?.discordName}
-              {currentUser?.discriminator && (
-                <TextLabel> #{currentUser?.discriminator}</TextLabel>
-              )}
-            </div>
-            <div className={`font-Inter text-xl text-zinc-500`}>
-              {currentUser?.memberRole?.title}
-            </div>
+          <div className={`font-Inter text-xl text-zinc-500`}>
+            {currentUser?.memberRole?.title}
           </div>
         </div>
       </div>

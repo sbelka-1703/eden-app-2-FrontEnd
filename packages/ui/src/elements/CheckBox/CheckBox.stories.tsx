@@ -18,5 +18,6 @@ Default.args = {
   name: "textfield",
   type: "text",
   required: false,
-  placeholder: "placeholder",
+  bgColorRGB: "224, 242, 211",
+  brColorRGB: "191, 255, 140",
 };

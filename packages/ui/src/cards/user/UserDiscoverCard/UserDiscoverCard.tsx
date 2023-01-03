@@ -9,6 +9,7 @@ import {
   Badge,
   Button,
   Card,
+  CommonServerAvatarList,
   LongText,
   MemberModal,
   SocialMediaComp,
@@ -70,6 +71,15 @@ export const UserDiscoverCard = ({
           className={`text-darkGreen font-Inter my-2 text-sm`}
         />
       </div>
+
+      {member?.serverID && (
+        <CommonServerAvatarList
+          label={`common servers`}
+          size={`xs`}
+          serverID={member?.serverID as string[]}
+        />
+      )}
+
       {nodesPercentage && (
         <div>
           <p className="font-Inter mb-1 text-sm font-bold text-zinc-500">

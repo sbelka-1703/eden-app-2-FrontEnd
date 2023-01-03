@@ -13,6 +13,8 @@ export interface UserContextType {
   memberServerIDs: string[];
   selectedServer: Maybe<ServerTemplate>;
   setSelectedServer: Dispatch<string>;
+  selectedServerID: string[];
+  setSelectedServerID: Dispatch<string[]>;
 }
 
 export const UserContext = createContext<UserContextType>({
@@ -26,4 +28,7 @@ export const UserContext = createContext<UserContextType>({
   selectedServer: {},
   // eslint-disable-next-line no-empty-function
   setSelectedServer: () => {},
+  selectedServerID: [],
+  // eslint-disable-next-line no-empty-function
+  setSelectedServerID: () => {},
 });

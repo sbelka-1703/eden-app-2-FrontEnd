@@ -54,7 +54,7 @@ export const SkillVisualisationComp: React.FC<SkillVisualisationCompProps> = ({
           <CheckBox
             name="senior"
             label="SENIOR"
-            radius="boxed"
+            radius="default"
             checked={selectSenior}
             onChange={() => setSelectSenior(!selectSenior)}
             bgColorRGB="224, 242, 211"
@@ -65,7 +65,7 @@ export const SkillVisualisationComp: React.FC<SkillVisualisationCompProps> = ({
           <CheckBox
             name="mid level"
             label="MID"
-            radius="boxed"
+            radius="default"
             checked={selectMid}
             onChange={() => setSelectMid(!selectMid)}
             bgColorRGB="250, 207, 243"
@@ -76,7 +76,7 @@ export const SkillVisualisationComp: React.FC<SkillVisualisationCompProps> = ({
           <CheckBox
             name="junior"
             label="JUNIOR"
-            radius="boxed"
+            radius="default"
             checked={selectJunior}
             onChange={() => setSelectJunior(!selectJunior)}
             bgColorRGB="210, 237, 252"
@@ -87,7 +87,7 @@ export const SkillVisualisationComp: React.FC<SkillVisualisationCompProps> = ({
           <CheckBox
             name="learning"
             label="LEARNING"
-            radius="boxed"
+            radius="default"
             checked={selectLearning}
             onChange={() => setSelectLearning(!selectLearning)}
             bgColorRGB="250, 234, 175"

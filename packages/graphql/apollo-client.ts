@@ -20,8 +20,9 @@ import jwt_decode from "jwt-decode";
 type decodedType = {
   exp: number;
   iat: number;
-  id: string;
-  role: string;
+  _id: string;
+  discordName: string;
+  accessLevel: number;
 };
 let decoded: decodedType;
 
