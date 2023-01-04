@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
-import { FIND_PROJECT, MATCH_NODES_MEMBERS } from "@eden/package-graphql";
+import { FIND_PROJECT, MATCH_NODES_MEMBERS_LITE } from "@eden/package-graphql";
 import { NodesType } from "@eden/package-graphql/generated";
 import {
   AppUserSubmenuLayout,
@@ -20,35 +20,31 @@ import type { NextPageWithLayout } from "../../_app";
 const ProjectPage: NextPageWithLayout = () => {
   const router = useRouter();
   const { _id } = router.query;
-  const { selectedServer } = useContext(UserContext);
+  const { selectedServer, memberServerIDs } = useContext(UserContext);
 
   const [showModal, setShowModal] = useState(false);
 
-  // eslint-disable-next-line no-unused-vars
-  const { data: dataProject, refetch: refetchProject } = useQuery(
-    FIND_PROJECT,
-    {
-      variables: {
-        fields: {
-          _id,
-        },
+  const { data: dataProject } = useQuery(FIND_PROJECT, {
+    variables: {
+      fields: {
+        _id,
       },
-      skip: !_id,
-      context: { serviceName: "soilservice" },
-    }
-  );
+    },
+    skip: !_id,
+    context: { serviceName: "soilservice" },
+  });
 
   const [selectedRole, setSelectedRole] = useState(
     dataProject?.findProject?.role[0]
   );
 
-  const { data: matchingMembers } = useQuery(MATCH_NODES_MEMBERS, {
+  const { data: matchingMembers } = useQuery(MATCH_NODES_MEMBERS_LITE, {
     variables: {
       fields: {
         nodesID: selectedRole?.nodes.map(
           (node: NodesType) => node?.nodeData?._id
         ),
-        serverID: selectedServer?._id,
+        serverID: memberServerIDs,
       },
     },
     skip: !selectedRole || !selectedServer?._id,
@@ -57,7 +53,6 @@ const ProjectPage: NextPageWithLayout = () => {
 
   // if (matchingMembers) console.log("matchingMembers", matchingMembers);
 
-  // project data with shortlist
   if (!dataProject) return null;
 
   return (

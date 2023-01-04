@@ -3,7 +3,7 @@ import { MockedProvider } from "@apollo/client/testing";
 import { UserContext, UserContextType } from "@eden/package-context";
 import { apolloClient } from "@eden/package-graphql";
 import { Members } from "@eden/package-graphql/generated";
-import { getMember, apolloMocks } from "@eden/package-mock";
+import { getMember, apolloMocks, findServers } from "@eden/package-mock";
 import { DecoratorFn } from "@storybook/react";
 import { SessionProvider } from "next-auth/react";
 import { MemoryRouterProvider } from "next-router-mock/MemoryRouterProvider/next-12";
@@ -58,10 +58,12 @@ const injectContext: UserContextType = {
     // injectContext.currentUser = user;
   },
   refechProfile: () => {},
-  memberServers: [],
-  memberServerIDs: [],
+  memberServers: findServers,
+  memberServerIDs: findServers.map((server) => server._id) as string[],
   selectedServer: null,
   setSelectedServer: () => {},
+  selectedServerID: [],
+  setSelectedServerID: () => {},
 };
 
 export const decorators: DecoratorFn[] = [

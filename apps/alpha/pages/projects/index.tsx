@@ -20,10 +20,12 @@ import {
   GridItemSix,
   GridItemThree,
   GridLayout,
+  Loading,
   ProjectNodeMatchCard,
   ProjectsModalContainer,
   SEO,
-  UserProfileCard,
+  SubmenuSelector,
+  // UserProfileCard,
   ViewUserProfileContainer,
   WarningCard,
 } from "@eden/package-ui";
@@ -44,7 +46,7 @@ const ADD_NODES = gql`
 
 const ProjectsPage: NextPageWithLayout = () => {
   const { setOpenModal } = useContext(ProjectsContext);
-  const { currentUser, selectedServer } = useContext(UserContext);
+  const { currentUser, selectedServerID } = useContext(UserContext);
   const [nodesID, setNodesID] = useState<string[] | null>(null);
   const [view, setView] = useState<"grants" | "profile">("grants");
   const [startWelcome, setStartWelcome] = useState(false);
@@ -57,16 +59,19 @@ const ProjectsPage: NextPageWithLayout = () => {
     }
   }, [currentUser]);
 
-  const { data: dataProjects } = useQuery(MATCH_NODES_TO_PROJECT_ROLES, {
-    variables: {
-      fields: {
-        nodesID: nodesID,
-        serverID: selectedServer?._id,
+  const { data: dataProjects, loading } = useQuery(
+    MATCH_NODES_TO_PROJECT_ROLES,
+    {
+      variables: {
+        fields: {
+          nodesID: nodesID,
+          serverID: selectedServerID,
+        },
       },
-    },
-    skip: !nodesID || !selectedServer?._id,
-    context: { serviceName: "soilservice" },
-  });
+      skip: !nodesID || !selectedServerID,
+      context: { serviceName: "soilservice" },
+    }
+  );
 
   // if (dataProjects) console.log("dataProjects", dataProjects);
 
@@ -131,7 +136,9 @@ const ProjectsPage: NextPageWithLayout = () => {
           <>
             <GridItemThree>
               <Card className={`lg:h-85 flex flex-col gap-2`}>
-                <UserProfileCard />
+                <Card shadow className={"bg-white p-6"}>
+                  <SubmenuSelector title={`Good Morning,`} />
+                </Card>
                 {currentUser && getFillProfilePercentage(currentUser) < 50 && (
                   <WarningCard
                     profilePercentage={getFillProfilePercentage(currentUser)}
@@ -145,6 +152,7 @@ const ProjectsPage: NextPageWithLayout = () => {
                 shadow
                 className="scrollbar-hide h-85 overflow-scroll bg-white p-4"
               >
+                {loading && <Loading />}
                 <CardGrid>
                   {dataProjects?.matchNodesToProjectRoles?.map(
                     (project: MatchSkillsToProjectsOutput, index: number) => (

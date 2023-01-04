@@ -2,59 +2,63 @@ import { RoleTemplate } from "@eden/package-graphql/generated";
 
 export const findRoleTemplates: RoleTemplate[] = [
   {
-    _id: "62f14dc33235560004a48119",
+    _id: "638a0ac3adbaff090cee3e57",
+    title: "Data Scientist",
     description: null,
-    title: "Workshop Guid",
-    skills: [
-      {
-        _id: "63098c32b003e10004f99c92",
-        name: "Cascading Style Sheets (CSS)",
-      },
-      {
-        _id: "63098c36b003e10004f99d33",
-        name: "Bootstrap (Front-End Framework)",
-      },
-    ],
+    skills: [],
   },
   {
-    _id: "62f14de73235560004a48138",
+    _id: "638a0ad8adbaff077fee3e5a",
+    title: "Software Developer",
     description: null,
-    title: "Blockchain Engineer",
-    skills: [
-      {
-        _id: "63098d06b003e10004f9aacd",
-        name: "Angular (Web Framework)",
-      },
-      {
-        _id: "63098d0db003e10004f9ab8f",
-        name: "Blockchain",
-      },
-    ],
+    skills: [],
   },
   {
-    _id: "62f3deeb184afd000459a848",
+    _id: "638a0ae1adbaff6da2ee3e5d",
+    title: "Web Developer",
     description: null,
-    title: "FrontEnd ",
-    skills: [
-      {
-        _id: "63098c39b003e10004f99d46",
-        name: "Browser Compatibility",
-      },
-      {
-        _id: "63098c3cb003e10004f99d59",
-        name: "HTML5",
-      },
-    ],
+    skills: [],
   },
   {
-    _id: "62f3def8184afd000459a850",
+    _id: "638a0ae7adbaff13a4ee3e5f",
+    title: "FrontEnd Developer",
     description: null,
-    title: "BackEnd ",
-    skills: [
-      {
-        _id: "63098d1db003e10004f9ac92",
-        name: "ECMAScript 2015",
-      },
-    ],
+    skills: [],
+  },
+  {
+    _id: "638a0b06adbaff0774ee3e63",
+    title: "BackEnd Developer",
+    description: null,
+    skills: [],
+  },
+  {
+    _id: "638a0b10adbaff02b2ee3e66",
+    title: "Seo Consultant",
+    description: null,
+    skills: [],
+  },
+  {
+    _id: "638a0b19adbaffe1cdee3e69",
+    title: "Designer",
+    description: null,
+    skills: [],
+  },
+  {
+    _id: "638a0b27adbaff5e3aee3e6c",
+    title: "Project manager",
+    description: null,
+    skills: [],
+  },
+  {
+    _id: "638a0b2eadbaff1b7bee3e6e",
+    title: "Technical consultant",
+    description: null,
+    skills: [],
+  },
+  {
+    _id: "638a0b37adbaff1b9eee3e80",
+    title: "Business analyst",
+    description: null,
+    skills: [],
   },
 ];

@@ -70,7 +70,7 @@ export const DiscoverModalContainer = ({
             setNextStep(DiscoverModal.PRIORITIZE);
           }}
           onSubmit={(val: string[]) => {
-            // console.log("val", val);
+            console.log("val", val);
             if (val) {
               if (setNodeIdArray) setNodeIdArray([...nodeIdArray, ...val]);
             }
@@ -91,7 +91,7 @@ export const DiscoverModalContainer = ({
             setNextStep(DiscoverModal.PRIORITIZE);
           }}
           onSubmit={(val: string[] | null) => {
-            // console.log("val", val);
+            console.log("val2", val);
             if (val) {
               if (setNodeIdArray) setNodeIdArray([...nodeIdArray, ...val]);
             }

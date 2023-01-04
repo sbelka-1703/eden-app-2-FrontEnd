@@ -1,7 +1,10 @@
-// import { FIND_MEMBER_INFO, FIND_NODES } from "@eden/package-graphql";
-import { FIND_MEMBER_INFO } from "@eden/package-graphql";
+import {
+  FIND_MEMBER_INFO,
+  // FIND_NODES,
+  FIND_ROLE_TEMPLATES,
+} from "@eden/package-graphql";
 
-import { getMember } from "../graphqlMocks";
+import { findRoleTemplates, getMember } from "../graphqlMocks";
 // import { getNodesTypeMockArray } from "../typeMocks";
 
 export const apolloMocks = [
@@ -21,21 +24,35 @@ export const apolloMocks = [
       },
     },
   },
+  {
+    request: {
+      operationName: "FIND_ROLE_TEMPLATES",
+      query: FIND_ROLE_TEMPLATES,
+      variables: {
+        fields: {},
+      },
+    },
+    result: {
+      data: {
+        findRoleTemplates: findRoleTemplates,
+      },
+    },
+  },
   // WIP: This is not working yet
-  //   {
-  //     request: {
-  //       operationName: "FIND_NODES",
-  //       query: FIND_NODES,
-  //       variables: {
-  //         fields: {
-  //           node: "typeProject",
-  //         },
-  //       },
-  //     },
-  //     result: {
-  //       data: {
-  //         findNodes: getNodesTypeMockArray(24),
+  // {
+  //   request: {
+  //     operationName: "FIND_NODES",
+  //     query: FIND_NODES,
+  //     variables: {
+  //       fields: {
+  //         // node: "typeProject",
   //       },
   //     },
   //   },
+  //   result: {
+  //     data: {
+  //       findNodes: getNodesTypeMockArray(24),
+  //     },
+  //   },
+  // },
 ];

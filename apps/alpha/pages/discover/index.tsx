@@ -29,27 +29,27 @@ import {
   UserDiscoverCard,
   WarningCard,
 } from "@eden/package-ui";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 
 import welcome from "../../public/welcome.png";
 import type { NextPageWithLayout } from "../_app";
 
 const DiscoverPage: NextPageWithLayout = () => {
   const router = useRouter();
-  const { selectedServer, memberServerIDs } = useContext(UserContext);
+  // const { selectedServer, memberServerIDs } = useContext(UserContext);
   const { setOpenModal } = useContext(DiscoverContext);
+  const { selectedServerID } = useContext(UserContext);
   const [nodesID, setNodesID] = useState<string[] | null>(null);
-  const [serverID, setServerID] = useState<string[] | null>(null);
   const [selectedRole, setSelectedRole] = useState<RoleType | null>(null);
 
   const { data: dataMembers } = useQuery(MATCH_NODES_MEMBERS_LITE, {
     variables: {
       fields: {
         nodesID: nodesID,
-        serverID: serverID,
+        serverID: selectedServerID,
       },
     },
-    skip: !nodesID || !serverID,
+    skip: !nodesID || !selectedServerID,
     context: { serviceName: "soilservice" },
   });
 
@@ -64,16 +64,6 @@ const DiscoverPage: NextPageWithLayout = () => {
   });
 
   // if (dataMembers) console.log("dataMembers", dataMembers);
-
-  useEffect(() => {
-    if (selectedServer?._id) {
-      setServerID([selectedServer?._id]);
-    } else {
-      setServerID(memberServerIDs);
-    }
-  }, [selectedServer]);
-
-  // if (memberServers) console.log("memberServers", memberServers[1]._id);
 
   return (
     <>

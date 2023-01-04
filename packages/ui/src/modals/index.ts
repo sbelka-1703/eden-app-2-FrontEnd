@@ -19,7 +19,6 @@ export * from "./SelectNodesModal";
 export * from "./SendMessageToUserModal";
 export * from "./SkipFlowModal";
 export * from "./StaticModal";
-export * from "./UserDiscoverModal";
 export * from "./UserInviteModal";
 export * from "./WarningModal";
 export * from "./WelcomeModal";
