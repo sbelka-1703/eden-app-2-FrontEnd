@@ -8,6 +8,7 @@ export interface WarningCardProps {
   onClickCompleteProfile?: () => void;
   text1?: string;
   text2?: string;
+  textButton?: string;
 }
 
 export const WarningCard = ({
@@ -16,6 +17,7 @@ export const WarningCard = ({
   onClickCompleteProfile,
   text1 = "You can see projects",
   text2 = "Projects can't see you",
+  textButton = "Finish your profile",
 }: WarningCardProps) => {
   return (
     <Card
@@ -58,7 +60,7 @@ export const WarningCard = ({
             size="md"
             onClick={onClickCompleteProfile}
           >
-            Finish your profile
+            {textButton}
           </Button>
         </div>
       </div>

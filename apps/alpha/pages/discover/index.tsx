@@ -1,6 +1,15 @@
 import { useQuery } from "@apollo/client";
-import { DiscoverProvider, UserContext } from "@eden/package-context";
-import { FIND_PROJECT, MATCH_NODES_MEMBERS_LITE } from "@eden/package-graphql";
+import {
+  DiscoverContext,
+  DiscoverModal,
+  DiscoverProvider,
+  UserContext,
+} from "@eden/package-context";
+import {
+  FIND_PROJECT,
+  // MATCH_NODES_MEMBERS,
+  MATCH_NODES_MEMBERS_LITE,
+} from "@eden/package-graphql";
 import {
   MatchMembersToSkillOutput,
   NodesType,
@@ -8,6 +17,7 @@ import {
 } from "@eden/package-graphql/generated";
 import {
   AppUserSubmenuLayout,
+  Button,
   Card,
   CardGrid,
   DiscoverModalContainer,
@@ -26,6 +36,8 @@ import type { NextPageWithLayout } from "../_app";
 
 const DiscoverPage: NextPageWithLayout = () => {
   const router = useRouter();
+  // const { selectedServer, memberServerIDs } = useContext(UserContext);
+  const { setOpenModal } = useContext(DiscoverContext);
   const { selectedServerID } = useContext(UserContext);
   const [nodesID, setNodesID] = useState<string[] | null>(null);
   const [selectedRole, setSelectedRole] = useState<RoleType | null>(null);
@@ -77,6 +89,25 @@ const DiscoverPage: NextPageWithLayout = () => {
               </Card>
             )}
           {!dataProject?.findProject?.title && (
+            <Card
+              shadow
+              className="mb-4 w-full flex-grow border-[2px] bg-white p-10 font-semibold"
+            >
+              <div className="mt-3">
+                <Button
+                  variant="primary"
+                  radius="default"
+                  size="md"
+                  onClick={() => {
+                    setOpenModal(DiscoverModal.START_INFO);
+                  }}
+                >
+                  Update search parameters
+                </Button>
+              </div>
+            </Card>
+          )}
+          {!dataProject?.findProject?.title && (
             <WarningCard
               // profilePercentage={getFillProfilePercentage({
               //   ...state,
@@ -92,6 +123,7 @@ const DiscoverPage: NextPageWithLayout = () => {
               }
               text1="You can see users"
               text2="Users can't find your project"
+              textButton="Create a project"
             />
           )}
         </GridItemThree>
