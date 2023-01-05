@@ -3,8 +3,8 @@ import "./style.css";
 
 import { useState } from "react";
 export interface TreeStructCompProps {
-  tree: any;
-  color: any;
+  tree?: any;
+  color?: any;
 }
 export const TreeStructComp: React.FC<TreeStructCompProps> = ({
   tree,
@@ -16,15 +16,15 @@ export const TreeStructComp: React.FC<TreeStructCompProps> = ({
         <div>
           <div
             className="mr-2 mb-1 inline-block cursor-default rounded-full px-4 py-2"
-            style={{ background: `${color.top}` }}
+            style={{ background: `${color?.top}` }}
           >
-            {tree.node.name}
+            {tree?.node?.name}
           </div>
-          <span>{tree.node.star ? "⭐️" : ""}</span>
+          <span>{tree?.node?.star ? "⭐️" : ""}</span>
         </div>
         <li>
           <ul>
-            {tree.middle.map((middle: any, index: number) => (
+            {tree?.middle?.map((middle: any, index: number) => (
               <MiddleTreeComp key={index} middle={middle} color={color} />
             ))}
           </ul>
@@ -46,7 +46,7 @@ const MiddleTreeComp: React.FC<any> = ({ middle, color }) => {
               <div
                 className="mr-2 mb-1 inline-block cursor-default rounded-full px-4 py-2"
                 style={{
-                  background: `${color.middle}`,
+                  background: `${color?.middle}`,
                   marginTop: "-20px",
                 }}
                 onClick={() => {
@@ -55,14 +55,14 @@ const MiddleTreeComp: React.FC<any> = ({ middle, color }) => {
                   }
                 }}
               >
-                {middle.node.name}
+                {middle?.node?.name}
               </div>
               <span>{middle?.node?.star ? "⭐️" : ""}</span>
             </div>
             {middle?.node?.open && showMiddle && (
               <li>
                 <ul>
-                  {middle.bottom.map((last: any) => (
+                  {middle?.bottom?.map((last: any) => (
                     <>
                       <li>
                         <div className="tree_label">
@@ -70,11 +70,11 @@ const MiddleTreeComp: React.FC<any> = ({ middle, color }) => {
                             <div
                               className="mr-2 mb-1 inline-block cursor-default rounded-full px-4 py-2"
                               style={{
-                                background: `${color.bottom}`,
+                                background: `${color?.bottom}`,
                                 marginTop: "-20px",
                               }}
                             >
-                              {last.name}
+                              {last?.name}
                             </div>
                             <span>{last?.star ? "⭐️" : ""}</span>
                           </div>

@@ -4,7 +4,7 @@ import { TreeStructComp } from "./TreeStructComp";
 
 describe("TreeStructComp", () => {
   it("renders without throwing", () => {
-    const { container } = render(<TreeStructComp skills={[]} />);
+    const { container } = render(<TreeStructComp />);
 
     expect(container).toBeInTheDocument();
   });
