@@ -1,18 +1,31 @@
-import { useMutation, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
-import { FIND_ROLE_TEMPLATES, UPDATE_MEMBER } from "@eden/package-graphql";
-import { Maybe, Members, RoleTemplate } from "@eden/package-graphql/generated";
+import {
+  FIND_NODES,
+  FIND_ROLE_TEMPLATES,
+  UPDATE_MEMBER,
+} from "@eden/package-graphql";
+import {
+  Maybe,
+  Members,
+  Mutation,
+  Node,
+  NodesType,
+  RoleTemplate,
+} from "@eden/package-graphql/generated";
 import {
   BatteryStepper,
   Button,
   Card,
   Loading,
   RoleSelector,
+  SelectBoxNode,
   SocialMediaInput,
   TextArea,
   UserExperienceCard,
 } from "@eden/package-ui";
 import { STEPS } from "@eden/package-ui/utils/enums/fill-profile-steps";
+import { forEach, isEmpty, map } from "lodash";
 import {
   Dispatch,
   SetStateAction,
@@ -34,6 +47,14 @@ export interface IFillUserProfileContainerProps {
   setExperienceOpen?: (val: number | null) => void;
 }
 
+const ADD_NODES_MEMBER = gql`
+  mutation ($fields: addNodesToMemberInput!) {
+    addNodesToMember(fields: $fields) {
+      _id
+    }
+  }
+`;
+
 export const FillUserProfileContainer = ({
   step,
   state,
@@ -47,9 +68,32 @@ export const FillUserProfileContainer = ({
   //   const [salaries, setSalaries] = useState<number[]>([]);
   const [submitting, setSubmitting] = useState(false);
 
+  const [addNodes, {}] = useMutation(ADD_NODES_MEMBER, {
+    onCompleted({ addNodesToProjectRole }: Mutation) {
+      if (!addNodesToProjectRole) console.log("addNodesToProjectRole is null");
+      console.log("addNodesToProjectRole", addNodesToProjectRole);
+    },
+    onError(error) {
+      console.log(error);
+    },
+  });
+
   const [updateMember] = useMutation(UPDATE_MEMBER, {
     onError: () => {
       setSubmitting(false);
+    },
+    onCompleted({ updateMember }: Mutation) {
+      if (!updateMember) console.log("updateMember is null");
+      console.log("updateMember", updateMember);
+      // router.push(`/${router.query.from}?project=${updateMember?._id}`);
+      addNodes({
+        variables: {
+          fields: {
+            nodesID: state?.nodes?.map((node) => node?.nodeData?._id),
+            memberID: currentUser?._id,
+          },
+        },
+      });
     },
   });
 
@@ -78,6 +122,13 @@ export const FillUserProfileContainer = ({
     setState({
       ...state,
       previusProjects: value,
+    });
+  };
+
+  const handleSetNodes = () => {
+    setState({
+      ...state,
+      nodes: selectedNodes,
     });
   };
 
@@ -135,6 +186,7 @@ export const FillUserProfileContainer = ({
         signup: true,
         percentage: percentage,
       },
+      // nodes: state?.nodes?.map((node) => node?.nodeData?._id),
     };
 
     updateMember({
@@ -144,6 +196,42 @@ export const FillUserProfileContainer = ({
       context: { serviceName: "soilservice" },
     });
   };
+
+  const [selectedItems, setSelectedItems] = useState<{
+    [key: string]: Node[];
+  }>({});
+  const [selectedNodes, setSelectedNodes] = useState<NodesType[]>([]);
+
+  const { data: dataNodes } = useQuery(FIND_NODES, {
+    variables: {
+      fields: {
+        node: "expertise",
+      },
+    },
+    context: { serviceName: "soilservice" },
+  });
+
+  useEffect(() => {
+    if (selectedItems) {
+      const selectedNodeArr: NodesType[] = [];
+
+      forEach(selectedItems, (el) => {
+        if (!isEmpty(el)) {
+          forEach(el, (item) => {
+            selectedNodeArr.push({
+              nodeData: { ...item, node: "sub_expertise" },
+            } as NodesType);
+          });
+        }
+      });
+
+      setSelectedNodes(selectedNodeArr);
+    }
+  }, [selectedItems]);
+
+  useEffect(() => {
+    handleSetNodes();
+  }, [selectedNodes]);
 
   return (
     <Card className="bg-white p-4">
@@ -192,6 +280,30 @@ export const FillUserProfileContainer = ({
             )}
             {step === STEPS.BIO && (
               <>
+                <p>{`Add your expertise:`}</p>
+                <div className="mb-8 mt-4 flex h-24 w-full flex-wrap justify-center gap-2">
+                  {dataNodes?.findNodes ? (
+                    <>
+                      {!isEmpty(dataNodes?.findNodes) &&
+                        map(dataNodes?.findNodes, (item: any, key: number) => (
+                          <SelectBoxNode
+                            multiple
+                            key={key}
+                            caption={item?.name}
+                            items={item?.subNodes}
+                            onChange={(val) => {
+                              setSelectedItems((prevState) => ({
+                                ...prevState,
+                                [item?._id]: val,
+                              }));
+                            }}
+                          />
+                        ))}
+                    </>
+                  ) : (
+                    <Loading />
+                  )}
+                </div>
                 <p>{`Please write a short bio!`}</p>
                 <TextArea
                   onChange={(e) => {
