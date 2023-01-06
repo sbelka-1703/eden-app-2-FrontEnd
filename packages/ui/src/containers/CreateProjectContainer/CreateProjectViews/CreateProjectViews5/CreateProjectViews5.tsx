@@ -4,11 +4,10 @@ import {
   Card,
   SwitchButton,
   TextArea,
+  TextField,
   TextHeading3,
 } from "@eden/package-ui";
 import { useReducer, useState } from "react";
-
-import { TextField } from "../../../elements";
 
 interface ProjectData {
   description: string;
