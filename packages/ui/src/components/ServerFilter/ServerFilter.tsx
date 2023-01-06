@@ -81,7 +81,7 @@ export const ServerFilter = ({}: IServerFilterProps) => {
                 className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
               />
             </div>
-            <div className="ml-4 text-md">
+            <div className="text-md ml-4">
               <label
                 htmlFor="all-servers"
                 className="font-semibold text-gray-800"
@@ -92,7 +92,7 @@ export const ServerFilter = ({}: IServerFilterProps) => {
           </div>
           {memberServers?.map((server, index) => (
             <div key={index} className="relative flex items-start">
-              <div className="flex h-5 items-center my-auto">
+              <div className="my-auto flex h-5 items-center">
                 <input
                   id={server.name || ""}
                   aria-describedby="comments-description"
@@ -110,7 +110,7 @@ export const ServerFilter = ({}: IServerFilterProps) => {
                   src={server?.serverAvatar || ""}
                 />
               </div>
-              <div className="ml-3 text-sm my-auto">
+              <div className="my-auto ml-3 text-sm">
                 <label
                   htmlFor={server?.name || ""}
                   className="font-medium text-gray-700"

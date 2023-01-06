@@ -68,7 +68,7 @@ export const ViewUserProfileContainer = ({
         <div className={`grid grid-cols-1 gap-4 md:grid-cols-2`}>
           <div
             className={`flex flex-col ${
-              step !== STEPS.EXPERTISE ? "blur-sm" : ""
+              step !== STEPS.EXPERTISE && step !== STEPS.BIO ? "blur-sm" : ""
             }`}
           >
             <NodeList

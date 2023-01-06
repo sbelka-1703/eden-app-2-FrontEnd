@@ -48,10 +48,10 @@ export const MemberInfo = ({
               {member?.bio}
             </p>
           ) : (
-            <div className="animate-pulse flex space-x-4 w-full">
+            <div className="flex w-full animate-pulse space-x-4">
               <div className="flex-1 space-y-2 py-1">
-                <div className="h-3 bg-slate-200 rounded"></div>
-                <div className="h-3 bg-slate-200 rounded"></div>
+                <div className="h-3 rounded bg-slate-200"></div>
+                <div className="h-3 rounded bg-slate-200"></div>
               </div>
             </div>
           )}
