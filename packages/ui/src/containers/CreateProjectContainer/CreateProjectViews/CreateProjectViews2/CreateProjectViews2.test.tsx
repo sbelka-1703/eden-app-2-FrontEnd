@@ -1,21 +1,24 @@
 import { render } from "@testing-library/react";
 
-import { CreateProjectViews6 } from ".";
+import { CreateProjectViews2 } from ".";
 
-describe("CreateProjectViews6", () => {
+describe("CreateProjectViews2", () => {
   it("renders without throwing", () => {
     const { container } = render(
-      <CreateProjectViews6
+      <CreateProjectViews2
         onBack={function (): void {
           throw new Error("Function not implemented.");
         }}
-        onNext={function (): void {
+        battery={2}
+        setBattery={function (): void {
           throw new Error("Function not implemented.");
         }}
-        onLaunch={function (): void {
+        onNext={function (data): void {
+          console.info({ data });
           throw new Error("Function not implemented.");
         }}
-        onNewPosition={function (): void {
+        setProject={function (data): void {
+          console.info({ data });
           throw new Error("Function not implemented.");
         }}
       />

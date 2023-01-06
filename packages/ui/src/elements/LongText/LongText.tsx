@@ -10,6 +10,7 @@ export interface LongTextProps {
 export const LongText = ({ text, className, cutText = 50 }: LongTextProps) => {
   const [showAll, setShowAll] = useState(false);
 
+  if (!text) return null;
   return (
     <p className={className}>
       {text.slice(0, cutText)}

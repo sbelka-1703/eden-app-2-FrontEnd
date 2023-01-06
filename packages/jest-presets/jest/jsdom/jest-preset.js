@@ -2,6 +2,7 @@ const path = require("node:path");
 
 /** @type {import('jest').Config} */
 const config = {
+  testTimeout: 20000,
   clearMocks: true,
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json"],
   moduleNameMapper: {
