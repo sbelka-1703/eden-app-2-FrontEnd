@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
-import { FIND_PROJECT, MATCH_NODES_MEMBERS_LITE } from "@eden/package-graphql";
+import { FIND_PROJECT, MATCH_NODES_MEMBERS } from "@eden/package-graphql";
 import { NodesType, Project } from "@eden/package-graphql/generated";
 import {
   AppUserSubmenuLayout,
@@ -47,7 +47,7 @@ const ProjectPage: NextPageWithLayout = () => {
     dataProject?.findProject?.role[0]
   );
 
-  const { data: matchingMembers } = useQuery(MATCH_NODES_MEMBERS_LITE, {
+  const { data: matchingMembers } = useQuery(MATCH_NODES_MEMBERS, {
     variables: {
       fields: {
         nodesID: selectedRole?.nodes.map(
@@ -110,9 +110,7 @@ const ProjectPage: NextPageWithLayout = () => {
             <Card shadow className={"h-85 bg-white"}>
               <ViewProjectContainer
                 step={step}
-                project={{
-                  ...project,
-                }}
+                project={project}
                 roleIndex={roleIndex}
                 onSetRoleIndex={setRoleIndex}
               />
