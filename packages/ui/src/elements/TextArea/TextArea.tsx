@@ -72,7 +72,6 @@ export const TextArea: React.FC<TextAreaProps> = ({
           maxLength={maxLength}
           className={`${inputCls} focus:border-accentColor focus:ring-soilGreen-500 block w-full resize-none border border-zinc-400/50 py-1 px-2 text-base focus:outline-transparent focus:ring focus:ring-opacity-50`}
           style={{
-            boxShadow: "0px 1px 4px rgba(0, 0, 0, 0.15)",
             ...customStyle,
           }}
         />

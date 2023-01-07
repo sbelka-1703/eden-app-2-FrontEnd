@@ -14,8 +14,8 @@ const Template: ComponentStory<typeof TextField> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  label: "label",
   name: "textfield",
+  label: "label",
   type: "text",
   required: false,
   placeholder: "placeholder",
