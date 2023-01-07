@@ -222,6 +222,7 @@ export type Mutation = {
   updateMemberInRoom?: Maybe<Members>;
   updateMessage?: Maybe<Ai>;
   updateNodesToMember?: Maybe<Members>;
+  updateNodesToProjectRole?: Maybe<Project>;
   updateProject?: Maybe<Project>;
   updateRoleTemplate?: Maybe<RoleTemplate>;
   updateServer?: Maybe<ServerTemplate>;
@@ -412,6 +413,10 @@ export type MutationUpdateMessageArgs = {
 
 export type MutationUpdateNodesToMemberArgs = {
   fields: UpdateNodesToMemberInput;
+};
+
+export type MutationUpdateNodesToProjectRoleArgs = {
+  fields: UpdateNodesToProjectRoleInput;
 };
 
 export type MutationUpdateProjectArgs = {
@@ -2058,6 +2063,12 @@ export type UpdateNodesToMemberInput = {
   memberID?: InputMaybe<Scalars["ID"]>;
   nodeType?: InputMaybe<Scalars["String"]>;
   nodesID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type UpdateNodesToProjectRoleInput = {
+  nodeType?: InputMaybe<Scalars["String"]>;
+  nodesID?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  projectRoleID?: InputMaybe<Scalars["ID"]>;
 };
 
 export type UpdateProjectInput = {
