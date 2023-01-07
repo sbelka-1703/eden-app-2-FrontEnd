@@ -1,4 +1,4 @@
-import { Project, RoleType } from "@eden/package-graphql/generated";
+import { Node, Project, RoleType } from "@eden/package-graphql/generated";
 import {
   BatteryStepper,
   Button,
@@ -11,18 +11,25 @@ import {
   TextHeading3,
   ToggleElement,
 } from "@eden/package-ui";
-import { isEmpty, map } from "lodash";
+import { forEach, isEmpty, map } from "lodash";
 import {
-  // Dispatch,
-  // SetStateAction,
+  Dispatch,
+  SetStateAction,
   useEffect,
   useReducer,
-  // useState,
+  useState,
 } from "react";
 import { toast } from "react-toastify";
 const initialState: RoleType = {
   title: "",
+  shortDescription: "",
   description: "",
+  benefits: [],
+  expectations: [],
+  nodes: [],
+  openPositions: 0,
+  hoursPerWeek: 0,
+  ratePerHour: 0,
 };
 
 function reducer(state: RoleType, action: any): RoleType {
@@ -32,6 +39,31 @@ function reducer(state: RoleType, action: any): RoleType {
         ...state,
         [action.field]: action.payload.value,
       };
+    case "HANDLE EXPECTATIONS":
+      return {
+        ...state,
+        expectations: state.expectations
+          ? [
+              ...state.expectations.slice(0, action.payload.index),
+              action.payload.value,
+              ...state.expectations.slice(action.payload.index + 1),
+            ]
+          : [action.payload.value],
+      };
+    case "HANDLE BENEFITS":
+      return {
+        ...state,
+        benefits: state.benefits
+          ? [
+              ...state.benefits.slice(0, action.payload.index),
+              action.payload.value,
+              ...state.benefits.slice(action.payload.index + 1),
+            ]
+          : [action.payload.value],
+      };
+    case "HANDLE CHANGE ROLE":
+      state = action.payload.value;
+      return state;
     default:
       return state;
   }
@@ -40,16 +72,13 @@ function reducer(state: RoleType, action: any): RoleType {
 export interface CreateProjectViews7Props {
   expertise?: any[];
   battery: number;
-  // eslint-disable-next-line no-unused-vars
-  setBattery: (level: number) => void;
-  onBack: () => void;
-  // eslint-disable-next-line no-unused-vars
-  onNext: (data: RoleType) => void;
-  // eslint-disable-next-line no-unused-vars
-  onChange: (data: RoleType) => void;
-  // setProject: Dispatch<SetStateAction<any>>;
+  setBattery: Dispatch<SetStateAction<number>>;
+  onBack: Dispatch<SetStateAction<RoleType>>;
+  onNext: Dispatch<SetStateAction<RoleType>>;
+  onChange: Dispatch<SetStateAction<RoleType>>;
   project?: Project;
-  roleIndex?: number;
+  setProject: Dispatch<SetStateAction<Project>>;
+  roleIndex: number;
 }
 
 export const CreateProjectViews7 = ({
@@ -59,30 +88,86 @@ export const CreateProjectViews7 = ({
   onNext,
   onChange,
   expertise = [],
-}: // setProject,
-// project,
-CreateProjectViews7Props) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  // const [projectRole, setProjectRole] = useState<any>([]);
-  // const [showRoleForm, setShowRoleForm] = useState<boolean>(false);
+  project,
+  // setProject,
+  roleIndex,
+}: CreateProjectViews7Props) => {
+  const [state, dispatch] = useReducer(
+    reducer,
+    project?.role?.[roleIndex] || initialState
+  );
 
-  // const roleIndex = 0;
-  // const nextDisabled = !state.title || !state.shortDescription;
-  // const [firstRoleIndex, setFirstRoleIndex] = useState(
-  //   roleIndex ? roleIndex - 1 : 0
-  // );
+  const numInList = ["", "", "", ""];
+  const [selectedItems, setSelectedItems] = useState<{
+    [key: string]: Node[];
+  }>({});
+  const [selectedNodes, setSelectedNodes] = useState<string[] | null>(null);
 
-  // useEffect(() => {
-  //   if (project?.role) {
-  //     setProjectRole(project?.role);
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (selectedItems) {
+      const selectedNodeId: string[] = [];
+
+      forEach(selectedItems, (el) => {
+        if (!isEmpty(el)) {
+          forEach(el, (item) => {
+            // console.log("item", item);
+            selectedNodeId.push(item?._id as string);
+          });
+        }
+      });
+      setSelectedNodes(selectedNodeId);
+    }
+  }, [selectedItems]);
+
+  useEffect(() => {
+    if (selectedNodes) handleUpdateState(selectedNodes, "nodes");
+  }, [selectedItems]);
+
+  useEffect(() => {
+    // if roleIndex change, update state
+    dispatch({
+      type: "HANDLE CHANGE ROLE",
+      payload: {
+        value: project?.role?.[roleIndex],
+      },
+    });
+  }, [roleIndex]);
 
   useEffect(() => {
     if (state) {
       onChange(state);
     }
   }, [state]);
+
+  const handleUpdateExpectations = async (
+    value: any,
+    field: string,
+    index: number
+  ) => {
+    dispatch({
+      type: "HANDLE EXPECTATIONS",
+      field: field,
+      payload: {
+        index,
+        value,
+      },
+    });
+  };
+
+  const handleUpdateBenefits = async (
+    value: any,
+    field: string,
+    index: number
+  ) => {
+    dispatch({
+      type: "HANDLE BENEFITS",
+      field: field,
+      payload: {
+        index,
+        value,
+      },
+    });
+  };
 
   const handleUpdateState = async (value: any, field: string) => {
     dispatch({
@@ -92,87 +177,10 @@ CreateProjectViews7Props) => {
         value,
       },
     });
-
-    // if (field == "title") {
-    //   if (value.length > 0) {
-    //     setShowRoleForm(true);
-    //   }
-    //   const roleData: RoleType = {
-    //     title: value,
-    //   };
-
-    //   const newRole = [...projectRole];
-
-    //   newRole[roleIndex] = roleData;
-    //   roleIndex = newRole
-    //     ? newRole.findIndex((obj: any) => obj?.title == value)
-    //     : 0;
-    //   setProjectRole(newRole);
-    // }
-
-    // if (field == "shortDescription") {
-    //   const newRole = [...projectRole];
-
-    //   if (newRole[roleIndex]) {
-    //     newRole[roleIndex].shortDescription = value;
-    //     setProjectRole(newRole);
-    //   }
-    // }
-    // if (field == "description") {
-    //   const newRole = [...projectRole];
-
-    //   if (newRole[roleIndex]) {
-    //     newRole[roleIndex].description = value;
-    //     setProjectRole(newRole);
-    //   }
-    // }
-    // if (field == "expectations") {
-    //   const newRole = [...projectRole];
-    //   const expArray = value.split(" ");
-
-    //   if (newRole[roleIndex]) {
-    //     newRole[roleIndex].expectations = expArray;
-    //     setProjectRole(newRole);
-    //   }
-    // }
-    // if (field == "benefits") {
-    //   const newRole = [...projectRole];
-    //   const benArray = value.split(" ");
-
-    //   if (newRole[roleIndex]) {
-    //     newRole[roleIndex].benefits = benArray;
-    //     setProjectRole(newRole);
-    //   }
-    // }
-    // if (field == "hoursPerWeek") {
-    //   const newRole = [...projectRole];
-
-    //   if (newRole[roleIndex]) {
-    //     newRole[roleIndex].hoursPerWeek = value;
-    //     setProjectRole(newRole);
-    //   }
-    // }
-    // if (field == "rate") {
-    //   const newRole = [...projectRole];
-
-    //   if (newRole[roleIndex]) {
-    //     newRole[roleIndex].ratePerHour = value;
-    //     setProjectRole(newRole);
-    //   }
-    // }
-    // if (field == "openPositions") {
-    //   const newRole = [...projectRole];
-
-    //   if (newRole[roleIndex]) {
-    //     newRole[roleIndex].openPositions = value;
-    //     setProjectRole(newRole);
-    //   }
-    // }
-    //   if (!nextDisabled) {
   };
 
   const handleNext = (value: any) => {
-    // handleSetProject(value);
+    // console.log("handleNext", value);
     if (!!!state.title) {
       toast.error("Missing Role Name");
     }
@@ -184,48 +192,41 @@ CreateProjectViews7Props) => {
   };
 
   return (
-    <Card shadow className="bg-white pt-3 pb-6">
-      <div className="px-5">
-        <div>
-          <TextHeading3>Complete your project:</TextHeading3>
+    <Card className={`pb-6 scrollbar-hide overflow-y-scroll h-85`}>
+      <div className={``}>
+        <div className="mb-4 flex items-center justify-between bg-green-100 p-7">
+          {/* <div>
+            <TextHeading3>Complete your project:</TextHeading3>
+          </div> */}
+          <div className={`space-y-4`}>
+            <TextHeading3>Complete your project:</TextHeading3>
+            <TextHeading3>
+              Find members of Eden 🌱 Network for your project.
+            </TextHeading3>
+          </div>
+          <div>
+            <BatteryStepper size="sm" batteryPercentage={battery} />
+          </div>
         </div>
-        <div className="flex flex-row items-end justify-between">
-          <TextHeading3>
-            Find members of Eden 🌱 Network for your project.
-          </TextHeading3>
-          <BatteryStepper size="sm" batteryPercentage={battery} />
-        </div>
-        <div>
+        <div className={`px-7`}>
           <div className="mb-3 mt-3">
             <div>
               <div className="mb-3">
                 <div className="mt-3 w-4/6">
                   <br />
-                  <div>
-                    <p className="text-sm font-normal">
-                      {`What role are you looking to fill`}
-                    </p>
-                  </div>
-                  {/* <div className="w-2/4">
-                    <RoleSelector
-                      // value={currentUser?.memberRole?.title || ""}
-                      roles={dataRoles?.findRoleTemplates}
-                      // onSelect={(e) => setRole(e?._id as string)}
-                    />
-                  </div> */}
                   <div className="mb-3">
                     <TextField
-                      // value={state.name}
+                      label={`What role are you looking to fill:`}
+                      value={state?.title || ""}
                       placeholder="Start typing here..."
                       onChange={(e) => {
                         handleUpdateState(e.target.value, "title");
                         setBattery(battery < 20 ? battery + 10 : battery);
-                        // setBattery(battery ? battery : 10 + 10);
                       }}
                     />
                   </div>
                 </div>
-                {state.title && (
+                {state?.title && (
                   <>
                     <div className="mt-3">
                       <div>
@@ -245,7 +246,10 @@ CreateProjectViews7Props) => {
                                 setBattery(
                                   battery < 99 ? battery + 10 : battery
                                 );
-                                handleUpdateState(val, "nodes");
+                                setSelectedItems((prevState) => ({
+                                  ...prevState,
+                                  [item?._id]: val,
+                                }));
                               }}
                             />
                           ))}
@@ -253,12 +257,9 @@ CreateProjectViews7Props) => {
                     </div>
                     <div className="mt-3">
                       <div>
-                        <p className="text-sm font-normal">
-                          {`Write a short one-liner to explain the role:`}
-                        </p>
-                      </div>
-                      <div>
                         <TextArea
+                          label={`Write a short one-line discription of the role:`}
+                          value={state?.shortDescription || ""}
                           onChange={(e) => {
                             handleUpdateState(
                               e.target.value,
@@ -278,7 +279,7 @@ CreateProjectViews7Props) => {
                       title="Write a description of this role:"
                     >
                       <TextArea
-                        // value={state.description}
+                        value={state?.description || ""}
                         onChange={(e) => {
                           handleUpdateState(e.target.value, "description");
                         }}
@@ -289,30 +290,44 @@ CreateProjectViews7Props) => {
                     <ToggleElement
                       isOptional
                       className="my-4"
-                      title="What are the expectations for this role? (space seprated)"
+                      title="What are the expectations for this role?"
                     >
-                      <TextArea
-                        // value={state.description}
-                        onChange={(e) => {
-                          handleUpdateState(e.target.value, "expectations");
-                        }}
-                        rows={3}
-                        placeholder="Start typing here..."
-                      />
+                      {numInList.map((v, i) => (
+                        <div key={i} className={`flex py-1 mx-4`}>
+                          <li className={`my-auto`} />
+                          <TextField
+                            value={state?.expectations?.[i] || ""}
+                            onChange={(e) => {
+                              handleUpdateExpectations(
+                                e.target.value,
+                                "expectations",
+                                i
+                              );
+                            }}
+                          />
+                        </div>
+                      ))}
                     </ToggleElement>
                     <ToggleElement
                       isOptional
                       className="my-4"
-                      title="What are the benfits of this role? (space seprated)"
+                      title="What are the benfits of this role?"
                     >
-                      <TextArea
-                        // value={state.benefits}
-                        onChange={(e) => {
-                          handleUpdateState(e.target.value, "benefits");
-                        }}
-                        placeholder="Start typing here..."
-                        rows={3}
-                      />
+                      {numInList.map((v, i) => (
+                        <div key={i} className={`flex py-1 mx-4`}>
+                          <li className={`my-auto`} />
+                          <TextField
+                            value={state?.benefits?.[i] || ""}
+                            onChange={(e) => {
+                              handleUpdateBenefits(
+                                e.target.value,
+                                "benefits",
+                                i
+                              );
+                            }}
+                          />
+                        </div>
+                      ))}
                     </ToggleElement>
                     <GridLayout className="bg-white">
                       <GridItemFour>
@@ -327,7 +342,7 @@ CreateProjectViews7Props) => {
                           <div className="w-20">
                             <TextField
                               type="number"
-                              // value={state.hoursPerWeek}
+                              value={state?.hoursPerWeek || 0}
                               onChange={(e) => {
                                 handleUpdateState(
                                   +e.target.value,
@@ -352,7 +367,7 @@ CreateProjectViews7Props) => {
                             <TextField
                               name="ratePerHour"
                               type="number"
-                              // value={state.ratePerHour}
+                              value={state?.ratePerHour || 0}
                               onChange={(e) => {
                                 handleUpdateState(
                                   +e.target.value,
@@ -377,7 +392,7 @@ CreateProjectViews7Props) => {
                             <TextField
                               name="positions"
                               type="number"
-                              // value={state.positions}
+                              value={state?.openPositions || 0}
                               onChange={(e) => {
                                 handleUpdateState(
                                   +e.target.value,
@@ -397,17 +412,14 @@ CreateProjectViews7Props) => {
           </div>
 
           <div className="mt-3 flex justify-between">
-            <Button variant="secondary" onClick={onBack}>
+            <Button variant="secondary" onClick={() => onBack(state)}>
               Back
             </Button>
             <Button
               variant="secondary"
               onClick={() => {
-                // handleSetProject();
-                // onNext(state);
                 handleNext(state);
               }}
-              // disabled={nextDisabled}
             >
               Next
             </Button>

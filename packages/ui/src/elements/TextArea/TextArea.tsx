@@ -6,6 +6,7 @@ export type TextAreaProps = {
   name?: string;
   label?: string;
   value?: string;
+  defaultValue?: string;
   required?: boolean;
   rows?: number;
   maxLength?: number;
@@ -20,6 +21,7 @@ export const TextArea: React.FC<TextAreaProps> = ({
   name,
   label,
   value,
+  defaultValue,
   required,
   autoComplete,
   placeholder,
@@ -58,7 +60,8 @@ export const TextArea: React.FC<TextAreaProps> = ({
         <textarea
           id={name}
           name={name}
-          defaultValue={value}
+          defaultValue={defaultValue}
+          value={value}
           rows={rows}
           required={required}
           autoComplete={autoComplete}

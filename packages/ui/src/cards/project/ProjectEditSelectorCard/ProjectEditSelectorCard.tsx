@@ -6,6 +6,7 @@ import {
   EmojiSelector,
   ProgressBar,
   RoleSmallCard,
+  ServerFilter,
 } from "@eden/package-ui";
 import { ChevronLeftIcon } from "@heroicons/react/outline";
 import { differenceInBusinessDays, format } from "date-fns";
@@ -108,7 +109,6 @@ export const ProjectEditSelectorCard = ({
             <RoleSmallCard
               role={data}
               isSelected={selectedRole?._id === data?._id}
-              // skills={role?.skills ? role.skills : []}
               onClick={() => {
                 onSelectRole(data);
               }}
@@ -116,6 +116,9 @@ export const ProjectEditSelectorCard = ({
           </div>
         ))}
       </div>
+      <hr className="my-2 text-slate-300" />
+      <ServerFilter />
+      <hr className="my-2 text-slate-300" />
     </Card>
   );
 };

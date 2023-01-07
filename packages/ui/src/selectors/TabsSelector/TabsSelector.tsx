@@ -1,7 +1,9 @@
+import { NumberCircle } from "@eden/package-ui";
 import { useState } from "react";
 
 export interface TabsSelectorProps {
   tabs: string[];
+  tabNumber?: number[];
   selectedTab?: number;
   // eslint-disable-next-line no-unused-vars
   onSelect: (val: number) => void;
@@ -9,6 +11,7 @@ export interface TabsSelectorProps {
 
 export const TabsSelector = ({
   tabs,
+  tabNumber,
   onSelect,
   selectedTab = 0,
 }: TabsSelectorProps) => {
@@ -105,7 +108,12 @@ export const TabsSelector = ({
               key={index}
               onClick={() => handleTabClick(index)}
             >
-              <span>{tab}</span>
+              <span className={`flex justify-center`}>
+                {tab}
+                <span className={`pl-3 my-auto`}>
+                  <NumberCircle value={tabNumber ? tabNumber[index] : 0} />
+                </span>
+              </span>
             </button>
             {index != maxIndex && index != currentTab - 1 && (
               <button

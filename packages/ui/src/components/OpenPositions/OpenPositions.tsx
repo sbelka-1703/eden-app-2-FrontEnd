@@ -10,6 +10,7 @@ import {
   Button,
   CardGrid,
   Loading,
+  LongText,
   OpenPositionCard,
   TabsSelector,
 } from "@eden/package-ui";
@@ -182,11 +183,15 @@ const PositionExpanded = ({
                   <div className="text-xl	font-medium	tracking-wide	">
                     {activeItem?.projectRole?.title}
                   </div>
-                  <div className="text-soilGray/100	text-sm font-semibold	tracking-wide">
-                    {activeItem?.projectRole?.shortDescription}
-                  </div>
-                  <div className="text-soilGray/90	text-sm font-normal	tracking-wide">
-                    {activeItem?.projectRole?.description}
+                  <div className={``}>
+                    <LongText
+                      cutText={100}
+                      text={
+                        (activeItem?.projectRole?.shortDescription as string) ||
+                        ""
+                      }
+                      className={`text-soilGray/100	text-sm font-semibold	tracking-wide`}
+                    />
                   </div>
                   <div>
                     {activeItem?.projectRole?.nodes &&
@@ -254,8 +259,12 @@ const PositionExpanded = ({
               <div className="text-soilGray/100 font-medium uppercase tracking-wide">
                 📃 Description Of the role
               </div>
-              <div className="p-1 text-sm">
-                {activeItem?.projectRole?.description}
+              <div className="p-1">
+                <LongText
+                  cutText={250}
+                  text={(activeItem?.projectRole?.description as string) || ""}
+                  className={`text-darkGreen font-Inter my-2 text-sm tracking-wide`}
+                />
               </div>
             </div>
             <div className="mb-3 flex flex-row justify-between">

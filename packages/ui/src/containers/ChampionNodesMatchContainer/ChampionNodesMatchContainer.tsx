@@ -24,7 +24,7 @@ export const ChampionNodesMatchContainer = ({
   matchingMembers,
 }: IChampionNodesMatchContainerProps) => {
   const [activeTab, setActiveTab] = useState(0);
-  const tabs = ["New Match", "Applied", "Invited", "Accepted", "Rejected"];
+  const tabs: string[] = ["New Match", "Applied", "Invited"];
 
   const AppliedMembers = project?.team?.filter((mem) => {
     return (
@@ -32,6 +32,7 @@ export const ChampionNodesMatchContainer = ({
       (mem.roleID ? mem.roleID == selectedRole?._id : true)
     );
   });
+
   const InvitedMembers = project?.team?.filter((mem) => {
     return (
       mem?.phase == "invited" &&
@@ -44,6 +45,9 @@ export const ChampionNodesMatchContainer = ({
       (mem.roleID ? mem.roleID == selectedRole?._id : true)
     );
   });
+
+  if (AcceptedMembers && AcceptedMembers?.length > 0) tabs.push("Accepted");
+
   const RejectedMembers = project?.team?.filter((mem) => {
     return (
       mem?.phase == "rejected" &&
@@ -51,12 +55,21 @@ export const ChampionNodesMatchContainer = ({
     );
   });
 
-  // console.log("matchingMembers", matchingMembers);
+  if (RejectedMembers && RejectedMembers?.length > 0) tabs.push("Rejected");
+
+  const tabNumber: number[] = [
+    0,
+    AppliedMembers?.length || 0,
+    InvitedMembers?.length || 0,
+    AcceptedMembers?.length || 0,
+    RejectedMembers?.length || 0,
+  ];
 
   return (
     <div className="m-2 rounded-xl">
       <TabsSelector
         tabs={tabs}
+        tabNumber={tabNumber}
         onSelect={(val) => {
           setActiveTab(val);
         }}
