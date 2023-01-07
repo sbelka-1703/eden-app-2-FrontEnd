@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import "./style.css";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 export interface TreeStructCompProps {
   tree?: any;
   color?: any;
@@ -10,10 +10,16 @@ export const TreeStructComp: React.FC<TreeStructCompProps> = ({
   tree,
   color,
 }) => {
+  const [showAll, setShowAll] = useState(false);
+
   return (
     <>
       <ul className="tree">
-        <div>
+        <div
+          onClick={() => {
+            setShowAll(!showAll);
+          }}
+        >
           <div
             className="mr-2 mb-1 inline-block cursor-default rounded-full px-4 py-2"
             style={{ background: `${color?.top}` }}
@@ -25,7 +31,13 @@ export const TreeStructComp: React.FC<TreeStructCompProps> = ({
         <li>
           <ul>
             {tree?.middle?.map((middle: any, index: number) => (
-              <MiddleTreeComp key={index} middle={middle} color={color} />
+              <MiddleTreeComp
+                key={index}
+                middle={middle}
+                color={color}
+                showAll={showAll}
+                index={index}
+              />
             ))}
           </ul>
         </li>
@@ -34,8 +46,18 @@ export const TreeStructComp: React.FC<TreeStructCompProps> = ({
   );
 };
 
-const MiddleTreeComp: React.FC<any> = ({ middle, color }) => {
+const MiddleTreeComp: React.FC<any> = ({ middle, color, showAll, index }) => {
   const [showMiddle, setShowMiddle] = useState(false);
+
+  useEffect(() => {
+    console.log("showAll", showAll);
+    if (index == 0) {
+      setShowMiddle(showAll);
+    }
+    if (!showAll) {
+      setShowMiddle(false);
+    }
+  }, [showAll]);
 
   return (
     <>
