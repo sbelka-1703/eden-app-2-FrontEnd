@@ -76,7 +76,6 @@ export interface CreateProjectViews7Props {
   onBack: Dispatch<SetStateAction<RoleType>>;
   onNext: Dispatch<SetStateAction<RoleType>>;
   onChange: Dispatch<SetStateAction<RoleType>>;
-  // setProject: Dispatch<SetStateAction<any>>;
   project?: Project;
   setProject: Dispatch<SetStateAction<Project>>;
   roleIndex: number;
@@ -111,7 +110,7 @@ export const CreateProjectViews7 = ({
       forEach(selectedItems, (el) => {
         if (!isEmpty(el)) {
           forEach(el, (item) => {
-            console.log("item", item);
+            // console.log("item", item);
             selectedNodeId.push(item?._id as string);
           });
         }
@@ -171,7 +170,6 @@ export const CreateProjectViews7 = ({
   };
 
   const handleUpdateState = async (value: any, field: string) => {
-    console.log("handleUpdateState", value, field);
     dispatch({
       type: "HANDLE INPUT",
       field: field,

@@ -1,5 +1,4 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
-import { UserContext } from "@eden/package-context";
 import { FIND_NODES } from "@eden/package-graphql";
 import {
   Maybe,
@@ -15,8 +14,10 @@ import {
   CreateProjectViews7,
   Loading,
 } from "@eden/package-ui";
+import { PROJECT_STEPS } from "@eden/package-ui/utils/enums/fill-project-steps";
 import { useRouter } from "next/router";
-import { Dispatch, SetStateAction, useContext, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
+import { toast } from "react-toastify";
 
 const ADD_NODES_PROJECT_ROLE = gql`
   mutation ($fields: addNodesToProjectRoleInput!) {
@@ -26,7 +27,19 @@ const ADD_NODES_PROJECT_ROLE = gql`
   }
 `;
 
-const LAUNCH_PROJECT = gql`
+const CREATE_PROJECT = gql`
+  mutation ($fields: createProjectInput) {
+    createProject(fields: $fields) {
+      _id
+      title
+      role {
+        _id
+      }
+    }
+  }
+`;
+
+const UPDATE_PROJECT = gql`
   mutation ($fields: updateProjectInput!) {
     updateProject(fields: $fields) {
       _id
@@ -38,28 +51,12 @@ const LAUNCH_PROJECT = gql`
   }
 `;
 
-// const CREATE_PROJECT = gql`
-//   mutation ($fields: createProjectInput) {
-//     createProject(fields: $fields) {
-//       _id
-//       title
-//       role {
-//         _id
-//       }
-//     }
-//   }
-// `;
-
-import { PROJECT_STEPS } from "@eden/package-ui/utils/enums/fill-project-steps";
-
 export interface ICreateProjectContainerProps {
   state?: Project;
   setState: Dispatch<SetStateAction<any>>;
   step?: string | undefined;
   setStep: Dispatch<SetStateAction<PROJECT_STEPS>>;
-  setView?: Dispatch<SetStateAction<"grants" | "profile">>;
-  // eslint-disable-next-line no-unused-vars
-  // onRoleChange?: (role: RoleType) => void;
+  setView?: Dispatch<SetStateAction<"main" | "project">>;
   roleIndex: number;
   onSetRoleIndex: Dispatch<SetStateAction<number>>;
 }
@@ -69,13 +66,11 @@ export const CreateProjectContainer = ({
   setState,
   step,
   setStep,
-  // setView,
-  // onRoleChange,
+  setView,
   roleIndex,
   onSetRoleIndex,
 }: ICreateProjectContainerProps) => {
   const router = useRouter();
-  const { currentUser } = useContext(UserContext);
   const [submitting, setSubmitting] = useState<boolean>(false);
 
   const [battery, setBattery] = useState(5);
@@ -83,38 +78,72 @@ export const CreateProjectContainer = ({
   const [addNodes, {}] = useMutation(ADD_NODES_PROJECT_ROLE, {
     onCompleted({ addNodesToProjectRole }: Mutation) {
       if (!addNodesToProjectRole) console.log("addNodesToProjectRole is null");
-      // console.log("addNodesToProjectRole", addNodesToProjectRole);
+      console.log("addNodesToProjectRole", addNodesToProjectRole);
       if (router.query.from)
         router.push(
           `/${router.query.from}?project=${addNodesToProjectRole?._id}`
         );
-      else setSubmitting(false);
+      else {
+        // setSubmitting(false);
+        setView && setView("main");
+        router.push(`/champion-board/recruit/${addNodesToProjectRole?._id}`);
+      }
     },
     onError(error) {
+      setSubmitting(false);
+      toast.error(error.message);
       console.log(error);
     },
   });
 
-  // eslint-disable-next-line no-unused-vars
-  const [updateProject, {}] = useMutation(LAUNCH_PROJECT, {
-    onCompleted({ updateProject }: Mutation) {
+  const [createProject, {}] = useMutation(CREATE_PROJECT, {
+    onCompleted({ createProject }: Mutation) {
       setSubmitting(false);
-      if (!updateProject) console.log("updateProject is null");
-      // console.log("updateProject", updateProject);
-      // console.log("state", state);
-      updateProject?.role?.forEach((_role: Maybe<RoleType>, index: number) => {
+      if (!createProject) console.log("createProject is null");
+      createProject?.role?.forEach((_role: Maybe<RoleType>, index: number) => {
         addNodes({
           variables: {
             fields: {
-              nodesID: state?.role ? state?.role[index]?.nodes : [],
+              nodesID:
+                state?.role && state?.role[index]?.nodes
+                  ? state?.role[index]?.nodes
+                  : [],
               projectRoleID: _role?._id,
             },
           },
+          context: { serviceName: "soilservice" },
         });
       });
     },
     onError(error) {
       setSubmitting(false);
+      toast.error(error.message);
+      console.log(error);
+    },
+  });
+
+  const [updateProject, {}] = useMutation(UPDATE_PROJECT, {
+    onCompleted({ updateProject }: Mutation) {
+      setSubmitting(false);
+      if (!updateProject) console.log("updateProject is null");
+      updateProject?.role?.forEach((_role: Maybe<RoleType>, index: number) => {
+        addNodes({
+          variables: {
+            fields: {
+              nodesID:
+                state?.role && state?.role[index]?.nodes
+                  ? state?.role[index]?.nodes
+                  : [],
+              projectRoleID: _role?._id,
+            },
+          },
+          context: { serviceName: "soilservice" },
+        });
+      });
+    },
+    onError(error) {
+      setSubmitting(false);
+      toast.error(error.message);
       console.log(error);
     },
   });
@@ -128,32 +157,57 @@ export const CreateProjectContainer = ({
 
   const onClickLaunch = () => {
     setSubmitting(true);
-    console.log("state", state);
-    updateProject({
-      variables: {
-        fields: {
-          champion: currentUser?._id,
-          title: state?.title,
-          emoji: state?.emoji,
-          backColorEmoji: state?.backColorEmoji,
-          descriptionOneLine: state?.descriptionOneLine,
-          description: state?.description,
-          role: state?.role?.map((role) => ({
-            title: role?.title,
-            shortDescription: role?.shortDescription,
-            description: role?.description,
-            benefits: role?.benefits,
-            expectations: role?.expectations,
-            ratePerHour: role?.ratePerHour,
-            openPositions: role?.openPositions,
-            hoursPerWeek: role?.hoursPerWeek,
-          })),
-          serverID: state?.serverID,
-          // budget: { perHour: state[3].hrsWeek, token: "", totalBudget: "" },
-          // stepsJoinProject: ["step1", "step2", "step3"],
+
+    if (state?._id) {
+      updateProject({
+        variables: {
+          fields: {
+            _id: state?._id || null,
+            title: state?.title,
+            emoji: state?.emoji,
+            backColorEmoji: state?.backColorEmoji,
+            descriptionOneLine: state?.descriptionOneLine,
+            description: state?.description,
+            role: state?.role?.map((role) => ({
+              title: role?.title,
+              shortDescription: role?.shortDescription,
+              description: role?.description,
+              benefits: role?.benefits,
+              expectations: role?.expectations,
+              ratePerHour: role?.ratePerHour,
+              openPositions: role?.openPositions,
+              hoursPerWeek: role?.hoursPerWeek,
+            })),
+            serverID: state?.serverID,
+          },
         },
-      },
-    });
+        context: { serviceName: "soilservice" },
+      });
+    } else {
+      createProject({
+        variables: {
+          fields: {
+            title: state?.title,
+            emoji: state?.emoji,
+            backColorEmoji: state?.backColorEmoji,
+            descriptionOneLine: state?.descriptionOneLine,
+            description: state?.description,
+            role: state?.role?.map((role) => ({
+              title: role?.title,
+              shortDescription: role?.shortDescription,
+              description: role?.description,
+              benefits: role?.benefits,
+              expectations: role?.expectations,
+              ratePerHour: role?.ratePerHour,
+              openPositions: role?.openPositions,
+              hoursPerWeek: role?.hoursPerWeek,
+            })),
+            serverID: state?.serverID,
+          },
+        },
+        context: { serviceName: "soilservice" },
+      });
+    }
   };
 
   const { data: typeProjectNodes } = useQuery(FIND_NODES, {
@@ -214,7 +268,6 @@ export const CreateProjectContainer = ({
               setStep(PROJECT_STEPS.ADD_ANOTHER_ROLE);
             }}
             onChange={(val) => {
-              console.log("val", val);
               setState((prev: Project) => ({
                 ...prev,
                 role: prev.role

@@ -3,12 +3,10 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
 };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
+  { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
+  { [SubKey in K]: Maybe<T[SubKey]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -223,11 +221,13 @@ export type Mutation = {
   updateMember?: Maybe<Members>;
   updateMemberInRoom?: Maybe<Members>;
   updateMessage?: Maybe<Ai>;
+  updateNodesToMember?: Maybe<Members>;
   updateProject?: Maybe<Project>;
   updateRoleTemplate?: Maybe<RoleTemplate>;
   updateServer?: Maybe<ServerTemplate>;
   updateSkillCategory?: Maybe<SkillCategory>;
   updateSkillSubCategory?: Maybe<SkillSubCategory>;
+  useAI_OnMessage?: Maybe<UseAi_OnMessageOutput>;
 };
 
 export type MutationAddEndorsementArgs = {
@@ -410,6 +410,10 @@ export type MutationUpdateMessageArgs = {
   fields?: InputMaybe<UpdateMessageInput>;
 };
 
+export type MutationUpdateNodesToMemberArgs = {
+  fields: UpdateNodesToMemberInput;
+};
+
 export type MutationUpdateProjectArgs = {
   fields: UpdateProjectInput;
 };
@@ -428,6 +432,10 @@ export type MutationUpdateSkillCategoryArgs = {
 
 export type MutationUpdateSkillSubCategoryArgs = {
   fields?: InputMaybe<UpdateSkillSubCategoryInput>;
+};
+
+export type MutationUseAi_OnMessageArgs = {
+  fields?: InputMaybe<UseAi_OnMessageInput>;
 };
 
 export type Node = {
@@ -755,6 +763,7 @@ export type QueryMembers_AutocompleteArgs = {
 };
 
 export type QuerySetAllMatch_V2Args = {
+  node?: InputMaybe<Scalars["String"]>;
   val?: InputMaybe<Scalars["Boolean"]>;
 };
 
@@ -1609,6 +1618,7 @@ export type MatchProjectRoles = {
   commonSkills?: Maybe<Array<Maybe<Skills>>>;
   matchPercentage?: Maybe<Scalars["Float"]>;
   projectRole?: Maybe<RoleType>;
+  realPercebtage?: Maybe<Scalars["Float"]>;
 };
 
 export type MatchProjectsToMemberInput = {
@@ -1638,6 +1648,7 @@ export type MatchSkillsToProjectsOutput = {
   matchPercentage?: Maybe<Scalars["Float"]>;
   project?: Maybe<Project>;
   projectRoles?: Maybe<Array<Maybe<MatchProjectRoles>>>;
+  realPercebtage?: Maybe<Scalars["Float"]>;
 };
 
 export type Match_ProjectToUserInput = {
@@ -2043,6 +2054,12 @@ export type UpdateMessageInput = {
   messageID?: InputMaybe<Scalars["ID"]>;
 };
 
+export type UpdateNodesToMemberInput = {
+  memberID?: InputMaybe<Scalars["ID"]>;
+  nodeType?: InputMaybe<Scalars["String"]>;
+  nodesID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
 export type UpdateProjectInput = {
   _id?: InputMaybe<Scalars["ID"]>;
   backColorEmoji?: InputMaybe<Scalars["String"]>;
@@ -2090,6 +2107,15 @@ export type UpdateSkillSubCategoryInput = {
   id_lightcast?: InputMaybe<Scalars["String"]>;
   name?: InputMaybe<Scalars["String"]>;
   skills?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type UseAi_OnMessageInput = {
+  message?: InputMaybe<Scalars["String"]>;
+};
+
+export type UseAi_OnMessageOutput = {
+  __typename?: "useAI_OnMessageOutput";
+  res?: Maybe<Array<Maybe<Scalars["String"]>>>;
 };
 
 export type Wh_K_ArrType = {
