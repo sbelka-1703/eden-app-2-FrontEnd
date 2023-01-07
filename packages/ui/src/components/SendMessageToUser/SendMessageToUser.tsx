@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { gql, useMutation } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
 import {
@@ -62,20 +61,17 @@ export const SendMessageToUser = ({
 
   const [addNewChat] = useMutation<any, MutationAddNewChatArgs>(ADD_NEW_CHAT);
 
-  const [changeTeamMember_Phase_Project, {}] = useMutation(
-    SET_APPLY_TO_PROJECT,
-    {
-      onCompleted: () => {
-        toast.success("success");
-        setTimeout(() => {
-          setSendingMessage(false);
-        }, 1000);
-      },
-      onError: (error) => {
-        toast.error(error.message);
-      },
-    }
-  );
+  const [changeTeamMemberPhaseProject, {}] = useMutation(SET_APPLY_TO_PROJECT, {
+    onCompleted: () => {
+      toast.success("success");
+      setTimeout(() => {
+        setSendingMessage(false);
+      }, 1000);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
   const createThread = async (body: CreateThreadApiRequestBody) => {
     const response = await fetch(encodeURI("/api/discord/createThread"), {
@@ -160,7 +156,7 @@ export const SendMessageToUser = ({
     } finally {
       setIsMessageSent(true);
       if (project?._id && member?._id && role?._id) {
-        changeTeamMember_Phase_Project({
+        changeTeamMemberPhaseProject({
           variables: {
             fields: {
               projectID: project?._id,
@@ -213,7 +209,7 @@ export const SendMessageToUser = ({
                     value={message}
                     className="border-none px-0"
                     placeholder="Start typing here"
-                    customStyle={{ boxShadow: "none", fontSize: "20px" }}
+                    customStyle={{ fontSize: "20px" }}
                     onChange={(e) => setMessage(e.target.value)}
                   />
                 </div>

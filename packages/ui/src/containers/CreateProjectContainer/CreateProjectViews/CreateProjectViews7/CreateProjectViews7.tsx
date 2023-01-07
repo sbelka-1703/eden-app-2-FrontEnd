@@ -193,237 +193,185 @@ export const CreateProjectViews7 = ({
 
   return (
     <Card className={`pb-6 scrollbar-hide overflow-y-scroll h-85`}>
-      <div className={``}>
-        <div className="mb-4 flex items-center justify-between bg-green-100 p-7">
-          {/* <div>
-            <TextHeading3>Complete your project:</TextHeading3>
-          </div> */}
-          <div className={`space-y-4`}>
-            <TextHeading3>Complete your project:</TextHeading3>
-            <TextHeading3>
-              Find members of Eden 🌱 Network for your project.
-            </TextHeading3>
-          </div>
-          <div>
-            <BatteryStepper size="sm" batteryPercentage={battery} />
-          </div>
+      <div className="mb-4 flex items-center justify-between bg-green-100 p-7">
+        <div className={`space-y-4`}>
+          <TextHeading3>Complete your project:</TextHeading3>
+          <TextHeading3>
+            Find members of Eden 🌱 Network for your project.
+          </TextHeading3>
         </div>
-        <div className={`px-7`}>
-          <div className="mb-3 mt-3">
-            <div>
-              <div className="mb-3">
-                <div className="mt-3 w-4/6">
-                  <br />
-                  <div className="mb-3">
-                    <TextField
-                      label={`What role are you looking to fill:`}
-                      value={state?.title || ""}
-                      placeholder="Start typing here..."
-                      onChange={(e) => {
-                        handleUpdateState(e.target.value, "title");
-                        setBattery(battery < 20 ? battery + 10 : battery);
+        <div>
+          <BatteryStepper size="sm" batteryPercentage={battery} />
+        </div>
+      </div>
+      <div className={`px-7`}>
+        <div className={`my-4`}>
+          <TextField
+            label={`What role are you looking to fill:`}
+            value={state?.title || ""}
+            placeholder="Start typing here..."
+            onChange={(e) => {
+              handleUpdateState(e.target.value, "title");
+              setBattery(battery < 20 ? battery + 10 : battery);
+            }}
+          />
+        </div>
+        {state?.title && (
+          <>
+            <div className="mt-3">
+              <div className={`text-sm font-normal`}>
+                {`Select the Role: 🤖`}
+              </div>
+              <div className="flex w-full flex-wrap justify-center gap-1">
+                {!isEmpty(expertise) &&
+                  map(expertise, (item: any, key: number) => (
+                    <SelectBoxNode
+                      multiple
+                      key={key}
+                      caption={item?.name}
+                      items={item?.subNodes}
+                      onChange={(val) => {
+                        setBattery(battery < 99 ? battery + 10 : battery);
+                        setSelectedItems((prevState) => ({
+                          ...prevState,
+                          [item?._id]: val,
+                        }));
                       }}
                     />
-                  </div>
-                </div>
-                {state?.title && (
-                  <>
-                    <div className="mt-3">
-                      <div>
-                        <p className="text-sm font-normal">
-                          {`Select the Role: 🤖`}
-                        </p>
-                      </div>
-                      <div className="flex w-full flex-wrap justify-center gap-1">
-                        {!isEmpty(expertise) &&
-                          map(expertise, (item: any, key: number) => (
-                            <SelectBoxNode
-                              multiple
-                              key={key}
-                              caption={item?.name}
-                              items={item?.subNodes}
-                              onChange={(val) => {
-                                setBattery(
-                                  battery < 99 ? battery + 10 : battery
-                                );
-                                setSelectedItems((prevState) => ({
-                                  ...prevState,
-                                  [item?._id]: val,
-                                }));
-                              }}
-                            />
-                          ))}
-                      </div>
-                    </div>
-                    <div className="mt-3">
-                      <div>
-                        <TextArea
-                          label={`Write a short one-line discription of the role:`}
-                          value={state?.shortDescription || ""}
-                          onChange={(e) => {
-                            handleUpdateState(
-                              e.target.value,
-                              "shortDescription"
-                            );
-                            setBattery(battery < 70 ? battery + 10 : battery);
-                          }}
-                          placeholder="Start typing here..."
-                          rows={2}
-                        />
-                      </div>
-                    </div>
-
-                    <ToggleElement
-                      isOptional
-                      className="my-4"
-                      title="Write a description of this role:"
-                    >
-                      <TextArea
-                        value={state?.description || ""}
-                        onChange={(e) => {
-                          handleUpdateState(e.target.value, "description");
-                        }}
-                        rows={3}
-                        placeholder="Start typing here..."
-                      />
-                    </ToggleElement>
-                    <ToggleElement
-                      isOptional
-                      className="my-4"
-                      title="What are the expectations for this role?"
-                    >
-                      {numInList.map((v, i) => (
-                        <div key={i} className={`flex py-1 mx-4`}>
-                          <li className={`my-auto`} />
-                          <TextField
-                            value={state?.expectations?.[i] || ""}
-                            onChange={(e) => {
-                              handleUpdateExpectations(
-                                e.target.value,
-                                "expectations",
-                                i
-                              );
-                            }}
-                          />
-                        </div>
-                      ))}
-                    </ToggleElement>
-                    <ToggleElement
-                      isOptional
-                      className="my-4"
-                      title="What are the benfits of this role?"
-                    >
-                      {numInList.map((v, i) => (
-                        <div key={i} className={`flex py-1 mx-4`}>
-                          <li className={`my-auto`} />
-                          <TextField
-                            value={state?.benefits?.[i] || ""}
-                            onChange={(e) => {
-                              handleUpdateBenefits(
-                                e.target.value,
-                                "benefits",
-                                i
-                              );
-                            }}
-                          />
-                        </div>
-                      ))}
-                    </ToggleElement>
-                    <GridLayout className="bg-white">
-                      <GridItemFour>
-                        <p className="text-sm font-normal">
-                          Availability:
-                          <span className="text-xs text-gray-500">
-                            {" "}
-                            (Optional)
-                          </span>
-                        </p>
-                        <div className="flex flex-row content-center items-center">
-                          <div className="w-20">
-                            <TextField
-                              type="number"
-                              value={state?.hoursPerWeek || 0}
-                              onChange={(e) => {
-                                handleUpdateState(
-                                  +e.target.value,
-                                  "hoursPerWeek"
-                                );
-                              }}
-                            />
-                          </div>
-                          <div className="ml-3 text-sm font-normal text-gray-400">{`hours / week`}</div>
-                        </div>
-                      </GridItemFour>
-                      <GridItemFour>
-                        <p className="text-sm font-normal">
-                          Hourly rate:
-                          <span className="text-xs text-gray-500">
-                            {" "}
-                            (Optional)
-                          </span>
-                        </p>
-                        <div className="flex flex-row content-center items-center">
-                          <div className="w-20">
-                            <TextField
-                              name="ratePerHour"
-                              type="number"
-                              value={state?.ratePerHour || 0}
-                              onChange={(e) => {
-                                handleUpdateState(
-                                  +e.target.value,
-                                  "ratePerHour"
-                                );
-                              }}
-                            />
-                          </div>
-                          <div className="ml-3 text-sm font-normal text-gray-400">{`$`}</div>
-                        </div>
-                      </GridItemFour>
-                      <GridItemFour>
-                        <p className="text-sm font-normal">
-                          Open positions:
-                          <span className="text-xs text-gray-500">
-                            {" "}
-                            (Optional)
-                          </span>
-                        </p>
-                        <div className="flex flex-row content-center items-center">
-                          <div className="w-20">
-                            <TextField
-                              name="positions"
-                              type="number"
-                              value={state?.openPositions || 0}
-                              onChange={(e) => {
-                                handleUpdateState(
-                                  +e.target.value,
-                                  "openPositions"
-                                );
-                              }}
-                            />
-                          </div>
-                          <div className="ml-3 text-sm font-normal text-gray-400">{``}</div>
-                        </div>
-                      </GridItemFour>
-                    </GridLayout>
-                  </>
-                )}
+                  ))}
               </div>
             </div>
-          </div>
+            <div className="mt-3">
+              <TextArea
+                label={`Write a short one-line discription of the role:`}
+                value={state?.shortDescription || ""}
+                onChange={(e) => {
+                  handleUpdateState(e.target.value, "shortDescription");
+                  setBattery(battery < 70 ? battery + 10 : battery);
+                }}
+                placeholder="Start typing here..."
+                rows={2}
+              />
+            </div>
 
-          <div className="mt-3 flex justify-between">
-            <Button variant="secondary" onClick={() => onBack(state)}>
-              Back
-            </Button>
-            <Button
-              variant="secondary"
-              onClick={() => {
-                handleNext(state);
-              }}
+            <ToggleElement
+              isOptional
+              className="my-4"
+              title="Write a description of this role:"
             >
-              Next
-            </Button>
-          </div>
+              <TextArea
+                value={state?.description || ""}
+                onChange={(e) => {
+                  handleUpdateState(e.target.value, "description");
+                }}
+                rows={3}
+                placeholder="Start typing here..."
+              />
+            </ToggleElement>
+            <ToggleElement
+              isOptional
+              className="my-4"
+              title="What are the expectations for this role?"
+            >
+              {numInList.map((v, i) => (
+                <div key={i} className={`flex py-1 mx-4`}>
+                  <li className={`my-auto`} />
+                  <TextField
+                    value={state?.expectations?.[i] || ""}
+                    onChange={(e) => {
+                      handleUpdateExpectations(
+                        e.target.value,
+                        "expectations",
+                        i
+                      );
+                    }}
+                  />
+                </div>
+              ))}
+            </ToggleElement>
+            <ToggleElement
+              isOptional
+              className="my-4"
+              title="What are the benfits of this role?"
+            >
+              {numInList.map((v, i) => (
+                <div key={i} className={`flex py-1 mx-4`}>
+                  <li className={`my-auto`} />
+                  <TextField
+                    value={state?.benefits?.[i] || ""}
+                    onChange={(e) => {
+                      handleUpdateBenefits(e.target.value, "benefits", i);
+                    }}
+                  />
+                </div>
+              ))}
+            </ToggleElement>
+            <GridLayout className="bg-white">
+              <GridItemFour>
+                <p className="text-sm font-normal">
+                  Availability:
+                  <span className="text-xs text-gray-500"> (Optional)</span>
+                </p>
+                <div className="flex flex-row content-center items-center">
+                  <TextField
+                    type="number"
+                    value={state?.hoursPerWeek || 0}
+                    onChange={(e) => {
+                      handleUpdateState(+e.target.value, "hoursPerWeek");
+                    }}
+                  />
+                  <div className="ml-3 text-sm font-normal text-gray-400">{`hours / week`}</div>
+                </div>
+              </GridItemFour>
+              <GridItemFour>
+                <p className="text-sm font-normal">
+                  Hourly rate:
+                  <span className="text-xs text-gray-500"> (Optional)</span>
+                </p>
+                <div className="flex flex-row content-center items-center">
+                  <TextField
+                    name="ratePerHour"
+                    type="number"
+                    value={state?.ratePerHour || 0}
+                    onChange={(e) => {
+                      handleUpdateState(+e.target.value, "ratePerHour");
+                    }}
+                  />
+                  <div className="ml-3 text-sm font-normal text-gray-400">{`$`}</div>
+                </div>
+              </GridItemFour>
+              <GridItemFour>
+                <p className="text-sm font-normal">
+                  Open positions:
+                  <span className="text-xs text-gray-500"> (Optional)</span>
+                </p>
+                <div className="flex flex-row content-center items-center">
+                  <TextField
+                    name="positions"
+                    type="number"
+                    value={state?.openPositions || 0}
+                    onChange={(e) => {
+                      handleUpdateState(+e.target.value, "openPositions");
+                    }}
+                  />
+                  <div className="ml-3 text-sm font-normal text-gray-400">{``}</div>
+                </div>
+              </GridItemFour>
+            </GridLayout>
+          </>
+        )}
+        <div className="mt-3 flex justify-between">
+          <Button variant="secondary" onClick={() => onBack(state)}>
+            Back
+          </Button>
+          <Button
+            variant="secondary"
+            onClick={() => {
+              handleNext(state);
+            }}
+          >
+            Next
+          </Button>
         </div>
       </div>
     </Card>

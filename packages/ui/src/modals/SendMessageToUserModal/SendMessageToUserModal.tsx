@@ -51,7 +51,7 @@ export const SendMessageToUserModal = ({
             value={message}
             className="border-none px-0"
             placeholder="Start typing here"
-            customStyle={{ boxShadow: "none", fontSize: "20px" }}
+            customStyle={{ fontSize: "20px" }}
             onChange={(e) => setMessage(e.target.value)}
           />
         </div>

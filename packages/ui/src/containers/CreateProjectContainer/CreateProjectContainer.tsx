@@ -78,7 +78,7 @@ export const CreateProjectContainer = ({
   const [addNodes, {}] = useMutation(ADD_NODES_PROJECT_ROLE, {
     onCompleted({ addNodesToProjectRole }: Mutation) {
       if (!addNodesToProjectRole) console.log("addNodesToProjectRole is null");
-      console.log("addNodesToProjectRole", addNodesToProjectRole);
+      // console.log("addNodesToProjectRole", addNodesToProjectRole);
       if (router.query.from)
         router.push(
           `/${router.query.from}?project=${addNodesToProjectRole?._id}`
@@ -305,10 +305,8 @@ export const CreateProjectContainer = ({
   };
 
   return (
-    <div>
-      <Card shadow className={"h-85 bg-white"}>
-        {submitting ? <Loading title={`Submitting...`} /> : stepView()}
-      </Card>
-    </div>
+    <Card shadow className={"h-85 bg-white"}>
+      {submitting ? <Loading title={`Submitting...`} /> : stepView()}
+    </Card>
   );
 };

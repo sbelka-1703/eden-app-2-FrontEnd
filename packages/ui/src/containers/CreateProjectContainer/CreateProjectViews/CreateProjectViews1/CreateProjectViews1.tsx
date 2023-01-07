@@ -116,10 +116,10 @@ export const CreateProjectViews1 = ({
         <BatteryStepper size="sm" batteryPercentage={battery ? battery : 5} />
       </div>
       <div className="px-7">
-        <TextHeading3 className="mb-4">
+        <TextHeading3 className="my-4">
           Name your project and pick a visual!
         </TextHeading3>
-        <div className="mb-3">
+        <div className="my-4">
           <TextField
             label={`Name your project`}
             value={state.title || ""}

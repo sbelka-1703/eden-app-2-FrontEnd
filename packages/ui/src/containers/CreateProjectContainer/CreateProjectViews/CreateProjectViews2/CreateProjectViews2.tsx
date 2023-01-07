@@ -83,50 +83,48 @@ export const CreateProjectViews2 = ({
 
   return (
     <Card className={`pb-6 scrollbar-hide overflow-y-scroll h-85`}>
-      <div className="">
-        <div className="mb-4 flex items-center justify-between bg-green-100 p-7">
-          <TextHeading3>Complete your Project:</TextHeading3>
-          <BatteryStepper size="sm" batteryPercentage={battery} />
+      <div className="mb-4 flex items-center justify-between bg-green-100 p-7">
+        <TextHeading3>Complete your Project:</TextHeading3>
+        <BatteryStepper size="sm" batteryPercentage={battery} />
+      </div>
+      <div className="px-7">
+        <div className="my-4">
+          <TextArea
+            label={`Write short one-liner to introduce your project:`}
+            value={state.descriptionOneLine || ""}
+            onChange={(e) => {
+              handleUpdateState(e.target.value, "descriptionOneLine");
+              setBattery(battery < 30 ? battery + 10 : battery);
+            }}
+            placeholder="Start typing here..."
+            rows={2}
+          />
         </div>
-        <div className="px-7">
-          <div className="my-4">
-            <TextArea
-              label={`Write short one-liner to introduce your project:`}
-              value={state.descriptionOneLine || ""}
-              onChange={(e) => {
-                handleUpdateState(e.target.value, "descriptionOneLine");
-                setBattery(battery < 30 ? battery + 10 : battery);
-              }}
-              placeholder="Start typing here..."
-              rows={2}
-            />
-          </div>
-          <div className="my-4">
-            <TextArea
-              label={`Write a full description of your project: (Optional)`}
-              value={state.description || ""}
-              onChange={(e) => {
-                handleUpdateState(e.target.value, "description");
-                setBattery(battery < 40 ? battery + 10 : battery);
-              }}
-              placeholder="Start typing here..."
-              rows={7}
-            />
-          </div>
+        <div className="my-4">
+          <TextArea
+            label={`Write a full description of your project: (Optional)`}
+            value={state.description || ""}
+            onChange={(e) => {
+              handleUpdateState(e.target.value, "description");
+              setBattery(battery < 40 ? battery + 10 : battery);
+            }}
+            placeholder="Start typing here..."
+            rows={7}
+          />
+        </div>
 
-          <div className="flex justify-between">
-            <Button variant="secondary" onClick={() => onBack(state)}>
-              Back
-            </Button>
-            <Button
-              variant="secondary"
-              onClick={() => {
-                handleSetProject(state);
-              }}
-            >
-              Next
-            </Button>
-          </div>
+        <div className="flex justify-between">
+          <Button variant="secondary" onClick={() => onBack(state)}>
+            Back
+          </Button>
+          <Button
+            variant="secondary"
+            onClick={() => {
+              handleSetProject(state);
+            }}
+          >
+            Next
+          </Button>
         </div>
       </div>
     </Card>
