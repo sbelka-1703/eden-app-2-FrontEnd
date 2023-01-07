@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { ApplyByRoleModal } from "./ApplyByRoleModal";
 
 export default {
-  title: "Modals/ApplyByRoleModal",
+  title: "Archive/Modals/ApplyByRoleModal",
   component: ApplyByRoleModal,
   argTypes: {},
 } as ComponentMeta<typeof ApplyByRoleModal>;

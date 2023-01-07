@@ -23,7 +23,7 @@ import {
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 
-import { timezones } from "../../../constants";
+import { timezones } from "../../../../constants";
 
 const SET_APPLY_TO_PROJECT = gql`
   mutation ($fields: changeTeamMember_Phase_ProjectInput!) {

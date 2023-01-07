@@ -4,7 +4,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { ApplyByRoleContainer } from "./";
 
 export default {
-  title: "Containers/ApplyByRoleContainer",
+  title: "Archive/Containers/ApplyByRoleContainer",
   component: ApplyByRoleContainer,
   argTypes: {},
 } as ComponentMeta<typeof ApplyByRoleContainer>;

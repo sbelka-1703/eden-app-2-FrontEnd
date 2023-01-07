@@ -10,7 +10,6 @@ import {
   RoleType,
 } from "@eden/package-graphql/generated";
 import {
-  ApplyByRoleModal,
   AvatarList,
   AvatarProps,
   Card,
@@ -18,12 +17,13 @@ import {
   NumberCircle,
   OpenPositionCard,
   ProjectChampion,
-  ProjectHeader,
   TextHeading1,
 } from "@eden/package-ui";
 import { useContext, useEffect, useState } from "react";
 
-import { round } from "../../../utils";
+import { round } from "../../../../utils";
+import { ProjectHeader } from "../../components/ProjectHeader/ProjectHeader";
+import { ApplyByRoleModal } from "../../modals/ApplyByRoleModal/ApplyByRoleModal";
 
 const SET_FAVORITE = gql`
   mutation ($fields: addFavoriteProjectInput!) {
