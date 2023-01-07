@@ -18,6 +18,19 @@ export const FIND_PROJECT = gql`
         _id
         discordName
         discordAvatar
+        discriminator
+        bio
+        links {
+          name
+          url
+        }
+        nodes {
+          nodeData {
+            _id
+            name
+            node
+          }
+        }
       }
       team {
         memberInfo {

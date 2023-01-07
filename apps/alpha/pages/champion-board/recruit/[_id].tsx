@@ -80,7 +80,7 @@ const ProjectPage: NextPageWithLayout = () => {
                 setSelectedRole(role);
               }}
               selectedRole={selectedRole}
-              onBack={() => router.back()}
+              onBack={() => router.push(`/champion-board`)}
               onEdit={() => setView("project")}
             />
           </GridItemThree>
