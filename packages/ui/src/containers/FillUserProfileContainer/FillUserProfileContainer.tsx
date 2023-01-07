@@ -197,11 +197,6 @@ export const FillUserProfileContainer = ({
     });
   };
 
-  const [selectedItems, setSelectedItems] = useState<{
-    [key: string]: Node[];
-  }>({});
-  const [selectedNodes, setSelectedNodes] = useState<NodesType[]>([]);
-
   const { data: dataNodes } = useQuery(FIND_NODES, {
     variables: {
       fields: {
@@ -210,6 +205,34 @@ export const FillUserProfileContainer = ({
     },
     context: { serviceName: "soilservice" },
   });
+
+  function getSelectedItems() {
+    if (dataNodes?.findNodes) {
+      const _selectedItems: any = {};
+
+      forEach(dataNodes?.findNodes, (el, index) => {
+        _selectedItems[el._id] = dataNodes?.findNodes[index].subNodes.filter(
+          (subNode: Node) => {
+            return currentUser?.nodes?.some(
+              (_subNode) => subNode?._id === _subNode?.nodeData?._id
+            );
+          }
+        ) as Node[];
+      });
+
+      return _selectedItems;
+    } else {
+      return null;
+    }
+  }
+
+  const [selectedItems, setSelectedItems] = useState<{
+    [key: string]: Node[];
+  }>(getSelectedItems() || []);
+
+  const [selectedNodes, setSelectedNodes] = useState<Maybe<NodesType>[]>(
+    state?.nodes || []
+  );
 
   useEffect(() => {
     if (selectedItems) {
@@ -291,6 +314,7 @@ export const FillUserProfileContainer = ({
                             key={key}
                             caption={item?.name}
                             items={item?.subNodes}
+                            defaultValues={selectedItems[item._id]}
                             onChange={(val) => {
                               setSelectedItems((prevState) => ({
                                 ...prevState,
