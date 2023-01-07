@@ -1,4 +1,6 @@
-import { Card, ProjectHeader } from "@eden/package-ui";
+import { Card } from "@eden/package-ui";
+
+import { ProjectHeader } from "../../components/ProjectHeader/ProjectHeader";
 
 export interface IMyProjectContainerProps {}
 

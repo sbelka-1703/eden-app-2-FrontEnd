@@ -5,7 +5,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { ProjectHeader } from "./ProjectHeader";
 
 export default {
-  title: "Components/ProjectHeader",
+  title: "Archive/Components/ProjectHeader",
   component: ProjectHeader,
   argTypes: {},
 } as ComponentMeta<typeof ProjectHeader>;

@@ -1,8 +1,8 @@
 import { getProject } from "@eden/package-mock";
 import userEvent from "@testing-library/user-event";
 
-import { render, screen } from "../../../utils/jest-apollo";
-import { MockRouter } from "../../../utils/test-utils/createMockRouter";
+import { render, screen } from "../../../../utils/jest-apollo";
+import { MockRouter } from "../../../../utils/test-utils/createMockRouter";
 import { ApplyByRoleContainer } from "./";
 
 jest.mock("react-confetti");
