@@ -33,6 +33,8 @@ export enum DiscoverModal {
   CONGRATULATIONS = "congratulations",
   SKIP_ALERT = "skip alert",
   WARNING = "warning",
+  ORDER_SKILLS_FIRST = "order skills first",
+  ORDER_SKILLS_SECOND = "order skill second",
 }
 
 function projectReducer(project: Project, action: DiscoverAction): Project {

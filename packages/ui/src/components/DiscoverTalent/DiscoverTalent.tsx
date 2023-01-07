@@ -38,7 +38,7 @@ type Data = {
 export interface IDiscoverTalentProps {
   openModal?: boolean;
   // eslint-disable-next-line no-unused-vars
-  onNext?: (val: string[]) => void;
+  onNext?: (val: string[], valNames: string[]) => void;
   onPrev?: () => void;
   title?: string;
   nodeType?: "expertise" | "typeProject";
@@ -68,6 +68,7 @@ export const DiscoverTalent = ({
     [key: string]: Node[];
   }>({});
   const [selectedNodes, setSelectedNodes] = useState<string[]>([]);
+  const [selectedNames, setSelectedNames] = useState<string[]>([]);
 
   const [numMatches, setNumMatches] = useState(137);
 
@@ -87,7 +88,7 @@ export const DiscoverTalent = ({
     if (numMatches === 0) {
       toast.error("You should at least choose on of the items before proceed");
     } else {
-      if (onNext) onNext!(selectedNodes);
+      if (onNext) onNext!(selectedNodes, selectedNames);
     }
   };
 
@@ -104,15 +105,17 @@ export const DiscoverTalent = ({
   useEffect(() => {
     if (selectedItems) {
       const selectedNodeId: string[] = [];
-
+      const selectedNodeNames: string[] = [];
       forEach(selectedItems, (el) => {
         if (!isEmpty(el)) {
           forEach(el, (item) => {
             selectedNodeId.push(item?._id as string);
+            selectedNodeNames.push(item?.name as string);
           });
         }
       });
       setSelectedNodes(selectedNodeId);
+      setSelectedNames(selectedNodeNames);
     }
   }, [selectedItems]);
 
