@@ -118,9 +118,7 @@ const DiscoverPage: NextPageWithLayout = () => {
               //       ? currentUser.nodes
               //       : nodesID,
               // })}
-              onClickCompleteProfile={() =>
-                router.push("/create-project?from=discover")
-              }
+              onClickCompleteProfile={() => router.push(`/create-project`)}
               text1="You can see users"
               text2="Users can't find your project"
               textButton="Create a project"

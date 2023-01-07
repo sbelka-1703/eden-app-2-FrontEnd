@@ -6,15 +6,18 @@ import {
   MutationAddNewChatArgs,
   Project,
   RoleType,
+  ServerTemplate,
 } from "@eden/package-graphql/generated";
 import {
   Avatar,
   Button,
   Loading,
+  ServerSelector,
   TextArea,
   TextHeading3,
 } from "@eden/package-ui";
 import { ThreadAutoArchiveDuration } from "discord-api-types/v10";
+import isEmpty from "lodash/isEmpty";
 import { useContext, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -51,13 +54,11 @@ export const SendMessageToUser = ({
   project,
   role,
 }: ISendMessageToUserProps) => {
-  // console.log("project", project);
-  // console.log("role", role);
-
-  const { currentUser, selectedServer } = useContext(UserContext);
+  const { currentUser } = useContext(UserContext);
   const [message, setMessage] = useState("");
   const [sendingMessage, setSendingMessage] = useState(false);
   const [isMessageSent, setIsMessageSent] = useState(false);
+  const [selectedServer, setSelectedServer] = useState<ServerTemplate>({});
 
   const [addNewChat] = useMutation<any, MutationAddNewChatArgs>(ADD_NEW_CHAT);
 
@@ -188,47 +189,71 @@ export const SendMessageToUser = ({
             <Loading title={`sending message...`} />
           ) : (
             <>
-              <div className="rounded-xl border border-gray-300 py-4 px-3">
-                <div className="flex items-center ">
-                  <Avatar
-                    src={currentUser?.discordAvatar || ""}
-                    alt={currentUser?.discordName || ""}
-                    size={`sm`}
-                  />
-                  <TextHeading3 className="ml-3">
-                    @{currentUser?.discordName}
-                    <span className="pl-1 text-sm text-gray-400">
-                      #{currentUser?.discriminator}
-                    </span>
-                  </TextHeading3>
-                </div>
-                <div className="mt-3">
-                  {/* <TextHeading3>Hey, @{member?.discordName}!</TextHeading3> */}
-                  <TextArea
-                    rows={6}
-                    value={message}
-                    className="border-none px-0"
-                    placeholder="Start typing here"
-                    customStyle={{ fontSize: "20px" }}
-                    onChange={(e) => setMessage(e.target.value)}
-                  />
-                </div>
+              <div className={`my-4 flex space-x-6`}>
+                <span
+                  className={`my-auto font-Inter text-gray-700 font-medium`}
+                >
+                  Select a Discord Server to Connect in
+                </span>
+                <ServerSelector
+                  onChangeServer={(val) => setSelectedServer(val)}
+                />
               </div>
-              <div className="mt-3 text-center">
-                <div className="inline-block">
-                  {!sendingMessage && selectedServer?._id && (
-                    <Button
-                      disabled={message.length === 0 || sendingMessage}
-                      variant="primary"
-                      onClick={() => {
-                        handleSendMessage();
-                      }}
-                    >
-                      Send
-                    </Button>
+
+              {isEmpty(selectedServer) ? null : (
+                <>
+                  {selectedServer?.channel?.chatID ? (
+                    <>
+                      <div className="rounded-xl border border-gray-300 py-4 px-3">
+                        <div className="flex items-center ">
+                          <Avatar
+                            src={currentUser?.discordAvatar || ""}
+                            alt={currentUser?.discordName || ""}
+                            size={`sm`}
+                          />
+                          <TextHeading3 className="ml-3">
+                            @{currentUser?.discordName}
+                            <span className="pl-1 text-sm text-gray-400">
+                              #{currentUser?.discriminator}
+                            </span>
+                          </TextHeading3>
+                        </div>
+                        <div className="mt-3">
+                          <TextArea
+                            rows={6}
+                            value={message}
+                            className={`border-none p-4`}
+                            placeholder={`Start typing here...`}
+                            customStyle={{ fontSize: "20px" }}
+                            onChange={(e) => setMessage(e.target.value)}
+                          />
+                        </div>
+                      </div>
+                      <div className="mt-3 text-center">
+                        <div className="inline-block">
+                          {!sendingMessage && (
+                            <Button
+                              disabled={message.length === 0 || sendingMessage}
+                              variant="primary"
+                              onClick={() => {
+                                handleSendMessage();
+                              }}
+                            >
+                              Send
+                            </Button>
+                          )}
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <div>
+                      <TextHeading3 className={`mt-24`}>
+                        Contact Server Admin to set up a channel for Eden
+                      </TextHeading3>
+                    </div>
                   )}
-                </div>
-              </div>
+                </>
+              )}
             </>
           )}
         </>
