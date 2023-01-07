@@ -20,7 +20,7 @@ import {
   TextLabel,
 } from "@eden/package-ui";
 
-import { getUserProgress } from "../../../utils/user-progress";
+import { getUserProgress } from "../../../../utils/user-progress";
 
 export interface EditProfileOnboardPartyCardProps {
   currentUser: Members;

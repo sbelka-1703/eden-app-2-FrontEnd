@@ -4,7 +4,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { OnboardPartyContainer } from "./OnboardPartyContainer";
 
 export default {
-  title: "Containers/OnboardPartyContainer",
+  title: "Archive/Containers/OnboardPartyContainer",
   component: OnboardPartyContainer,
   argTypes: {},
 } as ComponentMeta<typeof OnboardPartyContainer>;

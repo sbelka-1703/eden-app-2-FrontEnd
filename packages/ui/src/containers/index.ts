@@ -6,7 +6,6 @@ export * from "./DiscoverModalContainer";
 export * from "./FillUserProfileContainer";
 export * from "./GrantsModalContainer";
 export * from "./NodesOnboardPartyContainer";
-export * from "./OnboardPartyContainer";
 export * from "./ProjectsModalContainer";
 export * from "./test/HackathonModalContainer";
 export * from "./test/ShortlistModalContainerStory";
