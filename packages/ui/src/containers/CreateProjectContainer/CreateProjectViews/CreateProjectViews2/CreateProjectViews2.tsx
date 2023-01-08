@@ -27,7 +27,6 @@ function reducer(state: Project, action: any): Project {
 }
 
 export interface CreateProjectViews2Props {
-  projects?: any[];
   battery: number;
   setBattery: Dispatch<SetStateAction<number>>;
   onBack: Dispatch<SetStateAction<Project>>;
@@ -82,7 +81,7 @@ export const CreateProjectViews2 = ({
   };
 
   return (
-    <Card className={`pb-6 scrollbar-hide overflow-y-scroll h-85`}>
+    <Card className={`scrollbar-hide h-85 overflow-y-scroll pb-6`}>
       <div className="mb-4 flex items-center justify-between bg-green-100 p-7">
         <TextHeading3>Complete your Project:</TextHeading3>
         <BatteryStepper size="sm" batteryPercentage={battery} />

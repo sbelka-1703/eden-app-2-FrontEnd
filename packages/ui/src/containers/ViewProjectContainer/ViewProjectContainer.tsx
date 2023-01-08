@@ -183,14 +183,32 @@ export const ViewProjectContainer = ({
                     </div>
                   </div>
                 </div>
-                <div className="mt-4 mb-4">
-                  <div className="text-soilGray/100 font-medium uppercase tracking-wide">
+                <div className={`my-4`}>
+                  <div className="text-soilGray/100 my-1 font-medium uppercase tracking-wide">
                     📃 Description Of the role
                   </div>
-                  <div className="p-1 text-sm">{activeRole?.description}</div>
+                  <div className="text-darkGreen font-Inter my-2 text-sm tracking-wide">
+                    {activeRole?.description}
+                  </div>
                 </div>
-                <div className="mb-3 grid grid-cols-2 gap-4">
-                  <div className="col-span-1">
+
+                <div className={`my-4`}>
+                  <div className="text-soilGray/100 my-1 font-medium uppercase tracking-wide">
+                    💯 Expectations
+                  </div>
+                  <div className="text-sm">
+                    {activeRole?.expectations?.map(
+                      (obj: string, index: number) => (
+                        <li key={index} className="overflow-auto">
+                          {obj}
+                        </li>
+                      )
+                    )}
+                  </div>
+                </div>
+
+                <div className="mb-3 grid grid-cols-3 gap-4">
+                  {/* <div className="col-span-1">
                     <div className="text-soilGray/100 font-medium uppercase tracking-wide">
                       💯 Expectations
                     </div>
@@ -203,9 +221,9 @@ export const ViewProjectContainer = ({
                         )
                       )}
                     </div>
-                  </div>
-                  <div className="col-span-1">
-                    <div className="text-soilGray/100 font-medium uppercase tracking-wide">
+                  </div> */}
+                  <div className="col-span-2">
+                    <div className="text-soilGray/100 my-1 font-medium uppercase tracking-wide">
                       🦜 Benefits
                     </div>
                     <div className="text-sm">
@@ -222,7 +240,7 @@ export const ViewProjectContainer = ({
                     activeRole?.ratePerHour ||
                     activeRole?.openPositions) && (
                     <div>
-                      <div className="text-soilGray/100 font-medium uppercase tracking-wide">
+                      <div className="text-soilGray/100 my-1 font-medium uppercase tracking-wide">
                         🕵️‍♀️ Details
                       </div>
                       <div className="text-xs font-medium">

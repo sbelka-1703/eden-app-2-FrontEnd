@@ -16,6 +16,11 @@ export const MATCH_NODES_TO_PROJECT_ROLES = gql`
           discordName
           discriminator
           discordAvatar
+          bio
+          links {
+            name
+            url
+          }
         }
         role {
           _id
