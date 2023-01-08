@@ -53,10 +53,13 @@ const ProjectPage: NextPageWithLayout = () => {
         nodesID: selectedRole?.nodes.map(
           (node: NodesType) => node?.nodeData?._id
         ),
-        serverID: selectedServerID,
+        serverID: selectedServerID?.filter((id) =>
+          dataProject?.findProject?.serverID?.includes(id)
+        ),
       },
     },
-    skip: !selectedRole || !selectedServerID,
+    skip:
+      !selectedRole || !dataProject?.findProject?.serverID || !selectedServerID,
     context: { serviceName: "soilservice" },
   });
 

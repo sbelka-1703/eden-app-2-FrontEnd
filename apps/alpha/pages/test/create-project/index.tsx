@@ -1,6 +1,6 @@
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { gql, useMutation } from "@apollo/client";
 // import { UserContext } from "@eden/package-context";
-import { FIND_NODES } from "@eden/package-graphql";
+// import { FIND_NODES } from "@eden/package-graphql";
 import { Mutation, Project } from "@eden/package-graphql/generated";
 import {
   AppUserLayout,
@@ -104,14 +104,14 @@ const FillProfilePage: NextPageWithLayout = () => {
   //   });
   // };
 
-  const { data: typeProjectNodes } = useQuery(FIND_NODES, {
-    variables: {
-      fields: {
-        node: "typeProject",
-      },
-    },
-    context: { serviceName: "soilservice" },
-  });
+  // const { data: typeProjectNodes } = useQuery(FIND_NODES, {
+  //   variables: {
+  //     fields: {
+  //       node: "typeProject",
+  //     },
+  //   },
+  //   context: { serviceName: "soilservice" },
+  // });
 
   // const { data: expertiseNodes } = useQuery(FIND_NODES, {
   //   variables: {
@@ -142,7 +142,7 @@ const FillProfilePage: NextPageWithLayout = () => {
             battery={battery}
             setBattery={setBattery}
             onNext={onNext}
-            projects={typeProjectNodes?.findNodes}
+            // projects={typeProjectNodes?.findNodes}
             onBack={() => setStep((prev) => prev - 1)}
             setProject={setProject}
             project={project}
