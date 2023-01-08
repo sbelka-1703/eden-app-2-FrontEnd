@@ -1,5 +1,5 @@
 import { UserContext } from "@eden/package-context";
-import { Project } from "@eden/package-graphql/generated";
+import { Maybe, NodesType, Project } from "@eden/package-graphql/generated";
 import {
   Avatar,
   Badge,
@@ -47,7 +47,7 @@ export const ViewProjectContainer = ({
   const activeRole = role ? role[activeTabName] : defaultRole;
 
   // useEffect(() => {
-  //   console.log("project VIEW", project);
+  //   console.log("project VIEW", project?.role?.[roleIndex]?.nodes);
   // }, [project]);
 
   return (
@@ -179,6 +179,17 @@ export const ViewProjectContainer = ({
                       </div>
                       <div className="text-soilGray/100	text-sm font-normal	tracking-wide">
                         {activeRole?.shortDescription}
+                      </div>
+                      <div>
+                        {project?.role?.[roleIndex]?.nodes?.map(
+                          (node: Maybe<NodesType>, index: number) => (
+                            <Badge
+                              text={node?.nodeData?.name || ""}
+                              key={index}
+                              className={`bg-soilPurple/20 py-px text-xs`}
+                            />
+                          )
+                        )}
                       </div>
                     </div>
                   </div>
