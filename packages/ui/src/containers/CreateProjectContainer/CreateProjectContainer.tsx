@@ -19,9 +19,9 @@ import { useRouter } from "next/router";
 import { Dispatch, SetStateAction, useState } from "react";
 import { toast } from "react-toastify";
 
-const ADD_NODES_PROJECT_ROLE = gql`
-  mutation ($fields: addNodesToProjectRoleInput!) {
-    addNodesToProjectRole(fields: $fields) {
+const UPDATE_NODES_PROJECT_ROLE = gql`
+  mutation ($fields: updateNodesToProjectRoleInput!) {
+    updateNodesToProjectRole(fields: $fields) {
       _id
     }
   }
@@ -75,18 +75,19 @@ export const CreateProjectContainer = ({
 
   const [battery, setBattery] = useState(5);
 
-  const [addNodes, {}] = useMutation(ADD_NODES_PROJECT_ROLE, {
-    onCompleted({ addNodesToProjectRole }: Mutation) {
-      if (!addNodesToProjectRole) console.log("addNodesToProjectRole is null");
-      // console.log("addNodesToProjectRole", addNodesToProjectRole);
+  const [addNodes, {}] = useMutation(UPDATE_NODES_PROJECT_ROLE, {
+    onCompleted({ updateNodesToProjectRole }: Mutation) {
+      if (!updateNodesToProjectRole)
+        console.log("updateNodesToProjectRole is null");
+      console.log("updateNodesToProjectRole", updateNodesToProjectRole);
       if (router.query.from)
         router.push(
-          `/${router.query.from}?project=${addNodesToProjectRole?._id}`
+          `/${router.query.from}?project=${updateNodesToProjectRole?._id}`
         );
       else {
-        // setSubmitting(false);
+        setSubmitting(false);
         setView && setView("main");
-        router.push(`/champion-board/recruit/${addNodesToProjectRole?._id}`);
+        router.push(`/champion-board/recruit/${updateNodesToProjectRole?._id}`);
       }
     },
     onError(error) {
@@ -98,7 +99,6 @@ export const CreateProjectContainer = ({
 
   const [createProject, {}] = useMutation(CREATE_PROJECT, {
     onCompleted({ createProject }: Mutation) {
-      setSubmitting(false);
       if (!createProject) console.log("createProject is null");
       createProject?.role?.forEach((_role: Maybe<RoleType>, index: number) => {
         addNodes({
@@ -109,6 +109,7 @@ export const CreateProjectContainer = ({
                   ? state?.role[index]?.nodes
                   : [],
               projectRoleID: _role?._id,
+              nodeType: `sub_expertise`,
             },
           },
           context: { serviceName: "soilservice" },
@@ -124,7 +125,6 @@ export const CreateProjectContainer = ({
 
   const [updateProject, {}] = useMutation(UPDATE_PROJECT, {
     onCompleted({ updateProject }: Mutation) {
-      setSubmitting(false);
       if (!updateProject) console.log("updateProject is null");
       updateProject?.role?.forEach((_role: Maybe<RoleType>, index: number) => {
         addNodes({
@@ -135,6 +135,7 @@ export const CreateProjectContainer = ({
                   ? state?.role[index]?.nodes
                   : [],
               projectRoleID: _role?._id,
+              nodeType: `sub_expertise`,
             },
           },
           context: { serviceName: "soilservice" },
@@ -159,6 +160,7 @@ export const CreateProjectContainer = ({
     setSubmitting(true);
 
     if (state?._id) {
+      console.log("state", state);
       updateProject({
         variables: {
           fields: {
@@ -169,6 +171,7 @@ export const CreateProjectContainer = ({
             descriptionOneLine: state?.descriptionOneLine,
             description: state?.description,
             role: state?.role?.map((role) => ({
+              _id: role?._id,
               title: role?.title,
               shortDescription: role?.shortDescription,
               description: role?.description,
@@ -192,16 +195,7 @@ export const CreateProjectContainer = ({
             backColorEmoji: state?.backColorEmoji,
             descriptionOneLine: state?.descriptionOneLine,
             description: state?.description,
-            role: state?.role?.map((role) => ({
-              title: role?.title,
-              shortDescription: role?.shortDescription,
-              description: role?.description,
-              benefits: role?.benefits,
-              expectations: role?.expectations,
-              ratePerHour: role?.ratePerHour,
-              openPositions: role?.openPositions,
-              hoursPerWeek: role?.hoursPerWeek,
-            })),
+            role: state?.role,
             serverID: state?.serverID,
           },
         },
@@ -209,15 +203,6 @@ export const CreateProjectContainer = ({
       });
     }
   };
-
-  const { data: typeProjectNodes } = useQuery(FIND_NODES, {
-    variables: {
-      fields: {
-        node: "typeProject",
-      },
-    },
-    context: { serviceName: "soilservice" },
-  });
 
   const { data: expertiseNodes } = useQuery(FIND_NODES, {
     variables: {
@@ -254,7 +239,6 @@ export const CreateProjectContainer = ({
               setStep(PROJECT_STEPS.ADD_ROLE);
             }}
             onBack={() => setStep(PROJECT_STEPS.START)}
-            projects={typeProjectNodes?.findNodes}
             setProject={setState}
             project={state}
           />

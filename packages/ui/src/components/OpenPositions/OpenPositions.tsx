@@ -255,11 +255,11 @@ const PositionExpanded = ({
                 </div>
               </div>
             </div>
-            <div className="mt-4">
-              <div className="text-soilGray/100 font-medium uppercase tracking-wide">
+            <div className={`my-4`}>
+              <div className="text-soilGray/100 my-1 font-medium uppercase tracking-wide">
                 📃 Description Of the role
               </div>
-              <div className="p-1">
+              <div className={``}>
                 <LongText
                   cutText={250}
                   text={(activeItem?.projectRole?.description as string) || ""}
@@ -267,24 +267,21 @@ const PositionExpanded = ({
                 />
               </div>
             </div>
-            <div className="mb-3 flex flex-row justify-between">
-              <div>
-                <div className="text-soilGray/100 font-medium uppercase tracking-wide">
-                  💯 Expectations
-                </div>
-                <div className="text-sm">
-                  {activeItem?.projectRole?.expectations?.map(
-                    (expectation, index: number) => (
-                      <li key={index}>{expectation}</li>
-                    )
-                  )}
-                  {/* <li>2 weekly sync calls</li>
-                  <li>leading a team of 10 people</li>
-                  <li>willing to learn</li> */}
-                </div>
+            <div className={`my-4`}>
+              <div className="text-soilGray/100 my-1 font-medium uppercase tracking-wide">
+                💯 Expectations
               </div>
-              <div>
-                <div className="text-soilGray/100 font-medium uppercase tracking-wide">
+              <div className="text-sm">
+                {activeItem?.projectRole?.expectations?.map(
+                  (expectation, index: number) => (
+                    <li key={index}>{expectation}</li>
+                  )
+                )}
+              </div>
+            </div>
+            <div className={`my-4 grid grid-cols-4`}>
+              <div className={`col-span-3`}>
+                <div className="text-soilGray/100 my-1 font-medium uppercase tracking-wide">
                   🦜Benefits
                 </div>
                 <div className="text-sm">
@@ -295,8 +292,8 @@ const PositionExpanded = ({
                   )}
                 </div>
               </div>
-              <div>
-                <div className="text-soilGray/100 font-medium uppercase tracking-wide">
+              <div className={`col-span-1`}>
+                <div className="text-soilGray/100 my-1 font-medium uppercase tracking-wide">
                   🕵️‍♀️Details
                 </div>
                 <div className="text-xs font-medium">

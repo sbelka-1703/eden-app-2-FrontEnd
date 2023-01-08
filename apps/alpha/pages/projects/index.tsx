@@ -25,7 +25,6 @@ import {
   ProjectsModalContainer,
   SEO,
   SubmenuSelector,
-  // UserProfileCard,
   ViewUserProfileContainer,
   WarningCard,
 } from "@eden/package-ui";

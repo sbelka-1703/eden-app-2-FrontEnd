@@ -34,7 +34,7 @@ export const ProjectChampionList = () => {
 
   return (
     <div
-      className={`h-85 scrollbar-hide m-auto flex w-full flex-col overflow-scroll p-2 lg:w-2/3 xl:w-1/2`}
+      className={`h-85 scrollbar-hide 3xl:w-1/2 m-auto flex w-full flex-col overflow-scroll p-2 lg:w-2/3`}
     >
       {projectsToDisplay?.map((item) => (
         <button
@@ -78,7 +78,11 @@ export const ProjectChampionList = () => {
                     className="ml-2 inline-block h-7 w-7 font-semibold text-white"
                   />
                 </div>
+              </div>
+              <div className={`m-auto`}>
                 <CommonServerAvatarList
+                  label={`In servers:`}
+                  size={`sm`}
                   serverID={item?.info?.serverID as string[]}
                 />
               </div>
