@@ -24,7 +24,7 @@ export const DiscoverContainer = ({
   const { project, openModal, setOpenModal } = useContext(DiscoverContext);
 
   const [nodeIdArray, setNodeIdArray] = useState<string[]>([]);
-  const [elements, setElements] = useState<string[]>([]);
+  const [elements, setElements] = useState<any[]>([]);
 
   useEffect(() => {
     if (nodeIdArray) {
@@ -48,7 +48,11 @@ export const DiscoverContainer = ({
               if (setNodeIdArray) setNodeIdArray([...nodeIdArray, ...val]);
             }
             if (valNames) {
-              if (setElements) setElements([...valNames]);
+              const items = valNames.map((names, i) => ({
+                id: `${i}`,
+                content: names,
+              }));
+              if (setElements) setElements(items);
             }
             setOpenModal(DiscoverModal.ORDER_SKILLS_FIRST);
           }}
