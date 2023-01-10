@@ -41,7 +41,7 @@ const edenLink = new ApolloLink((operation, forward) => {
       console.log("TOKEN IS GOOD -> making request");
     operation.setContext({
       headers: {
-        authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
     return forward(operation);

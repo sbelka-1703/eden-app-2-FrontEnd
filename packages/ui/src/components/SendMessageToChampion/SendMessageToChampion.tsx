@@ -219,7 +219,6 @@ export const SendMessageToChampion = ({
                     value={message}
                     className="border-none px-0"
                     placeholder="Start typing here"
-                    customStyle={{ boxShadow: "none" }}
                     onChange={(e) => setMessage(e.target.value)}
                   />
                 </div>

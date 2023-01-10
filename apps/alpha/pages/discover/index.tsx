@@ -7,8 +7,8 @@ import {
 } from "@eden/package-context";
 import {
   FIND_PROJECT,
-  // MATCH_NODES_MEMBERS,
-  MATCH_NODES_MEMBERS_LITE,
+  MATCH_NODES_MEMBERS,
+  // MATCH_NODES_MEMBERS_LITE,
 } from "@eden/package-graphql";
 import {
   MatchMembersToSkillOutput,
@@ -42,7 +42,7 @@ const DiscoverPage: NextPageWithLayout = () => {
   const [nodesID, setNodesID] = useState<string[] | null>(null);
   const [selectedRole, setSelectedRole] = useState<RoleType | null>(null);
 
-  const { data: dataMembers } = useQuery(MATCH_NODES_MEMBERS_LITE, {
+  const { data: dataMembers } = useQuery(MATCH_NODES_MEMBERS, {
     variables: {
       fields: {
         nodesID: nodesID,
@@ -118,9 +118,7 @@ const DiscoverPage: NextPageWithLayout = () => {
               //       ? currentUser.nodes
               //       : nodesID,
               // })}
-              onClickCompleteProfile={() =>
-                router.push("/create-project?from=discover")
-              }
+              onClickCompleteProfile={() => router.push(`/create-project`)}
               text1="You can see users"
               text2="Users can't find your project"
               textButton="Create a project"

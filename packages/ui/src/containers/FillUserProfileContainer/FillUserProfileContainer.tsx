@@ -38,7 +38,6 @@ export interface IFillUserProfileContainerProps {
   state?: Members;
   setState: Dispatch<SetStateAction<any>>;
   step?: string | undefined;
-  // eslint-disable-next-line no-unused-vars
   setStep: Dispatch<SetStateAction<STEPS>>;
   setView?: Dispatch<SetStateAction<"grants" | "profile">>;
   experienceOpen?: number | null;

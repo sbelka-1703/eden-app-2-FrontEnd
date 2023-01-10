@@ -135,7 +135,6 @@ export const DiscordThreadForum = ({}: IDiscordThreadForumProps) => {
               value={message}
               className=""
               placeholder="Start typing here"
-              customStyle={{ fontSize: "20px" }}
               onChange={(e) => setMessage(e.target.value)}
             />
             <Button

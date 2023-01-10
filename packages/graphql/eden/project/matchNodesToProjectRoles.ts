@@ -16,15 +16,19 @@ export const MATCH_NODES_TO_PROJECT_ROLES = gql`
           discordName
           discriminator
           discordAvatar
+          bio
+          links {
+            name
+            url
+          }
         }
         role {
           _id
           title
           description
-          dateRangeStart
-          dateRangeEnd
-          hoursPerWeek
-          openPositions
+          shortDescription
+          expectations
+          benefits
           nodes {
             nodeData {
               _id
@@ -32,6 +36,9 @@ export const MATCH_NODES_TO_PROJECT_ROLES = gql`
               node
             }
           }
+          openPositions
+          ratePerHour
+          hoursPerWeek
         }
       }
       matchPercentage
@@ -41,11 +48,9 @@ export const MATCH_NODES_TO_PROJECT_ROLES = gql`
           _id
           title
           description
-          openPositions
-          hoursPerWeek
-          dateRangeStart
-          dateRangeEnd
-          keyRosponsibilities
+          shortDescription
+          expectations
+          benefits
           nodes {
             nodeData {
               _id
@@ -53,6 +58,9 @@ export const MATCH_NODES_TO_PROJECT_ROLES = gql`
               node
             }
           }
+          openPositions
+          ratePerHour
+          hoursPerWeek
         }
       }
     }

@@ -32,8 +32,6 @@ export const ProjectNodeMatchCard = ({
   //   const [isFavorite, setIsFavorite] = useState(false);
   const { project, matchPercentage, projectRoles } = matchedProject;
 
-  console.log("matchedProject", matchedProject);
-
   if (!project) return null;
   return (
     <Card border>

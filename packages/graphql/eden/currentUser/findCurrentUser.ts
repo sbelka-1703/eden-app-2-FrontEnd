@@ -82,11 +82,12 @@ export const FIND_CURRENTUSER = gql`
             dateRangeStart
             dateRangeEnd
             hoursPerWeek
-            budget {
-              totalBudget
-              token
-              perHour
-              perMonth
+            nodes {
+              nodeData {
+                _id
+                name
+                node
+              }
             }
           }
           dates {

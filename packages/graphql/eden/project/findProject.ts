@@ -18,6 +18,19 @@ export const FIND_PROJECT = gql`
         _id
         discordName
         discordAvatar
+        discriminator
+        bio
+        links {
+          name
+          url
+        }
+        nodes {
+          nodeData {
+            _id
+            name
+            node
+          }
+        }
       }
       team {
         memberInfo {
@@ -51,30 +64,21 @@ export const FIND_PROJECT = gql`
       role {
         _id
         title
+        shortDescription
         description
+        ratePerHour
+        hoursPerWeek
+        dateRangeStart
+        dateRangeEnd
+        openPositions
+        expectations
+        benefits
+        keyRosponsibilities
         nodes {
           nodeData {
             _id
             name
             node
-          }
-        }
-        archive
-        keyRosponsibilities
-        openPositions
-        dateRangeStart
-        dateRangeEnd
-        hoursPerWeek
-        budget {
-          totalBudget
-          token
-          perHour
-          perMonth
-        }
-        skills {
-          skillData {
-            _id
-            name
           }
         }
       }

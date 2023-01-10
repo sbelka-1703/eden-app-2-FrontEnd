@@ -1,19 +1,19 @@
-import { gql, useMutation, useQuery } from "@apollo/client";
-import { UserContext } from "@eden/package-context";
-import { FIND_NODES } from "@eden/package-graphql";
-import { Mutation, Project, RoleType } from "@eden/package-graphql/generated";
+import { gql, useMutation } from "@apollo/client";
+// import { UserContext } from "@eden/package-context";
+// import { FIND_NODES } from "@eden/package-graphql";
+import { Mutation, Project } from "@eden/package-graphql/generated";
 import {
   AppUserLayout,
   CreateProjectViews1,
   CreateProjectViews2,
-  CreateProjectViews6,
-  CreateProjectViews7,
+  // CreateProjectViews6,
+  // CreateProjectViews7,
   GridItemSix,
   GridLayout,
   SEO,
-  ViewProjectContainer,
+  // ViewProjectContainer,
 } from "@eden/package-ui";
-import { useContext, useState } from "react";
+import { useState } from "react";
 
 import { NextPageWithLayout } from "../../_app";
 
@@ -27,12 +27,13 @@ const LAUNCH_PROJECT = gql`
 `;
 
 const FillProfilePage: NextPageWithLayout = () => {
-  const { currentUser } = useContext(UserContext);
+  // const { currentUser } = useContext(UserContext);
   const [step, setStep] = useState(1);
+  // eslint-disable-next-line no-unused-vars
   const [state, setState] = useState<any>({});
   const [battery, setBattery] = useState(5);
   const [project, setProject] = useState<Project>();
-  const projectRoleLength = project?.role?.length;
+  // const projectRoleLength = project?.role?.length;
   const [updateProject, {}] = useMutation(LAUNCH_PROJECT, {
     onCompleted({ updateProject }: Mutation) {
       if (!updateProject) console.log("updateProject is null");
@@ -83,43 +84,43 @@ const FillProfilePage: NextPageWithLayout = () => {
     });
   };
 
-  const onClickLaunch = () => {
-    updateProject({
-      variables: {
-        fields: {
-          title: state[1].name,
-          emoji: state[1].emoji,
-          descriptionOneLine: state[1].description,
-          champion: currentUser?._id,
-          // tags: state[1].tags,
-          backColorEmoji: state[1].color,
-          description: state[3].description,
-          // username: state[2].username,
-          // role: state[2].selectedRole,
-          budget: { perHour: state[3].hrsWeek, token: "", totalBudget: "" },
-          stepsJoinProject: ["step1", "step2", "step3"],
-        },
-      },
-    });
-  };
+  // const onClickLaunch = () => {
+  //   updateProject({
+  //     variables: {
+  //       fields: {
+  //         title: state[1].name,
+  //         emoji: state[1].emoji,
+  //         descriptionOneLine: state[1].description,
+  //         champion: currentUser?._id,
+  //         // tags: state[1].tags,
+  //         backColorEmoji: state[1].color,
+  //         description: state[3].description,
+  //         // username: state[2].username,
+  //         // role: state[2].selectedRole,
+  //         budget: { perHour: state[3].hrsWeek, token: "", totalBudget: "" },
+  //         stepsJoinProject: ["step1", "step2", "step3"],
+  //       },
+  //     },
+  //   });
+  // };
 
-  const { data: typeProjectNodes } = useQuery(FIND_NODES, {
-    variables: {
-      fields: {
-        node: "typeProject",
-      },
-    },
-    context: { serviceName: "soilservice" },
-  });
+  // const { data: typeProjectNodes } = useQuery(FIND_NODES, {
+  //   variables: {
+  //     fields: {
+  //       node: "typeProject",
+  //     },
+  //   },
+  //   context: { serviceName: "soilservice" },
+  // });
 
-  const { data: expertiseNodes } = useQuery(FIND_NODES, {
-    variables: {
-      fields: {
-        node: "expertise",
-      },
-    },
-    context: { serviceName: "soilservice" },
-  });
+  // const { data: expertiseNodes } = useQuery(FIND_NODES, {
+  //   variables: {
+  //     fields: {
+  //       node: "expertise",
+  //     },
+  //   },
+  //   context: { serviceName: "soilservice" },
+  // });
 
   const stepView = () => {
     switch (step) {
@@ -128,7 +129,7 @@ const FillProfilePage: NextPageWithLayout = () => {
           <CreateProjectViews1
             battery={battery}
             setBattery={setBattery}
-            data={state[1]}
+            // data={state[1]}
             onNext={onNext}
             setProject={setProject}
             project={project}
@@ -141,7 +142,7 @@ const FillProfilePage: NextPageWithLayout = () => {
             battery={battery}
             setBattery={setBattery}
             onNext={onNext}
-            projects={typeProjectNodes?.findNodes}
+            // projects={typeProjectNodes?.findNodes}
             onBack={() => setStep((prev) => prev - 1)}
             setProject={setProject}
             project={project}
@@ -149,29 +150,31 @@ const FillProfilePage: NextPageWithLayout = () => {
         );
       case 3:
         return (
-          <CreateProjectViews7
-            battery={battery}
-            setBattery={setBattery}
-            onNext={onNext}
-            expertise={expertiseNodes?.findNodes}
-            onBack={() => setStep((prev) => prev - 1)}
-            // setProject={setProject}
-            project={project}
-            roleIndex={projectRoleLength}
-            // eslint-disable-next-line no-unused-vars
-            onChange={function (data: RoleType): void {
-              // throw new Error("Function not implemented.");
-            }}
-          />
+          <></>
+          // <CreateProjectViews7
+          //   battery={battery}
+          //   setBattery={setBattery}
+          //   onNext={onNext}
+          //   expertise={expertiseNodes?.findNodes}
+          //   onBack={() => setStep((prev) => prev - 1)}
+          //   // setProject={setProject}
+          //   project={project}
+          //   // roleIndex={projectRoleLength}
+          //   // eslint-disable-next-line no-unused-vars
+          //   // onChange={function (data: RoleType): void {
+          //     // throw new Error("Function not implemented.");
+          //   }}
+          // />
         );
       case 4:
         return (
-          <CreateProjectViews6
-            onNext={onClickLaunch}
-            onLaunch={onClickLaunch}
-            onNewPosition={() => setStep((prev) => prev - 1)}
-            onBack={() => setStep((prev) => prev - 1)}
-          />
+          <></>
+          // <CreateProjectViews6
+          //   onNext={onClickLaunch}
+          //   onLaunch={onClickLaunch}
+          //   onNewPosition={() => setStep((prev) => prev - 1)}
+          //   onBack={() => setStep((prev) => prev - 1)}
+          // />
         );
 
       default:
@@ -188,7 +191,7 @@ const FillProfilePage: NextPageWithLayout = () => {
           {stepView()}
         </GridItemSix>
         <GridItemSix>
-          <ViewProjectContainer step={String(step)} project={project} />
+          {/* <ViewProjectContainer step={String(step)} project={project} /> */}
         </GridItemSix>
       </GridLayout>
     </>
