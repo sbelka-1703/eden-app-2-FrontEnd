@@ -12,17 +12,20 @@ export interface IServerSelectorMultiProps {
   disabled?: boolean;
   value?: string[];
   btnBGcolor?: string;
-  // eslint-disable-next-line no-unused-vars
-  onChange?: (items?: string[]) => void;
+  defaultValues: ServerTemplate[];
+  onChange?: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 export const ServerSelectorMulti = ({
   disabled,
   value,
+  defaultValues,
   onChange,
   btnBGcolor = "bg-gray-200",
 }: IServerSelectorMultiProps) => {
-  const [selected, setSelected] = useState<Array<ServerTemplate>>([]);
+  const [selected, setSelected] = useState<Array<ServerTemplate>>(
+    defaultValues || []
+  );
   const [selectedId, setSelectedId] = useState<string[]>([]);
 
   const { memberServers } = useContext(UserContext);
@@ -59,7 +62,7 @@ export const ServerSelectorMulti = ({
 
   return (
     <div>
-      <div className={`h-8 my-4`}>
+      <div className={`my-4 h-8`}>
         <CommonServerAvatarList size={`xs`} serverID={selectedId} />
       </div>
       <Listbox
@@ -94,7 +97,7 @@ export const ServerSelectorMulti = ({
                     {({ selected }) => (
                       <>
                         <div
-                          className={`truncate flex ${
+                          className={`flex truncate ${
                             selected ? "font-medium" : "font-normal"
                           }`}
                         >
