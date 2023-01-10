@@ -1,3 +1,4 @@
+import { UserContext } from "@eden/package-context";
 import { Project } from "@eden/package-graphql/generated";
 import {
   BatteryStepper,
@@ -8,7 +9,7 @@ import {
   TextField,
   TextHeading3,
 } from "@eden/package-ui";
-import { Dispatch, SetStateAction, useReducer } from "react";
+import { Dispatch, SetStateAction, useContext, useReducer } from "react";
 import { toast } from "react-toastify";
 
 const initialState = {
@@ -47,6 +48,7 @@ export const CreateProjectViews1 = ({
   setProject,
   project,
 }: CreateProjectViews1Props) => {
+  const { memberServers } = useContext(UserContext);
   const [state, dispath] = useReducer(reducer, project || initialState);
   const nextDisabled = !state.title || state.serverID?.length == 0;
   const handleUpdateState = (value: any, field: string) => {
@@ -107,8 +109,16 @@ export const CreateProjectViews1 = ({
     }
   };
 
+  const filterMemberServers = () => {
+    const filteredMemberServers = memberServers.filter((server) =>
+      state.serverID?.includes(server?._id as string)
+    );
+
+    return filteredMemberServers;
+  };
+
   return (
-    <Card className={`pb-6 scrollbar-hide overflow-y-scroll h-85`}>
+    <Card className={`scrollbar-hide h-85 overflow-y-scroll pb-6`}>
       <div className="mb-4 flex items-center justify-between bg-green-100 p-7">
         <TextHeading3>
           {` Hello & Welcome! Let’s launch your first project🚀`}
@@ -135,7 +145,7 @@ export const CreateProjectViews1 = ({
             {`Please Choose a Discord Server to get Applicants from`}
           </p>
           <ServerSelectorMulti
-            // value={state.serverID as string[]}
+            defaultValues={filterMemberServers()}
             onChange={(val) => {
               handleUpdateState(val, "serverID");
               setBattery(battery < 30 ? battery + 10 : battery);
