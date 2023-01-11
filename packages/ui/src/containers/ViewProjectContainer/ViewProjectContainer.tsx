@@ -219,20 +219,6 @@ export const ViewProjectContainer = ({
                 </div>
 
                 <div className="mb-3 grid grid-cols-3 gap-4">
-                  {/* <div className="col-span-1">
-                    <div className="text-soilGray/100 font-medium uppercase tracking-wide">
-                      💯 Expectations
-                    </div>
-                    <div className="text-sm">
-                      {activeRole?.expectations?.map(
-                        (obj: string, index: number) => (
-                          <li key={index} className="overflow-auto">
-                            {obj}
-                          </li>
-                        )
-                      )}
-                    </div>
-                  </div> */}
                   <div className="col-span-2">
                     <div className="text-soilGray/100 my-1 font-medium uppercase tracking-wide">
                       🦜 Benefits

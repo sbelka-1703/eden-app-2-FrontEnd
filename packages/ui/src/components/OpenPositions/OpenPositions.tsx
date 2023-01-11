@@ -139,8 +139,7 @@ const PositionExpanded = ({
   tabs: string[];
   activeItem: MatchProjectRoles;
   activeTab: number;
-  // eslint-disable-next-line no-unused-vars
-  setActiveTab: (activeTab: number) => void;
+  setActiveTab: React.Dispatch<React.SetStateAction<number>>;
 }) => {
   const { currentUser } = useContext(UserContext);
   const [applying, setApplying] = useState(false);
