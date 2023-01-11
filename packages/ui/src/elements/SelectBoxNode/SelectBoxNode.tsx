@@ -9,7 +9,7 @@ import { Fragment, useEffect, useState } from "react";
 export interface ISelectBoxNodeProps {
   caption: string;
   items: Node[];
-  defaultValues?: any;
+  // defaultValues?: any;
   disabled?: boolean;
   multiple?: boolean;
   btnBGcolor?: string;
@@ -22,13 +22,15 @@ export interface ISelectBoxNodeProps {
 export const SelectBoxNode = ({
   caption,
   items,
-  defaultValues,
+  // defaultValues,
   multiple,
   disabled,
   onChange,
   btnBGcolor = "bg-gray-200",
 }: ISelectBoxNodeProps) => {
-  const [selected, setSelected] = useState(multiple ? defaultValues || [] : "");
+  const [selected, setSelected] = useState(
+    multiple ? items.filter((item) => item.selected) || [] : ""
+  );
 
   const btnClasses = clsx(
     "relative flex justify-between items-center w-full border border-gray-300 text-center cursor-pointer rounded-2xl py-1 px-3 shadow-xl hover:border-gray-500 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-green-300 sm:text-sm",
