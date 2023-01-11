@@ -14,6 +14,7 @@ import { RetryLink } from "@apollo/client/link/retry";
 import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 import { createClient } from "graphql-ws";
 import { getMainDefinition } from "@apollo/client/utilities";
+import { signOut } from "next-auth/react";
 
 import jwt_decode from "jwt-decode";
 
@@ -68,6 +69,7 @@ const edenLink = new ApolloLink((operation, forward) => {
       })
 
       .catch(() => {
+        signOut();
         return toPromise(forward(operation));
       })
   );
