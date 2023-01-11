@@ -1,7 +1,4 @@
-import {
-  MatchMembersToSkillOutput,
-  Members,
-} from "@eden/package-graphql/generated";
+import { Members } from "@eden/package-graphql/generated";
 import { faker } from "@faker-js/faker";
 
 import { memberBio } from "../data";
@@ -12,30 +9,8 @@ import {
   getPreviusProjectsTypeMockArray,
   getProjectMemberTypeMockArray,
   getRoleTemplateTypeMock,
-  getSkillsPercentageTypeMockArray,
   getSkillTypeMemberMockArray,
 } from "../typeMocks";
-import { randomPercentage } from "../utils";
-
-export const getMatchingMember = (): MatchMembersToSkillOutput =>
-  ({
-    _id: String(faker.random.numeric(5)),
-    member: getMember(),
-    skillsPercentage: getSkillsPercentageTypeMockArray(
-      Number(faker.random.numeric(1))
-    ),
-    matchPercentage: {
-      totalPercentage: randomPercentage(),
-      skillTotalPercentage: randomPercentage(),
-      hoursPercentage: randomPercentage(),
-      budgetPercentage: randomPercentage(),
-    },
-  } as any);
-
-export const getMatchingMemberArray = (
-  total: number
-): MatchMembersToSkillOutput[] =>
-  Array.from({ length: total }, () => getMatchingMember());
 
 export const getMember = (): Members => ({
   _id: "12345",
