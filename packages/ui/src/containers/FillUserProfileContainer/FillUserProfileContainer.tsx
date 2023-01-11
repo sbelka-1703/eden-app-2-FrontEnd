@@ -46,9 +46,9 @@ export interface IFillUserProfileContainerProps {
   setExperienceOpen?: (val: number | null) => void;
 }
 
-const ADD_NODES_MEMBER = gql`
-  mutation ($fields: addNodesToMemberInput!) {
-    addNodesToMember(fields: $fields) {
+const UPDATE_NODES_MEMBER = gql`
+  mutation ($fields: updateNodesToMemberInput!) {
+    updateNodesToMember(fields: $fields) {
       _id
     }
   }
@@ -67,10 +67,10 @@ export const FillUserProfileContainer = ({
   //   const [salaries, setSalaries] = useState<number[]>([]);
   const [submitting, setSubmitting] = useState(false);
 
-  const [addNodes, {}] = useMutation(ADD_NODES_MEMBER, {
-    onCompleted({ addNodesToProjectRole }: Mutation) {
-      if (!addNodesToProjectRole) console.log("addNodesToProjectRole is null");
-      console.log("addNodesToProjectRole", addNodesToProjectRole);
+  const [updateNodes, {}] = useMutation(UPDATE_NODES_MEMBER, {
+    onCompleted({ updateNodesToMember }: Mutation) {
+      if (!updateNodesToMember) console.log("updateNodesToMember is null");
+      console.log("updateNodesToMember", updateNodesToMember);
     },
     onError(error) {
       console.log(error);
@@ -85,9 +85,10 @@ export const FillUserProfileContainer = ({
       if (!updateMember) console.log("updateMember is null");
       console.log("updateMember", updateMember);
       // router.push(`/${router.query.from}?project=${updateMember?._id}`);
-      addNodes({
+      updateNodes({
         variables: {
           fields: {
+            nodeType: "sub_expertise",
             nodesID: state?.nodes?.map((node) => node?.nodeData?._id),
             memberID: currentUser?._id,
           },
@@ -196,11 +197,6 @@ export const FillUserProfileContainer = ({
     });
   };
 
-  const [selectedItems, setSelectedItems] = useState<{
-    [key: string]: Node[];
-  }>({});
-  const [selectedNodes, setSelectedNodes] = useState<NodesType[]>([]);
-
   const { data: dataNodes } = useQuery(FIND_NODES, {
     variables: {
       fields: {
@@ -209,6 +205,44 @@ export const FillUserProfileContainer = ({
     },
     context: { serviceName: "soilservice" },
   });
+
+  const { data: dataNodesStructured } = useQuery(FIND_NODES, {
+    variables: {
+      fields: {
+        node: "expertise",
+        selectedNodes: currentUser?.nodes?.map((node) => node?.nodeData?._id),
+      },
+    },
+    context: { serviceName: "soilservice" },
+  });
+
+  function getSelectedItems() {
+    if (dataNodes?.findNodes) {
+      const _selectedItems: any = {};
+
+      forEach(dataNodes?.findNodes, (el, index) => {
+        _selectedItems[el._id] = dataNodes?.findNodes[index].subNodes.filter(
+          (subNode: Node) => {
+            return currentUser?.nodes?.some(
+              (_subNode) => subNode?._id === _subNode?.nodeData?._id
+            );
+          }
+        ) as Node[];
+      });
+
+      return _selectedItems;
+    } else {
+      return null;
+    }
+  }
+
+  const [selectedItems, setSelectedItems] = useState<{
+    [key: string]: Node[];
+  }>(getSelectedItems() || []);
+
+  const [selectedNodes, setSelectedNodes] = useState<Maybe<NodesType>[]>(
+    state?.nodes || []
+  );
 
   useEffect(() => {
     if (selectedItems) {
@@ -280,24 +314,29 @@ export const FillUserProfileContainer = ({
             {step === STEPS.BIO && (
               <>
                 <p>{`Add your expertise:`}</p>
+                {/* {JSON.stringify(dataNodesStructured)} */}
                 <div className="mb-8 mt-4 flex h-24 w-full flex-wrap justify-center gap-2">
-                  {dataNodes?.findNodes ? (
+                  {dataNodesStructured?.findNodes ? (
                     <>
-                      {!isEmpty(dataNodes?.findNodes) &&
-                        map(dataNodes?.findNodes, (item: any, key: number) => (
-                          <SelectBoxNode
-                            multiple
-                            key={key}
-                            caption={item?.name}
-                            items={item?.subNodes}
-                            onChange={(val) => {
-                              setSelectedItems((prevState) => ({
-                                ...prevState,
-                                [item?._id]: val,
-                              }));
-                            }}
-                          />
-                        ))}
+                      {!isEmpty(dataNodesStructured?.findNodes) &&
+                        map(
+                          dataNodesStructured?.findNodes,
+                          (item: any, key: number) => (
+                            <SelectBoxNode
+                              multiple
+                              key={key}
+                              caption={item?.name}
+                              items={item?.subNodes}
+                              // defaultValues={dataNodesStructured}
+                              onChange={(val) => {
+                                setSelectedItems((prevState) => ({
+                                  ...prevState,
+                                  [item?._id]: val,
+                                }));
+                              }}
+                            />
+                          )
+                        )}
                     </>
                   ) : (
                     <Loading />
