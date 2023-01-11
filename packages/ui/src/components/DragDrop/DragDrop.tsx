@@ -9,6 +9,7 @@ export interface IDragDropProps {
   elements?: { id: string; content: string }[];
   onNext?: () => void;
   onPrev?: () => void;
+  onReOrder?: (skillsOrder: string[]) => void;
 }
 
 export const DragDrop = ({
@@ -16,6 +17,7 @@ export const DragDrop = ({
   elements = [],
   onNext,
   onPrev,
+  onReOrder,
 }: IDragDropProps) => {
   const handleNext = () => {
     if (onNext) onNext!();
@@ -45,6 +47,11 @@ export const DragDrop = ({
       result.source.index,
       result.destination.index
     );
+    let skillArray: string[] = [];
+    newitems.map((items) => {
+      skillArray.push(items.content);
+    });
+    onReOrder && onReOrder(skillArray);
 
     setfirst(newitems);
   };
