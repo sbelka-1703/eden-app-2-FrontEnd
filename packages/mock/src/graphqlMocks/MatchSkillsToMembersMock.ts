@@ -5,7 +5,7 @@ import {
 
 import { getSkillsPercentageTypeMockArray } from "../typeMocks";
 import { randomPercentage } from "../utils";
-import { getMember } from "./MembersMock";
+import { getMemberLite } from "./MembersMock";
 
 export const getMatchPercentage = (): MatchPercentage => ({
   totalPercentage: randomPercentage(),
@@ -17,6 +17,6 @@ export const getMatchPercentage = (): MatchPercentage => ({
 
 export const matchSkillsToMembers = (): MatchMembersToSkillOutput => ({
   matchPercentage: getMatchPercentage(),
-  member: getMember(),
+  member: getMemberLite(),
   skillsPercentage: getSkillsPercentageTypeMockArray(5),
 });

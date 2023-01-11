@@ -1,7 +1,7 @@
 import { GrantTemplate } from "@eden/package-graphql/generated";
 import { faker } from "@faker-js/faker";
 
-import { getMemberArray } from "../graphqlMocks";
+import { getMemberLiteArray } from "../graphqlMocks";
 import { getNodesTypeMockArray } from "./";
 
 export const getGrantTemplateTypeMock = (): GrantTemplate => {
@@ -29,8 +29,8 @@ export const getGrantTemplateTypeMock = (): GrantTemplate => {
       faker.datatype.number({ min: 2, max: 36, precision: 1 })
     ),
     serverID: ["996558082098339953"],
-    membersApplied: getMemberArray(
-      faker.datatype.number({ min: 2, max: 36, precision: 1 })
+    membersApplied: getMemberLiteArray(
+      faker.datatype.number({ min: 2, max: 24, precision: 1 })
     ),
   };
 };
