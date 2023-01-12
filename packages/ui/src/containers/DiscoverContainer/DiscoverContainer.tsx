@@ -2,6 +2,7 @@ import { DiscoverContext, DiscoverModal } from "@eden/package-context";
 import {
   DiscoverTalent,
   DragDrop,
+  TestDiscoverTalentDropdownModal,
   Prioritize,
   Requirements,
 } from "@eden/package-ui";
@@ -41,7 +42,7 @@ export const DiscoverContainer = ({
   return (
     <>
       {openModal === DiscoverModal.SKILLS_CATEGORY && (
-        <DiscoverTalent
+        <TestDiscoverTalentDropdownModal
           openModal={openModal === DiscoverModal.SKILLS_CATEGORY}
           onNext={(val: string[], valNames: string[]) => {
             if (val) {
@@ -56,7 +57,8 @@ export const DiscoverContainer = ({
             }
             setOpenModal(DiscoverModal.ORDER_SKILLS_FIRST);
           }}
-          title={`Who are you ?`}
+          title={`Who are you looking for?`}
+          subTitle={`Select what you want them to help you with. ?`}
           nodeType={`expertise`}
           matchType={matchType}
         />

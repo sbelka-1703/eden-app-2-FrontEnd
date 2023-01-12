@@ -57,7 +57,7 @@ export const DragDrop = ({
   };
 
   return (
-    <div className="h-85 flex w-full flex-col gap-4 p-4 text-center text-white">
+    <div className=" flex w-full flex-col gap-4 p-4 text-center text-white">
       <div className="text-xl font-semibold text-black">{title}</div>
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="droppable">
