@@ -125,9 +125,9 @@ export const TestDiscoverTalentDropdownModal = ({
     <Modal open={openModal} closeOnEsc={false}>
       {section && (
         <div>
-          <div className={`mb-12 mt-5 flex justify-between`}>
-            <div>
-              <div className="flex justify-between">
+          <div className={`mb-12 mt-5 flex`}>
+            <div className="w-full">
+              <div className="flex w-full justify-between">
                 <div className="flex-1">
                   <TextHeading3>{section?.title}</TextHeading3>
                 </div>
@@ -135,7 +135,7 @@ export const TestDiscoverTalentDropdownModal = ({
               <TextBody className={`py-2 font-medium text-gray-500`}>
                 {section?.subtitle}
               </TextBody>
-              <section className="mt-4">
+              <section className="mt-4 w-full">
                 <div className="my-8 ml-4 flex h-10 w-full flex-wrap justify-center gap-2">
                   {dataNodes?.findNodes ? (
                     <>
