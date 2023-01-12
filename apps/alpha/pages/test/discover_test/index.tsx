@@ -1,6 +1,7 @@
 import { useQuery } from "@apollo/client";
 import {
   DiscoverContext,
+  DiscoverModal,
   DiscoverProvider,
   UserContext,
 } from "@eden/package-context";
@@ -61,12 +62,12 @@ const DiscoverPage: NextPageWithLayout = () => {
       <GridLayout>
         <GridItemFour>
           <div className="flex flex-col gap-4 ">
-            <Card
-              className={`scrollbar-hide h-85 overflow-scroll bg-white p-4 `}
-            >
-              <span className="text-lg font-semibold">
-                Find out your Profile
-              </span>
+            <Card className={`scrollbar-hide overflow-scroll bg-white p-4 `}>
+              {openModal !== DiscoverModal.SKILLS_CATEGORY && (
+                <span className="text-lg font-semibold">
+                  Who are you looking for?
+                </span>
+              )}
               <DiscoverContainer
                 setArrayOfNodes={(val) => {
                   setNodesID(val);
