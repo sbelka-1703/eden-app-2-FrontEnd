@@ -99,7 +99,7 @@ const DiscoverPage: NextPageWithLayout = () => {
                   radius="default"
                   size="md"
                   onClick={() => {
-                    setOpenModal(DiscoverModal.START_INFO);
+                    setOpenModal(DiscoverModal.SKILLS_CATEGORY);
                   }}
                 >
                   Update search parameters
