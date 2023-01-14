@@ -5,7 +5,6 @@ import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 
 // import { isAllServers, isEdenStaff } from "../../data";
-import { isAllServers } from "../../data";
 import { UserContext } from "./UserContext";
 
 export const FIND_SERVERS = gql`
@@ -33,6 +32,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 
   const [memberServers, setMemberServers] = useState<ServerTemplate[]>([]);
   const [selectedServer, setSelectedServer] = useState<any>(null);
+  const [selectedServerID, setSelectedServerID] = useState<string[]>([]);
   const [memberServerIDs, setMemberServerIDs] = useState<string[]>([]);
 
   const { data: dataMember, refetch: refechProfile } = useQuery(
@@ -54,8 +54,6 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     }
   );
 
-  // console.log("dataMember", dataMember);
-
   useSubscription(FIND_CURRENTUSER_SUB, {
     variables: {
       fields: {
@@ -75,18 +73,18 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     skip: memberServerIDs.length === 0,
     context: { serviceName: "soilservice" },
     onCompleted: (data) => {
-      const servers: ServerTemplate[] = [isAllServers];
-
-      servers.push(...data.findServers);
-      setMemberServers(servers);
-      setSelectedServer(servers[0]);
+      setMemberServers([...data.findServers]);
+      setSelectedServer(data.findServers[0]);
     },
   });
 
   // if (dataServers) console.log("dataServers", dataServers?.findServers);
 
   useEffect(() => {
-    if (dataMember) setMemberServerIDs(dataMember.findMember?.serverID || []);
+    if (dataMember) {
+      setMemberServerIDs(dataMember.findMember?.serverID || []);
+      setSelectedServerID(dataMember.findMember?.serverID || []);
+    }
 
     if (dataMember && process.env.NODE_ENV === "development") {
       console.log(`==== current USER ====`);
@@ -95,13 +93,13 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     }
   }, [dataMember]);
 
-  useEffect(() => {
-    if (selectedServer && process.env.NODE_ENV === "development") {
-      console.log(`==== current SERVER ====`);
-      console.log(selectedServer);
-      console.log(`==== ----------- ====`);
-    }
-  }, [selectedServer]);
+  // useEffect(() => {
+  //   if (selectedServer && process.env.NODE_ENV === "development") {
+  //     console.log(`==== current SERVER ====`);
+  //     console.log(selectedServer);
+  //     console.log(`==== ----------- ====`);
+  //   }
+  // }, [selectedServer]);
 
   const injectContext = {
     currentUser: dataMember?.findMember || undefined,
@@ -114,6 +112,8 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     memberServerIDs,
     selectedServer,
     setSelectedServer,
+    selectedServerID,
+    setSelectedServerID,
   };
 
   return (

@@ -3,7 +3,7 @@ import { faker } from "@faker-js/faker";
 
 import { phase } from "../data";
 import { getRoleTypeMockArray, getTeamTypeMockArray } from "../typeMocks";
-import { getMember } from "./MembersMock";
+import { getMemberLite } from "./MembersMock";
 
 export const randomTeamType = () =>
   Array.from(
@@ -12,7 +12,7 @@ export const randomTeamType = () =>
       return {
         _id: String(faker.random.numeric(5)),
         phase: faker.helpers.arrayElements(phase, 1)[0] as PhaseType,
-        memberInfo: getMember(),
+        memberInfo: getMemberLite(),
       };
     }
   );
@@ -29,7 +29,7 @@ export const project: Project = {
     token: faker.finance.amount(0, 100, 2),
     totalBudget: faker.finance.amount(0, 100, 2),
   },
-  champion: getMember(),
+  champion: getMemberLite(),
   collaborationLinks: [
     {
       link: "https://twitter.com/edenprotocolxyz",

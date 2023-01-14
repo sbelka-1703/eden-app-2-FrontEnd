@@ -9,6 +9,7 @@ import {
   Badge,
   Button,
   Card,
+  CommonServerAvatarList,
   //   Favorite,
   LongText,
   ProjectNodeMatchModal,
@@ -26,13 +27,10 @@ export interface IProjectNodeMatchCardProps {
 
 export const ProjectNodeMatchCard = ({
   matchedProject,
-}: //   onOpen = null,
-IProjectNodeMatchCardProps) => {
+}: IProjectNodeMatchCardProps) => {
   const [isOpen, setIsOpen] = useState(false);
   //   const [isFavorite, setIsFavorite] = useState(false);
   const { project, matchPercentage, projectRoles } = matchedProject;
-
-  // console.log("matchedProject", matchedProject);
 
   if (!project) return null;
   return (
@@ -93,6 +91,13 @@ IProjectNodeMatchCardProps) => {
           className={`text-darkGreen font-Inter my-2 text-sm`}
         />
       </div>
+      {project?.serverID && (
+        <CommonServerAvatarList
+          label={`common servers`}
+          size={`xs`}
+          serverID={project?.serverID as string[]}
+        />
+      )}
       <div className={`font-Inter text-sm text-zinc-500`}>🛠 Relevant Roles</div>
       <div>
         {projectRoles?.map((role: Maybe<MatchProjectRoles>, index: number) => (

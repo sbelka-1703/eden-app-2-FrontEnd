@@ -1,7 +1,4 @@
-import {
-  MatchMembersToSkillOutput,
-  Members,
-} from "@eden/package-graphql/generated";
+import { Members } from "@eden/package-graphql/generated";
 import { faker } from "@faker-js/faker";
 
 import { memberBio } from "../data";
@@ -12,30 +9,8 @@ import {
   getPreviusProjectsTypeMockArray,
   getProjectMemberTypeMockArray,
   getRoleTemplateTypeMock,
-  getSkillsPercentageTypeMockArray,
   getSkillTypeMemberMockArray,
 } from "../typeMocks";
-import { randomPercentage } from "../utils";
-
-export const getMatchingMember = (): MatchMembersToSkillOutput =>
-  ({
-    _id: String(faker.random.numeric(5)),
-    member: getMember(),
-    skillsPercentage: getSkillsPercentageTypeMockArray(
-      Number(faker.random.numeric(1))
-    ),
-    matchPercentage: {
-      totalPercentage: randomPercentage(),
-      skillTotalPercentage: randomPercentage(),
-      hoursPercentage: randomPercentage(),
-      budgetPercentage: randomPercentage(),
-    },
-  } as any);
-
-export const getMatchingMemberArray = (
-  total: number
-): MatchMembersToSkillOutput[] =>
-  Array.from({ length: total }, () => getMatchingMember());
 
 export const getMember = (): Members => ({
   _id: "12345",
@@ -83,3 +58,33 @@ export const getMember = (): Members => ({
 
 export const getMemberArray = (total: number): Members[] =>
   Array.from({ length: total }, () => getMember());
+
+export const getMemberLite = (): Members => ({
+  _id: String(faker.random.numeric(5)),
+  bio: faker.helpers.uniqueArray(memberBio, 1)[0].bio,
+  discordAvatar: faker.internet.avatar(),
+  discordName: faker.internet.userName(),
+  discriminator: faker.random.numeric(4),
+  hoursPerWeek: faker.datatype.number({ min: 5, max: 36, precision: 1 }),
+  interest: faker.lorem.paragraph(),
+  links: getLinkTypeMock,
+  memberRole: getRoleTemplateTypeMock(),
+  previusProjects: getPreviusProjectsTypeMockArray(3),
+  projects: getProjectMemberTypeMockArray(
+    faker.datatype.number({ min: 2, max: 5, precision: 1 })
+  ),
+  serverID: Array.from(
+    { length: faker.datatype.number({ min: 2, max: 8, precision: 1 }) },
+    () => faker.random.numeric(12)
+  ),
+  nodes: getNodesTypeMockArray(
+    faker.datatype.number({ min: 2, max: 24, precision: 1 })
+  ),
+  endorsements: getEndorsementsTypeMockArray(
+    faker.datatype.number({ min: 2, max: 6, precision: 1 })
+  ),
+  timeZone: faker.address.timeZone(),
+});
+
+export const getMemberLiteArray = (total: number): Members[] =>
+  Array.from({ length: total }, () => getMemberLite());

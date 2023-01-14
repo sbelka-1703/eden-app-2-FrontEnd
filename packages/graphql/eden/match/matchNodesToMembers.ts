@@ -9,6 +9,7 @@ export const MATCH_NODES_MEMBERS = gql`
         discordAvatar
         discriminator
         bio
+        serverID
         endorsements {
           arweaveTransactionID
           endorsementMessage

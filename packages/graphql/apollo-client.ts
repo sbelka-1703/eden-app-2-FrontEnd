@@ -20,8 +20,9 @@ import jwt_decode from "jwt-decode";
 type decodedType = {
   exp: number;
   iat: number;
-  id: string;
-  role: string;
+  _id: string;
+  discordName: string;
+  accessLevel: number;
 };
 let decoded: decodedType;
 
@@ -40,7 +41,7 @@ const edenLink = new ApolloLink((operation, forward) => {
       console.log("TOKEN IS GOOD -> making request");
     operation.setContext({
       headers: {
-        authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
     return forward(operation);

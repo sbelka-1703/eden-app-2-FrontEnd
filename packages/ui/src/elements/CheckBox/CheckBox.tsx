@@ -6,7 +6,7 @@ export type CheckBoxProps = {
   label?: string;
   checked?: boolean;
   required?: boolean;
-  radius?: "default" | "rounded" | "pill" | "boxed";
+  radius?: "default" | "rounded" | "pill";
   bgColorRGB?: string;
   brColorRGB?: string;
   // eslint-disable-next-line no-unused-vars
@@ -24,10 +24,9 @@ export const CheckBox: React.FC<CheckBoxProps> = ({
   onChange,
 }) => {
   const inputCls = clsx("font-Inter text-soilBody flex", {
-    "py-1 px-1 rounded-md": radius === "default",
-    "py-1 px-1 rounded-lg": radius === "rounded",
-    "py-1 px-1 rounded-full": radius === "pill",
-    "py-1 px-0.5 rounded-md": radius === "boxed",
+    "py-1 px-3 rounded-md": radius === "default",
+    "py-1 px-3 rounded-lg": radius === "rounded",
+    "py-1 px-3 rounded-full": radius === "pill",
   });
 
   return (

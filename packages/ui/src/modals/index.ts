@@ -1,5 +1,4 @@
 export * from "./ApplicationModal";
-export * from "./ApplyByRoleModal";
 export * from "./CongratulationsModal";
 export * from "./DiscoverTalentDropdownModal";
 export * from "./EditProjectModal";
@@ -19,7 +18,7 @@ export * from "./SelectNodesModal";
 export * from "./SendMessageToUserModal";
 export * from "./SkipFlowModal";
 export * from "./StaticModal";
-export * from "./UserDiscoverModal";
+export * from "./TestDiscoverTalentDropdownModal";
 export * from "./UserInviteModal";
 export * from "./WarningModal";
 export * from "./WelcomeModal";

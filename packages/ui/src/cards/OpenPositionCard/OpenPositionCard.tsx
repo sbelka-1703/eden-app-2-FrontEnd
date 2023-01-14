@@ -1,5 +1,5 @@
 import { Maybe, RoleType } from "@eden/package-graphql/generated";
-import { Badge, Button, Card } from "@eden/package-ui";
+import { Badge, Button, Card, LongText } from "@eden/package-ui";
 
 import { round } from "../../../utils";
 
@@ -32,9 +32,11 @@ OpenPositionCardProps) => {
               </span>
             ) : null}
           </div>
-          <div className="text-soilGray/100 text-sm font-semibold tracking-wide">
-            {role?.shortDescription}
-          </div>
+          <LongText
+            cutText={100}
+            text={(role?.shortDescription as string) || ""}
+            className={`text-soilGray/100 text-sm font-semibold tracking-wide`}
+          />
           <div className="mt-2 flex">
             {role?.skills?.map((skill, index) => {
               return (
@@ -51,8 +53,12 @@ OpenPositionCardProps) => {
               );
             })}
           </div>
-          <div className="mt-2 text-sm font-normal tracking-wide">
-            {role?.description}
+          <div className="mt-2">
+            <LongText
+              cutText={100}
+              text={(role?.description as string) || ""}
+              className={`text-darkGreen font-Inter my-2 text-sm font-normal tracking-wide`}
+            />
           </div>
           <div className="text-xs font-medium">
             <div className="flex flex-row p-1">

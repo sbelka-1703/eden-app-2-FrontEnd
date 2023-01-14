@@ -22,6 +22,7 @@
     "@jaames/iro": "^5.5.2",
     "@testing-library/user-event": "^14.4.3",
     "@types/react": "^18.0.25",
+    "@types/react-beautiful-dnd": "^13.1.3",
     "@types/react-dom": "^18.0.8",
     "@types/uuid": "^8.3.4",
     "chart.js": "^3.9.1",
@@ -37,6 +38,7 @@
     "typescript": "^4.8.4"
   },
   "dependencies": {
+    "@hello-pangea/dnd": "^16.2.0",
     "chart.js": "^3.9.1",
     "date-fns": "^2.29.3",
     "discord-api-types": "^0.37.17",

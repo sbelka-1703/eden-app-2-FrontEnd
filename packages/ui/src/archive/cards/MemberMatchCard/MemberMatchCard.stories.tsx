@@ -1,7 +1,7 @@
 import {
-  getMatchingMember,
   getMember,
   getSkillRoleTypeMockArray,
+  matchNodesToMembersMock,
 } from "@eden/package-mock";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
@@ -22,5 +22,5 @@ Default.args = {
   requiredSkills: getSkillRoleTypeMockArray(12),
   percentage: "81",
   member: getMember(),
-  matchedMember: getMatchingMember(),
+  matchedMember: matchNodesToMembersMock(),
 };

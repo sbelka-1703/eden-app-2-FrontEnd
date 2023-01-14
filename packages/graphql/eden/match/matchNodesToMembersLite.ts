@@ -9,6 +9,7 @@ export const MATCH_NODES_MEMBERS_LITE = gql`
         discordAvatar
         discriminator
         bio
+        serverID
         memberRole {
           _id
           title

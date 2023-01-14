@@ -1,9 +1,14 @@
 import { useQuery } from "@apollo/client";
-import { DiscoverProvider, UserContext } from "@eden/package-context";
+import {
+  DiscoverContext,
+  DiscoverModal,
+  DiscoverProvider,
+  UserContext,
+} from "@eden/package-context";
 import {
   FIND_PROJECT,
-  // MATCH_NODES_MEMBERS,
-  MATCH_NODES_MEMBERS_LITE,
+  MATCH_NODES_MEMBERS,
+  // MATCH_NODES_MEMBERS_LITE,
 } from "@eden/package-graphql";
 import {
   MatchMembersToSkillOutput,
@@ -12,6 +17,7 @@ import {
 } from "@eden/package-graphql/generated";
 import {
   AppUserSubmenuLayout,
+  Button,
   Card,
   CardGrid,
   DiscoverModalContainer,
@@ -23,26 +29,27 @@ import {
   UserDiscoverCard,
   WarningCard,
 } from "@eden/package-ui";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 
 import welcome from "../../public/welcome.png";
 import type { NextPageWithLayout } from "../_app";
 
 const DiscoverPage: NextPageWithLayout = () => {
   const router = useRouter();
-  const { selectedServer, memberServerIDs } = useContext(UserContext);
+  // const { selectedServer, memberServerIDs } = useContext(UserContext);
+  const { setOpenModal } = useContext(DiscoverContext);
+  const { selectedServerID } = useContext(UserContext);
   const [nodesID, setNodesID] = useState<string[] | null>(null);
-  const [serverID, setServerID] = useState<string[] | null>(null);
   const [selectedRole, setSelectedRole] = useState<RoleType | null>(null);
 
-  const { data: dataMembers } = useQuery(MATCH_NODES_MEMBERS_LITE, {
+  const { data: dataMembers } = useQuery(MATCH_NODES_MEMBERS, {
     variables: {
       fields: {
         nodesID: nodesID,
-        serverID: serverID,
+        serverID: selectedServerID,
       },
     },
-    skip: !nodesID || !serverID,
+    skip: !nodesID || !selectedServerID,
     context: { serviceName: "soilservice" },
   });
 
@@ -57,16 +64,6 @@ const DiscoverPage: NextPageWithLayout = () => {
   });
 
   // if (dataMembers) console.log("dataMembers", dataMembers);
-
-  useEffect(() => {
-    if (selectedServer?._id) {
-      setServerID([selectedServer?._id]);
-    } else {
-      setServerID(memberServerIDs);
-    }
-  }, [selectedServer]);
-
-  // if (memberServers) console.log("memberServers", memberServers[1]._id);
 
   return (
     <>
@@ -92,6 +89,25 @@ const DiscoverPage: NextPageWithLayout = () => {
               </Card>
             )}
           {!dataProject?.findProject?.title && (
+            <Card
+              shadow
+              className="mb-4 w-full flex-grow border-[2px] bg-white p-10 font-semibold"
+            >
+              <div className="mt-3">
+                <Button
+                  variant="primary"
+                  radius="default"
+                  size="md"
+                  onClick={() => {
+                    setOpenModal(DiscoverModal.START_INFO);
+                  }}
+                >
+                  Update search parameters
+                </Button>
+              </div>
+            </Card>
+          )}
+          {!dataProject?.findProject?.title && (
             <WarningCard
               // profilePercentage={getFillProfilePercentage({
               //   ...state,
@@ -102,11 +118,10 @@ const DiscoverPage: NextPageWithLayout = () => {
               //       ? currentUser.nodes
               //       : nodesID,
               // })}
-              onClickCompleteProfile={() =>
-                router.push("/create-project?from=discover")
-              }
+              onClickCompleteProfile={() => router.push(`/create-project`)}
               text1="You can see users"
               text2="Users can't find your project"
+              textButton="Create a project"
             />
           )}
         </GridItemThree>

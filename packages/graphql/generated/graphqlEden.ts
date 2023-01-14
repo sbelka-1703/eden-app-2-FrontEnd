@@ -3,10 +3,12 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
 };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
-  { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
-  { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -25,6 +27,12 @@ export type Ai = {
   message?: Maybe<Scalars["String"]>;
   serverID?: Maybe<Scalars["String"]>;
 };
+
+export enum CategoryEnum {
+  Project = "project",
+  Role = "role",
+  Skill = "skill",
+}
 
 export type Chats = {
   __typename?: "Chats";
@@ -157,6 +165,7 @@ export type Members = {
   network?: Maybe<Array<Maybe<Members>>>;
   nodes?: Maybe<Array<Maybe<NodesType>>>;
   onbording?: Maybe<OnboardingType>;
+  preferences?: Maybe<PreferencesType>;
   previusProjects?: Maybe<Array<Maybe<PreviusProjectsType>>>;
   projects?: Maybe<Array<Maybe<ProjectMemberType>>>;
   registeredAt?: Maybe<Scalars["String"]>;
@@ -186,6 +195,7 @@ export type Mutation = {
   addNodesToMember?: Maybe<Members>;
   addNodesToMemberInRoom?: Maybe<Members>;
   addNodesToProjectRole?: Maybe<Project>;
+  addPreferencesToMember?: Maybe<Members>;
   addProjectRole?: Maybe<Project>;
   addSkillToMember?: Maybe<Members>;
   applyGrant?: Maybe<GrantTemplate>;
@@ -211,6 +221,7 @@ export type Mutation = {
   enterRoom?: Maybe<Rooms>;
   exitRoom?: Maybe<Rooms>;
   login: User;
+  messageToGPT?: Maybe<MessageToGptOutput>;
   newTweetProject?: Maybe<TweetsProject>;
   relatedNode?: Maybe<Node>;
   relatedNode_name?: Maybe<Node>;
@@ -221,11 +232,14 @@ export type Mutation = {
   updateMember?: Maybe<Members>;
   updateMemberInRoom?: Maybe<Members>;
   updateMessage?: Maybe<Ai>;
+  updateNodesToMember?: Maybe<Members>;
+  updateNodesToProjectRole?: Maybe<Project>;
   updateProject?: Maybe<Project>;
   updateRoleTemplate?: Maybe<RoleTemplate>;
   updateServer?: Maybe<ServerTemplate>;
   updateSkillCategory?: Maybe<SkillCategory>;
   updateSkillSubCategory?: Maybe<SkillSubCategory>;
+  useAI_OnMessage?: Maybe<UseAi_OnMessageOutput>;
 };
 
 export type MutationAddEndorsementArgs = {
@@ -266,6 +280,10 @@ export type MutationAddNodesToMemberInRoomArgs = {
 
 export type MutationAddNodesToProjectRoleArgs = {
   fields: AddNodesToProjectRoleInput;
+};
+
+export type MutationAddPreferencesToMemberArgs = {
+  fields: AddPreferencesToMemberInput;
 };
 
 export type MutationAddProjectRoleArgs = {
@@ -368,6 +386,10 @@ export type MutationLoginArgs = {
   fields: LoginInput;
 };
 
+export type MutationMessageToGptArgs = {
+  fields?: InputMaybe<MessageToGptInput>;
+};
+
 export type MutationNewTweetProjectArgs = {
   fields: NewTweetProjectInput;
 };
@@ -408,6 +430,14 @@ export type MutationUpdateMessageArgs = {
   fields?: InputMaybe<UpdateMessageInput>;
 };
 
+export type MutationUpdateNodesToMemberArgs = {
+  fields: UpdateNodesToMemberInput;
+};
+
+export type MutationUpdateNodesToProjectRoleArgs = {
+  fields: UpdateNodesToProjectRoleInput;
+};
+
 export type MutationUpdateProjectArgs = {
   fields: UpdateProjectInput;
 };
@@ -428,6 +458,10 @@ export type MutationUpdateSkillSubCategoryArgs = {
   fields?: InputMaybe<UpdateSkillSubCategoryInput>;
 };
 
+export type MutationUseAi_OnMessageArgs = {
+  fields?: InputMaybe<UseAi_OnMessageInput>;
+};
+
 export type Node = {
   __typename?: "Node";
   _id?: Maybe<Scalars["ID"]>;
@@ -436,8 +470,11 @@ export type Node = {
   match_v2_update?: Maybe<Match_V2_UpdateType>;
   name?: Maybe<Scalars["String"]>;
   node?: Maybe<Scalars["String"]>;
+  open?: Maybe<Scalars["Boolean"]>;
   registeredAt?: Maybe<Scalars["String"]>;
   relatedNodes?: Maybe<Array<Maybe<Node>>>;
+  selected?: Maybe<Scalars["Boolean"]>;
+  star?: Maybe<Scalars["Boolean"]>;
   state?: Maybe<StateEnum>;
   subNodes?: Maybe<Array<Maybe<Node>>>;
 };
@@ -565,6 +602,7 @@ export type Query = {
   setAllMatch_v2?: Maybe<Scalars["Boolean"]>;
   skills?: Maybe<PaginatedSkills>;
   skills_autocomplete?: Maybe<Array<Maybe<Skills>>>;
+  treeOfRelatedNodes?: Maybe<Array<Maybe<Node>>>;
   waitingToAproveSkills?: Maybe<Array<Maybe<Skills>>>;
 };
 
@@ -753,6 +791,7 @@ export type QueryMembers_AutocompleteArgs = {
 };
 
 export type QuerySetAllMatch_V2Args = {
+  node?: InputMaybe<Scalars["String"]>;
   val?: InputMaybe<Scalars["Boolean"]>;
 };
 
@@ -762,6 +801,10 @@ export type QuerySkillsArgs = {
 
 export type QuerySkills_AutocompleteArgs = {
   fields?: InputMaybe<Skills_AutocompleteInput>;
+};
+
+export type QueryTreeOfRelatedNodesArgs = {
+  fields?: InputMaybe<TreeOfRelatedNodesInput>;
 };
 
 export type QueryWaitingToAproveSkillsArgs = {
@@ -995,11 +1038,17 @@ export type AddNodesToMemberInRoomInput = {
 export type AddNodesToMemberInput = {
   memberID?: InputMaybe<Scalars["ID"]>;
   nodesID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  nodesID_level?: InputMaybe<Array<InputMaybe<NodesId_LevelInput>>>;
 };
 
 export type AddNodesToProjectRoleInput = {
   nodesID?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   projectRoleID?: InputMaybe<Scalars["ID"]>;
+};
+
+export type AddPreferencesToMemberInput = {
+  memberID?: InputMaybe<Scalars["ID"]>;
+  preferences?: InputMaybe<Array<InputMaybe<PreferencesInput>>>;
 };
 
 export type AddProjectRoleInput = {
@@ -1382,6 +1431,7 @@ export type FindNodesInput = {
   _id?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   node?: InputMaybe<Scalars["String"]>;
   recalculate_en?: InputMaybe<RecalculateEnum>;
+  selectedNodes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   show_match_v2?: InputMaybe<Scalars["Boolean"]>;
 };
 
@@ -1569,6 +1619,7 @@ export type MatchNodesToMembersInput = {
   limit?: InputMaybe<Scalars["Int"]>;
   nodesID?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   page?: InputMaybe<Scalars["Int"]>;
+  preference?: InputMaybe<Array<InputMaybe<PreferencesEnum>>>;
   serverID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
@@ -1583,6 +1634,7 @@ export type MatchPrepareNodeInput = {
   find?: InputMaybe<FindEnum>;
   nodeID?: InputMaybe<Scalars["ID"]>;
   serverID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  weightSkills?: InputMaybe<Scalars["Boolean"]>;
 };
 
 export type MatchPrepareSkillToMembersInput = {
@@ -1607,6 +1659,7 @@ export type MatchProjectRoles = {
   commonSkills?: Maybe<Array<Maybe<Skills>>>;
   matchPercentage?: Maybe<Scalars["Float"]>;
   projectRole?: Maybe<RoleType>;
+  realPercebtage?: Maybe<Scalars["Float"]>;
 };
 
 export type MatchProjectsToMemberInput = {
@@ -1636,6 +1689,7 @@ export type MatchSkillsToProjectsOutput = {
   matchPercentage?: Maybe<Scalars["Float"]>;
   project?: Maybe<Project>;
   projectRoles?: Maybe<Array<Maybe<MatchProjectRoles>>>;
+  realPercebtage?: Maybe<Scalars["Float"]>;
 };
 
 export type Match_ProjectToUserInput = {
@@ -1668,6 +1722,16 @@ export type Members_AutocompleteInput = {
   search?: InputMaybe<Scalars["String"]>;
 };
 
+export type MessageToGptInput = {
+  category?: InputMaybe<CategoryEnum>;
+  message?: InputMaybe<Scalars["String"]>;
+};
+
+export type MessageToGptOutput = {
+  __typename?: "messageToGPTOutput";
+  message?: Maybe<Scalars["String"]>;
+};
+
 export type NetworkInput = {
   endorcment?: InputMaybe<Array<InputMaybe<EndorcmentInput>>>;
   memberID?: InputMaybe<Scalars["ID"]>;
@@ -1681,6 +1745,12 @@ export type NewTweetProjectInput = {
   title?: InputMaybe<Scalars["String"]>;
 };
 
+export type NodesId_LevelInput = {
+  level?: InputMaybe<Scalars["Float"]>;
+  nodeID?: InputMaybe<Scalars["ID"]>;
+  orderIndex?: InputMaybe<Scalars["Int"]>;
+};
+
 export type NodesPercentageType = {
   __typename?: "nodesPercentageType";
   node?: Maybe<Node>;
@@ -1689,7 +1759,10 @@ export type NodesPercentageType = {
 
 export type NodesType = {
   __typename?: "nodesType";
+  level?: Maybe<Scalars["Int"]>;
   nodeData?: Maybe<Node>;
+  orderIndex?: Maybe<Scalars["Int"]>;
+  weight?: Maybe<Scalars["Float"]>;
 };
 
 export type OnboardingInput = {
@@ -1701,6 +1774,10 @@ export type OnboardingType = {
   __typename?: "onboardingType";
   percentage?: Maybe<Scalars["Int"]>;
   signup?: Maybe<Scalars["Boolean"]>;
+};
+
+export type PastSearchInput = {
+  nodesID?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
 };
 
 export type PathType = {
@@ -1721,6 +1798,46 @@ export enum PhaseType {
   Rejected = "rejected",
   Shortlisted = "shortlisted",
 }
+
+export type PrefPastSearch = {
+  __typename?: "prefPastSearch";
+  nodesID?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+};
+
+export enum PreferencesEnum {
+  FindCoFounder = "findCoFounder",
+  FindMentee = "findMentee",
+  FindMentor = "findMentor",
+  FindProject = "findProject",
+  FindUser = "findUser",
+}
+
+export type PreferencesInput = {
+  interestedMatch?: InputMaybe<Scalars["Boolean"]>;
+  notify?: InputMaybe<Scalars["Boolean"]>;
+  pastSearch?: InputMaybe<Array<InputMaybe<PastSearchInput>>>;
+  percentage?: InputMaybe<Scalars["Int"]>;
+  preference?: InputMaybe<PreferencesEnum>;
+};
+
+export type PreferencesType = {
+  __typename?: "preferencesType";
+  findCoFounder?: Maybe<PreferencesTypeFind>;
+  findMentee?: Maybe<PreferencesTypeFind>;
+  findMentor?: Maybe<PreferencesTypeFind>;
+  findProject?: Maybe<PreferencesTypeFind>;
+  findUser?: Maybe<PreferencesTypeFind>;
+  interestedMatch?: Maybe<Scalars["Boolean"]>;
+  notify?: Maybe<Scalars["Boolean"]>;
+};
+
+export type PreferencesTypeFind = {
+  __typename?: "preferencesTypeFind";
+  interestedMatch?: Maybe<Scalars["Boolean"]>;
+  notify?: Maybe<Scalars["Boolean"]>;
+  pastSearch?: Maybe<Array<Maybe<PrefPastSearch>>>;
+  percentage?: Maybe<Scalars["Int"]>;
+};
 
 export type PreviusProjectsInput = {
   description?: InputMaybe<Scalars["String"]>;
@@ -1783,6 +1900,11 @@ export type RelatedNode_NameInput = {
   name?: InputMaybe<Scalars["String"]>;
   relatedNode_name?: InputMaybe<Scalars["String"]>;
   weight?: InputMaybe<Scalars["String"]>;
+};
+
+export type RelatedNodesTreeInput = {
+  nodeID?: InputMaybe<Scalars["ID"]>;
+  relatedScore?: InputMaybe<Scalars["Float"]>;
 };
 
 export type RelatedSkillsInput = {
@@ -1942,6 +2064,11 @@ export type TeamsType_Garden = {
   teamData?: Maybe<Team>;
 };
 
+export type TreeOfRelatedNodesInput = {
+  memberID?: InputMaybe<Scalars["ID"]>;
+  relatedNodes?: InputMaybe<Array<InputMaybe<RelatedNodesTreeInput>>>;
+};
+
 export type TweetsInput = {
   author?: InputMaybe<Scalars["String"]>;
   content?: InputMaybe<Scalars["String"]>;
@@ -2041,11 +2168,23 @@ export type UpdateMessageInput = {
   messageID?: InputMaybe<Scalars["ID"]>;
 };
 
+export type UpdateNodesToMemberInput = {
+  memberID?: InputMaybe<Scalars["ID"]>;
+  nodeType?: InputMaybe<Scalars["String"]>;
+  nodesID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  nodesID_level?: InputMaybe<Array<InputMaybe<NodesId_LevelInput>>>;
+};
+
+export type UpdateNodesToProjectRoleInput = {
+  nodeType?: InputMaybe<Scalars["String"]>;
+  nodesID?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  projectRoleID?: InputMaybe<Scalars["ID"]>;
+};
+
 export type UpdateProjectInput = {
   _id?: InputMaybe<Scalars["ID"]>;
   backColorEmoji?: InputMaybe<Scalars["String"]>;
   budget?: InputMaybe<BudgetInput>;
-  champion?: InputMaybe<Scalars["String"]>;
   collaborationLinks?: InputMaybe<Array<InputMaybe<CollaborationLinksInput>>>;
   dates?: InputMaybe<DatesInput>;
   description?: InputMaybe<Scalars["String"]>;
@@ -2088,6 +2227,19 @@ export type UpdateSkillSubCategoryInput = {
   id_lightcast?: InputMaybe<Scalars["String"]>;
   name?: InputMaybe<Scalars["String"]>;
   skills?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type UseAi_OnMessageInput = {
+  cash?: InputMaybe<Scalars["Boolean"]>;
+  message?: InputMaybe<Scalars["String"]>;
+  numberKeywords?: InputMaybe<Scalars["Float"]>;
+};
+
+export type UseAi_OnMessageOutput = {
+  __typename?: "useAI_OnMessageOutput";
+  expertiseIdentified?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  keywordsMessage?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  mainExpertise?: Maybe<Scalars["String"]>;
 };
 
 export type Wh_K_ArrType = {

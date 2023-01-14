@@ -13,17 +13,6 @@ export const FIND_CURRENTUSER = gql`
         mostProud
         showCaseAbility
       }
-      attributes {
-        Coordinator
-        Director
-        Helper
-        Inspirer
-        Motivator
-        Observer
-        Reformer
-        Supporter
-      }
-      archiveProjects
       discriminator
       hoursPerWeek
       interest
@@ -53,18 +42,6 @@ export const FIND_CURRENTUSER = gql`
           descriptionOneLine
           backColorEmoji
           serverID
-          garden_teams {
-            _id
-            name
-            description
-            champion {
-              _id
-              discordName
-            }
-            categoryDiscordlD
-            channelGeneralDiscordID
-            forumDiscordID
-          }
           collaborationLinks {
             title
             link
@@ -82,11 +59,12 @@ export const FIND_CURRENTUSER = gql`
             dateRangeStart
             dateRangeEnd
             hoursPerWeek
-            budget {
-              totalBudget
-              token
-              perHour
-              perMonth
+            nodes {
+              nodeData {
+                _id
+                name
+                node
+              }
             }
           }
           dates {
@@ -117,13 +95,6 @@ export const FIND_CURRENTUSER = gql`
       links {
         name
         url
-      }
-      skills {
-        skillInfo {
-          _id
-          name
-        }
-        level
       }
       onbording {
         percentage
