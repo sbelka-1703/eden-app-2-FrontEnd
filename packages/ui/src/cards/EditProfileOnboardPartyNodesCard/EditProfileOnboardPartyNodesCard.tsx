@@ -473,7 +473,7 @@ const BioModal = ({ roles, openModal, onSubmit }: IBioModalProps) => {
             placeholder={`Write a short description about yourself...`}
             rows={5}
             value={`${currentUser?.bio ? currentUser.bio : ""}`}
-            className="border-0 text-xs"
+            className="text-xs"
             onChange={(e) => setBio(e.target.value)}
             maxLength={280}
           />
