@@ -33,6 +33,7 @@ export interface IDiscoverTalentDropdownModalProps {
   subTitle?: string;
   nodeType?: "expertise" | "typeProject";
   matchType?: string;
+  previousValues?: string[];
   batteryPercentage?: number;
 }
 
@@ -43,6 +44,7 @@ export const DiscoverTalentDropdownModal = ({
   title = `Alright, tell me who should I find to help you with your project?`,
   subTitle = `Please pick only one role for now!`,
   nodeType,
+  previousValues,
   batteryPercentage,
 }: IDiscoverTalentDropdownModalProps) => {
   // console.log("hackathon talent dropdown modal", dataNodes);
@@ -70,6 +72,7 @@ export const DiscoverTalentDropdownModal = ({
     variables: {
       fields: {
         node: nodeType,
+        selectedNodes: previousValues || [],
       },
     },
     skip: !nodeType,

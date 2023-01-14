@@ -80,6 +80,7 @@ export const DiscoverModalContainer = ({
           subTitle={`Select what you want them to help you with.`}
           nodeType={`expertise`}
           matchType={matchType}
+          previousValues={nodeIdArray}
         />
       )}
 
@@ -103,6 +104,7 @@ export const DiscoverModalContainer = ({
           subTitle={`Select what you want them to help you with.`}
           nodeType={`typeProject`}
           matchType={matchType}
+          previousValues={nodeIdArray}
         />
       )}
 
