@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import {
   AppPublicLayout,
   Button,
@@ -17,27 +16,13 @@ const AdminPage: NextPageWithLayout = () => {
       <GridItemFour>
         <Button
           variant="primary"
-          onClick={() => router.push("./admin/new-role-template")}
+          onClick={() => router.push("./admin/create-party")}
         >
-          Update Roles
+          Create Party
         </Button>
       </GridItemFour>
-      <GridItemFour>
-        <Button
-          variant="primary"
-          onClick={() => router.push("./admin/new-skill")}
-        >
-          Update Skills
-        </Button>
-      </GridItemFour>
-      <GridItemFour>
-        <Button
-          variant="primary"
-          onClick={() => router.push("./admin/new-sub-category")}
-        >
-          Update Categories
-        </Button>
-      </GridItemFour>
+      <GridItemFour>{}</GridItemFour>
+      <GridItemFour>{}</GridItemFour>
     </GridLayout>
   );
 };
