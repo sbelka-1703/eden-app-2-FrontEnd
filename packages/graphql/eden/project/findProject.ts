@@ -37,24 +37,15 @@ export const FIND_PROJECT = gql`
           _id
           discordName
           discordAvatar
-          attributes {
-            Motivator
-            Coordinator
-            Director
-            Helper
-            Inspirer
-            Observer
-            Reformer
-            Supporter
-          }
           links {
             name
             url
           }
-          skills {
-            skillInfo {
+          nodes {
+            nodeData {
               _id
               name
+              node
             }
           }
         }
