@@ -4,7 +4,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { UserCardOnboardParty } from "./UserCardOnboardParty";
 
 export default {
-  title: "Cards/User/UserCardOnboardParty",
+  title: "Archive/Cards/User/UserCardOnboardParty",
   component: UserCardOnboardParty,
   argTypes: {},
 } as ComponentMeta<typeof UserCardOnboardParty>;
