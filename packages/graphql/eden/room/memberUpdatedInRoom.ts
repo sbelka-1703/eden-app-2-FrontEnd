@@ -7,13 +7,6 @@ export const MEMBER_UPDATED_IN_ROOM_SUB = gql`
       discordName
       discordAvatar
       bio
-      # skills {
-      #   skillInfo {
-      #     _id
-      #     name
-      #   }
-      #   level
-      # }
       links {
         name
         url
