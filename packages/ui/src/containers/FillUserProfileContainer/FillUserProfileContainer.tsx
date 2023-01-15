@@ -11,6 +11,8 @@ import {
   Mutation,
   Node,
   NodesType,
+  PreferencesType,
+  PreferencesTypeFind,
   RoleTemplate,
 } from "@eden/package-graphql/generated";
 import {
@@ -25,6 +27,7 @@ import {
   UserExperienceCard,
 } from "@eden/package-ui";
 import { STEPS } from "@eden/package-ui/utils/enums/fill-profile-steps";
+import { CheckIcon } from "@heroicons/react/outline";
 import { forEach, isEmpty, map } from "lodash";
 import {
   Dispatch,
@@ -45,10 +48,31 @@ export interface IFillUserProfileContainerProps {
   // eslint-disable-next-line no-unused-vars
   setExperienceOpen?: (val: number | null) => void;
 }
+interface IPREFERENCES_TITLE {
+  findCoFounder: string;
+  findMentee: string;
+  findMentor: string;
+  findUser: string;
+  findProject: string;
+}
+const PREFERENCES_TITLE: IPREFERENCES_TITLE = {
+  findCoFounder: "find CoFounder",
+  findMentee: "find Mentee",
+  findMentor: "find Mentor",
+  findUser: "find User",
+  findProject: "find Project",
+};
 
 const UPDATE_NODES_MEMBER = gql`
   mutation ($fields: updateNodesToMemberInput!) {
     updateNodesToMember(fields: $fields) {
+      _id
+    }
+  }
+`;
+const ADD_PREFERENCES_TO_MEMBER = gql`
+  mutation ($fields: addPreferencesToMemberInput!) {
+    addPreferencesToMember(fields: $fields) {
       _id
     }
   }
@@ -71,6 +95,17 @@ export const FillUserProfileContainer = ({
     onCompleted({ updateNodesToMember }: Mutation) {
       if (!updateNodesToMember) console.log("updateNodesToMember is null");
       console.log("updateNodesToMember", updateNodesToMember);
+    },
+    onError(error) {
+      console.log(error);
+    },
+  });
+
+  const [addPreferences, {}] = useMutation(ADD_PREFERENCES_TO_MEMBER, {
+    onCompleted({ addPreferencesToMember }: Mutation) {
+      if (!addPreferencesToMember)
+        console.log("addPreferencesToMember is null");
+      console.log("addPreferencesToMember", addPreferencesToMember);
     },
     onError(error) {
       console.log(error);
@@ -129,6 +164,13 @@ export const FillUserProfileContainer = ({
     setState({
       ...state,
       nodes: selectedNodes,
+    });
+  };
+
+  const handleSetPreferences = () => {
+    setState({
+      ...state,
+      preferences: preferences,
     });
   };
 
@@ -197,6 +239,25 @@ export const FillUserProfileContainer = ({
     });
   };
 
+  const handleSubmitPreferences = () => {
+    const fields = {
+      memberID: currentUser?._id,
+      preferences: Object.keys(preferences).map((key) => ({
+        preference: key,
+        interestedMatch: (
+          preferences[key as keyof PreferencesType] as PreferencesTypeFind
+        )?.interestedMatch,
+      })),
+    };
+
+    addPreferences({
+      variables: {
+        fields: fields,
+      },
+      context: { serviceName: "soilservice" },
+    });
+  };
+
   const { data: dataNodes } = useQuery(FIND_NODES, {
     variables: {
       fields: {
@@ -243,6 +304,28 @@ export const FillUserProfileContainer = ({
   const [selectedNodes, setSelectedNodes] = useState<Maybe<NodesType>[]>(
     state?.nodes || []
   );
+  const [preferences, setPreferences] = useState<PreferencesType>({
+    findCoFounder: {
+      interestedMatch:
+        currentUser?.preferences?.findCoFounder?.interestedMatch || null,
+    } as PreferencesTypeFind,
+    findMentee: {
+      interestedMatch:
+        currentUser?.preferences?.findMentee?.interestedMatch || null,
+    } as PreferencesTypeFind,
+    findMentor: {
+      interestedMatch:
+        currentUser?.preferences?.findMentor?.interestedMatch || null,
+    } as PreferencesTypeFind,
+    findProject: {
+      interestedMatch:
+        currentUser?.preferences?.findProject?.interestedMatch || null,
+    } as PreferencesTypeFind,
+    findUser: {
+      interestedMatch:
+        currentUser?.preferences?.findUser?.interestedMatch || null,
+    } as PreferencesTypeFind,
+  });
 
   useEffect(() => {
     if (selectedItems) {
@@ -265,6 +348,10 @@ export const FillUserProfileContainer = ({
   useEffect(() => {
     handleSetNodes();
   }, [selectedNodes]);
+
+  useEffect(() => {
+    handleSetPreferences();
+  }, [preferences]);
 
   return (
     <Card className="bg-white p-4">
@@ -349,6 +436,53 @@ export const FillUserProfileContainer = ({
                   }}
                   value={state?.bio as string}
                 />
+              </>
+            )}
+            {step === STEPS.PREFERENCES && (
+              <>
+                <p className="mb-4">{`what your interest:`}</p>
+                {/* {JSON.stringify(Preferences)} */}
+                {/* {JSON.stringify(state?.preferences)} */}
+                <div className="flex w-full flex-wrap">
+                  {Object.keys(preferences).map((key: string, index) => (
+                    <div key={index} className="relative mr-4 mb-4">
+                      <input
+                        type="checkbox"
+                        checked={
+                          (
+                            preferences[
+                              key as keyof PreferencesType
+                            ] as PreferencesTypeFind
+                          )?.interestedMatch || false
+                        }
+                        id={key}
+                        className="peer hidden"
+                        onChange={(e) => {
+                          console.log(e.target.checked);
+
+                          setPreferences({
+                            ...preferences,
+                            [key]: {
+                              interestedMatch: e.target.checked || null,
+                            },
+                          });
+                        }}
+                      />
+                      <label
+                        htmlFor={key}
+                        className="peer-checked:text-accentColor peer-checked:border-accentColor border-soilGray block select-none rounded-full border px-4 py-2 peer-checked:border-2 peer-checked:pr-10 peer-checked:font-bold"
+                      >
+                        {PREFERENCES_TITLE[key as keyof IPREFERENCES_TITLE]}
+                      </label>
+                      <label
+                        htmlFor={key}
+                        className="absolute top-2 right-2 hidden peer-checked:block"
+                      >
+                        <CheckIcon className="text-accentColor" width={30} />
+                      </label>
+                    </div>
+                  ))}
+                </div>
               </>
             )}
             {/* {step === STEPS.COMPENSATION && (
@@ -474,8 +608,10 @@ export const FillUserProfileContainer = ({
             {step !== STEPS.ROLE && (
               <Button
                 onClick={() => {
-                  if (step === STEPS.BIO && setStep) setStep(STEPS.ROLE);
-                  if (step === STEPS.SOCIALS && setStep) setStep(STEPS.BIO);
+                  if (step === STEPS.BIO && setStep) setStep(STEPS.PREFERENCES);
+                  if (step === STEPS.PREFERENCES && setStep) setStep(STEPS.BIO);
+                  if (step === STEPS.SOCIALS && setStep)
+                    setStep(STEPS.PREFERENCES);
                   if (step === STEPS.EXP && setStep) setStep(STEPS.SOCIALS);
                 }}
               >
@@ -491,8 +627,12 @@ export const FillUserProfileContainer = ({
                     handleSubmitForm();
                   }
                   if (step === STEPS.BIO && setStep) {
-                    setStep(STEPS.SOCIALS);
+                    setStep(STEPS.PREFERENCES);
                     handleSubmitForm();
+                  }
+                  if (step === STEPS.PREFERENCES && setStep) {
+                    setStep(STEPS.SOCIALS);
+                    handleSubmitPreferences();
                   }
                   if (step === STEPS.SOCIALS && setStep) {
                     setStep(STEPS.EXP);

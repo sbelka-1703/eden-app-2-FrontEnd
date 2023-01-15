@@ -118,6 +118,23 @@ export const FIND_CURRENTUSER = gql`
         endorsementMessage
         arweaveTransactionID
       }
+      preferences {
+        findCoFounder {
+          interestedMatch
+        }
+        findMentee {
+          interestedMatch
+        }
+        findMentor {
+          interestedMatch
+        }
+        findProject {
+          interestedMatch
+        }
+        findUser {
+          interestedMatch
+        }
+      }
     }
   }
 `;
