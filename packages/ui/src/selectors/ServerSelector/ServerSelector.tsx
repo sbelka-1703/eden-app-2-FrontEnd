@@ -1,5 +1,5 @@
 import { UserContext } from "@eden/package-context";
-import { ServerTemplate } from "@eden/package-graphql/generated";
+import { Maybe, ServerTemplate } from "@eden/package-graphql/generated";
 import { Avatar } from "@eden/package-ui";
 import { Listbox, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/outline";
@@ -12,6 +12,7 @@ export interface IServerSelectorProps {
   disabled?: boolean;
   value?: string;
   btnBGcolor?: string;
+  compareServerID?: Maybe<string>[];
   onChangeString?: React.Dispatch<React.SetStateAction<string>>;
   onChangeServer?: React.Dispatch<React.SetStateAction<ServerTemplate>>;
 }
@@ -19,13 +20,17 @@ export interface IServerSelectorProps {
 export const ServerSelector = ({
   disabled,
   value,
+  compareServerID,
   onChangeString,
   onChangeServer,
   btnBGcolor = "bg-gray-200",
 }: IServerSelectorProps) => {
-  const [selected, setSelected] = useState<ServerTemplate>({});
-
   const { memberServers } = useContext(UserContext);
+  const [availableServers, setAvailableServers] = useState<ServerTemplate[]>(
+    memberServers || []
+  );
+
+  const [selected, setSelected] = useState<ServerTemplate>({});
 
   const btnClasses = clsx(
     "relative flex justify-between items-center border border-gray-300 text-center cursor-pointer rounded-2xl py-1 px-3 shadow-lg hover:shadow-sm hover:border-gray-500 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-green-300 sm:text-sm",
@@ -52,6 +57,16 @@ export const ServerSelector = ({
     }
   }, [value]);
 
+  useEffect(() => {
+    if (compareServerID) {
+      const serverList = memberServers?.filter((item) =>
+        compareServerID.includes(item._id as string)
+      ) as ServerTemplate[];
+
+      setAvailableServers(serverList);
+    }
+  }, [compareServerID]);
+
   return (
     <Listbox
       value={selected}
@@ -62,11 +77,11 @@ export const ServerSelector = ({
       <div className="relative mt-1">
         <Listbox.Button className={btnClasses}>
           {isEmpty(selected) ? (
-            <span className="mr-2 block truncate font-medium py-1">
+            <span className="mr-2 block truncate py-1 font-medium">
               Select Server
             </span>
           ) : (
-            <div className={`truncate flex font-medium mr-2`}>
+            <div className={`mr-2 flex truncate font-medium`}>
               <Avatar size={`xs`} src={selected.serverAvatar as string} />
               <div className={`my-auto ml-2`}>{selected.name}</div>
             </div>
@@ -80,12 +95,12 @@ export const ServerSelector = ({
           leaveTo="opacity-0"
         >
           <Listbox.Options className="fixed z-50 mt-1 max-h-60 min-w-fit overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-            {memberServers &&
-              memberServers.map((item, index) => (
+            {availableServers &&
+              availableServers.map((item, index) => (
                 <Listbox.Option
                   key={index}
                   className={({ active }) =>
-                    `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                    `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
                       active ? "bg-green-100 text-green-900" : "text-gray-900"
                     }`
                   }
@@ -94,7 +109,7 @@ export const ServerSelector = ({
                   {({ selected }) => (
                     <>
                       <div
-                        className={`truncate flex ${
+                        className={`flex truncate ${
                           selected ? "font-medium" : "font-normal"
                         }`}
                       >
