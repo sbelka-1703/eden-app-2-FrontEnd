@@ -11,7 +11,7 @@
     "clean-windows": "rd /s /q node_modules && rd /s /q .next"
   },
   "dependencies": {
-    "@apollo/client": "^3.6.9",
+    "@apollo/client": "^3.7.4",
     "@eden/package-context": "*",
     "@eden/package-graphql": "*",
     "@eden/package-ui": "*",
