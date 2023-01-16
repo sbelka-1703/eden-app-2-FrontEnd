@@ -3,17 +3,19 @@ import {
   Maybe,
   PreviusProjectsType,
 } from "@eden/package-graphql/generated";
-
-import { TextHeading3, TextLabel } from "../../atoms";
-import { Card } from "../../elements";
-import { EndorsementList } from "../../lists";
+import {
+  Card,
+  EndorsementList,
+  TextHeading3,
+  TextLabel,
+} from "@eden/package-ui";
+import React from "react";
 
 export interface IUserBackgroundProps {
   background: Array<Maybe<PreviusProjectsType>>;
   initialEndorsements: Array<Maybe<Endorsements>>;
   experienceOpen: number | null;
-  // eslint-disable-next-line no-unused-vars
-  setExperienceOpen: (val: number | null) => void;
+  setExperienceOpen: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
 export const UserBackground = ({
@@ -22,15 +24,6 @@ export const UserBackground = ({
   experienceOpen,
   setExperienceOpen,
 }: IUserBackgroundProps) => {
-  const endorsements = initialEndorsements?.map((endorsement: any) => ({
-    member: {
-      discordName: endorsement?.endorser?.discordName,
-      discordAvatar: endorsement?.endorser?.discordAvatar,
-    },
-    text: endorsement?.endorsementMessage,
-    level: endorsement?.level?.name,
-  }));
-
   return (
     <div>
       <div className="mb-6">
@@ -101,9 +94,9 @@ export const UserBackground = ({
           );
         })}
       </div>
-      {endorsements?.length > 0 && (
+      {initialEndorsements && (
         <div className="mt-3">
-          <EndorsementList endorsements={endorsements} />
+          <EndorsementList endorsements={initialEndorsements} />
         </div>
       )}
     </div>

@@ -6,7 +6,7 @@ describe("UserBackground", () => {
   it("renders without throwing", () => {
     const { container } = render(
       <UserBackground
-        background={undefined}
+        background={[]}
         initialEndorsements={[]}
         experienceOpen={null}
         // eslint-disable-next-line no-unused-vars

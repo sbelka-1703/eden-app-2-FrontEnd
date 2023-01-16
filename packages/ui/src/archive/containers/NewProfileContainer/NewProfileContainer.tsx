@@ -22,7 +22,7 @@ export const NewProfileContainer = ({ user }: NewProfileContainerProps) => {
         </div>
       </div>
       <UserSkillSocialAval member={user} />
-      {user && user?.endorsements && user?.endorsements?.length > 0 && (
+      {user?.endorsements && user?.endorsements?.length > 0 && (
         <div className="col-span-4">
           <EndorsementList endorsements={user?.endorsements} />
         </div>
