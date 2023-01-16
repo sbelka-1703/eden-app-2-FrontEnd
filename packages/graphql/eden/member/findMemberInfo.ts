@@ -26,12 +26,9 @@ export const FIND_MEMBER_INFO = gql`
       }
       previusProjects {
         title
-        positionName
-        picture
         description
         startDate
         endDate
-        link
       }
       endorsements {
         arweaveTransactionID
@@ -41,6 +38,23 @@ export const FIND_MEMBER_INFO = gql`
           discordAvatar
           discordName
           discriminator
+        }
+      }
+      preferences {
+        findCoFounder {
+          interestedMatch
+        }
+        findMentee {
+          interestedMatch
+        }
+        findMentor {
+          interestedMatch
+        }
+        findProject {
+          interestedMatch
+        }
+        findUser {
+          interestedMatch
         }
       }
     }
