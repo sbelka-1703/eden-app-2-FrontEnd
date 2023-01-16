@@ -59,7 +59,9 @@ const ProjectPage: NextPageWithLayout = () => {
       },
     },
     skip:
-      !selectedRole || !dataProject?.findProject?.serverID || !selectedServerID,
+      !selectedRole ||
+      !dataProject?.findProject?.serverID ||
+      selectedServerID.length === 0,
     context: { serviceName: "soilservice" },
   });
 
