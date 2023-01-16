@@ -15,9 +15,8 @@ import { STEPS } from "@eden/package-ui/utils/enums/fill-profile-steps";
 export interface IViewUserProfileContainerProps {
   step?: STEPS;
   user?: Members;
-  experienceOpen?: number | null;
-  // eslint-disable-next-line no-unused-vars
-  setExperienceOpen?: (val: number | null) => void;
+  experienceOpen: number | null;
+  setExperienceOpen: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
 export const ViewUserProfileContainer = ({

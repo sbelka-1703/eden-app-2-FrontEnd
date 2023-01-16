@@ -1,47 +1,42 @@
-import { Members } from "@eden/package-graphql/generated";
-import { Card, LevelAvatar, TextBody, TextHeading2 } from "@eden/package-ui";
+import { Endorsements, Maybe } from "@eden/package-graphql/generated";
+import { Card, LevelAvatar, TextBody, TextHeading3 } from "@eden/package-ui";
 import { FiExternalLink } from "react-icons/fi";
 
 export interface EndorsementsProps {
-  member: Members;
-  text?: string;
+  endoresement?: Maybe<Endorsements>;
   level?: number;
-  arweaveTransactionID?: string;
 }
 
 export const EndorsementCard: React.FC<EndorsementsProps> = ({
-  member,
-  text,
+  endoresement,
   level,
-  arweaveTransactionID,
 }) => {
-  if (!member) return null;
+  if (!endoresement) return null;
+
   return (
-    <Card shadow border className="mt-8 p-6 ">
+    <Card shadow border className="relative mt-8 p-6">
       <div className="-mt-14 flex w-full flex-col items-center">
         {
           <LevelAvatar
-            src={member?.discordAvatar || ""}
+            src={endoresement?.endorser?.discordAvatar || ""}
             level={level}
             size={`md`}
           />
         }
-        <TextHeading2 className="text-soilGray">
-          @{member?.discordName}
-        </TextHeading2>
+        <TextHeading3 className="text-soilGray">
+          @{endoresement?.endorser?.discordName}
+        </TextHeading3>
       </div>
-      {text && (
-        <section>
-          <TextBody>{text}</TextBody>
-        </section>
-      )}
-      {arweaveTransactionID && (
-        <section className="mt-5 -mb-2">
+      <section className={`mb-6`}>
+        <TextBody>{endoresement?.endorsementMessage}</TextBody>
+      </section>
+      {endoresement?.arweaveTransactionID && (
+        <section className={`absolute bottom-2`}>
           <span
             className={`flex w-full text-xs font-semibold text-zinc-700/70 hover:text-zinc-600`}
           >
             <a
-              href={`https://viewblock.io/arweave/tx/${arweaveTransactionID}`}
+              href={`https://viewblock.io/arweave/tx/${endoresement?.arweaveTransactionID}`}
               target="_blank"
               rel="noreferrer"
               className="flex w-full items-center justify-center gap-1"

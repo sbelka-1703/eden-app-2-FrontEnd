@@ -30,6 +30,7 @@
   "devDependencies": {
     "@babel/core": "^7.19.3",
     "@eden/package-config": "*",
+    "@eden/package-mock": "*",
     "@eden/package-tsconfig": "*",
     "@types/node": "^18.11.9",
     "@types/react": "^18.0.25",
