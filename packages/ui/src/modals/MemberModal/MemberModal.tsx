@@ -1,5 +1,5 @@
-// import { useQuery } from "@apollo/client";
-// import { FIND_MEMBER_INFO } from "@eden/package-graphql";
+import { useQuery } from "@apollo/client";
+import { FIND_MEMBER_INFO } from "@eden/package-graphql";
 import { Maybe, Members } from "@eden/package-graphql/generated";
 import { MemberInfo, Modal } from "@eden/package-ui";
 
@@ -16,18 +16,17 @@ export const MemberModal = ({
   open,
   onClose,
 }: IMemberModalProps) => {
-  // commented out because it is making too many requests
-  // const { data: dataMemberInfo } = useQuery(FIND_MEMBER_INFO, {
-  //   variables: {
-  //     fields: {
-  //       _id: member?._id,
-  //     },
-  //   },
-  //   skip: !member?._id,
-  //   context: { serviceName: "soilservice" },
-  // });
+  const { data: dataMemberInfo } = useQuery(FIND_MEMBER_INFO, {
+    variables: {
+      fields: {
+        _id: member?._id,
+      },
+    },
+    skip: !member?._id || !open,
+    context: { serviceName: "soilservice" },
+  });
 
-  // const findMember = dataMemberInfo?.findMember;
+  const findMember = dataMemberInfo?.findMember;
 
   if (!member) return null;
   // if (!findMember) return null;
@@ -35,7 +34,7 @@ export const MemberModal = ({
   return (
     <Modal open={open} onClose={onClose}>
       <div className={`h-8/10 scrollbar-hide w-full overflow-scroll`}>
-        <MemberInfo member={member} percentage={percentage} />
+        <MemberInfo member={findMember} percentage={percentage} />
       </div>
     </Modal>
   );

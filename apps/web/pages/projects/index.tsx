@@ -204,7 +204,6 @@ const ProjectsPage: NextPageWithLayout = () => {
           // console.log("array of nodes val", val);
           handleAddNodes(val as string[]);
         }}
-        // percentage={0}
         percentage={getFillProfilePercentage(currentUser)}
       />
     </>

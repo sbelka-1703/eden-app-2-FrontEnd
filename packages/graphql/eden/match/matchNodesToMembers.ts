@@ -11,8 +11,8 @@ export const MATCH_NODES_MEMBERS = gql`
         bio
         serverID
         endorsements {
-          arweaveTransactionID
-          endorsementMessage
+          # arweaveTransactionID
+          # endorsementMessage
           endorser {
             _id
             discordAvatar

@@ -65,7 +65,6 @@ export const ProjectNodeMatchCard = ({
         </div>
         <div>
           <Button onClick={() => setIsOpen(!isOpen)}>More</Button>
-          {/* <Button onClick={() => console.log("more button")}>More</Button> */}
         </div>
       </div>
       <div className="flex flex-col items-center justify-center">
