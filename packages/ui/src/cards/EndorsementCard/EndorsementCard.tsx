@@ -1,5 +1,12 @@
-import { Endorsements, Maybe } from "@eden/package-graphql/generated";
-import { Card, LevelAvatar, TextBody, TextHeading3 } from "@eden/package-ui";
+import { Endorsements, Maybe, Members } from "@eden/package-graphql/generated";
+import {
+  Card,
+  LevelAvatar,
+  MemberModal,
+  TextBody,
+  TextHeading3,
+} from "@eden/package-ui";
+import { useState } from "react";
 import { FiExternalLink } from "react-icons/fi";
 
 export interface EndorsementsProps {
@@ -11,18 +18,21 @@ export const EndorsementCard: React.FC<EndorsementsProps> = ({
   endoresement,
   level,
 }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   if (!endoresement) return null;
 
   return (
     <Card shadow border className="relative mt-8 p-6">
       <div className="-mt-14 flex w-full flex-col items-center">
-        {
+        <button onClick={() => setIsModalOpen(true)}>
           <LevelAvatar
             src={endoresement?.endorser?.discordAvatar || ""}
             level={level}
             size={`md`}
           />
-        }
+        </button>
+
         <TextHeading3 className="text-soilGray">
           @{endoresement?.endorser?.discordName}
         </TextHeading3>
@@ -75,6 +85,11 @@ export const EndorsementCard: React.FC<EndorsementsProps> = ({
           </span>
         </section>
       )}
+      <MemberModal
+        member={endoresement?.endorser as Members}
+        open={isModalOpen}
+        onClose={() => setIsModalOpen(!isModalOpen)}
+      />
     </Card>
   );
 };
