@@ -1,6 +1,6 @@
 import { getMember } from "@eden/package-mock";
 
-import { render } from "../../../../utils/jest-apollo";
+import { render } from "../../../../../utils/jest-apollo";
 import { UserCardOnboardParty } from ".";
 
 describe("UserCardOnboardParty", () => {

@@ -8,17 +8,6 @@ export const UPDATE_MEMBER = gql`
       bio
       interest
       timeZone
-      skills {
-        skillInfo {
-          _id
-          name
-          authors {
-            _id
-            discordName
-          }
-        }
-        level
-      }
       memberRole {
         _id
         title

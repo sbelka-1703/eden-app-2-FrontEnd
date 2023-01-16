@@ -7,11 +7,6 @@ export const FIND_MEMBER = gql`
       discordAvatar
       discordName
       bio
-      content {
-        interest
-        mostProud
-        showCaseAbility
-      }
       archiveProjects
       discriminator
       hoursPerWeek
@@ -29,13 +24,6 @@ export const FIND_MEMBER = gql`
       links {
         name
         url
-      }
-      skills {
-        skillInfo {
-          _id
-          name
-        }
-        level
       }
       memberRole {
         _id
