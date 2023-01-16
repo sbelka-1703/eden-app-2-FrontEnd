@@ -1,4 +1,8 @@
 import {
+  Endorsements,
+  // PreviusProjectsType,
+} from "@eden/package-graphql/generated";
+import {
   AvailabilityComp,
   Badge,
   Button,
@@ -121,17 +125,8 @@ const UserBackground = ({
   initialEndorsements,
 }: {
   background: any[];
-  initialEndorsements: any[];
+  initialEndorsements: Endorsements[];
 }) => {
-  const endorsements = initialEndorsements?.map((endorsement: any) => ({
-    member: {
-      discordName: endorsement.name,
-      discordAvatar: endorsement.avatar,
-    },
-    text: endorsement.endorsement,
-    level: endorsement.level.name,
-  }));
-
   const [expand, setExpand] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
   const tabs = background.map((item) => `${item.title} ${item.emoji}`);
@@ -175,9 +170,9 @@ const UserBackground = ({
       ) : (
         <>
           <UserCardBackground onExpand={onExpend} background={background} />
-          {endorsements?.length > 0 && (
+          {initialEndorsements && (
             <div className="mt-3">
-              <EndorsementList endorsements={endorsements} />
+              <EndorsementList endorsements={initialEndorsements} />
             </div>
           )}
         </>

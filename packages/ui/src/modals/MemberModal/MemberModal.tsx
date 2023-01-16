@@ -34,7 +34,7 @@ export const MemberModal = ({
   return (
     <Modal open={open} onClose={onClose}>
       <div className={`h-8/10 scrollbar-hide w-full overflow-scroll`}>
-        <MemberInfo member={findMember} percentage={percentage} />
+        <MemberInfo member={findMember || member} percentage={percentage} />
       </div>
     </Modal>
   );

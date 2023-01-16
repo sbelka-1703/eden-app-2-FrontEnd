@@ -4,7 +4,7 @@ import { EndorsementCard } from ".";
 
 describe("EndorsementCard", () => {
   it("renders without throwing", () => {
-    const { container } = render(<EndorsementCard member={{}} />);
+    const { container } = render(<EndorsementCard endoresement={{}} />);
 
     expect(container).toBeInTheDocument();
   });
