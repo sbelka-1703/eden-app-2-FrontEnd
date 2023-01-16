@@ -1,7 +1,10 @@
 import { Members } from "@eden/package-graphql/generated";
 import {
+  Badge,
   Card,
+  IPREFERENCES_TITLE,
   NodeList,
+  PREFERENCES_TITLE,
   SocialMediaComp,
   TextHeading3,
   UserBackground,
@@ -31,13 +34,19 @@ export const ViewUserProfileContainer = ({
     (node) => node?.nodeData?.node === "sub_typeProject"
   );
 
+  const selectedPreferences = user?.preferences
+    ? (Object.keys(user?.preferences) as [keyof IPREFERENCES_TITLE]).filter(
+        (key) => user.preferences![key]?.interestedMatch && key.includes("find")
+      )
+    : null;
+
   return (
     <Card className="bg-white p-4">
       <p>Preview of your profile:</p>
       <div className={`h-75 scrollbar-hide w-full overflow-scroll p-2`}>
         <div
           className={`mb-4 flex w-full justify-center ${
-            step !== STEPS.ROLE ? "blur-sm brightness-50" : ""
+            step !== STEPS.ROLE ? "blur-sm" : ""
           }`}
         >
           <UserWithDescription member={user} />
@@ -45,7 +54,7 @@ export const ViewUserProfileContainer = ({
         <div className="mb-4 grid grid-cols-1 sm:grid-cols-5">
           <div
             className={`my-4 flex flex-col items-start justify-center sm:col-span-3 sm:my-0 ${
-              step !== STEPS.BIO ? "blur-sm brightness-50" : ""
+              step !== STEPS.BIO ? "blur-sm" : ""
             }`}
           >
             <TextHeading3
@@ -57,14 +66,34 @@ export const ViewUserProfileContainer = ({
             <p className="text-soilBody font-Inter font-normal">{user?.bio}</p>
           </div>
           <div></div>
-          <div
-            className={`pl-14 ${
-              step !== STEPS.SOCIALS ? "blur-sm brightness-50" : ""
-            }`}
-          >
+          <div className={`pl-14 ${step !== STEPS.SOCIALS ? "blur-sm" : ""}`}>
             <SocialMediaComp size={`sm`} links={user?.links} />
           </div>
         </div>
+        {selectedPreferences && (
+          <div className={`mb-4  ${step !== STEPS.ROLE ? "blur-sm" : ""}`}>
+            <TextHeading3
+              style={{ fontWeight: 700 }}
+              className="mb-2 text-sm uppercase text-gray-500"
+            >
+              🔎 PREFERENCES
+            </TextHeading3>
+            <div>
+              {selectedPreferences.map(
+                (preference: keyof IPREFERENCES_TITLE, index: number) => (
+                  <Badge
+                    key={index}
+                    text={PREFERENCES_TITLE[preference]}
+                    colorRGB={`255,255,167`}
+                    className={`font-Inter text-sm`}
+                    closeButton={false}
+                    cutText={16}
+                  />
+                )
+              )}
+            </div>
+          </div>
+        )}
         <div className={`grid grid-cols-1 gap-4 md:grid-cols-2`}>
           <div
             className={`flex flex-col ${

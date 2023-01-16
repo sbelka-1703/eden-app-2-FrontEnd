@@ -1,6 +1,9 @@
 import { Maybe, Members } from "@eden/package-graphql/generated";
 import {
+  Badge,
+  IPREFERENCES_TITLE,
   NodeList,
+  PREFERENCES_TITLE,
   SocialMediaComp,
   TextHeading3,
   UserBackground,
@@ -31,6 +34,13 @@ export const MemberInfo = ({
     (node) => node?.nodeData?.node === "sub_typeProject"
   );
 
+  const selectedPreferences = member?.preferences
+    ? (Object.keys(member?.preferences) as [keyof IPREFERENCES_TITLE]).filter(
+        (key) =>
+          member.preferences![key]?.interestedMatch && key.includes("find")
+      )
+    : null;
+
   return (
     <div>
       <UserWithDescription member={member} percentage={percentage} />
@@ -59,6 +69,30 @@ export const MemberInfo = ({
         <div></div>
         <SocialMediaComp links={member?.links} />
       </div>
+      {selectedPreferences && (
+        <div className="mb-4">
+          <TextHeading3
+            style={{ fontWeight: 700 }}
+            className="mb-2 text-sm uppercase text-gray-500"
+          >
+            🔎 PREFERENCES
+          </TextHeading3>
+          <div>
+            {selectedPreferences.map(
+              (preference: keyof IPREFERENCES_TITLE, index: number) => (
+                <Badge
+                  key={index}
+                  text={PREFERENCES_TITLE[preference]}
+                  colorRGB={`255,255,167`}
+                  className={`font-Inter text-sm`}
+                  closeButton={false}
+                  cutText={16}
+                />
+              )
+            )}
+          </div>
+        </div>
+      )}
       <div className={`grid grid-cols-1 gap-4 md:grid-cols-2`}>
         <div className={`flex flex-col`}>
           <NodeList

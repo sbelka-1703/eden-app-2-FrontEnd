@@ -48,19 +48,20 @@ export interface IFillUserProfileContainerProps {
   // eslint-disable-next-line no-unused-vars
   setExperienceOpen?: (val: number | null) => void;
 }
-interface IPREFERENCES_TITLE {
+export interface IPREFERENCES_TITLE {
   findCoFounder: string;
   findMentee: string;
   findMentor: string;
   findUser: string;
   findProject: string;
 }
-const PREFERENCES_TITLE: IPREFERENCES_TITLE = {
-  findCoFounder: "find CoFounder",
-  findMentee: "find Mentee",
-  findMentor: "find Mentor",
-  findUser: "find User",
-  findProject: "find Project",
+
+export const PREFERENCES_TITLE: IPREFERENCES_TITLE = {
+  findCoFounder: "Find Co-Founder",
+  findMentee: "Find Mentee",
+  findMentor: "Find Mentor",
+  findUser: "Find DAO Members",
+  findProject: "Find Project",
 };
 
 const UPDATE_NODES_MEMBER = gql`
@@ -384,7 +385,7 @@ export const FillUserProfileContainer = ({
           <section className="mb-4">
             {step === STEPS.ROLE && (
               <>
-                <p>{`Let's start with your role:`}</p>
+                <p className="mb-4">{`Let's start with your role:`}</p>
                 <RoleSelector
                   value={state?.memberRole?.title || ""}
                   roles={
@@ -396,51 +397,8 @@ export const FillUserProfileContainer = ({
                     handleSetRole(val as RoleTemplate);
                   }}
                 />
-              </>
-            )}
-            {step === STEPS.BIO && (
-              <>
-                <p>{`Add your expertise:`}</p>
-                {/* {JSON.stringify(dataNodesStructured)} */}
-                <div className="mb-8 mt-4 flex h-24 w-full flex-wrap justify-center gap-2">
-                  {dataNodesStructured?.findNodes ? (
-                    <>
-                      {!isEmpty(dataNodesStructured?.findNodes) &&
-                        map(
-                          dataNodesStructured?.findNodes,
-                          (item: any, key: number) => (
-                            <SelectBoxNode
-                              multiple
-                              key={key}
-                              caption={item?.name}
-                              items={item?.subNodes}
-                              // defaultValues={dataNodesStructured}
-                              onChange={(val) => {
-                                setSelectedItems((prevState) => ({
-                                  ...prevState,
-                                  [item?._id]: val,
-                                }));
-                              }}
-                            />
-                          )
-                        )}
-                    </>
-                  ) : (
-                    <Loading />
-                  )}
-                </div>
-                <p>{`Please write a short bio!`}</p>
-                <TextArea
-                  onChange={(e) => {
-                    handleSetBio(e.target.value);
-                  }}
-                  value={state?.bio as string}
-                />
-              </>
-            )}
-            {step === STEPS.PREFERENCES && (
-              <>
-                <p className="mb-4">{`what your interest:`}</p>
+
+                <p className="mb-4 mt-6">{`Choose what you use Eden Network for:`}</p>
                 {/* {JSON.stringify(Preferences)} */}
                 {/* {JSON.stringify(state?.preferences)} */}
                 <div className="flex w-full flex-wrap">
@@ -485,20 +443,60 @@ export const FillUserProfileContainer = ({
                 </div>
               </>
             )}
-            {/* {step === STEPS.COMPENSATION && (
+            {step === STEPS.BIO && (
+              <>
+                <p>{`Add your expertise:`}</p>
+                {/* {JSON.stringify(dataNodesStructured)} */}
+                <div className="mb-8 mt-4 flex h-24 w-full flex-wrap justify-center gap-2">
+                  {dataNodesStructured?.findNodes ? (
                     <>
-                      <p>{`What's your expected compensation?`}</p>
-                      <SalaryRangeChart
-                        data={salaries}
-                        onChange={(val) => {
-                          setState({
-                            ...state,
-                            expectedSalary: val.values[1],
-                          });
-                        }}
-                      />
+                      {!isEmpty(dataNodesStructured?.findNodes) &&
+                        map(
+                          dataNodesStructured?.findNodes,
+                          (item: any, key: number) => (
+                            <SelectBoxNode
+                              multiple
+                              key={key}
+                              caption={item?.name}
+                              items={item?.subNodes}
+                              // defaultValues={dataNodesStructured}
+                              onChange={(val) => {
+                                setSelectedItems((prevState) => ({
+                                  ...prevState,
+                                  [item?._id]: val,
+                                }));
+                              }}
+                            />
+                          )
+                        )}
                     </>
-                  )} */}
+                  ) : (
+                    <Loading />
+                  )}
+                </div>
+                <p>{`Please write a short bio!`}</p>
+                <TextArea
+                  onChange={(e) => {
+                    handleSetBio(e.target.value);
+                  }}
+                  value={state?.bio as string}
+                />
+              </>
+            )}
+            {/* {step === STEPS.COMPENSATION && (
+              <>
+                <p>{`What's your expected compensation?`}</p>
+                <SalaryRangeChart
+                  data={salaries}
+                  onChange={(val) => {
+                    setState({
+                      ...state,
+                      expectedSalary: val.values[1],
+                    });
+                  }}
+                />
+              </>
+            )} */}
             {step === STEPS.SOCIALS && (
               <>
                 <p>{`Share your socials!`}</p>
@@ -608,10 +606,8 @@ export const FillUserProfileContainer = ({
             {step !== STEPS.ROLE && (
               <Button
                 onClick={() => {
-                  if (step === STEPS.BIO && setStep) setStep(STEPS.PREFERENCES);
-                  if (step === STEPS.PREFERENCES && setStep) setStep(STEPS.BIO);
-                  if (step === STEPS.SOCIALS && setStep)
-                    setStep(STEPS.PREFERENCES);
+                  if (step === STEPS.BIO && setStep) setStep(STEPS.ROLE);
+                  if (step === STEPS.SOCIALS && setStep) setStep(STEPS.BIO);
                   if (step === STEPS.EXP && setStep) setStep(STEPS.SOCIALS);
                 }}
               >
@@ -625,14 +621,11 @@ export const FillUserProfileContainer = ({
                   if (step === STEPS.ROLE && setStep) {
                     setStep(STEPS.BIO);
                     handleSubmitForm();
+                    handleSubmitPreferences();
                   }
                   if (step === STEPS.BIO && setStep) {
-                    setStep(STEPS.PREFERENCES);
-                    handleSubmitForm();
-                  }
-                  if (step === STEPS.PREFERENCES && setStep) {
                     setStep(STEPS.SOCIALS);
-                    handleSubmitPreferences();
+                    handleSubmitForm();
                   }
                   if (step === STEPS.SOCIALS && setStep) {
                     setStep(STEPS.EXP);
