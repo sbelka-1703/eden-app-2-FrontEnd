@@ -32,9 +32,9 @@
     "@eden/package-config": "*",
     "husky": "^8.0.0",
     "lint-staged": ">=10",
-    "prettier": "^2.8.3",
+    "prettier": "latest",
     "prettier-plugin-tailwindcss": "^0.1.13",
-    "turbo": "^1.7.0"
+    "turbo": "latest"
   },
   "engines": {
     "npm": ">=7.0.0",

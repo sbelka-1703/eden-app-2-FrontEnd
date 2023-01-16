@@ -10,7 +10,7 @@
     "clean-windows": "rd /s /q node_modules"
   },
   "devDependencies": {
-    "@apollo/client": "^3.7.4",
+    "@apollo/client": "^3.6.9",
     "@eden/package-config": "*",
     "@eden/package-graphql": "*",
     "@eden/package-tsconfig": "*",
@@ -18,7 +18,7 @@
     "@types/react": "18.0.15",
     "@types/react-dom": "^18.0.6",
     "eslint": "^8.20.0",
-    "typescript": "^4.9.4"
+    "typescript": "^4.7.4"
   },
   "dependencies": {}
 }
