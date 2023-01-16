@@ -36,6 +36,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { toast } from "react-toastify";
 
 export interface IFillUserProfileContainerProps {
   state?: Members;
@@ -619,11 +620,39 @@ export const FillUserProfileContainer = ({
                 className="ml-auto"
                 onClick={() => {
                   if (step === STEPS.ROLE && setStep) {
+                    const hasPreferences = state?.preferences
+                      ? (
+                          Object.keys(state?.preferences) as [
+                            keyof IPREFERENCES_TITLE
+                          ]
+                        ).filter(
+                          (key) =>
+                            state.preferences![key]?.interestedMatch &&
+                            key.includes("find")
+                        ).length > 0
+                      : false;
+
+                    if (!state?.memberRole?._id) {
+                      toast.error("Please Choose Role");
+                      return;
+                    }
+                    if (!hasPreferences) {
+                      toast.error("Please Choose Preferences");
+                      return;
+                    }
                     setStep(STEPS.BIO);
                     handleSubmitForm();
                     handleSubmitPreferences();
                   }
                   if (step === STEPS.BIO && setStep) {
+                    if (!state?.bio || state?.bio?.length < 50) {
+                      toast.error("Bio should be at least 50 characters");
+                      return;
+                    }
+                    if (state?.nodes?.length === 0) {
+                      toast.error("Please Choose Your Expertise");
+                      return;
+                    }
                     setStep(STEPS.SOCIALS);
                     handleSubmitForm();
                   }
