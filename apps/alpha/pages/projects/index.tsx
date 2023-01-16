@@ -113,7 +113,7 @@ const ProjectsPage: NextPageWithLayout = () => {
   const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
 
   const handleAddNodes = (val: string[]) => {
-    if (!currentUser || !val) return;
+    if (!currentUser || val.length === 0) return;
     addNodes({
       variables: {
         fields: {
@@ -149,9 +149,13 @@ const ProjectsPage: NextPageWithLayout = () => {
             <GridItemNine>
               <Card
                 shadow
-                className="scrollbar-hide h-85 overflow-scroll bg-white p-4"
+                className="scrollbar-hide lg:h-85 overflow-scroll bg-white p-4"
               >
-                {loading && <Loading />}
+                {loading && (
+                  <div className={`h-52`}>
+                    <Loading />
+                  </div>
+                )}
                 <CardGrid>
                   {dataProjects?.matchNodesToProjectRoles?.map(
                     (project: MatchSkillsToProjectsOutput, index: number) => (
@@ -198,7 +202,7 @@ const ProjectsPage: NextPageWithLayout = () => {
         image={welcome.src}
         setArrayOfNodes={(val) => {
           // console.log("array of nodes val", val);
-          handleAddNodes(val);
+          handleAddNodes(val as string[]);
         }}
         // percentage={0}
         percentage={getFillProfilePercentage(currentUser)}

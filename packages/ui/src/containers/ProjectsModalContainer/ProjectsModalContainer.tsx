@@ -6,7 +6,7 @@ import {
   WarningModal,
   WelcomeModal,
 } from "@eden/package-ui";
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 const rangeNumbers: number[] = [];
 
@@ -16,8 +16,7 @@ for (let i = 0; i < 500; i++) {
 
 export interface IProjectsModalContainerProps {
   image?: any;
-  // eslint-disable-next-line no-unused-vars
-  setArrayOfNodes?: (val: string[]) => void;
+  setArrayOfNodes?: React.Dispatch<React.SetStateAction<string[]>>;
   percentage?: number;
 }
 
@@ -26,7 +25,6 @@ export const ProjectsModalContainer = ({
   setArrayOfNodes,
   percentage = 0,
 }: IProjectsModalContainerProps) => {
-  // const { currentUser } = useContext(UserContext);
   const { openModal, setOpenModal } = useContext(ProjectsContext);
 
   const [nextStep, setNextStep] = useState<any>(null);
@@ -68,7 +66,6 @@ export const ProjectsModalContainer = ({
             setOpenModal(ProjectsModal.SKIP_ALERT);
             setNextStep(ProjectsModal.NODES_PROJECTS);
           }}
-          // eslint-disable-next-line no-unused-vars
           onSubmit={(val: string[]) => {
             // console.log("val", val);
             if (val) {
@@ -91,7 +88,6 @@ export const ProjectsModalContainer = ({
             setOpenModal(ProjectsModal.SKIP_ALERT);
             setNextStep(ProjectsModal.REQUIREMENTS);
           }}
-          // eslint-disable-next-line no-unused-vars
           onSubmit={(val: string[] | null) => {
             // console.log("val", val);
             if (val) {

@@ -168,10 +168,12 @@ const OnboardPartyPage: NextPageWithLayout = () => {
         </GridItemThree>
         <GridItemNine>
           <div className={`lg:h-85 flex flex-col gap-4`}>
-            <UsersToMeetCard
-              members={dataMembers?.matchNodesToMembers}
-              refetchMatchMembers={refetchMatchMembers}
-            />
+            {currentUser && (
+              <UsersToMeetCard
+                members={dataMembers?.matchNodesToMembers}
+                refetchMatchMembers={refetchMatchMembers}
+              />
+            )}
             <NodesOnboardPartyContainer members={members} />
           </div>
         </GridItemNine>
