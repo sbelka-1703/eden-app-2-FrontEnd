@@ -62,27 +62,19 @@ const DiscoverPage: NextPageWithLayout = () => {
       <GridLayout>
         <GridItemFour>
           <div className="flex flex-col gap-4 ">
-            <Card className={`scrollbar-hide overflow-scroll bg-white p-4 `}>
-              {openModal !== DiscoverModal.SKILLS_CATEGORY && (
-                <span className="text-lg font-semibold">
-                  Who are you looking for?
-                </span>
-              )}
+            <Card
+              className={`scrollbar-hide max-h-[564px] overflow-scroll bg-white p-4 `}
+            >
+              <span className="text-lg font-semibold">
+                Who are you looking for?
+              </span>
+
               <DiscoverContainer
                 setArrayOfNodes={(val) => {
                   setNodesID(val);
                 }}
               />
             </Card>
-            {!openModal && (
-              <WarningCard
-                onClickCompleteProfile={() =>
-                  router.push("/create-project?from=discover")
-                }
-                text1="YOUR PROFILE IS 23% COMPLETE. IT HAS TO BE 60%+ TO BE VISIBLE TO EDEN NETWORK"
-                text2="Keep adding more info"
-              />
-            )}
           </div>
         </GridItemFour>
         <GridItemEight>

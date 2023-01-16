@@ -122,8 +122,8 @@ export const TestDiscoverTalentDropdownModal = ({
   }, [selectedItems]);
 
   return (
-    <Modal open={openModal} closeOnEsc={false}>
-      {section && (
+    <>
+      {openModal && section && (
         <div>
           <div className={`mb-12 mt-5 flex`}>
             <div className="w-full">
@@ -181,6 +181,6 @@ export const TestDiscoverTalentDropdownModal = ({
           </div>
         </div>
       )}
-    </Modal>
+    </>
   );
 };

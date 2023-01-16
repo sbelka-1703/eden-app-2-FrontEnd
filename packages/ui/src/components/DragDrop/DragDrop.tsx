@@ -57,20 +57,24 @@ export const DragDrop = ({
   };
 
   return (
-    <div className=" flex w-full flex-col gap-4 p-4 text-center text-white">
-      <div className="text-xl font-semibold text-black">{title}</div>
+    <div className="flex w-full flex-col gap-4 p-4 text-center text-white">
+      <div className="text-md font-thin text-black">{title}</div>
       <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="droppable">
+        <Droppable droppableId="droppable" direction="horizontal">
           {(provided, snapshot) => (
-            <div {...provided.droppableProps} ref={provided.innerRef}>
+            <div
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+              className="flex flex-wrap items-center justify-center gap-4 text-sm text-black"
+            >
               {first.map((item: any, index: number) => (
                 <Draggable key={item.id} draggableId={item.id} index={index}>
                   {(provided, snapshot) => (
                     <div
-                      className={`mb-4 w-full rounded-lg p-3 ${
+                      className={` w-fit rounded-lg py-1 px-2  ${
                         snapshot.isDragging
-                          ? `bg-green-500 text-black opacity-70 shadow-md shadow-slate-400`
-                          : ` bg-slate-400 `
+                          ? `bg-[#85e3f7] text-black opacity-70 shadow-md shadow-slate-400`
+                          : ` bg-[#d1f7ff] `
                       }`}
                       ref={provided.innerRef}
                       {...provided.draggableProps}
@@ -86,6 +90,51 @@ export const DragDrop = ({
           )}
         </Droppable>
       </DragDropContext>
+      <div className="text-sm  text-black">
+        Ranked highest means you&apos;re most professional, ranked lowest -
+        you&apos;re still learning.
+      </div>
+      <div className="flex flex-col gap-4 pt-1">
+        <div className="flex min-h-[100px]  w-full items-center gap-5 rounded-lg bg-[#EAFFD4] p-2">
+          <div className=" text-blue-500">⭐ GODLIKE</div>
+          <div className="flex flex-col gap-3  text-black">
+            {first.map((item: any, index: number) => (
+              <div
+                className="w-fit rounded-lg bg-[#d1f7ff] py-1 px-2  "
+                key={index}
+              >
+                {item.content}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="flex min-h-[100px]  w-full items-center gap-5 rounded-lg bg-[#EAFFD4] p-2 opacity-60">
+          <div className=" text-blue-500">🎉️ DECENT</div>
+          <div className="flex flex-col gap-3  text-black">
+            {first.map((item: any, index: number) => (
+              <div
+                className="w-fit rounded-lg bg-[#d1f7ff] py-1 px-2  "
+                key={index}
+              >
+                {item.content}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="flex min-h-[100px]  w-full items-center gap-5 rounded-lg bg-[#EAFFD4] p-2 opacity-30">
+          <div className=" text-blue-500">🤩 LEARNING</div>
+          <div className="flex flex-col gap-3  text-black">
+            {first.map((item: any, index: number) => (
+              <div
+                className="w-fit rounded-lg bg-[#d1f7ff] py-1 px-2  "
+                key={index}
+              >
+                {item.content}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
       <div className="flex justify-between pt-6">
         <div>
           {onPrev && (

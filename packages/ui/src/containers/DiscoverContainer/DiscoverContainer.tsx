@@ -66,8 +66,7 @@ export const DiscoverContainer = ({
 
       {openModal === DiscoverModal.ORDER_SKILLS_FIRST && (
         <DragDrop
-          title="Choose the Order for your Roles, from your best to worst
-          (you can drag and drop)"
+          title="Drag & Drop according to your level of expertise:"
           elements={elements}
           onPrev={() => {
             setOpenModal(DiscoverModal.SKILLS_CATEGORY);
@@ -81,18 +80,21 @@ export const DiscoverContainer = ({
       {openModal === DiscoverModal.SKILLS_SUBCATEGORY && (
         <DiscoverTalent
           openModal={openModal === DiscoverModal.SKILLS_SUBCATEGORY}
-          onNext={(val: string[] | null, valNames: string[] | null) => {
+          onNext={(val: string[], valNames: string[]) => {
             if (val) {
               if (setNodeIdArray) setNodeIdArray([...nodeIdArray, ...val]);
             }
             if (valNames) {
-              if (setElements) setElements([...valNames]);
+              const items = valNames.map((names, i) => ({
+                id: `${i}`,
+                content: names,
+              }));
+              if (setElements) setElements(items);
             }
-            // if (setArrayOfNodes) setArrayOfNodes(val);
             setOpenModal(DiscoverModal.ORDER_SKILLS_SECOND);
           }}
           onPrev={() => {
-            setOpenModal(DiscoverModal.SKILLS_CATEGORY);
+            setOpenModal(DiscoverModal.ORDER_SKILLS_FIRST);
           }}
           title={`What are you looking for?`}
           nodeType={`typeProject`}
