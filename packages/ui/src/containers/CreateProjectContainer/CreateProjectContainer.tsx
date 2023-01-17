@@ -100,6 +100,7 @@ export const CreateProjectContainer = ({
   const [createProject, {}] = useMutation(CREATE_PROJECT, {
     onCompleted({ createProject }: Mutation) {
       if (!createProject) console.log("createProject is null");
+      // console.log("createProject", createProject);
       createProject?.role?.forEach((_role: Maybe<RoleType>, index: number) => {
         addNodes({
           variables: {
@@ -195,7 +196,16 @@ export const CreateProjectContainer = ({
             backColorEmoji: state?.backColorEmoji,
             descriptionOneLine: state?.descriptionOneLine,
             description: state?.description,
-            role: state?.role,
+            role: state?.role?.map((role) => ({
+              title: role?.title,
+              shortDescription: role?.shortDescription,
+              description: role?.description,
+              benefits: role?.benefits,
+              expectations: role?.expectations,
+              ratePerHour: role?.ratePerHour,
+              openPositions: role?.openPositions,
+              hoursPerWeek: role?.hoursPerWeek,
+            })),
             serverID: state?.serverID,
           },
         },

@@ -76,7 +76,6 @@ export default async (
       RESTPostAPIGuildForumThreadsJSONBody
     >(`${DISCORD_API_URL}/channels/${channelId}/threads`, {
       name: threadName,
-      // eslint-disable-next-line camelcase
       auto_archive_duration: ThreadAutoArchiveDuration,
       applied_tags: [chatTagId],
       message: {

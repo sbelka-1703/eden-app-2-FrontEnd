@@ -189,13 +189,12 @@ export const SendMessageToUser = ({
             <Loading title={`sending message...`} />
           ) : (
             <>
-              <div className={`my-4 flex space-x-6`}>
-                <span
-                  className={`my-auto font-Inter text-gray-700 font-medium`}
-                >
+              <div className={`my-4 md:mr-28 md:flex md:justify-between`}>
+                <div className={`font-Inter my-auto font-medium text-gray-700`}>
                   Select a Discord Server to Connect in
-                </span>
+                </div>
                 <ServerSelector
+                  compareServerID={project?.serverID || []}
                   onChangeServer={(val) => setSelectedServer(val)}
                 />
               </div>

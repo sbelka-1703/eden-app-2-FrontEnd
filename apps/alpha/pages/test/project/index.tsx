@@ -6,7 +6,6 @@ import {
 import {
   AppUserLayout,
   Card,
-  FiltersCard,
   GridItemNine,
   GridItemThree,
   GridLayout,
@@ -22,22 +21,6 @@ import type { NextPageWithLayout } from "../../_app";
 
 const LaunchPage: NextPageWithLayout = () => {
   const [roleFilter, setRoleFilter] = useState<any>(null);
-
-  // const { project, dispatchProject, selectedRole, matchMembersPage } =
-  //   useContext(LaunchProjectContext);
-
-  const handleSetSkills = (val: any) => {
-    console.log(val);
-  };
-  const handleSetHoursPerWeek = (val: any) => {
-    console.log(val);
-  };
-  const handleSetBudget = (val: any) => {
-    console.log(val);
-  };
-  const handleDeleteSkill = (val: any) => {
-    console.log(val);
-  };
 
   const { setOpenModal } = useContext(LaunchProjectContext);
 
@@ -73,14 +56,6 @@ const LaunchPage: NextPageWithLayout = () => {
       <GridLayout>
         <GridItemThree className="h-8/10 scrollbar-hide overflow-scroll">
           <UserProfileCard />
-          <FiltersCard
-            defaultValue={{}}
-            skills={[]}
-            handleSetSkills={handleSetSkills}
-            handleDeleteSkill={handleDeleteSkill}
-            handleSetHoursPerWeek={handleSetHoursPerWeek}
-            handleSetBudget={handleSetBudget}
-          />
         </GridItemThree>
 
         <GridItemNine className="">

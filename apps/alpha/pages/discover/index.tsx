@@ -13,6 +13,8 @@ import {
 import {
   MatchMembersToSkillOutput,
   NodesType,
+  PreferencesType,
+  PreferencesTypeFind,
   RoleType,
 } from "@eden/package-graphql/generated";
 import {
@@ -36,22 +38,52 @@ import type { NextPageWithLayout } from "../_app";
 
 const DiscoverPage: NextPageWithLayout = () => {
   const router = useRouter();
+  const { currentUser } = useContext(UserContext);
   // const { selectedServer, memberServerIDs } = useContext(UserContext);
   const { setOpenModal } = useContext(DiscoverContext);
   const { selectedServerID } = useContext(UserContext);
   const [nodesID, setNodesID] = useState<string[] | null>(null);
   const [selectedRole, setSelectedRole] = useState<RoleType | null>(null);
+  const [preferences, setPreferences] = useState<PreferencesType>({
+    findCoFounder: {
+      interestedMatch:
+        currentUser?.preferences?.findCoFounder?.interestedMatch || null,
+    } as PreferencesTypeFind,
+    findMentee: {
+      interestedMatch:
+        currentUser?.preferences?.findMentee?.interestedMatch || null,
+    } as PreferencesTypeFind,
+    findMentor: {
+      interestedMatch:
+        currentUser?.preferences?.findMentor?.interestedMatch || null,
+    } as PreferencesTypeFind,
+    findProject: {
+      interestedMatch:
+        currentUser?.preferences?.findProject?.interestedMatch || null,
+    } as PreferencesTypeFind,
+    findUser: {
+      interestedMatch:
+        currentUser?.preferences?.findUser?.interestedMatch || null,
+    } as PreferencesTypeFind,
+  });
 
   const { data: dataMembers } = useQuery(MATCH_NODES_MEMBERS, {
     variables: {
       fields: {
         nodesID: nodesID,
         serverID: selectedServerID,
+        preference: Object.keys(preferences).filter(
+          (key: string) =>
+            (preferences[key as keyof PreferencesType] as PreferencesTypeFind)
+              ?.interestedMatch || false
+        ),
       },
     },
     skip: !nodesID || !selectedServerID,
     context: { serviceName: "soilservice" },
   });
+
+  // if (dataMembers) console.log("dataMembers", dataMembers);
 
   const { data: dataProject } = useQuery(FIND_PROJECT, {
     variables: {
@@ -63,7 +95,7 @@ const DiscoverPage: NextPageWithLayout = () => {
     context: { serviceName: "soilservice" },
   });
 
-  // if (dataMembers) console.log("dataMembers", dataMembers);
+  // if (dataProject) console.log("dataProject", dataProject);
 
   return (
     <>
@@ -152,6 +184,9 @@ const DiscoverPage: NextPageWithLayout = () => {
           image={welcome.src}
           setArrayOfNodes={(val) => {
             setNodesID(val);
+          }}
+          setPreferences={(val: PreferencesType) => {
+            setPreferences(val);
           }}
         />
       )}

@@ -19,7 +19,9 @@ import {
   BatteryStepper,
   Button,
   Card,
+  IPREFERENCES_TITLE,
   Loading,
+  PREFERENCES_TITLE,
   RoleSelector,
   SelectBoxNode,
   SocialMediaInput,
@@ -49,21 +51,6 @@ export interface IFillUserProfileContainerProps {
   // eslint-disable-next-line no-unused-vars
   setExperienceOpen?: (val: number | null) => void;
 }
-export interface IPREFERENCES_TITLE {
-  findCoFounder: string;
-  findMentee: string;
-  findMentor: string;
-  findUser: string;
-  findProject: string;
-}
-
-export const PREFERENCES_TITLE: IPREFERENCES_TITLE = {
-  findCoFounder: "Find Co-Founder",
-  findMentee: "Find Mentee",
-  findMentor: "Find Mentor",
-  findUser: "Find DAO Members",
-  findProject: "Find Project",
-};
 
 const UPDATE_NODES_MEMBER = gql`
   mutation ($fields: updateNodesToMemberInput!) {
