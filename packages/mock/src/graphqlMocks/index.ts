@@ -1,5 +1,5 @@
 export * from "./EpicMock";
-export * from "./findProjects_RecommendedToUserMock";
+export * from "./findProjectsRecommendedToUserMock";
 export * from "./findRoleTemplates";
 export * from "./findServers";
 export * from "./matchNodesToMembersMock";

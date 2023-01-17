@@ -1,3 +1,6 @@
+import { getEndorsementsTypeMockArray } from "@eden/package-mock";
+import { faker } from "@faker-js/faker";
+
 const SkillTreeShowFlag = {
   ChooseCategory: true,
   ChooseSubcategory: true,
@@ -522,148 +525,9 @@ const Result = {
         ],
       },
     ],
-    endorsements: [
-      {
-        avatar:
-          "https://cdn.discordapp.com/avatars/516697403391213588/4cc3f607d01bc8865b327064c5d380ca.png",
-        name: "Waxy",
-        endorsement:
-          "I had a change to work with BluePanda in D_D Acedemy and he was amazing. True Leader. I learned from him so much. Can’t wait to work with him again.",
-        level: {
-          name: 2,
-          smallName: "L2",
-          meaning: "Community Favourite",
-          SuccessfulEndorsementsGive: "23",
-          SuccessfulEndorsementsReceive: "12",
-        },
-      },
-      {
-        avatar:
-          "https://cdn.discordapp.com/avatars/516697403391213588/4cc3f607d01bc8865b327064c5d380ca.png",
-        name: "Impactbilli",
-        endorsement:
-          "BluePanda is my greatest friend and a mentor. He’s my North Star. ",
-        level: {
-          name: 3,
-          smallName: "L3",
-          meaning: "Community leader",
-          SuccessfulEndorsementsGive: "3",
-          SuccessfulEndorsementsReceive: "12",
-        },
-      },
-      {
-        avatar:
-          "https://cdn.discordapp.com/avatars/175735303489847296/fe70f8879d7d8979dd4a32690806f7f3.webp",
-        name: "XYZ",
-        endorsement:
-          "BluePanda is my greatest friend and a mentor. He’s my North Star. ",
-        level: {
-          name: 1,
-          smallName: "L1",
-          meaning: "Community starter",
-          SuccessfulEndorsementsGive: "13",
-          SuccessfulEndorsementsReceive: "2",
-        },
-      },
-      {
-        avatar:
-          "https://cdn.discordapp.com/avatars/516697403391213588/4cc3f607d01bc8865b327064c5d380ca.png",
-        name: "Waxy",
-        endorsement:
-          "I had a change to work with BluePanda in D_D Acedemy and he was amazing. True Leader. I learned from him so much. Can’t wait to work with him again.",
-        level: {
-          name: 2,
-          smallName: "L2",
-          meaning: "Community Favourite",
-          SuccessfulEndorsementsGive: "23",
-          SuccessfulEndorsementsReceive: "12",
-        },
-      },
-      {
-        avatar:
-          "https://cdn.discordapp.com/avatars/516697403391213588/4cc3f607d01bc8865b327064c5d380ca.png",
-        name: "Impactbilli",
-        endorsement:
-          "BluePanda is my greatest friend and a mentor. He’s my North Star. ",
-        level: {
-          name: 3,
-          smallName: "L3",
-          meaning: "Community leader",
-          SuccessfulEndorsementsGive: "3",
-          SuccessfulEndorsementsReceive: "12",
-        },
-      },
-      {
-        avatar:
-          "https://cdn.discordapp.com/avatars/175735303489847296/fe70f8879d7d8979dd4a32690806f7f3.webp",
-        name: "XYZ",
-        endorsement:
-          "BluePanda is my greatest friend and a mentor. He’s my North Star. ",
-        level: {
-          name: 1,
-          smallName: "L1",
-          meaning: "Community starter",
-          SuccessfulEndorsementsGive: "13",
-          SuccessfulEndorsementsReceive: "2",
-        },
-      },
-      {
-        avatar:
-          "https://cdn.discordapp.com/avatars/175735303489847296/fe70f8879d7d8979dd4a32690806f7f3.webp",
-        name: "XYZ",
-        endorsement:
-          "BluePanda is my greatest friend and a mentor. He’s my North Star. ",
-        level: {
-          name: 1,
-          smallName: "L1",
-          meaning: "Community starter",
-          SuccessfulEndorsementsGive: "13",
-          SuccessfulEndorsementsReceive: "2",
-        },
-      },
-      {
-        avatar:
-          "https://cdn.discordapp.com/avatars/516697403391213588/4cc3f607d01bc8865b327064c5d380ca.png",
-        name: "Impactbilli",
-        endorsement:
-          "BluePanda is my greatest friend and a mentor. He’s my North Star. ",
-        level: {
-          name: 3,
-          smallName: "L3",
-          meaning: "Community leader",
-          SuccessfulEndorsementsGive: "3",
-          SuccessfulEndorsementsReceive: "12",
-        },
-      },
-      {
-        avatar:
-          "https://cdn.discordapp.com/avatars/175735303489847296/fe70f8879d7d8979dd4a32690806f7f3.webp",
-        name: "XYZ",
-        endorsement:
-          "BluePanda is my greatest friend and a mentor. He’s my North Star. ",
-        level: {
-          name: 1,
-          smallName: "L1",
-          meaning: "Community starter",
-          SuccessfulEndorsementsGive: "13",
-          SuccessfulEndorsementsReceive: "2",
-        },
-      },
-      {
-        avatar:
-          "https://cdn.discordapp.com/avatars/175735303489847296/fe70f8879d7d8979dd4a32690806f7f3.webp",
-        name: "XYZ",
-        endorsement:
-          "BluePanda is my greatest friend and a mentor. He’s my North Star. ",
-        level: {
-          name: 1,
-          smallName: "L1",
-          meaning: "Community starter",
-          SuccessfulEndorsementsGive: "13",
-          SuccessfulEndorsementsReceive: "2",
-        },
-      },
-    ],
+    endorsements: getEndorsementsTypeMockArray(
+      faker.datatype.number({ min: 0, max: 6, precision: 1 })
+    ),
   },
   "Product 1": {
     description:

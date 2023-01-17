@@ -6,7 +6,6 @@ import {
 import {
   AppUserLayout,
   Card,
-  FiltersCard,
   GridItemNine,
   GridItemThree,
   GridLayout,
@@ -23,19 +22,6 @@ import type { NextPageWithLayout } from "../../_app";
 
 const UserPage: NextPageWithLayout = () => {
   const [roleFilter, setRoleFilter] = useState<any>(null);
-
-  const handleSetSkills = (val: any) => {
-    console.log(val);
-  };
-  const handleSetHoursPerWeek = (val: any) => {
-    console.log(val);
-  };
-  const handleSetBudget = (val: any) => {
-    console.log(val);
-  };
-  const handleDeleteSkill = (val: any) => {
-    console.log(val);
-  };
 
   //@TODO - using this context is extremely overkill.
   // I'm using it for speed but it should be replaced with a more accurate one
@@ -67,14 +53,6 @@ const UserPage: NextPageWithLayout = () => {
       <GridLayout>
         <GridItemThree className="h-85 scrollbar-hide overflow-scroll">
           <UserProfileCard />
-          <FiltersCard
-            defaultValue={{}}
-            skills={[]}
-            handleSetSkills={handleSetSkills}
-            handleDeleteSkill={handleDeleteSkill}
-            handleSetHoursPerWeek={handleSetHoursPerWeek}
-            handleSetBudget={handleSetBudget}
-          />
         </GridItemThree>
 
         <GridItemNine className="">
