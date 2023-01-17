@@ -7,6 +7,7 @@ type ButtonProps = {
   size?: "lg" | "md" | "sm";
   className?: string;
   disabled?: boolean;
+  // loading?: boolean;
   style?: CSSProperties;
   // eslint-disable-next-line no-unused-vars
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
@@ -19,6 +20,7 @@ export const Button = ({
   size = "lg",
   className,
   disabled,
+  // loading,
   onClick,
   style,
 }: ButtonProps) => {
@@ -55,6 +57,10 @@ export const Button = ({
       </button>
     );
   }
+
+  // if (loading) {
+  //   <button></button>;
+  // }
 
   return (
     <button style={style} className={btnCls} onClick={onClick}>
