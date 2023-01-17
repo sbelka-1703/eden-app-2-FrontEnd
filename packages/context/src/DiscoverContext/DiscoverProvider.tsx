@@ -24,6 +24,7 @@ export interface DiscoverAction {
 export enum DiscoverModal {
   START_INFO = "start info",
   USER_ROLE = "user role",
+  PREFERENCES = "preferences",
   SKILLS_CATEGORY = "skills category",
   SKILLS_SUBCATEGORY = "skills subcategory",
   PRIORITIZE = "prioritize",
