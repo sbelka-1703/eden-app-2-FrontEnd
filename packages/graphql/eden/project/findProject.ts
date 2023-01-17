@@ -37,6 +37,12 @@ export const FIND_PROJECT = gql`
           _id
           discordName
           discordAvatar
+          discriminator
+          bio
+          memberRole {
+            _id
+            title
+          }
           links {
             name
             url
@@ -46,8 +52,21 @@ export const FIND_PROJECT = gql`
               _id
               name
               node
+              subNodes {
+                _id
+                name
+                node
+              }
             }
           }
+          endorsements {
+            endorser {
+              _id
+              discordAvatar
+              discordName
+            }
+          }
+          serverID
         }
         phase
         roleID
@@ -80,18 +99,6 @@ export const FIND_PROJECT = gql`
       budget {
         token
         totalBudget
-      }
-      tweets {
-        _id
-        content
-        registeredAt
-        approved
-        title
-        author {
-          _id
-          discordName
-          discordAvatar
-        }
       }
     }
   }

@@ -75,7 +75,7 @@ export const ProjectEditSelectorCard = ({
           serverID={project?.serverID as string[]}
         />
       </div>
-      <div className="mt-4 grid grid-cols-2 overflow-hidden">
+      <div className="mt-4 grid grid-cols-2 gap-2 overflow-hidden">
         {project.role?.map((data, index) => (
           <div key={index} className="col-span-1 m-1">
             <RoleSmallCard
