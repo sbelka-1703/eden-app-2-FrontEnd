@@ -53,6 +53,8 @@ const DiscoverPage: NextPageWithLayout = () => {
     context: { serviceName: "soilservice" },
   });
 
+  // if (dataMembers) console.log("dataMembers", dataMembers);
+
   const { data: dataProject } = useQuery(FIND_PROJECT, {
     variables: {
       fields: {
@@ -63,7 +65,7 @@ const DiscoverPage: NextPageWithLayout = () => {
     context: { serviceName: "soilservice" },
   });
 
-  // if (dataMembers) console.log("dataMembers", dataMembers);
+  // if (dataProject) console.log("dataProject", dataProject);
 
   return (
     <>
