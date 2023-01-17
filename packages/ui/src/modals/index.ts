@@ -5,6 +5,7 @@ export * from "./FindTalentDropdownModal";
 export * from "./FindTalentModal";
 export * from "./GrantsModal";
 export * from "./MemberModal";
+export * from "./PreferencesModal";
 export * from "./PrioritizeModal";
 export * from "./ProfileExpandedModal";
 export * from "./ProjectModal";
