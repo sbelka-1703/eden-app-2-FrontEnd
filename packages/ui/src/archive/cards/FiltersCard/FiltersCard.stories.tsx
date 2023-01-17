@@ -5,7 +5,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { FiltersCard } from "./FiltersCard";
 
 export default {
-  title: "Cards/FiltersCard",
+  title: "Archive/Cards/FiltersCard",
   component: FiltersCard,
   argTypes: {},
 } as ComponentMeta<typeof FiltersCard>;

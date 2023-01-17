@@ -75,6 +75,7 @@ export const FIND_CURRENTUSER = gql`
             _id
             discordName
             discordAvatar
+            discriminator
           }
         }
         role {
@@ -104,9 +105,6 @@ export const FIND_CURRENTUSER = gql`
         _id
         title
         description
-        skills {
-          _id
-        }
       }
       endorsements {
         endorser {

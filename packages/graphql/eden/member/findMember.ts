@@ -52,6 +52,23 @@ export const FIND_MEMBER = gql`
         endorsementMessage
         arweaveTransactionID
       }
+      preferences {
+        findCoFounder {
+          interestedMatch
+        }
+        findMentee {
+          interestedMatch
+        }
+        findMentor {
+          interestedMatch
+        }
+        findProject {
+          interestedMatch
+        }
+        findUser {
+          interestedMatch
+        }
+      }
     }
   }
 `;

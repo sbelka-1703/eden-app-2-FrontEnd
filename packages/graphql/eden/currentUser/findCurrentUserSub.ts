@@ -75,6 +75,7 @@ export const FIND_CURRENTUSER_SUB = gql`
             _id
             discordName
             discordAvatar
+            discriminator
           }
         }
         role {
@@ -104,9 +105,6 @@ export const FIND_CURRENTUSER_SUB = gql`
         _id
         title
         description
-        skills {
-          _id
-        }
       }
       endorsements {
         endorser {
@@ -117,6 +115,23 @@ export const FIND_CURRENTUSER_SUB = gql`
         }
         endorsementMessage
         arweaveTransactionID
+      }
+      preferences {
+        findCoFounder {
+          interestedMatch
+        }
+        findMentee {
+          interestedMatch
+        }
+        findMentor {
+          interestedMatch
+        }
+        findProject {
+          interestedMatch
+        }
+        findUser {
+          interestedMatch
+        }
       }
     }
   }

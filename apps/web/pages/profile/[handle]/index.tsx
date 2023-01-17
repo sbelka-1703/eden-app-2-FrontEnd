@@ -1,5 +1,5 @@
 import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
-import { FIND_MEMBER } from "@eden/package-graphql";
+import { FIND_MEMBER_INFO } from "@eden/package-graphql";
 import {
   AppUserSubmenuLayout,
   Card,
@@ -61,7 +61,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { handle } = context.query;
 
   const { data } = await client.query({
-    query: FIND_MEMBER,
+    query: FIND_MEMBER_INFO,
     variables: {
       fields: {
         discordName: handle,
