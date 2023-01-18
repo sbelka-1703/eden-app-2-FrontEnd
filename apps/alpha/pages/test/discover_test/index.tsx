@@ -13,14 +13,9 @@ import {
 import {
   AppUserSubmenuLayout,
   Card,
-  CardGrid,
   DiscoverContainer,
-  GridItemEight,
-  GridItemFour,
-  GridLayout,
   SEO,
   UserDiscoverCard,
-  WarningCard,
 } from "@eden/package-ui";
 import { ExclamationIcon } from "@heroicons/react/solid";
 import { useContext, useState } from "react";
