@@ -60,7 +60,7 @@ export const ShortlistModalContainerTest =
       selectedCategories,
       setSelectedCategories,
     } = useContext(LaunchProjectContext);
-    const { currentUser, selectedServer } = useContext(UserContext);
+    const { currentUser } = useContext(UserContext);
 
     const [updateProject, {}] = useMutation(UPDATE_PROJECT, {
       onCompleted({ updateProject }: Mutation) {
@@ -80,7 +80,8 @@ export const ShortlistModalContainerTest =
               descriptionOneLine: project?.descriptionOneLine,
               emoji: project?.emoji,
               champion: currentUser?._id,
-              serverID: selectedServer?._id,
+              // needs a selected server id, previous selected server context is deprecated, server selection is now done locally in the component
+              // serverID: selectedServer?._id,
               role: project?.role?.map((role) => ({
                 title: role?.title,
                 description: role?.description,
