@@ -94,8 +94,7 @@ export const UserMessageModal = ({
               </div>
               <div className={`my-4`}>
                 <TextHeading3 className={`text-md text-gray-500`}>
-                  Start a converstation with @{member?.discordName} about your
-                  project.
+                  Start a converstation with @{member?.discordName}.
                 </TextHeading3>
               </div>
               <SendMessageUserToUser member={member} />
