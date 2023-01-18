@@ -48,6 +48,10 @@ export default async (
       },
     });
 
+    if (!message && !embedMessage && !channelId) {
+      res.status(400).end();
+    }
+
     if (message) {
       res.status(400);
     }

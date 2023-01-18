@@ -16,7 +16,7 @@ export const FIND_SERVERS = gql`
       serverType
       channel {
         chatID
-        # forumID
+        forumID
       }
     }
   }
