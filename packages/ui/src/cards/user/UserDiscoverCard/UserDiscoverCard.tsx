@@ -11,9 +11,10 @@ import {
   Card,
   CommonServerAvatarList,
   LongText,
-  MemberModal,
+  // MemberModal,
   SocialMediaComp,
   UserInviteModal,
+  UserMessageModal,
   UserWithDescription,
 } from "@eden/package-ui";
 import { useState } from "react";
@@ -25,6 +26,7 @@ export interface IUserDiscoverCardProps {
   project?: Maybe<Project>;
   role?: Maybe<RoleType>;
   invite?: boolean;
+  messageUser?: boolean;
   phase?: string;
 }
 
@@ -149,10 +151,10 @@ export const UserDiscoverCard = ({
           onClose={() => setIsOpen(!isOpen)}
         />
       ) : (
-        <MemberModal
+        <UserMessageModal
           open={isOpen}
           member={member}
-          percentage={matchPercentage?.totalPercentage || undefined}
+          matchPercentage={matchPercentage}
           onClose={() => setIsOpen(!isOpen)}
         />
       )}

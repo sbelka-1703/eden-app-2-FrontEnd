@@ -4,14 +4,12 @@ import {
   MatchPercentage,
   Maybe,
   Members,
-  Project,
-  RoleType,
 } from "@eden/package-graphql/generated";
 import {
   Button,
   MemberInfo,
   Modal,
-  SendMessageToUser,
+  SendMessageUserToUser,
   TextHeading3,
   UserWithDescription,
 } from "@eden/package-ui";
@@ -26,25 +24,19 @@ const SET_APPLY_TO_PROJECT = gql`
   }
 `;
 
-export interface IUserInviteModalProps {
+export interface IUserMessageModalProps {
   member?: Members;
-  project?: Project;
-  role?: RoleType;
   matchPercentage?: Maybe<MatchPercentage>;
-  phase?: string;
   open?: boolean;
   onClose?: () => void;
 }
 
-export const UserInviteModal = ({
+export const UserMessageModal = ({
   member,
-  project,
-  role,
   matchPercentage,
-  phase,
   open,
   onClose,
-}: IUserInviteModalProps) => {
+}: IUserMessageModalProps) => {
   const { data: dataMemberInfo } = useQuery(FIND_MEMBER_INFO, {
     variables: {
       fields: {
@@ -56,7 +48,7 @@ export const UserInviteModal = ({
   });
 
   const findMember = dataMemberInfo?.findMember;
-  const [showInvite, setShowInvite] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
 
   const [changeTeamMemberPhaseProject, {}] = useMutation(SET_APPLY_TO_PROJECT, {
     onCompleted: () => {
@@ -69,42 +61,6 @@ export const UserInviteModal = ({
     },
   });
 
-  const handleReject = () => {
-    // console.log("reject");
-    if (project?._id && member?._id) {
-      changeTeamMemberPhaseProject({
-        variables: {
-          fields: {
-            projectID: project?._id,
-            memberID: member?._id,
-            roleID: role?._id,
-            phase: "rejected",
-          },
-        },
-      });
-    } else {
-      toast.error("Something went wrong");
-    }
-  };
-
-  const handleAccept = () => {
-    // console.log("accept");
-    if (project?._id && member?._id) {
-      changeTeamMemberPhaseProject({
-        variables: {
-          fields: {
-            projectID: project?._id,
-            memberID: member?._id,
-            roleID: role?._id,
-            phase: "committed",
-          },
-        },
-      });
-    } else {
-      toast.error("Something went wrong");
-    }
-  };
-
   if (!member) return null;
   // if (!findMember) return null;
 
@@ -112,28 +68,23 @@ export const UserInviteModal = ({
     <Modal open={open} onClose={onClose}>
       <div className={`h-8/10 scrollbar-hide w-full overflow-scroll`}>
         <div className={`mt-4 grid grid-cols-5`}>
-          <div className={`col-span-2 flex justify-end`}>
-            {phase === "engaged" && (
-              <Button onClick={() => handleReject()}>Reject</Button>
-            )}
-          </div>
+          <div className={`col-span-2 flex justify-end`}></div>
           <div className={`col-span-1 h-8`}></div>
           <div className={`col-span-2`}>
-            {!phase && !showInvite && (
-              <Button onClick={() => setShowInvite(!showInvite)}>Invite</Button>
-            )}
-            {!phase && showInvite && (
-              <Button onClick={() => setShowInvite(!showInvite)}>
-                Cancel Message
+            {!showMessage && (
+              <Button onClick={() => setShowMessage(!showMessage)}>
+                Connect with {member?.discordName}
               </Button>
             )}
-            {phase === "engaged" && (
-              <Button onClick={() => handleAccept()}>Accept</Button>
+            {showMessage && (
+              <Button onClick={() => setShowMessage(!showMessage)}>
+                Cancel Message
+              </Button>
             )}
           </div>
         </div>
         <div className={`-mt-12`}>
-          {showInvite ? (
+          {showMessage ? (
             <div>
               <div>
                 <UserWithDescription
@@ -147,11 +98,7 @@ export const UserInviteModal = ({
                   project.
                 </TextHeading3>
               </div>
-              <SendMessageToUser
-                member={member}
-                project={project}
-                role={role}
-              />
+              <SendMessageUserToUser member={member} />
             </div>
           ) : (
             <MemberInfo

@@ -17,6 +17,7 @@ export * from "./Requirements";
 export * from "./SearchSkill";
 export * from "./SendMessageToChampion";
 export * from "./SendMessageToUser";
+export * from "./SendMessageUserToUser";
 export * from "./ServerFilter";
 export * from "./SkillCategoryList";
 export * from "./SkillVisualisationComp";

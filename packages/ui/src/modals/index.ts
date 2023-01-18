@@ -20,5 +20,6 @@ export * from "./SkipFlowModal";
 export * from "./StaticModal";
 export * from "./TestDiscoverTalentDropdownModal";
 export * from "./UserInviteModal";
+export * from "./UserMessageModal";
 export * from "./WarningModal";
 export * from "./WelcomeModal";
