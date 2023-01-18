@@ -43,7 +43,7 @@ export const DescriptionGPT = ({}: IDescriptionGPTProps) => {
     });
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: any) => {
     if (!message) {
       setTitle(e.target.value);
     } else {
