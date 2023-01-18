@@ -34,6 +34,7 @@ export default async (
     const {
       message,
       embedMessage,
+      tagName,
       senderAvatarURL,
       senderName,
       channelId,
@@ -62,7 +63,7 @@ export default async (
     // Find tag --- `Chat` ID, used in creating post in forum
     // Only post with specific tags can be captured by the bot
     const tags = forumResponse.data.available_tags.filter(
-      (tag) => tag.name === "Chat"
+      (tag) => tag.name === tagName
     );
 
     if (tags.length === 0) {

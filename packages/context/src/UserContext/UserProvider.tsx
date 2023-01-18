@@ -1,6 +1,6 @@
 import { gql, useQuery, useSubscription } from "@apollo/client";
 import { FIND_CURRENTUSER, FIND_CURRENTUSER_SUB } from "@eden/package-graphql";
-import { Members, ServerTemplate } from "@eden/package-graphql/generated";
+import { ServerTemplate } from "@eden/package-graphql/generated";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 
@@ -16,6 +16,7 @@ export const FIND_SERVERS = gql`
       serverType
       channel {
         chatID
+        # forumID
       }
     }
   }
@@ -31,7 +32,6 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   const { id } = session?.user || { id: null };
 
   const [memberServers, setMemberServers] = useState<ServerTemplate[]>([]);
-  const [selectedServer, setSelectedServer] = useState<any>(null);
   const [selectedServerID, setSelectedServerID] = useState<string[]>([]);
   const [memberServerIDs, setMemberServerIDs] = useState<string[]>([]);
 
@@ -74,7 +74,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     context: { serviceName: "soilservice" },
     onCompleted: (data) => {
       setMemberServers([...data.findServers]);
-      setSelectedServer(data.findServers[0]);
+      // setSelectedServer(data.findServers[0]);
     },
   });
 
@@ -103,15 +103,9 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 
   const injectContext = {
     currentUser: dataMember?.findMember || undefined,
-    setCurrentUser: (user: Members) => {
-      console.log("setCurrentUser", user);
-      // injectContext.currentUser = user;
-    },
     refechProfile: refechProfile,
     memberServers,
     memberServerIDs,
-    selectedServer,
-    setSelectedServer,
     selectedServerID,
     setSelectedServerID,
   };

@@ -23,17 +23,17 @@ export const ServerSelector = ({
   compareServerID,
   onChangeString,
   onChangeServer,
-  btnBGcolor = "bg-gray-200",
+  btnBGcolor = "bg-gray-50",
 }: IServerSelectorProps) => {
   const { memberServers } = useContext(UserContext);
   const [availableServers, setAvailableServers] = useState<ServerTemplate[]>(
-    memberServers || []
+    []
   );
 
   const [selected, setSelected] = useState<ServerTemplate>({});
 
   const btnClasses = clsx(
-    "relative flex justify-between items-center border border-gray-300 text-center cursor-pointer rounded-2xl py-1 px-3 shadow-lg hover:shadow-sm hover:border-gray-500 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-green-300 sm:text-sm",
+    "relative flex justify-between items-center border border-gray-300 text-center cursor-pointer rounded-2xl py-1 px-3 shadow hover:shadow-sm hover:border-gray-400 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-green-300 sm:text-sm",
     btnBGcolor,
     {
       "border-green-500": isEmpty(selected),
@@ -58,14 +58,16 @@ export const ServerSelector = ({
   }, [value]);
 
   useEffect(() => {
-    if (compareServerID) {
+    if (compareServerID && compareServerID.length > 0) {
       const serverList = memberServers?.filter((item) =>
         compareServerID.includes(item._id as string)
       ) as ServerTemplate[];
 
       setAvailableServers(serverList);
+    } else {
+      setAvailableServers(memberServers);
     }
-  }, [compareServerID]);
+  }, [compareServerID, memberServers]);
 
   return (
     <Listbox
