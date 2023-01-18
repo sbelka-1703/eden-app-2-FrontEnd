@@ -105,10 +105,16 @@ export const DragDrop = ({
               >
                 {item.content}
               </div>
+              // <div key={index} className="flex w-full justify-start">
+              //   <span className="px-2"> {index++}</span>
+              //   <span className="w-fit rounded-lg bg-[#d1f7ff] py-1 px-2  ">
+              //     {item.content}
+              //   </span>
+              // </div>
             ))}
           </div>
         </div>
-        <div className="flex min-h-[100px]  w-full items-center gap-5 rounded-lg bg-[#EAFFD4] p-2 opacity-60">
+        <div className="flex min-h-[100px]  w-full items-center gap-5 rounded-lg bg-[#EAFFD4] bg-opacity-60 p-2">
           <div className=" text-blue-500">🎉️ DECENT</div>
           <div className="flex flex-col gap-3  text-black">
             {first.map((item: any, index: number) => (
@@ -121,7 +127,7 @@ export const DragDrop = ({
             ))}
           </div>
         </div>
-        <div className="flex min-h-[100px]  w-full items-center gap-5 rounded-lg bg-[#EAFFD4] p-2 opacity-30">
+        <div className="flex min-h-[100px]  w-full items-center gap-5 rounded-lg bg-[#EAFFD4] bg-opacity-30 p-2">
           <div className=" text-blue-500">🤩 LEARNING</div>
           <div className="flex flex-col gap-3  text-black">
             {first.map((item: any, index: number) => (

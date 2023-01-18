@@ -43,25 +43,17 @@ export const UserDiscoverCard = ({
   if (!member) return null;
 
   return (
-    <Card border>
-      <div className={`flex justify-between`}>
-        <div></div>
-        <div>
-          <div className={`relative flex flex-col items-center`}>
-            <UserWithDescription
-              member={member}
-              percentage={round(Number(matchPercentage?.totalPercentage), 0)}
-            />
-            {member?.links && (
-              <div className="flex justify-center">
-                <SocialMediaComp size="sm" title="" links={member?.links} />
-              </div>
-            )}
+    <Card border className="px-3 py-5">
+      <div className="flex w-full flex-col items-center">
+        <UserWithDescription
+          member={member}
+          percentage={round(Number(matchPercentage?.totalPercentage), 0)}
+        />
+        {/* {member?.links && (
+          <div className="flex justify-center">
+            <SocialMediaComp size="sm" title="" links={member?.links} />
           </div>
-        </div>
-        <div>
-          <Button onClick={() => setIsOpen(!isOpen)}>More</Button>
-        </div>
+        )} */}
       </div>
 
       <div className="flex">
@@ -72,18 +64,10 @@ export const UserDiscoverCard = ({
         />
       </div>
 
-      {member?.serverID && (
-        <CommonServerAvatarList
-          label={`common servers`}
-          size={`xs`}
-          serverID={member?.serverID as string[]}
-        />
-      )}
-
       {nodesPercentage && (
         <div>
           <p className="font-Inter mb-1 text-sm font-bold text-zinc-500">
-            🛠 Top skills
+            💫 Top skills
           </p>
           <div>
             {nodesPercentage.slice(0, 6).map((node, index) => (
@@ -96,30 +80,36 @@ export const UserDiscoverCard = ({
           </div>
         </div>
       )}
+      {/* interest for the users would be here */}
+      {member?.serverID && (
+        <CommonServerAvatarList
+          label={`💯 Eden servers`}
+          size={`xs`}
+          serverID={member?.serverID as string[]}
+        />
+      )}
 
-      {member?.endorsements && member?.endorsements.length > 0 && (
+      {/* {member?.endorsements && member?.endorsements.length > 0 && (
         <div className="mt-4">
           <p className="font-Inter mb-1 text-sm font-bold text-zinc-500">
             🎙 ENDORSEMENTS
           </p>
-          <div className={`flex`}>
-            <AvatarList
-              className="inline-block !w-auto !justify-start"
-              avatars={member?.endorsements
-                .slice(0, 5)
-                .map((endorsement: any) => ({
-                  size: "xs",
-                  src: endorsement?.endorser?.discordAvatar,
-                }))}
-            />
-            {member?.endorsements.slice(5).length > 0 && (
-              <p className="text-soilGray ml-6 mt-1 inline">
-                +{member?.endorsements.slice(8).length} more
-              </p>
-            )}
-          </div>
+          <AvatarList
+            className="inline-block !w-auto !justify-start"
+            avatars={member?.endorsements
+              .slice(0, 5)
+              .map((endorsement: any) => ({
+                size: "xs",
+                src: endorsement?.endorser?.discordAvatar,
+              }))}
+          />
+          {member?.endorsements.slice(5).length > 0 && (
+            <p className="text-soilGray ml-6 inline">
+              +{member?.endorsements.slice(8).length} more
+            </p>
+          )}
         </div>
-      )}
+      )} */}
 
       {/* {(item.lifetimeStakeTRST || item.totalTRST) && (
         <div className="-mx-2 mt-3 -mb-3 flex">
@@ -137,7 +127,11 @@ export const UserDiscoverCard = ({
           )}
         </div>
       )} */}
-
+      <div className="flex w-full justify-end">
+        <Button onClick={() => setIsOpen(!isOpen)} className=" border-black">
+          More
+        </Button>
+      </div>
       {invite && project && role ? (
         <UserInviteModal
           open={isOpen}

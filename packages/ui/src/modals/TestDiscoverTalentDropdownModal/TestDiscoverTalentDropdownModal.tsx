@@ -127,15 +127,16 @@ export const TestDiscoverTalentDropdownModal = ({
         <div>
           <div className={`mb-12 mt-5 flex`}>
             <div className="w-full">
-              <div className="flex w-full justify-between">
-                <div className="flex-1">
-                  <TextHeading3>{section?.title}</TextHeading3>
-                </div>
+              <div className="flex-1 pb-4 text-center">
+                <TextHeading3>{section?.title}</TextHeading3>
               </div>
-              <TextBody className={`py-2 font-medium text-gray-500`}>
+
+              <TextBody
+                className={`py-2 text-center font-medium text-gray-500`}
+              >
                 {section?.subtitle}
               </TextBody>
-              <section className="mt-4 w-full">
+              <section className="w-full  pt-7">
                 <div className="my-8 ml-4 flex h-10 w-full flex-wrap justify-center gap-2">
                   {dataNodes?.findNodes ? (
                     <>
@@ -163,18 +164,7 @@ export const TestDiscoverTalentDropdownModal = ({
             </div>
           </div>
 
-          <div className="flex justify-between pt-6">
-            <div>
-              {onPrev && (
-                <Button
-                  radius="rounded"
-                  variant={`secondary`}
-                  onClick={handleBack}
-                >
-                  Back
-                </Button>
-              )}
-            </div>
+          <div className="flex justify-end pt-6">
             <Button radius="rounded" variant={`secondary`} onClick={handleNext}>
               Next
             </Button>

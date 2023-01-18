@@ -59,28 +59,23 @@ const DiscoverPage: NextPageWithLayout = () => {
   return (
     <>
       <SEO />
-      <GridLayout>
-        <GridItemFour>
-          <div className="flex flex-col gap-4 ">
-            <Card
-              className={`scrollbar-hide max-h-[564px] overflow-scroll bg-white p-4 `}
-            >
-              <span className="text-lg font-semibold">
-                Who are you looking for?
-              </span>
+      <div className="bg-background container mx-auto flex max-w-screen-2xl flex-col justify-between gap-4 py-8 px-2 sm:px-5 lg:flex-row xl:gap-8 ">
+        <div className="flex w-full basis-1/3 flex-col gap-4">
+          <Card
+            className={`scrollbar-hide overflow-scroll bg-white p-4 lg:max-h-[564px] `}
+          >
+            <DiscoverContainer
+              setArrayOfNodes={(val) => {
+                setNodesID(val);
+              }}
+            />
+          </Card>
+        </div>
 
-              <DiscoverContainer
-                setArrayOfNodes={(val) => {
-                  setNodesID(val);
-                }}
-              />
-            </Card>
-          </div>
-        </GridItemFour>
-        <GridItemEight>
+        {openModal !== DiscoverModal.SKILLS_CATEGORY && (
           <Card
             shadow
-            className="scrollbar-hide h-85 overflow-scroll bg-white p-4"
+            className="scrollbar-hide min-h-[564px] basis-2/3 overflow-scroll bg-white p-4"
           >
             {nodesID?.length ? (
               <div>
@@ -88,7 +83,7 @@ const DiscoverPage: NextPageWithLayout = () => {
                   Hiring for your Project :{" "}
                   {dataMembers?.matchNodesToMembers.length ?? 0} Users{" "}
                 </span>
-                <CardGrid>
+                <div className="grid gap-5 pt-2 pb-6 md:grid-cols-3 ">
                   {dataMembers?.matchNodesToMembers.map(
                     (member: MatchMembersToSkillOutput, index: number) => (
                       <UserDiscoverCard
@@ -101,7 +96,7 @@ const DiscoverPage: NextPageWithLayout = () => {
                       />
                     )
                   )}
-                </CardGrid>
+                </div>
               </div>
             ) : (
               <div className="h-full p-4 text-lg font-semibold">
@@ -122,8 +117,10 @@ const DiscoverPage: NextPageWithLayout = () => {
               </div>
             )}
           </Card>
-        </GridItemEight>
-      </GridLayout>
+        )}
+      </div>
+      {/* </GridItemEight>
+      </GridLayout> */}
     </>
   );
 };

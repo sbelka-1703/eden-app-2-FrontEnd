@@ -13,7 +13,7 @@ export const Card = ({
   shadow = false,
   focused = false,
   border = false,
-  className = "p-6",
+  className = "p-5",
 }: CardProps) => {
   const cardCls = clsx(`relative rounded-2xl ${className}`, {
     "shadow-cardShadow": shadow === true,
