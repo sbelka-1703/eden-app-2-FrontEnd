@@ -3,6 +3,7 @@ export * from "./CalendarComp";
 export * from "./CalendarComp";
 export * from "./CategoryExpandable";
 export * from "./CategorySearchSkill";
+export * from "./DescriptionGPT";
 export * from "./DiscoverTalent";
 export * from "./DragDrop";
 export * from "./Expandable";
