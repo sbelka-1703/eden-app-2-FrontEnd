@@ -158,7 +158,7 @@ export const SendMessageUserToUser = ({
                   Select a Discord Server to Connect in
                 </div>
                 <ServerSelector
-                  compareServerID={currentUser?.serverID || []}
+                  compareServerID={member?.serverID || []}
                   onChangeServer={(val) => setSelectedServer(val)}
                 />
               </div>
