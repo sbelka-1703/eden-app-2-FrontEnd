@@ -171,7 +171,7 @@ const DiscoverPage: NextPageWithLayout = () => {
                     role={selectedRole}
                     project={dataProject?.findProject}
                     invite
-                    phase=""
+                    phase={``}
                   />
                 )
               )}
