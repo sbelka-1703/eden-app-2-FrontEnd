@@ -75,9 +75,7 @@ export default async function handler(req: NextRequest) {
                   {title}
                 </span>
                 <h2 tw="flex flex-col font-bold text-left py-6 flex-wrap">
-                  <span
-                    tw={`text-4xl font-extrabold text-zinc-800 break-normal`}
-                  >
+                  <span tw={`text-4xl font-extrabold text-zinc-800`}>
                     {name}
                   </span>
                   <span tw={`text-zinc-600 text-3xl`}>{description}</span>
