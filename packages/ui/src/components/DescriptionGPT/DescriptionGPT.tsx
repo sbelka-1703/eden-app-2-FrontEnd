@@ -48,11 +48,9 @@ export const DescriptionGPT = ({}: IDescriptionGPTProps) => {
   const handleChange = (e: any) => {
     if (!message) {
       setTitle(e.target.value);
-      console.log("title===>>>", title);
     } else {
       setTitle("");
       setMessage(e.target.value);
-      console.log("no title!");
     }
     setMessage("");
   };
