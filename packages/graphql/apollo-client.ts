@@ -38,7 +38,7 @@ const edenLink = new ApolloLink((operation, forward) => {
 
   if (token && decoded.exp > Math.floor(Date.now() / 1000)) {
     if (process.env.NODE_ENV === "development")
-      console.log("TOKEN IS GOOD -> making request");
+      console.log("EDEN TOKEN IS GOOD -> making request");
     operation.setContext({
       headers: {
         Authorization: `Bearer ${token}`,
