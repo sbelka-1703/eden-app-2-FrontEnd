@@ -33,7 +33,6 @@ const DiscoverPage: NextPageWithLayout = () => {
     variables: {
       fields: {
         nodesID: nodesID,
-        // TODO: change to selectedServer
         serverID: selectedServerID,
       },
     },

@@ -599,6 +599,7 @@ export type Query = {
   matchSkillsToProjects?: Maybe<Array<Maybe<MatchSkillsToProjectsOutput>>>;
   match_projectToUser?: Maybe<ProjectUserMatchType>;
   members_autocomplete?: Maybe<Array<Maybe<Members>>>;
+  nodes_autocomplete?: Maybe<Array<Maybe<Node>>>;
   setAllMatch_v2?: Maybe<Scalars["Boolean"]>;
   skills?: Maybe<PaginatedSkills>;
   skills_autocomplete?: Maybe<Array<Maybe<Skills>>>;
@@ -788,6 +789,10 @@ export type QueryMatch_ProjectToUserArgs = {
 
 export type QueryMembers_AutocompleteArgs = {
   fields?: InputMaybe<Members_AutocompleteInput>;
+};
+
+export type QueryNodes_AutocompleteArgs = {
+  fields?: InputMaybe<Nodes_AutocompleteInput>;
 };
 
 export type QuerySetAllMatch_V2Args = {
@@ -1136,6 +1141,7 @@ export type ChangeTeamMember_Phase_ProjectInput = {
 export type ChannelOutput = {
   __typename?: "channelOutput";
   chatID?: Maybe<Scalars["ID"]>;
+  forumID?: Maybe<Scalars["ID"]>;
 };
 
 export type ChatResponse = {
@@ -1765,6 +1771,10 @@ export type NodesType = {
   weight?: Maybe<Scalars["Float"]>;
 };
 
+export type Nodes_AutocompleteInput = {
+  search?: InputMaybe<Scalars["String"]>;
+};
+
 export type OnboardingInput = {
   percentage?: InputMaybe<Scalars["Int"]>;
   signup?: InputMaybe<Scalars["Boolean"]>;
@@ -2204,6 +2214,7 @@ export type UpdateServerInput = {
   adminID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
   adminRoles?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
   channelChatID?: InputMaybe<Scalars["ID"]>;
+  forumChatID?: InputMaybe<Scalars["ID"]>;
   name?: InputMaybe<Scalars["String"]>;
   serverAvatar?: InputMaybe<Scalars["String"]>;
   serverType?: InputMaybe<ServerTypeEnum>;

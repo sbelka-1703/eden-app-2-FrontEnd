@@ -1,6 +1,6 @@
 import { gql, useMutation } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
-import { Mutation } from "@eden/package-graphql/generated";
+import { Mutation, ServerTemplate } from "@eden/package-graphql/generated";
 import {
   Avatar,
   Button,
@@ -8,6 +8,7 @@ import {
   CheckBox,
   Dropdown,
   Loading,
+  ServerSelector,
   TextField,
   TextHeading3,
 } from "@eden/package-ui";
@@ -52,7 +53,8 @@ const findChannels = async (guildId: string) => {
 export interface IDiscordCreateGardenTeamProps {}
 
 export const DiscordCreateGardenTeam = ({}: IDiscordCreateGardenTeamProps) => {
-  const { currentUser, selectedServer } = useContext(UserContext);
+  const { currentUser } = useContext(UserContext);
+  const [selectedServer, setSelectedServer] = useState<ServerTemplate>({});
   const [channels, setChannels] = useState<any>(null);
   const [chatChannels, setChatChannels] = useState<any>(null);
   const [forumChannels, setForumChannels] = useState<any>(null);
@@ -180,6 +182,16 @@ export const DiscordCreateGardenTeam = ({}: IDiscordCreateGardenTeamProps) => {
   return (
     <Card shadow className={"bg-white p-4"}>
       <TextHeading3>Create Garden Team</TextHeading3>
+      <div className={`my-4 md:mr-28 md:flex md:justify-between`}>
+        <div className={`font-Inter my-auto font-medium text-gray-700`}>
+          Select a Discord Server to Connect in
+        </div>
+        <ServerSelector
+          compareServerID={[]}
+          onChangeServer={(val) => setSelectedServer(val)}
+        />
+      </div>
+
       {!selectedServer?._id ? (
         <div
           className={`my-8 w-full text-center text-3xl font-medium uppercase text-zinc-700`}

@@ -161,7 +161,7 @@ export const CreateProjectContainer = ({
     setSubmitting(true);
 
     if (state?._id) {
-      console.log("state", state);
+      // console.log("state", state);
       updateProject({
         variables: {
           fields: {

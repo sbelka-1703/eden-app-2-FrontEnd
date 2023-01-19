@@ -43,6 +43,9 @@ export default async function handler(req: NextRequest) {
 
     const imageSrc = searchParams.get("image") ?? DEFAULT_IMAGE;
 
+    // check if imageSrc ends with .webp
+    const isWebp = imageSrc.endsWith(".webp");
+
     const handle = handleValue ? `@${handleValue}` : "";
 
     const role = roleValue ? roleValue : "";
@@ -71,9 +74,7 @@ export default async function handler(req: NextRequest) {
                   {title}
                 </span>
                 <h2 tw="flex flex-col font-bold text-left py-6 flex-wrap">
-                  <span
-                    tw={`text-4xl font-extrabold text-zinc-800 break-normal`}
-                  >
+                  <span tw={`text-4xl font-extrabold text-zinc-800`}>
                     {handle}
                   </span>
                   <span tw={`text-zinc-600 text-3xl`}>{role}</span>
@@ -85,7 +86,7 @@ export default async function handler(req: NextRequest) {
                 <img
                   alt={`${handle} profile image`}
                   height={400}
-                  src={imageSrc}
+                  src={isWebp ? DEFAULT_IMAGE : imageSrc}
                   style={{ margin: "0 0px" }}
                   width={400}
                 />

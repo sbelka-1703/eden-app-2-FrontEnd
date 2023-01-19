@@ -1,8 +1,10 @@
 import { UserContext } from "@eden/package-context";
+import { ServerTemplate } from "@eden/package-graphql/generated";
 import {
   Button,
   Card,
   Dropdown,
+  ServerSelector,
   TextArea,
   TextHeading3,
 } from "@eden/package-ui";
@@ -50,9 +52,10 @@ const createThread = async (body: CreateThreadApiRequestBody) => {
 export interface IDiscordThreadChatProps {}
 
 export const DiscordThreadChat = ({}: IDiscordThreadChatProps) => {
-  const { selectedServer, currentUser } = useContext(UserContext);
+  const { currentUser } = useContext(UserContext);
   const [channels, setChannels] = useState<any>(null);
   const [selectedChannel, setSelectedChannel] = useState<any>(null);
+  const [selectedServer, setSelectedServer] = useState<ServerTemplate>({});
 
   const [message, setMessage] = useState("");
   const [sendingMessage, setSendingMessage] = useState(false);
@@ -112,6 +115,16 @@ export const DiscordThreadChat = ({}: IDiscordThreadChatProps) => {
           placeholder="Select a chat channel"
         />
       )}
+
+      <div className={`my-4 md:mr-28 md:flex md:justify-between`}>
+        <div className={`font-Inter my-auto font-medium text-gray-700`}>
+          Select a Discord Server to Connect in
+        </div>
+        <ServerSelector
+          compareServerID={[]}
+          onChangeServer={(val) => setSelectedServer(val)}
+        />
+      </div>
 
       {selectedChannel && (
         <div>

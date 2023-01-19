@@ -171,7 +171,7 @@ const DiscoverPage: NextPageWithLayout = () => {
                     role={selectedRole}
                     project={dataProject?.findProject}
                     invite
-                    phase=""
+                    phase={``}
                   />
                 )
               )}
@@ -215,7 +215,7 @@ export async function getServerSideProps(ctx: {
 
   const url = ctx.req.url?.replace("/", "");
 
-  if (!session) {
+  if (!session || session.error === "RefreshAccessTokenError") {
     return {
       redirect: {
         destination: `/login?redirect=${url}`,

@@ -8,6 +8,7 @@ import {
   GridItemThree,
   GridLayout,
   SEO,
+  ServerSelector,
   TextField,
   TextHeading2,
   TextHeading3,
@@ -27,7 +28,8 @@ const CREATE_ROOM = gql`
 `;
 
 const DiscoverPage: NextPageWithLayout = () => {
-  const { currentUser, selectedServer } = useContext(UserContext);
+  const { currentUser } = useContext(UserContext);
+  const [selectedServer, setSelectedServer] = useState<ServerTemplate>({});
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -80,6 +82,17 @@ const DiscoverPage: NextPageWithLayout = () => {
             <div className={`grid grid-cols-2`}>
               <div className={`col-span-1`}>
                 <TextHeading2>Create a Room</TextHeading2>
+                <div className={``}>
+                  <div
+                    className={`font-Inter my-auto font-medium text-gray-700`}
+                  >
+                    Select a Discord Server to Connect in
+                  </div>
+                  <ServerSelector
+                    compareServerID={[]}
+                    onChangeServer={(val) => setSelectedServer(val)}
+                  />
+                </div>
                 <Card>
                   <TextField
                     label={`Room Name`}
@@ -149,6 +162,7 @@ DiscoverPage.getLayout = (page) => (
 
 export default DiscoverPage;
 
+import { ServerTemplate } from "@eden/package-graphql/generated";
 import { IncomingMessage, ServerResponse } from "http";
 import { getSession } from "next-auth/react";
 

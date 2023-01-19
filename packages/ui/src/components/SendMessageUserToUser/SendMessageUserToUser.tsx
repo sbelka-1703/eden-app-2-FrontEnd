@@ -4,8 +4,6 @@ import {
   Maybe,
   Members,
   MutationAddNewChatArgs,
-  Project,
-  RoleType,
   ServerTemplate,
 } from "@eden/package-graphql/generated";
 import {
@@ -35,44 +33,21 @@ const ADD_NEW_CHAT = gql`
   }
 `;
 
-const SET_APPLY_TO_PROJECT = gql`
-  mutation ($fields: changeTeamMember_Phase_ProjectInput!) {
-    changeTeamMember_Phase_Project(fields: $fields) {
-      _id
-    }
-  }
-`;
-
-export interface ISendMessageToUserProps {
+export interface ISendMessageUserToUserrProps {
   member: Maybe<Members>;
-  project?: Project;
-  role?: RoleType;
 }
 
-export const SendMessageToUser = ({
+export const SendMessageUserToUser = ({
   member,
-  project,
-  role,
-}: ISendMessageToUserProps) => {
+}: ISendMessageUserToUserrProps) => {
   const { currentUser } = useContext(UserContext);
   const [message, setMessage] = useState("");
   const [sendingMessage, setSendingMessage] = useState(false);
   const [isMessageSent, setIsMessageSent] = useState(false);
   const [selectedServer, setSelectedServer] = useState<ServerTemplate>({});
 
+  // eslint-disable-next-line no-unused-vars
   const [addNewChat] = useMutation<any, MutationAddNewChatArgs>(ADD_NEW_CHAT);
-
-  const [changeTeamMemberPhaseProject, {}] = useMutation(SET_APPLY_TO_PROJECT, {
-    onCompleted: () => {
-      toast.success("success");
-      setTimeout(() => {
-        setSendingMessage(false);
-      }, 1000);
-    },
-    onError: (error) => {
-      toast.error(error.message);
-    },
-  });
 
   const createThread = async (body: CreateThreadApiRequestBody) => {
     const response = await fetch(encodeURI("/api/discord/createForumPost"), {
@@ -92,7 +67,7 @@ export const SendMessageToUser = ({
   };
 
   const embededMessage = `
-    Hello ${member?.discordName}, you just had a new interest form ${project?.title} for the role ${role?.title}.
+    Hello ${member?.discordName}, you just had a new connection form ${currentUser?.discordName}.
     `;
 
   const createMessage = async (body: CreateMessageApiRequestBody) => {
@@ -115,7 +90,7 @@ export const SendMessageToUser = ({
     ${message}
 
     
-    https://eden-alpha-develop.vercel.app/projects/${project?._id}
+    https://eden-alpha-develop.vercel.app/profile/${currentUser?.discordName}
   `;
 
   const handleSendMessage = async () => {
@@ -123,12 +98,12 @@ export const SendMessageToUser = ({
 
     const { threadId } = await createThread({
       message: `<@${currentUser?._id}> <@${member?._id}>`,
-      tagName: "Project Interest",
+      tagName: "User Introduction",
       embedMessage: embededMessage,
       senderAvatarURL: currentUser?.discordAvatar!,
       senderName: `${currentUser?.discordName} -- Author`,
       channelId: selectedServer.channel?.forumID!,
-      threadName: `Project Interest -- ${project?.title}`,
+      threadName: `User Introduction`,
       ThreadAutoArchiveDuration: ThreadAutoArchiveDuration.OneDay,
     });
 
@@ -138,42 +113,28 @@ export const SendMessageToUser = ({
         channelId: selectedServer?.channel?.chatID!,
         thread: threadId,
       });
+      setIsMessageSent(true);
     } catch (error) {
       console.log(error);
+      setSendingMessage(false);
     }
 
-    try {
-      await addNewChat({
-        variables: {
-          fields: {
-            message: message,
-            projectID: project?._id!,
-            receiverID: member?._id!,
-            senderID: currentUser?._id!,
-            serverID: selectedServer?._id!,
-            threadID: threadId,
-          },
-        },
-      });
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsMessageSent(true);
-      if (project?._id && member?._id && role?._id) {
-        changeTeamMemberPhaseProject({
-          variables: {
-            fields: {
-              projectID: project?._id,
-              memberID: member?._id,
-              roleID: role?._id,
-              phase: "invited",
-            },
-          },
-        });
-      } else {
-        toast.error("Something went wrong");
-      }
-    }
+    // try {
+    //   await addNewChat({
+    //     variables: {
+    //       fields: {
+    //         message: message,
+    //         projectID: project?._id!,
+    //         receiverID: member?._id!,
+    //         senderID: currentUser?._id!,
+    //         serverID: selectedServer?._id!,
+    //         threadID: threadId,
+    //       },
+    //     },
+    //   });
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   if (!member) return null;
@@ -197,7 +158,7 @@ export const SendMessageToUser = ({
                   Select a Discord Server to Connect in
                 </div>
                 <ServerSelector
-                  compareServerID={project?.serverID || []}
+                  compareServerID={member?.serverID || []}
                   onChangeServer={(val) => setSelectedServer(val)}
                 />
               </div>
