@@ -53,14 +53,14 @@ const DiscoverPage: NextPageWithLayout = () => {
   return (
     <>
       <SEO />
-      <div className="bg-background container mx-auto flex max-w-screen-2xl flex-col justify-between gap-4 py-8 px-2 sm:px-5 lg:flex-row xl:gap-8 ">
+      <div className="bg-background container mx-auto flex max-w-screen-2xl flex-col gap-4 py-8 px-2 sm:px-5 lg:flex-row lg:justify-between xl:gap-8 ">
         <div
-          className={`flex w-full  flex-col gap-4 ${
-            openModal !== DiscoverModal.SKILLS_CATEGORY ? "basis-1/3" : ""
+          className={`flex w-full flex-col ${
+            openModal !== DiscoverModal.SKILLS_CATEGORY ? "lg:basis-1/3" : ""
           }`}
         >
           <Card
-            className={`scrollbar-hide overflow-scroll bg-white p-4 lg:max-h-[564px] `}
+            className={`scrollbar-hide overflow-scroll bg-white p-4 lg:max-h-[540px] `}
           >
             <DiscoverContainer
               setArrayOfNodes={(val) => {

@@ -3,6 +3,7 @@ import { Button } from "@eden/package-ui";
 import { DragDropContext } from "@hello-pangea/dnd";
 import { Draggable } from "@hello-pangea/dnd";
 import { Droppable } from "@hello-pangea/dnd";
+import dynamic from "next/dynamic";
 
 export interface IDragDropProps {
   title?: string;
@@ -19,6 +20,7 @@ export const DragDrop = ({
   onPrev,
   onReOrder,
 }: IDragDropProps) => {
+  const Column = dynamic(() => import("./Column"), { ssr: false });
   const handleNext = () => {
     if (onNext) onNext!();
   };
@@ -27,120 +29,145 @@ export const DragDrop = ({
     if (onPrev) onPrev!();
   };
 
-  const [first, setfirst] = useState(elements);
+  const shortener = (num: number) => {
+    let numbers = [];
+    for (var i = 0; i < num; i++) {
+      numbers.push(i);
+    }
+    return numbers;
+  };
+  const initialData = {
+    tasks: elements,
+    columns: {
+      "column-1": {
+        id: "column-1",
+        title: "",
+        taskIds: shortener(elements.length),
+        opacity: 0,
+      },
+      "column-2": {
+        id: "column-2",
+        title: "⭐ GODLIKE",
+        taskIds: [],
+        opacity: 100,
+      },
+      "column-3": {
+        id: "column-3",
+        title: "🎉️ DECENT",
+        taskIds: [],
+        opacity: 60,
+      },
+      "column-4": {
+        id: "column-4",
+        title: "🤩 LEARNING",
+        taskIds: [],
+        opacity: 30,
+      },
+    },
 
-  const reorder = (list: any[], startIndex: number, endIndex: number) => {
-    const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
-    return result;
+    columnOrder: ["column-1", "column-2", "column-3", "column-4"],
+  };
+  const [first, setfirst] = useState<any>(initialData);
+
+  const reorderColumnList = (
+    sourceCol: any,
+    startIndex: any,
+    endIndex: number
+  ) => {
+    const newTaskIds = Array.from(sourceCol.taskIds);
+    const [removed] = newTaskIds.splice(startIndex, 1);
+    newTaskIds.splice(endIndex, 0, removed);
+
+    const newColumn = {
+      ...sourceCol,
+      taskIds: newTaskIds,
+    };
+
+    return newColumn;
   };
 
   const onDragEnd = (result: any) => {
-    // dropped outside the list
-    if (!result.destination) {
+    const { destination, source } = result;
+
+    // If user tries to drop in an unknown destination
+    if (!destination) return;
+
+    // if the user drags and drops back in the same position
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
       return;
     }
 
-    const newitems = reorder(
-      first,
-      result.source.index,
-      result.destination.index
-    );
-    let skillArray: string[] = [];
-    newitems.map((items) => {
-      skillArray.push(items.content);
-    });
-    onReOrder && onReOrder(skillArray);
+    // If the user drops within the same column but in a different positoin
+    const sourceCol = first.columns[source.droppableId];
+    const destinationCol = first.columns[destination.droppableId];
 
-    setfirst(newitems);
+    if (sourceCol.id === destinationCol.id) {
+      const newColumn = reorderColumnList(
+        sourceCol,
+        source.index,
+        destination.index
+      );
+
+      const newState = {
+        ...first,
+        columns: {
+          ...first.columns,
+          [newColumn.id]: newColumn,
+        },
+      };
+      setfirst(newState);
+      return;
+    }
+
+    // If the user moves from one column to another
+    const startTaskIds = Array.from(sourceCol.taskIds);
+    const [removed] = startTaskIds.splice(source.index, 1);
+    const newStartCol = {
+      ...sourceCol,
+      taskIds: startTaskIds,
+    };
+
+    const endTaskIds = Array.from(destinationCol.taskIds);
+    endTaskIds.splice(destination.index, 0, removed);
+    const newEndCol = {
+      ...destinationCol,
+      taskIds: endTaskIds,
+    };
+
+    const newState = {
+      ...first,
+      columns: {
+        ...first.columns,
+        [newStartCol.id]: newStartCol,
+        [newEndCol.id]: newEndCol,
+      },
+    };
+
+    setfirst(newState);
   };
-
   return (
     <div className="flex w-full flex-col gap-4 p-4 text-center text-white">
       <div className="text-md font-thin text-black">{title}</div>
       <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="droppable" direction="horizontal">
-          {(provided, snapshot) => (
-            <div
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-              className="flex flex-wrap items-center justify-center gap-4 text-sm text-black"
-            >
-              {first.map((item: any, index: number) => (
-                <Draggable key={item.id} draggableId={item.id} index={index}>
-                  {(provided, snapshot) => (
-                    <div
-                      className={` w-fit rounded-lg py-1 px-2  ${
-                        snapshot.isDragging
-                          ? `bg-[#85e3f7] text-black opacity-70 shadow-md shadow-slate-400`
-                          : ` bg-[#d1f7ff] `
-                      }`}
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                    >
-                      {item.content}
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
+        <div className="text-sm  text-black">
+          Ranked highest means you&apos;re most professional, ranked lowest -
+          you&apos;re still learning.
+        </div>
+        <div className="flex flex-col justify-between gap-4">
+          {first.columnOrder.map((columnId: any) => {
+            const column = first.columns[columnId];
+            const tasks = column.taskIds.map(
+              (taskId: any) => first.tasks[taskId]
+            );
+
+            return <Column key={column.id} column={column} tasks={tasks} />;
+          })}
+        </div>
       </DragDropContext>
-      <div className="text-sm  text-black">
-        Ranked highest means you&apos;re most professional, ranked lowest -
-        you&apos;re still learning.
-      </div>
-      <div className="flex flex-col gap-4 pt-1">
-        <div className="flex min-h-[100px]  w-full items-center gap-5 rounded-lg bg-[#EAFFD4] p-2">
-          <div className=" text-blue-500">⭐ GODLIKE</div>
-          <div className="flex flex-col gap-3  text-black">
-            {first.map((item: any, index: number) => (
-              <div
-                className="w-fit rounded-lg bg-[#d1f7ff] py-1 px-2  "
-                key={index}
-              >
-                {item.content}
-              </div>
-              // <div key={index} className="flex w-full justify-start">
-              //   <span className="px-2"> {index++}</span>
-              //   <span className="w-fit rounded-lg bg-[#d1f7ff] py-1 px-2  ">
-              //     {item.content}
-              //   </span>
-              // </div>
-            ))}
-          </div>
-        </div>
-        <div className="flex min-h-[100px]  w-full items-center gap-5 rounded-lg bg-[#EAFFD4] bg-opacity-60 p-2">
-          <div className=" text-blue-500">🎉️ DECENT</div>
-          <div className="flex flex-col gap-3  text-black">
-            {first.map((item: any, index: number) => (
-              <div
-                className="w-fit rounded-lg bg-[#d1f7ff] py-1 px-2  "
-                key={index}
-              >
-                {item.content}
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="flex min-h-[100px]  w-full items-center gap-5 rounded-lg bg-[#EAFFD4] bg-opacity-30 p-2">
-          <div className=" text-blue-500">🤩 LEARNING</div>
-          <div className="flex flex-col gap-3  text-black">
-            {first.map((item: any, index: number) => (
-              <div
-                className="w-fit rounded-lg bg-[#d1f7ff] py-1 px-2  "
-                key={index}
-              >
-                {item.content}
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+
       <div className="flex justify-between pt-6">
         <div>
           {onPrev && (
