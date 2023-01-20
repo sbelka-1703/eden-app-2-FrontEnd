@@ -47,10 +47,9 @@ export const CommonServerAvatarList = ({
         {filteredMemberServers?.map((avatar, index: number) => (
           <div
             key={index}
-            className="mr-3"
-            // className={`${size === "xs" ? "-mr-3" : ""} ${
-            //   size === "sm" ? "-mr-4" : ""
-            // } ${size === "md" ? "-mr-6" : ""}`}
+            className={`${size === "xs" ? "-mr-3" : ""} ${
+              size === "sm" ? "-mr-4" : ""
+            } ${size === "md" ? "-mr-6" : ""}`}
           >
             <AvatarItem server={avatar} size={size} />
           </div>
