@@ -13,6 +13,7 @@ export * from "./OpenPositions";
 export * from "./Prioritize";
 export * from "./ProjectChampion";
 export * from "./ReadMoreComp";
+export * from "./ReportBugButton";
 export * from "./Requirements";
 export * from "./SearchSkill";
 export * from "./SendMessageToChampion";
