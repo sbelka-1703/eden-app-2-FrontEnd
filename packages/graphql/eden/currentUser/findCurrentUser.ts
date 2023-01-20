@@ -23,6 +23,11 @@ export const FIND_CURRENTUSER = gql`
           name
           node
         }
+        aboveNodes {
+          _id
+          name
+          node
+        }
       }
       previusProjects {
         title

@@ -25,6 +25,7 @@ export const SelectBoxNode = ({
   // defaultValues,
   multiple,
   disabled,
+  selectedNodes,
   onChange,
   btnBGcolor = "bg-gray-200",
 }: ISelectBoxNodeProps) => {

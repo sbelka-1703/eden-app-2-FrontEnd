@@ -34,6 +34,11 @@ export const FIND_MEMBER = gql`
           _id
           name
           node
+          aboveNodes {
+            _id
+            name
+            node
+          }
         }
       }
       previusProjects {

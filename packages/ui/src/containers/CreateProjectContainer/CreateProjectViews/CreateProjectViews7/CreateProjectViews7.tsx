@@ -1,4 +1,12 @@
-import { Node, Project, RoleType } from "@eden/package-graphql/generated";
+import { useQuery } from "@apollo/client";
+import { FIND_NODES } from "@eden/package-graphql";
+import {
+  Maybe,
+  Node,
+  NodesType,
+  Project,
+  RoleType,
+} from "@eden/package-graphql/generated";
 import {
   BatteryStepper,
   Button,
@@ -192,7 +200,7 @@ export const CreateProjectViews7 = ({
   };
 
   return (
-    <Card className={`pb-6 scrollbar-hide overflow-y-scroll h-85`}>
+    <Card className={`scrollbar-hide h-85 overflow-y-scroll pb-6`}>
       <div className="mb-4 flex items-center justify-between bg-green-100 p-7">
         <div className={`space-y-4`}>
           <TextHeading3>Complete your project:</TextHeading3>
@@ -222,7 +230,7 @@ export const CreateProjectViews7 = ({
               <div className={`text-sm font-normal`}>
                 {`Select the Role: 🤖`}
               </div>
-              <div className="flex w-full flex-wrap justify-center gap-1">
+              {/* <div className="flex w-full flex-wrap justify-center gap-1">
                 {!isEmpty(expertise) &&
                   map(expertise, (item: any, key: number) => (
                     <SelectBoxNode
@@ -239,7 +247,8 @@ export const CreateProjectViews7 = ({
                       }}
                     />
                   ))}
-              </div>
+              </div> */}
+              <NodeSelector nodeType="expertise" />
             </div>
             <div className="mt-3">
               <TextArea
@@ -274,7 +283,7 @@ export const CreateProjectViews7 = ({
               title="What are the expectations for this role?"
             >
               {numInList.map((v, i) => (
-                <div key={i} className={`flex py-1 mx-4`}>
+                <div key={i} className={`mx-4 flex py-1`}>
                   <li className={`my-auto`} />
                   <TextField
                     value={state?.expectations?.[i] || ""}
@@ -295,7 +304,7 @@ export const CreateProjectViews7 = ({
               title="What are the benfits of this role?"
             >
               {numInList.map((v, i) => (
-                <div key={i} className={`flex py-1 mx-4`}>
+                <div key={i} className={`mx-4 flex py-1`}>
                   <li className={`my-auto`} />
                   <TextField
                     value={state?.benefits?.[i] || ""}
@@ -375,5 +384,50 @@ export const CreateProjectViews7 = ({
         </div>
       </div>
     </Card>
+  );
+};
+
+interface INodeSelectorProps {
+  selectedNodes?: NodesType[];
+  nodeType: string;
+  onChangeNodes?: React.Dispatch<React.SetStateAction<NodesType[]>>;
+  onChangeNodeID?: React.Dispatch<React.SetStateAction<string[]>>;
+}
+
+const NodeSelector = ({
+  selectedNodes = [],
+  nodeType,
+  onChangeNodes,
+  onChangeNodeID,
+}: INodeSelectorProps) => {
+  const [nodes, setNodes] = useState<NodesType[]>(selectedNodes);
+
+  const { data: nodesData } = useQuery(FIND_NODES, {
+    variables: {
+      fields: {
+        node: nodeType,
+      },
+    },
+    context: { serviceName: "soilservice" },
+    skip: !nodeType,
+  });
+
+  return (
+    <div className="flex w-full flex-wrap justify-center gap-1">
+      {JSON.stringify(nodes)}
+      {!isEmpty(nodesData) &&
+        nodesData?.findNodes?.map((item: any, key: number) => (
+          <SelectBoxNode
+            multiple
+            key={key}
+            caption={item?.name}
+            items={item?.subNodes}
+            onChange={(val: NodesType[]) => {
+              console.log(val);
+              if (onChangeNodes) onChangeNodes(val);
+            }}
+          />
+        ))}
+    </div>
   );
 };

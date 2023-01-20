@@ -462,6 +462,10 @@ export const FillUserProfileContainer = ({
                     <Loading />
                   )}
                 </div>
+                <NodeSelector
+                  nodeType={"expertise"}
+                  selectedNodes={state?.nodes}
+                />
                 <p>{`Please write a short bio!`}</p>
                 <TextArea
                   onChange={(e) => {
@@ -673,5 +677,52 @@ export const FillUserProfileContainer = ({
         )}
       </div>
     </Card>
+  );
+};
+
+interface INodeSelectorProps {
+  selectedNodes?: Maybe<Maybe<NodesType>[]>;
+  nodeType: string;
+  onChangeNodes?: React.Dispatch<React.SetStateAction<NodesType[]>>;
+  onChangeNodeID?: React.Dispatch<React.SetStateAction<string[]>>;
+}
+
+const NodeSelector = ({
+  selectedNodes = [],
+  nodeType,
+  onChangeNodes,
+  onChangeNodeID,
+}: INodeSelectorProps) => {
+  const [nodes, setNodes] = useState<Maybe<Maybe<NodesType>[]>>(selectedNodes);
+
+  console.log(selectedNodes);
+
+  const { data: nodesData } = useQuery(FIND_NODES, {
+    variables: {
+      fields: {
+        node: nodeType,
+      },
+    },
+    context: { serviceName: "soilservice" },
+    skip: !nodeType,
+  });
+
+  return (
+    <div className="flex w-full flex-wrap justify-center gap-1">
+      {JSON.stringify(selectedNodes)}
+      {!isEmpty(nodesData) &&
+        nodesData?.findNodes?.map((item: any, key: number) => (
+          <SelectBoxNode
+            multiple
+            key={key}
+            caption={item?.name}
+            items={item?.subNodes}
+            onChange={(val: NodesType[]) => {
+              console.log(val);
+              if (onChangeNodes) onChangeNodes(val);
+            }}
+          />
+        ))}
+    </div>
   );
 };
