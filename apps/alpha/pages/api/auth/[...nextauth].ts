@@ -75,7 +75,7 @@ export default NextAuth({
       }
       const accessTokenExpires = token.accessTokenExpires as number;
 
-      // Discord and Edend tokens expire after 7 days, this will help force the user to re-authenticate within the getServerSideProps
+      // Discord and Eden tokens expire after 7 days, this will help force the user to re-authenticate within the getServerSideProps
       if (accessTokenExpires && Date.now() < accessTokenExpires) {
         return {
           ...token,

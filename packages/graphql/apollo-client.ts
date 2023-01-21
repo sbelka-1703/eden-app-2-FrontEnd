@@ -8,6 +8,7 @@ import {
   HttpLink,
   ApolloLink,
   split,
+  gql,
 } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
 import { RetryLink } from "@apollo/client/link/retry";
@@ -41,7 +42,7 @@ const edenLink = new ApolloLink((operation, forward) => {
       console.log("EDEN TOKEN IS GOOD -> making request");
     operation.setContext({
       headers: {
-        Authorization: `Bearer ${token}`,
+        authorization: `Bearer ${token}`,
       },
     });
     return forward(operation);
@@ -96,8 +97,42 @@ const directionalLink = new RetryLink().split(
   extraLink.concat(httpLinkExtra)
 );
 
+const CREATE_ERROR = gql`
+  mutation ($fields: createErrorInput!) {
+    createError(fields: $fields) {
+      _id
+    }
+  }
+`;
+
 const errorLink = onError(({ graphQLErrors }) => {
-  if (graphQLErrors) graphQLErrors.map(({ message }) => console.log(message));
+  let errorToken: decodedType;
+  const token = localStorage.getItem("eden_access_token");
+
+  if (token) errorToken = jwt_decode(token as string);
+
+  if (graphQLErrors) console.log("graphQLErrors", graphQLErrors);
+
+  if (graphQLErrors && process.env.NODE_ENV === "development")
+    graphQLErrors.map(({ message, path }) =>
+      console.log(`[GraphQL error]: Message: ${message}. Path: ${path}. `)
+    );
+  if (graphQLErrors)
+    graphQLErrors.map(({ message, path, extensions }) => {
+      apolloClient.mutate({
+        mutation: CREATE_ERROR,
+        variables: {
+          fields: {
+            memberID: errorToken && errorToken?._id,
+            errorType: "FRONTEND",
+            message: message,
+            code: extensions.code,
+            url: window.location.href,
+            path: path,
+          },
+        },
+      });
+    });
 });
 
 const wsLink =
