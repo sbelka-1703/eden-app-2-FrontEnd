@@ -108,7 +108,9 @@ export const FillUserProfileContainer = ({
         variables: {
           fields: {
             nodeType: "sub_expertise",
-            nodesID: state?.nodes?.map((node) => node?.nodeData?._id),
+            nodesID: state?.nodes
+              ?.filter((node) => node?.nodeData?.node === "sub_expertise")
+              .map((node) => node?.nodeData?._id),
             memberID: currentUser?._id,
           },
         },
