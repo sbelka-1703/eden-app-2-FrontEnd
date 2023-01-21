@@ -23,14 +23,14 @@ import {
   Loading,
   PREFERENCES_TITLE,
   RoleSelector,
-  SelectBoxNode,
+  SelectNodesBox,
   SocialMediaInput,
   TextArea,
   UserExperienceCard,
 } from "@eden/package-ui";
 import { STEPS } from "@eden/package-ui/utils/enums/fill-profile-steps";
 import { CheckIcon } from "@heroicons/react/outline";
-import { forEach, isEmpty, map } from "lodash";
+import { isEmpty } from "lodash";
 import {
   Dispatch,
   SetStateAction,
@@ -149,10 +149,12 @@ export const FillUserProfileContainer = ({
     });
   };
 
-  const handleSetNodes = () => {
+  const handleSetNodes = (value: Maybe<Node | undefined>[]) => {
     setState({
       ...state,
-      nodes: selectedNodes,
+      nodes: value.map((item: Maybe<Node | undefined>) => ({
+        nodeData: item,
+      })) as NodesType,
     });
   };
 
@@ -247,52 +249,34 @@ export const FillUserProfileContainer = ({
     });
   };
 
-  const { data: dataNodes } = useQuery(FIND_NODES, {
-    variables: {
-      fields: {
-        node: "expertise",
-      },
-    },
-    context: { serviceName: "soilservice" },
-  });
+  // function getSelectedItems() {
+  //   if (dataNodes?.findNodes) {
+  //     const _selectedItems: any = {};
 
-  const { data: dataNodesStructured } = useQuery(FIND_NODES, {
-    variables: {
-      fields: {
-        node: "expertise",
-        selectedNodes: currentUser?.nodes?.map((node) => node?.nodeData?._id),
-      },
-    },
-    context: { serviceName: "soilservice" },
-  });
+  //     forEach(dataNodes?.findNodes, (el, index) => {
+  //       _selectedItems[el._id] = dataNodes?.findNodes[index].subNodes.filter(
+  //         (subNode: Node) => {
+  //           return currentUser?.nodes?.some(
+  //             (_subNode) => subNode?._id === _subNode?.nodeData?._id
+  //           );
+  //         }
+  //       ) as Node[];
+  //     });
 
-  function getSelectedItems() {
-    if (dataNodes?.findNodes) {
-      const _selectedItems: any = {};
+  //     return _selectedItems;
+  //   } else {
+  //     return null;
+  //   }
+  // }
 
-      forEach(dataNodes?.findNodes, (el, index) => {
-        _selectedItems[el._id] = dataNodes?.findNodes[index].subNodes.filter(
-          (subNode: Node) => {
-            return currentUser?.nodes?.some(
-              (_subNode) => subNode?._id === _subNode?.nodeData?._id
-            );
-          }
-        ) as Node[];
-      });
+  // const [selectedItems, setSelectedItems] = useState<{
+  //   [key: string]: Node[];
+  // }>(getSelectedItems() || []);
 
-      return _selectedItems;
-    } else {
-      return null;
-    }
-  }
+  // const [selectedNodes, setSelectedNodes] = useState<Maybe<NodesType>[]>(
+  //   state?.nodes || []
+  // );
 
-  const [selectedItems, setSelectedItems] = useState<{
-    [key: string]: Node[];
-  }>(getSelectedItems() || []);
-
-  const [selectedNodes, setSelectedNodes] = useState<Maybe<NodesType>[]>(
-    state?.nodes || []
-  );
   const [preferences, setPreferences] = useState<PreferencesType>({
     findCoFounder: {
       interestedMatch:
@@ -316,27 +300,27 @@ export const FillUserProfileContainer = ({
     } as PreferencesTypeFind,
   });
 
-  useEffect(() => {
-    if (selectedItems) {
-      const selectedNodeArr: NodesType[] = [];
+  // useEffect(() => {
+  //   if (selectedItems) {
+  //     const selectedNodeArr: NodesType[] = [];
 
-      forEach(selectedItems, (el) => {
-        if (!isEmpty(el)) {
-          forEach(el, (item) => {
-            selectedNodeArr.push({
-              nodeData: { ...item, node: "sub_expertise" },
-            } as NodesType);
-          });
-        }
-      });
+  //     forEach(selectedItems, (el) => {
+  //       if (!isEmpty(el)) {
+  //         forEach(el, (item) => {
+  //           selectedNodeArr.push({
+  //             nodeData: { ...item, node: "sub_expertise" },
+  //           } as NodesType);
+  //         });
+  //       }
+  //     });
 
-      setSelectedNodes(selectedNodeArr);
-    }
-  }, [selectedItems]);
+  //     setSelectedNodes(selectedNodeArr);
+  //   }
+  // }, [selectedItems]);
 
-  useEffect(() => {
-    handleSetNodes();
-  }, [selectedNodes]);
+  // useEffect(() => {
+  //   handleSetNodes();
+  // }, [selectedNodes]);
 
   useEffect(() => {
     handleSetPreferences();
@@ -434,34 +418,16 @@ export const FillUserProfileContainer = ({
             {step === STEPS.BIO && (
               <>
                 <p>{`Add your expertise:`}</p>
-                {/* {JSON.stringify(dataNodesStructured)} */}
-                <div className="mb-8 mt-4 flex h-24 w-full flex-wrap justify-center gap-2">
-                  {dataNodesStructured?.findNodes ? (
-                    <>
-                      {!isEmpty(dataNodesStructured?.findNodes) &&
-                        map(
-                          dataNodesStructured?.findNodes,
-                          (item: any, key: number) => (
-                            <SelectBoxNode
-                              multiple
-                              key={key}
-                              caption={item?.name}
-                              items={item?.subNodes}
-                              // defaultValues={dataNodesStructured}
-                              onChange={(val) => {
-                                setSelectedItems((prevState) => ({
-                                  ...prevState,
-                                  [item?._id]: val,
-                                }));
-                              }}
-                            />
-                          )
-                        )}
-                    </>
-                  ) : (
-                    <Loading />
-                  )}
-                </div>
+                {/* {JSON.stringify(state?.nodes)} */}
+                {/* {JSON.stringify(currentUser.nodes)} */}
+                <NodeSelector
+                  nodeType={"expertise"}
+                  selectedNodes={state?.nodes}
+                  onChangeNodes={(val) => {
+                    // console.log("on change", val);
+                    handleSetNodes(val);
+                  }}
+                />
                 <p>{`Please write a short bio!`}</p>
                 <TextArea
                   onChange={(e) => {
@@ -673,5 +639,66 @@ export const FillUserProfileContainer = ({
         )}
       </div>
     </Card>
+  );
+};
+
+interface INodeSelectorProps {
+  selectedNodes?: Maybe<Maybe<NodesType>[]>;
+  nodeType: string;
+  // onChangeNodeID?: React.Dispatch<React.SetStateAction<string[]>>;
+  // eslint-disable-next-line no-unused-vars
+  onChangeNodes?: (val: Maybe<Node | undefined>[]) => void;
+}
+
+const NodeSelector = ({
+  selectedNodes = [],
+  nodeType,
+  // onChangeNodeID,
+  onChangeNodes,
+}: INodeSelectorProps) => {
+  const [nodes, setNodes] = useState<Maybe<Node | undefined>[]>(
+    selectedNodes?.map((node) => node?.nodeData) || []
+  );
+
+  const { data: nodesData } = useQuery(FIND_NODES, {
+    variables: {
+      fields: {
+        node: nodeType,
+      },
+    },
+    context: { serviceName: "soilservice" },
+    skip: !nodeType,
+  });
+
+  useEffect(() => {
+    // console.log("change of state", nodes);
+    if (onChangeNodes) onChangeNodes(nodes);
+  }, [nodes]);
+
+  return (
+    <div className="flex w-full flex-wrap justify-center gap-1">
+      {!isEmpty(nodesData) &&
+        nodesData?.findNodes?.map((item: Node, index: number) => {
+          const _selectedNodes = nodes!.filter((node) =>
+            node!?.aboveNodes?.some((aboveNode) => aboveNode?._id === item._id)
+          );
+
+          return (
+            <SelectNodesBox
+              multiple
+              key={index}
+              defaultValues={_selectedNodes}
+              caption={item?.name || ""}
+              items={item?.subNodes}
+              onChange={(val: Maybe<Node | undefined>[]) => {
+                if (onChangeNodes && nodes)
+                  setNodes(
+                    nodes && nodes.length > 0 ? [...nodes, ...val] : val
+                  );
+              }}
+            />
+          );
+        })}
+    </div>
   );
 };

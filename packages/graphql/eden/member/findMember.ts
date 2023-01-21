@@ -31,6 +31,11 @@ export const FIND_MEMBER = gql`
       }
       nodes {
         nodeData {
+          aboveNodes {
+            _id
+            name
+            node
+          }
           _id
           name
           node

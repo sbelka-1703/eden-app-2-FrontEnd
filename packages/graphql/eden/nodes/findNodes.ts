@@ -5,11 +5,18 @@ export const FIND_NODES = gql`
     findNodes(fields: $fields) {
       _id
       name
+      node
       selected
       subNodes {
         _id
         name
+        node
         selected
+        aboveNodes {
+          _id
+          name
+          node
+        }
       }
     }
   }
