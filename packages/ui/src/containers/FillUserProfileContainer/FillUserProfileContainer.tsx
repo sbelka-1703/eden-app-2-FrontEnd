@@ -1,10 +1,6 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
-import {
-  FIND_NODES,
-  FIND_ROLE_TEMPLATES,
-  UPDATE_MEMBER,
-} from "@eden/package-graphql";
+import { FIND_ROLE_TEMPLATES, UPDATE_MEMBER } from "@eden/package-graphql";
 import {
   Maybe,
   Members,
@@ -23,14 +19,13 @@ import {
   Loading,
   PREFERENCES_TITLE,
   RoleSelector,
-  SelectNodesBox,
+  SelectNodes,
   SocialMediaInput,
   TextArea,
   UserExperienceCard,
 } from "@eden/package-ui";
 import { STEPS } from "@eden/package-ui/utils/enums/fill-profile-steps";
 import { CheckIcon } from "@heroicons/react/outline";
-import { isEmpty } from "lodash";
 import {
   Dispatch,
   SetStateAction,
@@ -249,34 +244,6 @@ export const FillUserProfileContainer = ({
     });
   };
 
-  // function getSelectedItems() {
-  //   if (dataNodes?.findNodes) {
-  //     const _selectedItems: any = {};
-
-  //     forEach(dataNodes?.findNodes, (el, index) => {
-  //       _selectedItems[el._id] = dataNodes?.findNodes[index].subNodes.filter(
-  //         (subNode: Node) => {
-  //           return currentUser?.nodes?.some(
-  //             (_subNode) => subNode?._id === _subNode?.nodeData?._id
-  //           );
-  //         }
-  //       ) as Node[];
-  //     });
-
-  //     return _selectedItems;
-  //   } else {
-  //     return null;
-  //   }
-  // }
-
-  // const [selectedItems, setSelectedItems] = useState<{
-  //   [key: string]: Node[];
-  // }>(getSelectedItems() || []);
-
-  // const [selectedNodes, setSelectedNodes] = useState<Maybe<NodesType>[]>(
-  //   state?.nodes || []
-  // );
-
   const [preferences, setPreferences] = useState<PreferencesType>({
     findCoFounder: {
       interestedMatch:
@@ -299,28 +266,6 @@ export const FillUserProfileContainer = ({
         currentUser?.preferences?.findUser?.interestedMatch || null,
     } as PreferencesTypeFind,
   });
-
-  // useEffect(() => {
-  //   if (selectedItems) {
-  //     const selectedNodeArr: NodesType[] = [];
-
-  //     forEach(selectedItems, (el) => {
-  //       if (!isEmpty(el)) {
-  //         forEach(el, (item) => {
-  //           selectedNodeArr.push({
-  //             nodeData: { ...item, node: "sub_expertise" },
-  //           } as NodesType);
-  //         });
-  //       }
-  //     });
-
-  //     setSelectedNodes(selectedNodeArr);
-  //   }
-  // }, [selectedItems]);
-
-  // useEffect(() => {
-  //   handleSetNodes();
-  // }, [selectedNodes]);
 
   useEffect(() => {
     handleSetPreferences();
@@ -420,7 +365,7 @@ export const FillUserProfileContainer = ({
                 <p>{`Add your expertise:`}</p>
                 {/* {JSON.stringify(state?.nodes)} */}
                 {/* {JSON.stringify(currentUser.nodes)} */}
-                <NodeSelector
+                <SelectNodes
                   nodeType={"expertise"}
                   selectedNodes={state?.nodes}
                   onChangeNodes={(val) => {
@@ -639,66 +584,5 @@ export const FillUserProfileContainer = ({
         )}
       </div>
     </Card>
-  );
-};
-
-interface INodeSelectorProps {
-  selectedNodes?: Maybe<Maybe<NodesType>[]>;
-  nodeType: string;
-  // onChangeNodeID?: React.Dispatch<React.SetStateAction<string[]>>;
-  // eslint-disable-next-line no-unused-vars
-  onChangeNodes?: (val: Maybe<Node | undefined>[]) => void;
-}
-
-const NodeSelector = ({
-  selectedNodes = [],
-  nodeType,
-  // onChangeNodeID,
-  onChangeNodes,
-}: INodeSelectorProps) => {
-  const [nodes, setNodes] = useState<Maybe<Node | undefined>[]>(
-    selectedNodes?.map((node) => node?.nodeData) || []
-  );
-
-  const { data: nodesData } = useQuery(FIND_NODES, {
-    variables: {
-      fields: {
-        node: nodeType,
-      },
-    },
-    context: { serviceName: "soilservice" },
-    skip: !nodeType,
-  });
-
-  useEffect(() => {
-    // console.log("change of state", nodes);
-    if (onChangeNodes) onChangeNodes(nodes);
-  }, [nodes]);
-
-  return (
-    <div className="flex w-full flex-wrap justify-center gap-1">
-      {!isEmpty(nodesData) &&
-        nodesData?.findNodes?.map((item: Node, index: number) => {
-          const _selectedNodes = nodes!.filter((node) =>
-            node!?.aboveNodes?.some((aboveNode) => aboveNode?._id === item._id)
-          );
-
-          return (
-            <SelectNodesBox
-              multiple
-              key={index}
-              defaultValues={_selectedNodes}
-              caption={item?.name || ""}
-              items={item?.subNodes}
-              onChange={(val: Maybe<Node | undefined>[]) => {
-                if (onChangeNodes && nodes)
-                  setNodes(
-                    nodes && nodes.length > 0 ? [...nodes, ...val] : val
-                  );
-              }}
-            />
-          );
-        })}
-    </div>
   );
 };
