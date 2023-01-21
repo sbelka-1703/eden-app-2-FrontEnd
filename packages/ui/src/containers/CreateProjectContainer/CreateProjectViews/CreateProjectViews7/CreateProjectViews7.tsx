@@ -1,12 +1,4 @@
-import { useQuery } from "@apollo/client";
-import { FIND_NODES } from "@eden/package-graphql";
-import {
-  Maybe,
-  Node,
-  NodesType,
-  Project,
-  RoleType,
-} from "@eden/package-graphql/generated";
+import { Node, Project, RoleType } from "@eden/package-graphql/generated";
 import {
   BatteryStepper,
   Button,
@@ -230,7 +222,7 @@ export const CreateProjectViews7 = ({
               <div className={`text-sm font-normal`}>
                 {`Select the Role: 🤖`}
               </div>
-              {/* <div className="flex w-full flex-wrap justify-center gap-1">
+              <div className="flex w-full flex-wrap justify-center gap-1">
                 {!isEmpty(expertise) &&
                   map(expertise, (item: any, key: number) => (
                     <SelectBoxNode
@@ -247,13 +239,7 @@ export const CreateProjectViews7 = ({
                       }}
                     />
                   ))}
-              </div> */}
-              <NodeSelector
-                nodeType="expertise"
-                onChangeNodes={(val) => {
-                  // console.log("on change", val);
-                }}
-              />
+              </div>
             </div>
             <div className="mt-3">
               <TextArea
@@ -389,49 +375,5 @@ export const CreateProjectViews7 = ({
         </div>
       </div>
     </Card>
-  );
-};
-
-interface INodeSelectorProps {
-  selectedNodes?: NodesType[];
-  nodeType: string;
-  // onChangeNodeID?: React.Dispatch<React.SetStateAction<string[]>>;
-  onChangeNodes?: React.Dispatch<React.SetStateAction<NodesType[]>>;
-}
-
-const NodeSelector = ({
-  selectedNodes = [],
-  nodeType,
-  // onChangeNodeID,
-  onChangeNodes,
-}: INodeSelectorProps) => {
-  const [nodes, setNodes] = useState<NodesType[]>(selectedNodes);
-
-  const { data: nodesData } = useQuery(FIND_NODES, {
-    variables: {
-      fields: {
-        node: nodeType,
-      },
-    },
-    context: { serviceName: "soilservice" },
-    skip: !nodeType,
-  });
-
-  return (
-    <div className="flex w-full flex-wrap justify-center gap-1">
-      {JSON.stringify(nodes)}
-      {!isEmpty(nodesData) &&
-        nodesData?.findNodes?.map((item: any, key: number) => (
-          <SelectBoxNode
-            multiple
-            key={key}
-            caption={item?.name}
-            items={item?.subNodes}
-            onChange={(val: NodesType[]) => {
-              if (onChangeNodes) onChangeNodes(val);
-            }}
-          />
-        ))}
-    </div>
   );
 };
