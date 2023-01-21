@@ -192,7 +192,7 @@ export const CreateProjectViews7 = ({
   };
 
   return (
-    <Card className={`pb-6 scrollbar-hide overflow-y-scroll h-85`}>
+    <Card className={`scrollbar-hide h-85 overflow-y-scroll pb-6`}>
       <div className="mb-4 flex items-center justify-between bg-green-100 p-7">
         <div className={`space-y-4`}>
           <TextHeading3>Complete your project:</TextHeading3>
@@ -274,7 +274,7 @@ export const CreateProjectViews7 = ({
               title="What are the expectations for this role?"
             >
               {numInList.map((v, i) => (
-                <div key={i} className={`flex py-1 mx-4`}>
+                <div key={i} className={`mx-4 flex py-1`}>
                   <li className={`my-auto`} />
                   <TextField
                     value={state?.expectations?.[i] || ""}
@@ -295,7 +295,7 @@ export const CreateProjectViews7 = ({
               title="What are the benfits of this role?"
             >
               {numInList.map((v, i) => (
-                <div key={i} className={`flex py-1 mx-4`}>
+                <div key={i} className={`mx-4 flex py-1`}>
                   <li className={`my-auto`} />
                   <TextField
                     value={state?.benefits?.[i] || ""}

@@ -1,10 +1,6 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
-import {
-  FIND_NODES,
-  FIND_ROLE_TEMPLATES,
-  UPDATE_MEMBER,
-} from "@eden/package-graphql";
+import { FIND_ROLE_TEMPLATES, UPDATE_MEMBER } from "@eden/package-graphql";
 import {
   Maybe,
   Members,
@@ -23,14 +19,13 @@ import {
   Loading,
   PREFERENCES_TITLE,
   RoleSelector,
-  SelectBoxNode,
+  SelectNodes,
   SocialMediaInput,
   TextArea,
   UserExperienceCard,
 } from "@eden/package-ui";
 import { STEPS } from "@eden/package-ui/utils/enums/fill-profile-steps";
 import { CheckIcon } from "@heroicons/react/outline";
-import { forEach, isEmpty, map } from "lodash";
 import {
   Dispatch,
   SetStateAction,
@@ -149,10 +144,12 @@ export const FillUserProfileContainer = ({
     });
   };
 
-  const handleSetNodes = () => {
+  const handleSetNodes = (value: Maybe<Node | undefined>[]) => {
     setState({
       ...state,
-      nodes: selectedNodes,
+      nodes: value.map((item: Maybe<Node | undefined>) => ({
+        nodeData: item,
+      })) as NodesType,
     });
   };
 
@@ -247,52 +244,6 @@ export const FillUserProfileContainer = ({
     });
   };
 
-  const { data: dataNodes } = useQuery(FIND_NODES, {
-    variables: {
-      fields: {
-        node: "expertise",
-      },
-    },
-    context: { serviceName: "soilservice" },
-  });
-
-  const { data: dataNodesStructured } = useQuery(FIND_NODES, {
-    variables: {
-      fields: {
-        node: "expertise",
-        selectedNodes: currentUser?.nodes?.map((node) => node?.nodeData?._id),
-      },
-    },
-    context: { serviceName: "soilservice" },
-  });
-
-  function getSelectedItems() {
-    if (dataNodes?.findNodes) {
-      const _selectedItems: any = {};
-
-      forEach(dataNodes?.findNodes, (el, index) => {
-        _selectedItems[el._id] = dataNodes?.findNodes[index].subNodes.filter(
-          (subNode: Node) => {
-            return currentUser?.nodes?.some(
-              (_subNode) => subNode?._id === _subNode?.nodeData?._id
-            );
-          }
-        ) as Node[];
-      });
-
-      return _selectedItems;
-    } else {
-      return null;
-    }
-  }
-
-  const [selectedItems, setSelectedItems] = useState<{
-    [key: string]: Node[];
-  }>(getSelectedItems() || []);
-
-  const [selectedNodes, setSelectedNodes] = useState<Maybe<NodesType>[]>(
-    state?.nodes || []
-  );
   const [preferences, setPreferences] = useState<PreferencesType>({
     findCoFounder: {
       interestedMatch:
@@ -315,28 +266,6 @@ export const FillUserProfileContainer = ({
         currentUser?.preferences?.findUser?.interestedMatch || null,
     } as PreferencesTypeFind,
   });
-
-  useEffect(() => {
-    if (selectedItems) {
-      const selectedNodeArr: NodesType[] = [];
-
-      forEach(selectedItems, (el) => {
-        if (!isEmpty(el)) {
-          forEach(el, (item) => {
-            selectedNodeArr.push({
-              nodeData: { ...item, node: "sub_expertise" },
-            } as NodesType);
-          });
-        }
-      });
-
-      setSelectedNodes(selectedNodeArr);
-    }
-  }, [selectedItems]);
-
-  useEffect(() => {
-    handleSetNodes();
-  }, [selectedNodes]);
 
   useEffect(() => {
     handleSetPreferences();
@@ -434,34 +363,16 @@ export const FillUserProfileContainer = ({
             {step === STEPS.BIO && (
               <>
                 <p>{`Add your expertise:`}</p>
-                {/* {JSON.stringify(dataNodesStructured)} */}
-                <div className="mb-8 mt-4 flex h-24 w-full flex-wrap justify-center gap-2">
-                  {dataNodesStructured?.findNodes ? (
-                    <>
-                      {!isEmpty(dataNodesStructured?.findNodes) &&
-                        map(
-                          dataNodesStructured?.findNodes,
-                          (item: any, key: number) => (
-                            <SelectBoxNode
-                              multiple
-                              key={key}
-                              caption={item?.name}
-                              items={item?.subNodes}
-                              // defaultValues={dataNodesStructured}
-                              onChange={(val) => {
-                                setSelectedItems((prevState) => ({
-                                  ...prevState,
-                                  [item?._id]: val,
-                                }));
-                              }}
-                            />
-                          )
-                        )}
-                    </>
-                  ) : (
-                    <Loading />
-                  )}
-                </div>
+                {/* {JSON.stringify(state?.nodes)} */}
+                {/* {JSON.stringify(currentUser.nodes)} */}
+                <SelectNodes
+                  nodeType={"expertise"}
+                  selectedNodes={state?.nodes}
+                  onChangeNodes={(val) => {
+                    // console.log("on change", val);
+                    handleSetNodes(val);
+                  }}
+                />
                 <p>{`Please write a short bio!`}</p>
                 <TextArea
                   onChange={(e) => {
