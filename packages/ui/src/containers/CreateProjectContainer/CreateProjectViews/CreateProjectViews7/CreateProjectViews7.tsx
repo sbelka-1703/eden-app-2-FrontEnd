@@ -248,7 +248,12 @@ export const CreateProjectViews7 = ({
                     />
                   ))}
               </div> */}
-              <NodeSelector nodeType="expertise" />
+              <NodeSelector
+                nodeType="expertise"
+                onChangeNodes={(val) => {
+                  // console.log("on change", val);
+                }}
+              />
             </div>
             <div className="mt-3">
               <TextArea
@@ -390,15 +395,15 @@ export const CreateProjectViews7 = ({
 interface INodeSelectorProps {
   selectedNodes?: NodesType[];
   nodeType: string;
+  // onChangeNodeID?: React.Dispatch<React.SetStateAction<string[]>>;
   onChangeNodes?: React.Dispatch<React.SetStateAction<NodesType[]>>;
-  onChangeNodeID?: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 const NodeSelector = ({
   selectedNodes = [],
   nodeType,
+  // onChangeNodeID,
   onChangeNodes,
-  onChangeNodeID,
 }: INodeSelectorProps) => {
   const [nodes, setNodes] = useState<NodesType[]>(selectedNodes);
 
@@ -423,7 +428,6 @@ const NodeSelector = ({
             caption={item?.name}
             items={item?.subNodes}
             onChange={(val: NodesType[]) => {
-              console.log(val);
               if (onChangeNodes) onChangeNodes(val);
             }}
           />

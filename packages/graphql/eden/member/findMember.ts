@@ -31,14 +31,14 @@ export const FIND_MEMBER = gql`
       }
       nodes {
         nodeData {
-          _id
-          name
-          node
           aboveNodes {
             _id
             name
             node
           }
+          _id
+          name
+          node
         }
       }
       previusProjects {

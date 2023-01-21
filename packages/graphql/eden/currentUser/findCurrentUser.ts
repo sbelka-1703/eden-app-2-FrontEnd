@@ -19,11 +19,11 @@ export const FIND_CURRENTUSER = gql`
       timeZone
       nodes {
         nodeData {
-          _id
-          name
-          node
-        }
-        aboveNodes {
+          aboveNodes {
+            _id
+            name
+            node
+          }
           _id
           name
           node

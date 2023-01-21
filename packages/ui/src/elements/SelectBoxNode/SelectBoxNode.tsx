@@ -1,4 +1,4 @@
-import { Node } from "@eden/package-graphql/generated";
+import { Maybe, Node } from "@eden/package-graphql/generated";
 import { Listbox, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/outline";
 import { CheckIcon } from "@heroicons/react/solid";
@@ -7,9 +7,9 @@ import isEmpty from "lodash/isEmpty";
 import { Fragment, useEffect, useState } from "react";
 
 export interface ISelectBoxNodeProps {
-  caption: string;
-  items: Node[];
-  // defaultValues?: any;
+  caption: Maybe<string>;
+  items: Maybe<Maybe<Node>[]> | undefined;
+  defaultValues?: Maybe<Node | undefined>[];
   disabled?: boolean;
   multiple?: boolean;
   btnBGcolor?: string;
@@ -22,15 +22,20 @@ export interface ISelectBoxNodeProps {
 export const SelectBoxNode = ({
   caption,
   items,
-  // defaultValues,
+  defaultValues,
   multiple,
   disabled,
-  selectedNodes,
   onChange,
   btnBGcolor = "bg-gray-200",
 }: ISelectBoxNodeProps) => {
   const [selected, setSelected] = useState(
-    multiple ? items.filter((item) => item.selected) || [] : ""
+    multiple
+      ? items?.filter((item) =>
+          defaultValues?.some(
+            (prevVal: Maybe<Node> | undefined) => prevVal?._id === item?._id
+          )
+        ) || []
+      : ""
   );
 
   const btnClasses = clsx(
@@ -66,7 +71,7 @@ export const SelectBoxNode = ({
             leaveTo="opacity-0"
           >
             <Listbox.Options className="fixed z-50 mt-1 max-h-60 min-w-fit overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-              {items.map((item, index) => (
+              {items?.map((item, index) => (
                 <Listbox.Option
                   key={index}
                   className={({ active }) =>
@@ -83,7 +88,7 @@ export const SelectBoxNode = ({
                           selected ? "font-medium" : "font-normal"
                         }`}
                       >
-                        {item.name}
+                        {item?.name}
                       </span>
                       {selected ? (
                         <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-green-600">
