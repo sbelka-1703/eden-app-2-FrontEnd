@@ -23,7 +23,7 @@ import {
   Loading,
   PREFERENCES_TITLE,
   RoleSelector,
-  SelectBoxNode,
+  SelectNodesBox,
   SocialMediaInput,
   TextArea,
   UserExperienceCard,
@@ -684,7 +684,7 @@ const NodeSelector = ({
           );
 
           return (
-            <SelectBoxNode
+            <SelectNodesBox
               multiple
               key={index}
               defaultValues={_selectedNodes}
