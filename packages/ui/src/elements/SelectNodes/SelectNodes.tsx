@@ -42,7 +42,7 @@ export const SelectNodes = ({
 
   return (
     <div className="flex w-full flex-wrap justify-center gap-1">
-      ----{JSON.stringify(nodes)}----
+      {/* ----{JSON.stringify(nodes)}---- */}
       {nodesData?.findNodes ? (
         !isEmpty(nodesData) &&
         nodesData?.findNodes?.map((item: Node, index: number) => {
