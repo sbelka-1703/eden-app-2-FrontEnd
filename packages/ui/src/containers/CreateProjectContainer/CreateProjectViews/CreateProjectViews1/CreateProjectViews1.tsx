@@ -21,7 +21,6 @@ type Inputs = {
 
 export interface CreateProjectViews1Props {
   battery?: number;
-  setBattery: Dispatch<SetStateAction<number>>;
   // onBack?: Dispatch<SetStateAction<any>>;
   onNext: Dispatch<SetStateAction<any>>;
   setProject: Dispatch<SetStateAction<any>>;
@@ -30,7 +29,6 @@ export interface CreateProjectViews1Props {
 
 export const CreateProjectViews1 = ({
   battery = 0,
-  // setBattery,
   // onBack,
   onNext,
   setProject,
