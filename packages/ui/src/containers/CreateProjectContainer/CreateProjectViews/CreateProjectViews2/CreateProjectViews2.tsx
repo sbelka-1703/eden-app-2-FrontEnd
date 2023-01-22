@@ -26,7 +26,7 @@ export interface CreateProjectViews2Props {
 export const CreateProjectViews2 = ({
   onBack,
   battery,
-  // setBattery,
+  setBattery,
   onNext,
   setProject,
   project,

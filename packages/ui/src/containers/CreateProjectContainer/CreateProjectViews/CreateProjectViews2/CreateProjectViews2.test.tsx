@@ -19,7 +19,6 @@ describe("CreateProjectViews2", () => {
         }}
         setProject={function (data): void {
           console.info({ data });
-          throw new Error("Function not implemented.");
         }}
       />
     );
