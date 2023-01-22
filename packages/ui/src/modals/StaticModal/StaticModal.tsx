@@ -2,7 +2,6 @@ import {
   Avatar,
   Badge,
   Button,
-  EmojiSelector,
   Modal,
   OpenPositionCard,
   SocialMediaComp,
@@ -61,7 +60,11 @@ const DefaultHeader = ({ item }: IStaticCardTypeProps) => {
 
         <div>
           {item?.picture?.length <= 5 ? (
-            <EmojiSelector isDisabled emoji={item?.picture} bgColor="#ABF0B3" />
+            <Avatar
+              isProject
+              emoji={item?.picture}
+              backColorEmoji={"#ABF0B3"}
+            />
           ) : (
             <Avatar size="lg" isProject src={item?.picture} />
           )}
