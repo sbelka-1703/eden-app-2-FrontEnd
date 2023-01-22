@@ -42,6 +42,7 @@ export const SelectNodes = ({
 
   return (
     <div className="flex w-full flex-wrap justify-center gap-1">
+      {/* ----{JSON.stringify(nodes)}---- */}
       {nodesData?.findNodes ? (
         !isEmpty(nodesData) &&
         nodesData?.findNodes?.map((item: Node, index: number) => {
@@ -57,10 +58,30 @@ export const SelectNodes = ({
               caption={item?.name || ""}
               items={item?.subNodes}
               onChange={(val: Maybe<Node | undefined>[]) => {
-                if (onChangeNodes && nodes)
-                  setNodes(
-                    nodes && nodes.length > 0 ? [...nodes, ...val] : val
-                  );
+                if (onChangeNodes && nodes) {
+                  let _newNodes = [
+                    ...nodes.filter((node) => {
+                      return !(
+                        node?.node?.includes(nodeType) &&
+                        node.aboveNodes!.some(
+                          (_node) => _node?._id === item._id
+                        )
+                      );
+                    }),
+                  ];
+
+                  val.forEach((node) => {
+                    if (_newNodes.some((_node) => node?._id === _node?._id)) {
+                      _newNodes = _newNodes.filter(
+                        (_node) => node?._id === _node?._id
+                      );
+                    } else {
+                      _newNodes = [..._newNodes, node];
+                    }
+                  });
+
+                  setNodes(_newNodes);
+                }
               }}
             />
           );
