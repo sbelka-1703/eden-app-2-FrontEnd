@@ -61,7 +61,7 @@ export interface ICreateProjectContainerProps {
   setView?: Dispatch<SetStateAction<"main" | "project">>;
   roleIndex: number;
   onSetRoleIndex: Dispatch<SetStateAction<number>>;
-  refetchProject: () => void;
+  refetchProject?: () => void;
 }
 
 export const CreateProjectContainer = ({
@@ -89,7 +89,7 @@ export const CreateProjectContainer = ({
       else {
         setSubmitting(false);
         setView && setView("main");
-        refetchProject();
+        refetchProject && refetchProject();
         router.push(`/champion-board/recruit/${updateNodesToProjectRole?._id}`);
       }
     },
