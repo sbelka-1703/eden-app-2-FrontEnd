@@ -87,7 +87,6 @@ type Inputs = {
 export interface CreateProjectViews7Props {
   expertise?: any[];
   battery: number;
-  setBattery: Dispatch<SetStateAction<number>>;
   onBack: Dispatch<SetStateAction<RoleType>>;
   onNext: Dispatch<SetStateAction<RoleType>>;
   onChange: Dispatch<SetStateAction<RoleType>>;
@@ -99,7 +98,6 @@ export interface CreateProjectViews7Props {
 export const CreateProjectViews7 = ({
   onBack,
   battery,
-  setBattery,
   onNext,
   onChange,
   expertise = [],
@@ -441,7 +439,6 @@ export const CreateProjectViews7 = ({
             placeholder="Start typing here..."
             onChange={(e) => {
               handleUpdateState(e.target.value, "title");
-              setBattery(battery < 20 ? battery + 10 : battery);
             }}
           />
         </div> */}
@@ -460,7 +457,6 @@ export const CreateProjectViews7 = ({
                       caption={item?.name}
                       items={item?.subNodes}
                       onChange={(val) => {
-                        setBattery(battery < 99 ? battery + 10 : battery);
                         setSelectedItems((prevState) => ({
                           ...prevState,
                           [item?._id]: val,
@@ -476,7 +472,6 @@ export const CreateProjectViews7 = ({
                 value={state?.shortDescription || ""}
                 onChange={(e) => {
                   handleUpdateState(e.target.value, "shortDescription");
-                  setBattery(battery < 70 ? battery + 10 : battery);
                 }}
                 placeholder="Start typing here..."
                 rows={2}

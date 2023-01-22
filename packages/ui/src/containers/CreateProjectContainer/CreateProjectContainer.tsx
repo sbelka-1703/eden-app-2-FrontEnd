@@ -6,6 +6,7 @@ import {
   Project,
   RoleType,
 } from "@eden/package-graphql/generated";
+import { project } from "@eden/package-mock";
 import {
   Card,
   CreateProjectViews1,
@@ -15,6 +16,7 @@ import {
   Loading,
 } from "@eden/package-ui";
 import { PROJECT_STEPS } from "@eden/package-ui/utils/enums/fill-project-steps";
+import { getFillProjectPercentage } from "@eden/package-ui/utils/fill-project-percentage";
 import { useRouter } from "next/router";
 import { Dispatch, SetStateAction, useState } from "react";
 import { toast } from "react-toastify";
@@ -59,6 +61,7 @@ export interface ICreateProjectContainerProps {
   setView?: Dispatch<SetStateAction<"main" | "project">>;
   roleIndex: number;
   onSetRoleIndex: Dispatch<SetStateAction<number>>;
+  refetchProject?: () => void;
 }
 
 export const CreateProjectContainer = ({
@@ -69,11 +72,10 @@ export const CreateProjectContainer = ({
   setView,
   roleIndex,
   onSetRoleIndex,
+  refetchProject,
 }: ICreateProjectContainerProps) => {
   const router = useRouter();
   const [submitting, setSubmitting] = useState<boolean>(false);
-
-  const [battery, setBattery] = useState(5);
 
   const [addNodes, {}] = useMutation(UPDATE_NODES_PROJECT_ROLE, {
     onCompleted({ updateNodesToProjectRole }: Mutation) {
@@ -87,6 +89,7 @@ export const CreateProjectContainer = ({
       else {
         setSubmitting(false);
         setView && setView("main");
+        refetchProject && refetchProject();
         router.push(`/champion-board/recruit/${updateNodesToProjectRole?._id}`);
       }
     },
@@ -225,8 +228,7 @@ export const CreateProjectContainer = ({
       case PROJECT_STEPS.START:
         return (
           <CreateProjectViews1
-            battery={battery}
-            setBattery={setBattery}
+            battery={getFillProjectPercentage(project)}
             onNext={(data) => {
               onNext(data);
               setStep(PROJECT_STEPS.DESCRIPTION);
@@ -239,8 +241,7 @@ export const CreateProjectContainer = ({
       case PROJECT_STEPS.DESCRIPTION:
         return (
           <CreateProjectViews2
-            battery={battery}
-            setBattery={setBattery}
+            battery={getFillProjectPercentage(project)}
             onNext={(data) => {
               onNext(data);
               setStep(PROJECT_STEPS.ADD_ROLE);
@@ -253,8 +254,7 @@ export const CreateProjectContainer = ({
       case PROJECT_STEPS.ADD_ROLE:
         return (
           <CreateProjectViews7
-            battery={battery}
-            setBattery={setBattery}
+            battery={getFillProjectPercentage(project)}
             onNext={() => {
               setStep(PROJECT_STEPS.ADD_ANOTHER_ROLE);
             }}
