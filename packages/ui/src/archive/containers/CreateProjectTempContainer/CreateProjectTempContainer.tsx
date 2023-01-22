@@ -19,7 +19,6 @@ import {
   TextHeading3,
 } from "@eden/package-ui";
 import { useContext, useState } from "react";
-import { toast } from "react-toastify";
 
 export const ADD_PROJECT_ROLE = gql`
   mutation ($fields: addProjectRoleInput!) {
@@ -64,7 +63,7 @@ export const CreateProjectTempContainer = ({
   onFetchProject,
   setSelectedRole,
 }: ICreateProjectTempContainerProps) => {
-  const { currentUser, selectedServer } = useContext(UserContext);
+  const { selectedServerID } = useContext(UserContext);
   const [submitting, setSubmitting] = useState(false);
 
   // const [projectID, setProjectID] = useState<string>("");
@@ -81,17 +80,9 @@ export const CreateProjectTempContainer = ({
   });
 
   const handleSave = () => {
-    if (!currentUser || !selectedServer?._id) {
-      toast.error("must select a server");
-
-      return;
-    }
-    // setSubmitting(true);
-
     const field: UpdateProjectInput = {
       ...projectUIdata,
-      serverID: [selectedServer?._id],
-      champion: currentUser?._id,
+      serverID: selectedServerID,
     };
 
     // if (projectUIdata?._id) field._id = projectUIdata._id;

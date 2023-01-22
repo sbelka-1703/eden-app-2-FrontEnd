@@ -1,7 +1,7 @@
 import { Maybe, Project, RoleType } from "@eden/package-graphql/generated";
 import {
+  Avatar,
   Card,
-  EmojiSelector,
   RoleList,
   TextBody,
   TextHeading3,
@@ -36,7 +36,7 @@ export const ProjectLayoutCard = ({
       <TextBody className="mb-2">Your Project</TextBody>
       <div className="mb-4 flex items-center">
         <div className="mr-4">
-          <EmojiSelector isDisabled emoji={emoji} bgColor={bgColor} />
+          <Avatar isProject emoji={emoji} backColorEmoji={bgColor} />
         </div>
         <TextHeading3>{project?.title}</TextHeading3>
       </div>
