@@ -4,7 +4,6 @@ import {
   Badge,
   Button,
   Card,
-  EmojiSelector,
   Favorite,
   LongText,
   ProfileExpandedModal,
@@ -56,10 +55,10 @@ export const StaticCard = ({
             <div className={`relative flex flex-col items-center`}>
               <div className="relative">
                 {item?.picture.length <= 5 ? (
-                  <EmojiSelector
-                    isDisabled
+                  <Avatar
+                    isProject
                     emoji={item?.picture}
-                    bgColor="#ABF0B3"
+                    backColorEmoji={"#ABF0B3"}
                   />
                 ) : (
                   <Avatar isProject src={item?.picture} />

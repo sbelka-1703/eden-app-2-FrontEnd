@@ -1,57 +1,49 @@
 import dynamic from "next/dynamic";
 import { useState } from "react";
 export interface IEmojiSelectorProps {
-  isDisabled?: boolean;
   bgColor?: string;
   emoji?: string;
   size?: number;
-  // eslint-disable-next-line no-unused-vars
-  onSelection?: (val: any) => void;
+  onSelection?: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const EmojiSelector = ({
-  isDisabled,
-  emoji = "👋",
   bgColor = "#e8e8e8",
   onSelection,
   size = 60,
 }: IEmojiSelectorProps) => {
   const [showEmojiSelector, setShowEmojiSelector] = useState(false);
-  const [selectedEmoji, setSelectedEmoji] = useState(emoji);
+  const [selectedEmoji, setSelectedEmoji] = useState("👋");
   const Picker = dynamic(() => import("emoji-picker-react"), {
     ssr: false,
   });
 
   const onEmojiClick = (event: any, emojiObject: any) => {
     setSelectedEmoji(emojiObject.emoji);
-    setShowEmojiSelector(false);
+    setShowEmojiSelector(!showEmojiSelector);
     onSelection && onSelection(emojiObject.emoji);
   };
 
   const onShowEmojiSelector = () => {
-    setShowEmojiSelector(true);
+    setShowEmojiSelector(!showEmojiSelector);
   };
 
   return (
     <div className="flex flex-row">
+      <button
+        className={`flex cursor-pointer items-center justify-center rounded-full`}
+        onClick={() => onShowEmojiSelector()}
+        style={{
+          width: size + "px",
+          height: size + "px",
+          fontSize: Math.ceil(size) / 2 + "px",
+          backgroundColor: bgColor,
+        }}
+      >
+        <span className="leading-none	">{selectedEmoji}</span>
+      </button>
       <div>
-        <div
-          className={`flex cursor-pointer items-center justify-center rounded-full`}
-          onClick={() => onShowEmojiSelector()}
-          style={{
-            width: size + "px",
-            height: size + "px",
-            fontSize: Math.ceil(size) / 2 + "px",
-            backgroundColor: bgColor,
-          }}
-        >
-          <span className="leading-none	">
-            {emoji && isDisabled ? emoji : selectedEmoji}
-          </span>
-        </div>
-      </div>
-      <div>
-        {showEmojiSelector && !isDisabled ? (
+        {showEmojiSelector ? (
           <Picker
             onEmojiClick={onEmojiClick}
             pickerStyle={{ marginTop: "0px", left: "40px" }}
