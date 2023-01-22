@@ -3,6 +3,7 @@ import {
   TextHeading1,
   TextHeading2,
   TextHeading3,
+  TextInputLabel,
   TextLabel,
 } from "../atoms/text";
 
@@ -33,6 +34,10 @@ export const Typography = () => {
       <div className={``}>
         TextLabel
         <TextLabel>The brown fox jumped over the lazy dog.</TextLabel>
+      </div>
+      <div className={``}>
+        TextInputLabel
+        <TextInputLabel>The brown fox jumped over the lazy dog.</TextInputLabel>
       </div>
     </div>
   );

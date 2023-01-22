@@ -14,14 +14,16 @@ export interface IServerSelectorMultiProps {
   btnBGcolor?: string;
   defaultValues: ServerTemplate[];
   onChange?: React.Dispatch<React.SetStateAction<string[]>>;
+  inputRef?: any; // TODO: fix this, need to use forwardRef
 }
 
 export const ServerSelectorMulti = ({
   disabled,
   value,
+  btnBGcolor = "bg-gray-200",
   defaultValues,
   onChange,
-  btnBGcolor = "bg-gray-200",
+  inputRef,
 }: IServerSelectorMultiProps) => {
   const [selected, setSelected] = useState<Array<ServerTemplate>>(
     defaultValues || []
@@ -72,7 +74,7 @@ export const ServerSelectorMulti = ({
         onChange={setSelected}
       >
         <div className="relative mt-1">
-          <Listbox.Button className={btnClasses}>
+          <Listbox.Button className={btnClasses} ref={inputRef}>
             <span className="mr-2 block truncate">Select Servers</span>
             <ChevronDownIcon width={12} />
           </Listbox.Button>

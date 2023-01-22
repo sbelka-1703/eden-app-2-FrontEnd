@@ -64,6 +64,7 @@ export const ProjectEditSelectorCard = ({
             emoji={project.emoji as string}
             backColorEmoji={project.backColorEmoji as string}
             size={`md`}
+            isProject
           />
         </div>
         <div className={`my-auto pl-4 text-xl`}>{project.title}</div>

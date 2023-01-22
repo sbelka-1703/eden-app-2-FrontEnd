@@ -83,6 +83,11 @@ const ErrorLogPage: NextPageWithLayout = () => {
   const formatDate = (date: any) => {
     const offset = 0;
 
+    // const currentDate = new Date();
+    // const offset2 = currentDate.getTimezoneOffset() / 100;
+
+    // console.log(offset2); // -300
+
     var d = new Date(date * 1);
     var utc = d.getTime() + d.getTimezoneOffset() * 60000; //This converts to UTC 00:00
     var nd = new Date(utc + 3600000 * offset);
@@ -104,7 +109,7 @@ const ErrorLogPage: NextPageWithLayout = () => {
   return (
     <>
       <SEO />
-      <Card shadow className={`bg-white p-4 h-85`}>
+      <Card shadow className={`h-85 bg-white p-4`}>
         <div className={`flex justify-between`}>
           <nav className="flex space-x-4" aria-label="Tabs">
             {tabs.map((tab) => (
@@ -115,7 +120,7 @@ const ErrorLogPage: NextPageWithLayout = () => {
                   tab.current
                     ? "bg-gray-200 text-gray-800"
                     : "text-gray-600 hover:text-gray-800",
-                  "px-3 py-2 font-medium text-sm rounded-md"
+                  "rounded-md px-3 py-2 text-sm font-medium"
                 )}
                 aria-current={tab.current ? "page" : undefined}
               >
@@ -129,14 +134,14 @@ const ErrorLogPage: NextPageWithLayout = () => {
         </div>
         <Card className={`scrollbar-hide h-75 overflow-scroll`}>
           {errorsData &&
-            errorsData.map((error: any) => (
+            errorsData.map((error: ErrorLog) => (
               <Card
                 key={error._id}
                 border
-                className={`my-2 p-4 text-gray-600 font-medium`}
+                className={`my-2 p-4 font-medium text-gray-600`}
               >
-                <div className={`font-semibold flex justify-between`}>
-                  <span className={`bg-green-200 px-2 rounded`}>
+                <div className={`flex justify-between font-semibold`}>
+                  <span className={`rounded bg-green-200 px-2`}>
                     {error.errorType}
                   </span>
                   <button
@@ -146,19 +151,19 @@ const ErrorLogPage: NextPageWithLayout = () => {
                     <BsTrash size={20} />
                   </button>
                 </div>
-                <div className={`flex justify-between mt-2`}>
+                <div className={`mt-2 flex justify-between`}>
                   <div className={`flex`}>
                     <div>
                       <Avatar
-                        src={error.memberInfo?.discordAvatar}
+                        src={error?.memberInfo?.discordAvatar || ""}
                         size={`sm`}
                       />
                     </div>
                     <div
-                      className={`flex font-semibold text-gray-700 mx-4 text-lg`}
+                      className={`mx-4 flex text-lg font-semibold text-gray-700`}
                     >
                       <div>{error.memberInfo?.discordName}</div>
-                      <span className={`text-gray-500 text-xs mt-2`}>
+                      <span className={`mt-2 text-xs text-gray-500`}>
                         #{error.memberInfo?.discriminator}
                       </span>
                     </div>
@@ -168,12 +173,12 @@ const ErrorLogPage: NextPageWithLayout = () => {
                 <div className={`text-red-800`}>Message: {error.message}</div>
                 {error.name && <div>Name: {error.name}</div>}
                 {error.component && <div>Component: {error.component}</div>}
-                {error.path.length > 0 && (
+                {error?.path && error?.path.length > 0 && (
                   <div className={`flex`}>
                     Mutations
-                    {error.path.map((item: string, index: number) => (
+                    {error?.path.map((item: Maybe<string>, index: number) => (
                       <div className={`ml-2`} key={index}>
-                        : {item}
+                        : {item ? item : "null"}
                       </div>
                     ))}
                   </div>
@@ -181,14 +186,16 @@ const ErrorLogPage: NextPageWithLayout = () => {
 
                 {error.url && <div>URL: {error.url}</div>}
                 {error.code && <div>Code: {error.code}</div>}
-                {error.stacktrace.length > 0 && (
+                {error?.stacktrace && error?.stacktrace?.length > 0 && (
                   <div className={``}>
                     Stacktrace:
-                    {error.stacktrace.map((item: string, index: number) => (
-                      <ul className={`ml-4 text-xs`} key={index}>
-                        - {item}
-                      </ul>
-                    ))}
+                    {error?.stacktrace.map(
+                      (item: Maybe<string>, index: number) => (
+                        <ul className={`ml-4 text-xs`} key={index}>
+                          - {item}
+                        </ul>
+                      )
+                    )}
                   </div>
                 )}
               </Card>
@@ -205,6 +212,7 @@ ErrorLogPage.getLayout = (page) => (
 
 export default ErrorLogPage;
 
+import { ErrorLog, Maybe } from "@eden/package-graphql/generated";
 import { IncomingMessage, ServerResponse } from "http";
 import { getSession } from "next-auth/react";
 import { useState } from "react";
