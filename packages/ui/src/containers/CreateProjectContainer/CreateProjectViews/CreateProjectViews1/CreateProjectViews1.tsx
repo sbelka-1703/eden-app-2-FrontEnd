@@ -6,30 +6,18 @@ import {
   Card,
   EmojiSelector,
   ServerSelectorMulti,
-  TextField,
   TextHeading3,
+  TextInputLabel,
 } from "@eden/package-ui";
-import { Dispatch, SetStateAction, useContext, useReducer } from "react";
-import { toast } from "react-toastify";
+import { Dispatch, SetStateAction, useContext, useEffect } from "react";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
-const initialState = {
-  title: "",
-  emoji: "",
-  backColorEmoji: "",
-  serverID: [],
+type Inputs = {
+  title: "";
+  emoji: "";
+  backColorEmoji: "";
+  serverID: [];
 };
-
-function reducer(state: Project, action: any): Project {
-  switch (action.type) {
-    case "HANDLE INPUT TEXT":
-      return {
-        ...state,
-        [action.field]: action.payload.value,
-      };
-    default:
-      return state;
-  }
-}
 
 export interface CreateProjectViews1Props {
   battery?: number;
@@ -42,76 +30,35 @@ export interface CreateProjectViews1Props {
 
 export const CreateProjectViews1 = ({
   battery = 0,
-  setBattery,
+  // setBattery,
   // onBack,
   onNext,
   setProject,
   project,
 }: CreateProjectViews1Props) => {
   const { memberServers } = useContext(UserContext);
-  const [state, dispath] = useReducer(reducer, project || initialState);
-  const nextDisabled = !state.title || state.serverID?.length == 0;
-  const handleUpdateState = (value: any, field: string) => {
-    dispath({
-      type: "HANDLE INPUT TEXT",
-      field: field,
-      payload: {
-        value,
-      },
-    });
-    if (field == "title") {
-      setProject({
-        ...project,
-        title: value,
-      });
-    }
-    if (field == "emoji") {
-      setProject({
-        ...project,
-        emoji: value,
-      });
-    }
-    if (field == "backColorEmoji") {
-      setProject({
-        ...project,
-        backColorEmoji: value,
-      });
-    }
-    if (field == "serverID") {
-      setProject({
-        ...project,
-        serverID: value,
-      });
-    }
-  };
+  const { register, handleSubmit, watch, control } = useForm<Inputs>();
+  const onSubmit: SubmitHandler<Inputs> = (data) =>
+    onNext({ ...project, ...data });
 
-  const handleSetProject = (value: any) => {
+  const title = watch("title");
+  const emoji = watch("emoji");
+  const backColorEmoji = watch("backColorEmoji");
+  const serverID = watch("serverID");
+
+  useEffect(() => {
     setProject({
       ...project,
-      title: value.name,
-      descriptionOneLine: value.description,
-      emoji: value.emoji,
-      backColorEmoji: value.backColorEmoji,
-      serverID: value.serverID,
+      title,
+      emoji,
+      backColorEmoji,
+      serverID,
     });
-  };
-  const handleNext = (value: any) => {
-    if (!nextDisabled) {
-      handleSetProject(value);
-      onNext(value);
-    } else {
-      if (!!!state.title) {
-        toast.error("Please Enter Project Name");
-      }
-      if (state.serverID?.length == 0) {
-        toast.error("Please Select at least one Server");
-      }
-    }
-  };
+  }, [title, emoji, backColorEmoji, serverID]);
 
   const filterMemberServers = () => {
     const filteredMemberServers = memberServers.filter((server) =>
-      state.serverID?.includes(server?._id as string)
+      project?.serverID?.includes(server?._id as string)
     );
 
     return filteredMemberServers;
@@ -129,64 +76,73 @@ export const CreateProjectViews1 = ({
         <TextHeading3 className="my-4">
           Name your project and pick a visual!
         </TextHeading3>
-        <div className="my-4">
-          <TextField
-            label={`Name your project`}
-            value={state.title || ""}
-            placeholder="Start typing here..."
-            onChange={(e) => {
-              handleUpdateState(e.target.value, "title");
-              setBattery(battery < 20 ? battery + 10 : battery);
-            }}
+
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {/* register your input into the hook by invoking the "register" function */}
+
+          <TextInputLabel>{`Name your project`}</TextInputLabel>
+          <input
+            className={`input-primary`}
+            required
+            defaultValue={project?.title || ""}
+            {...register("title")}
           />
-        </div>
-        <div>
-          <p className="mb-3 text-sm font-medium">
-            {`Please Choose a Discord Server to get Applicants from`}
-          </p>
-          <ServerSelectorMulti
-            defaultValues={filterMemberServers()}
-            onChange={(val) => {
-              handleUpdateState(val, "serverID");
-              setBattery(battery < 30 ? battery + 10 : battery);
-            }}
-          />
-        </div>
-        <div className="my-4">
-          <p className="mb-3 text-sm font-medium">
-            {`Choose an emoji & color for your project`}
-          </p>
-          <div className="flex items-center gap-4">
-            <EmojiSelector
-              size={60}
-              emoji={state.emoji || "👋"}
-              onSelection={(value) => handleUpdateState(value, "emoji")}
-              bgColor={state.backColorEmoji || "#e8e8e8"}
+
+          <div>
+            <TextInputLabel>
+              {`Please Choose a Discord Server to get Applicants from`}
+            </TextInputLabel>
+            <Controller
+              name={`serverID`}
+              control={control}
+              render={({ field: { onChange, ref } }) => (
+                <ServerSelectorMulti
+                  defaultValues={filterMemberServers()}
+                  onChange={onChange}
+                  inputRef={ref}
+                />
+              )}
             />
-            <div className="flex h-[60px] w-[60px] items-center overflow-hidden rounded-full border-2 border-zinc-400/50">
-              <input
-                type="color"
-                className="-m-2 h-[140px] w-[140px] cursor-pointer"
-                value={state.backColorEmoji || "#e8e8e8"}
-                onChange={(e) =>
-                  handleUpdateState(e.target.value, "backColorEmoji")
-                }
+          </div>
+
+          <div className="my-4">
+            <TextInputLabel>
+              {`Choose an emoji & color for your project`}
+            </TextInputLabel>
+            <div className="flex items-center gap-4">
+              <Controller
+                name={`emoji`}
+                control={control}
+                render={({ field }) => (
+                  <EmojiSelector
+                    {...field}
+                    size={60}
+                    emoji={project?.emoji || "👋"}
+                    bgColor={project?.backColorEmoji || "#e8e8e8"}
+                    onSelection={(value) => field.onChange(value)}
+                  />
+                )}
               />
+
+              <div className="flex h-[60px] w-[60px] items-center overflow-hidden rounded-full border-2 border-zinc-400/50">
+                <input
+                  type="color"
+                  className="-m-2 h-[140px] w-[140px] cursor-pointer"
+                  defaultValue={project?.backColorEmoji || "#e8e8e8"}
+                  {...register("backColorEmoji")}
+                />
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="flex justify-between">
-          <div></div>
-          <Button
-            variant="secondary"
-            onClick={() => {
-              handleNext(state);
-            }}
-          >
-            Next
-          </Button>
-        </div>
+          <div className="flex justify-between">
+            <div></div>
+
+            <Button variant="secondary" type="submit">
+              Next
+            </Button>
+          </div>
+        </form>
       </div>
     </Card>
   );

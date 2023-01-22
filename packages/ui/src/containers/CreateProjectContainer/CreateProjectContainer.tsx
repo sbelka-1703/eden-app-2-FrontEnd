@@ -79,7 +79,7 @@ export const CreateProjectContainer = ({
     onCompleted({ updateNodesToProjectRole }: Mutation) {
       if (!updateNodesToProjectRole)
         console.log("updateNodesToProjectRole is null");
-      console.log("updateNodesToProjectRole", updateNodesToProjectRole);
+      // console.log("updateNodesToProjectRole", updateNodesToProjectRole);
       if (router.query.from)
         router.push(
           `/${router.query.from}?project=${updateNodesToProjectRole?._id}`
@@ -93,7 +93,6 @@ export const CreateProjectContainer = ({
     onError(error) {
       setSubmitting(false);
       toast.error(error.message);
-      console.log(error);
     },
   });
 
@@ -120,7 +119,6 @@ export const CreateProjectContainer = ({
     onError(error) {
       setSubmitting(false);
       toast.error(error.message);
-      console.log(error);
     },
   });
 
@@ -146,7 +144,6 @@ export const CreateProjectContainer = ({
     onError(error) {
       setSubmitting(false);
       toast.error(error.message);
-      console.log(error);
     },
   });
 
@@ -165,7 +162,7 @@ export const CreateProjectContainer = ({
       updateProject({
         variables: {
           fields: {
-            _id: state?._id || null,
+            _id: state?._id,
             title: state?.title,
             emoji: state?.emoji,
             backColorEmoji: state?.backColorEmoji,

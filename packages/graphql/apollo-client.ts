@@ -111,11 +111,14 @@ const errorLink = onError(({ graphQLErrors }) => {
 
   if (token) errorToken = jwt_decode(token as string);
 
-  if (graphQLErrors) console.log("graphQLErrors", graphQLErrors);
+  // if (graphQLErrors) console.log("graphQLErrors", graphQLErrors);
 
   if (graphQLErrors && process.env.NODE_ENV === "development")
     graphQLErrors.map(({ message, path }) =>
-      console.log(`[GraphQL error]: Message: ${message}. Path: ${path}. `)
+      console.log(
+        `%c[GraphQL ERROR]: Message: ${message}. Path: ${path}. `,
+        `color: red; background: yellow;`
+      )
     );
   if (graphQLErrors)
     graphQLErrors.map(({ message, path, extensions }) => {
