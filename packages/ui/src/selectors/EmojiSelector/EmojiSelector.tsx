@@ -8,12 +8,13 @@ export interface IEmojiSelectorProps {
 }
 
 export const EmojiSelector = ({
+  emoji = "👋",
   bgColor = "#e8e8e8",
   onSelection,
   size = 60,
 }: IEmojiSelectorProps) => {
   const [showEmojiSelector, setShowEmojiSelector] = useState(false);
-  const [selectedEmoji, setSelectedEmoji] = useState("👋");
+  const [selectedEmoji, setSelectedEmoji] = useState(emoji);
   const Picker = dynamic(() => import("emoji-picker-react"), {
     ssr: false,
   });
@@ -31,6 +32,7 @@ export const EmojiSelector = ({
   return (
     <div className="flex flex-row">
       <button
+        type={`button`}
         className={`flex cursor-pointer items-center justify-center rounded-full`}
         onClick={() => onShowEmojiSelector()}
         style={{
