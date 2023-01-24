@@ -15,11 +15,13 @@ const Template: ComponentStory<typeof CreateProjectViews1> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  onNext: (data) => console.info(data),
+  onNext: () => null,
+  battery: 0,
 };
 
 export const Edit = Template.bind({});
 Edit.args = {
   project: getProject(),
-  onNext: (data) => console.info(data),
+  battery: 20,
+  onNext: () => null,
 };

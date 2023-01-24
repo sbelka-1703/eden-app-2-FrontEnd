@@ -16,14 +16,16 @@ const Template: ComponentStory<typeof CreateProjectViews7> = (args) => (
 export const Default = Template.bind({});
 Default.args = {
   roleIndex: 0,
+  battery: 20,
   onBack: () => null,
-  onNext: (data) => console.info(data),
+  onNext: () => null,
 };
 
 export const Edit = Template.bind({});
 Edit.args = {
   project: getProject(),
   roleIndex: 0,
+  battery: 20,
   onBack: () => null,
-  onNext: (data) => console.info(data),
+  onNext: () => null,
 };
