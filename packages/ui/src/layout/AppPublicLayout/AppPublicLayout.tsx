@@ -1,5 +1,4 @@
 import { AppHeader } from "@eden/package-ui";
-import Head from "next/head";
 
 export interface IAppPublicLayoutProps {
   children: React.ReactNode;
@@ -8,9 +7,6 @@ export interface IAppPublicLayoutProps {
 export const AppPublicLayout = ({ children }: IAppPublicLayoutProps) => {
   return (
     <>
-      <Head>
-        <title>Eden protocol</title>
-      </Head>
       <div className="bg-background flex h-screen min-w-0 flex-col lg:overflow-y-hidden">
         <AppHeader />
         <main className="flex flex-grow">{children}</main>
