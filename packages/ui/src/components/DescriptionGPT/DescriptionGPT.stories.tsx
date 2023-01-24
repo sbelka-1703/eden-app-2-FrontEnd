@@ -12,4 +12,6 @@ const Template: ComponentStory<typeof DescriptionGPT> = (args) => (
 );
 
 export const Default = Template.bind({});
-Default.args = {};
+Default.args = {
+  showTextArea: false,
+};
