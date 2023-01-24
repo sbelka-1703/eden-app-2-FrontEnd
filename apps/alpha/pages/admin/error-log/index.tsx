@@ -1,5 +1,6 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
-import { AppUserSubmenuLayout, Avatar, Card, SEO } from "@eden/package-ui";
+import { ErrorLog, Maybe } from "@eden/package-graphql/generated";
+import { AdminLayout, Avatar, Card, SEO } from "@eden/package-ui";
 import { BsTrash } from "react-icons/bs";
 
 import type { NextPageWithLayout } from "../../_app";
@@ -206,13 +207,10 @@ const ErrorLogPage: NextPageWithLayout = () => {
   );
 };
 
-ErrorLogPage.getLayout = (page) => (
-  <AppUserSubmenuLayout>{page}</AppUserSubmenuLayout>
-);
+ErrorLogPage.getLayout = (page) => <AdminLayout>{page}</AdminLayout>;
 
 export default ErrorLogPage;
 
-import { ErrorLog, Maybe } from "@eden/package-graphql/generated";
 import { IncomingMessage, ServerResponse } from "http";
 import { getSession } from "next-auth/react";
 import { useState } from "react";
