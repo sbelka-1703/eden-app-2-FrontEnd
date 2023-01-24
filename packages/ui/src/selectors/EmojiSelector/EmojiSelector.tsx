@@ -8,7 +8,7 @@ export interface IEmojiSelectorProps {
 }
 
 export const EmojiSelector = ({
-  emoji = "👋",
+  emoji,
   bgColor = "#e8e8e8",
   onSelection,
   size = 60,
@@ -20,6 +20,7 @@ export const EmojiSelector = ({
   });
 
   const onEmojiClick = (event: any, emojiObject: any) => {
+    event.preventDefault();
     setSelectedEmoji(emojiObject.emoji);
     setShowEmojiSelector(!showEmojiSelector);
     onSelection && onSelection(emojiObject.emoji);

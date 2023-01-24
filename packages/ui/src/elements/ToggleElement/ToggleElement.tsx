@@ -4,12 +4,14 @@ import { ReactNode, useState } from "react";
 
 export interface ToggleElementProps {
   title: string;
+  htmlFor?: string;
   children: ReactNode;
   className?: string;
   isOptional?: boolean;
 }
 export const ToggleElement = ({
   title,
+  htmlFor,
   children,
   className,
   isOptional,
@@ -28,7 +30,7 @@ export const ToggleElement = ({
         ) : (
           <ChevronRightIcon className="h-4 w-4 text-gray-500" />
         )}
-        <TextInputLabel>{title}</TextInputLabel>
+        <TextInputLabel htmlFor={htmlFor}>{title}</TextInputLabel>
         {isOptional && (
           <span className="pl-4 text-xs text-gray-500">(Optional)</span>
         )}

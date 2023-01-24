@@ -87,10 +87,11 @@ export const CreateProjectContainer = ({
           `/${router.query.from}?project=${updateNodesToProjectRole?._id}`
         );
       else {
-        setSubmitting(false);
-        setView && setView("main");
         refetchProject && refetchProject();
         router.push(`/champion-board/recruit/${updateNodesToProjectRole?._id}`);
+        setView && setView("main");
+        setStep(PROJECT_STEPS.START);
+        setSubmitting(false);
       }
     },
     onError(error) {
@@ -149,13 +150,6 @@ export const CreateProjectContainer = ({
       toast.error(error.message);
     },
   });
-
-  const onNext = (data: Project) => {
-    setState((prev: Project) => ({
-      ...prev,
-      ...data,
-    }));
-  };
 
   const onClickLaunch = () => {
     setSubmitting(true);
@@ -229,10 +223,7 @@ export const CreateProjectContainer = ({
         return (
           <CreateProjectViews1
             battery={getFillProjectPercentage(project)}
-            onNext={(data) => {
-              onNext(data);
-              setStep(PROJECT_STEPS.DESCRIPTION);
-            }}
+            onNext={() => setStep(PROJECT_STEPS.DESCRIPTION)}
             setProject={setState}
             project={state}
           />
@@ -242,10 +233,7 @@ export const CreateProjectContainer = ({
         return (
           <CreateProjectViews2
             battery={getFillProjectPercentage(project)}
-            onNext={(data) => {
-              onNext(data);
-              setStep(PROJECT_STEPS.ADD_ROLE);
-            }}
+            onNext={() => setStep(PROJECT_STEPS.ADD_ROLE)}
             onBack={() => setStep(PROJECT_STEPS.START)}
             setProject={setState}
             project={state}
@@ -255,21 +243,7 @@ export const CreateProjectContainer = ({
         return (
           <CreateProjectViews7
             battery={getFillProjectPercentage(project)}
-            onNext={() => {
-              setStep(PROJECT_STEPS.ADD_ANOTHER_ROLE);
-            }}
-            onChange={(val) => {
-              setState((prev: Project) => ({
-                ...prev,
-                role: prev.role
-                  ? [
-                      ...prev.role.slice(0, roleIndex),
-                      val,
-                      ...prev.role.slice(roleIndex + 1),
-                    ]
-                  : [val],
-              }));
-            }}
+            onNext={() => setStep(PROJECT_STEPS.ADD_ANOTHER_ROLE)}
             expertise={expertiseNodes?.findNodes}
             onBack={() => setStep(PROJECT_STEPS.DESCRIPTION)}
             project={state}
