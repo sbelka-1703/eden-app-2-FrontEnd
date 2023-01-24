@@ -1,15 +1,20 @@
 export interface ITextInputLabelProps {
   children?: React.ReactNode;
+  htmlFor?: string;
   className?: string;
 }
 
 export const TextInputLabel = ({
   children,
+  htmlFor,
   className,
 }: ITextInputLabelProps) => {
   return (
-    <span className={`block text-sm font-medium text-gray-700 ${className}`}>
+    <label
+      htmlFor={htmlFor}
+      className={`block text-sm font-medium text-gray-700 ${className}`}
+    >
       {children}
-    </span>
+    </label>
   );
 };

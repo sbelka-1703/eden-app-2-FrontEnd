@@ -1,95 +1,42 @@
-import { Node, Project, RoleType } from "@eden/package-graphql/generated";
+import {
+  Maybe,
+  Node,
+  Project,
+  RoleType,
+} from "@eden/package-graphql/generated";
 import {
   BatteryStepper,
   Button,
   Card,
-  // GridItemFour,
-  // GridLayout,
   SelectBoxNode,
-  // TextArea,
-  // TextField,
   TextHeading3,
   TextInputLabel,
   ToggleElement,
 } from "@eden/package-ui";
 import { forEach, isEmpty, map } from "lodash";
-import {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  // useReducer,
-  useState,
-} from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-// import { toast } from "react-toastify";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 
-type Inputs = {
-  title: string;
-  shortDescription: string;
-  description: string;
-  benefits: string[];
-  expectations: string[];
-  nodes: [];
-  openPositions: number;
-  hoursPerWeek: number;
-  ratePerHour: number;
+type ProjectRoleInputs = {
+  role: {
+    title: string;
+    shortDescription: string;
+    description: string;
+    expectations: Maybe<string>[];
+    benefits: Maybe<string>[];
+    nodes: [];
+    hoursPerWeek: number;
+    // nodes?: Maybe<Array<Maybe<NodesType>>>; // TODO fix type
+    openPositions: number;
+    ratePerHour: number;
+  }[];
 };
-
-// const initialState: RoleType = {
-//   title: "",
-//   shortDescription: "",
-//   description: "",
-//   benefits: [],
-//   expectations: [],
-//   nodes: [],
-//   openPositions: 0,
-//   hoursPerWeek: 0,
-//   ratePerHour: 0,
-// };
-
-// function reducer(state: RoleType, action: any): RoleType {
-//   switch (action.type) {
-//     case "HANDLE INPUT":
-//       return {
-//         ...state,
-//         [action.field]: action.payload.value,
-//       };
-//     case "HANDLE EXPECTATIONS":
-//       return {
-//         ...state,
-//         expectations: state.expectations
-//           ? [
-//               ...state.expectations.slice(0, action.payload.index),
-//               action.payload.value,
-//               ...state.expectations.slice(action.payload.index + 1),
-//             ]
-//           : [action.payload.value],
-//       };
-//     case "HANDLE BENEFITS":
-//       return {
-//         ...state,
-//         benefits: state.benefits
-//           ? [
-//               ...state.benefits.slice(0, action.payload.index),
-//               action.payload.value,
-//               ...state.benefits.slice(action.payload.index + 1),
-//             ]
-//           : [action.payload.value],
-//       };
-//     case "HANDLE CHANGE ROLE":
-//       state = action.payload.value;
-//       return state;
-//     default:
-//       return state;
-//   }
-// }
 
 export interface CreateProjectViews7Props {
   expertise?: any[];
   battery: number;
-  onBack: Dispatch<SetStateAction<RoleType>>;
-  onNext: Dispatch<SetStateAction<RoleType>>;
-  onChange: Dispatch<SetStateAction<RoleType>>;
+  onBack: () => void;
+  onNext: () => void;
   project?: Project;
   setProject: Dispatch<SetStateAction<Project>>;
   roleIndex: number;
@@ -99,73 +46,89 @@ export const CreateProjectViews7 = ({
   onBack,
   battery,
   onNext,
-  onChange,
   expertise = [],
   project,
   setProject,
   roleIndex,
 }: CreateProjectViews7Props) => {
-  const { register, handleSubmit, watch, control } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) =>
-    onNext({ ...project?.role?.[roleIndex], ...data });
+  const { register, handleSubmit, watch, control, setValue } =
+    useForm<ProjectRoleInputs>({
+      defaultValues: {
+        role: [
+          {
+            title: project?.role?.[roleIndex]?.title || "",
+            shortDescription:
+              project?.role?.[roleIndex]?.shortDescription || "",
+            description: project?.role?.[roleIndex]?.description || "",
+            benefits: project?.role?.[roleIndex]?.benefits || [],
+            expectations: project?.role?.[roleIndex]?.expectations || [],
+            nodes: [],
+            openPositions: project?.role?.[roleIndex]?.openPositions || 0,
+            hoursPerWeek: project?.role?.[roleIndex]?.hoursPerWeek || 0,
+            ratePerHour: project?.role?.[roleIndex]?.ratePerHour || 0,
+          },
+        ],
+      },
+    });
+  const onSubmit: SubmitHandler<ProjectRoleInputs> = () => onNext();
 
-  const title = watch("title");
-  const shortDescription = watch("shortDescription");
-  const description = watch("description");
-  const benefits = watch("benefits");
-  const expectations = watch("expectations");
-  // const nodes = watch("nodes");
-  const openPositions = watch("openPositions");
-  const hoursPerWeek = watch("hoursPerWeek");
-  const ratePerHour = watch("ratePerHour");
+  const { fields, append } = useFieldArray({
+    name: "role",
+    control,
+  });
 
   useEffect(() => {
-    onChange({
-      ...project?.role?.[roleIndex],
-      title,
-      shortDescription,
-      description,
-      benefits,
-      expectations,
-      // nodes,
-      openPositions,
-      hoursPerWeek,
-      ratePerHour,
-    });
-    // setProject({
-    //   ...project,
-    //   role: [
-    //     ...project?.role?.slice(0, roleIndex),
-    //     {
-    //       ...project?.role?.[roleIndex],
-    //       title,
-    //       shortDescription,
-    //       description,
-    //       benefits,
-    //       expectations,
-    //       nodes,
-    //       openPositions,
-    //       hoursPerWeek,
-    //       ratePerHour,
-    //     },
-    //     ...project?.role?.slice(roleIndex + 1),
-    //   ],
-    // });
-  }, [
-    title,
-    shortDescription,
-    description,
-    benefits,
-    expectations,
-    openPositions,
-    hoursPerWeek,
-    ratePerHour,
-  ]);
+    if (roleIndex) {
+      if (isEmpty(project?.role?.[roleIndex])) {
+        append({
+          title: project?.role?.[roleIndex]?.title || "",
+          shortDescription: project?.role?.[roleIndex]?.shortDescription || "",
+          description: project?.role?.[roleIndex]?.description || "",
+          benefits: project?.role?.[roleIndex]?.benefits || [],
+          expectations: project?.role?.[roleIndex]?.expectations || [],
+          nodes: [],
+          openPositions: project?.role?.[roleIndex]?.openPositions || 0,
+          hoursPerWeek: project?.role?.[roleIndex]?.hoursPerWeek || 0,
+          ratePerHour: project?.role?.[roleIndex]?.ratePerHour || 0,
+        });
+      } else {
+        if (project?.role?.[roleIndex]) {
+          // console.log("project?.role?.[roleIndex]", project?.role?.[roleIndex]);
+          // TODO: fix type
+          // @ts-ignore
+          setValue("role", [
+            ...(project?.role?.slice(0, roleIndex) as RoleType[]),
+            {
+              ...project?.role?.[roleIndex],
+              ...(fields[roleIndex] as unknown as RoleType),
+            },
+            ...(project?.role?.slice(roleIndex + 1) as RoleType[]),
+          ]);
+        }
+      }
+    }
+  }, [roleIndex]);
 
-  // const [state, dispatch] = useReducer(
-  //   reducer,
-  //   project?.role?.[roleIndex] || initialState
-  // );
+  useEffect(() => {
+    const subscription = watch((data) => {
+      setProject &&
+        setProject({
+          ...project,
+          role: [
+            ...(project?.role?.slice(0, roleIndex) as RoleType[]),
+            {
+              ...project?.role?.[roleIndex],
+              // TODO: fix type
+              // @ts-ignore
+              ...(data.role[roleIndex] as RoleType),
+            },
+            ...(project?.role?.slice(roleIndex + 1) as RoleType[]),
+          ],
+        });
+    });
+
+    return () => subscription.unsubscribe();
+  }, [watch]);
 
   const numInList = ["", "", "", ""];
   const [selectedItems, setSelectedItems] = useState<{
@@ -189,78 +152,6 @@ export const CreateProjectViews7 = ({
     }
   }, [selectedItems]);
 
-  // useEffect(() => {
-  //   if (selectedNodes) handleUpdateState(selectedNodes, "nodes");
-  // }, [selectedItems]);
-
-  // useEffect(() => {
-  //   // if roleIndex change, update state
-  //   dispatch({
-  //     type: "HANDLE CHANGE ROLE",
-  //     payload: {
-  //       value: project?.role?.[roleIndex],
-  //     },
-  //   });
-  // }, [roleIndex]);
-
-  // useEffect(() => {
-  //   if (state) {
-  //     onChange(state);
-  //   }
-  // }, [state]);
-
-  // const handleUpdateExpectations = async (
-  //   value: any,
-  //   field: string,
-  //   index: number
-  // ) => {
-  //   dispatch({
-  //     type: "HANDLE EXPECTATIONS",
-  //     field: field,
-  //     payload: {
-  //       index,
-  //       value,
-  //     },
-  //   });
-  // };
-
-  // const handleUpdateBenefits = async (
-  //   value: any,
-  //   field: string,
-  //   index: number
-  // ) => {
-  //   dispatch({
-  //     type: "HANDLE BENEFITS",
-  //     field: field,
-  //     payload: {
-  //       index,
-  //       value,
-  //     },
-  //   });
-  // };
-
-  // const handleUpdateState = async (value: any, field: string) => {
-  //   dispatch({
-  //     type: "HANDLE INPUT",
-  //     field: field,
-  //     payload: {
-  //       value,
-  //     },
-  //   });
-  // };
-
-  // const handleNext = (value: any) => {
-  //   // console.log("handleNext", value);
-  //   if (!!!state.title) {
-  //     toast.error("Missing Role Name");
-  //   }
-  //   if (!!!state.shortDescription) {
-  //     toast.error("Missing Role Short Description");
-  //   } else {
-  //     onNext(value);
-  //   }
-  // };
-
   return (
     <Card className={`scrollbar-hide h-85 overflow-y-scroll pb-6`}>
       <div className="mb-4 flex items-center justify-between bg-green-100 p-7">
@@ -276,327 +167,193 @@ export const CreateProjectViews7 = ({
       </div>
       <div className={`px-7`}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          {/* register your input into the hook by invoking the "register" function */}
+          {fields.map((field, index) => {
+            return (
+              <section key={field.id}>
+                {index === roleIndex && (
+                  <>
+                    <div className={`my-4`}>
+                      <TextInputLabel
+                        htmlFor={`role-title`}
+                      >{`What role are you looking to fill:`}</TextInputLabel>
+                      <input
+                        id={`role-title`}
+                        className={`input-primary`}
+                        required
+                        {...register(`role.${index}.title`)}
+                      />
+                    </div>
+                    <div className="mt-3">
+                      <TextInputLabel>{`Select the Role: 🤖`}</TextInputLabel>
+                      <div className="flex w-full flex-wrap justify-center gap-1">
+                        {!isEmpty(expertise) &&
+                          map(expertise, (item: any, key: number) => (
+                            <SelectBoxNode
+                              multiple
+                              key={key}
+                              caption={item?.name}
+                              items={item?.subNodes}
+                              onChange={(val) => {
+                                setSelectedItems((prevState) => ({
+                                  ...prevState,
+                                  [item?._id]: val,
+                                }));
+                              }}
+                            />
+                          ))}
+                      </div>
+                    </div>
+                    <div className={`my-4`}>
+                      <TextInputLabel
+                        htmlFor={`role-short-description`}
+                      >{`Write a short one-line discription of the role:`}</TextInputLabel>
+                      <textarea
+                        id={`role-short-description`}
+                        className={`input-primary`}
+                        required
+                        rows={2}
+                        {...register(`role.${index}.shortDescription`)}
+                      />
+                    </div>
+                    <ToggleElement
+                      htmlFor={`role-description`}
+                      isOptional
+                      className="my-4"
+                      title="Write a description of this role:"
+                    >
+                      <textarea
+                        id={`role-description`}
+                        className={`input-primary`}
+                        rows={6}
+                        {...register(`role.${index}.description`)}
+                      />
+                    </ToggleElement>
+                    <ToggleElement
+                      htmlFor={`role-expectations`}
+                      isOptional
+                      className="my-4"
+                      title="What are the expectations for this role?"
+                    >
+                      {numInList.map((v, i) => (
+                        <div key={i} className={`mx-4 flex py-1`}>
+                          <li className={`my-auto`} />
+                          <input
+                            className={`input-primary`}
+                            {...register(
+                              `role.${index}.expectations.${i}` as const
+                            )}
+                          />
+                        </div>
+                      ))}
+                    </ToggleElement>
+                    <ToggleElement
+                      htmlFor={`role-benefits`}
+                      isOptional
+                      className="my-4"
+                      title="What are the benfits of this role?"
+                    >
+                      {numInList.map((v, i) => (
+                        <div key={i} className={`mx-4 flex py-1`}>
+                          <li className={`my-auto`} />
+                          <input
+                            className={`input-primary`}
+                            {...register(
+                              `role.${index}.benefits.${i}` as const
+                            )}
+                          />
+                        </div>
+                      ))}
+                    </ToggleElement>
+                    <div className={`grid grid-cols-1 gap-4 sm:grid-cols-3`}>
+                      <div className={`col-span-1 flex gap-4`}>
+                        <div className={``}>
+                          <TextInputLabel
+                            htmlFor={`role-availability`}
+                          >{`Availability`}</TextInputLabel>
 
-          <div className={`my-4`}>
-            <TextInputLabel>{`What role are you looking to fill:`}</TextInputLabel>
-            <input
-              className={`input-primary`}
-              required
-              value={project?.role?.[roleIndex]?.title || ""}
-              {...register("title")}
-            />
-          </div>
-
-          <div className="mt-3">
-            <TextInputLabel>{`Select the Role: 🤖`}</TextInputLabel>
-            <div className="flex w-full flex-wrap justify-center gap-1">
-              {!isEmpty(expertise) &&
-                map(expertise, (item: any, key: number) => (
-                  <SelectBoxNode
-                    multiple
-                    key={key}
-                    caption={item?.name}
-                    items={item?.subNodes}
-                    onChange={(val) => {
-                      setBattery(battery < 99 ? battery + 10 : battery);
-                      setSelectedItems((prevState) => ({
-                        ...prevState,
-                        [item?._id]: val,
-                      }));
-                    }}
-                  />
-                ))}
-            </div>
-          </div>
-          <div className={`my-4`}>
-            <TextInputLabel>{`Write a short one-line discription of the role:`}</TextInputLabel>
-            <textarea
-              className={`input-primary`}
-              required
-              rows={2}
-              value={project?.role?.[roleIndex]?.shortDescription || ""}
-              // defaultValue={``}
-              {...register("shortDescription")}
-            />
-          </div>
-
-          <ToggleElement
-            isOptional
-            className="my-4"
-            title="Write a description of this role:"
-          >
-            <textarea
-              className={`input-primary`}
-              rows={6}
-              value={project?.role?.[roleIndex]?.description || ""}
-              {...register("description")}
-            />
-          </ToggleElement>
-          <ToggleElement
-            isOptional
-            className="my-4"
-            title="What are the expectations for this role?"
-          >
-            {numInList.map((v, i) => (
-              <div key={i} className={`mx-4 flex py-1`}>
-                <li className={`my-auto`} />
-                <input
-                  className={`input-primary`}
-                  value={project?.role?.[roleIndex]?.expectations?.[i] || ""}
-                  {...register(`expectations.${i}` as const)}
-                />
-              </div>
-            ))}
-          </ToggleElement>
-
-          <ToggleElement
-            isOptional
-            className="my-4"
-            title="What are the benfits of this role?"
-          >
-            {numInList.map((v, i) => (
-              <div key={i} className={`mx-4 flex py-1`}>
-                <li className={`my-auto`} />
-                <input
-                  className={`input-primary`}
-                  value={project?.role?.[roleIndex]?.benefits?.[i] || ""}
-                  {...register(`benefits.${i}` as const)}
-                />
-              </div>
-            ))}
-          </ToggleElement>
-
-          <div className={`grid grid-cols-1 gap-4 sm:grid-cols-3`}>
-            <div className={`col-span-1 flex gap-4`}>
-              <div className={``}>
-                <TextInputLabel>{`Availability`}</TextInputLabel>
-
-                <input
-                  className={`input-primary`}
-                  defaultValue={0}
-                  type={`number`}
-                  {...register(`hoursPerWeek` as const, {
-                    valueAsNumber: true,
-                  })}
-                />
-              </div>
-              <div className={`text-xs text-gray-500`}>
-                <div>(Optional)</div>
-                <div className={`mt-2`}>hours/ week</div>
-              </div>
-            </div>
-            <div className={`col-span-1 flex gap-4`}>
-              <div className={``}>
-                <TextInputLabel>{`Hourly Rate:`}</TextInputLabel>
-                <input
-                  className={`input-primary`}
-                  defaultValue={0}
-                  type={`number`}
-                  {...register(`ratePerHour` as const, {
-                    valueAsNumber: true,
-                  })}
-                />
-              </div>
-              <div className={`text-xs text-gray-500`}>
-                <div>(Optional)</div>
-                <div className={`mt-2`}>$</div>
-              </div>
-            </div>
-            <div className={`col-span-1 flex gap-4`}>
-              <div className={``}>
-                <TextInputLabel>{`Open Positions:`}</TextInputLabel>
-                <input
-                  className={`input-primary`}
-                  defaultValue={0}
-                  type={`number`}
-                  {...register(`openPositions` as const, {
-                    valueAsNumber: true,
-                  })}
-                />
-              </div>
-              <div className={`text-xs text-gray-500`}>
-                <div>(Optional)</div>
-                <div className={`mt-2`}></div>
-              </div>
-            </div>
-          </div>
+                          <input
+                            id={`role-availability`}
+                            className={`input-primary`}
+                            defaultValue={0}
+                            type={`number`}
+                            min={0}
+                            {...register(
+                              `role.${index}.hoursPerWeek` as const,
+                              {
+                                valueAsNumber: true,
+                              }
+                            )}
+                          />
+                        </div>
+                        <div className={`text-xs text-gray-500`}>
+                          <div>(Optional)</div>
+                          <div className={`mt-2`}>hours/ week</div>
+                        </div>
+                      </div>
+                      <div className={`col-span-1 flex gap-4`}>
+                        <div className={``}>
+                          <TextInputLabel
+                            htmlFor={`role-hourly-rate`}
+                          >{`Hourly Rate:`}</TextInputLabel>
+                          <input
+                            id={`role-hourly-rate`}
+                            className={`input-primary`}
+                            defaultValue={0}
+                            type={`number`}
+                            min={0}
+                            {...register(`role.${index}.ratePerHour` as const, {
+                              valueAsNumber: true,
+                            })}
+                          />
+                        </div>
+                        <div className={`text-xs text-gray-500`}>
+                          <div>(Optional)</div>
+                          <div className={`mt-2`}>$</div>
+                        </div>
+                      </div>
+                      <div className={`col-span-1 flex gap-4`}>
+                        <div className={``}>
+                          <TextInputLabel
+                            htmlFor={`role-open-positions`}
+                          >{`Open Positions:`}</TextInputLabel>
+                          <input
+                            id={`role-open-positions`}
+                            className={`input-primary`}
+                            defaultValue={0}
+                            type={`number`}
+                            min={0}
+                            {...register(
+                              `role.${index}.openPositions` as const,
+                              {
+                                valueAsNumber: true,
+                              }
+                            )}
+                          />
+                        </div>
+                        <div className={`text-xs text-gray-500`}>
+                          <div>(Optional)</div>
+                          <div className={`mt-2`}></div>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </section>
+            );
+          })}
           <div className="mt-4 flex justify-between">
-            <div></div>
-            {/* <Button variant="secondary" onClick={() => onBack({ ...project })}>
+            <Button
+              type={`button`}
+              variant={`secondary`}
+              onClick={() => onBack()}
+            >
               Back
-            </Button> */}
-            <Button variant="secondary" type="submit">
+            </Button>
+            <Button variant={`secondary`} type={`submit`}>
               Next
             </Button>
           </div>
         </form>
-
-        {/* <div className={`my-4`}>
-          <TextField
-            label={`What role are you looking to fill:`}
-            value={state?.title || ""}
-            placeholder="Start typing here..."
-            onChange={(e) => {
-              handleUpdateState(e.target.value, "title");
-            }}
-          />
-        </div> */}
-        {/* {state?.title && ( */}
-        <>
-          {/* <div className="mt-3">
-              <div className={`text-sm font-normal`}>
-                {`Select the Role: 🤖`}
-              </div>
-              <div className="flex w-full flex-wrap justify-center gap-1">
-                {!isEmpty(expertise) &&
-                  map(expertise, (item: any, key: number) => (
-                    <SelectBoxNode
-                      multiple
-                      key={key}
-                      caption={item?.name}
-                      items={item?.subNodes}
-                      onChange={(val) => {
-                        setSelectedItems((prevState) => ({
-                          ...prevState,
-                          [item?._id]: val,
-                        }));
-                      }}
-                    />
-                  ))}
-              </div>
-            </div> */}
-          {/* <div className="mt-3">
-              <TextArea
-                label={`Write a short one-line discription of the role:`}
-                value={state?.shortDescription || ""}
-                onChange={(e) => {
-                  handleUpdateState(e.target.value, "shortDescription");
-                }}
-                placeholder="Start typing here..."
-                rows={2}
-              />
-            </div> */}
-
-          {/* <ToggleElement
-              isOptional
-              className="my-4"
-              title="Write a description of this role:"
-            >
-              <TextArea
-                value={state?.description || ""}
-                onChange={(e) => {
-                  handleUpdateState(e.target.value, "description");
-                }}
-                rows={3}
-                placeholder="Start typing here..."
-              />
-            </ToggleElement> */}
-          {/* <ToggleElement
-              isOptional
-              className="my-4"
-              title="What are the expectations for this role?"
-            >
-              {numInList.map((v, i) => (
-                <div key={i} className={`mx-4 flex py-1`}>
-                  <li className={`my-auto`} />
-                  <TextField
-                    value={state?.expectations?.[i] || ""}
-                    onChange={(e) => {
-                      handleUpdateExpectations(
-                        e.target.value,
-                        "expectations",
-                        i
-                      );
-                    }}
-                  />
-                </div>
-              ))}
-            </ToggleElement> */}
-          {/* <ToggleElement
-              isOptional
-              className="my-4"
-              title="What are the benfits of this role?"
-            >
-              {numInList.map((v, i) => (
-                <div key={i} className={`mx-4 flex py-1`}>
-                  <li className={`my-auto`} />
-                  <TextField
-                    value={state?.benefits?.[i] || ""}
-                    onChange={(e) => {
-                      handleUpdateBenefits(e.target.value, "benefits", i);
-                    }}
-                  />
-                </div>
-              ))}
-            </ToggleElement> */}
-          {/* <GridLayout className="bg-white">
-              <GridItemFour>
-                <p className="text-sm font-normal">
-                  Availability:
-                  <span className="text-xs text-gray-500"> (Optional)</span>
-                </p>
-                <div className="flex flex-row content-center items-center">
-                  <TextField
-                    type="number"
-                    value={state?.hoursPerWeek || 0}
-                    onChange={(e) => {
-                      handleUpdateState(+e.target.value, "hoursPerWeek");
-                    }}
-                  />
-                  <div className="ml-3 text-sm font-normal text-gray-400">{`hours / week`}</div>
-                </div>
-              </GridItemFour>
-              <GridItemFour>
-                <p className="text-sm font-normal">
-                  Hourly rate:
-                  <span className="text-xs text-gray-500"> (Optional)</span>
-                </p>
-                <div className="flex flex-row content-center items-center">
-                  <TextField
-                    name="ratePerHour"
-                    type="number"
-                    value={state?.ratePerHour || 0}
-                    onChange={(e) => {
-                      handleUpdateState(+e.target.value, "ratePerHour");
-                    }}
-                  />
-                  <div className="ml-3 text-sm font-normal text-gray-400">{`$`}</div>
-                </div>
-              </GridItemFour>
-              <GridItemFour>
-                <p className="text-sm font-normal">
-                  Open positions:
-                  <span className="text-xs text-gray-500"> (Optional)</span>
-                </p>
-                <div className="flex flex-row content-center items-center">
-                  <TextField
-                    name="positions"
-                    type="number"
-                    value={state?.openPositions || 0}
-                    onChange={(e) => {
-                      handleUpdateState(+e.target.value, "openPositions");
-                    }}
-                  />
-                  <div className="ml-3 text-sm font-normal text-gray-400">{``}</div>
-                </div>
-              </GridItemFour>
-            </GridLayout> */}
-        </>
-        {/* )} */}
-        {/* <div className="mt-3 flex justify-between">
-          <Button variant="secondary" onClick={() => onBack(state)}>
-            Back
-          </Button>
-          <Button
-            variant="secondary"
-            onClick={() => {
-              handleNext(state);
-            }}
-          >
-            Next
-          </Button>
-        </div> */}
       </div>
     </Card>
   );
