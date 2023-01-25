@@ -2,7 +2,6 @@ import { LoginButton } from "@eden/package-ui";
 import { Dialog, Transition } from "@headlessui/react";
 import Link from "next/link";
 import { Fragment, useState } from "react";
-// import { IoMdCloseCircleOutline } from "react-icons/io";
 import {
   MdClose,
   MdOutlineError,
@@ -43,7 +42,6 @@ export const AdminLayout = ({ children }: IAdminLayoutProps) => {
   return (
     <>
       <div className="bg-background flex h-screen min-w-0 flex-col lg:overflow-y-hidden">
-        {/* <AppHeader /> */}
         <>
           <div>
             <Transition.Root show={sidebarOpen} as={Fragment}>
