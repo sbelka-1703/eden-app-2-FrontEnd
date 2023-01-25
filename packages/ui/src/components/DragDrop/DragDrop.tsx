@@ -162,7 +162,6 @@ export const DragDrop = ({
             const tasks = column.taskIds.map(
               (taskId: any) => first.tasks[taskId]
             );
-
             return <Column key={column.id} column={column} tasks={tasks} />;
           })}
         </div>
