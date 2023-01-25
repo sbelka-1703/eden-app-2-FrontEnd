@@ -29,6 +29,18 @@ export const FillSocialLinks = ({ links, onChange }: IFillSocialLinksProps) => {
     return rest;
   });
 
+  // const linkRemoveList = ["https://", "http://"];
+
+  // const getLink = (url: string) => {
+  //   const link = linkRemoveList.find((item) => url.includes(item));
+
+  //   if (link) {
+  //     return url.replace(link, "");
+  //   }
+
+  //   return url;
+  // };
+
   const removeList = [
     "https://twitter.com/",
     "https://www.twitter.com/",
@@ -43,6 +55,8 @@ export const FillSocialLinks = ({ links, onChange }: IFillSocialLinksProps) => {
     "https://www.lensfrens.xyz/",
     "http://www.lensfrens.xyz/",
     "@",
+    "https://",
+    "http://",
   ];
 
   const getHandle = (url: string) => {
@@ -72,7 +86,7 @@ export const FillSocialLinks = ({ links, onChange }: IFillSocialLinksProps) => {
         { ...(cleanLink("github") ?? { name: "github", url: "" }) },
         { ...(cleanLink("lens") ?? { name: "lens", url: "" }) },
         {
-          ...(filteredLinks?.find((link) => link?.name === "portfolio") ?? {
+          ...(cleanLink("portfolio") ?? {
             name: "portfolio",
             url: "",
           }),
@@ -118,6 +132,11 @@ export const FillSocialLinks = ({ links, onChange }: IFillSocialLinksProps) => {
               url: getHandle(link.url)
                 ? `https://www.lensfrens.xyz/${getHandle(link.url)}`
                 : "",
+            };
+          case "portfolio":
+            return {
+              name: link.name,
+              url: getHandle(link.url) ? `https://${getHandle(link.url)}` : "",
             };
           default:
             return link;

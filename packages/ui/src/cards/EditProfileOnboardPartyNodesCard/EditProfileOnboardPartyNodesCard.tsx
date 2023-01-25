@@ -15,13 +15,13 @@ import {
   Avatar,
   Button,
   Card,
+  FillSocialLinks,
   Loading,
   Modal,
   NodeList,
   ProgressBarGeneric,
   RoleSelector,
   SelectBoxNode,
-  SocialMediaInput,
   TextArea,
   TextHeading2,
   TextHeading3,
@@ -515,113 +515,20 @@ const SocialModal = ({ openModal, onSubmit }: ISocialModalProps) => {
 };
 
 interface ISocailViewProps {
-  // eslint-disable-next-line no-unused-vars
-  onChanges?: (val: Array<Maybe<LinkType>>) => void;
+  onChanges?: React.Dispatch<React.SetStateAction<Maybe<LinkType>[]>>;
 }
 
 const SocialView = ({ onChanges }: ISocailViewProps) => {
   const { currentUser } = useContext(UserContext);
-  const [twitterHandle, setTwitterHandle] = useState("");
-  const [githubHandle, setGithubHandle] = useState("");
-  const [telegramHandle, setTelegramHandle] = useState("");
-  const [lensHandle, setLensHandle] = useState("");
-
-  useEffect(() => {
-    // filter currentUser links for twitter, github, telegram
-    const twitterLink = currentUser?.links?.find(
-      (link) => link?.name === "twitter"
-    );
-
-    // remove https://twitter.com/ from the link
-    if (twitterLink?.url)
-      setTwitterHandle(twitterLink?.url?.replace("https://twitter.com/", ""));
-
-    const githubLink = currentUser?.links?.find(
-      (link) => link?.name === "github"
-    );
-
-    // remove https://github.com/ from the link
-    if (githubLink?.url)
-      setGithubHandle(githubLink?.url?.replace("https://github.com/", ""));
-
-    const telegramLink = currentUser?.links?.find(
-      (link) => link?.name === "telegram"
-    );
-
-    setTelegramHandle(
-      telegramLink?.url?.replace("https://t.me/", "") as string
-    );
-
-    const lensLink = currentUser?.links?.find((link) => link?.name === "lens");
-
-    if (lensLink?.url)
-      setLensHandle(lensLink?.url?.replace("https://www.lensfrens.xyz/", ""));
-  }, [currentUser]);
-
-  useEffect(() => {
-    const links: Array<Maybe<LinkType>> = [];
-
-    if (twitterHandle) {
-      links.push({
-        name: "twitter",
-        url: `https://twitter.com/${twitterHandle}`,
-      });
-    }
-
-    if (githubHandle) {
-      links.push({
-        name: "github",
-        url: `https://github.com/${githubHandle}`,
-      });
-    }
-
-    if (telegramHandle) {
-      links.push({
-        name: "telegram",
-        url: `https://t.me/${telegramHandle}`,
-      });
-    }
-
-    if (lensHandle) {
-      links.push({
-        name: "lens",
-        url: `https://www.lensfrens.xyz/${lensHandle}`,
-      });
-    }
-
-    onChanges && onChanges(links);
-  }, [twitterHandle, githubHandle, telegramHandle, lensHandle]);
 
   return (
     <div>
       <TextLabel>SOCIAL MEDIA</TextLabel>
-      <SocialMediaInput
-        platform="twitter"
-        placeholder={`Twitter Handle`}
-        value={twitterHandle}
-        onChange={(e) => setTwitterHandle(e.target.value)}
-        shape="rounded"
-      />
-      <SocialMediaInput
-        platform="github"
-        placeholder={`Github Handle`}
-        value={githubHandle}
-        onChange={(e) => setGithubHandle(e.target.value)}
-        shape="rounded"
-      />
-      <SocialMediaInput
-        platform="telegram"
-        placeholder={`Telegram Handle`}
-        value={telegramHandle}
-        onChange={(e) => setTelegramHandle(e.target.value)}
-        shape="rounded"
-      />
-      <SocialMediaInput
-        platform="lens"
-        placeholder={`Lens Handle`}
-        value={lensHandle}
-        onChange={(e) => setLensHandle(e.target.value)}
-        shape="rounded"
+      <FillSocialLinks
+        links={currentUser?.links || []}
+        onChange={(val) => {
+          onChanges && onChanges(val as Array<Maybe<LinkType>>);
+        }}
       />
     </div>
   );
