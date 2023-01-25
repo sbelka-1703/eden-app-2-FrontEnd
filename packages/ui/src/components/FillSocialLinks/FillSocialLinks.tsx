@@ -1,11 +1,13 @@
-import { LinkType } from "@eden/package-graphql/generated";
+import { LinkType, Maybe } from "@eden/package-graphql/generated";
 import { useEffect } from "react";
 // import { TextInputLabel } from "@eden/package-ui";
 import { useFieldArray, useForm } from "react-hook-form";
 import {
+  FaBriefcase,
   FaDiscord,
   FaGithub,
   FaLinkedin,
+  FaQuestionCircle,
   FaTelegram,
   FaTwitter,
 } from "react-icons/fa";
@@ -15,12 +17,11 @@ type LinkValues = {
 };
 
 export interface IFillSocialLinksProps {
-  links?: LinkType[];
+  links?: Maybe<LinkType>[];
   onChange?: React.Dispatch<React.SetStateAction<LinkType[]>>;
 }
 
 export const FillSocialLinks = ({ links, onChange }: IFillSocialLinksProps) => {
-  console.log(links);
   const filteredLinks = links?.map((link: any) => {
     // eslint-disable-next-line no-unused-vars
     const { __typename, ...rest } = link;
@@ -28,18 +29,54 @@ export const FillSocialLinks = ({ links, onChange }: IFillSocialLinksProps) => {
     return rest;
   });
 
+  const removeList = [
+    "https://twitter.com/",
+    "https://www.twitter.com/",
+    "http://twitter.com/",
+    "http://www.twitter.com/",
+    "https://github.com/",
+    "https://www.github.com/",
+    "http://github.com/",
+    "http://www.github.com/",
+    "https://t.me/",
+    "http://t.me/",
+    "https://www.lensfrens.xyz/",
+    "http://www.lensfrens.xyz/",
+    "@",
+  ];
+
+  const getHandle = (url: string) => {
+    const handle = removeList.find((item) => url.includes(item));
+
+    if (handle) {
+      return url.replace(handle, "");
+    }
+    return url;
+  };
+
+  const cleanLink = (linkName: string) => {
+    const link = filteredLinks?.find((link) => link?.name === linkName);
+
+    return { name: linkName, url: link?.url ? getHandle(link?.url) : "" };
+  };
+
   const { register, control, watch } = useForm<LinkValues>({
     defaultValues: {
       links: [
-        { ...filteredLinks?.find((link) => link?.name === "twitter") },
-        { ...filteredLinks?.find((link) => link?.name === "telegram") },
-        { ...filteredLinks?.find((link) => link?.name === "github") },
-        { ...filteredLinks?.find((link) => link?.name === "lens") },
-        // { name: "twitter", url: "" },
-        // { name: "github", url: "" },
-        // { name: "telegram", url: "" },
-        // { name: "lens", url: "" },
-        // { name: "website", url: "" },
+        {
+          ...(cleanLink("twitter")
+            ? cleanLink("twitter")
+            : { name: "twitter", url: "" }),
+        },
+        { ...(cleanLink("telegram") ?? { name: "telegram", url: "" }) },
+        { ...(cleanLink("github") ?? { name: "github", url: "" }) },
+        { ...(cleanLink("lens") ?? { name: "lens", url: "" }) },
+        {
+          ...(filteredLinks?.find((link) => link?.name === "portfolio") ?? {
+            name: "portfolio",
+            url: "",
+          }),
+        },
       ],
     },
   });
@@ -52,14 +89,48 @@ export const FillSocialLinks = ({ links, onChange }: IFillSocialLinksProps) => {
 
   useEffect(() => {
     const subscription = watch((data) => {
-      console.log("data => ", data);
+      const newLinks = data.links?.map((link: any) => {
+        switch (link.name) {
+          case "twitter":
+            return {
+              name: link.name,
+              url: getHandle(link.url)
+                ? `https://twitter.com/${getHandle(link.url)}`
+                : "",
+            };
+          case "telegram":
+            return {
+              name: link.name,
+              url: getHandle(link.url)
+                ? `https://t.me/${getHandle(link.url)}`
+                : "",
+            };
+          case "github":
+            return {
+              name: link.name,
+              url: getHandle(link.url)
+                ? `https://github.com/${getHandle(link.url)}`
+                : "",
+            };
+          case "lens":
+            return {
+              name: link.name,
+              url: getHandle(link.url)
+                ? `https://www.lensfrens.xyz/${getHandle(link.url)}`
+                : "",
+            };
+          default:
+            return link;
+        }
+      });
+
+      onChange?.(newLinks as LinkType[]);
     });
 
     return () => subscription.unsubscribe();
   }, [watch]);
 
   const platformIcons = (platform: string) => {
-    // console.log("platform => ", platform);
     switch (platform) {
       case "twitter":
         return <FaTwitter size="24px" color="#00acee" />;
@@ -73,8 +144,10 @@ export const FillSocialLinks = ({ links, onChange }: IFillSocialLinksProps) => {
         return <FaTelegram size="24px" color="#BCBCBC" />;
       case "lens":
         return <LensIcon />;
+      case "portfolio":
+        return <FaBriefcase size="24px" color="#BCBCBC" />;
       default:
-        return <FaTwitter size="24px" color="#00acee" />;
+        return <FaQuestionCircle size="24px" color="#00acee" />;
     }
   };
 
@@ -93,7 +166,11 @@ export const FillSocialLinks = ({ links, onChange }: IFillSocialLinksProps) => {
                 id={`link-${field.name}`}
                 className={`input-primary rounded-full pl-4`}
                 type="text"
-                placeholder={`${field.name} handle`}
+                placeholder={
+                  field.name === "portfolio"
+                    ? `your ${field.name} url`
+                    : `${field.name} handle`
+                }
                 {...register(`links.${index}.url`)}
               />
             </div>
