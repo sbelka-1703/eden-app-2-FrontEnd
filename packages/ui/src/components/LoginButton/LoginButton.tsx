@@ -48,7 +48,7 @@ export const LoginButton = ({ inApp }: ILoginButtonProps) => {
         <>
           {currentUser ? (
             <Menu.Button className="bg-soilGreen-700 hover:bg-soilGreen-500 inline-flex w-full justify-center rounded-full text-sm font-medium text-black/70 shadow hover:text-black ">
-              <div className={``}>
+              <div className={`flex items-center p-[2px]`}>
                 <Avatar size={`xs`} src={currentUser?.discordAvatar || ""} />
               </div>
               <div className={`mx-5 my-auto font-semibold`}>

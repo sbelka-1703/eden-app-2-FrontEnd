@@ -1,6 +1,5 @@
 import {
   getEndorsementsTypeMockArray,
-  // getMember,
   getPreviusProjectsTypeMockArray,
 } from "@eden/package-mock";
 import { ComponentMeta, ComponentStory } from "@storybook/react";

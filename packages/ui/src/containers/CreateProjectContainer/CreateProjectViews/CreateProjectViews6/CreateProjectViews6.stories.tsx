@@ -15,7 +15,6 @@ const Template: ComponentStory<typeof CreateProjectViews6> = (args) => (
 export const Default = Template.bind({});
 Default.args = {
   onBack: () => null,
-  onNext: () => null,
   onLaunch: () => null,
   onNewPosition: () => null,
 };

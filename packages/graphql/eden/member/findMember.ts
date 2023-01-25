@@ -31,6 +31,11 @@ export const FIND_MEMBER = gql`
       }
       nodes {
         nodeData {
+          aboveNodes {
+            _id
+            name
+            node
+          }
           _id
           name
           node
@@ -51,6 +56,23 @@ export const FIND_MEMBER = gql`
         }
         endorsementMessage
         arweaveTransactionID
+      }
+      preferences {
+        findCoFounder {
+          interestedMatch
+        }
+        findMentee {
+          interestedMatch
+        }
+        findMentor {
+          interestedMatch
+        }
+        findProject {
+          interestedMatch
+        }
+        findUser {
+          interestedMatch
+        }
       }
     }
   }

@@ -1,10 +1,6 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
-import {
-  FIND_NODES,
-  FIND_ROLE_TEMPLATES,
-  UPDATE_MEMBER,
-} from "@eden/package-graphql";
+import { FIND_ROLE_TEMPLATES, UPDATE_MEMBER } from "@eden/package-graphql";
 import {
   Maybe,
   Members,
@@ -19,16 +15,17 @@ import {
   BatteryStepper,
   Button,
   Card,
+  IPREFERENCES_TITLE,
   Loading,
+  PREFERENCES_TITLE,
   RoleSelector,
-  SelectBoxNode,
+  SelectNodes,
   SocialMediaInput,
   TextArea,
   UserExperienceCard,
 } from "@eden/package-ui";
 import { STEPS } from "@eden/package-ui/utils/enums/fill-profile-steps";
 import { CheckIcon } from "@heroicons/react/outline";
-import { forEach, isEmpty, map } from "lodash";
 import {
   Dispatch,
   SetStateAction,
@@ -36,6 +33,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { toast } from "react-toastify";
 
 export interface IFillUserProfileContainerProps {
   state?: Members;
@@ -48,20 +46,6 @@ export interface IFillUserProfileContainerProps {
   // eslint-disable-next-line no-unused-vars
   setExperienceOpen?: (val: number | null) => void;
 }
-interface IPREFERENCES_TITLE {
-  findCoFounder: string;
-  findMentee: string;
-  findMentor: string;
-  findUser: string;
-  findProject: string;
-}
-const PREFERENCES_TITLE: IPREFERENCES_TITLE = {
-  findCoFounder: "find CoFounder",
-  findMentee: "find Mentee",
-  findMentor: "find Mentor",
-  findUser: "find User",
-  findProject: "find Project",
-};
 
 const UPDATE_NODES_MEMBER = gql`
   mutation ($fields: updateNodesToMemberInput!) {
@@ -124,7 +108,9 @@ export const FillUserProfileContainer = ({
         variables: {
           fields: {
             nodeType: "sub_expertise",
-            nodesID: state?.nodes?.map((node) => node?.nodeData?._id),
+            nodesID: state?.nodes
+              ?.filter((node) => node?.nodeData?.node === "sub_expertise")
+              .map((node) => node?.nodeData?._id),
             memberID: currentUser?._id,
           },
         },
@@ -160,10 +146,12 @@ export const FillUserProfileContainer = ({
     });
   };
 
-  const handleSetNodes = () => {
+  const handleSetNodes = (value: Maybe<Node | undefined>[]) => {
     setState({
       ...state,
-      nodes: selectedNodes,
+      nodes: value.map((item: Maybe<Node | undefined>) => ({
+        nodeData: item,
+      })) as NodesType,
     });
   };
 
@@ -258,52 +246,6 @@ export const FillUserProfileContainer = ({
     });
   };
 
-  const { data: dataNodes } = useQuery(FIND_NODES, {
-    variables: {
-      fields: {
-        node: "expertise",
-      },
-    },
-    context: { serviceName: "soilservice" },
-  });
-
-  const { data: dataNodesStructured } = useQuery(FIND_NODES, {
-    variables: {
-      fields: {
-        node: "expertise",
-        selectedNodes: currentUser?.nodes?.map((node) => node?.nodeData?._id),
-      },
-    },
-    context: { serviceName: "soilservice" },
-  });
-
-  function getSelectedItems() {
-    if (dataNodes?.findNodes) {
-      const _selectedItems: any = {};
-
-      forEach(dataNodes?.findNodes, (el, index) => {
-        _selectedItems[el._id] = dataNodes?.findNodes[index].subNodes.filter(
-          (subNode: Node) => {
-            return currentUser?.nodes?.some(
-              (_subNode) => subNode?._id === _subNode?.nodeData?._id
-            );
-          }
-        ) as Node[];
-      });
-
-      return _selectedItems;
-    } else {
-      return null;
-    }
-  }
-
-  const [selectedItems, setSelectedItems] = useState<{
-    [key: string]: Node[];
-  }>(getSelectedItems() || []);
-
-  const [selectedNodes, setSelectedNodes] = useState<Maybe<NodesType>[]>(
-    state?.nodes || []
-  );
   const [preferences, setPreferences] = useState<PreferencesType>({
     findCoFounder: {
       interestedMatch:
@@ -326,28 +268,6 @@ export const FillUserProfileContainer = ({
         currentUser?.preferences?.findUser?.interestedMatch || null,
     } as PreferencesTypeFind,
   });
-
-  useEffect(() => {
-    if (selectedItems) {
-      const selectedNodeArr: NodesType[] = [];
-
-      forEach(selectedItems, (el) => {
-        if (!isEmpty(el)) {
-          forEach(el, (item) => {
-            selectedNodeArr.push({
-              nodeData: { ...item, node: "sub_expertise" },
-            } as NodesType);
-          });
-        }
-      });
-
-      setSelectedNodes(selectedNodeArr);
-    }
-  }, [selectedItems]);
-
-  useEffect(() => {
-    handleSetNodes();
-  }, [selectedNodes]);
 
   useEffect(() => {
     handleSetPreferences();
@@ -384,7 +304,7 @@ export const FillUserProfileContainer = ({
           <section className="mb-4">
             {step === STEPS.ROLE && (
               <>
-                <p>{`Let's start with your role:`}</p>
+                <p className="mb-4">{`Let's start with your role:`}</p>
                 <RoleSelector
                   value={state?.memberRole?.title || ""}
                   roles={
@@ -396,51 +316,8 @@ export const FillUserProfileContainer = ({
                     handleSetRole(val as RoleTemplate);
                   }}
                 />
-              </>
-            )}
-            {step === STEPS.BIO && (
-              <>
-                <p>{`Add your expertise:`}</p>
-                {/* {JSON.stringify(dataNodesStructured)} */}
-                <div className="mb-8 mt-4 flex h-24 w-full flex-wrap justify-center gap-2">
-                  {dataNodesStructured?.findNodes ? (
-                    <>
-                      {!isEmpty(dataNodesStructured?.findNodes) &&
-                        map(
-                          dataNodesStructured?.findNodes,
-                          (item: any, key: number) => (
-                            <SelectBoxNode
-                              multiple
-                              key={key}
-                              caption={item?.name}
-                              items={item?.subNodes}
-                              // defaultValues={dataNodesStructured}
-                              onChange={(val) => {
-                                setSelectedItems((prevState) => ({
-                                  ...prevState,
-                                  [item?._id]: val,
-                                }));
-                              }}
-                            />
-                          )
-                        )}
-                    </>
-                  ) : (
-                    <Loading />
-                  )}
-                </div>
-                <p>{`Please write a short bio!`}</p>
-                <TextArea
-                  onChange={(e) => {
-                    handleSetBio(e.target.value);
-                  }}
-                  value={state?.bio as string}
-                />
-              </>
-            )}
-            {step === STEPS.PREFERENCES && (
-              <>
-                <p className="mb-4">{`what your interest:`}</p>
+
+                <p className="mb-4 mt-6">{`Choose what you use Eden Network for:`}</p>
                 {/* {JSON.stringify(Preferences)} */}
                 {/* {JSON.stringify(state?.preferences)} */}
                 <div className="flex w-full flex-wrap">
@@ -485,20 +362,42 @@ export const FillUserProfileContainer = ({
                 </div>
               </>
             )}
+            {step === STEPS.BIO && (
+              <>
+                <p>{`Add your expertise:`}</p>
+                {/* {JSON.stringify(state?.nodes)} */}
+                {/* {JSON.stringify(currentUser.nodes)} */}
+                <SelectNodes
+                  nodeType={"expertise"}
+                  selectedNodes={state?.nodes}
+                  onChangeNodes={(val) => {
+                    // console.log("on change", val);
+                    handleSetNodes(val);
+                  }}
+                />
+                <p>{`Please write a short bio!`}</p>
+                <TextArea
+                  onChange={(e) => {
+                    handleSetBio(e.target.value);
+                  }}
+                  value={state?.bio as string}
+                />
+              </>
+            )}
             {/* {step === STEPS.COMPENSATION && (
-                    <>
-                      <p>{`What's your expected compensation?`}</p>
-                      <SalaryRangeChart
-                        data={salaries}
-                        onChange={(val) => {
-                          setState({
-                            ...state,
-                            expectedSalary: val.values[1],
-                          });
-                        }}
-                      />
-                    </>
-                  )} */}
+              <>
+                <p>{`What's your expected compensation?`}</p>
+                <SalaryRangeChart
+                  data={salaries}
+                  onChange={(val) => {
+                    setState({
+                      ...state,
+                      expectedSalary: val.values[1],
+                    });
+                  }}
+                />
+              </>
+            )} */}
             {step === STEPS.SOCIALS && (
               <>
                 <p>{`Share your socials!`}</p>
@@ -608,10 +507,8 @@ export const FillUserProfileContainer = ({
             {step !== STEPS.ROLE && (
               <Button
                 onClick={() => {
-                  if (step === STEPS.BIO && setStep) setStep(STEPS.PREFERENCES);
-                  if (step === STEPS.PREFERENCES && setStep) setStep(STEPS.BIO);
-                  if (step === STEPS.SOCIALS && setStep)
-                    setStep(STEPS.PREFERENCES);
+                  if (step === STEPS.BIO && setStep) setStep(STEPS.ROLE);
+                  if (step === STEPS.SOCIALS && setStep) setStep(STEPS.BIO);
                   if (step === STEPS.EXP && setStep) setStep(STEPS.SOCIALS);
                 }}
               >
@@ -623,16 +520,41 @@ export const FillUserProfileContainer = ({
                 className="ml-auto"
                 onClick={() => {
                   if (step === STEPS.ROLE && setStep) {
+                    const hasPreferences = state?.preferences
+                      ? (
+                          Object.keys(state?.preferences) as [
+                            keyof IPREFERENCES_TITLE
+                          ]
+                        ).filter(
+                          (key) =>
+                            state.preferences![key]?.interestedMatch &&
+                            key.includes("find")
+                        ).length > 0
+                      : false;
+
+                    if (!state?.memberRole?._id) {
+                      toast.error("Please Choose Role");
+                      return;
+                    }
+                    if (!hasPreferences) {
+                      toast.error("Please Choose Preferences");
+                      return;
+                    }
                     setStep(STEPS.BIO);
                     handleSubmitForm();
+                    handleSubmitPreferences();
                   }
                   if (step === STEPS.BIO && setStep) {
-                    setStep(STEPS.PREFERENCES);
-                    handleSubmitForm();
-                  }
-                  if (step === STEPS.PREFERENCES && setStep) {
+                    if (!state?.bio || state?.bio?.length < 50) {
+                      toast.error("Bio should be at least 50 characters");
+                      return;
+                    }
+                    if (state?.nodes?.length === 0) {
+                      toast.error("Please Choose Your Expertise");
+                      return;
+                    }
                     setStep(STEPS.SOCIALS);
-                    handleSubmitPreferences();
+                    handleSubmitForm();
                   }
                   if (step === STEPS.SOCIALS && setStep) {
                     setStep(STEPS.EXP);

@@ -1,4 +1,4 @@
-/* eslint-disable camelcase */
+import { Endorsements, Maybe } from "@eden/package-graphql/generated";
 import { AvatarList, CardGrid, EndorsementCard } from "@eden/package-ui";
 import { QuestionMarkCircleIcon } from "@heroicons/react/outline";
 import React, { useEffect, useState } from "react";
@@ -15,7 +15,7 @@ const useIsMounted = () => {
 };
 
 export interface EndorsementListProps {
-  endorsements: any[];
+  endorsements: Maybe<Endorsements>[];
 }
 export const EndorsementList: React.FC<EndorsementListProps> = ({
   endorsements,
@@ -56,15 +56,8 @@ export const EndorsementList: React.FC<EndorsementListProps> = ({
         </span>
       </div>
       <CardGrid>
-        {endorsements.slice(0, 3).map((endorsement, index) => (
-          <div key={index} className="col-span-1">
-            <EndorsementCard
-              member={endorsement?.member || endorsement?.endorser}
-              text={endorsement?.text || endorsement?.endorsementMessage}
-              level={endorsement?.level}
-              arweaveTransactionID={endorsement?.arweaveTransactionID || ""}
-            />
-          </div>
+        {endorsements?.slice(0, 3).map((endorsement, index) => (
+          <EndorsementCard key={index} endoresement={endorsement} />
         ))}
       </CardGrid>
       {endorsements.slice(3, 8).length > 0 && (
@@ -73,9 +66,7 @@ export const EndorsementList: React.FC<EndorsementListProps> = ({
             className="inline-block !w-auto !justify-start"
             avatars={endorsements.slice(3, 8).map((endorsement) => ({
               size: "sm",
-              src:
-                endorsement?.member?.discordAvatar ||
-                endorsement?.endorser?.discordAvatar,
+              src: endorsement?.endorser?.discordAvatar || "",
             }))}
           />
           {endorsements.slice(8).length > 0 && (

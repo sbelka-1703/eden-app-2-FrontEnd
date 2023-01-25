@@ -1,3 +1,4 @@
+import { Project } from "@eden/package-graphql/generated";
 import {
   BatteryStepper,
   Button,
@@ -9,56 +10,23 @@ import {
   TextArea,
   TextHeading3,
 } from "@eden/package-ui";
-import { useReducer, useState } from "react";
-
-interface ProjectData {
-  username: string;
-  description: string;
-  selectedRole?: string;
-  selectedTag?: string;
-  selectedEmoji?: string;
-  selectedColor?: string;
-}
-
-const initialState = {
-  username: "",
-  selectedRole: "",
-  description: "",
-};
-
-function reducer(state: ProjectData, action: any): ProjectData {
-  switch (action.type) {
-    case "HANDLE PROJECT VIEW 2 TEXT":
-      return {
-        ...state,
-        [action.field]: action.payload.value,
-      };
-    default:
-      return state;
-  }
-}
+import { useState } from "react";
 
 export interface CreateProjectViews4Props {
+  battery: number;
   onBack: () => void;
-  // eslint-disable-next-line no-unused-vars
-  onNext: (data: ProjectData) => void;
+  onNext: () => void;
+  setProject?: React.Dispatch<React.SetStateAction<Project>>;
+  project?: Project;
 }
 
 export const CreateProjectViews4 = ({
   onBack,
   onNext,
 }: CreateProjectViews4Props) => {
-  const [state] = useReducer(reducer, initialState);
   const [hiringToggle, setHiringToggle] = useState(true);
   const handleUpdateState = (value: any, field: string) => {
     console.log(value, field);
-    // dispath({
-    //   type: "HANDLE INPUT TEXT",
-    //   field: field,
-    //   payload: {
-    //     value,
-    //   },
-    // });
   };
 
   const handleHiringToggle = (e: any) => {
@@ -190,7 +158,7 @@ export const CreateProjectViews4 = ({
             <Button variant="secondary" onClick={onBack}>
               Back
             </Button>
-            <Button variant="secondary" onClick={() => onNext(state)}>
+            <Button variant="secondary" onClick={() => onNext()}>
               Next
             </Button>
           </div>

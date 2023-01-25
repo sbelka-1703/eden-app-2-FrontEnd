@@ -87,12 +87,12 @@ export const RoleSmallCard = ({
   onClick,
 }: RoleSmallCardProps) => {
   return (
-    <div className="flex h-full w-full items-center" onClick={onClick}>
+    <button className="flex h-full w-full items-center" onClick={onClick}>
       <Card
         border
         focused={isSelected}
         shadow
-        className="w-full overflow-hidden bg-white p-0"
+        className="h-full w-full overflow-hidden bg-white p-0"
       >
         <div className="flex cursor-pointer flex-col items-start justify-start px-3 py-2">
           {handleEdit && (
@@ -120,6 +120,6 @@ export const RoleSmallCard = ({
           </div>
         )}
       </Card>
-    </div>
+    </button>
   );
 };

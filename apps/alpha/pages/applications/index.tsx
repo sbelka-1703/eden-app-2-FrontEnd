@@ -3,6 +3,7 @@ import {
   ApplicationCard,
   AppUserSubmenuLayout,
   Card,
+  CardGrid,
   SEO,
 } from "@eden/package-ui";
 import { useContext, useState } from "react";
@@ -84,7 +85,7 @@ const ApplicationsPage: NextPageWithLayout = () => {
           <div className={`text-2xl font-medium text-black/80`}>
             {PHASES[activeIndex].title}
           </div>
-          <div className="mt-4 grid gap-8 lg:grid-cols-3">
+          <CardGrid>
             {currentUser?.projects
               ?.filter(
                 (project: any) => project.phase === PHASES[activeIndex].type
@@ -95,7 +96,7 @@ const ApplicationsPage: NextPageWithLayout = () => {
                   key={project?.info?._id || index}
                 />
               ))}
-          </div>
+          </CardGrid>
         </Card>
       </AppUserSubmenuLayout>
     </>

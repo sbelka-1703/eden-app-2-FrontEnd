@@ -4,7 +4,6 @@ import {
   Card,
   MemberModal,
   SocialMediaComp,
-  // TextHeading2,
   TextHeading3,
 } from "@eden/package-ui";
 import { useState } from "react";
@@ -24,7 +23,7 @@ export const UserMiniCard = ({ member, item }: UserMiniCardProps) => {
   }
 
   return (
-    <div>
+    <>
       <Card border shadow>
         <div className={`flex flex-row justify-between justify-items-stretch`}>
           <div></div>
@@ -71,6 +70,6 @@ export const UserMiniCard = ({ member, item }: UserMiniCardProps) => {
         open={isModalOpen}
         onClose={() => setIsModalOpen(!isModalOpen)}
       />
-    </div>
+    </>
   );
 };

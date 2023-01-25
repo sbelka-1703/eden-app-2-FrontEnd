@@ -33,15 +33,18 @@ const ProjectPage: NextPageWithLayout = () => {
 
   const [roleIndex, setRoleIndex] = useState<number>(0);
 
-  const { data: dataProject } = useQuery(FIND_PROJECT, {
-    variables: {
-      fields: {
-        _id,
+  const { data: dataProject, refetch: refetchProject } = useQuery(
+    FIND_PROJECT,
+    {
+      variables: {
+        fields: {
+          _id,
+        },
       },
-    },
-    skip: !_id,
-    context: { serviceName: "soilservice" },
-  });
+      skip: !_id,
+      context: { serviceName: "soilservice" },
+    }
+  );
 
   const [selectedRole, setSelectedRole] = useState(
     dataProject?.findProject?.role[0]
@@ -59,7 +62,9 @@ const ProjectPage: NextPageWithLayout = () => {
       },
     },
     skip:
-      !selectedRole || !dataProject?.findProject?.serverID || !selectedServerID,
+      !selectedRole ||
+      !dataProject?.findProject?.serverID ||
+      selectedServerID.length === 0,
     context: { serviceName: "soilservice" },
   });
 
@@ -107,6 +112,7 @@ const ProjectPage: NextPageWithLayout = () => {
               roleIndex={roleIndex}
               onSetRoleIndex={setRoleIndex}
               setView={setView}
+              refetchProject={refetchProject}
             />
           </GridItemSix>
           <GridItemSix>
@@ -142,7 +148,7 @@ export async function getServerSideProps(ctx: {
 
   const url = ctx.req.url?.replace("/", "");
 
-  if (!session) {
+  if (!session || session.error === "RefreshAccessTokenError") {
     return {
       redirect: {
         destination: `/login?redirect=${url}`,

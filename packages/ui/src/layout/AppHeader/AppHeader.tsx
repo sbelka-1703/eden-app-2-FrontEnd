@@ -1,4 +1,4 @@
-import { LoginButton } from "@eden/package-ui";
+import { LoginButton, ReportBugButton } from "@eden/package-ui";
 import Link from "next/link";
 
 export interface IAppHeaderProps {
@@ -25,7 +25,10 @@ export const AppHeader = ({ logoLink, inApp }: IAppHeaderProps) => {
               </span>
             </Link>
           )}
-          <LoginButton inApp={inApp} />
+          <div className="ml-auto">
+            <LoginButton inApp={inApp} />
+          </div>
+          <ReportBugButton />
         </div>
       </nav>
     </header>

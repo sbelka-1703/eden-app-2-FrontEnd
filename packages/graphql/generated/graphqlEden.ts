@@ -3,12 +3,10 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
 };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
+  { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
+  { [SubKey in K]: Maybe<T[SubKey]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -90,10 +88,13 @@ export type ErrorLog = {
   code?: Maybe<Scalars["String"]>;
   component?: Maybe<Scalars["String"]>;
   createdAt?: Maybe<Scalars["String"]>;
+  errorType?: Maybe<Scalars["String"]>;
+  memberInfo?: Maybe<Members>;
   message?: Maybe<Scalars["String"]>;
   name?: Maybe<Scalars["String"]>;
+  path?: Maybe<Array<Maybe<Scalars["String"]>>>;
   stacktrace?: Maybe<Array<Maybe<Scalars["String"]>>>;
-  user?: Maybe<User>;
+  url?: Maybe<Scalars["String"]>;
 };
 
 export type GrantTemplate = {
@@ -203,6 +204,7 @@ export type Mutation = {
   approveTweet?: Maybe<Project>;
   changeTeamMember_Phase_Project?: Maybe<Project>;
   createApprovedSkill?: Maybe<Skills>;
+  createError?: Maybe<ErrorLog>;
   createNewEpic?: Maybe<Epic>;
   createNewRole?: Maybe<Role>;
   createNewTeam?: Maybe<Team>;
@@ -212,6 +214,7 @@ export type Mutation = {
   createRoom?: Maybe<Rooms>;
   createSkill?: Maybe<Skills>;
   createSkills?: Maybe<Array<Maybe<Skills>>>;
+  deleteError?: Maybe<ErrorLog>;
   deleteMember?: Maybe<Members>;
   deleteNodesFromMember?: Maybe<Members>;
   deleteNodesFromMemberInRoom?: Maybe<Members>;
@@ -314,6 +317,10 @@ export type MutationCreateApprovedSkillArgs = {
   fields?: InputMaybe<CreateApprovedSkillInput>;
 };
 
+export type MutationCreateErrorArgs = {
+  fields: CreateErrorInput;
+};
+
 export type MutationCreateNewEpicArgs = {
   fields: CreateNewEpicInput;
 };
@@ -348,6 +355,10 @@ export type MutationCreateSkillArgs = {
 
 export type MutationCreateSkillsArgs = {
   fields?: InputMaybe<CreateSkillsInput>;
+};
+
+export type MutationDeleteErrorArgs = {
+  fields: DeleteErrorInput;
 };
 
 export type MutationDeleteMemberArgs = {
@@ -466,6 +477,7 @@ export type Node = {
   __typename?: "Node";
   _id?: Maybe<Scalars["ID"]>;
   aboveNodes?: Maybe<Array<Maybe<Node>>>;
+  level?: Maybe<Scalars["Int"]>;
   match_v2?: Maybe<Array<Maybe<Match_V2Type>>>;
   match_v2_update?: Maybe<Match_V2_UpdateType>;
   name?: Maybe<Scalars["String"]>;
@@ -481,10 +493,19 @@ export type Node = {
 
 export type PageInfo = {
   __typename?: "PageInfo";
+  currentPage?: Maybe<Scalars["Int"]>;
   end?: Maybe<Scalars["String"]>;
   hasNextPage?: Maybe<Scalars["Boolean"]>;
   hasPrevPage?: Maybe<Scalars["Boolean"]>;
   start?: Maybe<Scalars["String"]>;
+  totalPages?: Maybe<Scalars["Int"]>;
+  totalResults?: Maybe<Scalars["Int"]>;
+};
+
+export type PaginatedErrorLogs = {
+  __typename?: "PaginatedErrorLogs";
+  errorsData?: Maybe<Array<Maybe<ErrorLog>>>;
+  pageInfo?: Maybe<PageInfo>;
 };
 
 export type PaginatedMessages = {
@@ -547,7 +568,7 @@ export type ProjectUpdate = {
 export type Query = {
   __typename?: "Query";
   adminFindAllSkillsEveryState?: Maybe<Array<Maybe<Skills>>>;
-  errors?: Maybe<Array<Maybe<ErrorLog>>>;
+  errors?: Maybe<PaginatedErrorLogs>;
   findAllProjectsTeamsAnouncments?: Maybe<
     Array<Maybe<FindAllProjectsTeamsAnouncmentsOutput>>
   >;
@@ -599,6 +620,7 @@ export type Query = {
   matchSkillsToProjects?: Maybe<Array<Maybe<MatchSkillsToProjectsOutput>>>;
   match_projectToUser?: Maybe<ProjectUserMatchType>;
   members_autocomplete?: Maybe<Array<Maybe<Members>>>;
+  nodes_autocomplete?: Maybe<Array<Maybe<Node>>>;
   setAllMatch_v2?: Maybe<Scalars["Boolean"]>;
   skills?: Maybe<PaginatedSkills>;
   skills_autocomplete?: Maybe<Array<Maybe<Skills>>>;
@@ -608,6 +630,10 @@ export type Query = {
 
 export type QueryAdminFindAllSkillsEveryStateArgs = {
   fields?: InputMaybe<FindSkillsInput>;
+};
+
+export type QueryErrorsArgs = {
+  fields?: InputMaybe<ErrorsInput>;
 };
 
 export type QueryFindAllProjectsTeamsAnouncmentsArgs = {
@@ -788,6 +814,10 @@ export type QueryMatch_ProjectToUserArgs = {
 
 export type QueryMembers_AutocompleteArgs = {
   fields?: InputMaybe<Members_AutocompleteInput>;
+};
+
+export type QueryNodes_AutocompleteArgs = {
+  fields?: InputMaybe<Nodes_AutocompleteInput>;
 };
 
 export type QuerySetAllMatch_V2Args = {
@@ -1136,6 +1166,7 @@ export type ChangeTeamMember_Phase_ProjectInput = {
 export type ChannelOutput = {
   __typename?: "channelOutput";
   chatID?: Maybe<Scalars["ID"]>;
+  forumID?: Maybe<Scalars["ID"]>;
 };
 
 export type ChatResponse = {
@@ -1177,6 +1208,18 @@ export type ContentType = {
 
 export type CreateApprovedSkillInput = {
   name?: InputMaybe<Scalars["String"]>;
+};
+
+export type CreateErrorInput = {
+  code?: InputMaybe<Scalars["String"]>;
+  component?: InputMaybe<Scalars["String"]>;
+  errorType?: InputMaybe<ErrorTypeEnum>;
+  memberID?: InputMaybe<Scalars["String"]>;
+  message?: InputMaybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars["String"]>;
+  path?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  stacktrace?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  url?: InputMaybe<Scalars["String"]>;
 };
 
 export type CreateNewEpicInput = {
@@ -1303,6 +1346,10 @@ export type DatesType = {
   kickOff?: Maybe<Scalars["String"]>;
 };
 
+export type DeleteErrorInput = {
+  _id?: InputMaybe<Scalars["ID"]>;
+};
+
 export type DeleteMemberInput = {
   memberID?: InputMaybe<Scalars["ID"]>;
 };
@@ -1347,6 +1394,17 @@ export type Endorsements = {
 export type EnterRoomInput = {
   memberID?: InputMaybe<Scalars["ID"]>;
   roomID?: InputMaybe<Scalars["ID"]>;
+};
+
+export enum ErrorTypeEnum {
+  Bot = "BOT",
+  Frontend = "FRONTEND",
+  Server = "SERVER",
+}
+
+export type ErrorsInput = {
+  _id?: InputMaybe<Scalars["ID"]>;
+  errorType?: InputMaybe<ErrorTypeEnum>;
 };
 
 export type FindAllProjectsTeamsAnouncmentsInput = {
@@ -1725,6 +1783,7 @@ export type Members_AutocompleteInput = {
 export type MessageToGptInput = {
   category?: InputMaybe<CategoryEnum>;
   message?: InputMaybe<Scalars["String"]>;
+  prompt?: InputMaybe<Scalars["String"]>;
 };
 
 export type MessageToGptOutput = {
@@ -1746,6 +1805,7 @@ export type NewTweetProjectInput = {
 };
 
 export type NodesId_LevelInput = {
+  aboveNodes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   level?: InputMaybe<Scalars["Float"]>;
   nodeID?: InputMaybe<Scalars["ID"]>;
   orderIndex?: InputMaybe<Scalars["Int"]>;
@@ -1759,10 +1819,15 @@ export type NodesPercentageType = {
 
 export type NodesType = {
   __typename?: "nodesType";
+  aboveNodes?: Maybe<Array<Maybe<Node>>>;
   level?: Maybe<Scalars["Int"]>;
   nodeData?: Maybe<Node>;
   orderIndex?: Maybe<Scalars["Int"]>;
   weight?: Maybe<Scalars["Float"]>;
+};
+
+export type Nodes_AutocompleteInput = {
+  search?: InputMaybe<Scalars["String"]>;
 };
 
 export type OnboardingInput = {
@@ -2204,6 +2269,7 @@ export type UpdateServerInput = {
   adminID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
   adminRoles?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
   channelChatID?: InputMaybe<Scalars["ID"]>;
+  forumChatID?: InputMaybe<Scalars["ID"]>;
   name?: InputMaybe<Scalars["String"]>;
   serverAvatar?: InputMaybe<Scalars["String"]>;
   serverType?: InputMaybe<ServerTypeEnum>;

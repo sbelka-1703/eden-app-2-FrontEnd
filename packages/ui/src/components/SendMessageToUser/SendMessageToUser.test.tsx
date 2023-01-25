@@ -1,7 +1,7 @@
 import { render } from "../../../utils/jest-apollo";
 import { SendMessageToUser } from ".";
 
-describe("SendMessageToUserModal", () => {
+describe("SendMessageToUser", () => {
   it("renders without throwing", () => {
     const { container } = render(<SendMessageToUser member={{}} />);
 

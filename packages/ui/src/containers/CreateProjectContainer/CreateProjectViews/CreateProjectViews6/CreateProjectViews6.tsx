@@ -1,9 +1,7 @@
 import { BatteryStepper, Button, Card, TextHeading3 } from "@eden/package-ui";
-// import { useState } from "react";
 
 export interface CreateProjectViews6Props {
   onBack: () => void;
-  // onNext: () => void;
   onLaunch: () => void;
   onNewPosition: () => void;
   submitting?: boolean;
@@ -11,19 +9,13 @@ export interface CreateProjectViews6Props {
 
 export const CreateProjectViews6 = ({
   onBack,
-  // onNext,
   onLaunch,
   onNewPosition,
   submitting = false,
 }: CreateProjectViews6Props) => {
-  // const [skipped, setSkipped] = useState(false);
-
   return (
-    <Card className={`scrollbar-hide overflow-y-scroll h-85`}>
-      <div
-        // style={{ minHeight: "65vh" }}
-        className="flex flex-col justify-between"
-      >
+    <Card className={`scrollbar-hide h-85 overflow-y-scroll`}>
+      <div className="flex flex-col justify-between">
         <div>
           <div className="mb-4 flex items-center justify-between bg-green-100 p-7">
             <TextHeading3 className="ml-8 mb-4">
@@ -66,7 +58,7 @@ export const CreateProjectViews6 = ({
             Back
           </Button>
           <Button variant="secondary" disabled={submitting} onClick={onLaunch}>
-            Done
+            Launch
           </Button>
         </div>
       </div>

@@ -3,8 +3,8 @@ import {
   Avatar,
   Button,
   Card,
+  CommonServerAvatarList,
   RoleSmallCard,
-  ServerFilter,
 } from "@eden/package-ui";
 import { ChevronLeftIcon } from "@heroicons/react/outline";
 import { useEffect } from "react";
@@ -40,7 +40,7 @@ export const ProjectEditSelectorCard = ({
     <Card shadow className={`m-2 w-full bg-white p-3`}>
       <div className="flex flex-row content-center items-center justify-between">
         <div
-          className="text-soilGray cursor-pointer hover:text-zinc-600 flex"
+          className="text-soilGray flex cursor-pointer hover:text-zinc-600"
           onClick={onBack}
         >
           <ChevronLeftIcon className="mr-1 -mt-1 inline" width={20} />
@@ -64,11 +64,19 @@ export const ProjectEditSelectorCard = ({
             emoji={project.emoji as string}
             backColorEmoji={project.backColorEmoji as string}
             size={`md`}
+            isProject
           />
         </div>
-        <div className={`text-xl my-auto pl-4`}>{project.title}</div>
+        <div className={`my-auto pl-4 text-xl`}>{project.title}</div>
       </div>
-      <div className="grid grid-cols-2 overflow-hidden mt-4">
+      <div className={`my-2`}>
+        <CommonServerAvatarList
+          label={`on servers`}
+          size="xs"
+          serverID={project?.serverID as string[]}
+        />
+      </div>
+      <div className="mt-4 grid grid-cols-2 gap-2 overflow-hidden">
         {project.role?.map((data, index) => (
           <div key={index} className="col-span-1 m-1">
             <RoleSmallCard
@@ -81,9 +89,6 @@ export const ProjectEditSelectorCard = ({
           </div>
         ))}
       </div>
-      <hr className="my-2 text-slate-300" />
-      <ServerFilter />
-      <hr className="my-2 text-slate-300" />
     </Card>
   );
 };

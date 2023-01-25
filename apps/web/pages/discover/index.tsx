@@ -36,7 +36,6 @@ import type { NextPageWithLayout } from "../_app";
 
 const DiscoverPage: NextPageWithLayout = () => {
   const router = useRouter();
-  // const { selectedServer, memberServerIDs } = useContext(UserContext);
   const { setOpenModal } = useContext(DiscoverContext);
   const { selectedServerID } = useContext(UserContext);
   const [nodesID, setNodesID] = useState<string[] | null>(null);

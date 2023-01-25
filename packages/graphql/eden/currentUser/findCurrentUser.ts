@@ -19,6 +19,11 @@ export const FIND_CURRENTUSER = gql`
       timeZone
       nodes {
         nodeData {
+          aboveNodes {
+            _id
+            name
+            node
+          }
           _id
           name
           node
@@ -75,6 +80,7 @@ export const FIND_CURRENTUSER = gql`
             _id
             discordName
             discordAvatar
+            discriminator
           }
         }
         role {
@@ -104,9 +110,6 @@ export const FIND_CURRENTUSER = gql`
         _id
         title
         description
-        skills {
-          _id
-        }
       }
       endorsements {
         endorser {

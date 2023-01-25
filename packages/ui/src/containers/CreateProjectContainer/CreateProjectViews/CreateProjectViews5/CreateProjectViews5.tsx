@@ -1,3 +1,4 @@
+import { Project } from "@eden/package-graphql/generated";
 import {
   BatteryStepper,
   Button,
@@ -42,12 +43,15 @@ function reducer(state: ProjectData, action: any): ProjectData {
 }
 
 export interface CreateProjectViews5Props {
+  battery: number;
   onBack: () => void;
-  // eslint-disable-next-line no-unused-vars
-  onNext: (data: ProjectData) => void;
+  onNext: () => void;
+  setProject?: React.Dispatch<React.SetStateAction<Project>>;
+  project?: Project;
 }
 
 export const CreateProjectViews5 = ({
+  battery,
   onBack,
   onNext,
 }: CreateProjectViews5Props) => {
@@ -79,7 +83,7 @@ export const CreateProjectViews5 = ({
             </div>
           </div>
           <div>
-            <BatteryStepper size="sm" batteryPercentage={80} />
+            <BatteryStepper size="sm" batteryPercentage={battery} />
           </div>
         </div>
         <div>
@@ -215,7 +219,7 @@ export const CreateProjectViews5 = ({
             <Button variant="secondary" onClick={onBack}>
               Back
             </Button>
-            <Button variant="secondary" onClick={() => onNext(state)}>
+            <Button variant="secondary" onClick={() => onNext()}>
               Next
             </Button>
           </div>

@@ -75,7 +75,7 @@ export const SendMessageToUser = ({
   });
 
   const createThread = async (body: CreateThreadApiRequestBody) => {
-    const response = await fetch(encodeURI("/api/discord/createThread"), {
+    const response = await fetch(encodeURI("/api/discord/createForumPost"), {
       method: "POST",
       body: JSON.stringify(body),
       headers: {
@@ -83,16 +83,17 @@ export const SendMessageToUser = ({
         Accept: "application/json",
       },
     });
-    const jsonData: CreateThreadResponse = await response.json();
+
+    const jsonData: CreateThreadResponse = await response.json().catch((e) => {
+      toast.error("e", e);
+    });
 
     return jsonData;
   };
 
   const embededMessage = `
-    Project: ${project?.title}
-    Description: ${project?.description}
-    Role: ${role?.title}
-  `;
+    Hello ${member?.discordName}, you just had a new interest form ${project?.title} for the role ${role?.title}.
+    `;
 
   const createMessage = async (body: CreateMessageApiRequestBody) => {
     const response = await fetch(encodeURI("/api/discord/createMessage"), {
@@ -109,23 +110,25 @@ export const SendMessageToUser = ({
   };
 
   const followUpMessage = `
-    Message:
-    
+    Message from ${currentUser?.discordName}:
+
     ${message}
 
-    please check out the project on Eden
+    
     https://eden-alpha-develop.vercel.app/projects/${project?._id}
   `;
 
   const handleSendMessage = async () => {
     setSendingMessage(true);
+
     const { threadId } = await createThread({
-      message: `<@${member?._id}> <@${currentUser?._id}>`,
+      message: `<@${currentUser?._id}> <@${member?._id}>`,
+      tagName: "Project Interest",
       embedMessage: embededMessage,
       senderAvatarURL: currentUser?.discordAvatar!,
-      senderName: `${currentUser?.discordName} - Invited you to join ${project?.title}`,
-      channelId: selectedServer?.channel?.chatID!,
-      threadName: `Project Talents Discussion with ${member?.discordName}`,
+      senderName: `${currentUser?.discordName} -- Author`,
+      channelId: selectedServer.channel?.forumID!,
+      threadName: `Project Interest -- ${project?.title}`,
       ThreadAutoArchiveDuration: ThreadAutoArchiveDuration.OneDay,
     });
 
@@ -189,20 +192,19 @@ export const SendMessageToUser = ({
             <Loading title={`sending message...`} />
           ) : (
             <>
-              <div className={`my-4 flex space-x-6`}>
-                <span
-                  className={`my-auto font-Inter text-gray-700 font-medium`}
-                >
+              <div className={`my-4 md:mr-28 md:flex md:justify-between`}>
+                <div className={`font-Inter my-auto font-medium text-gray-700`}>
                   Select a Discord Server to Connect in
-                </span>
+                </div>
                 <ServerSelector
+                  compareServerID={project?.serverID || []}
                   onChangeServer={(val) => setSelectedServer(val)}
                 />
               </div>
 
               {isEmpty(selectedServer) ? null : (
                 <>
-                  {selectedServer?.channel?.chatID ? (
+                  {selectedServer?.channel?.forumID ? (
                     <>
                       <div className="rounded-xl border border-gray-300 py-4 px-3">
                         <div className="flex items-center ">

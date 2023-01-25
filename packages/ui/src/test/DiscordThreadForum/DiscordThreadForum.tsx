@@ -1,9 +1,11 @@
 import { UserContext } from "@eden/package-context";
+import { ServerTemplate } from "@eden/package-graphql/generated";
 import {
   Button,
   Card,
   Dropdown,
   Loading,
+  ServerSelector,
   TextArea,
   TextHeading3,
 } from "@eden/package-ui";
@@ -53,9 +55,11 @@ const createThread = async (body: CreateThreadApiRequestBody) => {
 export interface IDiscordThreadForumProps {}
 
 export const DiscordThreadForum = ({}: IDiscordThreadForumProps) => {
-  const { selectedServer, currentUser } = useContext(UserContext);
+  const { currentUser } = useContext(UserContext);
   const [channels, setChannels] = useState<any>(null);
   const [selectedChannel, setSelectedChannel] = useState<any>(null);
+  const [selectedServer, setSelectedServer] = useState<ServerTemplate>({});
+  const [selectTag, setSelectTag] = useState<any>(null);
 
   const [message, setMessage] = useState("");
   const [sendingMessage, setSendingMessage] = useState(false);
@@ -72,11 +76,19 @@ export const DiscordThreadForum = ({}: IDiscordThreadForumProps) => {
             filteredChannels.push(channel);
           }
         });
+        // console.log("filteredChannels", filteredChannels);
         setChannels(filteredChannels);
+
         // setChannels(response.channels);
       });
     }
   }, [selectedServer]);
+
+  useEffect(() => {
+    if (selectedChannel) {
+      console.log("selectedChannel", selectedChannel);
+    }
+  }, [selectedChannel]);
 
   const embededMessage = `
     Message from ${currentUser?.discordName}:
@@ -86,9 +98,9 @@ export const DiscordThreadForum = ({}: IDiscordThreadForumProps) => {
   const handleSendMessage = async () => {
     setSendingMessage(true);
     console.log("selectedChannel", selectedChannel);
-    console.log(selectedChannel.id);
     await createThread({
       message: `<@${currentUser?._id}>`,
+      tagName: selectTag.name,
       embedMessage: embededMessage,
       senderAvatarURL: currentUser?.discordAvatar!,
       senderName: `${currentUser?.discordName} - says hi!`,
@@ -105,6 +117,16 @@ export const DiscordThreadForum = ({}: IDiscordThreadForumProps) => {
   return (
     <Card shadow className={"bg-white p-4"}>
       <TextHeading3>Create a thread in any FORUM channel </TextHeading3>
+
+      <div className={`my-4 md:mr-28 md:flex md:justify-between`}>
+        <div className={`font-Inter my-auto font-medium text-gray-700`}>
+          Select a Discord Server to Connect in
+        </div>
+        <ServerSelector
+          compareServerID={[]}
+          onChangeServer={(val) => setSelectedServer(val)}
+        />
+      </div>
       {!selectedServer?._id ? (
         <div
           className={`my-8 w-full text-center text-3xl font-medium uppercase text-zinc-700`}
@@ -118,6 +140,12 @@ export const DiscordThreadForum = ({}: IDiscordThreadForumProps) => {
             items={channels}
             onSelect={(value) => setSelectedChannel(value)}
             placeholder="Select a forum channel"
+          />
+          <Dropdown
+            label={`Select a channel`}
+            items={selectedChannel?.available_tags}
+            onSelect={(value) => setSelectTag(value)}
+            placeholder="Select a tag"
           />
         </div>
       )}

@@ -1,17 +1,13 @@
-import { useQuery } from "@apollo/client";
-import { FIND_NODES } from "@eden/package-graphql";
-import { Node } from "@eden/package-graphql/generated";
+import { Maybe, Node } from "@eden/package-graphql/generated";
 import {
   BatteryStepper,
   Button,
-  Loading,
   Modal,
-  SelectBoxNode,
+  SelectNodes,
   TextBody,
   TextHeading3,
 } from "@eden/package-ui";
-import { forEach, isEmpty, map } from "lodash";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { toast } from "react-toastify";
 
 type Data = {
@@ -44,6 +40,7 @@ export const DiscoverTalentDropdownModal = ({
   title = `Alright, tell me who should I find to help you with your project?`,
   subTitle = `Please pick only one role for now!`,
   nodeType,
+  // eslint-disable-next-line no-unused-vars
   previousValues,
   batteryPercentage,
 }: IDiscoverTalentDropdownModalProps) => {
@@ -61,55 +58,20 @@ export const DiscoverTalentDropdownModal = ({
     [title, subTitle]
   );
 
-  const [selectedItems, setSelectedItems] = useState<{
-    [key: string]: Node[];
-  }>({});
-  const [selectedNodes, setSelectedNodes] = useState<string[]>([]);
-
-  const [numMatches, setNumMatches] = useState(137);
-
-  const { data: dataNodes } = useQuery(FIND_NODES, {
-    variables: {
-      fields: {
-        node: nodeType,
-        selectedNodes: previousValues || [],
-      },
-    },
-    skip: !nodeType,
-    context: { serviceName: "soilservice" },
-  });
-
-  // if (dataNodes?.findNodes) console.log("dataNodes", dataNodes?.findNodes);
+  const [selectedNodes, setSelectedNodes] = useState<Node[]>([]);
 
   const handleNext = () => {
-    if (numMatches === 0) {
+    if (selectedNodes.length === 0) {
       toast.error("You should at least choose on of the items before proceed");
     } else {
-      if (onSubmit) onSubmit!(selectedNodes);
+      if (onSubmit) onSubmit!(selectedNodes.map((_node) => _node._id!));
       else onClose!();
     }
   };
 
-  useEffect(() => {
-    const _numMatches = numMatches;
-
-    if (_numMatches) setNumMatches(_numMatches);
-  }, [numMatches, selectedItems]);
-
-  useEffect(() => {
-    if (selectedItems) {
-      const selectedNodeId: string[] = [];
-
-      forEach(selectedItems, (el) => {
-        if (!isEmpty(el)) {
-          forEach(el, (item) => {
-            selectedNodeId.push(item?._id as string);
-          });
-        }
-      });
-      setSelectedNodes(selectedNodeId);
-    }
-  }, [selectedItems]);
+  const handleSetNodes = (value: Maybe<Node | undefined>[]) => {
+    setSelectedNodes(value as Node[]);
+  };
 
   return (
     <Modal open={openModal} closeOnEsc={false}>
@@ -129,29 +91,17 @@ export const DiscoverTalentDropdownModal = ({
                 <div>
                   <TextHeading3>{section?.itemsTitle}</TextHeading3>
                 </div>
-                <div className="my-8 ml-4 flex h-24 w-full flex-wrap justify-center gap-2">
-                  {dataNodes?.findNodes ? (
-                    <>
-                      {!isEmpty(dataNodes?.findNodes) &&
-                        map(dataNodes?.findNodes, (item: any, key: number) => (
-                          <SelectBoxNode
-                            multiple
-                            key={key}
-                            caption={item?.name}
-                            items={item?.subNodes}
-                            onChange={(val) => {
-                              setSelectedItems((prevState) => ({
-                                ...prevState,
-                                [item?._id]: val,
-                              }));
-                            }}
-                          />
-                        ))}
-                    </>
-                  ) : (
-                    <Loading />
-                  )}
-                </div>
+
+                <SelectNodes
+                  nodeType={nodeType as string}
+                  selectedNodes={selectedNodes.map((_node) => ({
+                    nodeData: _node,
+                  }))}
+                  onChangeNodes={(val) => {
+                    // console.log("on change", val);
+                    handleSetNodes(val);
+                  }}
+                />
               </section>
             </div>
             <div>

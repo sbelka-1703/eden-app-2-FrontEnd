@@ -4,7 +4,6 @@ import {
   Badge,
   Button,
   Card,
-  EmojiSelector,
   Favorite,
   LongText,
   ProfileExpandedModal,
@@ -56,10 +55,10 @@ export const StaticCard = ({
             <div className={`relative flex flex-col items-center`}>
               <div className="relative">
                 {item?.picture.length <= 5 ? (
-                  <EmojiSelector
-                    isDisabled
+                  <Avatar
+                    isProject
                     emoji={item?.picture}
-                    bgColor="#ABF0B3"
+                    backColorEmoji={"#ABF0B3"}
                   />
                 ) : (
                   <Avatar isProject src={item?.picture} />
@@ -146,18 +145,22 @@ export const StaticCard = ({
           <p className="font-Inter mb-1 text-sm font-bold text-zinc-500">
             🎙 ENDORSEMENTS
           </p>
-          <AvatarList
-            className="inline-block !w-auto !justify-start"
-            avatars={item.endorsements.slice(0, 5).map((endorsement: any) => ({
-              size: "xs",
-              src: endorsement.avatar,
-            }))}
-          />
-          {item.endorsements.slice(5).length > 0 && (
-            <p className="text-soilGray ml-6 inline">
-              +{item.endorsements.slice(8).length} more
-            </p>
-          )}
+          <div className={`flex`}>
+            <AvatarList
+              className="inline-block !w-auto !justify-start"
+              avatars={item?.endorsements
+                .slice(0, 5)
+                .map((endorsement: any) => ({
+                  size: "xs",
+                  src: endorsement?.endorser?.discordAvatar,
+                }))}
+            />
+            {item?.endorsements.slice(5).length > 0 && (
+              <p className="text-soilGray ml-6 mt-1 inline">
+                +{item?.endorsements.slice(8).length} more
+              </p>
+            )}
+          </div>
         </div>
       )}
 
