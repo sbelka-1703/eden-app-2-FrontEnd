@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { SubNodesExpandable } from "./SubNodesExpandable";
 
 export default {
-  title: "Components/Expandable",
+  title: "Components/SubNodesExpandable",
   component: SubNodesExpandable,
   argTypes: {},
 } as ComponentMeta<typeof SubNodesExpandable>;
