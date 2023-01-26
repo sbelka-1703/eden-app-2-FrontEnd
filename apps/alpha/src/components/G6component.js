@@ -438,6 +438,13 @@ const G6component = ({ width, height, data2 }) => {
   };
   // ---------- Menue Nodes, Check UnCheck -------------
 
+  useEffect(() => {
+    if (graph) {
+      graph.changeSize(width, height);
+      graph.refresh();
+    }
+  }, [width, height]);
+
   return (
     <>
       {data2.nodes.length == 1 ? <div>loading</div> : true}
