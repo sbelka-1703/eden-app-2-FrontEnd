@@ -84,7 +84,7 @@ const G6component = () => {
 
   useEffect(() => {
     if (!graph) {
-      const minimap = new G6.Minimap();
+      // const minimap = new G6.Minimap();
 
       console.log("G6 = ", G6);
 
@@ -93,7 +93,7 @@ const G6component = () => {
         container: ref.current,
         width: 600,
         height: 400,
-        plugins: [minimap],
+        // plugins: [minimap],
         modes: {
           default: ["drag-canvas", "zoom-canvas"],
         },
