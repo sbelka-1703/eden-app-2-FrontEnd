@@ -1,4 +1,4 @@
-import { getMember } from "@eden/package-mock";
+import { getMember, getProject, getRoleTypeMock } from "@eden/package-mock";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { SendMessageToUser } from "./SendMessageToUser";
@@ -16,4 +16,6 @@ const Template: ComponentStory<typeof SendMessageToUser> = (args) => {
 export const Default = Template.bind({});
 Default.args = {
   member: getMember(),
+  project: getProject(),
+  role: getRoleTypeMock(),
 };

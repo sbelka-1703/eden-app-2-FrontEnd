@@ -18,7 +18,7 @@ export const NodesOnboardPartyContainer = ({
   return (
     <Card
       shadow
-      className="scrollbar-hide flex flex-grow overflow-y-scroll bg-white py-3 px-6"
+      className="scrollbar-hide flex flex-grow overflow-y-scroll bg-white py-3 px-4 md:px-6"
     >
       <div>
         <TextHeading3 className="mb-2">Members on this Call</TextHeading3>

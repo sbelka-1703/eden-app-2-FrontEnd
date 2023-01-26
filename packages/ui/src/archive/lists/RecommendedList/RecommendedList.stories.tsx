@@ -1,5 +1,4 @@
-/* eslint-disable camelcase */
-import { findProjects_RecommendedToUserMock } from "@eden/package-mock";
+import { findProjectsRecommendedToUserMock } from "@eden/package-mock";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { RecommendedList } from "./RecommendedList";
@@ -15,7 +14,7 @@ const Template: ComponentStory<typeof RecommendedList> = (args) => (
 );
 
 const getProjectArray = (total: number) =>
-  Array.from({ length: total }, () => findProjects_RecommendedToUserMock);
+  Array.from({ length: total }, () => findProjectsRecommendedToUserMock);
 
 export const Default = Template.bind({});
 Default.args = {

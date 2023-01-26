@@ -1,5 +1,11 @@
 import { UserContext } from "@eden/package-context";
-import { ApplicationCard, AppUserSubmenuLayout, Card } from "@eden/package-ui";
+import {
+  ApplicationCard,
+  AppUserSubmenuLayout,
+  Card,
+  CardGrid,
+  SEO,
+} from "@eden/package-ui";
 import { useContext, useState } from "react";
 import {
   GrDocumentExcel,
@@ -69,25 +75,31 @@ const ApplicationsPage: NextPageWithLayout = () => {
   ];
 
   return (
-    <AppUserSubmenuLayout submenu={submenu} activeIndex={activeIndex}>
-      <Card shadow className="h-85 scrollbar-hide overflow-scroll bg-white p-6">
-        <div className={`text-2xl font-medium text-black/80`}>
-          {PHASES[activeIndex].title}
-        </div>
-        <div className="mt-4 grid gap-8 lg:grid-cols-3">
-          {currentUser?.projects
-            ?.filter(
-              (project: any) => project.phase === PHASES[activeIndex].type
-            )
-            .map((project, index) => (
-              <ApplicationCard
-                project={project}
-                key={project?.info?._id || index}
-              />
-            ))}
-        </div>
-      </Card>
-    </AppUserSubmenuLayout>
+    <>
+      <SEO />
+      <AppUserSubmenuLayout submenu={submenu} activeIndex={activeIndex}>
+        <Card
+          shadow
+          className="h-85 scrollbar-hide overflow-scroll bg-white p-6"
+        >
+          <div className={`text-2xl font-medium text-black/80`}>
+            {PHASES[activeIndex].title}
+          </div>
+          <CardGrid>
+            {currentUser?.projects
+              ?.filter(
+                (project: any) => project.phase === PHASES[activeIndex].type
+              )
+              .map((project, index) => (
+                <ApplicationCard
+                  project={project}
+                  key={project?.info?._id || index}
+                />
+              ))}
+          </CardGrid>
+        </Card>
+      </AppUserSubmenuLayout>
+    </>
   );
 };
 

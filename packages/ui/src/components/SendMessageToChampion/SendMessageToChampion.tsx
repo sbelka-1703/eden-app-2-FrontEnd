@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { gql, useMutation } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
 import {
@@ -7,11 +6,13 @@ import {
   MutationAddNewChatArgs,
   Project,
   RoleType,
+  ServerTemplate,
 } from "@eden/package-graphql/generated";
 import {
   Avatar,
   Button,
   Loading,
+  ServerSelector,
   TextArea,
   TextHeading3,
 } from "@eden/package-ui";
@@ -56,27 +57,26 @@ export const SendMessageToChampion = ({
   // console.log("role", role);
   // console.log("member", member);
 
-  const { currentUser, selectedServer } = useContext(UserContext);
+  const { currentUser } = useContext(UserContext);
   const [message, setMessage] = useState("");
   const [sendingMessage, setSendingMessage] = useState(false);
   const [isMessageSent, setIsMessageSent] = useState(false);
 
+  const [selectedServer, setSelectedServer] = useState<ServerTemplate>({});
+
   const [addNewChat] = useMutation<any, MutationAddNewChatArgs>(ADD_NEW_CHAT);
 
-  const [changeTeamMember_Phase_Project, {}] = useMutation(
-    SET_APPLY_TO_PROJECT,
-    {
-      onCompleted: () => {
-        toast.success("success");
-        setTimeout(() => {
-          setSendingMessage(false);
-        }, 1000);
-      },
-      onError: (error) => {
-        toast.error(error.message);
-      },
-    }
-  );
+  const [changeTeamMemberPhaseProject, {}] = useMutation(SET_APPLY_TO_PROJECT, {
+    onCompleted: () => {
+      toast.success("success");
+      setTimeout(() => {
+        setSendingMessage(false);
+      }, 1000);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
   const createThread = async (body: CreateThreadApiRequestBody) => {
     const response = await fetch(encodeURI("/api/discord/createThread"), {
@@ -161,7 +161,7 @@ export const SendMessageToChampion = ({
     } finally {
       setIsMessageSent(true);
       if (project?._id && member?._id && role?._id) {
-        changeTeamMember_Phase_Project({
+        changeTeamMemberPhaseProject({
           variables: {
             fields: {
               projectID: project?._id,
@@ -198,6 +198,17 @@ export const SendMessageToChampion = ({
                   Send message to @{member?.discordName} about the {role?.title}{" "}
                   Role
                 </TextHeading3>
+                <div className={`my-4 md:mr-28 md:flex md:justify-between`}>
+                  <div
+                    className={`font-Inter my-auto font-medium text-gray-700`}
+                  >
+                    Select a Discord Server to Connect in
+                  </div>
+                  <ServerSelector
+                    compareServerID={project?.serverID || []}
+                    onChangeServer={(val) => setSelectedServer(val)}
+                  />
+                </div>
                 <div className="flex items-center ">
                   <Avatar
                     src={currentUser?.discordAvatar || ""}

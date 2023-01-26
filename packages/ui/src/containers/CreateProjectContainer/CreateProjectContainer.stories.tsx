@@ -1,4 +1,5 @@
 import { Project } from "@eden/package-graphql/generated";
+import { getProject } from "@eden/package-mock";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { useState } from "react";
 
@@ -20,16 +21,14 @@ export default {
 const Template: ComponentStory<typeof CreateProjectContainer> = (args) => {
   const [projectState, setProjectState] = useState<Project>();
   const [step, setStep] = useState(PROJECT_STEPS.START);
-  const [view, setView] = useState<"grants" | "profile">("grants");
-
-  console.log("view", view);
+  const [view, setView] = useState<"main" | "project">("main");
 
   return (
     <CreateProjectContainer
       {...args}
       step={step}
       setStep={setStep}
-      state={projectState}
+      // state={projectState}
       setState={setProjectState}
       setView={setView}
     />
@@ -37,4 +36,12 @@ const Template: ComponentStory<typeof CreateProjectContainer> = (args) => {
 };
 
 export const Default = Template.bind({});
-Default.args = {};
+Default.args = {
+  roleIndex: 0,
+};
+
+export const Edit = Template.bind({});
+Edit.args = {
+  roleIndex: 0,
+  state: getProject(),
+};

@@ -1,6 +1,8 @@
 import { DiscoverContext, DiscoverModal } from "@eden/package-context";
+import { PreferencesType } from "@eden/package-graphql/generated";
 import {
   DiscoverTalentDropdownModal,
+  PreferencesModal,
   PrioritizeModal,
   RequirementsModal,
   SkipFlowModal,
@@ -18,11 +20,14 @@ export interface IDiscoverModalContainerProps {
   image?: any;
   // eslint-disable-next-line no-unused-vars
   setArrayOfNodes?: (val: string[]) => void;
+  // eslint-disable-next-line no-unused-vars
+  setPreferences?: (val: PreferencesType) => void;
 }
 
 export const DiscoverModalContainer = ({
   image,
   setArrayOfNodes,
+  setPreferences,
 }: IDiscoverModalContainerProps) => {
   const { project, openModal, setOpenModal } = useContext(DiscoverContext);
 
@@ -57,8 +62,28 @@ export const DiscoverModalContainer = ({
           image={image}
           openModal={openModal === DiscoverModal.START_INFO}
           onNext={() => {
+            setOpenModal(DiscoverModal.PREFERENCES);
+          }}
+        />
+      )}
+
+      {openModal === DiscoverModal.PREFERENCES && (
+        <PreferencesModal
+          key={"" + project?.role?.length}
+          battery
+          openModal={openModal === DiscoverModal.PREFERENCES}
+          onClose={() => {
+            setOpenModal(DiscoverModal.SKIP_ALERT);
+            setNextStep(DiscoverModal.SKILLS_CATEGORY);
+          }}
+          onSubmit={(val) => {
+            console.log(val);
+            if (val) {
+              if (setPreferences) setPreferences(val);
+            }
             setOpenModal(DiscoverModal.SKILLS_CATEGORY);
           }}
+          numMatches={38}
         />
       )}
 
@@ -80,6 +105,7 @@ export const DiscoverModalContainer = ({
           subTitle={`Select what you want them to help you with.`}
           nodeType={`expertise`}
           matchType={matchType}
+          previousValues={nodeIdArray}
         />
       )}
 
@@ -103,6 +129,7 @@ export const DiscoverModalContainer = ({
           subTitle={`Select what you want them to help you with.`}
           nodeType={`typeProject`}
           matchType={matchType}
+          previousValues={nodeIdArray}
         />
       )}
 

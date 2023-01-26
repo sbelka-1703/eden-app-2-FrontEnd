@@ -34,7 +34,7 @@ export async function getServerSideProps(ctx: {
     redirectUrl = redirect;
   }
 
-  if (session) {
+  if (session && session.error !== "RefreshAccessTokenError") {
     return {
       redirect: {
         destination: redirectUrl ? `/${redirectUrl}` : `/home`,

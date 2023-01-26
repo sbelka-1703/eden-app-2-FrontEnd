@@ -15,7 +15,7 @@
     "@eden/package-context": "*",
     "@eden/package-graphql": "*",
     "@eden/package-ui": "*",
-    "@vercel/og": "^0.0.20",
+    "@vercel/og": "^0.0.27",
     "axios": "^1.1.3",
     "discord-api-types": "^0.37.17",
     "graphql": "^16.6.0",
@@ -30,6 +30,7 @@
   "devDependencies": {
     "@babel/core": "^7.19.3",
     "@eden/package-config": "*",
+    "@eden/package-mock": "*",
     "@eden/package-tsconfig": "*",
     "@types/node": "^18.11.9",
     "@types/react": "^18.0.25",

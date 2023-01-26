@@ -3,82 +3,51 @@ import {
   BatteryStepper,
   Button,
   Card,
-  TextArea,
   TextHeading3,
+  TextInputLabel,
 } from "@eden/package-ui";
-import { Dispatch, SetStateAction, useReducer } from "react";
-import { toast } from "react-toastify";
+import { Dispatch, SetStateAction, useEffect } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 
-const initialState = {
-  description: "",
-  descriptionOneLine: "",
+type Inputs = {
+  descriptionOneLine: string;
+  description: string;
 };
-
-function reducer(state: Project, action: any): Project {
-  switch (action.type) {
-    case "HANDLE INPUT TEXT":
-      return {
-        ...state,
-        [action.field]: action.payload.value,
-      };
-    default:
-      return state;
-  }
-}
 
 export interface CreateProjectViews2Props {
   battery: number;
-  setBattery: Dispatch<SetStateAction<number>>;
-  onBack: Dispatch<SetStateAction<Project>>;
-  onNext: Dispatch<SetStateAction<any>>;
-  setProject: Dispatch<SetStateAction<any>>;
+  onBack: () => void;
+  onNext: () => void;
+  setProject?: Dispatch<SetStateAction<any>>;
   project?: Project;
 }
 
 export const CreateProjectViews2 = ({
   onBack,
   battery,
-  setBattery,
   onNext,
   setProject,
   project,
 }: CreateProjectViews2Props) => {
-  const [state, dispath] = useReducer(reducer, project || initialState);
+  const { register, handleSubmit, watch } = useForm<Inputs>({
+    defaultValues: {
+      descriptionOneLine: project?.descriptionOneLine || "",
+      description: project?.description || "",
+    },
+  });
+  const onSubmit: SubmitHandler<Inputs> = () => onNext();
 
-  const handleUpdateState = (value: any, field: string) => {
-    dispath({
-      type: "HANDLE INPUT TEXT",
-      field: field,
-      payload: {
-        value,
-      },
+  useEffect(() => {
+    const subscription = watch((data) => {
+      setProject &&
+        setProject({
+          ...project,
+          ...data,
+        });
     });
-    if (field == "description") {
-      setProject({
-        ...project,
-        description: value,
-      });
-    }
-    if (field == "descriptionOneLine") {
-      setProject({
-        ...project,
-        descriptionOneLine: value,
-      });
-    }
-  };
 
-  const handleSetProject = (value: any) => {
-    if (!value.descriptionOneLine) {
-      toast.error("Please enter a short description");
-      return;
-    }
-    setProject({
-      ...project,
-      description: value.description,
-      descriptionOneLine: value.descriptionOneLine,
-    });
-    onNext(value);
-  };
+    return () => subscription.unsubscribe();
+  }, [watch]);
 
   return (
     <Card className={`scrollbar-hide h-85 overflow-y-scroll pb-6`}>
@@ -87,44 +56,43 @@ export const CreateProjectViews2 = ({
         <BatteryStepper size="sm" batteryPercentage={battery} />
       </div>
       <div className="px-7">
-        <div className="my-4">
-          <TextArea
-            label={`Write short one-liner to introduce your project:`}
-            value={state.descriptionOneLine || ""}
-            onChange={(e) => {
-              handleUpdateState(e.target.value, "descriptionOneLine");
-              setBattery(battery < 30 ? battery + 10 : battery);
-            }}
-            placeholder="Start typing here..."
-            rows={2}
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {/* register your input into the hook by invoking the "register" function */}
+          <TextInputLabel htmlFor={`project-short-description`}>
+            {`Write short one-liner to introduce your project:`}
+          </TextInputLabel>
+          <textarea
+            id={`project-short-description`}
+            className={`input-primary`}
+            rows={3}
+            required
+            {...register("descriptionOneLine")}
           />
-        </div>
-        <div className="my-4">
-          <TextArea
-            label={`Write a full description of your project: (Optional)`}
-            value={state.description || ""}
-            onChange={(e) => {
-              handleUpdateState(e.target.value, "description");
-              setBattery(battery < 40 ? battery + 10 : battery);
-            }}
-            placeholder="Start typing here..."
-            rows={7}
-          />
-        </div>
 
-        <div className="flex justify-between">
-          <Button variant="secondary" onClick={() => onBack(state)}>
-            Back
-          </Button>
-          <Button
-            variant="secondary"
-            onClick={() => {
-              handleSetProject(state);
-            }}
-          >
-            Next
-          </Button>
-        </div>
+          <TextInputLabel htmlFor={`project-description`}>
+            {`Write a full description of your project:`}
+          </TextInputLabel>
+          <textarea
+            id={`project-description`}
+            className={`input-primary`}
+            rows={8}
+            required
+            {...register("description")}
+          />
+
+          <div className="flex justify-between">
+            <Button
+              variant={`secondary`}
+              type={`button`}
+              onClick={() => onBack()}
+            >
+              Back
+            </Button>
+            <Button variant={`secondary`} type={`submit`}>
+              Next
+            </Button>
+          </div>
+        </form>
       </div>
     </Card>
   );

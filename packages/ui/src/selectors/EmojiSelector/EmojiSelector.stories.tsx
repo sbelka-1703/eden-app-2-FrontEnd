@@ -14,7 +14,6 @@ const Template: ComponentStory<typeof EmojiSelector> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  isDisabled: false,
-  // bgColor: "#ffdce9",
-  emoji: "A",
+  bgColor: "#ffdce9",
+  emoji: "👋",
 };

@@ -1,11 +1,5 @@
 import { Members } from "@eden/package-graphql/generated";
-import {
-  Avatar,
-  Badge,
-  Card,
-  EmojiSelector,
-  TextHeading3,
-} from "@eden/package-ui";
+import { Avatar, Badge, Card, TextHeading3 } from "@eden/package-ui";
 
 interface ReviewProps {
   _id: string;
@@ -36,11 +30,11 @@ export const ReviewCard = ({ review }: ReviewCardProps) => {
             </div>
           </div>
           <div className="flex flex-row p-3">
-            <div className="mx-3 rounded-full bg-emerald-300">
-              <EmojiSelector isDisabled bgColor="" emoji="✨" size={40} />
+            <div className="mx-3 ">
+              <Avatar size="xs" emoji="✨" backColorEmoji="#b2e9b0" />
             </div>
             <div className="mx-3 rounded-full	bg-pink-500">
-              <EmojiSelector isDisabled bgColor="" emoji="🚀" size={40} />
+              <Avatar size="xs" emoji="🚀" backColorEmoji="#fcacbf" />
             </div>
           </div>
         </div>

@@ -7,11 +7,6 @@ export const FIND_MEMBER = gql`
       discordAvatar
       discordName
       bio
-      content {
-        interest
-        mostProud
-        showCaseAbility
-      }
       archiveProjects
       discriminator
       hoursPerWeek
@@ -30,19 +25,17 @@ export const FIND_MEMBER = gql`
         name
         url
       }
-      skills {
-        skillInfo {
-          _id
-          name
-        }
-        level
-      }
       memberRole {
         _id
         title
       }
       nodes {
         nodeData {
+          aboveNodes {
+            _id
+            name
+            node
+          }
           _id
           name
           node
@@ -63,6 +56,23 @@ export const FIND_MEMBER = gql`
         }
         endorsementMessage
         arweaveTransactionID
+      }
+      preferences {
+        findCoFounder {
+          interestedMatch
+        }
+        findMentee {
+          interestedMatch
+        }
+        findMentor {
+          interestedMatch
+        }
+        findProject {
+          interestedMatch
+        }
+        findUser {
+          interestedMatch
+        }
       }
     }
   }

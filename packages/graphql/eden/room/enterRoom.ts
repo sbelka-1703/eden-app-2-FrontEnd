@@ -8,11 +8,6 @@ export const ENTER_ROOM = gql`
       members {
         _id
         discordName
-        skills {
-          skillInfo {
-            name
-          }
-        }
       }
       registeredAt
     }

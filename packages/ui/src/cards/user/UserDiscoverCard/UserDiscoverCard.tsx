@@ -11,9 +11,10 @@ import {
   Card,
   CommonServerAvatarList,
   LongText,
-  MemberModal,
+  // MemberModal,
   SocialMediaComp,
   UserInviteModal,
+  UserMessageModal,
   UserWithDescription,
 } from "@eden/package-ui";
 import { useState } from "react";
@@ -25,6 +26,7 @@ export interface IUserDiscoverCardProps {
   project?: Maybe<Project>;
   role?: Maybe<RoleType>;
   invite?: boolean;
+  messageUser?: boolean;
   phase?: string;
 }
 
@@ -102,20 +104,22 @@ export const UserDiscoverCard = ({
           <p className="font-Inter mb-1 text-sm font-bold text-zinc-500">
             🎙 ENDORSEMENTS
           </p>
-          <AvatarList
-            className="inline-block !w-auto !justify-start"
-            avatars={member?.endorsements
-              .slice(0, 5)
-              .map((endorsement: any) => ({
-                size: "xs",
-                src: endorsement?.endorser?.discordAvatar,
-              }))}
-          />
-          {member?.endorsements.slice(5).length > 0 && (
-            <p className="text-soilGray ml-6 inline">
-              +{member?.endorsements.slice(8).length} more
-            </p>
-          )}
+          <div className={`flex`}>
+            <AvatarList
+              className="inline-block !w-auto !justify-start"
+              avatars={member?.endorsements
+                .slice(0, 5)
+                .map((endorsement: any) => ({
+                  size: "xs",
+                  src: endorsement?.endorser?.discordAvatar,
+                }))}
+            />
+            {member?.endorsements.slice(5).length > 0 && (
+              <p className="text-soilGray ml-6 mt-1 inline">
+                +{member?.endorsements.slice(8).length} more
+              </p>
+            )}
+          </div>
         </div>
       )}
 
@@ -147,10 +151,10 @@ export const UserDiscoverCard = ({
           onClose={() => setIsOpen(!isOpen)}
         />
       ) : (
-        <MemberModal
+        <UserMessageModal
           open={isOpen}
           member={member}
-          percentage={matchPercentage?.totalPercentage || undefined}
+          matchPercentage={matchPercentage}
           onClose={() => setIsOpen(!isOpen)}
         />
       )}

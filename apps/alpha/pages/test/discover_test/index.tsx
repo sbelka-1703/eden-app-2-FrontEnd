@@ -13,14 +13,9 @@ import {
 import {
   AppUserSubmenuLayout,
   Card,
-  CardGrid,
   DiscoverContainer,
-  GridItemEight,
-  GridItemFour,
-  GridLayout,
   SEO,
-  UserDiscoverCard,
-  WarningCard,
+  UserDiscoverCardTest,
 } from "@eden/package-ui";
 import { ExclamationIcon } from "@heroicons/react/solid";
 import { useContext, useState } from "react";
@@ -38,7 +33,6 @@ const DiscoverPage: NextPageWithLayout = () => {
     variables: {
       fields: {
         nodesID: nodesID,
-        // TODO: change to selectedServer
         serverID: selectedServerID,
       },
     },
@@ -59,36 +53,27 @@ const DiscoverPage: NextPageWithLayout = () => {
   return (
     <>
       <SEO />
-      <GridLayout>
-        <GridItemFour>
-          <div className="flex flex-col gap-4 ">
-            <Card className={`scrollbar-hide overflow-scroll bg-white p-4 `}>
-              {openModal !== DiscoverModal.SKILLS_CATEGORY && (
-                <span className="text-lg font-semibold">
-                  Who are you looking for?
-                </span>
-              )}
-              <DiscoverContainer
-                setArrayOfNodes={(val) => {
-                  setNodesID(val);
-                }}
-              />
-            </Card>
-            {!openModal && (
-              <WarningCard
-                onClickCompleteProfile={() =>
-                  router.push("/create-project?from=discover")
-                }
-                text1="YOUR PROFILE IS 23% COMPLETE. IT HAS TO BE 60%+ TO BE VISIBLE TO EDEN NETWORK"
-                text2="Keep adding more info"
-              />
-            )}
-          </div>
-        </GridItemFour>
-        <GridItemEight>
+      <div className="bg-background container mx-auto flex max-w-screen-2xl flex-col gap-4 py-8 px-2 sm:px-5 lg:flex-row lg:justify-between xl:gap-8 ">
+        <div
+          className={`flex w-full flex-col ${
+            openModal !== DiscoverModal.SKILLS_CATEGORY ? "lg:basis-1/3" : ""
+          }`}
+        >
+          <Card
+            className={`scrollbar-hide  overflow-scroll bg-white p-4 lg:max-h-[540px] `}
+          >
+            <DiscoverContainer
+              setArrayOfNodes={(val) => {
+                setNodesID(val);
+              }}
+            />
+          </Card>
+        </div>
+
+        {openModal !== DiscoverModal.SKILLS_CATEGORY && (
           <Card
             shadow
-            className="scrollbar-hide h-85 overflow-scroll bg-white p-4"
+            className="scrollbar-hide max-h-[564px] max-w-[870px] basis-2/3 overflow-scroll bg-white p-4"
           >
             {nodesID?.length ? (
               <div>
@@ -96,10 +81,10 @@ const DiscoverPage: NextPageWithLayout = () => {
                   Hiring for your Project :{" "}
                   {dataMembers?.matchNodesToMembers.length ?? 0} Users{" "}
                 </span>
-                <CardGrid>
+                <div className="grid gap-5 pt-2 pb-6 md:grid-cols-3 ">
                   {dataMembers?.matchNodesToMembers.map(
                     (member: MatchMembersToSkillOutput, index: number) => (
-                      <UserDiscoverCard
+                      <UserDiscoverCardTest
                         key={index}
                         matchMember={member}
                         role={selectedRole}
@@ -109,7 +94,7 @@ const DiscoverPage: NextPageWithLayout = () => {
                       />
                     )
                   )}
-                </CardGrid>
+                </div>
               </div>
             ) : (
               <div className="h-full p-4 text-lg font-semibold">
@@ -130,8 +115,10 @@ const DiscoverPage: NextPageWithLayout = () => {
               </div>
             )}
           </Card>
-        </GridItemEight>
-      </GridLayout>
+        )}
+      </div>
+      {/* </GridItemEight>
+      </GridLayout> */}
     </>
   );
 };

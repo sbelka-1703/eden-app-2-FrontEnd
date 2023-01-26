@@ -84,7 +84,7 @@ export const ProjectNodeMatchInfo = ({
           </div>
         </div>
       </div>
-      <div className={`grid grid-cols-1 gap-4 md:grid-cols-3`}>
+      <div className={`grid grid-cols-1 md:grid-cols-3 md:gap-4`}>
         <div className={`col-span-2`}>
           <div className={`mt-5 mb-2 flex uppercase`}>
             <p className="text-soilGray/100 font-medium tracking-wide">

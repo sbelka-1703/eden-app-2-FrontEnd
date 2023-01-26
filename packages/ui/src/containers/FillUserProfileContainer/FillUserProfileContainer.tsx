@@ -1,31 +1,31 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
-import {
-  FIND_NODES,
-  FIND_ROLE_TEMPLATES,
-  UPDATE_MEMBER,
-} from "@eden/package-graphql";
+import { FIND_ROLE_TEMPLATES, UPDATE_MEMBER } from "@eden/package-graphql";
 import {
   Maybe,
   Members,
   Mutation,
   Node,
   NodesType,
+  PreferencesType,
+  PreferencesTypeFind,
   RoleTemplate,
 } from "@eden/package-graphql/generated";
 import {
   BatteryStepper,
   Button,
   Card,
+  FillSocialLinks,
+  IPREFERENCES_TITLE,
   Loading,
+  PREFERENCES_TITLE,
   RoleSelector,
-  SelectBoxNode,
-  SocialMediaInput,
+  SelectNodes,
   TextArea,
   UserExperienceCard,
 } from "@eden/package-ui";
 import { STEPS } from "@eden/package-ui/utils/enums/fill-profile-steps";
-import { forEach, isEmpty, map } from "lodash";
+import { CheckIcon } from "@heroicons/react/outline";
 import {
   Dispatch,
   SetStateAction,
@@ -33,6 +33,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { toast } from "react-toastify";
 
 export interface IFillUserProfileContainerProps {
   state?: Members;
@@ -42,13 +43,19 @@ export interface IFillUserProfileContainerProps {
   setView?: Dispatch<SetStateAction<"grants" | "profile">>;
   experienceOpen?: number | null;
   percentage?: number;
-  // eslint-disable-next-line no-unused-vars
-  setExperienceOpen?: (val: number | null) => void;
+  setExperienceOpen?: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
 const UPDATE_NODES_MEMBER = gql`
   mutation ($fields: updateNodesToMemberInput!) {
     updateNodesToMember(fields: $fields) {
+      _id
+    }
+  }
+`;
+const ADD_PREFERENCES_TO_MEMBER = gql`
+  mutation ($fields: addPreferencesToMemberInput!) {
+    addPreferencesToMember(fields: $fields) {
       _id
     }
   }
@@ -70,10 +77,15 @@ export const FillUserProfileContainer = ({
   const [updateNodes, {}] = useMutation(UPDATE_NODES_MEMBER, {
     onCompleted({ updateNodesToMember }: Mutation) {
       if (!updateNodesToMember) console.log("updateNodesToMember is null");
-      console.log("updateNodesToMember", updateNodesToMember);
+      // console.log("updateNodesToMember", updateNodesToMember);
     },
-    onError(error) {
-      console.log(error);
+  });
+
+  const [addPreferences, {}] = useMutation(ADD_PREFERENCES_TO_MEMBER, {
+    onCompleted({ addPreferencesToMember }: Mutation) {
+      if (!addPreferencesToMember)
+        console.log("addPreferencesToMember is null");
+      // console.log("addPreferencesToMember", addPreferencesToMember);
     },
   });
 
@@ -83,13 +95,14 @@ export const FillUserProfileContainer = ({
     },
     onCompleted({ updateMember }: Mutation) {
       if (!updateMember) console.log("updateMember is null");
-      console.log("updateMember", updateMember);
-      // router.push(`/${router.query.from}?project=${updateMember?._id}`);
+      // console.log("updateMember", updateMember);
       updateNodes({
         variables: {
           fields: {
             nodeType: "sub_expertise",
-            nodesID: state?.nodes?.map((node) => node?.nodeData?._id),
+            nodesID: state?.nodes
+              ?.filter((node) => node?.nodeData?.node === "sub_expertise")
+              .map((node) => node?.nodeData?._id),
             memberID: currentUser?._id,
           },
         },
@@ -125,50 +138,25 @@ export const FillUserProfileContainer = ({
     });
   };
 
-  const handleSetNodes = () => {
+  const handleSetNodes = (value: Maybe<Node | undefined>[]) => {
     setState({
       ...state,
-      nodes: selectedNodes,
+      nodes: value.map((item: Maybe<Node | undefined>) => ({
+        nodeData: item,
+      })) as NodesType,
     });
   };
 
-  useEffect(() => {
-    if (currentUser?.links)
-      setState({
-        ...state,
-        links: state?.links?.map((link) => {
-          let newLink = { ...link };
-
-          if (link?.name === "twitter")
-            newLink = {
-              ...newLink,
-              url: link?.url?.replace("https://twitter.com/", ""),
-            };
-          if (link?.name === "github")
-            newLink = {
-              ...newLink,
-              url: link?.url?.replace("https://github.com/", ""),
-            };
-          if (link?.name === "lens")
-            newLink = {
-              ...newLink,
-              url: link?.url?.replace("https://www.lensfrens.xyz/", ""),
-            };
-          if (link?.name === "telegram")
-            newLink = {
-              ...newLink,
-              url: link?.url?.replace("https://t.me/", ""),
-            };
-
-          return newLink;
-        }),
-      });
-  }, [currentUser]);
+  const handleSetPreferences = () => {
+    setState({
+      ...state,
+      preferences: preferences,
+    });
+  };
 
   const handleSubmitForm = () => {
     const fields = {
       _id: currentUser?._id,
-      // serverID: [],
       bio: state?.bio,
       hoursPerWeek: state?.hoursPerWeek,
       links: state?.links?.map((item: any) => ({
@@ -186,7 +174,6 @@ export const FillUserProfileContainer = ({
         signup: true,
         percentage: percentage,
       },
-      // nodes: state?.nodes?.map((node) => node?.nodeData?._id),
     };
 
     updateMember({
@@ -197,74 +184,51 @@ export const FillUserProfileContainer = ({
     });
   };
 
-  const { data: dataNodes } = useQuery(FIND_NODES, {
-    variables: {
-      fields: {
-        node: "expertise",
+  const handleSubmitPreferences = () => {
+    const fields = {
+      memberID: currentUser?._id,
+      preferences: Object.keys(preferences).map((key) => ({
+        preference: key,
+        interestedMatch: (
+          preferences[key as keyof PreferencesType] as PreferencesTypeFind
+        )?.interestedMatch,
+      })),
+    };
+
+    addPreferences({
+      variables: {
+        fields: fields,
       },
-    },
-    context: { serviceName: "soilservice" },
+      context: { serviceName: "soilservice" },
+    });
+  };
+
+  const [preferences, setPreferences] = useState<PreferencesType>({
+    findCoFounder: {
+      interestedMatch:
+        currentUser?.preferences?.findCoFounder?.interestedMatch || null,
+    } as PreferencesTypeFind,
+    findMentee: {
+      interestedMatch:
+        currentUser?.preferences?.findMentee?.interestedMatch || null,
+    } as PreferencesTypeFind,
+    findMentor: {
+      interestedMatch:
+        currentUser?.preferences?.findMentor?.interestedMatch || null,
+    } as PreferencesTypeFind,
+    findProject: {
+      interestedMatch:
+        currentUser?.preferences?.findProject?.interestedMatch || null,
+    } as PreferencesTypeFind,
+    findUser: {
+      interestedMatch:
+        currentUser?.preferences?.findUser?.interestedMatch || null,
+    } as PreferencesTypeFind,
   });
 
-  const { data: dataNodesStructured } = useQuery(FIND_NODES, {
-    variables: {
-      fields: {
-        node: "expertise",
-        selectedNodes: currentUser?.nodes?.map((node) => node?.nodeData?._id),
-      },
-    },
-    context: { serviceName: "soilservice" },
-  });
-
-  function getSelectedItems() {
-    if (dataNodes?.findNodes) {
-      const _selectedItems: any = {};
-
-      forEach(dataNodes?.findNodes, (el, index) => {
-        _selectedItems[el._id] = dataNodes?.findNodes[index].subNodes.filter(
-          (subNode: Node) => {
-            return currentUser?.nodes?.some(
-              (_subNode) => subNode?._id === _subNode?.nodeData?._id
-            );
-          }
-        ) as Node[];
-      });
-
-      return _selectedItems;
-    } else {
-      return null;
-    }
-  }
-
-  const [selectedItems, setSelectedItems] = useState<{
-    [key: string]: Node[];
-  }>(getSelectedItems() || []);
-
-  const [selectedNodes, setSelectedNodes] = useState<Maybe<NodesType>[]>(
-    state?.nodes || []
-  );
-
   useEffect(() => {
-    if (selectedItems) {
-      const selectedNodeArr: NodesType[] = [];
-
-      forEach(selectedItems, (el) => {
-        if (!isEmpty(el)) {
-          forEach(el, (item) => {
-            selectedNodeArr.push({
-              nodeData: { ...item, node: "sub_expertise" },
-            } as NodesType);
-          });
-        }
-      });
-
-      setSelectedNodes(selectedNodeArr);
-    }
-  }, [selectedItems]);
-
-  useEffect(() => {
-    handleSetNodes();
-  }, [selectedNodes]);
+    handleSetPreferences();
+  }, [preferences]);
 
   return (
     <Card className="bg-white p-4">
@@ -297,7 +261,7 @@ export const FillUserProfileContainer = ({
           <section className="mb-4">
             {step === STEPS.ROLE && (
               <>
-                <p>{`Let's start with your role:`}</p>
+                <p className="mb-4">{`Let's start with your role:`}</p>
                 <RoleSelector
                   value={state?.memberRole?.title || ""}
                   roles={
@@ -309,39 +273,60 @@ export const FillUserProfileContainer = ({
                     handleSetRole(val as RoleTemplate);
                   }}
                 />
+
+                <p className="mb-4 mt-6">{`Choose what you use Eden Network for:`}</p>
+                <div className="flex w-full flex-wrap">
+                  {Object.keys(preferences).map((key: string, index) => (
+                    <div key={index} className="relative mr-4 mb-4">
+                      <input
+                        type="checkbox"
+                        checked={
+                          (
+                            preferences[
+                              key as keyof PreferencesType
+                            ] as PreferencesTypeFind
+                          )?.interestedMatch || false
+                        }
+                        id={key}
+                        className="peer hidden"
+                        onChange={(e) => {
+                          console.log(e.target.checked);
+
+                          setPreferences({
+                            ...preferences,
+                            [key]: {
+                              interestedMatch: e.target.checked || null,
+                            },
+                          });
+                        }}
+                      />
+                      <label
+                        htmlFor={key}
+                        className="peer-checked:text-accentColor peer-checked:border-accentColor border-soilGray block select-none rounded-full border px-4 py-2 peer-checked:border-2 peer-checked:pr-10 peer-checked:font-bold"
+                      >
+                        {PREFERENCES_TITLE[key as keyof IPREFERENCES_TITLE]}
+                      </label>
+                      <label
+                        htmlFor={key}
+                        className="absolute top-2 right-2 hidden peer-checked:block"
+                      >
+                        <CheckIcon className="text-accentColor" width={30} />
+                      </label>
+                    </div>
+                  ))}
+                </div>
               </>
             )}
             {step === STEPS.BIO && (
               <>
                 <p>{`Add your expertise:`}</p>
-                {/* {JSON.stringify(dataNodesStructured)} */}
-                <div className="mb-8 mt-4 flex h-24 w-full flex-wrap justify-center gap-2">
-                  {dataNodesStructured?.findNodes ? (
-                    <>
-                      {!isEmpty(dataNodesStructured?.findNodes) &&
-                        map(
-                          dataNodesStructured?.findNodes,
-                          (item: any, key: number) => (
-                            <SelectBoxNode
-                              multiple
-                              key={key}
-                              caption={item?.name}
-                              items={item?.subNodes}
-                              // defaultValues={dataNodesStructured}
-                              onChange={(val) => {
-                                setSelectedItems((prevState) => ({
-                                  ...prevState,
-                                  [item?._id]: val,
-                                }));
-                              }}
-                            />
-                          )
-                        )}
-                    </>
-                  ) : (
-                    <Loading />
-                  )}
-                </div>
+                <SelectNodes
+                  nodeType={"expertise"}
+                  selectedNodes={state?.nodes}
+                  onChangeNodes={(val) => {
+                    handleSetNodes(val);
+                  }}
+                />
                 <p>{`Please write a short bio!`}</p>
                 <TextArea
                   onChange={(e) => {
@@ -352,103 +337,31 @@ export const FillUserProfileContainer = ({
               </>
             )}
             {/* {step === STEPS.COMPENSATION && (
-                    <>
-                      <p>{`What's your expected compensation?`}</p>
-                      <SalaryRangeChart
-                        data={salaries}
-                        onChange={(val) => {
-                          setState({
-                            ...state,
-                            expectedSalary: val.values[1],
-                          });
-                        }}
-                      />
-                    </>
-                  )} */}
+              <>
+                <p>{`What's your expected compensation?`}</p>
+                <SalaryRangeChart
+                  data={salaries}
+                  onChange={(val) => {
+                    setState({
+                      ...state,
+                      expectedSalary: val.values[1],
+                    });
+                  }}
+                />
+              </>
+            )} */}
             {step === STEPS.SOCIALS && (
               <>
                 <p>{`Share your socials!`}</p>
-                {["twitter", "github", "telegram", "lens"].map((item) => {
-                  let placeholder = "";
-
-                  switch (item) {
-                    case "twitter":
-                      placeholder = `${item} handle`;
-                      break;
-                    case "github":
-                      placeholder = `${item} handle`;
-                      break;
-                    case "telegram":
-                      placeholder = `${item} handle`;
-                      break;
-                    case "lens":
-                      placeholder = `${item} handle`;
-                      break;
-                    default:
-                      placeholder = "";
-                  }
-                  return (
-                    <SocialMediaInput
-                      key={item}
-                      platform={item}
-                      placeholder={placeholder}
-                      value={
-                        state?.links?.find((link) => link?.name === item)
-                          ?.url || ""
-                      }
-                      onChange={(e) => {
-                        let newLinks = state?.links ? [...state.links] : [];
-                        const hasLink = state?.links?.some(
-                          (link) => link?.name === item
-                        );
-
-                        if (hasLink) {
-                          newLinks = newLinks.map((link) => {
-                            let newUrl = e.target.value;
-
-                            if (link?.name === "twitter")
-                              newUrl = "https://twitter.com/" + e.target.value;
-                            if (link?.name === "github")
-                              newUrl = "https://github.com/" + e.target.value;
-                            if (link?.name === "lens")
-                              newUrl =
-                                "https://www.lensfrens.xyz/" + e.target.value;
-                            if (link?.name === "telegram")
-                              newUrl = "https://t.me/" + e.target.value;
-
-                            return link?.name === item
-                              ? { ...link, url: newUrl }
-                              : link;
-                          });
-                        } else {
-                          let newUrl = e.target.value;
-
-                          if (item === "twitter")
-                            newUrl = "https://twitter.com/" + e.target.value;
-                          if (item === "github")
-                            newUrl = "https://github.com/" + e.target.value;
-                          if (item === "lens")
-                            newUrl =
-                              "https://www.lensfrens.xyz/" + e.target.value;
-                          if (item === "telegram")
-                            newUrl = "https://t.me/" + e.target.value;
-
-                          newLinks.push({
-                            __typename: "linkType",
-                            name: item,
-                            url: newUrl,
-                          });
-                        }
-
-                        setState({
-                          ...state,
-                          links: newLinks,
-                        });
-                      }}
-                      shape="rounded"
-                    />
-                  );
-                })}
+                <FillSocialLinks
+                  links={currentUser?.links || []}
+                  onChange={(val) => {
+                    setState({
+                      ...state,
+                      links: val,
+                    });
+                  }}
+                />
               </>
             )}
             {step === STEPS.EXP && (
@@ -487,10 +400,39 @@ export const FillUserProfileContainer = ({
                 className="ml-auto"
                 onClick={() => {
                   if (step === STEPS.ROLE && setStep) {
+                    const hasPreferences = state?.preferences
+                      ? (
+                          Object.keys(state?.preferences) as [
+                            keyof IPREFERENCES_TITLE
+                          ]
+                        ).filter(
+                          (key) =>
+                            state.preferences![key]?.interestedMatch &&
+                            key.includes("find")
+                        ).length > 0
+                      : false;
+
+                    if (!state?.memberRole?._id) {
+                      toast.error("Please Choose Role");
+                      return;
+                    }
+                    if (!hasPreferences) {
+                      toast.error("Please Choose Preferences");
+                      return;
+                    }
                     setStep(STEPS.BIO);
                     handleSubmitForm();
+                    handleSubmitPreferences();
                   }
                   if (step === STEPS.BIO && setStep) {
+                    if (!state?.bio || state?.bio?.length < 50) {
+                      toast.error("Bio should be at least 50 characters");
+                      return;
+                    }
+                    if (state?.nodes?.length === 0) {
+                      toast.error("Please Choose Your Expertise");
+                      return;
+                    }
                     setStep(STEPS.SOCIALS);
                     handleSubmitForm();
                   }

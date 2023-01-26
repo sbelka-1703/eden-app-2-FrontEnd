@@ -1,14 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 import { Node } from "@eden/package-graphql/generated";
-import {
-  BatteryStepper,
-  Button,
-  Loading,
-  Modal,
-  SelectBoxNode,
-  TextBody,
-  TextHeading3,
-} from "@eden/package-ui";
+import { Button, Loading, SelectBoxNode, TextHeading3 } from "@eden/package-ui";
 import { forEach, isEmpty, map } from "lodash";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
@@ -52,6 +44,7 @@ export const DiscoverTalent = ({
   onPrev,
   title = `Your role`,
   nodeType,
+  // eslint-disable-next-line no-unused-vars
   batteryPercentage,
 }: IDiscoverTalentProps) => {
   // console.log("hackathon talent dropdown modal", dataNodes);
@@ -106,6 +99,7 @@ export const DiscoverTalent = ({
     if (selectedItems) {
       const selectedNodeId: string[] = [];
       const selectedNodeNames: string[] = [];
+
       forEach(selectedItems, (el) => {
         if (!isEmpty(el)) {
           forEach(el, (item) => {
