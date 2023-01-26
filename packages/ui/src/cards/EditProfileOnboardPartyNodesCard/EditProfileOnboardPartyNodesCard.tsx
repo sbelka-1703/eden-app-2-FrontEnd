@@ -28,7 +28,7 @@ import {
   TextLabel,
 } from "@eden/package-ui";
 import { forEach, isEmpty, map } from "lodash";
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { getFillProfilePercentage } from "../../../utils/fill-profile-percentage";
 
@@ -87,27 +87,15 @@ export const EditProfileOnboardPartyNodesCard = ({
 
   const progress = getFillProfilePercentage(currentUser || {});
 
-  const _handleUpdateUserLinks = (val: any) => {
+  const _handleUpdateUserLinks = (val: LinkType) => {
     handleUpdateUser(val, "links");
   };
 
-  const [updateMember] = useMutation(UPDATE_MEMBER_IN_ROOM, {
-    onError: (error) => {
-      console.log("error", error);
-    },
-  });
+  const [updateMember] = useMutation(UPDATE_MEMBER_IN_ROOM, {});
 
-  const [addNodes] = useMutation(ADD_NODES_TO_MEMBER_IN_ROOM, {
-    onError(error) {
-      console.log("error", error);
-    },
-  });
+  const [addNodes] = useMutation(ADD_NODES_TO_MEMBER_IN_ROOM, {});
 
-  const [deleteNodes] = useMutation(DELETE_NODES_TO_MEMBER_IN_ROOM, {
-    onError(error) {
-      console.log("error", error);
-    },
-  });
+  const [deleteNodes] = useMutation(DELETE_NODES_TO_MEMBER_IN_ROOM, {});
 
   const handleUpdateUser = (val: any, name: any) => {
     if (!RoomID || !currentUser) return;
@@ -490,11 +478,11 @@ const BioModal = ({ roles, openModal, onSubmit }: IBioModalProps) => {
 
 interface ISocialModalProps {
   openModal: boolean;
-  // eslint-disable-next-line no-unused-vars
-  onSubmit: (data: any) => void;
+  onSubmit: React.Dispatch<React.SetStateAction<Maybe<LinkType>[]>>;
 }
 
 const SocialModal = ({ openModal, onSubmit }: ISocialModalProps) => {
+  const { currentUser } = useContext(UserContext);
   const [links, setLinks] = useState<Maybe<LinkType>[]>([]);
 
   return (
@@ -503,7 +491,13 @@ const SocialModal = ({ openModal, onSubmit }: ISocialModalProps) => {
         <TextHeading3 className="text-center text-lg">
           Include Links so Others Can Find You
         </TextHeading3>
-        <SocialView onChanges={(val) => setLinks(val)} />
+        <div>
+          <TextLabel>SOCIAL MEDIA</TextLabel>
+          <FillSocialLinks
+            links={currentUser?.links || []}
+            onChange={(val) => setLinks(val as Array<Maybe<LinkType>>)}
+          />
+        </div>
       </div>
       <div className={`flex justify-end`}>
         <Button variant="secondary" onClick={() => onSubmit(links)}>
@@ -511,25 +505,5 @@ const SocialModal = ({ openModal, onSubmit }: ISocialModalProps) => {
         </Button>
       </div>
     </Modal>
-  );
-};
-
-interface ISocailViewProps {
-  onChanges?: React.Dispatch<React.SetStateAction<Maybe<LinkType>[]>>;
-}
-
-const SocialView = ({ onChanges }: ISocailViewProps) => {
-  const { currentUser } = useContext(UserContext);
-
-  return (
-    <div>
-      <TextLabel>SOCIAL MEDIA</TextLabel>
-      <FillSocialLinks
-        links={currentUser?.links || []}
-        onChange={(val) => {
-          onChanges && onChanges(val as Array<Maybe<LinkType>>);
-        }}
-      />
-    </div>
   );
 };
