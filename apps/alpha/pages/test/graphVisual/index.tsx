@@ -250,8 +250,6 @@ const TestPage = () => {
     return () => window.removeEventListener("resize", getwidth);
   }, []);
 
-  console.log("width:", width);
-
   return (
     <>
       {/* {data && data.nodes && data.nodes.length > 0 ? (
