@@ -4,7 +4,7 @@ import { Badge, TextHeading3 } from "@eden/package-ui";
 
 // import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
 // import { useState } from "react";
-import { trimParentheses } from "../../../utils/trim-parentheses";
+import { trimParentheses } from "../../../../utils/trim-parentheses";
 
 const colors = [
   "224, 242, 211",

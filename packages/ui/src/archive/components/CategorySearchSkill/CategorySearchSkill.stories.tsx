@@ -5,7 +5,7 @@ import { useState } from "react";
 import { CategorySearchSkill } from "./CategorySearchSkill";
 
 export default {
-  title: "Components/CategorySearchSkill",
+  title: "Archive/Components/CategorySearchSkill",
   component: CategorySearchSkill,
   argTypes: {},
 } as ComponentMeta<typeof CategorySearchSkill>;

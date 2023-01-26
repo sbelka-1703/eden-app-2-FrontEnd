@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { Expandable } from "./Expandable";
 
 export default {
-  title: "Components/Expandable",
+  title: "Archive/Components/Expandable",
   component: Expandable,
   argTypes: {},
 } as ComponentMeta<typeof Expandable>;

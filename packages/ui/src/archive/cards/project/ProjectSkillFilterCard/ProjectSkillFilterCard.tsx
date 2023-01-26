@@ -5,14 +5,11 @@ import {
   SkillRoleType,
   SkillType_Member,
 } from "@eden/package-graphql/generated";
-import {
-  Card,
-  CategorySearchSkill,
-  SkillVisualisationComp,
-  SwitchButton,
-  TextField,
-} from "@eden/package-ui";
+import { Card, SwitchButton, TextField } from "@eden/package-ui";
 import { useState } from "react";
+
+import { CategorySearchSkill } from "../../../components/CategorySearchSkill/CategorySearchSkill";
+import { SkillVisualisationComp } from "../../../components/SkillVisualisationComp/SkillVisualisationComp";
 
 const levels = [
   {

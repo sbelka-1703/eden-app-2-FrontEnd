@@ -5,7 +5,7 @@ import { useState } from "react";
 import { SearchSkill } from "./SearchSkill";
 
 export default {
-  title: "Components/SearchSkill",
+  title: "Archive/Components/SearchSkill",
   component: SearchSkill,
   argTypes: {},
 } as ComponentMeta<typeof SearchSkill>;

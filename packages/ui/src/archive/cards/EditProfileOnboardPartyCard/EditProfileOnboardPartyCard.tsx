@@ -12,7 +12,6 @@ import {
   Dropdown,
   NumberCircle,
   ProgressBarGeneric,
-  SearchSkill,
   SkillList,
   // SocialMediaInput,
   TextArea,
@@ -21,6 +20,7 @@ import {
 } from "@eden/package-ui";
 
 import { getUserProgress } from "../../../../utils/user-progress";
+import { SearchSkill } from "../../components/SearchSkill/SearchSkill";
 
 export interface EditProfileOnboardPartyCardProps {
   currentUser: Members;

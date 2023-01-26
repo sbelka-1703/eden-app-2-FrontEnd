@@ -6,8 +6,9 @@ import {
   Skills,
   SkillType_Member,
 } from "@eden/package-graphql/generated";
-import { Expandable } from "@eden/package-ui/src";
 import { useEffect, useState } from "react";
+
+import { Expandable } from "../Expandable/Expandable";
 
 type LevelProp = {
   title: string;

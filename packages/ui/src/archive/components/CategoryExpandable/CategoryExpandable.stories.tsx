@@ -4,7 +4,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { CategoryExpandable } from "./CategoryExpandable";
 
 export default {
-  title: "Components/CategoryExpandable",
+  title: "Archive/Components/CategoryExpandable",
   component: CategoryExpandable,
   argTypes: {},
 } as ComponentMeta<typeof CategoryExpandable>;
