@@ -53,7 +53,6 @@ const ErrorLogPage: NextPageWithLayout = () => {
         errorType: typeSelected,
       },
     },
-    // skip: !nodesID || !selectedServerID,
     context: { serviceName: "soilservice" },
   });
 
@@ -110,8 +109,8 @@ const ErrorLogPage: NextPageWithLayout = () => {
   return (
     <>
       <SEO />
-      <Card shadow className={`h-85 bg-white p-4`}>
-        <div className={`flex justify-between`}>
+      <Card shadow className={`h-85 m-4 w-full bg-white p-4`}>
+        <div className={`md:flex md:justify-between`}>
           <nav className="flex space-x-4" aria-label="Tabs">
             {tabs.map((tab) => (
               <button
