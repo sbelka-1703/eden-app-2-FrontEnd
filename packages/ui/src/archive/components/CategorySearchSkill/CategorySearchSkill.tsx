@@ -5,11 +5,13 @@ import {
   SKILLS_AUTOCOMPLETE,
 } from "@eden/package-graphql";
 import { Maybe, SkillType_Member } from "@eden/package-graphql/generated";
-import { CategoryExpandable, Loading } from "@eden/package-ui/src";
+import { Loading } from "@eden/package-ui/src";
 import { Combobox } from "@headlessui/react";
 import { EmojiSadIcon } from "@heroicons/react/outline";
 import { SearchIcon } from "@heroicons/react/solid";
 import { useEffect, useMemo, useState } from "react";
+
+import { CategoryExpandable } from "../CategoryExpandable/CategoryExpandable";
 
 type LevelProp = {
   title: string;
