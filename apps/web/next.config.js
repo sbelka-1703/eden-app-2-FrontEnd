@@ -1,10 +1,9 @@
-const withTM = require("next-transpile-modules")([
-  "@eden/package-ui",
-  "@eden/package-context",
-  "@eden/package-graphql",
-  "@eden/package-mock",
-]);
-
-module.exports = withTM({
+module.exports = {
   reactStrictMode: true,
-});
+  transpilePackages: [
+    "@eden/package-ui",
+    "@eden/package-context",
+    "@eden/package-graphql",
+    "@eden/package-mock",
+  ],
+};
