@@ -37,7 +37,7 @@ it("component renders and the button is changed to `Autocomplete in progress`, w
     user.type(screen.getByRole("textbox"), "testing");
     user.click(screen.getByRole("button"));
     expect(screen.getByText("Autocomplete in progress")).toBeInTheDocument();
-    screen.debug();
+    // screen.debug();
   });
 });
 
