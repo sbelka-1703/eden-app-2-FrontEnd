@@ -13,7 +13,7 @@ export const matchNodesToProjectRolesMock =
     matchPercentage: randomPercentage(),
     project: getProject(),
     commonSkills: getSkillsTypeMockArray(
-      faker.datatype.number({ min: 2, max: 10, precision: 1 })
+      faker.datatype.number({ min: 2, max: 5, precision: 1 })
     ),
     projectRoles: getMatchProjectRolesTypeMockArray(
       faker.datatype.number({ min: 2, max: 5, precision: 1 })
