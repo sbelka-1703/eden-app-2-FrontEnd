@@ -19,18 +19,18 @@ export const CardGridDesign = () => {
     <>
       <GridLayout className={`bg-gray-200`}>
         <GridItemThree className={`bg-gray-300`}>
-          <div className={`text-center text-sm p-4`}>{`<GridItemThree />`}</div>{" "}
+          <div className={`p-4 text-center text-sm`}>{`<GridItemThree />`}</div>{" "}
         </GridItemThree>
         <GridItemNine className={`bg-gray-300`}>
-          <div className={`text-center text-sm p-4`}>{`<GridItemNine />`}</div>
+          <div className={`p-4 text-center text-sm`}>{`<GridItemNine />`}</div>
 
           <div className={`bg-gray-400`}>
-            <div className={`text-center text-sm p-4`}>{`<CardGrid />`}</div>
+            <div className={`p-4 text-center text-sm`}>{`<CardGrid />`}</div>
             <CardGrid>
               {cardGrid.map((item, index) => (
                 <Card
                   key={index}
-                  className={`text-center text-sm bg-gray-500 p-4 h-40 text-white`}
+                  className={`h-40 bg-gray-500 p-4 text-center text-sm text-white`}
                 >{`<Card />`}</Card>
               ))}
             </CardGrid>

@@ -5,7 +5,7 @@ export default {
 
 export const Height = () => {
   return (
-    <div className={`w-full h-screen bg-gray-200 flex gap-4`}>
+    <div className={`flex h-screen w-full gap-4 bg-gray-200`}>
       <div
         className={`h-screen bg-gray-400 px-2 py-1 text-center`}
       >{`h-screen`}</div>

@@ -23,70 +23,70 @@ export const Grid = () => {
         >{`<GridLayout />`}</GridItemTwelve>
 
         <GridItemTwelve
-          className={`text-center text-sm bg-gray-300 p-4`}
+          className={`bg-gray-300 p-4 text-center text-sm`}
         >{`<GridItemTwelve />`}</GridItemTwelve>
 
         <GridItemSix
-          className={`text-center text-sm bg-gray-300 p-4`}
+          className={`bg-gray-300 p-4 text-center text-sm`}
         >{`<GridItemSix />`}</GridItemSix>
         <GridItemSix
-          className={`text-center text-sm bg-gray-300 p-4`}
+          className={`bg-gray-300 p-4 text-center text-sm`}
         >{`<GridItemSix />`}</GridItemSix>
 
         <GridItemFour
-          className={`text-center text-sm bg-gray-300 p-4`}
+          className={`bg-gray-300 p-4 text-center text-sm`}
         >{`<GridItemFour />`}</GridItemFour>
         <GridItemFour
-          className={`text-center text-sm bg-gray-300 p-4`}
+          className={`bg-gray-300 p-4 text-center text-sm`}
         >{`<GridItemFour />`}</GridItemFour>
         <GridItemFour
-          className={`text-center text-sm bg-gray-300 p-4`}
+          className={`bg-gray-300 p-4 text-center text-sm`}
         >{`<GridItemFour />`}</GridItemFour>
 
         <GridItemThree
-          className={`text-center text-sm bg-gray-300 p-4`}
+          className={`bg-gray-300 p-4 text-center text-sm`}
         >{`<GridItemThree />`}</GridItemThree>
         <GridItemThree
-          className={`text-center text-sm bg-gray-300 p-4`}
+          className={`bg-gray-300 p-4 text-center text-sm`}
         >{`<GridItemThree />`}</GridItemThree>
         <GridItemThree
-          className={`text-center text-sm bg-gray-300 p-4`}
+          className={`bg-gray-300 p-4 text-center text-sm`}
         >{`<GridItemThree />`}</GridItemThree>
         <GridItemThree
-          className={`text-center text-sm bg-gray-300 p-4`}
+          className={`bg-gray-300 p-4 text-center text-sm`}
         >{`<GridItemThree />`}</GridItemThree>
 
         <GridItemTwo
-          className={`text-center text-sm bg-gray-300 p-4`}
+          className={`bg-gray-300 p-4 text-center text-sm`}
         >{`<GridItemTwo />`}</GridItemTwo>
         <GridItemTwo
-          className={`text-center text-sm bg-gray-300 p-4`}
+          className={`bg-gray-300 p-4 text-center text-sm`}
         >{`<GridItemTwo />`}</GridItemTwo>
         <GridItemTwo
-          className={`text-center text-sm bg-gray-300 p-4`}
+          className={`bg-gray-300 p-4 text-center text-sm`}
         >{`<GridItemTwo />`}</GridItemTwo>
         <GridItemTwo
-          className={`text-center text-sm bg-gray-300 p-4`}
+          className={`bg-gray-300 p-4 text-center text-sm`}
         >{`<GridItemTwo />`}</GridItemTwo>
         <GridItemTwo
-          className={`text-center text-sm bg-gray-300 p-4`}
+          className={`bg-gray-300 p-4 text-center text-sm`}
         >{`<GridItemTwo />`}</GridItemTwo>
         <GridItemTwo
-          className={`text-center text-sm bg-gray-300 p-4`}
+          className={`bg-gray-300 p-4 text-center text-sm`}
         >{`<GridItemTwo />`}</GridItemTwo>
 
         <GridItemFour
-          className={`text-center text-sm bg-gray-300 p-4`}
+          className={`bg-gray-300 p-4 text-center text-sm`}
         >{`<GridItemFour />`}</GridItemFour>
         <GridItemEight
-          className={`text-center text-sm bg-gray-300 p-4`}
+          className={`bg-gray-300 p-4 text-center text-sm`}
         >{`<GridItemEight />`}</GridItemEight>
 
         <GridItemThree
-          className={`text-center text-sm bg-gray-300 p-4`}
+          className={`bg-gray-300 p-4 text-center text-sm`}
         >{`<GridItemThree />`}</GridItemThree>
         <GridItemNine
-          className={`text-center text-sm bg-gray-300 p-4`}
+          className={`bg-gray-300 p-4 text-center text-sm`}
         >{`<GridItemNine />`}</GridItemNine>
       </GridLayout>
     </>
