@@ -446,13 +446,15 @@ const G6component = ({ width, height, data2 }) => {
   }, [width, height]);
 
   return (
-    <>
+    <div className="relative w-full">
       {data2.nodes.length == 1 ? <div>loading</div> : true}
       <div ref={ref}></div>
-      <div className="flex flex-col">
+      <div className="absolute right-2 bottom-0 flex flex-col">
         {items.map((item, idx) => (
-          <div key={item.id} className="my-2 flex items-center">
+          <div key={item.id} className="mb-2 flex items-center justify-end">
+            <div className={`ml-2 text-${item.colorsa}-500`}>{item.name}</div>
             <button
+              className="ml-2"
               style={{
                 backgroundColor: checkedItems[idx].checked
                   ? item.fill
@@ -479,14 +481,13 @@ const G6component = ({ width, height, data2 }) => {
                 // {checkedItems[idx].checked ? (
                 <span>&#10003;</span>
               ) : (
-                <span style={{ color: item.fill }}> N</span>
+                <span style={{ color: item.fill }}>N</span>
               )}
             </button>
-            <div className={`ml-2 text-${item.colorsa}-500`}>{item.name}</div>
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 };
 
