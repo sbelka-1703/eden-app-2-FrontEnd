@@ -15,7 +15,7 @@ export const getLinkTypeMock: LinkType[] = [
   },
   {
     name: "telegram",
-    url: "",
+    url: "edenprotocol",
   },
   {
     name: "lens",

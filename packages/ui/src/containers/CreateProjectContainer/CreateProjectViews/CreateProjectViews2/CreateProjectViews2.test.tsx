@@ -10,8 +10,7 @@ describe("CreateProjectViews2", () => {
           throw new Error("Function not implemented.");
         }}
         battery={2}
-        onNext={function (data): void {
-          console.info({ data });
+        onNext={function (): void {
           throw new Error("Function not implemented.");
         }}
         setProject={function (data): void {

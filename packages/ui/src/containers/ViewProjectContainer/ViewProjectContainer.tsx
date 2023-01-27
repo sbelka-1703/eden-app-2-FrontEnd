@@ -46,10 +46,6 @@ export const ViewProjectContainer = ({
 
   const activeRole = role ? role[activeTabName] : defaultRole;
 
-  // useEffect(() => {
-  //   console.log("project VIEW", project?.role?.[roleIndex]?.nodes);
-  // }, [project]);
-
   return (
     <Card className="bg-white p-4">
       <p>Preview of your project:</p>
@@ -67,7 +63,7 @@ export const ViewProjectContainer = ({
               <Avatar
                 size="lg"
                 isProject
-                emoji={project?.emoji ? String(project?.emoji) : "👋"}
+                emoji={project?.emoji as string}
                 backColorEmoji={
                   project?.backColorEmoji ? project?.backColorEmoji : `#e8e8e8`
                 }

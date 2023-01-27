@@ -13,17 +13,16 @@ import { Dispatch, SetStateAction, useContext, useEffect } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
 type Inputs = {
-  title: "";
-  emoji: "";
-  backColorEmoji: "";
-  serverID: [];
+  title: string;
+  emoji: string;
+  backColorEmoji: string;
+  serverID: string[];
 };
 
 export interface CreateProjectViews1Props {
   battery?: number;
-  // onBack?: Dispatch<SetStateAction<any>>;
-  onNext: Dispatch<SetStateAction<any>>;
-  setProject: Dispatch<SetStateAction<any>>;
+  onNext: () => void;
+  setProject?: Dispatch<SetStateAction<Project>>;
   project?: Project;
 }
 
@@ -35,24 +34,30 @@ export const CreateProjectViews1 = ({
   project,
 }: CreateProjectViews1Props) => {
   const { memberServers } = useContext(UserContext);
-  const { register, handleSubmit, watch, control } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) =>
-    onNext({ ...project, ...data });
+  const { register, handleSubmit, watch, control } = useForm<Inputs>({
+    defaultValues: {
+      title: project?.title || "",
+      emoji: project?.emoji || "",
+      backColorEmoji: project?.backColorEmoji || "#e8e8e8",
+      serverID: [],
+    },
+  });
+  const onSubmit: SubmitHandler<Inputs> = () => onNext();
 
-  const title = watch("title");
   const emoji = watch("emoji");
   const backColorEmoji = watch("backColorEmoji");
-  const serverID = watch("serverID");
 
   useEffect(() => {
-    setProject({
-      ...project,
-      title,
-      emoji,
-      backColorEmoji,
-      serverID,
+    const subscription = watch((data) => {
+      setProject &&
+        setProject({
+          ...project,
+          ...data,
+        } as Project);
     });
-  }, [title, emoji, backColorEmoji, serverID]);
+
+    return () => subscription.unsubscribe();
+  }, [watch]);
 
   const filterMemberServers = () => {
     const filteredMemberServers = memberServers.filter((server) =>
@@ -78,11 +83,13 @@ export const CreateProjectViews1 = ({
         <form onSubmit={handleSubmit(onSubmit)}>
           {/* register your input into the hook by invoking the "register" function */}
 
-          <TextInputLabel>{`Name your project`}</TextInputLabel>
+          <TextInputLabel
+            htmlFor={`project-title`}
+          >{`Name your project`}</TextInputLabel>
           <input
+            id={`project-title`}
             className={`input-primary`}
             required
-            defaultValue={project?.title || ""}
             {...register("title")}
           />
 
@@ -115,8 +122,8 @@ export const CreateProjectViews1 = ({
                   <EmojiSelector
                     {...field}
                     size={60}
-                    emoji={project?.emoji || "👋"}
-                    bgColor={project?.backColorEmoji || "#e8e8e8"}
+                    emoji={emoji}
+                    bgColor={backColorEmoji}
                     onSelection={(value) => field.onChange(value)}
                   />
                 )}
@@ -126,7 +133,6 @@ export const CreateProjectViews1 = ({
                 <input
                   type="color"
                   className="-m-2 h-[140px] w-[140px] cursor-pointer"
-                  defaultValue={project?.backColorEmoji || "#e8e8e8"}
                   {...register("backColorEmoji")}
                 />
               </div>

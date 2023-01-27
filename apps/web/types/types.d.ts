@@ -6,5 +6,7 @@ declare module "next-auth" {
     user?: DefaultUser & {
       id: string;
     };
+    error?: string;
+    accessLevel?: number | null;
   }
 }

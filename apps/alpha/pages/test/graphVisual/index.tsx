@@ -1,6 +1,3 @@
-// graphVisual //index.tsx
-// import G6 from "@antv/g6";
-
 import { AppUserLayout } from "@eden/package-ui";
 import dynamic from "next/dynamic";
 const G6component = dynamic(
@@ -10,38 +7,87 @@ const G6component = dynamic(
   }
 );
 
-import React from "react";
+import { gql, useQuery } from "@apollo/client";
+import React, { RefObject, useEffect, useRef, useState } from "react";
+
+const FIND_MEMBER_GRAPH = gql`
+  query ($fields: findMemberGraphInput!) {
+    findMemberGraph(fields: $fields) {
+      nodes {
+        _id
+        name
+        type
+      }
+      edges {
+        source
+        target
+      }
+    }
+  }
+`;
+
+const FIND_MEMBER_PROJECT_GRAPH = gql`
+  query ($fields: findMemberToProjectGraphInput!) {
+    findMemberToProjectGraph(fields: $fields) {
+      nodes {
+        _id
+        name
+        type
+      }
+      edges {
+        source
+        target
+      }
+    }
+  }
+`;
 
 // import React, { useEffect, useState } from "react";
 // import { NextPageWithLayout } from "../../_app";
 
-// interface Node {
-//   id: string;
-//   size: number;
-//   label?: string;
-//   style?: {
-//     fill: string;
-//     stroke: string;
-//     lineWidth: number;
-//   };
-// }
+interface Node {
+  id: string;
+  size: number;
+  label?: string;
+  style?: {
+    fill: string;
+    stroke: string;
+    lineWidth: number;
+  };
+}
 
-// interface DataState {
-//   nodes: Node[];
-//   edges: { source: string; target: string }[];
-// }
+interface DataState {
+  nodes: Node[];
+  edges: { source: string; target: string }[];
+}
 
 // const data2 = {
 //   nodes: [
 //     {
 //       id: "node0",
-//       size: 70,
-//       label: "eloi",
-//       style: {
-//         fill: "#bae637",
-//         stroke: "#eaff8f",
-//         lineWidth: 5,
+//       size: 80,
+//       // x: 100,
+//       // y: 100,
+//       label: "eloi\nasdf",
+//       // style: {
+//       //   fill: "#bae637",
+//       //   stroke: "#eaff8f",
+//       //   lineWidth: 5,
+//       // },
+
+//       // ----------- Shwow Avatar User ---------
+//       type: "image",
+//       img: "https://cdn.discordapp.com/avatars/961730944170090516/e5844ca759a74e995027a0e50c5cb1bf.png",
+//       clipCfg: {
+//         show: true,
+//         type: "circle",
+//         r: 25,
 //       },
+//       style: {
+//         height: 50,
+//         width: 50,
+//       },
+//       // ----------- Shwow Avatar User ---------
 //     },
 //     { id: "node1", size: 50, label: "sbelka" },
 //     { id: "node2", size: 50, label: "waxy" },
@@ -71,12 +117,172 @@ import React from "react";
 // };
 
 const TestPage = () => {
-  console.log("G6component = ", G6component);
+  const refContainer = useRef<HTMLDivElement>();
+
+  const [width, setWidth] = useState<number>(0);
+
+  // create a function that handle a click and will pass on G6component component
+
+  const { data: dataGraphAPImember } = useQuery(
+    // const { data: dataGraphAPImember, refetch: refetchDataGraphAPI } = useQuery(
+    FIND_MEMBER_GRAPH,
+    {
+      variables: {
+        fields: {
+          // memberID: "908392557258604544",
+          // memberID: "812342397790191638",
+          memberID: "961730944170090516",
+        },
+      },
+      // skip: !nodesID || !selectedServerID,
+      context: { serviceName: "soilservice" },
+    }
+  );
+
+  const { data: dataGraphAPImemberProject } = useQuery(
+    // const { data: dataGraphAPImember, refetch: refetchDataGraphAPI } = useQuery(
+    FIND_MEMBER_PROJECT_GRAPH,
+    {
+      variables: {
+        fields: {
+          memberID: "908392557258604544",
+        },
+      },
+      // skip: !nodesID || !selectedServerID,
+      context: { serviceName: "soilservice" },
+    }
+  );
+
+  useEffect(() => {
+    let dataGraphAPI;
+
+    // Use One of them!
+    if (dataGraphAPImemberProject) {
+      dataGraphAPI = dataGraphAPImemberProject.findMemberToProjectGraph;
+    }
+    // Use One of them!
+    // if (dataGraphAPImember) {
+    //   dataGraphAPI = dataGraphAPImember.findMemberGraph;
+    // }
+
+    if (dataGraphAPI) {
+      console.log("dataGraphAPImember = ", dataGraphAPImember);
+
+      const nodeDataObj: any = {};
+      const edgesDataGraph = dataGraphAPI.edges.map(
+        (edge: { source: any; target: any }) => {
+          if (!nodeDataObj[edge.source]) {
+            nodeDataObj[edge.source] = {
+              numberConnections: 1,
+            };
+          } else {
+            nodeDataObj[edge.source].numberConnections += 1;
+          }
+          if (!nodeDataObj[edge.target]) {
+            nodeDataObj[edge.target] = {
+              numberConnections: 1,
+            };
+          } else {
+            nodeDataObj[edge.target].numberConnections += 1;
+          }
+          return {
+            source: edge.source,
+            target: edge.target,
+          };
+        }
+      );
+
+      // console.log("edgesDataGraph = ", edgesDataGraph);
+
+      const nodesDataGraph = dataGraphAPI.nodes.map(
+        (node: { _id: any; name: any; type: string }) => {
+          const extraStyle = {};
+
+          if (node._id == "637a914ab8953f12f501e1ca") {
+            // extraStyle = {
+            //   disabledNode: true,
+            // };
+          }
+          return {
+            id: node._id,
+            label: node.name,
+            type: node.type,
+            size: 50,
+            numberConnections: nodeDataObj[node._id]
+              ? nodeDataObj[node._id].numberConnections
+              : 0,
+            propertise: {
+              name: node.name,
+            },
+            ...extraStyle,
+          };
+        }
+      );
+
+      console.log("nodesDataGraph = ", nodesDataGraph);
+
+      setData({
+        nodes: nodesDataGraph,
+        edges: edgesDataGraph,
+      });
+    }
+  }, [dataGraphAPImember, dataGraphAPImemberProject]);
+
+  // const [data, setData] = React.useState<DataState>(data2);
+  const [data, setData] = React.useState<DataState>({
+    nodes: [{ id: "node1", size: 50 }],
+    edges: [],
+  });
+
+  // const [disable]
+
+  useEffect(() => {
+    const getwidth = () => {
+      setWidth(refContainer.current?.offsetWidth!);
+    };
+
+    // when the component gets mounted
+    setWidth(refContainer.current?.offsetWidth!);
+
+    // to handle page resize
+    window.addEventListener("resize", getwidth);
+    // remove the event listener before the component gets unmounted
+    return () => window.removeEventListener("resize", getwidth);
+  }, []);
+
   return (
     <>
-      <p>asdf</p>
-      {/* <G6component data2={data2} /> */}
-      <G6component />
+      {/* {data && data.nodes && data.nodes.length > 0 ? (
+        <G6component data2={data} handleClick={handleClick} />
+      ) : (
+        <p>Don't have Graph Data Yet</p>
+      )} */}
+      {refContainer && (
+        <div className="w-full" ref={refContainer as RefObject<HTMLDivElement>}>
+          {data && data.nodes && data.nodes.length > 0 ? (
+            <G6component
+              width={width}
+              height={(3 * width) / 4}
+              data2={data}
+              // data2={data2}
+              // handleClick={handleClick}
+            />
+          ) : (
+            <p>Dont have Graph Data Yet</p>
+          )}
+        </div>
+      )}
+      {/* {dataGraphAPImember &&
+      dataGraphAPImember.findMemberGraph &&
+      dataGraphAPImember.findMemberGraph.nodes &&
+      dataGraphAPImember.findMemberGraph.nodes.length > 0 ? (
+        <G6component
+          data2={dataGraphAPImember.findMemberGraph}
+          handleClick={handleClick}
+        />
+      ) : (
+        <p>Don't have Graph Data Yet</p>
+      )} */}
     </>
   );
 };

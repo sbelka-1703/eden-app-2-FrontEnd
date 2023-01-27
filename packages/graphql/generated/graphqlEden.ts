@@ -3,10 +3,12 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
 };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
-  { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
-  { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -65,6 +67,13 @@ export type EdenAiInput = {
   nodes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
 };
 
+export type Edge = {
+  __typename?: "Edge";
+  source?: Maybe<Scalars["ID"]>;
+  target?: Maybe<Scalars["ID"]>;
+  type?: Maybe<Scalars["String"]>;
+};
+
 export type Epic = {
   __typename?: "Epic";
   _id?: Maybe<Scalars["ID"]>;
@@ -115,6 +124,12 @@ export type GrantTemplate = {
   serverID?: Maybe<Array<Maybe<Scalars["String"]>>>;
   smallDescription?: Maybe<Scalars["String"]>;
   tags?: Maybe<Array<Maybe<Scalars["String"]>>>;
+};
+
+export type Graph = {
+  __typename?: "Graph";
+  edges?: Maybe<Array<Maybe<Edge>>>;
+  nodes?: Maybe<Array<Maybe<NodeVis>>>;
 };
 
 export type Keyword = {
@@ -491,6 +506,13 @@ export type Node = {
   subNodes?: Maybe<Array<Maybe<Node>>>;
 };
 
+export type NodeVis = {
+  __typename?: "NodeVis";
+  _id?: Maybe<Scalars["ID"]>;
+  name?: Maybe<Scalars["String"]>;
+  type?: Maybe<Scalars["String"]>;
+};
+
 export type PageInfo = {
   __typename?: "PageInfo";
   currentPage?: Maybe<Scalars["Int"]>;
@@ -577,11 +599,14 @@ export type Query = {
   findGarden?: Maybe<Array<Maybe<FindGardenOutput>>>;
   findGrants?: Maybe<Array<Maybe<GrantTemplate>>>;
   findMember?: Maybe<Members>;
+  findMemberGraph?: Maybe<Graph>;
+  findMemberToProjectGraph?: Maybe<Graph>;
   findMembers?: Maybe<Array<Maybe<Members>>>;
   findMessage?: Maybe<PaginatedMessages>;
   findNode?: Maybe<Node>;
   findNodes?: Maybe<Array<Maybe<Node>>>;
   findProject?: Maybe<Project>;
+  findProjectGraph?: Maybe<Graph>;
   findProjectUpdates?: Maybe<Array<Maybe<ProjectUpdate>>>;
   findProjects?: Maybe<Array<Maybe<Project>>>;
   findProjects_RecommendedToUser?: Maybe<Array<Maybe<ProjectMatchType>>>;
@@ -660,6 +685,14 @@ export type QueryFindMemberArgs = {
   fields?: InputMaybe<FindMemberInput>;
 };
 
+export type QueryFindMemberGraphArgs = {
+  fields?: InputMaybe<FindMemberGraphInput>;
+};
+
+export type QueryFindMemberToProjectGraphArgs = {
+  fields?: InputMaybe<FindMemberToProjectGraphInput>;
+};
+
 export type QueryFindMembersArgs = {
   fields?: InputMaybe<FindMembersInput>;
 };
@@ -678,6 +711,10 @@ export type QueryFindNodesArgs = {
 
 export type QueryFindProjectArgs = {
   fields?: InputMaybe<FindProjectInput>;
+};
+
+export type QueryFindProjectGraphArgs = {
+  fields?: InputMaybe<FindProjectGraphInput>;
 };
 
 export type QueryFindProjectUpdatesArgs = {
@@ -1457,10 +1494,18 @@ export type FindGrantsInput = {
   serverID?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
 };
 
+export type FindMemberGraphInput = {
+  memberID?: InputMaybe<Scalars["ID"]>;
+};
+
 export type FindMemberInput = {
   _id?: InputMaybe<Scalars["ID"]>;
   discordName?: InputMaybe<Scalars["ID"]>;
   serverID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type FindMemberToProjectGraphInput = {
+  memberID?: InputMaybe<Scalars["ID"]>;
 };
 
 export type FindMembersInput = {
@@ -1491,6 +1536,10 @@ export type FindNodesInput = {
   recalculate_en?: InputMaybe<RecalculateEnum>;
   selectedNodes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   show_match_v2?: InputMaybe<Scalars["Boolean"]>;
+};
+
+export type FindProjectGraphInput = {
+  projectID?: InputMaybe<Scalars["ID"]>;
 };
 
 export type FindProjectInput = {

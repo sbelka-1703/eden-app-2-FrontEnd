@@ -15,7 +15,7 @@ import {
   Card,
   DiscoverContainer,
   SEO,
-  UserDiscoverCard,
+  UserDiscoverCardTest,
 } from "@eden/package-ui";
 import { ExclamationIcon } from "@heroicons/react/solid";
 import { useContext, useState } from "react";
@@ -60,7 +60,7 @@ const DiscoverPage: NextPageWithLayout = () => {
           }`}
         >
           <Card
-            className={`scrollbar-hide overflow-scroll bg-white p-4 lg:max-h-[540px] `}
+            className={`scrollbar-hide  overflow-scroll bg-white p-4 lg:max-h-[540px] `}
           >
             <DiscoverContainer
               setArrayOfNodes={(val) => {
@@ -73,7 +73,7 @@ const DiscoverPage: NextPageWithLayout = () => {
         {openModal !== DiscoverModal.SKILLS_CATEGORY && (
           <Card
             shadow
-            className="scrollbar-hide min-h-[564px] basis-2/3 overflow-scroll bg-white p-4"
+            className="scrollbar-hide max-h-[564px] max-w-[870px] basis-2/3 overflow-scroll bg-white p-4"
           >
             {nodesID?.length ? (
               <div>
@@ -84,7 +84,7 @@ const DiscoverPage: NextPageWithLayout = () => {
                 <div className="grid gap-5 pt-2 pb-6 md:grid-cols-3 ">
                   {dataMembers?.matchNodesToMembers.map(
                     (member: MatchMembersToSkillOutput, index: number) => (
-                      <UserDiscoverCard
+                      <UserDiscoverCardTest
                         key={index}
                         matchMember={member}
                         role={selectedRole}

@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
-export const FIND_ROOM = gql`
+export const FIND_ROOMS = gql`
   query ($fields: findRoomsInput) {
-    findRoom(fields: $fields) {
+    findRooms(fields: $fields) {
       _id
       name
       description

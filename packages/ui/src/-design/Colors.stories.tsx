@@ -157,6 +157,7 @@ const ForceColors = () => {
       <div className={"bg-soilGreen-700"}></div>
       <div className={"bg-soilGreen-800"}></div>
       <div className={"bg-soilGreen-900"}></div>
+      <div className={`bg-colorFFD02B`}></div>
     </div>
   );
 };

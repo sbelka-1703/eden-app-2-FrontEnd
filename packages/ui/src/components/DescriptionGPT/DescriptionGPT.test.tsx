@@ -39,6 +39,7 @@ it("component renders and the button is changed to `Autocomplete in progress`, w
   user.click(screen.getByRole("button"));
   await waitFor(() => {
     expect(screen.getByText("Autocomplete in progress")).toBeInTheDocument();
+    // screen.debug();
   });
 });
 

@@ -3,7 +3,7 @@ import { GrBug } from "react-icons/gr";
 export const ReportBugButton = () => {
   return (
     <div className="group relative ml-4">
-      <a href="mailto: #">
+      <a href="mailto: eden.protocol.dev@gmail.com">
         <button className="border-accentColor rounded-full border-2 p-2">
           <GrBug />
         </button>
