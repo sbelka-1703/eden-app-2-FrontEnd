@@ -7,8 +7,8 @@ export interface OpenPositionCardProps {
   role?: Maybe<RoleType>;
   percentage?: number;
   padding?: string;
-  onApply: React.Dispatch<React.SetStateAction<string>>;
-  onRefer?: () => void;
+  // eslint-disable-next-line no-unused-vars
+  onApply: (val: string) => void;
 }
 
 export const OpenPositionCard = ({
