@@ -107,25 +107,31 @@ export const CreateProjectViews7 = ({
           ]);
         }
       }
+    } else {
+      setProject && setProject({ ...project, role: fields });
     }
   }, [roleIndex]);
 
   useEffect(() => {
     const subscription = watch((data) => {
-      setProject &&
-        setProject({
-          ...project,
-          role: [
-            ...(project?.role?.slice(0, roleIndex) as RoleType[]),
-            {
-              ...project?.role?.[roleIndex],
-              // TODO: fix type
-              // @ts-ignore
-              ...(data.role[roleIndex] as RoleType),
-            },
-            ...(project?.role?.slice(roleIndex + 1) as RoleType[]),
-          ],
-        });
+      // TODO: fix type
+      // @ts-ignore
+      if (!project?.role) setProject && setProject({ ...project, ...data });
+      else
+        setProject &&
+          setProject({
+            ...project,
+            role: [
+              ...(project?.role?.slice(0, roleIndex) as RoleType[]),
+              {
+                ...project?.role?.[roleIndex],
+                // TODO: fix type
+                // @ts-ignore
+                ...(data.role[roleIndex] as RoleType),
+              },
+              ...(project?.role?.slice(roleIndex + 1) as RoleType[]),
+            ],
+          });
     });
 
     return () => subscription.unsubscribe();

@@ -10,8 +10,9 @@ const mocks = [
       query: MESSAGE_TO_GPT,
       variables: {
         fields: {
-          message: "testing",
-          category: undefined,
+          message: "example text",
+          category: "skill",
+          prompt: "this is",
         },
       },
     },
@@ -33,13 +34,28 @@ it("component renders and the button is changed to `Autocomplete in progress`, w
       <DescriptionGPT showTextArea={true} customPrompt={""} />
     </MockedProvider>
   );
+
+  user.type(screen.getByRole("textbox"), "testing");
+  user.click(screen.getByRole("button"));
   await waitFor(() => {
-    user.type(screen.getByRole("textbox"), "testing");
-    user.click(screen.getByRole("button"));
     expect(screen.getByText("Autocomplete in progress")).toBeInTheDocument();
-    screen.debug();
+    // screen.debug();
   });
 });
+
+// it("displays the response from GPT when the button is clicked", async () => {
+//   render(
+//     <MockedProvider mocks={mocks}>
+//       <DescriptionGPT showTextArea={true} customPrompt={""} />
+//     </MockedProvider>
+//   );
+
+//   userEvent.type(screen.getByRole("textbox"), "example text");
+//   userEvent.click(screen.getByRole("button"));
+//   await waitFor(() => {
+//     expect(screen.getByRole("textbox")).toHaveValue("example response");
+//   });
+// });
 
 ////////////////////////////////////////////////////////////////////////////
 

@@ -9,3 +9,4 @@ export * from "./currentUser";
 export * from "./grants";
 export * from "./match";
 export * from "./nodes";
+export * from "./searchSkill";

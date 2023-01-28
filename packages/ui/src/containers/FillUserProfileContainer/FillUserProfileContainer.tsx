@@ -15,12 +15,12 @@ import {
   BatteryStepper,
   Button,
   Card,
+  FillSocialLinks,
   IPREFERENCES_TITLE,
   Loading,
   PREFERENCES_TITLE,
   RoleSelector,
   SelectNodes,
-  SocialMediaInput,
   TextArea,
   UserExperienceCard,
 } from "@eden/package-ui";
@@ -43,8 +43,7 @@ export interface IFillUserProfileContainerProps {
   setView?: Dispatch<SetStateAction<"grants" | "profile">>;
   experienceOpen?: number | null;
   percentage?: number;
-  // eslint-disable-next-line no-unused-vars
-  setExperienceOpen?: (val: number | null) => void;
+  setExperienceOpen?: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
 const UPDATE_NODES_MEMBER = gql`
@@ -78,10 +77,7 @@ export const FillUserProfileContainer = ({
   const [updateNodes, {}] = useMutation(UPDATE_NODES_MEMBER, {
     onCompleted({ updateNodesToMember }: Mutation) {
       if (!updateNodesToMember) console.log("updateNodesToMember is null");
-      console.log("updateNodesToMember", updateNodesToMember);
-    },
-    onError(error) {
-      console.log(error);
+      // console.log("updateNodesToMember", updateNodesToMember);
     },
   });
 
@@ -89,10 +85,7 @@ export const FillUserProfileContainer = ({
     onCompleted({ addPreferencesToMember }: Mutation) {
       if (!addPreferencesToMember)
         console.log("addPreferencesToMember is null");
-      console.log("addPreferencesToMember", addPreferencesToMember);
-    },
-    onError(error) {
-      console.log(error);
+      // console.log("addPreferencesToMember", addPreferencesToMember);
     },
   });
 
@@ -102,8 +95,7 @@ export const FillUserProfileContainer = ({
     },
     onCompleted({ updateMember }: Mutation) {
       if (!updateMember) console.log("updateMember is null");
-      console.log("updateMember", updateMember);
-      // router.push(`/${router.query.from}?project=${updateMember?._id}`);
+      // console.log("updateMember", updateMember);
       updateNodes({
         variables: {
           fields: {
@@ -162,43 +154,9 @@ export const FillUserProfileContainer = ({
     });
   };
 
-  useEffect(() => {
-    if (currentUser?.links)
-      setState({
-        ...state,
-        links: state?.links?.map((link) => {
-          let newLink = { ...link };
-
-          if (link?.name === "twitter")
-            newLink = {
-              ...newLink,
-              url: link?.url?.replace("https://twitter.com/", ""),
-            };
-          if (link?.name === "github")
-            newLink = {
-              ...newLink,
-              url: link?.url?.replace("https://github.com/", ""),
-            };
-          if (link?.name === "lens")
-            newLink = {
-              ...newLink,
-              url: link?.url?.replace("https://www.lensfrens.xyz/", ""),
-            };
-          if (link?.name === "telegram")
-            newLink = {
-              ...newLink,
-              url: link?.url?.replace("https://t.me/", ""),
-            };
-
-          return newLink;
-        }),
-      });
-  }, [currentUser]);
-
   const handleSubmitForm = () => {
     const fields = {
       _id: currentUser?._id,
-      // serverID: [],
       bio: state?.bio,
       hoursPerWeek: state?.hoursPerWeek,
       links: state?.links?.map((item: any) => ({
@@ -216,7 +174,6 @@ export const FillUserProfileContainer = ({
         signup: true,
         percentage: percentage,
       },
-      // nodes: state?.nodes?.map((node) => node?.nodeData?._id),
     };
 
     updateMember({
@@ -318,8 +275,6 @@ export const FillUserProfileContainer = ({
                 />
 
                 <p className="mb-4 mt-6">{`Choose what you use Eden Network for:`}</p>
-                {/* {JSON.stringify(Preferences)} */}
-                {/* {JSON.stringify(state?.preferences)} */}
                 <div className="flex w-full flex-wrap">
                   {Object.keys(preferences).map((key: string, index) => (
                     <div key={index} className="relative mr-4 mb-4">
@@ -335,8 +290,7 @@ export const FillUserProfileContainer = ({
                         id={key}
                         className="peer hidden"
                         onChange={(e) => {
-                          console.log(e.target.checked);
-
+                          // console.log(e.target.checked);
                           setPreferences({
                             ...preferences,
                             [key]: {
@@ -365,13 +319,10 @@ export const FillUserProfileContainer = ({
             {step === STEPS.BIO && (
               <>
                 <p>{`Add your expertise:`}</p>
-                {/* {JSON.stringify(state?.nodes)} */}
-                {/* {JSON.stringify(currentUser.nodes)} */}
                 <SelectNodes
                   nodeType={"expertise"}
                   selectedNodes={state?.nodes}
                   onChangeNodes={(val) => {
-                    // console.log("on change", val);
                     handleSetNodes(val);
                   }}
                 />
@@ -401,87 +352,15 @@ export const FillUserProfileContainer = ({
             {step === STEPS.SOCIALS && (
               <>
                 <p>{`Share your socials!`}</p>
-                {["twitter", "github", "telegram", "lens"].map((item) => {
-                  let placeholder = "";
-
-                  switch (item) {
-                    case "twitter":
-                      placeholder = `${item} handle`;
-                      break;
-                    case "github":
-                      placeholder = `${item} handle`;
-                      break;
-                    case "telegram":
-                      placeholder = `${item} handle`;
-                      break;
-                    case "lens":
-                      placeholder = `${item} handle`;
-                      break;
-                    default:
-                      placeholder = "";
-                  }
-                  return (
-                    <SocialMediaInput
-                      key={item}
-                      platform={item}
-                      placeholder={placeholder}
-                      value={
-                        state?.links?.find((link) => link?.name === item)
-                          ?.url || ""
-                      }
-                      onChange={(e) => {
-                        let newLinks = state?.links ? [...state.links] : [];
-                        const hasLink = state?.links?.some(
-                          (link) => link?.name === item
-                        );
-
-                        if (hasLink) {
-                          newLinks = newLinks.map((link) => {
-                            let newUrl = e.target.value;
-
-                            if (link?.name === "twitter")
-                              newUrl = "https://twitter.com/" + e.target.value;
-                            if (link?.name === "github")
-                              newUrl = "https://github.com/" + e.target.value;
-                            if (link?.name === "lens")
-                              newUrl =
-                                "https://www.lensfrens.xyz/" + e.target.value;
-                            if (link?.name === "telegram")
-                              newUrl = "https://t.me/" + e.target.value;
-
-                            return link?.name === item
-                              ? { ...link, url: newUrl }
-                              : link;
-                          });
-                        } else {
-                          let newUrl = e.target.value;
-
-                          if (item === "twitter")
-                            newUrl = "https://twitter.com/" + e.target.value;
-                          if (item === "github")
-                            newUrl = "https://github.com/" + e.target.value;
-                          if (item === "lens")
-                            newUrl =
-                              "https://www.lensfrens.xyz/" + e.target.value;
-                          if (item === "telegram")
-                            newUrl = "https://t.me/" + e.target.value;
-
-                          newLinks.push({
-                            __typename: "linkType",
-                            name: item,
-                            url: newUrl,
-                          });
-                        }
-
-                        setState({
-                          ...state,
-                          links: newLinks,
-                        });
-                      }}
-                      shape="rounded"
-                    />
-                  );
-                })}
+                <FillSocialLinks
+                  links={currentUser?.links || []}
+                  onChange={(val) => {
+                    setState({
+                      ...state,
+                      links: val,
+                    });
+                  }}
+                />
               </>
             )}
             {step === STEPS.EXP && (

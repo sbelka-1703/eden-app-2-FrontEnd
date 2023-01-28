@@ -9,7 +9,6 @@ export interface OpenPositionCardProps {
   padding?: string;
   // eslint-disable-next-line no-unused-vars
   onApply: (val: string) => void;
-  onRefer?: () => void;
 }
 
 export const OpenPositionCard = ({
@@ -37,7 +36,7 @@ OpenPositionCardProps) => {
             text={(role?.shortDescription as string) || ""}
             className={`text-soilGray/100 text-sm font-semibold tracking-wide`}
           />
-          <div className="mt-2 flex">
+          <div className="mt-2 flex flex-wrap">
             {role?.skills?.map((skill, index) => {
               return (
                 <div key={index}>

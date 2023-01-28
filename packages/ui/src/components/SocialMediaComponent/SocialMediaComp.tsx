@@ -2,6 +2,7 @@ import { LinkType, Maybe } from "@eden/package-graphql/generated";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 import {
+  FaBriefcase,
   FaDiscord,
   FaGithub,
   FaLinkedin,
@@ -30,6 +31,7 @@ export const SocialMediaComp = ({
   const [linkedinUrl, setLinkedinUrl] = useState("");
   const [notionLink, setNotionLink] = useState("");
   const [lensLink, setLensLink] = useState("");
+  const [portfolioLink, setPortfolioLink] = useState("");
 
   const sizeCls = clsx({
     "1rem": size === "xs",
@@ -56,6 +58,7 @@ export const SocialMediaComp = ({
       const notion = links.find((link) => link?.name === "notion");
       const linkedin = links.find((link) => link?.name === "linkedin");
       const lens = links.find((link) => link?.name === "lens");
+      const portfolio = links.find((link) => link?.name === "portfolio");
 
       if (twitter) setTwitterUrl(twitter.url ?? "");
       if (discord) setDiscordUrl(discord.url ?? "");
@@ -64,6 +67,7 @@ export const SocialMediaComp = ({
       if (notion) setNotionLink(notion.url ?? "");
       if (linkedin) setLinkedinUrl(linkedin.url ?? "");
       if (lens) setLensLink(lens.url ?? "");
+      if (portfolio) setPortfolioLink(portfolio.url ?? "");
     }
   }, [links]),
     [links];
@@ -131,6 +135,13 @@ export const SocialMediaComp = ({
           <div className="mr-2 mb-2">
             <a href={`${lensLink}`} target="_blank" rel="noreferrer">
               <LensIcon sizeSVG={sizeSVG} />
+            </a>
+          </div>
+        )}
+        {portfolioLink && (
+          <div className="mr-2 mb-2">
+            <a href={`${portfolioLink}`} target="_blank" rel="noreferrer">
+              <FaBriefcase size={sizeCls} color={color ? color : "#BCBCBC"} />
             </a>
           </div>
         )}

@@ -10,7 +10,7 @@
     "clean-windows": "rd /s /q node_modules"
   },
   "devDependencies": {
-    "@apollo/client": "^3.6.9",
+    "@apollo/client": "^3.7.5",
     "@eden/package-config": "*",
     "@eden/package-graphql": "*",
     "@eden/package-tsconfig": "*",

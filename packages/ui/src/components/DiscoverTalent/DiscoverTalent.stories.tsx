@@ -19,7 +19,9 @@ Default.args = {
   title: `Your role`,
   matchType: "People",
   batteryPercentage: 50,
-  onPrev: () => {},
+  onPrev: () => {
+    console.log("prev");
+  },
   onNext: (data) => {
     console.log(data);
   },
