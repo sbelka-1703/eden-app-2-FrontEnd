@@ -22,6 +22,7 @@ import {
   ProgressBarGeneric,
   RoleSelector,
   SelectBoxNode,
+  SelectNodes,
   TextArea,
   TextHeading2,
   TextHeading3,
@@ -137,33 +138,33 @@ export const EditProfileOnboardPartyNodesCard = ({
     });
   };
 
-  const handleSaveNodes = (data: string[]) => {
-    if (!RoomID || !currentUser) return;
-    addNodes({
-      variables: {
-        fields: {
-          memberID: currentUser._id,
-          nodesID: data,
-          RoomID: RoomID,
-        },
-      },
-      context: { serviceName: "soilservice" },
-    });
-  };
+  // const handleSaveNodes = (data: string[]) => {
+  //   if (!RoomID || !currentUser) return;
+  //   addNodes({
+  //     variables: {
+  //       fields: {
+  //         memberID: currentUser._id,
+  //         nodesID: data,
+  //         RoomID: RoomID,
+  //       },
+  //     },
+  //     context: { serviceName: "soilservice" },
+  //   });
+  // };
 
-  const handleDeleteNodes = (data: string[]) => {
-    if (!RoomID || !currentUser) return;
-    deleteNodes({
-      variables: {
-        fields: {
-          memberID: currentUser._id,
-          nodesID: data,
-          RoomID: RoomID,
-        },
-      },
-      context: { serviceName: "soilservice" },
-    });
-  };
+  // const handleDeleteNodes = (data: string[]) => {
+  //   if (!RoomID || !currentUser) return;
+  //   deleteNodes({
+  //     variables: {
+  //       fields: {
+  //         memberID: currentUser._id,
+  //         nodesID: data,
+  //         RoomID: RoomID,
+  //       },
+  //     },
+  //     context: { serviceName: "soilservice" },
+  //   });
+  // };
 
   useEffect(() => {
     if (currentUser) {
@@ -326,17 +327,19 @@ const NodesModal = ({
   const [selectedItems, setSelectedItems] = useState<{
     [key: string]: Node[];
   }>({});
+
+  const [selectedItemsArray, setSelectedItemsArray] = useState<Node[]>([]);
   const [selectedNodes, setSelectedNodes] = useState<string[] | null>(null);
 
-  const { data: dataNodes } = useQuery(FIND_NODES, {
-    variables: {
-      fields: {
-        node: nodeType,
-      },
-    },
-    skip: !nodeType,
-    context: { serviceName: "soilservice" },
-  });
+  // const { data: dataNodes } = useQuery(FIND_NODES, {
+  //   variables: {
+  //     fields: {
+  //       node: nodeType,
+  //     },
+  //   },
+  //   skip: !nodeType,
+  //   context: { serviceName: "soilservice" },
+  // });
 
   // if (dataNodes?.findNodes) console.log("dataNodes", dataNodes?.findNodes);
 
@@ -360,7 +363,13 @@ const NodesModal = ({
   }, [selectedItems]);
 
   const handleFinish = () => {
-    onSubmit && onSubmit(selectedNodes as any);
+    // onSubmit && onSubmit(selectedNodes as any);
+    onSubmit &&
+      onSubmit(selectedItemsArray.map((_node: Node) => _node._id) as string[]);
+  };
+
+  const handleSetNodes = (val: Node[]) => {
+    setSelectedItemsArray(val);
   };
 
   return (
@@ -375,7 +384,7 @@ const NodesModal = ({
               </div>
             </div>
             <section className="mt-4">
-              <NodeList
+              {/* <NodeList
                 closeButton
                 handleDeleteNode={(val) =>
                   onDeleteNode([`${val?.nodeData?._id}`])
@@ -384,9 +393,10 @@ const NodesModal = ({
                   (node) => node?.nodeData?.node === nodesFilter
                 )}
                 colorRGB={`209,247,196`}
-              />
+              /> */}
+              {JSON.stringify(selectedItemsArray)}
 
-              <div className="my-8 ml-4 flex h-52 w-full flex-wrap justify-center gap-2">
+              {/* <div className="my-8 ml-4 flex h-52 w-full flex-wrap justify-center gap-2">
                 {dataNodes?.findNodes ? (
                   <>
                     {!isEmpty(dataNodes?.findNodes) &&
@@ -408,7 +418,16 @@ const NodesModal = ({
                 ) : (
                   <Loading />
                 )}
-              </div>
+              </div> */}
+              <SelectNodes
+                nodeType={nodeType!}
+                selectedNodes={currentUser?.nodes?.filter(
+                  (node) => node?.nodeData?.node === nodesFilter
+                )}
+                onChangeNodes={(val: Maybe<Node | undefined>[]) => {
+                  handleSetNodes(val as Node[]);
+                }}
+              />
             </section>
           </div>
         </div>
