@@ -82,7 +82,7 @@ interface DataState {
   edges: { source: string; target: string }[];
 }
 
-const data2 = {
+const data2: any = {
   nodes: [
     {
       id: "node0",
@@ -149,7 +149,7 @@ const TestPage = () => {
     memberID1: "961730944170090516",
     projectID1: "637ad5a6f0f9c427e03a03a8",
   });
-  const updateSettings = (settingsNew) => {
+  const updateSettings = (settingsNew: any) => {
     setSettingsGraphs({
       ...settingsNew,
       updateGraph: false,
@@ -199,7 +199,7 @@ const TestPage = () => {
     context: { serviceName: "soilservice" },
   });
 
-  const updateGraph = (settingsGraphNow) => {
+  const updateGraph = (settingsGraphNow: any) => {
     let dataGraphAPI;
 
     if (selectedOption == "Option 1") {
