@@ -63,6 +63,23 @@ const FIND_PROJECT_GRAPH = gql`
   }
 `;
 
+const FIND_MULTIPLE_MEMBERS_PROJECTS_GRAPH = gql`
+  query ($fields: findMultipleMembersProjectsGraphInput!) {
+    findMultipleMembersProjectsGraph(fields: $fields) {
+      nodes {
+        _id
+        name
+        type
+        avatar
+      }
+      edges {
+        source
+        target
+      }
+    }
+  }
+`;
+
 // import React, { useEffect, useState } from "react";
 // import { NextPageWithLayout } from "../../_app";
 
@@ -144,7 +161,7 @@ const TestPage = () => {
 
   const [selectedOption, setSelectedOption] = useState<string>("Option 1");
   const [settingsGraphs, setSettingsGraphs] = useState<any>({
-    useAvatar: false,
+    useAvatar: true,
     updateGraph: false,
     memberID1: "961730944170090516",
     projectID1: "637ad5a6f0f9c427e03a03a8",
@@ -198,6 +215,28 @@ const TestPage = () => {
     },
     context: { serviceName: "soilservice" },
   });
+
+  const { data: dataGraphAPIMultipleMembersProjects } = useQuery(
+    FIND_MULTIPLE_MEMBERS_PROJECTS_GRAPH,
+    {
+      variables: {
+        fields: {
+          membersID: [
+            "730282901576482826",
+            "935999176393781258",
+            "908392557258604544",
+          ],
+          projectsID: [
+            "63c6ca5de3538042bff317fb",
+            "63b21094de31eaa8c95d27e2",
+            "63b7fb9703003f7d3efd07d3",
+          ],
+          showAvatar: true,
+        },
+      },
+      context: { serviceName: "soilservice" },
+    }
+  );
 
   const updateGraph = (settingsGraphNow: any) => {
     let dataGraphAPI;
@@ -253,6 +292,13 @@ const TestPage = () => {
       dataGraphAPIProject.findProjectGraph
     ) {
       dataGraphAPI = dataGraphAPIProject.findProjectGraph;
+    } else if (
+      selectedOption == "Option 5" &&
+      dataGraphAPIMultipleMembersProjects &&
+      dataGraphAPIMultipleMembersProjects.findMultipleMembersProjectsGraph
+    ) {
+      dataGraphAPI =
+        dataGraphAPIMultipleMembersProjects.findMultipleMembersProjectsGraph;
     }
 
     if (dataGraphAPI != undefined && selectedOption != "Option 1") {
@@ -414,7 +460,8 @@ const TestPage = () => {
             {data && data.nodes && data.nodes.length > 0 ? (
               <G6component
                 width={width}
-                height={(2 * width) / 4}
+                height={600}
+                // height={(1.3 * width) / 4}
                 data2={data}
                 // data2={data2}
                 // handleClick={handleClick}
