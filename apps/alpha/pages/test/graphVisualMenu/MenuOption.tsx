@@ -52,6 +52,16 @@ const MenuOption = (props: any) => {
           />
           Project Graph
         </label>
+        <label style={{ margin: "10px" }}>
+          <input
+            type="radio"
+            name="menuOption"
+            value="Option 5"
+            checked={props.selectedOption === "Option 5"}
+            onChange={(e) => props.setSelectedOption(e.target.value)}
+          />
+          Big Graph
+        </label>
         {props.selectedOption === "Option 1" && (
           <div>
             <label htmlFor="checkbox" style={{ paddingRight: "10px" }}>
@@ -224,6 +234,26 @@ const MenuOption = (props: any) => {
                 props.updateSettings({
                   ...props.settingsGraphs,
                   projectID1: e.target.value,
+                })
+              }
+            />
+          </div>
+        )}
+        {props.selectedOption === "Option 5" && (
+          <div>
+            <label htmlFor="checkbox" style={{ paddingRight: "10px" }}>
+              Show Avatar:
+            </label>
+            <input
+              style={{ padding: "10px" }}
+              id="checkbox"
+              type="checkbox"
+              checked={props.settingsGraphs.useAvatar}
+              onChange={() =>
+                props.updateSettings({
+                  ...props.settingsGraphs,
+                  useAvatar: !props.settingsGraphs.useAvatar,
+                  updateGraph: true,
                 })
               }
             />

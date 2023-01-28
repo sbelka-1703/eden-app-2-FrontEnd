@@ -15,26 +15,32 @@ const nodeTypeStyle = {
   sub_typeProject: {
     fill: "#faffef",
     stroke: "#cdff52",
-    size: 40,
+    size: 20,
     displayName: "Type Project",
   },
   // eslint-disable-next-line camelcase
   sub_expertise: {
     fill: "#f0fdff",
     stroke: "#9AECFE",
-    size: 50,
+    size: 25,
+    displayName: "Expertise",
+  },
+  expertise: {
+    fill: "#f0fdff",
+    stroke: "#9AECFE",
+    size: 40,
     displayName: "Expertise",
   },
   Project: {
     fill: "#FDFFDC",
     stroke: "#FAE289",
-    size: 70,
+    size: 75,
     displayName: "Project",
   },
   Role: {
     fill: "#E8FBDA",
     stroke: "#C8F4A4",
-    size: 60,
+    size: 50,
     displayName: "Role",
   },
   disabledNode: {
