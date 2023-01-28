@@ -10,7 +10,7 @@ export interface SalaryRangeChart_1Props {
   }) => void;
 }
 
-export const SalaryRangeChart = ({
+export const SalaryRangeChartOne = ({
   data,
   onChange,
 }: SalaryRangeChart_1Props) => {
