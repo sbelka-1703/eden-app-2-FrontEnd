@@ -4,6 +4,7 @@ import {
   Badge,
   OpenPositions,
   TextHeading2,
+  TextLabel1,
   // TimelineStepper,
   UserMiniCard,
 } from "@eden/package-ui";
@@ -87,9 +88,7 @@ export const ProjectNodeMatchInfo = ({
       <div className={`grid grid-cols-1 md:grid-cols-3 md:gap-4`}>
         <div className={`col-span-2`}>
           <div className={`mt-5 mb-2 flex uppercase`}>
-            <p className="text-soilGray/100 font-medium tracking-wide">
-              📃 Description of the project
-            </p>
+            <TextLabel1>📃 Description of the project</TextLabel1>
           </div>
           <div className="text-sm font-medium tracking-normal">
             {project?.description}
@@ -97,9 +96,7 @@ export const ProjectNodeMatchInfo = ({
         </div>
         <div className={`col-span-1`}>
           <div className={`my-4 flex uppercase`}>
-            <p className="text-soilGray/100 font-medium tracking-wide">
-              🏆 Champion
-            </p>
+            <TextLabel1>🏆 Champion</TextLabel1>
           </div>
           <UserMiniCard member={project?.champion} />
         </div>

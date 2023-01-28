@@ -1,6 +1,6 @@
 import "./styles.css";
 
-import { TextLabel } from "@eden/package-ui";
+import { TextLabel2 } from "@eden/package-ui";
 import { useCallback, useEffect, useState } from "react";
 
 export type RangeSliderProps = {
@@ -84,14 +84,14 @@ export const RangeSlider: React.FC<RangeSliderProps> = ({
       />
       {showNumbers && (
         <>
-          <TextLabel className="absolute left-0 -top-1.5">0</TextLabel>
+          <TextLabel2 className="absolute left-0 -top-1.5">0</TextLabel2>
           <div
             className="absolute -top-3"
             style={{ left: value + "%", transform: `translateX(-${value}%)` }}
           >
-            <TextLabel>{value}</TextLabel>
+            <TextLabel2>{value}</TextLabel2>
           </div>
-          <TextLabel className="absolute right-0 -top-1.5">100</TextLabel>
+          <TextLabel2 className="absolute right-0 -top-1.5">100</TextLabel2>
           {max < 100 && (
             <div
               className="pointer-events-none
