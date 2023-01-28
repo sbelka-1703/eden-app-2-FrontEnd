@@ -1,6 +1,6 @@
 import {
   Maybe,
-  Node,
+  NodesType,
   Project,
   RoleType,
 } from "@eden/package-graphql/generated";
@@ -14,8 +14,13 @@ import {
   ToggleElement,
 } from "@eden/package-ui";
 import { isEmpty } from "lodash";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
+import { Dispatch, SetStateAction, useEffect } from "react";
+import {
+  Controller,
+  SubmitHandler,
+  useFieldArray,
+  useForm,
+} from "react-hook-form";
 
 type ProjectRoleInputs = {
   role: {
@@ -24,7 +29,7 @@ type ProjectRoleInputs = {
     description: string;
     expectations: Maybe<string>[];
     benefits: Maybe<string>[];
-    nodes: [];
+    nodes: NodesType[];
     hoursPerWeek: number;
     // nodes?: Maybe<Array<Maybe<NodesType>>>; // TODO fix type
     openPositions: number;
@@ -138,26 +143,6 @@ export const CreateProjectViews7 = ({
   }, [watch]);
 
   const numInList = ["", "", "", ""];
-  // const [selectedItems, setSelectedItems] = useState<{
-  //   [key: string]: Node[];
-  // }>({});
-  const [selectedNodes, setSelectedNodes] = useState<Node[]>([]);
-
-  // useEffect(() => {
-  //   if (selectedItems) {
-  //     const selectedNodeId: string[] = [];
-
-  //     forEach(selectedItems, (el) => {
-  //       if (!isEmpty(el)) {
-  //         forEach(el, (item) => {
-  //           // console.log("item", item);
-  //           selectedNodeId.push(item?._id as string);
-  //         });
-  //       }
-  //     });
-  //     setSelectedNodes(selectedNodeId);
-  //   }
-  // }, [selectedItems]);
 
   return (
     <Card className={`scrollbar-hide h-85 overflow-y-scroll pb-6`}>
@@ -192,31 +177,21 @@ export const CreateProjectViews7 = ({
                     </div>
                     <div className="mt-3">
                       <TextInputLabel>{`Select the Role: 🤖`}</TextInputLabel>
-                      {/* <div className="flex w-full flex-wrap justify-center gap-1">
-                        {!isEmpty(expertise) &&
-                          map(expertise, (item: any, key: number) => (
-                            <SelectBoxNode
-                              multiple
-                              key={key}
-                              caption={item?.name}
-                              items={item?.subNodes}
-                              onChange={(val) => {
-                                setSelectedItems((prevState) => ({
-                                  ...prevState,
-                                  [item?._id]: val,
-                                }));
-                              }}
-                            />
-                          ))}
-                      </div> */}
-                      <SelectNodes
-                        nodeType={"expertise"}
-                        selectedNodes={selectedNodes.map((_node) => ({
-                          nodeData: _node,
-                        }))}
-                        onChangeNodes={(val) => {
-                          setSelectedNodes(val as Node[]);
-                        }}
+                      <Controller
+                        control={control}
+                        name={`role.${index}.nodes`}
+                        render={({
+                          // eslint-disable-next-line no-unused-vars
+                          field: { onChange, onBlur, value, name, ref },
+                          // fieldState: { invalid, isTouched, isDirty, error },
+                          // formState,
+                        }) => (
+                          <SelectNodes
+                            nodeType={"expertise"}
+                            selectedNodes={value}
+                            onChangeNodes={onChange}
+                          />
+                        )}
                       />
                     </div>
                     <div className={`my-4`}>

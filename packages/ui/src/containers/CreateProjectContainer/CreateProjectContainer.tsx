@@ -109,7 +109,9 @@ export const CreateProjectContainer = ({
             fields: {
               nodesID:
                 state?.role && state?.role[index]?.nodes
-                  ? state?.role[index]?.nodes
+                  ? state?.role[index]?.nodes!.map(
+                      (_node) => _node?.nodeData?._id
+                    )
                   : [],
               projectRoleID: _role?._id,
               nodeType: `sub_expertise`,
@@ -134,7 +136,9 @@ export const CreateProjectContainer = ({
             fields: {
               nodesID:
                 state?.role && state?.role[index]?.nodes
-                  ? state?.role[index]?.nodes
+                  ? state?.role[index]?.nodes?.map(
+                      (_node) => _node?.nodeData?._id
+                    )
                   : [],
               projectRoleID: _role?._id,
               nodeType: `sub_expertise`,
