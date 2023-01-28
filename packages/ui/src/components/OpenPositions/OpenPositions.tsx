@@ -13,6 +13,7 @@ import {
   LongText,
   OpenPositionCard,
   TabsSelector,
+  TextLabel1,
 } from "@eden/package-ui";
 import { useContext, useEffect, useState } from "react";
 import { GiExpand } from "react-icons/gi";
@@ -75,9 +76,7 @@ export const OpenPositions = ({
   return (
     <div>
       <div className={`my-4 flex`}>
-        <p className="text-soilGray/100 font-medium uppercase tracking-wide">
-          🎬 Open positions
-        </p>
+        <TextLabel1>🎬 Open positions</TextLabel1>
         {expand && (
           <Button style={{ border: "none" }} onClick={() => setExpand(false)}>
             <GiExpand size="15px" />

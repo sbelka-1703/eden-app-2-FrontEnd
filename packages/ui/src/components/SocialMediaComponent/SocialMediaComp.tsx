@@ -16,7 +16,7 @@ export interface ISocialMediaCompProps {
   size?: string;
   color?: string;
 }
-import { TextHeading3 } from "@eden/package-ui";
+import { TextLabel1 } from "@eden/package-ui";
 
 export const SocialMediaComp = ({
   links,
@@ -75,19 +75,7 @@ export const SocialMediaComp = ({
   // console.log("links", links);
   return (
     <div>
-      {title && (
-        // <div
-        //   className={`mb-3 text-sm font-semibold tracking-widest subpixel-antialiased`}
-        // >
-        //   {title}
-        // </div>
-        <TextHeading3
-          style={{ fontWeight: 700 }}
-          className="mb-2 text-sm uppercase text-gray-500"
-        >
-          {title}
-        </TextHeading3>
-      )}
+      {title && <TextLabel1>{title}</TextLabel1>}
       <div className={`flex flex-wrap`}>
         {twitterUrl && (
           <div className="mr-2 mb-2">
