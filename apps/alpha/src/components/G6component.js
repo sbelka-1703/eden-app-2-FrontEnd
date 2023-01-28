@@ -268,7 +268,9 @@ const G6component = ({ width, height, data2 }) => {
 
   useEffect(() => {
     if (graph && (data2.nodes.length != 1 || data2.nodes[0].id != "node1")) {
-      if (data2.nodes.length != 1) updateNodes(data2);
+      if (data2.nodes.length != 1) {
+        updateNodes(data2);
+      }
 
       // updateNodes(data2);
     }
