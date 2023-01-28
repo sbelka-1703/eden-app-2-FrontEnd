@@ -60,6 +60,8 @@ const DiscoverPage: NextPageWithLayout = () => {
 
   // console.log("dataRoom", dataRoom);
 
+  const { roomsData, pageInfo } = dataRoom?.findRooms || {};
+
   const [createRoom] = useMutation(CREATE_ROOM, {
     onCompleted: (data) => {
       // console.log("createRoom completed", data);
@@ -83,6 +85,8 @@ const DiscoverPage: NextPageWithLayout = () => {
       context: { serviceName: "soilservice" },
     });
   };
+
+  // return null;
 
   return (
     <>
@@ -162,9 +166,15 @@ const DiscoverPage: NextPageWithLayout = () => {
           </div>
         </Card>
         <Card shadow className={`bg-white p-4`}>
-          <TextHeading2>Rooms</TextHeading2>
+          <div className={`flex justify-between`}>
+            <TextHeading2>Rooms</TextHeading2>
+            <div className={`font-medium text-gray-600`}>
+              {pageInfo?.totalResults} Total
+            </div>
+          </div>
+
           <div className={`gap-4`}>
-            {dataRoom?.findRooms.map((room: any) => (
+            {roomsData?.map((room: any) => (
               <Card key={room._id} className={`border-b-2 p-2`}>
                 <div className={`flex`}>
                   <div>

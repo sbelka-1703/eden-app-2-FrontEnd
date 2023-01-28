@@ -1,4 +1,4 @@
-import { TextLabel } from "@eden/package-ui";
+import { TextLabel2 } from "@eden/package-ui";
 interface Step {
   date: string;
   completed: boolean;
@@ -37,7 +37,7 @@ export const TimelineStepper = ({ steps }: TimelineStepperProps) => {
                 : "border-gray-200 bg-gray-100"
             } text-center font-medium`}
           >
-            <TextLabel className="absolute -top-6">{step.date}</TextLabel>
+            <TextLabel2 className="absolute -top-6">{step.date}</TextLabel2>
 
             <span className="text-xs">{step.description}</span>
           </div>

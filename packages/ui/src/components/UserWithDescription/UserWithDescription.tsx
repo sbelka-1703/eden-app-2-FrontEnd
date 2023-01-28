@@ -1,5 +1,5 @@
 import { Maybe, Members } from "@eden/package-graphql/generated";
-import { MatchAvatar, TextHeading3, TextLabel } from "@eden/package-ui";
+import { MatchAvatar, TextHeading3, TextLabel2 } from "@eden/package-ui";
 
 export interface IUserWithDescriptionProps {
   member?: Maybe<Members>;
@@ -23,7 +23,9 @@ export const UserWithDescription = ({
       <div className="flex justify-center">
         <TextHeading3>@{member?.discordName}</TextHeading3>
         {member?.discriminator && (
-          <TextLabel className="mt-2 pl-1">#{member?.discriminator}</TextLabel>
+          <TextLabel2 className="mt-2 pl-1">
+            #{member?.discriminator}
+          </TextLabel2>
         )}
       </div>
       <TextHeading3 className="text-gray-400">

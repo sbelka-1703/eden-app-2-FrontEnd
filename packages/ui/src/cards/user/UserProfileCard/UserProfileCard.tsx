@@ -1,5 +1,5 @@
 import { UserContext } from "@eden/package-context";
-import { Avatar, Card, TextLabel } from "@eden/package-ui";
+import { Avatar, Card, TextLabel1 } from "@eden/package-ui";
 import { useContext } from "react";
 
 export interface IUserProfileCardProps {}
@@ -18,7 +18,7 @@ export const UserProfileCard = ({}: IUserProfileCardProps) => {
           <div>
             @{currentUser?.discordName}
             {currentUser?.discriminator && (
-              <TextLabel> #{currentUser?.discriminator}</TextLabel>
+              <TextLabel1> #{currentUser?.discriminator}</TextLabel1>
             )}
           </div>
           <div className={`font-Inter text-xl text-zinc-500`}>

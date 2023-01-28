@@ -5,6 +5,7 @@ import {
   Badge,
   TextHeading2,
   TextHeading3,
+  TextLabel1,
 } from "@eden/package-ui";
 
 // import { round } from "../../../utils";
@@ -53,20 +54,12 @@ export const GrantsInfo = ({ grant }: IGrantsInfoProps) => {
       <div className={`mt-4 grid gap-4 sm:grid-cols-3`}>
         <div className={`col-span-2`}>
           <div>
-            <div
-              className={`font-Inter text-md mb-2 font-medium text-zinc-400`}
-            >
-              📃 Description of the grant
-            </div>
-            <div className={`text-darkGreen`}>{grant?.description}</div>
+            <TextLabel1>📃 Description of the grant</TextLabel1>
+            <div className={`text-darkGreen my-2`}>{grant?.description}</div>
           </div>
           <div>
-            <div
-              className={`font-Inter text-md my-2 font-medium text-zinc-400`}
-            >
-              💲 requirements for the grant
-            </div>
-            <div className={`list-disc`}>
+            <TextLabel1>💲 requirements for the grant</TextLabel1>
+            <div className={`list-disc my-2`}>
               {grant?.requirments?.map((requirement, index) => (
                 <li key={index} className={`text-darkGreen list-disc text-sm`}>
                   {requirement}
@@ -75,12 +68,8 @@ export const GrantsInfo = ({ grant }: IGrantsInfoProps) => {
             </div>
           </div>
           <div>
-            <div
-              className={`font-Inter text-md my-2 font-medium text-zinc-400`}
-            >
-              🎀 application process & our support
-            </div>
-            <div className={`list-disc`}>
+            <TextLabel1>🎀 application process & our support</TextLabel1>
+            <div className={`list-disc my-2`}>
               {grant?.applicationProcess?.map((requirement, index) => (
                 <li key={index} className={`text-darkGreen list-disc text-sm`}>
                   {requirement}
@@ -89,13 +78,9 @@ export const GrantsInfo = ({ grant }: IGrantsInfoProps) => {
             </div>
           </div>
           <div>
-            <div
-              className={`font-Inter text-md my-2 font-medium text-zinc-400`}
-            >
-              🎊 D_D members who got aavE grant{" "}
-            </div>
+            <TextLabel1>🎊 D_D members who got aavE grant </TextLabel1>
             {grant?.membersApplied && (
-              <div className={`flex`}>
+              <div className={`flex my-2`}>
                 <AvatarList
                   className="inline-block !w-auto !justify-start"
                   avatars={grant?.membersApplied
@@ -129,21 +114,17 @@ export const GrantsInfo = ({ grant }: IGrantsInfoProps) => {
             </div>
           </div> */}
           <div className={`my-4`}>
-            <div className={`font-Inter text-md font-medium text-zinc-400`}>
-              💪🏼 difficulty
-            </div>
+            <TextLabel1>💪🏼 difficulty</TextLabel1>
             <div
-              className={`text-accentColor my-1 rounded-xl bg-blue-50 p-4 text-xl uppercase shadow-md`}
+              className={`text-accentColor my-2 rounded-xl bg-blue-50 p-4 text-xl uppercase shadow-md`}
             >
               {grant?.difficulty}
             </div>
           </div>
           <div className={`my-4`}>
-            <div className={`font-Inter text-md font-medium text-zinc-400`}>
-              🎏 distributed
-            </div>
+            <TextLabel1>🎏 distributed</TextLabel1>
             <div
-              className={`text-accentColor my-1 rounded-xl bg-blue-50 p-4 text-xl uppercase shadow-md`}
+              className={`text-accentColor my-2 rounded-xl bg-blue-50 p-4 text-xl uppercase shadow-md`}
             >
               {grant?.distributed || 0}/{grant?.maxDistributed}
             </div>
