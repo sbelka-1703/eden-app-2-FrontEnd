@@ -1,5 +1,4 @@
-import { gql, useMutation, useQuery } from "@apollo/client";
-import { FIND_NODES } from "@eden/package-graphql";
+import { gql, useMutation } from "@apollo/client";
 import {
   Maybe,
   Mutation,
@@ -110,7 +109,9 @@ export const CreateProjectContainer = ({
             fields: {
               nodesID:
                 state?.role && state?.role[index]?.nodes
-                  ? state?.role[index]?.nodes
+                  ? state?.role[index]?.nodes!.map(
+                      (_node) => _node?.nodeData?._id
+                    )
                   : [],
               projectRoleID: _role?._id,
               nodeType: `sub_expertise`,
@@ -135,7 +136,9 @@ export const CreateProjectContainer = ({
             fields: {
               nodesID:
                 state?.role && state?.role[index]?.nodes
-                  ? state?.role[index]?.nodes
+                  ? state?.role[index]?.nodes?.map(
+                      (_node) => _node?.nodeData?._id
+                    )
                   : [],
               projectRoleID: _role?._id,
               nodeType: `sub_expertise`,
@@ -208,14 +211,16 @@ export const CreateProjectContainer = ({
     }
   };
 
-  const { data: expertiseNodes } = useQuery(FIND_NODES, {
-    variables: {
-      fields: {
-        node: "expertise",
-      },
-    },
-    context: { serviceName: "soilservice" },
-  });
+  // const { data: expertiseNodes } = useQuery(FIND_NODES, {
+  //   variables: {
+  //     fields: {
+  //       node: "expertise",
+  //     },
+  //   },
+  //   context: { serviceName: "soilservice" },
+  // });
+
+  console.log("role", state?.role);
 
   const stepView = () => {
     switch (step) {
@@ -244,7 +249,7 @@ export const CreateProjectContainer = ({
           <CreateProjectViews7
             battery={getFillProjectPercentage(project)}
             onNext={() => setStep(PROJECT_STEPS.ADD_ANOTHER_ROLE)}
-            expertise={expertiseNodes?.findNodes}
+            // expertise={expertiseNodes?.findNodes}
             onBack={() => setStep(PROJECT_STEPS.DESCRIPTION)}
             project={state}
             setProject={setState}
