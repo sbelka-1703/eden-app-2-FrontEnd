@@ -10,6 +10,7 @@ const nodeTypeStyle = {
     stroke: "#bf55ff",
     size: 90,
     displayName: "Member",
+    sizeRatio: 0.3,
   },
   // eslint-disable-next-line camelcase
   sub_typeProject: {
@@ -17,6 +18,7 @@ const nodeTypeStyle = {
     stroke: "#cdff52",
     size: 20,
     displayName: "Type Project",
+    sizeRatio: 0.05,
   },
   // eslint-disable-next-line camelcase
   sub_expertise: {
@@ -24,35 +26,44 @@ const nodeTypeStyle = {
     stroke: "#9AECFE",
     size: 25,
     displayName: "Expertise",
+    sizeRatio: 0.1,
   },
   expertise: {
-    fill: "#f0fdff",
-    stroke: "#9AECFE",
+    fill: "#f0fdaf",
+    stroke: "#9AECaE",
     size: 40,
-    displayName: "Expertise",
+    displayName: "Role",
+    sizeRatio: 0.3,
   },
   Project: {
     fill: "#FDFFDC",
     stroke: "#FAE289",
     size: 75,
     displayName: "Project",
+    sizeRatio: 1,
   },
   Role: {
     fill: "#E8FBDA",
     stroke: "#C8F4A4",
     size: 50,
-    displayName: "Role",
+    displayName: "Project Role",
+    sizeRatio: 0.8,
   },
   disabledNode: {
     fill: "#E8EBED",
     stroke: "#505C68",
     size: 25,
     displayName: "Disabled Nodes",
+    sizeRatio: 0,
   },
 };
 //  -------------- Graph Node Settings ------------
 
 //  -------------- Graph Functions ------------
+function remapValue(value, fromLow, fromHigh, toLow, toHigh) {
+  return ((value - fromLow) * (toHigh - toLow)) / (fromHigh - fromLow) + toLow;
+}
+
 const tooltip = new G6.Tooltip({
   offsetX: 10,
   offsetY: 10,
@@ -68,7 +79,7 @@ const tooltip = new G6.Tooltip({
     const model = e.item.getModel();
 
     if (model.propertise && model.propertise.name != undefined) {
-      outDiv.innerHTML = `name：${model.propertise.name}<br/>type：${model.type}`;
+      outDiv.innerHTML = `name：${model.propertise.name}<br/>type：${model.nodeType}`;
 
       return outDiv;
     } else {
@@ -195,7 +206,8 @@ const G6component = ({ width, height, data2 }) => {
         width: width,
         height: height,
         modes: {
-          default: ["drag-canvas", "zoom-canvas", "activate-relations"],
+          default: ["drag-canvas", "zoom-canvas"],
+          // default: ["drag-canvas", "zoom-canvas", "activate-relations"],
         },
         animate: true, // Boolean, whether to activate the animation when global changes happen
         defaultNode: {
@@ -239,7 +251,7 @@ const G6component = ({ width, height, data2 }) => {
             } else {
               randomDistance = 50;
             }
-            // return 150;
+            // return 200;
             return initDistance + Math.floor(Math.random() * randomDistance);
           },
         },
@@ -271,6 +283,8 @@ const G6component = ({ width, height, data2 }) => {
       });
     }
   }, []);
+
+  console.log("width,height = ", width, height);
 
   useEffect(() => {
     if (graph && (data2.nodes.length != 1 || data2.nodes[0].id != "node1")) {
@@ -344,25 +358,69 @@ const G6component = ({ width, height, data2 }) => {
     const items = [];
     const itemsObj = {};
 
+    // find max and min sizeRation
+    let maxNodeSizeRatio = -0.1;
+
+    let minNodeSizeRation = 1.1;
+
+    data.nodes.forEach(function (node) {
+      const nodeType = node.nodeType;
+
+      if (nodeTypeStyle[nodeType] == undefined) return null;
+      // console.log(
+      //   "nodeType = ",
+      //   nodeType,
+      //   nodeTypeStyle[nodeType].sizeRatio,
+      //   node
+      // );
+
+      if (nodeTypeStyle[nodeType].sizeRatio > maxNodeSizeRatio) {
+        maxNodeSizeRatio = nodeTypeStyle[nodeType].sizeRatio;
+      }
+      if (nodeTypeStyle[nodeType].sizeRatio < minNodeSizeRation) {
+        minNodeSizeRation = nodeTypeStyle[nodeType].sizeRatio;
+      }
+    });
+    console.log("maxNodeSizeRatio = ", maxNodeSizeRatio);
+    console.log("minNodeSizeRation = ", minNodeSizeRation);
+
+    console.log("data.nodes = ", data.nodes);
+
     data.nodes.forEach(function (node) {
       if (!node) return;
 
-      let nodeType = node.type;
+      let nodeType = node.nodeType;
 
       if (node.disabledNode == true) {
         nodeType = "disabledNode";
       }
 
+      console.log("nodeType = ", nodeType);
+
       // -------- Change stype based on Type of Node -------
       if (nodeType && nodeTypeStyle[nodeType]) {
-        graph.updateItem(node.id, {
-          size: nodeTypeStyle[nodeType].size,
-          style: {
-            fill: nodeTypeStyle[nodeType].fill,
-            stroke: nodeTypeStyle[nodeType].stroke,
-            lineWidth: 1,
-          },
-        });
+        // SOS 🆘 you cant chanege the style of the member node because the visualisation breaks
+        if (nodeType != "Member") {
+          graph.updateItem(node.id, {
+            size: remapValue(
+              nodeTypeStyle[nodeType].sizeRatio,
+              minNodeSizeRation,
+              maxNodeSizeRatio,
+              30,
+              80
+            ),
+            // size: nodeTypeStyle[nodeType].size,
+            style: {
+              fill: nodeTypeStyle[nodeType].fill,
+              stroke: nodeTypeStyle[nodeType].stroke,
+              lineWidth: 1,
+            },
+          });
+        } else {
+          graph.updateItem(node.id, {
+            label: "",
+          });
+        }
       }
       // -------- Change stype based on Type of Node -------
 
@@ -374,8 +432,9 @@ const G6component = ({ width, height, data2 }) => {
 
       const typeNowStyle = nodeTypeStyle[nodeType];
 
+      console.log("typeNowStyle = ", typeNowStyle);
       // -------- Create the Menue of Graph -------
-      if (itemsObj[nodeType] == undefined) {
+      if (itemsObj[nodeType] == undefined && typeNowStyle != undefined) {
         itemsObj[nodeType] = {
           res: typeNowStyle,
         };
@@ -384,12 +443,13 @@ const G6component = ({ width, height, data2 }) => {
           name: typeNowStyle?.displayName,
           fill: typeNowStyle?.fill,
           stroke: typeNowStyle?.stroke,
-          type: nodeType,
+          nodeType: nodeType,
           checked: true,
         });
       }
       // -------- Create the Menue of Graph -------
     });
+    console.log("items = ", items);
 
     if (items.length > 1) {
       // Create the Menue of Graph
@@ -408,17 +468,20 @@ const G6component = ({ width, height, data2 }) => {
   const handleCheckboxChange = (itemId) => {
     const flagChange = !checkedItems[itemId].checked;
 
-    const type = checkedItems[itemId].type;
+    const nodeTypeNow = checkedItems[itemId].nodeType;
+
+    console.log("checkedItems = ", checkedItems);
 
     const addNodesObj = {};
 
     data2.nodes.forEach(function (node) {
-      let nodeType = node.type;
+      let nodeType = node.nodeType;
 
       if (node.disabledNode == true) {
         nodeType = "disabledNode";
       }
-      if (nodeType == type) {
+      console.log("nodeType = ", nodeType, nodeTypeNow);
+      if (nodeType == nodeTypeNow) {
         if (flagChange == true) {
           addNodesObj[node.id] = node;
           addNode(node);
@@ -457,7 +520,8 @@ const G6component = ({ width, height, data2 }) => {
     <div className="relative w-full">
       {data2.nodes.length == 1 ? <div>loading</div> : true}
       <div ref={ref}></div>
-      <div className="absolute right-2 bottom-0 flex flex-col">
+      <div className="fixed bottom-0 right-0 p-10">
+        {/* <div className="absolute right-2 bottom-0 flex flex-col"> */}
         {items.map((item, idx) => (
           <div key={item.id} className="mb-2 flex items-center justify-end">
             <div className={`ml-2 text-${item.colorsa}-500`}>{item.name}</div>

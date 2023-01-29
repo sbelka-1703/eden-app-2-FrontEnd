@@ -222,7 +222,7 @@ const TestPage = () => {
       variables: {
         fields: {
           membersID: [
-            "730282901576482826",
+            // "730282901576482826",
             "935999176393781258",
             "908392557258604544",
           ],
@@ -332,18 +332,18 @@ const TestPage = () => {
         (node: { _id: any; name: any; type: string; avatar: string }) => {
           let extraStyle = {};
 
-          if (node._id == "637a914ab8953f12f501e1ca") {
-            // extraStyle = {
-            //   disabledNode: true,
-            // };
-          }
+          // if (node._id == "637a914ab8953f12f501e1ca") {
+          //   // extraStyle = {
+          //   //   disabledNode: true,
+          //   // };
+          // }
 
-          console.log(
-            "change = ",
-            settingsGraphNow.useAvatar,
-            node.avatar,
-            node
-          );
+          // console.log(
+          //   "change = ",
+          //   settingsGraphNow.useAvatar,
+          //   node.avatar,
+          //   node
+          // );
           if (settingsGraphNow.useAvatar == true && node.avatar != undefined) {
             extraStyle = {
               // ----------- Shwow Avatar User ---------
@@ -375,7 +375,7 @@ const TestPage = () => {
           return {
             id: node._id,
             label: node.name,
-            type: node.type,
+            nodeType: node.type,
             size: 50,
             numberConnections: nodeDataObj[node._id]
               ? nodeDataObj[node._id].numberConnections
@@ -436,15 +436,16 @@ const TestPage = () => {
       )} */}
       <div
         style={{
-          display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          height: "100%",
-          width: "100%",
           padding: "10",
+          width: "100%",
         }}
       >
-        <div>
+        <div
+        // className="fixed-top top-0 left-0 z-50 h-16 w-full bg-white"
+        // style={{ height: "500", width: "500" }}
+        >
           <MenuOption
             selectedOption={selectedOption}
             setSelectedOption={setSelectedOption}
@@ -452,25 +453,55 @@ const TestPage = () => {
             updateSettings={updateSettings}
           />
         </div>
-        {refContainer && (
+        <div
+          className={`flex h-screen w-full gap-4`}
+          // style={{
+          //   flexDirection: "column",
+          //   alignItems: "center",
+          //   padding: "10",
+          // }}
+        >
           <div
-            className="w-full"
-            ref={refContainer as RefObject<HTMLDivElement>}
-          >
-            {data && data.nodes && data.nodes.length > 0 ? (
-              <G6component
-                width={width}
-                height={600}
-                // height={(1.3 * width) / 4}
-                data2={data}
-                // data2={data2}
-                // handleClick={handleClick}
-              />
-            ) : (
-              <p>Dont have Graph Data Yet</p>
-            )}
-          </div>
-        )}
+            className={`h-screen 
+            px-2 py-1 text-center`}
+          ></div>
+          {/* <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          height: "100%",
+          width: "100%",
+          padding: "10",
+        }}
+        style={{
+          flexDirection: "column",
+          alignItems: "center",
+          padding: "10",
+        }}
+      > */}
+
+          {refContainer && (
+            <div
+              className="w-full"
+              ref={refContainer as RefObject<HTMLDivElement>}
+            >
+              {data && data.nodes && data.nodes.length > 0 ? (
+                <G6component
+                  width={width}
+                  height={refContainer.current?.offsetHeight!}
+                  // height={500}
+                  // height={(1.3 * width) / 4}
+                  data2={data}
+                  // data2={data2}
+                  // handleClick={handleClick}
+                />
+              ) : (
+                <p>Dont have Graph Data Yet</p>
+              )}
+            </div>
+          )}
+        </div>
       </div>
       {/* {dataGraphAPImember &&
       dataGraphAPImember.findMemberGraph &&
