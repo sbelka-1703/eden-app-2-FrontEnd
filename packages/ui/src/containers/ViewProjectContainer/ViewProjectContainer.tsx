@@ -7,6 +7,8 @@ import {
   CommonServerAvatarList,
   TabsSelector,
   TextHeading2,
+  TextLabel1,
+  TextLabel2,
   UserMiniCard,
 } from "@eden/package-ui";
 import { PROJECT_STEPS } from "@eden/package-ui/utils/enums/fill-project-steps";
@@ -26,6 +28,8 @@ export const ViewProjectContainer = ({
   onSetRoleIndex,
 }: IViewProjectContainerProps) => {
   const { currentUser } = useContext(UserContext);
+
+  // console.log("project", project);
 
   const tabs = project?.role
     ? project?.role?.map((data: any) => `${data.title}`)
@@ -118,9 +122,7 @@ export const ViewProjectContainer = ({
             }`}
           >
             <div className={`mt-5 mb-2 flex uppercase`}>
-              <p className="text-soilGray/100 font-medium tracking-wide">
-                📃 Description of the project
-              </p>
+              <TextLabel1>📃 Description of the project</TextLabel1>
             </div>
             <div className="text-sm font-medium tracking-normal">
               {project?.description}
@@ -134,9 +136,7 @@ export const ViewProjectContainer = ({
             }`}
           >
             <div className={`my-4 flex uppercase`}>
-              <p className="text-soilGray/100 font-medium tracking-wide">
-                🏆 Champion
-              </p>
+              <TextLabel1>🏆 Champion</TextLabel1>
             </div>
             <UserMiniCard member={currentUser} />
           </div>
@@ -191,18 +191,14 @@ export const ViewProjectContainer = ({
                   </div>
                 </div>
                 <div className={`my-4`}>
-                  <div className="text-soilGray/100 my-1 font-medium uppercase tracking-wide">
-                    📃 Description Of the role
-                  </div>
+                  <TextLabel2>📃 Description Of the role</TextLabel2>
                   <div className="text-darkGreen font-Inter my-2 text-sm tracking-wide">
                     {activeRole?.description}
                   </div>
                 </div>
 
                 <div className={`my-4`}>
-                  <div className="text-soilGray/100 my-1 font-medium uppercase tracking-wide">
-                    💯 Expectations
-                  </div>
+                  <TextLabel2>💯 Expectations</TextLabel2>
                   <div className="text-sm">
                     {activeRole?.expectations?.map(
                       (obj: string, index: number) => (
@@ -216,9 +212,7 @@ export const ViewProjectContainer = ({
 
                 <div className="mb-3 grid grid-cols-3 gap-4">
                   <div className="col-span-2">
-                    <div className="text-soilGray/100 my-1 font-medium uppercase tracking-wide">
-                      🦜 Benefits
-                    </div>
+                    <TextLabel2>🦜 Benefits</TextLabel2>
                     <div className="text-sm">
                       {activeRole?.benefits?.map(
                         (obj: string, index: number) => (
@@ -233,9 +227,7 @@ export const ViewProjectContainer = ({
                     activeRole?.ratePerHour ||
                     activeRole?.openPositions) && (
                     <div>
-                      <div className="text-soilGray/100 my-1 font-medium uppercase tracking-wide">
-                        🕵️‍♀️ Details
-                      </div>
+                      <TextLabel2>🕵️‍♀️ Details</TextLabel2>
                       <div className="text-xs font-medium">
                         {activeRole?.hoursPerWeek && (
                           <div className="flex flex-row p-1">

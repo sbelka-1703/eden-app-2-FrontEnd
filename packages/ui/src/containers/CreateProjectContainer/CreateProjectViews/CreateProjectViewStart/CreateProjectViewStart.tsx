@@ -19,25 +19,25 @@ type Inputs = {
   serverID: string[];
 };
 
-export interface CreateProjectViews1Props {
+export interface ICreateProjectViewStartProps {
   battery?: number;
   onNext: () => void;
   setProject?: Dispatch<SetStateAction<Project>>;
   project?: Project;
 }
 
-export const CreateProjectViews1 = ({
+export const CreateProjectViewStart = ({
   battery = 0,
   // onBack,
   onNext,
   setProject,
   project,
-}: CreateProjectViews1Props) => {
+}: ICreateProjectViewStartProps) => {
   const { memberServers } = useContext(UserContext);
   const { register, handleSubmit, watch, control } = useForm<Inputs>({
     defaultValues: {
       title: project?.title || "",
-      emoji: project?.emoji || "",
+      emoji: project?.emoji || "👋",
       backColorEmoji: project?.backColorEmoji || "#e8e8e8",
       serverID: [],
     },

@@ -22,6 +22,8 @@ export const ProjectNodeMatchInfo = ({
 
   if (!project) return null;
 
+  console.log("project", project);
+
   // MOCK DATA FOR STEPS
   // const steps = [
   //   {

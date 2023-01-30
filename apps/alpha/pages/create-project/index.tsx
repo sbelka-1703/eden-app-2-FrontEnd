@@ -13,9 +13,31 @@ import { useState } from "react";
 
 import { NextPageWithLayout } from "../_app";
 
+const INITAL_PROJECT = {
+  title: "",
+  description: "",
+  descriptionOneLine: "",
+  emoji: "",
+  backColorEmoji: "",
+  serverID: [],
+  role: [
+    {
+      title: "",
+      shortDescription: "",
+      description: "",
+      expectations: [],
+      benefits: [],
+      nodes: [],
+      hoursPerWeek: 0,
+      openPositions: 0,
+      ratePerHour: 0,
+    },
+  ],
+};
+
 const CreateProjectPage: NextPageWithLayout = () => {
   const [step, setStep] = useState(PROJECT_STEPS.START);
-  const [project, setProject] = useState<Project>();
+  const [project, setProject] = useState<Project>(INITAL_PROJECT);
 
   const [roleIndex, setRoleIndex] = useState<number>(0);
 

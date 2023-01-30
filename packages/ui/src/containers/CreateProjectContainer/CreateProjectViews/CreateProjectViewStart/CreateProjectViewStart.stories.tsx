@@ -1,16 +1,16 @@
 import { getProject } from "@eden/package-mock";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
-import { CreateProjectViews1 } from "./CreateProjectViews1";
+import { CreateProjectViewStart } from "./CreateProjectViewStart";
 
 export default {
-  title: "Containers/CreateProjectContainer/CreateProjectViews1",
-  component: CreateProjectViews1,
+  title: "Containers/CreateProjectContainer/CreateProjectViewStart",
+  component: CreateProjectViewStart,
   argTypes: {},
-} as ComponentMeta<typeof CreateProjectViews1>;
+} as ComponentMeta<typeof CreateProjectViewStart>;
 
-const Template: ComponentStory<typeof CreateProjectViews1> = (args) => (
-  <CreateProjectViews1 {...args} />
+const Template: ComponentStory<typeof CreateProjectViewStart> = (args) => (
+  <CreateProjectViewStart {...args} />
 );
 
 export const Default = Template.bind({});

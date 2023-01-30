@@ -156,7 +156,7 @@ export const SendMessageToUser = ({
         },
       });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     } finally {
       setIsMessageSent(true);
       if (project?._id && member?._id && role?._id) {
