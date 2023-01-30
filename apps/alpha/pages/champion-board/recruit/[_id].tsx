@@ -17,7 +17,7 @@ import {
 } from "@eden/package-ui";
 import { PROJECT_STEPS } from "@eden/package-ui/utils/enums/fill-project-steps";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 
 import type { NextPageWithLayout } from "../../_app";
 
@@ -46,9 +46,7 @@ const ProjectPage: NextPageWithLayout = () => {
     }
   );
 
-  useEffect(() => {
-    if (dataProject?.findProject) console.log("dataProject", dataProject);
-  }, [dataProject]);
+  //   if (dataProject?.findProject) setProject(dataProject?.findProject);
 
   const [selectedRole, setSelectedRole] = useState(
     dataProject?.findProject?.role[0]
@@ -73,10 +71,6 @@ const ProjectPage: NextPageWithLayout = () => {
   });
 
   // if (matchingMembers) console.log("matchingMembers", matchingMembers);
-
-  // useEffect(() => {
-  //   if (dataProject?.findProject) setProject(dataProject?.findProject);
-  // }, [dataProject]);
 
   if (!dataProject) return null;
 
