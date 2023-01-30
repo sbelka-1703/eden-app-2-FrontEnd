@@ -1,21 +1,20 @@
 import { getProject } from "@eden/package-mock";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
-import { CreateProjectViews7 } from "./CreateProjectViews7";
+import { CreateProjectViewDescription } from "./CreateProjectViewDescription";
 
 export default {
-  title: "Containers/CreateProjectContainer/CreateProjectViews7",
-  component: CreateProjectViews7,
+  title: "Containers/CreateProjectContainer/CreateProjectViewDescription",
+  component: CreateProjectViewDescription,
   argTypes: {},
-} as ComponentMeta<typeof CreateProjectViews7>;
+} as ComponentMeta<typeof CreateProjectViewDescription>;
 
-const Template: ComponentStory<typeof CreateProjectViews7> = (args) => (
-  <CreateProjectViews7 {...args} />
-);
+const Template: ComponentStory<typeof CreateProjectViewDescription> = (
+  args
+) => <CreateProjectViewDescription {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-  roleIndex: 0,
   battery: 20,
   onBack: () => null,
   onNext: () => null,
@@ -24,7 +23,6 @@ Default.args = {
 export const Edit = Template.bind({});
 Edit.args = {
   project: getProject(),
-  roleIndex: 0,
   battery: 20,
   onBack: () => null,
   onNext: () => null,
