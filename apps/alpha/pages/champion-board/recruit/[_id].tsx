@@ -21,28 +21,6 @@ import { useContext, useEffect, useState } from "react";
 
 import type { NextPageWithLayout } from "../../_app";
 
-// const INITAL_PROJECT = {
-//   title: "",
-//   description: "",
-//   descriptionOneLine: "",
-//   emoji: "",
-//   backColorEmoji: "",
-//   serverID: [],
-//   role: [
-//     {
-//       title: "",
-//       shortDescription: "",
-//       description: "",
-//       expectations: [],
-//       benefits: [],
-//       nodes: [],
-//       hoursPerWeek: 0,
-//       openPositions: 0,
-//       ratePerHour: 0,
-//     },
-//   ],
-// };
-
 const ProjectPage: NextPageWithLayout = () => {
   const router = useRouter();
   const { _id } = router.query;
@@ -99,14 +77,6 @@ const ProjectPage: NextPageWithLayout = () => {
   useEffect(() => {
     if (dataProject?.findProject) setProject(dataProject?.findProject);
   }, [dataProject]);
-
-  // useEffect(() => {
-  //   console.log("RECRUIT ---->  roleIndex", roleIndex);
-  // }, [roleIndex]);
-
-  // useEffect(() => {
-  //   console.log("project", project);
-  // }, [project]);
 
   if (!dataProject) return null;
 
