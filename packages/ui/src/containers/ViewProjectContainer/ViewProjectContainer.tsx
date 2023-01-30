@@ -29,8 +29,6 @@ export const ViewProjectContainer = ({
 }: IViewProjectContainerProps) => {
   const { currentUser } = useContext(UserContext);
 
-  // console.log("project", project);
-
   const tabs = project?.role
     ? project?.role?.map((data: any) => `${data.title}`)
     : [];
