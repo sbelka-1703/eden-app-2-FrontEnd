@@ -170,6 +170,7 @@ export const SendMessageToChampion = ({
               phase: "engaged",
             },
           },
+          context: { serviceName: "soilservice" },
         });
       } else {
         toast.error("Something went wrong");
