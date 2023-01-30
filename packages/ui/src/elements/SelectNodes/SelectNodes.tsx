@@ -13,6 +13,9 @@ export interface ISelectNodesProps {
   // onChangeNodeID?: React.Dispatch<React.SetStateAction<string[]>>;
   // eslint-disable-next-line no-unused-vars
   onChangeNodes?: (val: Maybe<Node | undefined>[]) => void;
+  onChange?: React.Dispatch<
+    React.SetStateAction<Maybe<NodesType | undefined>[]>
+  >;
 }
 
 export const SelectNodes = ({
@@ -20,6 +23,7 @@ export const SelectNodes = ({
   nodeType,
   // onChangeNodeID,
   onChangeNodes,
+  onChange,
 }: ISelectNodesProps) => {
   const [nodes, setNodes] = useState<Maybe<Node | undefined>[]>(
     selectedNodes?.map((node) => node?.nodeData) || []
@@ -36,8 +40,16 @@ export const SelectNodes = ({
   });
 
   useEffect(() => {
-    // console.log("change of state", nodes);
     if (onChangeNodes) onChangeNodes(nodes);
+
+    onChange &&
+      onChange(
+        nodes.map((node) => {
+          return {
+            nodeData: node,
+          };
+        })
+      );
   }, [nodes]);
 
   return (
@@ -58,7 +70,7 @@ export const SelectNodes = ({
               caption={item?.name || ""}
               items={item?.subNodes}
               onChange={(val: Maybe<Node | undefined>[]) => {
-                if (onChangeNodes && nodes) {
+                if ((onChange || onChangeNodes) && nodes) {
                   let _newNodes = [
                     ...nodes.filter((node) => {
                       return !(

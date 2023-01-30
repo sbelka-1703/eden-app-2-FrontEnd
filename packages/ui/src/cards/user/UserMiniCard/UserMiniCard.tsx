@@ -5,6 +5,7 @@ import {
   MemberModal,
   SocialMediaComp,
   TextHeading3,
+  TextLabel1,
 } from "@eden/package-ui";
 import { useState } from "react";
 import { GrExpand } from "react-icons/gr";
@@ -36,19 +37,19 @@ export const UserMiniCard = ({ member, item }: UserMiniCardProps) => {
                   }
                 />
               </div>
-              <div className="flex justify-center">
+              <div className={`flex text-center`}>
                 <TextHeading3>
                   @{member?.discordName || item?.discordName}
                 </TextHeading3>
               </div>
-              <div className="flex justify-center">
-                <TextHeading3 className="text-sm uppercase text-gray-400">
+              <div className={`my-1 flex text-center`}>
+                <TextLabel1>
                   {member?.memberRole?.title || item?.designation}
-                </TextHeading3>
+                </TextLabel1>
               </div>
-              <div className="flex justify-center">
+              <div className={`flex justify-center`}>
                 <SocialMediaComp
-                  size="sm"
+                  size={`sm`}
                   title=""
                   links={member?.links || item?.links}
                 />

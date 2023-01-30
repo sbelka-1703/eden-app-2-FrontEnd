@@ -68,6 +68,7 @@ export const SendMessageToUser = ({
       setTimeout(() => {
         setSendingMessage(false);
       }, 1000);
+      setIsMessageSent(true);
     },
     onError: (error) => {
       toast.error(error.message);
@@ -143,6 +144,18 @@ export const SendMessageToUser = ({
     }
 
     try {
+      await changeTeamMemberPhaseProject({
+        variables: {
+          fields: {
+            projectID: project?._id,
+            memberID: member?._id,
+            roleID: role?._id,
+            phase: "invited",
+          },
+        },
+        context: { serviceName: "soilservice" },
+      });
+
       await addNewChat({
         variables: {
           fields: {
@@ -154,25 +167,10 @@ export const SendMessageToUser = ({
             threadID: threadId,
           },
         },
+        context: { serviceName: "soilservice" },
       });
     } catch (error) {
-      console.log(error);
-    } finally {
-      setIsMessageSent(true);
-      if (project?._id && member?._id && role?._id) {
-        changeTeamMemberPhaseProject({
-          variables: {
-            fields: {
-              projectID: project?._id,
-              memberID: member?._id,
-              roleID: role?._id,
-              phase: "invited",
-            },
-          },
-        });
-      } else {
-        toast.error("Something went wrong");
-      }
+      // console.log(error);
     }
   };
 

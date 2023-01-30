@@ -166,7 +166,7 @@ const TestPage = () => {
     // }
 
     if (dataGraphAPI) {
-      console.log("dataGraphAPImember = ", dataGraphAPImember);
+      // console.log("dataGraphAPImember = ", dataGraphAPImember);
 
       const nodeDataObj: any = {};
       const edgesDataGraph = dataGraphAPI.edges.map(
@@ -219,7 +219,7 @@ const TestPage = () => {
         }
       );
 
-      console.log("nodesDataGraph = ", nodesDataGraph);
+      // console.log("nodesDataGraph = ", nodesDataGraph);
 
       setData({
         nodes: nodesDataGraph,

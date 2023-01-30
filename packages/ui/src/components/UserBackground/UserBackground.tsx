@@ -6,8 +6,8 @@ import {
 import {
   Card,
   EndorsementList,
-  TextHeading3,
-  TextLabel,
+  // TextHeading3,
+  TextLabel1,
 } from "@eden/package-ui";
 import React from "react";
 
@@ -27,18 +27,13 @@ export const UserBackground = ({
   return (
     <div>
       <div className="mb-6">
-        <TextHeading3
-          style={{ fontWeight: 700 }}
-          className="mb-4 text-sm uppercase text-gray-500"
-        >
-          🎡 Background
-        </TextHeading3>
+        <TextLabel1>🎡 Background</TextLabel1>
         {background?.map((item, index) => {
           const empty =
             !item?.description && !item?.startDate && !item?.endDate;
 
           return (
-            <div key={index} className="mb-4">
+            <div key={index} className="my-4">
               <div className="mb-2 flex items-center">
                 <span
                   className={`mr-3 ${
@@ -61,11 +56,11 @@ export const UserBackground = ({
               {index === experienceOpen && (
                 <Card border className="grid grid-cols-2 py-4 px-6">
                   <div className="col-span-1">
-                    <TextLabel>Description</TextLabel>
+                    <TextLabel1>Description</TextLabel1>
                     <p>{item?.description}</p>
                   </div>
                   <div className="col-span-1">
-                    <TextLabel>Timeline</TextLabel>
+                    <TextLabel1>Timeline</TextLabel1>
                     {item?.startDate && (
                       <p>
                         {`${new Date(Number(item?.startDate)).toLocaleString(
