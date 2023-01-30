@@ -36,22 +36,6 @@ const UPDATE_NODES_TO_MEMBER_IN_ROOM = gql`
   }
 `;
 
-// const ADD_NODES_TO_MEMBER_IN_ROOM = gql`
-//   mutation ($fields: addNodesToMemberInRoomInput) {
-//     addNodesToMemberInRoom(fields: $fields) {
-//       _id
-//     }
-//   }
-// `;
-
-// const DELETE_NODES_TO_MEMBER_IN_ROOM = gql`
-//   mutation ($fields: deleteNodesFromMemberInRoomInput) {
-//     deleteNodesFromMemberInRoom(fields: $fields) {
-//       _id
-//     }
-//   }
-// `;
-
 export interface IEditProfileOnboardPartyNodesCardProps {
   serverID: string;
   RoomID: string;
@@ -98,10 +82,6 @@ export const EditProfileOnboardPartyNodesCard = ({
   const [updateMember] = useMutation(UPDATE_MEMBER_IN_ROOM, {});
 
   const [updateNodes] = useMutation(UPDATE_NODES_TO_MEMBER_IN_ROOM, {});
-
-  // const [addNodes] = useMutation(ADD_NODES_TO_MEMBER_IN_ROOM, {});
-
-  // const [deleteNodes] = useMutation(DELETE_NODES_TO_MEMBER_IN_ROOM, {});
 
   const handleUpdateUser = (val: any, name: any) => {
     if (!RoomID || !currentUser) return;
@@ -159,34 +139,6 @@ export const EditProfileOnboardPartyNodesCard = ({
       context: { serviceName: "soilservice" },
     });
   };
-
-  // const handleSaveNodes = (data: string[]) => {
-  //   if (!RoomID || !currentUser) return;
-  //   addNodes({
-  //     variables: {
-  //       fields: {
-  //         memberID: currentUser._id,
-  //         nodesID: data,
-  //         RoomID: RoomID,
-  //       },
-  //     },
-  //     context: { serviceName: "soilservice" },
-  //   });
-  // };
-
-  // const handleDeleteNodes = (data: string[]) => {
-  //   if (!RoomID || !currentUser) return;
-  //   deleteNodes({
-  //     variables: {
-  //       fields: {
-  //         memberID: currentUser._id,
-  //         nodesID: data,
-  //         RoomID: RoomID,
-  //       },
-  //     },
-  //     context: { serviceName: "soilservice" },
-  //   });
-  // };
 
   useEffect(() => {
     if (currentUser) {
@@ -250,9 +202,6 @@ export const EditProfileOnboardPartyNodesCard = ({
           handleSaveNodes(val, nodeType);
           setSelectedModal("PROJECT_TYPE");
         }}
-        // onDeleteNode={(val: any) => {
-        //   handleDeleteNodes(val);
-        // }}
         nodeType={`expertise`}
         submitButtonLabel={`Next`}
       />
@@ -265,9 +214,6 @@ export const EditProfileOnboardPartyNodesCard = ({
           handleSaveNodes(val, nodeType);
           setSelectedModal("BIO");
         }}
-        // onDeleteNode={(val: any) => {
-        //   handleDeleteNodes(val);
-        // }}
         nodeType={`typeProject`}
         submitButtonLabel={`Next`}
       />
@@ -345,44 +291,10 @@ const NodesModal = ({
   submitButtonLabel = `Finished`,
 }: INodesModal) => {
   const { currentUser } = useContext(UserContext);
-
-  // const [selectedItems, setSelectedItems] = useState<{
-  //   [key: string]: Node[];
-  // }>({});
-
   const [selectedItemsArray, setSelectedItemsArray] = useState<Node[]>([]);
-  // const [selectedNodes, setSelectedNodes] = useState<string[] | null>(null);
-
-  // const { data: dataNodes } = useQuery(FIND_NODES, {
-  //   variables: {
-  //     fields: {
-  //       node: nodeType,
-  //     },
-  //   },
-  //   skip: !nodeType,
-  //   context: { serviceName: "soilservice" },
-  // });
-
-  // if (dataNodes?.findNodes) console.log("dataNodes", dataNodes?.findNodes);
 
   const nodesFilter =
     nodeType === "expertise" ? "sub_expertise" : "sub_typeProject";
-
-  // useEffect(() => {
-  //   if (selectedItems) {
-  //     const selectedNodeId: string[] = [];
-
-  //     forEach(selectedItems, (el) => {
-  //       if (!isEmpty(el)) {
-  //         forEach(el, (item) => {
-  //           // console.log("item", item);
-  //           selectedNodeId.push(item?._id as string);
-  //         });
-  //       }
-  //     });
-  //     setSelectedNodes(selectedNodeId);
-  //   }
-  // }, [selectedItems]);
 
   const handleFinish = () => {
     // onSubmit && onSubmit(selectedNodes as any);
@@ -405,50 +317,17 @@ const NodesModal = ({
               </div>
             </div>
             <section className="mt-4">
-              {/* <NodeList
-                closeButton
-                handleDeleteNode={(val) =>
-                  onDeleteNode([`${val?.nodeData?._id}`])
-                }
-                nodes={currentUser?.nodes?.filter(
-                  (node) => node?.nodeData?.node === nodesFilter
-                )}
-                colorRGB={`209,247,196`}
-              /> */}
-              {JSON.stringify(selectedItemsArray)}
-
-              {/* <div className="my-8 ml-4 flex h-52 w-full flex-wrap justify-center gap-2">
-                {dataNodes?.findNodes ? (
-                  <>
-                    {!isEmpty(dataNodes?.findNodes) &&
-                      map(dataNodes?.findNodes, (item: any, key: number) => (
-                        <SelectBoxNode
-                          multiple
-                          key={key}
-                          caption={item?.name}
-                          items={item?.subNodes}
-                          onChange={(val) => {
-                            setSelectedItems((prevState) => ({
-                              ...prevState,
-                              [item?._id]: val,
-                            }));
-                          }}
-                        />
-                      ))}
-                  </>
-                ) : (
-                  <Loading />
-                )}
-              </div> */}
-              <SelectNodes
-                nodeType={nodeType!}
-                selectedNodes={currentUser?.nodes?.filter(
-                  (node) => node?.nodeData?.node === nodesFilter
-                )}
-                onChangeNodes={(val: Maybe<Node | undefined>[]) => {
-                  handleSetNodes(val as Node[]);
-                }}
-              />
+              <div className="py-16">
+                <SelectNodes
+                  nodeType={nodeType!}
+                  selectedNodes={currentUser?.nodes?.filter(
+                    (node) => node?.nodeData?.node === nodesFilter
+                  )}
+                  onChangeNodes={(val: Maybe<Node | undefined>[]) => {
+                    handleSetNodes(val as Node[]);
+                  }}
+                />
+              </div>
             </section>
           </div>
         </div>
