@@ -243,6 +243,7 @@ const PositionExpanded = ({
                                 phase: "engaged",
                               },
                             },
+                            context: { serviceName: "soilservice" },
                           });
                         }}
                       >

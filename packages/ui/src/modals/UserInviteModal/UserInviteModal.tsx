@@ -81,6 +81,7 @@ export const UserInviteModal = ({
             phase: "rejected",
           },
         },
+        context: { serviceName: "soilservice" },
       });
     } else {
       toast.error("Something went wrong");
@@ -99,6 +100,7 @@ export const UserInviteModal = ({
             phase: "committed",
           },
         },
+        context: { serviceName: "soilservice" },
       });
     } else {
       toast.error("Something went wrong");
