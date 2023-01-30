@@ -90,9 +90,6 @@ export const FillUserProfileContainer = ({
   });
 
   const [updateMember] = useMutation(UPDATE_MEMBER, {
-    onError: () => {
-      setSubmitting(false);
-    },
     onCompleted({ updateMember }: Mutation) {
       if (!updateMember) console.log("updateMember is null");
       // console.log("updateMember", updateMember);
@@ -106,7 +103,11 @@ export const FillUserProfileContainer = ({
             memberID: currentUser?._id,
           },
         },
+        context: { serviceName: "soilservice" },
       });
+    },
+    onError: () => {
+      setSubmitting(false);
     },
   });
 
@@ -156,7 +157,6 @@ export const FillUserProfileContainer = ({
 
   const handleSubmitForm = () => {
     const fields = {
-      _id: currentUser?._id,
       bio: state?.bio,
       hoursPerWeek: state?.hoursPerWeek,
       links: state?.links?.map((item: any) => ({
