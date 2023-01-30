@@ -74,9 +74,9 @@ const ProjectPage: NextPageWithLayout = () => {
 
   // if (matchingMembers) console.log("matchingMembers", matchingMembers);
 
-  useEffect(() => {
-    if (dataProject?.findProject) setProject(dataProject?.findProject);
-  }, [dataProject]);
+  // useEffect(() => {
+  //   if (dataProject?.findProject) setProject(dataProject?.findProject);
+  // }, [dataProject]);
 
   if (!dataProject) return null;
 
