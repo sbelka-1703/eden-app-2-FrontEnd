@@ -1,5 +1,10 @@
 import { Endorsements, Maybe } from "@eden/package-graphql/generated";
-import { AvatarList, CardGrid, EndorsementCard } from "@eden/package-ui";
+import {
+  AvatarList,
+  CardGrid,
+  EndorsementCard,
+  TextLabel1,
+} from "@eden/package-ui";
 import { QuestionMarkCircleIcon } from "@heroicons/react/outline";
 import React, { useEffect, useState } from "react";
 
@@ -27,9 +32,7 @@ export const EndorsementList: React.FC<EndorsementListProps> = ({
   return (
     <div>
       <div className="mb-3">
-        <span className="text-sm font-semibold tracking-widest subpixel-antialiased">
-          🎙 Endorsed by + Stake{" "}
-        </span>
+        <TextLabel1>🎙 Endorsed by + Stake </TextLabel1>
         <span className="group relative inline-block">
           <QuestionMarkCircleIcon className="text-accentColor inline w-[26px] cursor-pointer" />
           <div className="pointer-events-none absolute -top-40 -ml-4 hidden w-80 rounded-xl border bg-white p-2 shadow-md group-hover:block">

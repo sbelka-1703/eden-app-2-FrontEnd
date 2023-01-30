@@ -26,7 +26,7 @@ import {
   TextArea,
   TextHeading2,
   TextHeading3,
-  TextLabel,
+  TextLabel1,
 } from "@eden/package-ui";
 import { forEach, isEmpty, map } from "lodash";
 import React, { useContext, useEffect, useState } from "react";
@@ -201,7 +201,7 @@ export const EditProfileOnboardPartyNodesCard = ({
 
       <div className="mb-2">
         <div className="mb-1 flex items-baseline">
-          <TextLabel>PROFILE PROGRESS</TextLabel>
+          <TextLabel1>PROFILE PROGRESS</TextLabel1>
           <span className="ml-auto">{progress}%</span>
         </div>
         <ProgressBarGeneric progress={progress} />
@@ -463,7 +463,7 @@ const BioModal = ({ roles, openModal, onSubmit }: IBioModalProps) => {
           Select Your Current Role
         </TextHeading3>
         <div className={`my-6 space-y-2`}>
-          <TextLabel>Current Role:</TextLabel>
+          <TextLabel1>Current Role:</TextLabel1>
           <RoleSelector
             value={currentUser?.memberRole?.title || ""}
             roles={roles}
@@ -474,7 +474,7 @@ const BioModal = ({ roles, openModal, onSubmit }: IBioModalProps) => {
           Tell the Room About Yourself
         </TextHeading3>
         <div className={`my-6 space-y-2`}>
-          <TextLabel>ABOUT ME</TextLabel>
+          <TextLabel1>ABOUT ME</TextLabel1>
           <TextArea
             name="bio"
             placeholder={`Write a short description about yourself...`}
@@ -511,7 +511,7 @@ const SocialModal = ({ openModal, onSubmit }: ISocialModalProps) => {
           Include Links so Others Can Find You
         </TextHeading3>
         <div>
-          <TextLabel>SOCIAL MEDIA</TextLabel>
+          <TextLabel1>SOCIAL MEDIA</TextLabel1>
           <FillSocialLinks
             links={currentUser?.links || []}
             onChange={(val) => setLinks(val as Array<Maybe<LinkType>>)}

@@ -14,7 +14,7 @@ type Inputs = {
   description: string;
 };
 
-export interface CreateProjectViews2Props {
+export interface ICreateProjectViewDescriptionProps {
   battery: number;
   onBack: () => void;
   onNext: () => void;
@@ -22,13 +22,13 @@ export interface CreateProjectViews2Props {
   project?: Project;
 }
 
-export const CreateProjectViews2 = ({
+export const CreateProjectViewDescription = ({
   onBack,
   battery,
   onNext,
   setProject,
   project,
-}: CreateProjectViews2Props) => {
+}: ICreateProjectViewDescriptionProps) => {
   const { register, handleSubmit, watch } = useForm<Inputs>({
     defaultValues: {
       descriptionOneLine: project?.descriptionOneLine || "",

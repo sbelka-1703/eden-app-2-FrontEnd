@@ -61,6 +61,7 @@ export const GraphVisualisation = ({ member, data2 }: IGraphVisualisation) => {
         defaultNode: {
           type: "circle",
           labelCfg: {
+            position: "center",
             style: {
               fill: "#000000A6",
               fontSize: 10,

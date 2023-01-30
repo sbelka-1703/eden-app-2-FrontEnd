@@ -290,8 +290,7 @@ export const FillUserProfileContainer = ({
                         id={key}
                         className="peer hidden"
                         onChange={(e) => {
-                          console.log(e.target.checked);
-
+                          // console.log(e.target.checked);
                           setPreferences({
                             ...preferences,
                             [key]: {

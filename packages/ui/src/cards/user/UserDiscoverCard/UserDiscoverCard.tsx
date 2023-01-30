@@ -13,6 +13,7 @@ import {
   LongText,
   // MemberModal,
   SocialMediaComp,
+  TextLabel1,
   UserInviteModal,
   UserMessageModal,
   UserWithDescription,
@@ -101,9 +102,7 @@ export const UserDiscoverCard = ({
 
       {member?.endorsements && member?.endorsements.length > 0 && (
         <div className="mt-4">
-          <p className="font-Inter mb-1 text-sm font-bold text-zinc-500">
-            🎙 ENDORSEMENTS
-          </p>
+          <TextLabel1>🎙 ENDORSEMENTS</TextLabel1>
           <div className={`flex`}>
             <AvatarList
               className="inline-block !w-auto !justify-start"

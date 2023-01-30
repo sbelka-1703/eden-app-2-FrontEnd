@@ -60,7 +60,11 @@ export const Button = ({
 
   if (loading) {
     return (
-      <button style={style} className={btnCls}>
+      <button
+        style={style}
+        className={`${btnCls} bg-transparent`}
+        disabled={true}
+      >
         <div className="flex items-center space-x-1">
           <div>{children}</div>
 

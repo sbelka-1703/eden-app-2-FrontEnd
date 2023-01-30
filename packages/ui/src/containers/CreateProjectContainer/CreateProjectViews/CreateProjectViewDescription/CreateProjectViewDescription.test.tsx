@@ -1,11 +1,11 @@
 import { render } from "@testing-library/react";
 
-import { CreateProjectViews2 } from ".";
+import { CreateProjectViewDescription } from ".";
 
-describe("CreateProjectViews2", () => {
+describe("CreateProjectViewDescription", () => {
   it("renders without throwing", () => {
     const { container } = render(
-      <CreateProjectViews2
+      <CreateProjectViewDescription
         onBack={function (): void {
           throw new Error("Function not implemented.");
         }}

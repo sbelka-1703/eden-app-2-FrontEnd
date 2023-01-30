@@ -11,7 +11,7 @@ import {
   StaticModal,
   TextBody,
   TextHeading3,
-  TextLabel,
+  TextLabel1,
 } from "@eden/package-ui";
 import { useState } from "react";
 
@@ -72,9 +72,9 @@ export const StaticCard = ({
               </div>
               <div className="flex justify-center">
                 <TextHeading3>@{item?.name}</TextHeading3>
-                <TextLabel className="mt-2 pl-1">
+                <TextLabel1 className="mt-2 pl-1">
                   #{item?.Descrimator}
-                </TextLabel>
+                </TextLabel1>
               </div>
             </div>
           )}
@@ -112,7 +112,7 @@ export const StaticCard = ({
 
         {resultCardFlag?.type === "Bounty" && (
           <div className="text-soilPurple ml-auto -mr-4 flex w-1/3 flex-col items-center">
-            <TextLabel className="text-soilPurple">⚡️ Match</TextLabel>
+            <TextLabel1 className="text-soilPurple">⚡️ Match</TextLabel1>
             <TextHeading3>{item?.percentage}</TextHeading3>
           </div>
         )}
