@@ -42,7 +42,7 @@ export const UserMiniCard = ({ member, item }: UserMiniCardProps) => {
                   @{member?.discordName || item?.discordName}
                 </TextHeading3>
               </div>
-              <div className={`flex text-center my-1`}>
+              <div className={`my-1 flex text-center`}>
                 <TextLabel1>
                   {member?.memberRole?.title || item?.designation}
                 </TextLabel1>

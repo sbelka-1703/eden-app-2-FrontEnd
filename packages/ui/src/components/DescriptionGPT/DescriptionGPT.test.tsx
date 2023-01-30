@@ -31,7 +31,11 @@ it("component renders and the button is changed to `Autocomplete in progress`, w
 
   render(
     <MockedProvider mocks={mocks}>
-      <DescriptionGPT showTextArea={true} customPrompt={""} />
+      <DescriptionGPT
+        onReturn={() => null}
+        showTextArea={true}
+        customPrompt={""}
+      />
     </MockedProvider>
   );
 

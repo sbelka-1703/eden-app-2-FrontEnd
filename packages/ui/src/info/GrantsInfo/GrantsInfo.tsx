@@ -59,7 +59,7 @@ export const GrantsInfo = ({ grant }: IGrantsInfoProps) => {
           </div>
           <div>
             <TextLabel1>💲 requirements for the grant</TextLabel1>
-            <div className={`list-disc my-2`}>
+            <div className={`my-2 list-disc`}>
               {grant?.requirments?.map((requirement, index) => (
                 <li key={index} className={`text-darkGreen list-disc text-sm`}>
                   {requirement}
@@ -69,7 +69,7 @@ export const GrantsInfo = ({ grant }: IGrantsInfoProps) => {
           </div>
           <div>
             <TextLabel1>🎀 application process & our support</TextLabel1>
-            <div className={`list-disc my-2`}>
+            <div className={`my-2 list-disc`}>
               {grant?.applicationProcess?.map((requirement, index) => (
                 <li key={index} className={`text-darkGreen list-disc text-sm`}>
                   {requirement}
@@ -80,7 +80,7 @@ export const GrantsInfo = ({ grant }: IGrantsInfoProps) => {
           <div>
             <TextLabel1>🎊 D_D members who got aavE grant </TextLabel1>
             {grant?.membersApplied && (
-              <div className={`flex my-2`}>
+              <div className={`my-2 flex`}>
                 <AvatarList
                   className="inline-block !w-auto !justify-start"
                   avatars={grant?.membersApplied

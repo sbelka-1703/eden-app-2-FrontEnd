@@ -6,7 +6,7 @@ export interface ITextLabelProps1 {
 export const TextLabel1 = ({ children, className }: ITextLabelProps1) => {
   return (
     <span
-      className={`text-soilLabel1 font-Inter text-[#AAAAAA] font-semibold uppercase ${className}`}
+      className={`text-soilLabel1 font-Inter font-semibold uppercase text-[#AAAAAA] ${className}`}
     >
       {children}
     </span>
