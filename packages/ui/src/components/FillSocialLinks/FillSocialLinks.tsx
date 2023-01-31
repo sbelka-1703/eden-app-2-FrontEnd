@@ -186,13 +186,13 @@ export const FillSocialLinks = ({ links, onChange }: IFillSocialLinksProps) => {
             <div className={`flex`}>
               <div className={`my-auto px-2`}>{platformIcons(field.name)}</div>
               <div
-                className={`input-primary rounded-full pl-4 focus-within:border-accentColor focus-within:ring-soilGreen-500`}
+                className={`input-primary focus-within:border-accentColor focus-within:ring-soilGreen-500 rounded-full pl-4`}
               >
                 <span className={`text-600`}>{baseUrl(field.name)}</span>
 
                 <input
                   id={`link-${field.name}`}
-                  className={`border-none outline-none pl-0.5 w-full`}
+                  className={`w-full border-none pl-0.5 outline-none`}
                   type="text"
                   placeholder={
                     field.name === "portfolio"

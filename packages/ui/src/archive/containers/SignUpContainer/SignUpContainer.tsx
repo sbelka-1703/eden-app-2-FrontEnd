@@ -1,5 +1,4 @@
 import { gql, useMutation } from "@apollo/client";
-import { UserContext } from "@eden/package-context";
 import { Mutation } from "@eden/package-graphql/generated";
 import { Button, Card, FormStepper, Loading } from "@eden/package-ui";
 import { useRouter } from "next/router";
@@ -29,7 +28,6 @@ export interface SignUpContainerProps {}
 
 export const SignUpContainer = ({}: SignUpContainerProps) => {
   const router = useRouter();
-  const { currentUser } = useContext(UserContext);
   const {
     profileBio,
     contentMostProud,
@@ -63,9 +61,6 @@ export const SignUpContainer = ({}: SignUpContainerProps) => {
     updateMember({
       variables: {
         fields: {
-          // serverID: "alpha-test", // don't need this anymore
-          _id: currentUser?._id,
-          serverID: currentUser?.serverID,
           bio: profileBio,
           content: {
             mostProud: contentMostProud,
@@ -93,6 +88,7 @@ export const SignUpContainer = ({}: SignUpContainerProps) => {
           },
         },
       },
+      context: { serviceName: "soilservice" },
     });
   };
 
