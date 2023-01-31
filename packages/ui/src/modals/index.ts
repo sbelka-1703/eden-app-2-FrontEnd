@@ -7,7 +7,6 @@ export * from "./GrantsModal";
 export * from "./MemberModal";
 export * from "./PreferencesModal";
 export * from "./PrioritizeModal";
-export * from "./ProfileExpandedModal";
 export * from "./ProjectModal";
 export * from "./ProjectNodeMatchModal";
 export * from "./RequirementsModal";
