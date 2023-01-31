@@ -2,7 +2,6 @@ import { gql, useMutation } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
 import {
   Maybe,
-  Members,
   MutationAddNewChatArgs,
   Project,
   RoleType,
@@ -17,6 +16,7 @@ import {
   TextHeading3,
 } from "@eden/package-ui";
 import { ThreadAutoArchiveDuration } from "discord-api-types/v10";
+import isEmpty from "lodash/isEmpty";
 import { useContext, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -43,13 +43,11 @@ const SET_APPLY_TO_PROJECT = gql`
 `;
 
 export interface ISendMessageToChampionProps {
-  member: Maybe<Members>;
-  project?: Project;
-  role?: RoleType;
+  project?: Maybe<Project>;
+  role?: Maybe<RoleType>;
 }
 
 export const SendMessageToChampion = ({
-  member,
   project,
   role,
 }: ISendMessageToChampionProps) => {
@@ -79,7 +77,7 @@ export const SendMessageToChampion = ({
   });
 
   const createThread = async (body: CreateThreadApiRequestBody) => {
-    const response = await fetch(encodeURI("/api/discord/createThread"), {
+    const response = await fetch(encodeURI("/api/discord/createForumPost"), {
       method: "POST",
       body: JSON.stringify(body),
       headers: {
@@ -87,15 +85,17 @@ export const SendMessageToChampion = ({
         Accept: "application/json",
       },
     });
-    const jsonData: CreateThreadResponse = await response.json();
+    const jsonData: CreateThreadResponse = await response.json().catch((e) => {
+      toast.error("e", e);
+    });
+
+    console.log(jsonData);
 
     return jsonData;
   };
 
   const embededMessage = `
-    Project: ${project?.title}
-    Description: ${project?.description}
-    Role: ${role?.title}
+       Hello ${project?.champion?.discordName}, you just had a new interest form ${currentUser?.discordName} for the role ${role?.title}.
   `;
 
   const createMessage = async (body: CreateMessageApiRequestBody) => {
@@ -113,7 +113,7 @@ export const SendMessageToChampion = ({
   };
 
   const followUpMessage = `
-    Message:
+    Message from ${currentUser?.discordName}:
     
     ${message}
 
@@ -123,13 +123,15 @@ export const SendMessageToChampion = ({
 
   const handleSendMessage = async () => {
     setSendingMessage(true);
+
     const { threadId } = await createThread({
-      message: `<@${member?._id}> <@${currentUser?._id}>`,
+      message: `<@${project?.champion?._id}> <@${currentUser?._id}>`,
+      tagName: "Project Application",
       embedMessage: embededMessage,
       senderAvatarURL: currentUser?.discordAvatar!,
       senderName: `${currentUser?.discordName} - is interested in ${project?.title}`,
-      channelId: selectedServer?.channel?.chatID!,
-      threadName: `${project?.title}, has a new message from ${currentUser?.discordName}`,
+      channelId: selectedServer.channel?.forumID!,
+      threadName: `Project Application -- ${project?.title}`,
       ThreadAutoArchiveDuration: ThreadAutoArchiveDuration.OneDay,
     });
 
@@ -149,23 +151,24 @@ export const SendMessageToChampion = ({
           fields: {
             message: message,
             projectID: project?._id!,
-            receiverID: member?._id!,
+            receiverID: project?.champion?._id!,
             senderID: currentUser?._id!,
             serverID: selectedServer?._id!,
             threadID: threadId,
           },
         },
+        context: { serviceName: "soilservice" },
       });
     } catch (error) {
       console.log(error);
     } finally {
       setIsMessageSent(true);
-      if (project?._id && member?._id && role?._id) {
+      if (project?._id && project?.champion?._id && role?._id) {
         changeTeamMemberPhaseProject({
           variables: {
             fields: {
               projectID: project?._id,
-              memberID: member?._id,
+              memberID: currentUser?._id,
               roleID: role?._id,
               phase: "engaged",
             },
@@ -178,7 +181,7 @@ export const SendMessageToChampion = ({
     }
   };
 
-  if (!member) return null;
+  // if (!member) return null;
 
   return (
     <div className={``}>
@@ -196,8 +199,8 @@ export const SendMessageToChampion = ({
             <>
               <div className="rounded-xl border border-gray-300 py-4 px-3">
                 <TextHeading3 className={`mr-4`}>
-                  Send message to @{member?.discordName} about the {role?.title}{" "}
-                  Role
+                  Send message to @{project?.champion?.discordName} about the{" "}
+                  {role?.title} Role
                 </TextHeading3>
                 <div className={`my-4 md:mr-28 md:flex md:justify-between`}>
                   <div
@@ -210,30 +213,35 @@ export const SendMessageToChampion = ({
                     onChangeServer={(val) => setSelectedServer(val)}
                   />
                 </div>
-                <div className="flex items-center ">
-                  <Avatar
-                    src={currentUser?.discordAvatar || ""}
-                    alt={currentUser?.discordName || ""}
-                    size={`sm`}
-                  />
-                  <TextHeading3 className="ml-3">
-                    @{currentUser?.discordName}
-                    {currentUser?.discriminator && (
-                      <span className="pl-1 text-sm text-gray-400">
-                        #{currentUser?.discriminator}
-                      </span>
-                    )}
-                  </TextHeading3>
-                </div>
-                <div className="mt-3">
-                  <TextArea
-                    rows={6}
-                    value={message}
-                    className="border-none px-0"
-                    placeholder="Start typing here"
-                    onChange={(e) => setMessage(e.target.value)}
-                  />
-                </div>
+
+                {isEmpty(selectedServer) ? null : (
+                  <>
+                    <div className="flex items-center ">
+                      <Avatar
+                        src={currentUser?.discordAvatar || ""}
+                        alt={currentUser?.discordName || ""}
+                        size={`sm`}
+                      />
+                      <TextHeading3 className="ml-3">
+                        @{currentUser?.discordName}
+                        {currentUser?.discriminator && (
+                          <span className="pl-1 text-sm text-gray-400">
+                            #{currentUser?.discriminator}
+                          </span>
+                        )}
+                      </TextHeading3>
+                    </div>
+                    <div className="mt-3">
+                      <TextArea
+                        rows={6}
+                        value={message}
+                        className="border-none px-0"
+                        placeholder="Start typing here"
+                        onChange={(e) => setMessage(e.target.value)}
+                      />
+                    </div>
+                  </>
+                )}
               </div>
               <div className="mt-3 text-center">
                 <div className="inline-block">

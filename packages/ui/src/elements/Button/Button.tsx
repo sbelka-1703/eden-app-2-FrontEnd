@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { ButtonHTMLAttributes, CSSProperties } from "react";
+import React, { ButtonHTMLAttributes, CSSProperties } from "react";
 
 type ButtonProps = {
   variant?: "default" | "primary" | "secondary" | "tertiary";
@@ -9,8 +9,7 @@ type ButtonProps = {
   disabled?: boolean;
   loading?: boolean;
   style?: CSSProperties;
-  // eslint-disable-next-line no-unused-vars
-  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const Button = ({

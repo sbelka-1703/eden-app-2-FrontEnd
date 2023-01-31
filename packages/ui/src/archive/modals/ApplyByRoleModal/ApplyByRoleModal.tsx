@@ -1,12 +1,7 @@
 import { gql, useMutation } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
 import { UPDATE_MEMBER } from "@eden/package-graphql";
-import {
-  Members,
-  Mutation,
-  Project,
-  RoleType,
-} from "@eden/package-graphql/generated";
+import { Mutation, Project, RoleType } from "@eden/package-graphql/generated";
 import {
   Button,
   ConfettiContainer,
@@ -275,11 +270,7 @@ export const ApplyByRoleModal = ({
                 </ConfettiContainer>
               </div>
             ) : (
-              <SendMessageToChampion
-                project={project}
-                member={project?.champion as Members}
-                role={role}
-              />
+              <SendMessageToChampion project={project} role={role} />
             )}
           </>
         )}
