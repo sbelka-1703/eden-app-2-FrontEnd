@@ -4,9 +4,11 @@ import {
   SkillRoleType,
   SkillType_Member,
 } from "@eden/package-graphql/generated";
-import { CheckBox, SkillList } from "@eden/package-ui";
+import { CheckBox } from "@eden/package-ui";
 // import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
 import { useState } from "react";
+
+import { SkillList } from "../../lists/SkillList/SkillList";
 
 export interface SkillVisualisationCompProps {
   skills: SkillRoleType[];
