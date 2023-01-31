@@ -4,13 +4,13 @@ import {
   Avatar,
   Button,
   Card,
-  SkillList,
   SocialMediaComp,
 } from "@eden/package-ui";
 import { ChevronLeftIcon } from "@heroicons/react/outline";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 
-import { round } from "../../../utils";
+import { round } from "../../../../utils";
+import { SkillList } from "../../lists/SkillList/SkillList";
 
 export interface MemberProfileCardProps {
   member: Members;

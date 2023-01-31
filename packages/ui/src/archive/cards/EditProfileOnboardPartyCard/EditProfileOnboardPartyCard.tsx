@@ -12,7 +12,6 @@ import {
   Dropdown,
   NumberCircle,
   ProgressBarGeneric,
-  SkillList,
   // SocialMediaInput,
   TextArea,
   TextHeading3,
@@ -21,6 +20,7 @@ import {
 
 import { getUserProgress } from "../../../../utils/user-progress";
 import { SearchSkill } from "../../components/SearchSkill/SearchSkill";
+import { SkillList } from "../../lists/SkillList/SkillList";
 
 export interface EditProfileOnboardPartyCardProps {
   currentUser: Members;
