@@ -4,7 +4,7 @@ import { Badge } from "@eden/package-ui";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
 import { useState } from "react";
 
-import { trimParentheses } from "../../../utils/trim-parentheses";
+import { trimParentheses } from "../../../../utils/trim-parentheses";
 
 export interface SkillListProps {
   skills: Maybe<SkillType_Member>[] | undefined;
