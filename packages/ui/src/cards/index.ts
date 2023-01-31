@@ -9,6 +9,5 @@ export * from "./OpenPositionCard";
 export * from "./project";
 export * from "./ReviewCard";
 export * from "./RoleSmallCard";
-export * from "./StaticCard";
 export * from "./user";
 export * from "./WarningCard";

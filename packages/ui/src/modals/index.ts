@@ -17,7 +17,6 @@ export * from "./SavingProjectModal";
 export * from "./SelectNodesModal";
 export * from "./SendMessageToUserModal";
 export * from "./SkipFlowModal";
-export * from "./StaticModal";
 export * from "./TestDiscoverTalentDropdownModal";
 export * from "./UserInviteModal";
 export * from "./UserMessageModal";
