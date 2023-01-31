@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { ShortlistModalContainerStoryFilter } from "./ShortlistModalContainerStoryFilter";
 
 export default {
-  title: "Containers/ShortlistModalContainerStoryFilter",
+  title: "Archive/Containers/ShortlistModalContainerStoryFilter",
   component: ShortlistModalContainerStoryFilter,
   argTypes: {},
 } as ComponentMeta<typeof ShortlistModalContainerStoryFilter>;

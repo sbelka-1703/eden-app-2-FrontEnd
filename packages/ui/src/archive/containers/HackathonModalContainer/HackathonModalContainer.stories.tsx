@@ -4,7 +4,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { HackathonModalContainer } from "./HackathonModalContainer";
 
 export default {
-  title: "Containers/HackathonModalContainer",
+  title: "Archive/Containers/HackathonModalContainer",
   component: HackathonModalContainer,
   argTypes: {},
 } as ComponentMeta<typeof HackathonModalContainer>;
