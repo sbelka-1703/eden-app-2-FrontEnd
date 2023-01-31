@@ -8,6 +8,5 @@ export interface ProjectsContextType {
 
 export const ProjectsContext = createContext<ProjectsContextType>({
   openModal: null,
-  // eslint-disable-next-line no-empty-function
-  setOpenModal: () => {},
+  setOpenModal: () => undefined,
 });
