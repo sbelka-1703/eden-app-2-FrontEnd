@@ -95,7 +95,6 @@ const GrantsIdPage = ({
     process.env.NEXT_PUBLIC_VERCEL_URL
   );
 
-  console.log("process.env.VERCEL_URL", process.env.VERCEL_URL);
   return (
     <>
       <SEOGrants
