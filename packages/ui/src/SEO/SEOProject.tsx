@@ -28,7 +28,7 @@ export const SEOProject: FC<SEOProjectProps> = ({
 
   const imageSrc = image ? image : DEFAULT_IMAGE;
 
-  console.log("image", image);
+  // console.log("image", image);
 
   const apiUrl = `/api/og/project?image=${imageSrc}&project=${project}&role=${role}`;
   //   const apiUrl = `/api/og/project?image=${imageSrc}`;

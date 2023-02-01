@@ -7,13 +7,23 @@ import {
   GridItemTwo,
   GridLayout,
   Loading,
+  Missing404Section,
   ProjectInfo,
   SEOProject,
 } from "@eden/package-ui";
 import * as React from "react";
 
-const ProfilePage = ({ project }: { project: Project }) => {
+const ProfilePage = ({
+  project,
+  error,
+}: {
+  project: Project;
+  error: string;
+}) => {
   //   console.log("project", project);
+
+  if (error) return <Missing404Section />;
+
   return (
     <>
       <SEOProject
@@ -60,19 +70,29 @@ const client = new ApolloClient({
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { _id } = context.query;
 
-  const { data } = await client.query({
-    query: FIND_PROJECT,
-    variables: {
-      fields: {
-        _id,
+  try {
+    const { data } = await client.query({
+      query: FIND_PROJECT,
+      variables: {
+        fields: {
+          _id,
+        },
+        ssr: true,
       },
-      ssr: true,
-    },
-  });
+    });
 
-  return {
-    props: {
-      project: data.findProject,
-    },
-  };
+    return {
+      props: {
+        project: data.findProject,
+        error: null,
+      },
+    };
+  } catch (error) {
+    return {
+      props: {
+        project: null,
+        error: "Project not found",
+      },
+    };
+  }
 };
