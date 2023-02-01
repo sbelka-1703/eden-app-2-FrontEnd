@@ -17,8 +17,8 @@ import {
   TextHeading3,
   TextLabel1,
 } from "@eden/package-ui";
+import { getFillProfilePercentage } from "@eden/package-ui/utils/fill-profile-percentage";
 
-import { getUserProgress } from "../../../../utils/user-progress";
 import { SearchSkill } from "../../components/SearchSkill/SearchSkill";
 import { SkillList } from "../../lists/SkillList/SkillList";
 
@@ -65,7 +65,7 @@ export const EditProfileOnboardPartyCard = ({
     },
   ];
 
-  const progress = getUserProgress(currentUser);
+  const progress = getFillProfilePercentage(currentUser);
 
   const _handleUpdateUser = (e: any) => {
     handleUpdateUser(e.target.value, e.target.name);

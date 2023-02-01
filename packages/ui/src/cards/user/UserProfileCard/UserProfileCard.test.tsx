@@ -1,4 +1,5 @@
-import { render } from "../../../../utils/jest-apollo";
+import { render } from "@testing-library/react";
+
 import { UserProfileCard } from ".";
 
 describe("UserProfileCard", () => {

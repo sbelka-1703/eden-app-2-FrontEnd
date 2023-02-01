@@ -4,8 +4,8 @@ import {
   ProjectMemberType,
 } from "@eden/package-graphql/generated";
 import { getProject, getRoleTypeMock } from "@eden/package-mock";
+import { render } from "@testing-library/react";
 
-import { render } from "../../../utils/jest-apollo";
 import { ApplicationModal } from ".";
 
 describe("ApplicationModal", () => {
