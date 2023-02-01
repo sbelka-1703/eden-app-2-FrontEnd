@@ -90,11 +90,6 @@ const GrantsIdPage = ({
     ? `https://eden-alpha-develop.vercel.app/`
     : "localhost:3000";
 
-  console.log(
-    "process.env.NEXT_PUBLIC_VERCEL_URL",
-    process.env.NEXT_PUBLIC_VERCEL_URL
-  );
-
   return (
     <>
       <SEOGrants
