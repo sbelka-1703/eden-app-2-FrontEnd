@@ -1,1 +1,1 @@
-export * from "./SalaryRangeChart";
+export * from "./SalaryRangeChartOne";

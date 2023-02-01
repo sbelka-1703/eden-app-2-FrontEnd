@@ -1,4 +1,4 @@
-import { RangeChart, TextHeading3 } from "@eden/package-ui";
+import { RangeChartOne, TextHeading3 } from "@eden/package-ui";
 
 export interface SalaryRangeChart_1Props {
   data: number[];
@@ -15,11 +15,11 @@ export const SalaryRangeChartOne = ({
   onChange,
 }: SalaryRangeChart_1Props) => {
   return (
-    <div>
+    <div className="space-y-4">
       <TextHeading3 className="mb-3 text-center">
-        Hourly salary range
+        💸 Salary Expectations
       </TextHeading3>
-      <RangeChart
+      <RangeChartOne
         data={data}
         onChange={onChange}
         minCaption="min salary"
