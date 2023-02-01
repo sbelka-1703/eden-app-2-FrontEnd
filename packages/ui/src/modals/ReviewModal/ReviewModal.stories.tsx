@@ -18,5 +18,4 @@ Default.args = {
   data: mockData,
   openModal: true,
   onClose: () => null,
-  onSubmit: () => null,
 };
