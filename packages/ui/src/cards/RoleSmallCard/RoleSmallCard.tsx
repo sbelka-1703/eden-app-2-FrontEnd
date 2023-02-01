@@ -1,9 +1,15 @@
-import { Maybe, RoleType } from "@eden/package-graphql/generated";
-import { AvatarList, AvatarProps, Card, TextHeading3 } from "@eden/package-ui";
-import { PencilIcon } from "@heroicons/react/solid";
+import { Maybe, Members, RoleType } from "@eden/package-graphql/generated";
+import {
+  AvatarMemberList,
+  AvatarProps,
+  Card,
+  TextHeading3,
+} from "@eden/package-ui";
+// import { PencilIcon } from "@heroicons/react/solid";
 
 export interface RoleSmallCardProps {
   role: Maybe<RoleType>;
+  members?: Members[];
   avatars?: AvatarProps[];
   isSelected: boolean;
   onClick?: () => void;
@@ -12,9 +18,9 @@ export interface RoleSmallCardProps {
 
 export const RoleSmallCard = ({
   role,
-  avatars,
+  members,
   isSelected,
-  handleEdit,
+  // handleEdit,
   onClick,
 }: RoleSmallCardProps) => {
   return (
@@ -26,7 +32,7 @@ export const RoleSmallCard = ({
         className="h-full w-full overflow-hidden bg-white p-0"
       >
         <div className="flex cursor-pointer flex-col items-start justify-start px-3 py-2">
-          {handleEdit && (
+          {/* {handleEdit && (
             <PencilIcon
               width={20}
               className="text-soilGray absolute right-1 top-2 cursor-pointer hover:text-slate-400"
@@ -35,14 +41,14 @@ export const RoleSmallCard = ({
                 handleEdit!();
               }}
             />
-          )}
+          )} */}
           <TextHeading3 className="font-poppins text-sm font-semibold">
             {role?.title}
           </TextHeading3>
         </div>
-        {avatars && (
+        {members && (
           <div className="scrollbar-hide overflow-x-scroll px-2">
-            <AvatarList avatars={avatars} />
+            <AvatarMemberList size={`xs`} members={members} />
           </div>
         )}
       </Card>
