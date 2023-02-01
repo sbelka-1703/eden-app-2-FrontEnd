@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { CreateProjectViews6 } from "./CreateProjectViews6";
 
 export default {
-  title: "Containers/CreateProjectContainer/CreateProjectViews6",
+  title: "Containers/CreateProjectContainer/older/CreateProjectViews6",
   component: CreateProjectViews6,
   argTypes: {},
 } as ComponentMeta<typeof CreateProjectViews6>;

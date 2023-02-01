@@ -4,7 +4,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { SkillList } from "./SkillList";
 
 export default {
-  title: "Lists/SkillList",
+  title: "Archive/Lists/SkillList",
   component: SkillList,
   argTypes: {},
 } as ComponentMeta<typeof SkillList>;

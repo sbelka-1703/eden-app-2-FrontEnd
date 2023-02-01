@@ -4,7 +4,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { CreateProjectViews4 } from "./CreateProjectViews4";
 
 export default {
-  title: "Containers/CreateProjectContainer/CreateProjectViews4",
+  title: "Containers/CreateProjectContainer/older/CreateProjectViews4",
   component: CreateProjectViews4,
   argTypes: {},
 } as ComponentMeta<typeof CreateProjectViews4>;

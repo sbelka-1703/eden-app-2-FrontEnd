@@ -1,3 +1,4 @@
+import { ProjectsProvider } from "@eden/package-context";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { ProjectsModalContainer } from "./ProjectsModalContainer";
@@ -9,7 +10,9 @@ export default {
 } as ComponentMeta<typeof ProjectsModalContainer>;
 
 const Template: ComponentStory<typeof ProjectsModalContainer> = (args) => (
-  <ProjectsModalContainer {...args} />
+  <ProjectsProvider>
+    <ProjectsModalContainer {...args} />
+  </ProjectsProvider>
 );
 
 export const Default = Template.bind({});

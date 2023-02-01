@@ -1,4 +1,5 @@
-import { render } from "../../../utils/jest-apollo";
+import { render } from "@testing-library/react";
+
 import { ReviewModal } from ".";
 import { mockData } from "./MockData";
 
@@ -7,9 +8,6 @@ describe("ReviewModal", () => {
     const { container } = render(
       <ReviewModal
         data={mockData}
-        // onSubmit={function (): void {
-        //   throw new Error("Function not implemented.");
-        // }}
         onClose={function (): void {
           throw new Error("Function not implemented.");
         }}

@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { Maybe, RoleType, TeamType } from "@eden/package-graphql/generated";
 import { AvatarProps, Button, RoleSmallCard, TextBody } from "@eden/package-ui";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
@@ -32,7 +31,6 @@ export const RoleList: React.FC<RoleListProps> = ({
       <RoleSmallCard
         role={role}
         isSelected={selectedRole?._id === role?._id}
-        // skills={role?.skills ? role.skills : []}
         onClick={() => {
           if (handleSelectRole) handleSelectRole(role);
         }}

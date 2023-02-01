@@ -27,6 +27,5 @@ export interface DiscoverContextType {
 
 export const DiscoverContext = createContext<DiscoverContextType>({
   matchMembersPage: 0,
-  // eslint-disable-next-line no-empty-function
-  setOpenModal: () => {},
+  setOpenModal: () => undefined,
 });
