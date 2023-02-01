@@ -1,4 +1,4 @@
-import { getMemberLiteArray, getRoleTypeMock } from "@eden/package-mock";
+import { getRoleTypeMock } from "@eden/package-mock";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { RoleSmallCard } from "./RoleSmallCard";
@@ -17,5 +17,4 @@ export const Default = Template.bind({});
 Default.args = {
   role: getRoleTypeMock(),
   isSelected: true,
-  members: getMemberLiteArray(5),
 };

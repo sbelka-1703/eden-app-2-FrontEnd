@@ -4,7 +4,7 @@ import {
   Button,
   Card,
   CommonServerAvatarList,
-  TextLabel1,
+  RoleSmallCard,
 } from "@eden/package-ui";
 import { ChevronLeftIcon } from "@heroicons/react/outline";
 import { useEffect } from "react";
@@ -76,23 +76,17 @@ export const ProjectEditSelectorCard = ({
           serverID={project?.serverID as string[]}
         />
       </div>
-      <div className="mt-4 grid grid-cols-2 gap-2 overflow-hidden p-2">
+      <div className="mt-4 grid grid-cols-2 gap-2 overflow-hidden">
         {project.role?.map((data, index) => (
-          <button
-            key={index}
-            className="h-full w-full"
-            onClick={() => onSelectRole(data)}
-          >
-            <Card
-              border
-              focused={selectedRole?._id === data?._id}
-              className="h-full w-full overflow-hidden bg-white p-0 py-2"
-            >
-              <TextLabel1 className={`w-full text-darkGreen`}>
-                {data?.title}
-              </TextLabel1>
-            </Card>
-          </button>
+          <div key={index} className="col-span-1 m-1">
+            <RoleSmallCard
+              role={data}
+              isSelected={selectedRole?._id === data?._id}
+              onClick={() => {
+                onSelectRole(data);
+              }}
+            />
+          </div>
         ))}
       </div>
     </Card>
