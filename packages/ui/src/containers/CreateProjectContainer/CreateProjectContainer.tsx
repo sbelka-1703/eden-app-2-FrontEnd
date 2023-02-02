@@ -1,5 +1,4 @@
-import { gql, useMutation, useQuery } from "@apollo/client";
-import { FIND_NODES } from "@eden/package-graphql";
+import { gql, useMutation } from "@apollo/client";
 import {
   Maybe,
   Mutation,
@@ -9,10 +8,9 @@ import {
 import { project } from "@eden/package-mock";
 import {
   Card,
-  CreateProjectViews1,
-  CreateProjectViews2,
-  CreateProjectViews6,
-  CreateProjectViews7,
+  CreateProjectViewAddRole,
+  CreateProjectViewDescription,
+  CreateProjectViewStart,
   Loading,
 } from "@eden/package-ui";
 import { PROJECT_STEPS } from "@eden/package-ui/utils/enums/fill-project-steps";
@@ -110,7 +108,9 @@ export const CreateProjectContainer = ({
             fields: {
               nodesID:
                 state?.role && state?.role[index]?.nodes
-                  ? state?.role[index]?.nodes
+                  ? state?.role[index]?.nodes!.map(
+                      (_node) => _node?.nodeData?._id
+                    )
                   : [],
               projectRoleID: _role?._id,
               nodeType: `sub_expertise`,
@@ -129,13 +129,24 @@ export const CreateProjectContainer = ({
   const [updateProject, {}] = useMutation(UPDATE_PROJECT, {
     onCompleted({ updateProject }: Mutation) {
       if (!updateProject) console.log("updateProject is null");
+
+      // console.log("updateProject", updateProject);
+      // console.log("state", state);
       updateProject?.role?.forEach((_role: Maybe<RoleType>, index: number) => {
+        // console.log(
+        //   "nodes",
+        //   state?.role && state?.role[index]?.nodes
+        //     ? state?.role[index]?.nodes!.map((_node) => _node?.nodeData?._id)
+        //     : []
+        // );
         addNodes({
           variables: {
             fields: {
               nodesID:
                 state?.role && state?.role[index]?.nodes
-                  ? state?.role[index]?.nodes
+                  ? state?.role[index]?.nodes?.map(
+                      (_node) => _node?.nodeData?._id
+                    )
                   : [],
               projectRoleID: _role?._id,
               nodeType: `sub_expertise`,
@@ -208,20 +219,11 @@ export const CreateProjectContainer = ({
     }
   };
 
-  const { data: expertiseNodes } = useQuery(FIND_NODES, {
-    variables: {
-      fields: {
-        node: "expertise",
-      },
-    },
-    context: { serviceName: "soilservice" },
-  });
-
   const stepView = () => {
     switch (step) {
       case PROJECT_STEPS.START:
         return (
-          <CreateProjectViews1
+          <CreateProjectViewStart
             battery={getFillProjectPercentage(project)}
             onNext={() => setStep(PROJECT_STEPS.DESCRIPTION)}
             setProject={setState}
@@ -231,7 +233,7 @@ export const CreateProjectContainer = ({
 
       case PROJECT_STEPS.DESCRIPTION:
         return (
-          <CreateProjectViews2
+          <CreateProjectViewDescription
             battery={getFillProjectPercentage(project)}
             onNext={() => setStep(PROJECT_STEPS.ADD_ROLE)}
             onBack={() => setStep(PROJECT_STEPS.START)}
@@ -241,25 +243,16 @@ export const CreateProjectContainer = ({
         );
       case PROJECT_STEPS.ADD_ROLE:
         return (
-          <CreateProjectViews7
+          <CreateProjectViewAddRole
             battery={getFillProjectPercentage(project)}
-            onNext={() => setStep(PROJECT_STEPS.ADD_ANOTHER_ROLE)}
-            expertise={expertiseNodes?.findNodes}
             onBack={() => setStep(PROJECT_STEPS.DESCRIPTION)}
             project={state}
             setProject={setState}
             roleIndex={roleIndex}
-          />
-        );
-      case PROJECT_STEPS.ADD_ANOTHER_ROLE:
-        return (
-          <CreateProjectViews6
+            onNewPosition={() =>
+              onSetRoleIndex(state?.role?.length ? state.role.length : 0)
+            }
             onLaunch={onClickLaunch}
-            onNewPosition={() => {
-              onSetRoleIndex(state?.role?.length ? state.role.length : 0);
-              setStep(PROJECT_STEPS.ADD_ROLE);
-            }}
-            onBack={() => setStep(PROJECT_STEPS.ADD_ROLE)}
           />
         );
 

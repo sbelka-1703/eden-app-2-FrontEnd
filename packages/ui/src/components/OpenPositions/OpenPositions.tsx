@@ -1,3 +1,4 @@
+import { UserContext } from "@eden/package-context";
 import {
   MatchProjectRoles,
   Maybe,
@@ -9,10 +10,13 @@ import {
   Badge,
   Button,
   CardGrid,
-  Loading,
   LongText,
+  Modal,
   OpenPositionCard,
+  SendMessageToChampion,
   TabsSelector,
+  TextLabel1,
+  TextLabel2,
 } from "@eden/package-ui";
 import { useContext, useEffect, useState } from "react";
 import { GiExpand } from "react-icons/gi";
@@ -75,9 +79,7 @@ export const OpenPositions = ({
   return (
     <div>
       <div className={`my-4 flex`}>
-        <p className="text-soilGray/100 font-medium uppercase tracking-wide">
-          🎬 Open positions
-        </p>
+        <TextLabel1>🎬 Open positions</TextLabel1>
         {expand && (
           <Button style={{ border: "none" }} onClick={() => setExpand(false)}>
             <GiExpand size="15px" />
@@ -102,7 +104,7 @@ export const OpenPositions = ({
               {allRoles &&
                 allRoles?.map((role: Maybe<MatchProjectRoles>, index: any) => (
                   <OpenPositionCard
-                    padding="-m-4"
+                    padding=""
                     percentage={Number(role?.matchPercentage)}
                     key={index}
                     role={role?.projectRole}
@@ -116,17 +118,6 @@ export const OpenPositions = ({
     </div>
   );
 };
-
-import { gql, useMutation } from "@apollo/client";
-import { UserContext } from "@eden/package-context";
-
-const SET_APPLY_TO_PROJECT = gql`
-  mutation ($fields: changeTeamMember_Phase_ProjectInput!) {
-    changeTeamMember_Phase_Project(fields: $fields) {
-      _id
-    }
-  }
-`;
 
 const PositionExpanded = ({
   project,
@@ -142,20 +133,18 @@ const PositionExpanded = ({
   setActiveTab: React.Dispatch<React.SetStateAction<number>>;
 }) => {
   const { currentUser } = useContext(UserContext);
-  const [applying, setApplying] = useState(false);
-
-  const [changeTeamMemberPhaseProject, {}] = useMutation(SET_APPLY_TO_PROJECT, {
-    onCompleted: () => {
-      // if (refetch) refetch();
-      setApplying(false);
-    },
-    onError: (error) => {
-      console.log("onError", error);
-    },
-  });
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <>
+      <Modal open={showModal} onClose={() => setShowModal(false)}>
+        <div className={`my-6 h-6/10`}>
+          <SendMessageToChampion
+            project={project}
+            role={activeItem?.projectRole}
+          />
+        </div>
+      </Modal>
       <TabsSelector
         tabs={tabs}
         selectedTab={activeTab}
@@ -163,62 +152,60 @@ const PositionExpanded = ({
           setActiveTab(val);
         }}
       />
-      {applying ? (
-        <Loading title={`applying`} />
-      ) : (
-        <div className="border-accentColor scrollbar-hide relative overflow-y-scroll rounded-b-xl border-b-2 border-r-2 border-l-2 bg-white px-4 pt-6">
-          <div className="flex flex-col">
-            <div className="flex flex-row content-center items-center justify-between">
-              <div className="flex flex-row">
-                <div>
-                  <Avatar
-                    size={`md`}
-                    emoji={"💻"}
-                    backColorEmoji={"#DDF9DE"}
-                    alt={"avatar"}
+
+      <div className="border-accentColor scrollbar-hide relative overflow-y-scroll rounded-b-xl border-b-2 border-r-2 border-l-2 bg-white px-4 pt-6">
+        <div className="flex flex-col">
+          <div className="flex flex-row justify-between">
+            <div className="flex flex-row">
+              <div>
+                <Avatar
+                  size={`md`}
+                  emoji={"💻"}
+                  backColorEmoji={"#DDF9DE"}
+                  alt={"avatar"}
+                />
+              </div>
+              <div className="ml-3">
+                <div className="text-xl	font-medium	tracking-wide	">
+                  {activeItem?.projectRole?.title}
+                </div>
+                <div className={``}>
+                  <LongText
+                    cutText={100}
+                    text={
+                      (activeItem?.projectRole?.shortDescription as string) ||
+                      ""
+                    }
+                    className={`text-soilGray/100	text-sm font-semibold	tracking-wide`}
                   />
                 </div>
-                <div className="ml-3">
-                  <div className="text-xl	font-medium	tracking-wide	">
-                    {activeItem?.projectRole?.title}
-                  </div>
-                  <div className={``}>
-                    <LongText
-                      cutText={100}
-                      text={
-                        (activeItem?.projectRole?.shortDescription as string) ||
-                        ""
-                      }
-                      className={`text-soilGray/100	text-sm font-semibold	tracking-wide`}
-                    />
-                  </div>
-                  <div>
-                    {activeItem?.projectRole?.nodes &&
-                      activeItem?.projectRole?.nodes.map(
-                        (node: Maybe<NodesType>, index: number) => (
-                          <Badge
-                            text={node?.nodeData?.name || ""}
-                            key={index}
-                            className={`bg-soilPurple/20 py-px text-xs`}
-                          />
-                        )
-                      )}
-                  </div>
+                <div>
+                  {activeItem?.projectRole?.nodes &&
+                    activeItem?.projectRole?.nodes.map(
+                      (node: Maybe<NodesType>, index: number) => (
+                        <Badge
+                          text={node?.nodeData?.name || ""}
+                          key={index}
+                          className={`bg-soilPurple/20 py-px text-xs`}
+                        />
+                      )
+                    )}
                 </div>
               </div>
-              <div className="flex flex-row">
-                {activeItem?.matchPercentage &&
-                activeItem?.matchPercentage > 0 ? (
-                  <div className="text-soilPurple font-poppins mr-3 text-3xl font-bold">
-                    {round(activeItem?.matchPercentage, 0)}%
-                  </div>
-                ) : null}
+            </div>
+            <div className="flex flex-row gap-2 md:gap-8 mt-4">
+              {activeItem?.matchPercentage &&
+              activeItem?.matchPercentage > 0 ? (
+                <div className="text-soilPurple font-poppins mr-3 text-3xl font-bold">
+                  {round(activeItem?.matchPercentage, 0)}%
+                </div>
+              ) : null}
 
-                <div>
-                  <div className="flex flex-col">
-                    {/* TODO: Refer feature is not developed yet */}
+              <div>
+                <div className="flex flex-col">
+                  {/* TODO: Refer feature is not developed yet */}
 
-                    {/* <Button
+                  {/* <Button
                     variant="secondary"
                     radius="default"
                     size="sm"
@@ -226,106 +213,91 @@ const PositionExpanded = ({
                   >
                     Refer 💸
                   </Button> */}
-                    {currentUser && (
-                      <Button
-                        variant="secondary"
-                        radius="default"
-                        size="sm"
-                        className="mt-2"
-                        onClick={() => {
-                          if (!currentUser?._id || !project?._id) return;
-                          setApplying(true);
-                          changeTeamMemberPhaseProject({
-                            variables: {
-                              fields: {
-                                projectID: project?._id,
-                                memberID: currentUser?._id,
-                                roleID: activeItem?.projectRole?._id,
-                                phase: "engaged",
-                              },
-                            },
-                          });
-                        }}
-                      >
-                        Apply
-                      </Button>
-                    )}
-                  </div>
+                  {currentUser && (
+                    <Button
+                      variant="secondary"
+                      radius="default"
+                      size="sm"
+                      type={`button`}
+                      className="mt-2"
+                      onClick={() => setShowModal(!showModal)}
+                    >
+                      Apply
+                    </Button>
+                  )}
                 </div>
               </div>
             </div>
-            <div className={`my-4`}>
-              <div className="text-soilGray/100 my-1 font-medium uppercase tracking-wide">
-                📃 Description Of the role
-              </div>
-              <div className={``}>
-                <LongText
-                  cutText={250}
-                  text={(activeItem?.projectRole?.description as string) || ""}
-                  className={`text-darkGreen font-Inter my-2 text-sm tracking-wide`}
-                />
-              </div>
+          </div>
+          <div className={`my-4`}>
+            <TextLabel2>📃 Description Of the role</TextLabel2>
+            <div className={``}>
+              <LongText
+                cutText={250}
+                text={(activeItem?.projectRole?.description as string) || ""}
+                className={`text-darkGreen font-Inter my-2 text-sm tracking-wide`}
+              />
             </div>
-            <div className={`my-4`}>
-              <div className="text-soilGray/100 my-1 font-medium uppercase tracking-wide">
-                💯 Expectations
-              </div>
+          </div>
+          <div className={`my-4`}>
+            <TextLabel2>💯 Expectations</TextLabel2>
+            <div className="text-sm">
+              {activeItem?.projectRole?.expectations?.map(
+                (expectation, index: number) => (
+                  <li key={index}>{expectation}</li>
+                )
+              )}
+            </div>
+          </div>
+          <div className={`my-4 grid grid-cols-4`}>
+            <div className={`col-span-3`}>
+              <TextLabel2>🦜Benefits</TextLabel2>
               <div className="text-sm">
-                {activeItem?.projectRole?.expectations?.map(
-                  (expectation, index: number) => (
-                    <li key={index}>{expectation}</li>
+                {activeItem?.projectRole?.benefits?.map(
+                  (benefit, index: number) => (
+                    <li key={index}>{benefit}</li>
                   )
                 )}
               </div>
             </div>
-            <div className={`my-4 grid grid-cols-4`}>
-              <div className={`col-span-3`}>
-                <div className="text-soilGray/100 my-1 font-medium uppercase tracking-wide">
-                  🦜Benefits
-                </div>
-                <div className="text-sm">
-                  {activeItem?.projectRole?.benefits?.map(
-                    (benefit, index: number) => (
-                      <li key={index}>{benefit}</li>
-                    )
-                  )}
-                </div>
-              </div>
-              <div className={`col-span-1`}>
-                <div className="text-soilGray/100 my-1 font-medium uppercase tracking-wide">
-                  🕵️‍♀️Details
-                </div>
-                <div className="text-xs font-medium">
+            <div className={`col-span-1`}>
+              <TextLabel2>🕵️‍♀️Details</TextLabel2>
+              <div className="text-xs font-medium">
+                {activeItem?.projectRole?.hoursPerWeek && (
                   <div className="flex flex-row p-1">
                     <div>🕓</div>
                     <div className={`ml-1 capitalize text-slate-900	`}>
                       {activeItem?.projectRole?.hoursPerWeek} hours/week
                     </div>
                   </div>
+                )}
+                {activeItem?.projectRole?.ratePerHour && (
                   <div className="flex flex-row p-1">
                     <div>💰</div>
                     <div className={`ml-1 capitalize text-slate-900`}>
                       TRST ${activeItem?.projectRole?.ratePerHour || "N/A"}
                     </div>
                   </div>
-                  <div className="flex flex-row p-1">
+                )}
+                {/* <div className="flex flex-row p-1">
                     <div>🗓</div>
                     <div className={`ml-1 capitalize text-slate-900	`}>
                       2 seasons
                     </div>
-                  </div>
+                  </div> */}
+                {activeItem?.projectRole?.openPositions && (
                   <div className="flex flex-row p-1">
                     <div>🪑</div>
                     <div className={`ml-1 capitalize text-slate-900	`}>
                       {activeItem?.projectRole?.openPositions} open position
                     </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </div>
         </div>
-      )}
+      </div>
     </>
   );
 };

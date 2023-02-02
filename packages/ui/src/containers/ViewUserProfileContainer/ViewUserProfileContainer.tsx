@@ -6,7 +6,7 @@ import {
   NodeList,
   PREFERENCES_TITLE,
   SocialMediaComp,
-  TextHeading3,
+  TextLabel1,
   UserBackground,
   UserWithDescription,
 } from "@eden/package-ui";
@@ -56,12 +56,7 @@ export const ViewUserProfileContainer = ({
               step !== STEPS.BIO ? "blur-sm" : ""
             }`}
           >
-            <TextHeading3
-              style={{ fontWeight: 700 }}
-              className="mb-2 text-sm uppercase text-gray-500"
-            >
-              🪪 Short bio
-            </TextHeading3>
+            <TextLabel1>🪪 Short bio</TextLabel1>
             <p className="text-soilBody font-Inter font-normal">{user?.bio}</p>
           </div>
           <div></div>
@@ -71,12 +66,8 @@ export const ViewUserProfileContainer = ({
         </div>
         {selectedPreferences && (
           <div className={`mb-4  ${step !== STEPS.ROLE ? "blur-sm" : ""}`}>
-            <TextHeading3
-              style={{ fontWeight: 700 }}
-              className="mb-2 text-sm uppercase text-gray-500"
-            >
-              🔎 PREFERENCES
-            </TextHeading3>
+            <TextLabel1>🔎 PREFERENCES</TextLabel1>
+
             <div>
               {selectedPreferences.map(
                 (preference: keyof IPREFERENCES_TITLE, index: number) => (

@@ -1,6 +1,6 @@
 import { UserContext } from "@eden/package-context";
 import { ServerTemplate } from "@eden/package-graphql/generated";
-import { Avatar, TextHeading3 } from "@eden/package-ui";
+import { Avatar, TextLabel1 } from "@eden/package-ui";
 import { useContext, useEffect, useState } from "react";
 import ReactTooltip from "react-tooltip";
 
@@ -37,12 +37,7 @@ export const CommonServerAvatarList = ({
 
   return (
     <div>
-      <TextHeading3
-        style={{ fontWeight: 700 }}
-        className="mb-2 text-sm uppercase text-gray-500"
-      >
-        {label}
-      </TextHeading3>
+      <TextLabel1 className="">{label}</TextLabel1>
       <div className={`flex w-full flex-nowrap`}>
         {filteredMemberServers?.map((avatar, index: number) => (
           <div

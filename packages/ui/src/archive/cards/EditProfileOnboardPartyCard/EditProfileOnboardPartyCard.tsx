@@ -12,15 +12,15 @@ import {
   Dropdown,
   NumberCircle,
   ProgressBarGeneric,
-  SkillList,
   // SocialMediaInput,
   TextArea,
   TextHeading3,
-  TextLabel,
+  TextLabel1,
 } from "@eden/package-ui";
+import { getFillProfilePercentage } from "@eden/package-ui/utils/fill-profile-percentage";
 
-import { getUserProgress } from "../../../../utils/user-progress";
 import { SearchSkill } from "../../components/SearchSkill/SearchSkill";
+import { SkillList } from "../../lists/SkillList/SkillList";
 
 export interface EditProfileOnboardPartyCardProps {
   currentUser: Members;
@@ -65,7 +65,7 @@ export const EditProfileOnboardPartyCard = ({
     },
   ];
 
-  const progress = getUserProgress(currentUser);
+  const progress = getFillProfilePercentage(currentUser);
 
   const _handleUpdateUser = (e: any) => {
     handleUpdateUser(e.target.value, e.target.name);
@@ -87,12 +87,12 @@ export const EditProfileOnboardPartyCard = ({
       </div>
       <div className="mb-2">
         <div className="mb-1 flex items-baseline">
-          <TextLabel>PROFILE PROGRESS</TextLabel>
+          <TextLabel1>PROFILE PROGRESS</TextLabel1>
           <span className="ml-auto">{progress}%</span>
         </div>
         <ProgressBarGeneric progress={progress} />
       </div>
-      <TextLabel>💼 SELECT YOUR ROLE</TextLabel>
+      <TextLabel1>💼 SELECT YOUR ROLE</TextLabel1>
       <Dropdown
         items={dataRoles?.findRoleTemplates}
         placeholder={`Select Your Role`}
@@ -101,14 +101,14 @@ export const EditProfileOnboardPartyCard = ({
         key={currentUser.memberRole?.title || ""}
         value={currentUser.memberRole?.title || ""}
       />
-      <TextLabel>🛠 ADD YOUR SKILLS</TextLabel>
+      <TextLabel1>🛠 ADD YOUR SKILLS</TextLabel1>
       <SearchSkill
         levels={levels}
         skills={currentUser.skills}
         setSkills={handleSetSkills}
       />
       <div className="flex items-center space-x-2">
-        <TextLabel>LEARNING</TextLabel>
+        <TextLabel1>LEARNING</TextLabel1>
         {learningSkills && <NumberCircle value={learningSkills?.length} />}
       </div>
       {learningSkills && (
@@ -120,7 +120,7 @@ export const EditProfileOnboardPartyCard = ({
         />
       )}
       <div className="flex items-center space-x-2">
-        <TextLabel>SKILLED</TextLabel>
+        <TextLabel1>SKILLED</TextLabel1>
         {skilledSkills && <NumberCircle value={skilledSkills?.length} />}
       </div>
       {skilledSkills && (
@@ -131,7 +131,7 @@ export const EditProfileOnboardPartyCard = ({
           closeButton
         />
       )}
-      <TextLabel>ABOUT ME</TextLabel>
+      <TextLabel1>ABOUT ME</TextLabel1>
       <TextArea
         name="bio"
         placeholder={`Write a short description about yourself...`}

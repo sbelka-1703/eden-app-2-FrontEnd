@@ -3,12 +3,14 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
 };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
+  {
+    [SubKey in K]?: Maybe<T[SubKey]>;
+  };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
+  {
+    [SubKey in K]: Maybe<T[SubKey]>;
+  };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -69,6 +71,7 @@ export type EdenAiInput = {
 
 export type Edge = {
   __typename?: "Edge";
+  distanceRation?: Maybe<Scalars["Float"]>;
   source?: Maybe<Scalars["ID"]>;
   target?: Maybe<Scalars["ID"]>;
   type?: Maybe<Scalars["String"]>;
@@ -251,6 +254,7 @@ export type Mutation = {
   updateMemberInRoom?: Maybe<Members>;
   updateMessage?: Maybe<Ai>;
   updateNodesToMember?: Maybe<Members>;
+  updateNodesToMemberInRoom?: Maybe<Members>;
   updateNodesToProjectRole?: Maybe<Project>;
   updateProject?: Maybe<Project>;
   updateRoleTemplate?: Maybe<RoleTemplate>;
@@ -460,6 +464,10 @@ export type MutationUpdateNodesToMemberArgs = {
   fields: UpdateNodesToMemberInput;
 };
 
+export type MutationUpdateNodesToMemberInRoomArgs = {
+  fields?: InputMaybe<UpdateNodesToMemberInRoomInput>;
+};
+
 export type MutationUpdateNodesToProjectRoleArgs = {
   fields: UpdateNodesToProjectRoleInput;
 };
@@ -509,7 +517,11 @@ export type Node = {
 export type NodeVis = {
   __typename?: "NodeVis";
   _id?: Maybe<Scalars["ID"]>;
+  avatar?: Maybe<Scalars["String"]>;
+  extraDistanceRation?: Maybe<Scalars["Float"]>;
+  fakeID?: Maybe<Array<Maybe<Scalars["ID"]>>>;
   name?: Maybe<Scalars["String"]>;
+  originalNode?: Maybe<Scalars["ID"]>;
   type?: Maybe<Scalars["String"]>;
 };
 
@@ -534,6 +546,12 @@ export type PaginatedMessages = {
   __typename?: "PaginatedMessages";
   data?: Maybe<Array<Maybe<Ai>>>;
   pageInfo?: Maybe<PageInfo>;
+};
+
+export type PaginatedRooms = {
+  __typename?: "PaginatedRooms";
+  pageInfo?: Maybe<PageInfo>;
+  roomsData?: Maybe<Array<Maybe<Rooms>>>;
 };
 
 export type PaginatedSkills = {
@@ -600,11 +618,14 @@ export type Query = {
   findGrants?: Maybe<Array<Maybe<GrantTemplate>>>;
   findMember?: Maybe<Members>;
   findMemberGraph?: Maybe<Graph>;
+  findMemberToMemberGraph?: Maybe<Graph>;
   findMemberToProjectGraph?: Maybe<Graph>;
   findMembers?: Maybe<Array<Maybe<Members>>>;
   findMessage?: Maybe<PaginatedMessages>;
+  findMultipleMembersProjectsGraph?: Maybe<Graph>;
   findNode?: Maybe<Node>;
   findNodes?: Maybe<Array<Maybe<Node>>>;
+  findOneMemberToMembersGraph?: Maybe<Graph>;
   findProject?: Maybe<Project>;
   findProjectGraph?: Maybe<Graph>;
   findProjectUpdates?: Maybe<Array<Maybe<ProjectUpdate>>>;
@@ -615,7 +636,7 @@ export type Query = {
   findRoleTemplates?: Maybe<Array<Maybe<RoleTemplate>>>;
   findRoles?: Maybe<Array<Maybe<Role>>>;
   findRoom?: Maybe<Rooms>;
-  findRooms?: Maybe<Array<Maybe<Rooms>>>;
+  findRooms?: Maybe<PaginatedRooms>;
   findServers?: Maybe<Array<Maybe<ServerTemplate>>>;
   findSkill?: Maybe<Skills>;
   findSkillCategories?: Maybe<Array<Maybe<SkillCategory>>>;
@@ -689,6 +710,10 @@ export type QueryFindMemberGraphArgs = {
   fields?: InputMaybe<FindMemberGraphInput>;
 };
 
+export type QueryFindMemberToMemberGraphArgs = {
+  fields?: InputMaybe<FindMemberToMemberGraphInput>;
+};
+
 export type QueryFindMemberToProjectGraphArgs = {
   fields?: InputMaybe<FindMemberToProjectGraphInput>;
 };
@@ -701,12 +726,20 @@ export type QueryFindMessageArgs = {
   fields?: InputMaybe<FindMessageInputPaginated>;
 };
 
+export type QueryFindMultipleMembersProjectsGraphArgs = {
+  fields?: InputMaybe<FindMultipleMembersProjectsGraphInput>;
+};
+
 export type QueryFindNodeArgs = {
   fields?: InputMaybe<FindNodeInput>;
 };
 
 export type QueryFindNodesArgs = {
   fields?: InputMaybe<FindNodesInput>;
+};
+
+export type QueryFindOneMemberToMembersGraphArgs = {
+  fields?: InputMaybe<FindOneMemberToMembersGraphInput>;
 };
 
 export type QueryFindProjectArgs = {
@@ -1496,6 +1529,7 @@ export type FindGrantsInput = {
 
 export type FindMemberGraphInput = {
   memberID?: InputMaybe<Scalars["ID"]>;
+  showAvatar?: InputMaybe<Scalars["Boolean"]>;
 };
 
 export type FindMemberInput = {
@@ -1504,8 +1538,16 @@ export type FindMemberInput = {
   serverID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
+export type FindMemberToMemberGraphInput = {
+  memberOneID?: InputMaybe<Scalars["ID"]>;
+  memberTwoID?: InputMaybe<Scalars["ID"]>;
+  showAvatar?: InputMaybe<Scalars["Boolean"]>;
+};
+
 export type FindMemberToProjectGraphInput = {
   memberID?: InputMaybe<Scalars["ID"]>;
+  projectID?: InputMaybe<Scalars["ID"]>;
+  showAvatar?: InputMaybe<Scalars["Boolean"]>;
 };
 
 export type FindMembersInput = {
@@ -1526,6 +1568,12 @@ export type FindMessageInputPaginated = {
   sortBy?: InputMaybe<SortByMessage>;
 };
 
+export type FindMultipleMembersProjectsGraphInput = {
+  membersID?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  projectsID?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  showAvatar?: InputMaybe<Scalars["Boolean"]>;
+};
+
 export type FindNodeInput = {
   _id?: InputMaybe<Scalars["ID"]>;
 };
@@ -1538,8 +1586,14 @@ export type FindNodesInput = {
   show_match_v2?: InputMaybe<Scalars["Boolean"]>;
 };
 
+export type FindOneMemberToMembersGraphInput = {
+  memberID?: InputMaybe<Scalars["ID"]>;
+  showAvatar?: InputMaybe<Scalars["Boolean"]>;
+};
+
 export type FindProjectGraphInput = {
   projectID?: InputMaybe<Scalars["ID"]>;
+  showAvatar?: InputMaybe<Scalars["Boolean"]>;
 };
 
 export type FindProjectInput = {
@@ -1876,6 +1930,8 @@ export type NodesType = {
 };
 
 export type Nodes_AutocompleteInput = {
+  nodeType?: InputMaybe<Scalars["String"]>;
+  rootType?: InputMaybe<Scalars["String"]>;
   search?: InputMaybe<Scalars["String"]>;
 };
 
@@ -2280,6 +2336,13 @@ export type UpdateMemberInput = {
 export type UpdateMessageInput = {
   edenAI?: InputMaybe<EdenAiInput>;
   messageID?: InputMaybe<Scalars["ID"]>;
+};
+
+export type UpdateNodesToMemberInRoomInput = {
+  nodeType?: InputMaybe<Scalars["String"]>;
+  nodesID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  nodesID_level?: InputMaybe<Array<InputMaybe<NodesId_LevelInput>>>;
+  roomID?: InputMaybe<Scalars["ID"]>;
 };
 
 export type UpdateNodesToMemberInput = {

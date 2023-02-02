@@ -12,8 +12,8 @@ import {
 const navigation = [
   { name: "Dashboard", href: "/admin", icon: MdOutlineHome, current: true },
   {
-    name: "Create Party",
-    href: "/admin/create-party",
+    name: "Party Rooms",
+    href: "/admin/party-rooms",
     icon: MdOutlineSensorDoor,
     current: false,
   },
@@ -186,12 +186,12 @@ export const AdminLayout = ({ children }: IAdminLayoutProps) => {
                     🌱 Eden.
                   </span>
                 </button>
-                <div className="ml-auto pr-2 md:pr-4">
+                <div className="ml-auto mt-2 pr-2 md:pr-4">
                   <LoginButton inApp={true} />
                 </div>
               </div>
               <div
-                className={`sticky top-0 z-10 flex h-16 justify-between border-b bg-white`}
+                className={`sticky top-0 z-10 hidden h-16 justify-between border-b bg-white md:flex `}
               >
                 <div></div>
                 <div className="ml-auto mt-4 pr-2 md:pr-4">

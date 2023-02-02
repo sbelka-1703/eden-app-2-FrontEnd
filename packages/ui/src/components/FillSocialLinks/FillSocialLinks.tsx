@@ -29,18 +29,6 @@ export const FillSocialLinks = ({ links, onChange }: IFillSocialLinksProps) => {
     return rest;
   });
 
-  // const linkRemoveList = ["https://", "http://"];
-
-  // const getLink = (url: string) => {
-  //   const link = linkRemoveList.find((item) => url.includes(item));
-
-  //   if (link) {
-  //     return url.replace(link, "");
-  //   }
-
-  //   return url;
-  // };
-
   const removeList = [
     "https://twitter.com/",
     "https://www.twitter.com/",
@@ -149,6 +137,23 @@ export const FillSocialLinks = ({ links, onChange }: IFillSocialLinksProps) => {
     return () => subscription.unsubscribe();
   }, [watch]);
 
+  const baseUrl = (platform: string) => {
+    switch (platform) {
+      case "twitter":
+        return "https://twitter.com/";
+      case "github":
+        return "https://github.com/";
+      case "telegram":
+        return "https://t.me/";
+      case "lens":
+        return "https://www.lensfrens.xyz/";
+      case "portfolio":
+        return "https://";
+      default:
+        return "";
+    }
+  };
+
   const platformIcons = (platform: string) => {
     switch (platform) {
       case "twitter":
@@ -180,18 +185,23 @@ export const FillSocialLinks = ({ links, onChange }: IFillSocialLinksProps) => {
             </TextInputLabel> */}
             <div className={`flex`}>
               <div className={`my-auto px-2`}>{platformIcons(field.name)}</div>
+              <div
+                className={`input-primary focus-within:border-accentColor focus-within:ring-soilGreen-500 rounded-full pl-4`}
+              >
+                <span className={`text-600`}>{baseUrl(field.name)}</span>
 
-              <input
-                id={`link-${field.name}`}
-                className={`input-primary rounded-full pl-4`}
-                type="text"
-                placeholder={
-                  field.name === "portfolio"
-                    ? `your ${field.name} url`
-                    : `${field.name} handle`
-                }
-                {...register(`links.${index}.url`)}
-              />
+                <input
+                  id={`link-${field.name}`}
+                  className={`w-full border-none pl-0.5 outline-none`}
+                  type="text"
+                  placeholder={
+                    field.name === "portfolio"
+                      ? `your ${field.name} url`
+                      : `${field.name} handle`
+                  }
+                  {...register(`links.${index}.url`)}
+                />
+              </div>
             </div>
           </section>
         );

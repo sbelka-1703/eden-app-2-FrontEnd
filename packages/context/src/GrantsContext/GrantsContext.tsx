@@ -8,6 +8,5 @@ export interface GrantsContextType {
 
 export const GrantsContext = createContext<GrantsContextType>({
   openModal: null,
-  // eslint-disable-next-line no-empty-function
-  setOpenModal: () => {},
+  setOpenModal: () => undefined,
 });

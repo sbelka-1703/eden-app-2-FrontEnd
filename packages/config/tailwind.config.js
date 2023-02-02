@@ -77,7 +77,13 @@ module.exports = {
             letterSpacing: "0em",
           },
         ],
-        soilLabel: [
+        soilLabel1: [
+          "15px",
+          {
+            letterSpacing: "0.04em",
+          },
+        ],
+        soilLabel2: [
           "12px",
           {
             letterSpacing: "0.04em",

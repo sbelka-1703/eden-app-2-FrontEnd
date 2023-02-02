@@ -2,9 +2,9 @@ import { DiscoverContext, DiscoverModal } from "@eden/package-context";
 import {
   DiscoverTalent,
   DragDrop,
-  TestDiscoverTalentDropdownModal,
   Prioritize,
   Requirements,
+  TestDiscoverTalentDropdownModal,
 } from "@eden/package-ui";
 import { useContext, useEffect, useState } from "react";
 
@@ -53,6 +53,7 @@ export const DiscoverContainer = ({
                 id: `${i}`,
                 content: names,
               }));
+
               if (setElements) setElements(items);
             }
             setOpenModal(DiscoverModal.ORDER_SKILLS_FIRST);
@@ -89,6 +90,7 @@ export const DiscoverContainer = ({
                 id: `${i}`,
                 content: names,
               }));
+
               if (setElements) setElements(items);
             }
             setOpenModal(DiscoverModal.ORDER_SKILLS_SECOND);

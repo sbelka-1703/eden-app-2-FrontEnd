@@ -1,5 +1,5 @@
 import { Maybe, NodesType } from "@eden/package-graphql/generated";
-import { Badge, TextHeading3 } from "@eden/package-ui";
+import { Badge, TextLabel1 } from "@eden/package-ui";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
 import { useState } from "react";
 
@@ -42,13 +42,8 @@ export const NodeList = ({
 
   return (
     <div>
-      <TextHeading3
-        style={{ fontWeight: 700 }}
-        className="mb-2 text-sm uppercase text-gray-500"
-      >
-        {label}
-      </TextHeading3>
-      <div>
+      <TextLabel1>{label}</TextLabel1>
+      <div className={`my-2`}>
         {badges?.slice(0, overflowNumber)}
         {seeMore ? badges?.slice(overflowNumber) : null}
       </div>

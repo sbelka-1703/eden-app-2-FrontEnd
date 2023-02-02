@@ -8,7 +8,7 @@ import {
   // ProgressBarGeneric,
   SocialMediaComp,
   TextHeading3,
-  TextLabel,
+  TextLabel2,
 } from "@eden/package-ui";
 import { useState } from "react";
 
@@ -64,11 +64,11 @@ export const UserCardOnboardPartyNodes = ({
         <ProgressBarGeneric progress={progress} />
       </div> */}
 
-      <TextLabel>EXPERTISES</TextLabel>
+      <TextLabel2>EXPERTISES</TextLabel2>
       <NodeList nodes={subExpertise} colorRGB={`235,225,255`} />
-      <TextLabel>PREFERRED PROJECTS</TextLabel>
+      <TextLabel2>PREFERRED PROJECTS</TextLabel2>
       <NodeList nodes={projectType} colorRGB={`209,247,196`} />
-      <TextLabel>ABOUT ME</TextLabel>
+      <TextLabel2>ABOUT ME</TextLabel2>
       <div className={`text-darkGreen font-poppins text-sm font-medium`}>
         {member.bio}
       </div>

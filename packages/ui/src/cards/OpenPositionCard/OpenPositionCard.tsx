@@ -9,7 +9,6 @@ export interface OpenPositionCardProps {
   padding?: string;
   // eslint-disable-next-line no-unused-vars
   onApply: (val: string) => void;
-  onRefer?: () => void;
 }
 
 export const OpenPositionCard = ({
@@ -22,8 +21,8 @@ OpenPositionCardProps) => {
   if (!role) return null;
   return (
     <>
-      <Card shadow border>
-        <div className={padding}>
+      <Card shadow border className={``}>
+        <div className={`${padding}  flex-grow p-4`}>
           <div className="flex flex-row	justify-between">
             <span className="text-xl font-medium">{role?.title}</span>
             {percentage && percentage > 0 ? (
@@ -37,7 +36,7 @@ OpenPositionCardProps) => {
             text={(role?.shortDescription as string) || ""}
             className={`text-soilGray/100 text-sm font-semibold tracking-wide`}
           />
-          <div className="mt-2 flex">
+          <div className="mt-2 flex flex-wrap">
             {role?.skills?.map((skill, index) => {
               return (
                 <div key={index}>
@@ -86,7 +85,7 @@ OpenPositionCardProps) => {
               </div>
             </div>
           </div>
-          <div className="mt-2 flex flex-row justify-end">
+          <div className="bottom-4 right-4 flex justify-end mt-8 h-8 w-full absolute">
             {/* TODO: Refer feature is not developed yet */}
             {/* <Button
               variant="secondary"

@@ -8,7 +8,7 @@ const G6component = dynamic(
 );
 
 import { gql, useQuery } from "@apollo/client";
-import React, { useEffect } from "react";
+import React, { RefObject, useEffect, useRef, useState } from "react";
 
 const FIND_MEMBER_GRAPH = gql`
   query ($fields: findMemberGraphInput!) {
@@ -117,6 +117,10 @@ interface DataState {
 // };
 
 const TestPage = () => {
+  const refContainer = useRef<HTMLDivElement>();
+
+  const [width, setWidth] = useState<number>(0);
+
   // create a function that handle a click and will pass on G6component component
 
   const { data: dataGraphAPImember } = useQuery(
@@ -162,7 +166,7 @@ const TestPage = () => {
     // }
 
     if (dataGraphAPI) {
-      console.log("dataGraphAPImember = ", dataGraphAPImember);
+      // console.log("dataGraphAPImember = ", dataGraphAPImember);
 
       const nodeDataObj: any = {};
       const edgesDataGraph = dataGraphAPI.edges.map(
@@ -215,7 +219,7 @@ const TestPage = () => {
         }
       );
 
-      console.log("nodesDataGraph = ", nodesDataGraph);
+      // console.log("nodesDataGraph = ", nodesDataGraph);
 
       setData({
         nodes: nodesDataGraph,
@@ -232,6 +236,20 @@ const TestPage = () => {
 
   // const [disable]
 
+  useEffect(() => {
+    const getwidth = () => {
+      setWidth(refContainer.current?.offsetWidth!);
+    };
+
+    // when the component gets mounted
+    setWidth(refContainer.current?.offsetWidth!);
+
+    // to handle page resize
+    window.addEventListener("resize", getwidth);
+    // remove the event listener before the component gets unmounted
+    return () => window.removeEventListener("resize", getwidth);
+  }, []);
+
   return (
     <>
       {/* {data && data.nodes && data.nodes.length > 0 ? (
@@ -239,16 +257,20 @@ const TestPage = () => {
       ) : (
         <p>Don't have Graph Data Yet</p>
       )} */}
-      {data && data.nodes && data.nodes.length > 0 ? (
-        <G6component
-          width={900}
-          height={900}
-          data2={data}
-          // data2={data2}
-          // handleClick={handleClick}
-        />
-      ) : (
-        <p>Dont have Graph Data Yet</p>
+      {refContainer && (
+        <div className="w-full" ref={refContainer as RefObject<HTMLDivElement>}>
+          {data && data.nodes && data.nodes.length > 0 ? (
+            <G6component
+              width={width}
+              height={(3 * width) / 4}
+              data2={data}
+              // data2={data2}
+              // handleClick={handleClick}
+            />
+          ) : (
+            <p>Dont have Graph Data Yet</p>
+          )}
+        </div>
       )}
       {/* {dataGraphAPImember &&
       dataGraphAPImember.findMemberGraph &&
