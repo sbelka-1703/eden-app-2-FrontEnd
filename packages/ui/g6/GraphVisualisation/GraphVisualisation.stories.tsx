@@ -1,10 +1,10 @@
-import { getMember } from "@eden/package-mock";
+// import { getMember } from "@eden/package-mock";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { GraphVisualisation } from "./GraphVisualisation";
 
 export default {
-  title: "Components/GraphVisualisation",
+  title: "G6/GraphVisualisation",
   component: GraphVisualisation,
   argTypes: {},
 } as ComponentMeta<typeof GraphVisualisation>;
@@ -15,7 +15,7 @@ const Template: ComponentStory<typeof GraphVisualisation> = (args) => {
 
 export const Default = Template.bind({});
 Default.args = {
-  member: getMember(),
+  // member: getMember(),
   data2: {
     nodes: [
       { id: "node0", size: 50 },
