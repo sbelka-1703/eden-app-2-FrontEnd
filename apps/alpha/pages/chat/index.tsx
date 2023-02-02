@@ -20,6 +20,7 @@ import {
 } from "@eden/package-ui";
 import { ThreadAutoArchiveDuration } from "discord-api-types/v10";
 import { useContext, useState } from "react";
+import { toast } from "react-toastify";
 
 import type { NextPageWithLayout } from "../_app";
 
@@ -41,15 +42,15 @@ const ChatPage: NextPageWithLayout = (session) => {
       fields: {
         discordName: search,
       },
-      skip: search === "",
     },
+    skip: !search || search === "",
     context: { serviceName: "soilservice" },
   });
 
   const searchMember = dataSearchMember?.findMember;
 
-  // if (searchMember) console.log(searchMember);
-  if (session) console.log(session);
+  if (searchMember) console.log(searchMember);
+  // if (session) console.log(session);
 
   const { currentUser } = useContext(UserContext);
   const [openModal, setOpenModal] = useState(false);
@@ -63,7 +64,9 @@ const ChatPage: NextPageWithLayout = (session) => {
         Accept: "application/json",
       },
     });
-    const jsonData: CreateThreadResponse = await response.json();
+    const jsonData: CreateThreadResponse = await response.json().catch((e) => {
+      toast.error("e", e);
+    });
 
     return jsonData;
   };
@@ -148,28 +151,29 @@ const ChatPage: NextPageWithLayout = (session) => {
               }
               const { threadId } = await createThread({
                 message: `<@${member?._id}> <@${currentUser?._id}>`,
+                tagName: "User Introduction",
                 embedMessage: message,
                 senderAvatarURL: currentUser?.discordAvatar!,
                 senderName: `${currentUser?.discordName} -- Just invite you to a conversation`,
-                channelId: "1043008974523478087",
-                threadName: `Project Talents Discussion with ${member?.discordName}`,
+                channelId: "1042112005466767481",
+                threadName: `User Introduction`,
                 ThreadAutoArchiveDuration: ThreadAutoArchiveDuration.OneDay,
               });
 
-              const result = await addNewChat({
-                variables: {
-                  fields: {
-                    message: message,
-                    projectID: "62f685952dc2d40004d395c7",
-                    receiverID: member?._id!,
-                    senderID: currentUser?._id!,
-                    serverID: "996558082098339953",
-                    threadID: threadId,
+              if (currentUser?._id !== member?._id)
+                await addNewChat({
+                  variables: {
+                    fields: {
+                      message: message,
+                      projectID: "62f685952dc2d40004d395c7",
+                      receiverID: member?._id!,
+                      senderID: currentUser?._id!,
+                      serverID: "996558082098339953",
+                      threadID: threadId,
+                    },
                   },
-                },
-              });
+                });
 
-              console.log(result);
               setOpenModal(false);
             }}
           />

@@ -8,6 +8,10 @@ import {
 } from "@eden/package-ui";
 import { useState } from "react";
 
+import {
+  CreateDMApiRequestBody,
+  CreateDMApiResponse,
+} from "../../../types/type";
 import type { NextPageWithLayout } from "../../_app";
 
 const DMPage: NextPageWithLayout<{ userId: string }> = ({ userId }) => {
@@ -125,11 +129,6 @@ export default DMPage;
 
 import { IncomingMessage, ServerResponse } from "http";
 import { getSession } from "next-auth/react";
-
-import {
-  CreateDMApiRequestBody,
-  CreateDMApiResponse,
-} from "../../../types/type";
 
 export async function getServerSideProps(ctx: {
   req: IncomingMessage;

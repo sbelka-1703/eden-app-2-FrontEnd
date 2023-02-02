@@ -89,7 +89,7 @@ export const SendMessageToChampion = ({
       toast.error("e", e);
     });
 
-    console.log(jsonData);
+    // console.log(jsonData);
 
     return jsonData;
   };
@@ -141,24 +141,21 @@ export const SendMessageToChampion = ({
         channelId: selectedServer?.channel?.chatID!,
         thread: threadId,
       });
-    } catch (error) {
-      console.log(error);
-    }
 
-    try {
-      await addNewChat({
-        variables: {
-          fields: {
-            message: message,
-            projectID: project?._id!,
-            receiverID: project?.champion?._id!,
-            senderID: currentUser?._id!,
-            serverID: selectedServer?._id!,
-            threadID: threadId,
+      if (currentUser?._id !== project?.champion?._id)
+        await addNewChat({
+          variables: {
+            fields: {
+              message: message,
+              projectID: project?._id!,
+              receiverID: project?.champion?._id!,
+              senderID: currentUser?._id!,
+              serverID: selectedServer?._id!,
+              threadID: threadId,
+            },
           },
-        },
-        context: { serviceName: "soilservice" },
-      });
+          context: { serviceName: "soilservice" },
+        });
     } catch (error) {
       console.log(error);
     } finally {
