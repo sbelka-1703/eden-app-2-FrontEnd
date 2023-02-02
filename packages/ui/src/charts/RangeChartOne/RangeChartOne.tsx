@@ -181,7 +181,7 @@ export const RangeChartOne = ({
             min={rangesData.domain[0]}
             max={rangesData.domain[1]}
             label={minCaption}
-            value={30}
+            value={rangesData.update[0]}
             onChange={handleMinRange}
           />
         </div>
