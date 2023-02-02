@@ -69,6 +69,7 @@ export type EdenAiInput = {
 
 export type Edge = {
   __typename?: "Edge";
+  distanceRation?: Maybe<Scalars["Float"]>;
   source?: Maybe<Scalars["ID"]>;
   target?: Maybe<Scalars["ID"]>;
   type?: Maybe<Scalars["String"]>;
@@ -251,6 +252,7 @@ export type Mutation = {
   updateMemberInRoom?: Maybe<Members>;
   updateMessage?: Maybe<Ai>;
   updateNodesToMember?: Maybe<Members>;
+  updateNodesToMemberInRoom?: Maybe<Members>;
   updateNodesToProjectRole?: Maybe<Project>;
   updateProject?: Maybe<Project>;
   updateRoleTemplate?: Maybe<RoleTemplate>;
@@ -460,6 +462,10 @@ export type MutationUpdateNodesToMemberArgs = {
   fields: UpdateNodesToMemberInput;
 };
 
+export type MutationUpdateNodesToMemberInRoomArgs = {
+  fields?: InputMaybe<UpdateNodesToMemberInRoomInput>;
+};
+
 export type MutationUpdateNodesToProjectRoleArgs = {
   fields: UpdateNodesToProjectRoleInput;
 };
@@ -510,7 +516,10 @@ export type NodeVis = {
   __typename?: "NodeVis";
   _id?: Maybe<Scalars["ID"]>;
   avatar?: Maybe<Scalars["String"]>;
+  extraDistanceRation?: Maybe<Scalars["Float"]>;
+  fakeID?: Maybe<Array<Maybe<Scalars["ID"]>>>;
   name?: Maybe<Scalars["String"]>;
+  originalNode?: Maybe<Scalars["ID"]>;
   type?: Maybe<Scalars["String"]>;
 };
 
@@ -2325,6 +2334,13 @@ export type UpdateMemberInput = {
 export type UpdateMessageInput = {
   edenAI?: InputMaybe<EdenAiInput>;
   messageID?: InputMaybe<Scalars["ID"]>;
+};
+
+export type UpdateNodesToMemberInRoomInput = {
+  nodeType?: InputMaybe<Scalars["String"]>;
+  nodesID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  nodesID_level?: InputMaybe<Array<InputMaybe<NodesId_LevelInput>>>;
+  roomID?: InputMaybe<Scalars["ID"]>;
 };
 
 export type UpdateNodesToMemberInput = {
