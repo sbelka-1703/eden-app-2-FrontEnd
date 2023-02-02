@@ -44,11 +44,12 @@ const data = {
 
 // const data = {};
 
-export const GraphVisualisation = ({}: IGraphVisualisation) => {
+export const GraphVisualisation = ({ data2 }: IGraphVisualisation) => {
   // export const GraphVisualisation = ({ member, data }: IGraphVisualisation) => {
   const ref = React.useRef(null);
   let graph: any;
 
+  // console.log("data = ", data);
   // console.log("data2 = ", data2);
 
   const refreshDragedNodePosition = (e: any) => {
