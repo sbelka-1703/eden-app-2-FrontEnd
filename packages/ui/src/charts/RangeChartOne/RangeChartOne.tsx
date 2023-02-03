@@ -138,12 +138,19 @@ export const RangeChartOne = ({
 
   return (
     <div className="space-y-4">
-      <div className="relative">
-        <TextHeading3 className="absolute left-0 bottom-4">
-          {leftCaption || `${rangesData.domain[0]} $`}
+      <div className="b relative ">
+        <TextHeading3 className="absolute bottom-0 left-0 -mt-6 -ml-2 py-4">
+          <div className="flex flex-col items-center text-[16px] text-gray-500">
+            <p>Min</p>
+            {leftCaption || `$${rangesData.domain[0]} `}
+          </div>
         </TextHeading3>
-        <TextHeading3 className="absolute right-0 bottom-5">
-          {rightCaption || `${rangesData.domain[1]} $`}
+        <TextHeading3 className="absolute bottom-0 right-0 -mt-4 -mr-6 py-4 ">
+          <div className="flex flex-col items-center text-[16px] text-gray-500">
+            <p>Max</p>
+
+            {leftCaption || `$${rangesData.domain[1]} `}
+          </div>{" "}
         </TextHeading3>
         <BarChartOne
           data={data}
