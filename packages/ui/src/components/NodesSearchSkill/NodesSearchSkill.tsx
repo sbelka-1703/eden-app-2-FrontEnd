@@ -1,22 +1,32 @@
 /* eslint-disable camelcase */
 import { useQuery } from "@apollo/client";
 import { FIND_MAIN_NODES, NODE_AUTOCOMPLETE } from "@eden/package-graphql";
-import { Maybe, SkillType_Member } from "@eden/package-graphql/generated";
+import { LevelEnum, Maybe } from "@eden/package-graphql/generated";
 import { Loading, NodesExpandable } from "@eden/package-ui/src";
 import { Combobox } from "@headlessui/react";
 import { EmojiSadIcon } from "@heroicons/react/outline";
 import { SearchIcon } from "@heroicons/react/solid";
 import { useEffect, useMemo, useState } from "react";
+import { useDebounce } from "use-debounce";
 
 type LevelProp = {
   title: string;
   level: string;
 };
 
+type skillType = {
+  skillInfo: {
+    nodeID: string;
+    subNodeID: string;
+    subSubNodeID: string;
+  };
+  level: Maybe<LevelEnum> | undefined;
+};
+
 export interface NodesCategorySkillProps {
-  skills: Maybe<Maybe<SkillType_Member>[]> | undefined;
+  skills: skillType[] | undefined;
   setSkills: any;
-  levels: LevelProp[];
+  levels?: LevelProp[];
 }
 
 export const NodesSearchSkill = ({
@@ -29,16 +39,19 @@ export const NodesSearchSkill = ({
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selected, setSelected] = useState<string | null>(null);
   const [inFocus, setInFocus] = useState<boolean>(false);
+  const [debouncedQuery] = useDebounce(query, 1000);
 
   const { data: dataSkills, loading: skillLoading } = useQuery(
     NODE_AUTOCOMPLETE,
     {
       variables: {
         fields: {
-          search: query,
+          search: debouncedQuery,
+          nodeType: "skill",
+          rootType: "expertise",
         },
       },
-      skip: !query,
+      skip: !debouncedQuery,
     }
   );
 
@@ -74,7 +87,6 @@ export const NodesSearchSkill = ({
     : [];
 
   const groups = filteredItems?.reduce((groups: any, item: any) => {
-    console.log("item", item);
     // console.log("groups", groups[item.name]);
     return {
       ...groups,
@@ -95,9 +107,6 @@ export const NodesSearchSkill = ({
     }
   }, [dataSkills]);
 
-  useEffect(() => {
-    console.log("autocomplete", dataSkills);
-  }, [dataSkills, query]);
   return (
     <Combobox
       value={skills}
@@ -130,7 +139,7 @@ export const NodesSearchSkill = ({
             }}
           />
         </div>
-        {filteredItems.length >= 0 && query.length >= 0 && isOpen && (
+        {filteredItems.length >= 0 && debouncedQuery.length >= 0 && isOpen && (
           <div
             className="fixed top-0 left-0 z-20 h-screen w-screen"
             onClick={() => {
@@ -146,16 +155,16 @@ export const NodesSearchSkill = ({
           </div>
         )}
 
-        {filteredItems.length >= 0 && query.length >= 0 && isOpen && (
+        {filteredItems.length >= 0 && debouncedQuery.length >= 0 && isOpen && (
           <Combobox.Options
             static
             className="scrollbar-hide absolute top-12 z-30 h-80 w-full scroll-pt-11 scroll-pb-2 space-y-2 overflow-y-auto rounded-md border bg-white pb-2 shadow-lg"
           >
             {Object.entries(
-              query === "" && inFocus ? allSkillGroup : groups!
+              debouncedQuery === "" && inFocus ? allSkillGroup : groups!
             ).map(([category, id], index) => (
               <NodesExpandable
-                query={query}
+                query={debouncedQuery}
                 category={category}
                 // @ts-ignore
                 id={id[0]._id}
@@ -170,14 +179,14 @@ export const NodesSearchSkill = ({
                 setSelected={setSelected}
                 levels={levels}
                 // setExpanding={(e: boolean) => setInFocus(e)}
-                isExpandingOpenByDefault={query == "" ? false : !index}
+                isExpandingOpenByDefault={debouncedQuery == "" ? false : !index}
               />
             ))}
           </Combobox.Options>
         )}
 
         {dataSkills?.nodes_autocomplete.length <= 0 &&
-          query !== "" &&
+          debouncedQuery !== "" &&
           filteredItems!.length === 0 &&
           isOpen && (
             <div className="absolute top-12 z-30 border-t border-gray-100 py-14 px-6 text-center text-sm sm:px-14">

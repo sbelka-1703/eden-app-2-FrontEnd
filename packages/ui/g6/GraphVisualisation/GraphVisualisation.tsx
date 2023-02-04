@@ -2,11 +2,18 @@ import "./style.css";
 
 import G6 from "@antv/g6";
 import { Members } from "@eden/package-graphql/generated";
-import React, { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+import React, { useEffect } from "react";
+
+// const G6 = dynamic(() => import("@antv/g6"), { ssr: false });
+
+// export default dynamic(() => Promise.resolve(GraphVisualisation), {
+//   ssr: false,
+// });
 
 export interface IGraphVisualisation {
-  member: Members;
-  data2: any;
+  member?: Members;
+  data2?: any;
 }
 
 const data = {
@@ -37,21 +44,26 @@ const data = {
 
 // const data = {};
 
-export const GraphVisualisation = ({ member, data2 }: IGraphVisualisation) => {
+export const GraphVisualisation = ({ data2 }: IGraphVisualisation) => {
   // export const GraphVisualisation = ({ member, data }: IGraphVisualisation) => {
   const ref = React.useRef(null);
-  let graph: any = null;
+  let graph: any;
 
-  console.log("data2 = ", data2);
+  // console.log("data = ", data);
+  // console.log("data2 = ", data2);
+
+  const refreshDragedNodePosition = (e: any) => {
+    const model = e.item.get("model");
+
+    model.fx = e.x;
+    model.fy = e.y;
+  };
 
   useEffect(() => {
-    if (!graph && data2) {
-      // Minimap
-      // const minimap = new G6.Minimap();
-
+    if (!graph) {
       // eslint-disable-next-line react-hooks/exhaustive-deps
       graph = new G6.Graph({
-        container: ref.current,
+        container: ref.current as unknown as string | HTMLElement,
         width: 600,
         height: 400,
         // plugins: [minimap],
@@ -78,7 +90,7 @@ export const GraphVisualisation = ({ member, data2 }: IGraphVisualisation) => {
         layout: {
           type: "force",
           preventOverlap: true,
-          linkDistance: (d) => {
+          linkDistance: (d: any) => {
             if (d.source.id === "node0") {
               return 100;
             }
@@ -91,12 +103,12 @@ export const GraphVisualisation = ({ member, data2 }: IGraphVisualisation) => {
 
       graph.render();
 
-      function refreshDragedNodePosition(e: any) {
-        const model = e.item.get("model");
+      // function refreshDragedNodePosition(e: any) {
+      //   const model = e.item.get("model");
 
-        model.fx = e.x;
-        model.fy = e.y;
-      }
+      //   model.fx = e.x;
+      //   model.fy = e.y;
+      // }
       graph.on("node:dragstart", (e: any) => {
         graph.layout();
         refreshDragedNodePosition(e);
@@ -105,12 +117,16 @@ export const GraphVisualisation = ({ member, data2 }: IGraphVisualisation) => {
         refreshDragedNodePosition(e);
       });
     }
-  }, [data2]);
+  }, [data]);
 
   return (
-    <>
+    <div>
       {/* <p className="pc-text-head ">🏆 Champion</p> */}
-      <div ref={ref}></div>;
-    </>
+      <div ref={ref}></div>
+    </div>
   );
 };
+
+export default dynamic(() => Promise.resolve(GraphVisualisation), {
+  ssr: false,
+});

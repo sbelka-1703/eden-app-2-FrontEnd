@@ -1,12 +1,9 @@
 /* eslint-disable camelcase */
 import { useQuery } from "@apollo/client";
 import { FIND_SUB_NODE } from "@eden/package-graphql";
-import {
-  Maybe,
-  Skills,
-  SkillType_Member,
-} from "@eden/package-graphql/generated";
+import { LevelEnum, Maybe, Skills } from "@eden/package-graphql/generated";
 import { SubNodesExpandable } from "@eden/package-ui/src";
+import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 
@@ -15,9 +12,18 @@ type LevelProp = {
   level: string;
 };
 
+type skillType = {
+  skillInfo: {
+    nodeID: string;
+    subNodeID: string;
+    subSubNodeID: string;
+  };
+  level: Maybe<LevelEnum> | undefined;
+};
+
 type ExpandableProps = {
   category: string;
-  skills?: Maybe<SkillType_Member>[];
+  skills?: skillType[];
   allSkills?: Skills[];
   isOpen?: boolean;
   selected: string | null;
@@ -52,26 +58,26 @@ export const NodesExpandable = ({
   );
   const [idSelected, setIdSelected] = useState<string | null>(null);
 
-  const useGetSubCategories = (id: string) => {
-    const { data: allSubNodesbyId } = useQuery(FIND_SUB_NODE, {
+  const { data: allSubNodesbyId, refetch: refetchSubNodesbyId } = useQuery(
+    FIND_SUB_NODE,
+    {
       variables: {
-        fields: { _id: id },
+        fields: { _id: idSelected },
       },
-      skip: query !== "",
-    });
-
-    return allSubNodesbyId ? allSubNodesbyId?.findNodes[0]?.subNodes : [];
-  };
-
-  const fetchedSubNodes = useGetSubCategories(idSelected as string);
+      skip: query !== "" && idSelected === null,
+    }
+  );
 
   useEffect(() => {
-    console.log("cateogry: ", category);
-  }, [category]);
+    if (query === "" && idSelected !== null) {
+      refetchSubNodesbyId();
+    }
+  }, [idSelected, query]);
 
   return (
-    <div className="w-full">
-      <div
+    <motion.div className="w-full">
+      <motion.div
+        layout
         onClick={() => {
           setIsExpandingOpen(!isExandingOpen);
           if (query === "") {
@@ -83,18 +89,26 @@ export const NodesExpandable = ({
         }  px-3 py-2 text-sm`}
       >
         {category}
-        <p className="text-xs font-medium underline">
+        <motion.p layout className="text-xs font-medium underline">
           {isExandingOpen ? (
             <IoIosArrowUp size="1.5rem" />
           ) : (
             <IoIosArrowDown size="1.5rem" />
           )}
-        </p>
-      </div>
-
-      {isExandingOpen &&
-        (query === "" ? fetchedSubNodes : dataSkills)?.map(
-          (s: any, index: number) => {
+        </motion.p>
+      </motion.div>
+      <motion.div
+        layout
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.3 }}
+      >
+        {isExandingOpen &&
+          (query === ""
+            ? allSubNodesbyId?.findNodes[0]?.subNodes
+            : dataSkills
+          )?.map((s: any, index: number) => {
             return (
               <SubNodesExpandable
                 query={query}
@@ -111,10 +125,11 @@ export const NodesExpandable = ({
                 // setExpanding={(e: boolean) => setInFocus(e)}
                 levels={levels}
                 isExpandingOpenByDefault={query == "" ? false : !index}
+                subSubSelectedId={isExandingOpen ? idSelected : null}
               />
             );
-          }
-        )}
-    </div>
+          })}
+      </motion.div>
+    </motion.div>
   );
 };

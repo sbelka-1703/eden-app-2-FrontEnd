@@ -104,7 +104,7 @@ export const OpenPositions = ({
               {allRoles &&
                 allRoles?.map((role: Maybe<MatchProjectRoles>, index: any) => (
                   <OpenPositionCard
-                    padding="-m-4"
+                    padding=""
                     percentage={Number(role?.matchPercentage)}
                     key={index}
                     role={role?.projectRole}

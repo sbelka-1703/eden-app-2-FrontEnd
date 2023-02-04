@@ -34,6 +34,7 @@ export const ProjectNodeMatchCard = ({
   const { project, matchPercentage, projectRoles } = matchedProject;
 
   if (!project) return null;
+
   return (
     <Card border>
       <div className={`flex justify-between`}>
