@@ -15,7 +15,7 @@ import React, { RefObject, useEffect, useRef, useState } from "react";
 const FIND_MEMBER_GRAPH = gql`
   query ($fields: findMemberGraphInput!) {
     findMemberGraph(fields: $fields) {
-      nodes {
+      nodesVisual {
         _id
         name
         type
@@ -35,7 +35,7 @@ const FIND_MEMBER_GRAPH = gql`
 const FIND_MEMBER_PROJECT_GRAPH = gql`
   query ($fields: findMemberToProjectGraphInput!) {
     findMemberToProjectGraph(fields: $fields) {
-      nodes {
+      nodesVisual {
         _id
         name
         type
@@ -55,7 +55,7 @@ const FIND_MEMBER_PROJECT_GRAPH = gql`
 const FIND_PROJECT_GRAPH = gql`
   query ($fields: findProjectGraphInput!) {
     findProjectGraph(fields: $fields) {
-      nodes {
+      nodesVisual {
         _id
         name
         type
@@ -75,7 +75,7 @@ const FIND_PROJECT_GRAPH = gql`
 const FIND_MULTIPLE_MEMBERS_PROJECTS_GRAPH = gql`
   query ($fields: findMultipleMembersProjectsGraphInput!) {
     findMultipleMembersProjectsGraph(fields: $fields) {
-      nodes {
+      nodesVisual {
         _id
         name
         type
@@ -112,7 +112,7 @@ interface DataState {
 }
 
 const data2: any = {
-  nodes: [
+  nodesVisual: [
     {
       id: "node0",
       size: 80,
@@ -257,8 +257,8 @@ const TestPage = () => {
 
     if (selectedOption == "Option 1") {
       if (settingsGraphNow.useAvatar == true) {
-        data2.nodes[0] = {
-          ...data2.nodes[0],
+        data2.nodesVisual[0] = {
+          ...data2.nodesVisual[0],
           // ----------- Shwow Avatar User ---------
           type: "image",
           img: "https://cdn.discordapp.com/avatars/961730944170090516/e5844ca759a74e995027a0e50c5cb1bf.png",
@@ -274,8 +274,8 @@ const TestPage = () => {
           // ----------- Shwow Avatar User ---------
         };
       } else {
-        data2.nodes[0] = {
-          ...data2.nodes[0],
+        data2.nodesVisual[0] = {
+          ...data2.nodesVisual[0],
           // ----------- Shwow Avatar User ---------
           type: "",
           img: "",
@@ -285,7 +285,7 @@ const TestPage = () => {
         };
       }
       setData({
-        nodes: data2.nodes,
+        nodes: data2.nodesVisual,
         edges: data2.edges,
       });
     } else if (
@@ -343,7 +343,7 @@ const TestPage = () => {
 
       // console.log("edgesDataGraph = ", edgesDataGraph);
 
-      let nodesDataGraph = dataGraphAPI.nodes.map(
+      let nodesDataGraph = dataGraphAPI.nodesVisual.map(
         (node: {
           _id: any;
           name: any;

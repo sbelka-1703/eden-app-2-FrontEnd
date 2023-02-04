@@ -7,7 +7,7 @@ import type { NextPageWithLayout } from "../../_app";
 const FIND_MEMBER_GRAPH = gql`
   query ($fields: findMemberGraphInput!) {
     findMemberGraph(fields: $fields) {
-      nodes {
+      nodesVisual {
         _id
         name
         type
@@ -23,7 +23,7 @@ const FIND_MEMBER_GRAPH = gql`
 const FIND_MEMBER_PROJECT_GRAPH = gql`
   query ($fields: findMemberToProjectGraphInput!) {
     findMemberToProjectGraph(fields: $fields) {
-      nodes {
+      nodesVisual {
         _id
         name
         type
@@ -137,7 +137,7 @@ const G6ComponentPage: NextPageWithLayout = () => {
 
       // console.log("edgesDataGraph = ", edgesDataGraph);
 
-      const nodesDataGraph = dataGraphAPI.nodes.map(
+      const nodesDataGraph = dataGraphAPI.nodesVisual.map(
         (node: { _id: any; name: any; type: string }) => {
           const extraStyle = {};
 
