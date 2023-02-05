@@ -56,23 +56,17 @@ export const RangeChartOne = ({
   const [selectedState, setSelectedState] = React.useState(initialState);
 
   const handleChange = (value: string | undefined) => {
-    const updatedState: State = {
-      unpaid: false,
-      usdc: false,
-      tokenEquivalent: false,
-    };
+    const updatedState = { ...selectedState };
 
     switch (value) {
       case "unpaid":
-        updatedState.unpaid = true;
+        updatedState.unpaid = !updatedState.unpaid;
         break;
       case "usdc":
-        updatedState.usdc = true;
+        updatedState.usdc = !updatedState.usdc;
         break;
       case "tokenEquivalent":
-        updatedState.tokenEquivalent = true;
-        break;
-      default:
+        updatedState.tokenEquivalent = !updatedState.tokenEquivalent;
         break;
     }
     setSelectedState(updatedState);
@@ -149,7 +143,7 @@ export const RangeChartOne = ({
           <div className="flex flex-col items-center text-[16px] text-gray-500">
             <p>Max</p>
 
-            {leftCaption || `$${rangesData.domain[1]} `}
+            {rightCaption || `$${rangesData.domain[1]} `}
           </div>{" "}
         </TextHeading3>
         <BarChartOne
