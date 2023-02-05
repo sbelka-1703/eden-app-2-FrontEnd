@@ -213,47 +213,59 @@ export const SendMessageToChampion = ({
 
                 {isEmpty(selectedServer) ? null : (
                   <>
-                    <div className="flex items-center ">
-                      <Avatar
-                        src={currentUser?.discordAvatar || ""}
-                        alt={currentUser?.discordName || ""}
-                        size={`sm`}
-                      />
-                      <TextHeading3 className="ml-3">
-                        @{currentUser?.discordName}
-                        {currentUser?.discriminator && (
-                          <span className="pl-1 text-sm text-gray-400">
-                            #{currentUser?.discriminator}
-                          </span>
-                        )}
-                      </TextHeading3>
-                    </div>
-                    <div className="mt-3">
-                      <TextArea
-                        rows={6}
-                        value={message}
-                        className="border-none px-0"
-                        placeholder="Start typing here"
-                        onChange={(e) => setMessage(e.target.value)}
-                      />
-                    </div>
+                    {selectedServer?.channel?.forumID ? (
+                      <>
+                        <div className="flex items-center ">
+                          <Avatar
+                            src={currentUser?.discordAvatar || ""}
+                            alt={currentUser?.discordName || ""}
+                            size={`sm`}
+                          />
+                          <TextHeading3 className="ml-3">
+                            @{currentUser?.discordName}
+                            {currentUser?.discriminator && (
+                              <span className="pl-1 text-sm text-gray-400">
+                                #{currentUser?.discriminator}
+                              </span>
+                            )}
+                          </TextHeading3>
+                        </div>
+                        <div className="mt-3">
+                          <TextArea
+                            rows={6}
+                            value={message}
+                            className="border-none px-0"
+                            placeholder="Start typing here"
+                            onChange={(e) => setMessage(e.target.value)}
+                          />
+                        </div>
+                        <div className="mt-3 text-center">
+                          <div className="inline-block">
+                            {!sendingMessage && selectedServer?._id && (
+                              <Button
+                                disabled={
+                                  message.length === 0 || sendingMessage
+                                }
+                                variant="primary"
+                                onClick={() => {
+                                  handleSendMessage();
+                                }}
+                              >
+                                Send
+                              </Button>
+                            )}
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      <div>
+                        <TextHeading3 className={`mt-24`}>
+                          Contact Server Admin to set up a channel for Eden
+                        </TextHeading3>
+                      </div>
+                    )}
                   </>
                 )}
-              </div>
-              <div className="mt-3 text-center">
-                <div className="inline-block">
-                  {!sendingMessage && selectedServer?._id && (
-                    <Button
-                      disabled={message.length === 0 || sendingMessage}
-                      variant="primary"
-                      onClick={() => {
-                        handleSendMessage();
-                      }}
-                    >
-                      Send
-                    </Button>
-                  )}
-                </div>
               </div>
             </>
           )}
