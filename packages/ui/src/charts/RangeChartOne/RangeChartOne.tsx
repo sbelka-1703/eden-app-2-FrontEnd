@@ -130,6 +130,12 @@ export const RangeChartOne = ({
 
   if (rangesData.domain.length === 0) return <div />;
 
+  const getRangeFormat = (val: number, range: number) => {
+    const _num = val - (val % range);
+
+    return _num;
+  };
+
   return (
     <div className="space-y-4">
       <div className="b relative ">
@@ -147,7 +153,7 @@ export const RangeChartOne = ({
           </div>{" "}
         </TextHeading3>
         <BarChartOne
-          data={data}
+          data={data.map((num) => getRangeFormat(num, 5))}
           domain={rangesData.domain}
           highlight={rangesData.update}
         />

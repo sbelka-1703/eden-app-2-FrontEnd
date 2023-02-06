@@ -77,7 +77,7 @@ export const BarChartOne = ({ data, highlight, domain }: BarChartOneProps) => {
       barDataOneValues.push(counts[i] || 0);
     }
     const barDataOne = {
-      labels: barDataOneValues.map((val, i) => i),
+      labels: barDataOneValues.map((val, i) => `${i} - ${i + 5}`),
       datasets: [
         {
           backgroundColor: barDataOneValues.map((val, i) =>
