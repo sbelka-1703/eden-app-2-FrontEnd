@@ -37,13 +37,7 @@ export const ProjectNodeMatchCard = ({
 
   return (
     <Card border>
-      <div className={`flex justify-between`}>
-        <div>
-          {/* <Favorite
-            favorite={isFavorite}
-            onFavorite={() => setIsFavorite((favorite) => !favorite)}
-          /> */}
-        </div>
+      <div className={`flex justify-center`}>
         <div>
           <div className={`relative flex flex-col items-center`}>
             <div className="relative">
@@ -65,7 +59,7 @@ export const ProjectNodeMatchCard = ({
             </div>
           </div>
         </div>
-        <div>
+        <div className="absolute right-2 top-2">
           <Button onClick={() => setIsOpen(!isOpen)}>More</Button>
         </div>
       </div>
