@@ -21,7 +21,7 @@ import {
   UsersToMeetCard,
 } from "@eden/package-ui";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import type { NextPageWithLayout } from "../../_app";
 
