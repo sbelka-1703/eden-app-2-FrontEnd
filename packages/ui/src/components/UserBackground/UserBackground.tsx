@@ -89,7 +89,7 @@ export const UserBackground = ({
           );
         })}
       </div>
-      {initialEndorsements && (
+      {initialEndorsements && initialEndorsements.length > 0 && (
         <div className="mt-3">
           <EndorsementList endorsements={initialEndorsements} />
         </div>
