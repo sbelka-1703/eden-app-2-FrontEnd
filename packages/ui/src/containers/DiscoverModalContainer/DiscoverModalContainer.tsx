@@ -64,6 +64,7 @@ export const DiscoverModalContainer = ({
           onNext={() => {
             setOpenModal(DiscoverModal.PREFERENCES);
           }}
+          text="members"
         />
       )}
 

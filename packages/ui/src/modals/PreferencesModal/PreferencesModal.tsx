@@ -76,12 +76,12 @@ export const PreferencesModal = ({
     <Modal open={openModal} closeOnEsc={false}>
       <div>
         <div className="flex justify-between">
-          <div className="flex-1">
-            <TextHeading3>Let me get your priorities straight.</TextHeading3>
-            <TextBody className={`font-medium text-gray-500`}>
+          <div className="flex-1 pb-8">
+            <TextHeading3>What do you want to find in Eden?</TextHeading3>
+            {/* <TextBody className={`font-medium text-gray-500`}>
               On a scale from 0 to 100, how would you rate the importance to
               each attribute
-            </TextBody>
+            </TextBody> */}
           </div>
 
           {battery && (
