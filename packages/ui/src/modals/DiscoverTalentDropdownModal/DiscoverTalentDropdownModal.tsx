@@ -1,6 +1,6 @@
 import { Maybe, Node } from "@eden/package-graphql/generated";
 import {
-  BatteryStepper,
+  // BatteryStepper,
   Button,
   Modal,
   SelectNodes,
@@ -42,8 +42,8 @@ export const DiscoverTalentDropdownModal = ({
   nodeType,
   // eslint-disable-next-line no-unused-vars
   previousValues,
-  batteryPercentage,
-}: IDiscoverTalentDropdownModalProps) => {
+}: // batteryPercentage,
+IDiscoverTalentDropdownModalProps) => {
   // console.log("hackathon talent dropdown modal", dataNodes);
   const section: Data = useMemo(
     () => ({
@@ -52,7 +52,7 @@ export const DiscoverTalentDropdownModal = ({
         ? title
         : "Alright, tell me who should I find to help you with your project?",
       subtitle: subTitle ? subTitle : "Please pick only one role for now!",
-      battery: true,
+      // battery: true,
       itemsTitle: "Focus On:",
     }),
     [title, subTitle]
@@ -104,7 +104,7 @@ export const DiscoverTalentDropdownModal = ({
                 />
               </section>
             </div>
-            <div>
+            {/* <div>
               {section?.battery && (
                 <BatteryStepper
                   batteryPercentage={batteryPercentage || 0}
@@ -115,7 +115,7 @@ export const DiscoverTalentDropdownModal = ({
                   showPercentage
                 />
               )}
-            </div>
+            </div> */}
           </div>
 
           <div className="flex justify-between">
