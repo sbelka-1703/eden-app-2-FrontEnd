@@ -3,14 +3,12 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
 };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
-  {
-    [SubKey in K]?: Maybe<T[SubKey]>;
-  };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
-  {
-    [SubKey in K]: Maybe<T[SubKey]>;
-  };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -132,7 +130,7 @@ export type GrantTemplate = {
 export type Graph = {
   __typename?: "Graph";
   edges?: Maybe<Array<Maybe<Edge>>>;
-  nodes?: Maybe<Array<Maybe<NodeVis>>>;
+  nodesVisual?: Maybe<Array<Maybe<NodeVisual>>>;
 };
 
 export type Keyword = {
@@ -241,6 +239,7 @@ export type Mutation = {
   endorseAttribute?: Maybe<Members>;
   enterRoom?: Maybe<Rooms>;
   exitRoom?: Maybe<Rooms>;
+  inputToGPT?: Maybe<InputToGptOutput>;
   login: User;
   messageToGPT?: Maybe<MessageToGptOutput>;
   newTweetProject?: Maybe<TweetsProject>;
@@ -412,6 +411,10 @@ export type MutationExitRoomArgs = {
   fields: EnterRoomInput;
 };
 
+export type MutationInputToGptArgs = {
+  fields?: InputMaybe<InputToGptInput>;
+};
+
 export type MutationLoginArgs = {
   fields: LoginInput;
 };
@@ -514,8 +517,8 @@ export type Node = {
   subNodes?: Maybe<Array<Maybe<Node>>>;
 };
 
-export type NodeVis = {
-  __typename?: "NodeVis";
+export type NodeVisual = {
+  __typename?: "NodeVisual";
   _id?: Maybe<Scalars["ID"]>;
   avatar?: Maybe<Scalars["String"]>;
   extraDistanceRation?: Maybe<Scalars["Float"]>;
@@ -1580,6 +1583,7 @@ export type FindNodeInput = {
 
 export type FindNodesInput = {
   _id?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  name?: InputMaybe<Scalars["String"]>;
   node?: InputMaybe<Scalars["String"]>;
   recalculate_en?: InputMaybe<RecalculateEnum>;
   selectedNodes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
@@ -1700,6 +1704,20 @@ export type GardenUpdateType = {
   __typename?: "gardenUpdateType";
   epic?: Maybe<Array<Maybe<Epic>>>;
   task?: Maybe<Array<Maybe<ProjectUpdate>>>;
+};
+
+export type InputToGptInput = {
+  descriptionProject?: InputMaybe<Scalars["String"]>;
+  expertiseRole?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  oneLinerProject?: InputMaybe<Scalars["String"]>;
+  titleRole?: InputMaybe<Scalars["String"]>;
+};
+
+export type InputToGptOutput = {
+  __typename?: "inputToGPTOutput";
+  benefitsRole?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  descriptionRole?: Maybe<Scalars["String"]>;
+  expenctationsRole?: Maybe<Scalars["String"]>;
 };
 
 export enum LevelEnum {
