@@ -1,37 +1,40 @@
 // import { getMember } from "@eden/package-mock";
-import { Edge, Maybe, NodeVisual } from "@eden/package-graphql/generated";
+// import { Edge, Maybe, NodeVisual } from "@eden/package-graphql/generated";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { GraphVisual2 } from "./GraphVisual2";
+import { Graph } from "./settings/interfaceGraph";
 
-interface clipCfg {
-  show?: boolean;
-  type?: string;
-  r?: number;
-}
+// import
 
-interface style {
-  fill?: string;
-  stroke?: string;
-  height?: number;
-  width?: number;
-}
+// interface clipCfg {
+//   show?: boolean;
+//   type?: string;
+//   r?: number;
+// }
 
-interface NodeVisualExtended extends NodeVisual {
-  id?: string;
-  x?: number;
-  y?: number;
-  size?: number;
-  label?: string;
-  img?: string;
-  clipCfg?: clipCfg;
-  style?: style;
-}
+// interface style {
+//   fill?: string;
+//   stroke?: string;
+//   height?: number;
+//   width?: number;
+// }
 
-export interface Graph {
-  edges?: Maybe<Array<Maybe<Edge>>>;
-  nodes?: Maybe<Array<Maybe<NodeVisualExtended>>>;
-}
+// interface NodeVisualExtended extends NodeVisual {
+//   id?: string;
+//   x?: number;
+//   y?: number;
+//   size?: number;
+//   label?: string;
+//   img?: string;
+//   clipCfg?: clipCfg;
+//   style?: style;
+// }
+
+// export interface Graph {
+//   edges?: Maybe<Array<Maybe<Edge>>>;
+//   nodes?: Maybe<Array<Maybe<NodeVisualExtended>>>;
+// }
 
 export default {
   title: "G6/GraphVisual2",
@@ -40,6 +43,7 @@ export default {
 } as ComponentMeta<typeof GraphVisual2>;
 
 const Template: ComponentStory<typeof GraphVisual2> = (args) => {
+  // console.log("nodeTypeStyle", nodeTypeStyle);
   return <GraphVisual2 {...args} />;
 };
 
@@ -100,7 +104,6 @@ const data2: Graph = {
 
 export const Default = Template.bind({});
 Default.args = {
-  // member: getMember(),
   data2: data2,
   width: 500,
   height: 500,

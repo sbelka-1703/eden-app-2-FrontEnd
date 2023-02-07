@@ -86,25 +86,6 @@ const FIND_MULTIPLE_MEMBERS_PROJECTS_GRAPH = gql`
   }
 `;
 
-// import React, { useEffect, useState } from "react";
-// import { NextPageWithLayout } from "../../_app";
-
-// interface Node {
-//   id: string;
-//   size: number;
-//   label?: string;
-//   style?: {
-//     fill: string;
-//     stroke: string;
-//     lineWidth: number;
-//   };
-// }
-
-// interface DataState {
-//   nodes: Node[];
-//   edges: { source: string; target: string }[];
-// }
-
 interface clipCfg {
   show?: boolean;
   type?: string;
