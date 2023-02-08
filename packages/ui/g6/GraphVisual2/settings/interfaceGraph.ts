@@ -13,11 +13,11 @@ interface style {
   width?: number;
 }
 
-interface NodeVisualExtended extends NodeVisual {
+export interface NodeVisualExtended extends NodeVisual {
   id?: string;
   x?: number;
   y?: number;
-  size?: number;
+  size: number;
   label?: string;
   img?: string;
   clipCfg?: clipCfg;

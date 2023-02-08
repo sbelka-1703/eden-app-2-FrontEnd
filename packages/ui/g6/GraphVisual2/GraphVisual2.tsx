@@ -5,59 +5,22 @@ import G6 from "@antv/g6";
 import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
 
+import {
+  addNodeAndEdge,
+  edgeStrength,
+  handleCheckboxChange,
+  linkDistance,
+  updateNodes,
+} from "./settings/graphFunctions";
 import { Graph } from "./settings/interfaceGraph";
-import { nodeTypeStyle } from "./settings/nodeTypeStyle";
-
-// interface clipCfg {
-//   show?: boolean;
-//   type?: string;
-//   r?: number;
-// }
-
-// interface style {
-//   fill?: string;
-//   stroke?: string;
-//   height?: number;
-//   width?: number;
-// }
-
-// interface NodeVisualExtended extends NodeVisual {
-//   id?: string;
-//   x?: number;
-//   y?: number;
-//   size?: number;
-//   label?: string;
-//   img?: string;
-//   clipCfg?: clipCfg;
-//   style?: style;
-// }
-
-// export interface Graph {
-//   edges?: Maybe<Array<Maybe<Edge>>>;
-//   nodes?: Maybe<Array<Maybe<NodeVisualExtended>>>;
-// }
-
-console.log("sdf");
 
 export interface IGraphVisualisation {
-  data2?: Graph;
-  width?: number;
-  height?: number;
+  data2: Graph;
+  width: number;
+  height: number;
 }
 
-const globalFontSize = 10;
-
 //  -------------- Graph Functions ------------
-
-const remapValue = (
-  value: number,
-  fromLow: number,
-  fromHigh: number,
-  toLow: number,
-  toHigh: number
-) => {
-  return ((value - fromLow) * (toHigh - toLow)) / (fromHigh - fromLow) + toLow;
-};
 
 const tooltip = new G6.Tooltip({
   offsetX: 10,
@@ -83,101 +46,6 @@ const tooltip = new G6.Tooltip({
   },
 });
 
-const prepareLabelOfNode = (node: any, fontSize: any) => {
-  let updateObj = {};
-
-  let flagUpdate = false;
-
-  if (node.label == undefined) return "";
-
-  const words = node.label.replace("& ", "").replace("| ", "").split(" ");
-
-  let i = 0;
-
-  let res2 = "";
-
-  if (words.length > 1) {
-    let maxEllipsisLength = 0;
-
-    while (i < words.length && i < 3) {
-      const word = words[i];
-
-      const ellipsisLength = G6.Util.getTextSize(word, fontSize)[0];
-
-      if (maxEllipsisLength < ellipsisLength) {
-        maxEllipsisLength = ellipsisLength;
-      }
-
-      res2 = res2 + word + "\n";
-      i++;
-    }
-    res2 = res2.slice(0, -1);
-
-    let parsDiff = parseInt(node.size) - parseInt(maxEllipsisLength.toString());
-
-    let sizeNew = node.size;
-
-    if (parsDiff < 0) {
-      parsDiff = parsDiff * 0.16;
-      sizeNew = node.size * 1.2;
-    } else {
-      // parsDiff = parsDiff * 0.03;
-      // sizeNew = node.size * 0.95;
-      parsDiff = parsDiff * 0;
-      sizeNew = node.size * 1;
-    }
-    const fontSizeNew = (fontSize + parsDiff).toFixed();
-
-    flagUpdate = true;
-    updateObj = {
-      label: res2,
-      size: sizeNew,
-      labelCfg: {
-        style: {
-          fontSize: fontSizeNew,
-        },
-      },
-    };
-  } else if (words.length == 1) {
-    flagUpdate = true;
-
-    const ellipsisLength = G6.Util.getTextSize(node.label, fontSize)[0];
-
-    let parsDiff = parseInt(node.size) - parseInt(ellipsisLength);
-
-    let sizeNew = node.size;
-
-    if (parsDiff < 0) {
-      parsDiff = parsDiff * 0.18;
-      sizeNew = node.size * 1.2;
-    } else {
-      // parsDiff = parsDiff * 0.03;
-      // sizeNew = node.size * 0.95;
-      parsDiff = parsDiff * 0;
-      sizeNew = node.size * 1;
-    }
-
-    const fontSizeNew = (fontSize + parsDiff).toFixed();
-
-    updateObj = {
-      size: sizeNew,
-      labelCfg: {
-        style: {
-          fontSize: fontSizeNew,
-        },
-      },
-    };
-  }
-
-  if (flagUpdate == true) {
-    graph.updateItem(node.id, {
-      ...updateObj,
-    });
-  }
-
-  return res2;
-};
-
 function refreshDragedNodePosition(e: any) {
   const model = e.item.get("model");
 
@@ -188,40 +56,6 @@ function refreshDragedNodePosition(e: any) {
 //  -------------- Graph Functions ------------
 
 let graph: any;
-
-// const G6 = dynamic(() => import("@antv/g6"), { ssr: false });
-
-// export default dynamic(() => Promise.resolve(GraphVisual2), {
-//   ssr: false,
-// });
-
-// const data = {
-//   nodes: [
-//     { id: "node0", size: 50 },
-//     { id: "node1", size: 30 },
-//     { id: "node2", size: 30 },
-//     { id: "node3", size: 30 },
-//     { id: "node4", size: 30 },
-//     { id: "node5", size: 30 },
-//     { id: "node6", size: 15 },
-//     { id: "node7", size: 15 },
-//     { id: "node8", size: 15 },
-//     { id: "node9", size: 15 },
-//   ],
-//   edges: [
-//     { source: "node0", target: "node1" },
-//     { source: "node0", target: "node2" },
-//     { source: "node0", target: "node3" },
-//     { source: "node0", target: "node4" },
-//     { source: "node0", target: "node5" },
-//     { source: "node1", target: "node6" },
-//     { source: "node1", target: "node7" },
-//     { source: "node2", target: "node8" },
-//     { source: "node2", target: "node9" },
-//   ],
-// };
-
-// const data = {};
 
 export const GraphVisual2 = ({ width, height, data2 }: IGraphVisualisation) => {
   const ref = React.useRef(null);
@@ -256,106 +90,33 @@ export const GraphVisual2 = ({ width, height, data2 }: IGraphVisualisation) => {
           type: "line",
         },
         layout: {
-          // type: "grid",
-          // begin: [0, 0],
-          // preventOverlap: true, // nodeSize or size in data is required for preventOverlap: true
-          // preventOverlapPdding: 20,
-          // nodeSize: 30,
-          // condense: false,
-          // rows: 5,
-          // cols: 5,
-          // sortBy: "degree",
           type: "force",
-          //   edgeStrength: 0.6,
           preventOverlap: true,
           strictRadial: true,
           linkDistance: (d: any) => {
-            // Change dinamicaloly the distance based on the number of connections
-            let numConnections = 0;
-
-            // console.log("d = ", d);
-
-            if (d.source.numberConnections > d.target.numberConnections) {
-              numConnections = d.source.numberConnections;
-            } else {
-              numConnections = d.target.numberConnections;
-            }
-
-            let initDistance = 90;
-
-            let randomDistance = 100;
-
-            if (numConnections > 23) {
-              initDistance = 130;
-            } else if (numConnections > 10) {
-              initDistance = 100;
-            } else {
-              randomDistance = 50;
-            }
-            // console.log("d = ", d);
-            if (d.distanceRation) {
-              let extraDistanceRation = 0;
-
-              if (d.source.extraDistanceRation) {
-                extraDistanceRation =
-                  extraDistanceRation + d.source.extraDistanceRation;
-                // console.log("d.source.label = ", d.source.label);
-              } else if (d.target.extraDistanceRation) {
-                extraDistanceRation =
-                  extraDistanceRation + d.target.extraDistanceRation;
-                // console.log("d.target.label = ", d.target.label);
-              }
-              // console.log(
-              //   "d.distanceRation + extraDistanceRation = ",
-              //   d.distanceRation + extraDistanceRation
-              // );
-              return remapValue(
-                d.distanceRation + extraDistanceRation,
-                0,
-                1,
-                25,
-                230
-              );
-            } else {
-              // console.log("change =---------- ");
-              // return 200;
-              return initDistance + Math.floor(Math.random() * randomDistance);
-            }
+            return linkDistance(d);
           },
           edgeStrength: (d: any) => {
-            if (d.distanceRation) {
-              let extraDistanceRation = 0;
-
-              if (d.source.extraDistanceRation) {
-                extraDistanceRation =
-                  extraDistanceRation + d.source.extraDistanceRation;
-              } else if (d.target.extraDistanceRation) {
-                extraDistanceRation =
-                  extraDistanceRation + d.target.extraDistanceRation;
-              }
-              return d.distanceRation + extraDistanceRation;
-            }
-            return 1;
+            return edgeStrength(d);
           },
         },
         plugins: [tooltip],
       });
 
-      updateNodes({
-        nodes: [
-          {
-            id: "node0",
-            size: 80,
-          },
-        ],
-        edges: [],
-      });
-
-      // if (
-      //   (data2.nodes && data2.nodes.length != 1) ||
-      //   (data2.nodes && data2.nodes[0].id != "node1")
-      // )
-      //   updateNodes(data2);
+      updateNodes(
+        {
+          nodes: [
+            {
+              id: "node0",
+              size: 80,
+            },
+          ],
+          edges: [],
+        },
+        graph,
+        setItems,
+        setCheckedItems
+      );
 
       graph.on("node:dragstart", (e: any) => {
         graph.layout();
@@ -374,236 +135,23 @@ export const GraphVisual2 = ({ width, height, data2 }: IGraphVisualisation) => {
       graph.on("node:click", (e: any) => {
         const nodeConnectID = e.item._cfg.id;
 
-        addNodeAndEdge(nodeConnectID, {});
-        // addNodeAndEdge(nodeConnectID, { id: "node88", size: 55 } as Node);
+        addNodeAndEdge(nodeConnectID, {}, graph);
       });
     }
-  }, []);
+  }, [data2]);
 
   useEffect(() => {
     setTimeout(function () {
-      if (
-        graph &&
-        data2?.nodes &&
-        (data2?.nodes.length != 1 || data2?.nodes[0]?.id != "node1")
-      ) {
-        if (data2?.nodes.length != 1) {
-          updateNodes(data2);
-          console.log("data2.nodes = ", data2.nodes);
-        }
-      }
+      // protect it for firing the rerender too early
+
+      updateNodes(data2, graph, setItems, setCheckedItems);
     }, 100);
   }, [data2]);
   //  -------------- Graph Setup ----------------
 
-  // ---------- Update Nodes -----------
-
-  function addNodeAndEdge(nodeConnectID: any, newNode: any) {
-    const nodeOrigin = graph.findById(nodeConnectID);
-
-    let newNodeID;
-
-    if (newNode == undefined || newNode.id == undefined) {
-      newNodeID = Math.random().toString(36).substr(2, 9);
-    } else {
-      newNodeID = newNode.id;
-    }
-
-    const model = {
-      id: newNodeID,
-      x: nodeOrigin._cfg.bboxCache.x + Math.random() * 70 + 40,
-      y: nodeOrigin._cfg.bboxCache.y + Math.random() * 70 + 40,
-
-      size: newNode.size != undefined ? newNode.size : 15,
-    };
-
-    graph.addItem("node", model);
-
-    const model2 = {
-      source: nodeConnectID,
-      target: newNodeID,
-    };
-
-    graph.addItem("edge", model2);
-
-    graph.layout();
-  }
-
-  function addNode(newNode: any) {
-    const model = {
-      ...newNode,
-    };
-
-    graph.addItem("node", model);
-
-    graph.layout();
-  }
-
-  function addEdge(newEdge: any) {
-    const model2 = {
-      source: newEdge.source,
-      target: newEdge.target,
-    };
-
-    graph.addItem("edge", model2);
-
-    graph.layout();
-  }
-
-  function updateNodes(data: any) {
-    graph.data(data);
-    graph.render();
-
-    const items: any[] = [];
-    const itemsObj = {};
-
-    // find max and min sizeRation
-    let maxNodeSizeRatio = -0.1;
-
-    let minNodeSizeRation = 1.1;
-
-    data.nodes.forEach(function (node: any) {
-      const nodeType = node.nodeType;
-
-      // @ts-ignore
-      if (nodeTypeStyle[nodeType] == undefined) return null;
-
-      // @ts-ignore
-      if (nodeTypeStyle[nodeType].sizeRatio > maxNodeSizeRatio) {
-        // @ts-ignore
-        maxNodeSizeRatio = nodeTypeStyle[nodeType].sizeRatio;
-      }
-      // @ts-ignore
-      if (nodeTypeStyle[nodeType].sizeRatio < minNodeSizeRation) {
-        // @ts-ignore
-        minNodeSizeRation = nodeTypeStyle[nodeType].sizeRatio;
-      }
-    });
-
-    data.nodes.forEach(function (node: any) {
-      if (!node) return;
-
-      let nodeType = node.nodeType;
-
-      if (node.disabledNode == true) {
-        nodeType = "disabledNode";
-      }
-
-      // -------- Change stype based on Type of Node -------
-
-      // @ts-ignore
-      if (nodeType && nodeTypeStyle[nodeType]) {
-        // SOS 🆘 you cant chanege the style of the member node because the visualisation breaks
-        if (nodeType != "Member") {
-          graph.updateItem(node.id, {
-            size: remapValue(
-              // @ts-ignore
-              nodeTypeStyle[nodeType].sizeRatio,
-              minNodeSizeRation,
-              maxNodeSizeRatio,
-              30,
-              80
-            ),
-            // size: nodeTypeStyle[nodeType].size,
-            style: {
-              // @ts-ignore
-              fill: nodeTypeStyle[nodeType].fill,
-              // @ts-ignore
-              stroke: nodeTypeStyle[nodeType].stroke,
-              lineWidth: 1,
-            },
-          });
-        } else {
-          graph.updateItem(node.id, {
-            label: "",
-          });
-        }
-      }
-      // -------- Change stype based on Type of Node -------
-
-      // -------- Change label of Node -------
-      if (node) {
-        prepareLabelOfNode(node, globalFontSize);
-      }
-      // -------- Change label of Node -------
-      // @ts-ignore
-      const typeNowStyle = nodeTypeStyle[nodeType];
-
-      // -------- Create the Menue of Graph -------
-      // @ts-ignore
-      if (itemsObj[nodeType] == undefined && typeNowStyle != undefined) {
-        // @ts-ignore
-        itemsObj[nodeType] = {
-          res: typeNowStyle,
-        };
-        items.push({
-          id: items.length,
-          name: typeNowStyle?.displayName,
-          fill: typeNowStyle?.fill,
-          stroke: typeNowStyle?.stroke,
-          nodeType: nodeType,
-          checked: true,
-        });
-      }
-      // -------- Create the Menue of Graph -------
-    });
-
-    if (items.length > 1) {
-      // Create the Menue of Graph
-      setItems(items as any);
-      setCheckedItems(items);
-    }
-
-    graph.layout();
-  }
-  // ---------- Update Nodes -----------
-
   // ---------- Menue Nodes, Check UnCheck -------------
   const [checkedItems, setCheckedItems] = useState<any>([]);
   const [items, setItems] = useState([]);
-
-  const handleCheckboxChange = (itemId: any) => {
-    const flagChange = !checkedItems[itemId].checked;
-
-    const nodeTypeNow = checkedItems[itemId].nodeType;
-
-    const addNodesObj = {};
-
-    data2?.nodes?.forEach(function (node: any) {
-      let nodeType = node.nodeType;
-
-      if (node.disabledNode == true) {
-        nodeType = "disabledNode";
-      }
-
-      if (nodeType == nodeTypeNow) {
-        if (flagChange == true) {
-          // @ts-ignore
-          addNodesObj[node.id] = node;
-          addNode(node);
-        } else {
-          const itemDel = graph.findById(node.id);
-
-          graph.removeItem(itemDel);
-        }
-      }
-    });
-
-    data2?.edges?.forEach(function (edge: any) {
-      // @ts-ignore
-      if (addNodesObj[edge.source] || addNodesObj[edge.target]) {
-        addEdge(edge);
-      }
-    });
-
-    setCheckedItems({
-      ...checkedItems,
-      [itemId]: {
-        ...checkedItems[itemId],
-        checked: !checkedItems[itemId].checked,
-      },
-    });
-  };
   // ---------- Menue Nodes, Check UnCheck -------------
 
   useEffect(() => {
@@ -643,7 +191,15 @@ export const GraphVisual2 = ({ width, height, data2 }: IGraphVisualisation) => {
                 justifyContent: "center",
                 alignItems: "center",
               }}
-              onClick={() => handleCheckboxChange(idx)}
+              onClick={() =>
+                handleCheckboxChange(
+                  idx,
+                  data2,
+                  checkedItems,
+                  setCheckedItems,
+                  graph
+                )
+              }
               value={idx}
             >
               {checkedItems[idx].checked ? (
