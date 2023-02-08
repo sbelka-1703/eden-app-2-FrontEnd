@@ -1,16 +1,10 @@
-import { AppUserLayout } from "@eden/package-ui";
-import dynamic from "next/dynamic";
-
-import MenuOption from "./MenuOption";
-const G6component = dynamic(
-  () => import("../../../src/components/G6component"),
-  {
-    ssr: false,
-  }
-);
-
 import { gql, useQuery } from "@apollo/client";
+import { Edge, Maybe, NodeVisual } from "@eden/package-graphql/generated";
+import dynamic from "next/dynamic";
 import React, { RefObject, useEffect, useRef, useState } from "react";
+
+import type { NextPageWithLayout } from "../../_app";
+import MenuOption from "./MenuOption";
 
 const FIND_MEMBER_GRAPH = gql`
   query ($fields: findMemberGraphInput!) {
@@ -92,24 +86,39 @@ const FIND_MULTIPLE_MEMBERS_PROJECTS_GRAPH = gql`
   }
 `;
 
-// import React, { useEffect, useState } from "react";
-// import { NextPageWithLayout } from "../../_app";
+interface clipCfg {
+  show?: boolean;
+  type?: string;
+  r?: number;
+}
 
-interface Node {
-  id: string;
+interface style {
+  fill?: string;
+  stroke?: string;
+  height?: number;
+  width?: number;
+}
+
+export interface NodeVisualExtended extends NodeVisual {
+  id?: string;
+  x?: number;
+  y?: number;
   size: number;
   label?: string;
-  style?: {
-    fill: string;
-    stroke: string;
-    lineWidth: number;
-  };
+  img?: string;
+  clipCfg?: clipCfg;
+  style?: style;
 }
 
-interface DataState {
-  nodes: Node[];
-  edges: { source: string; target: string }[];
+export interface Graph {
+  edges: Maybe<Array<Maybe<Edge>>>;
+  nodes: Array<Maybe<NodeVisualExtended>>;
 }
+
+// export interface GraphNV {
+//   edges: Maybe<Array<Maybe<Edge>>>;
+//   nodesVisual: Maybe<Array<Maybe<NodeVisualExtended>>>;
+// }
 
 const data2: any = {
   nodesVisual: [
@@ -125,19 +134,19 @@ const data2: any = {
       //   lineWidth: 5,
       // },
 
-      // // ----------- Shwow Avatar User ---------
-      // type: "image",
-      // img: "https://cdn.discordapp.com/avatars/961730944170090516/e5844ca759a74e995027a0e50c5cb1bf.png",
-      // clipCfg: {
-      //   show: true,
-      //   type: "circle",
-      //   r: 25,
-      // },
-      // style: {
-      //   height: 50,
-      //   width: 50,
-      // },
-      // // ----------- Shwow Avatar User ---------
+      // ----------- Shwow Avatar User ---------
+      type: "image",
+      img: "https://cdn.discordapp.com/avatars/961730944170090516/e5844ca759a74e995027a0e50c5cb1bf.png",
+      clipCfg: {
+        show: true,
+        type: "circle",
+        r: 25,
+      },
+      style: {
+        height: 50,
+        width: 50,
+      },
+      // ----------- Shwow Avatar User ---------
     },
     { id: "node1", x: 100, y: 150, size: 50, label: "sbelka" },
     { id: "node2", x: 10, y: 10, size: 50, label: "waxy" },
@@ -166,7 +175,14 @@ const data2: any = {
   ],
 };
 
-const TestPage = () => {
+const GraphVisual = dynamic(
+  () => import("@eden/package-ui/g6/GraphVisual/GraphVisual"),
+  {
+    ssr: false,
+  }
+);
+
+const GraphVisualPage: NextPageWithLayout = () => {
   const refContainer = useRef<HTMLDivElement>();
 
   const [width, setWidth] = useState<number>(0);
@@ -256,23 +272,23 @@ const TestPage = () => {
     let dataGraphAPI;
 
     if (selectedOption == "Option 1") {
-      if (settingsGraphNow.useAvatar == true) {
-        data2.nodesVisual[0] = {
-          ...data2.nodesVisual[0],
-          // ----------- Shwow Avatar User ---------
-          type: "image",
-          img: "https://cdn.discordapp.com/avatars/961730944170090516/e5844ca759a74e995027a0e50c5cb1bf.png",
-          clipCfg: {
-            show: true,
-            type: "circle",
-            r: 25,
-          },
-          style: {
-            height: 50,
-            width: 50,
-          },
-          // ----------- Shwow Avatar User ---------
-        };
+      if (settingsGraphNow.useAvatar == true && data2.nodesVisual.length > 0) {
+        // data2?.nodesVisual?[0] = {
+        //   ...data2.nodesVisual[0],
+        //   // ----------- Shwow Avatar User ---------
+        //   type: "image",
+        //   img: "https://cdn.discordapp.com/avatars/961730944170090516/e5844ca759a74e995027a0e50c5cb1bf.png",
+        //   clipCfg: {
+        //     show: true,
+        //     type: "circle",
+        //     r: 25,
+        //   },
+        //   style: {
+        //     height: 50,
+        //     width: 50,
+        //   },
+        //   // ----------- Shwow Avatar User ---------
+        // };
       } else {
         data2.nodesVisual[0] = {
           ...data2.nodesVisual[0],
@@ -438,8 +454,8 @@ const TestPage = () => {
   }, [selectedOption]);
   // }, [dataGraphAPImember, dataGraphAPImemberProject, selectedOption]);
 
-  // const [data, setData] = React.useState<DataState>(data2);
-  const [data, setData] = React.useState<DataState>({
+  // const [data, setData] = React.useState<Graph>(data2);
+  const [data, setData] = React.useState<Graph>({
     nodes: [{ id: "node1", size: 50 }],
     edges: [],
   });
@@ -520,12 +536,12 @@ const TestPage = () => {
               ref={refContainer as RefObject<HTMLDivElement>}
             >
               {data && data.nodes && data.nodes.length > 0 ? (
-                <G6component
+                <GraphVisual
+                  data2={data}
                   width={width}
                   height={refContainer.current?.offsetHeight!}
                   // height={500}
                   // height={(1.3 * width) / 4}
-                  data2={data}
                   // data2={data2}
                   // handleClick={handleClick}
                 />
@@ -551,16 +567,4 @@ const TestPage = () => {
   );
 };
 
-TestPage.getLayout = (
-  page:
-    | string
-    | number
-    | boolean
-    | React.ReactElement<any, string | React.JSXElementConstructor<any>>
-    | React.ReactFragment
-    | React.ReactPortal
-    | null
-    | undefined
-) => <AppUserLayout>{page}</AppUserLayout>;
-
-export default TestPage;
+export default GraphVisualPage;
