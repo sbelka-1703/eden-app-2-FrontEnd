@@ -25,6 +25,6 @@ export interface NodeVisualExtended extends NodeVisual {
 }
 
 export interface Graph {
-  edges?: Maybe<Array<Maybe<Edge>>>;
-  nodes?: Maybe<Array<Maybe<NodeVisualExtended>>>;
+  edges: Maybe<Array<Maybe<Edge>>>;
+  nodes: Array<Maybe<NodeVisualExtended>>;
 }
