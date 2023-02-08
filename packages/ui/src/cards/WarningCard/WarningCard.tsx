@@ -12,7 +12,6 @@ export interface WarningCardProps {
 }
 
 export const WarningCard = ({
-  // eslint-disable-next-line no-unused-vars
   profilePercentage = null,
   onClickCompleteProfile,
   text1 = "You can see projects",
@@ -20,10 +19,7 @@ export const WarningCard = ({
   textButton = "Finish your profile",
 }: WarningCardProps) => {
   return (
-    <Card
-      shadow
-      className="w-full flex-grow border-[2px] bg-white p-10 font-semibold"
-    >
+    <Card shadow className="w-full flex-grow bg-white p-4 font-semibold">
       <div className="flex flex-col content-center items-center justify-center justify-items-center tracking-wide">
         {profilePercentage !== null && (
           <div className="absolute right-4 top-4">
@@ -34,7 +30,7 @@ export const WarningCard = ({
             />
           </div>
         )}
-        <div className="mt-3">
+        <div className={``}>
           <ExclamationIcon color="#ff9c59" width={100} />
         </div>
         <div className="justify-center pb-10">
