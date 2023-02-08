@@ -376,3 +376,27 @@ export function updateNodes(
 
   graph.layout();
 }
+
+export const tooltip = new G6.Tooltip({
+  offsetX: 10,
+  offsetY: 10,
+  fixToNode: [1, 0.5],
+  // the types of items that allow the tooltip show up
+  itemTypes: ["node"],
+  // custom the tooltip's content
+  getContent: (e: any) => {
+    const outDiv = document.createElement("div");
+
+    outDiv.style.width = "fit-content";
+    outDiv.style.height = "fit-content";
+    const model = e.item.getModel();
+
+    if (model.propertise && model.propertise.name != undefined) {
+      outDiv.innerHTML = `name：${model.propertise.name}<br/>type：${model.nodeType}`;
+
+      return outDiv;
+    } else {
+      return "";
+    }
+  },
+});

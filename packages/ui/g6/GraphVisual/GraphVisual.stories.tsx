@@ -1,50 +1,17 @@
-// import { getMember } from "@eden/package-mock";
-// import { Edge, Maybe, NodeVisual } from "@eden/package-graphql/generated";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
-import { GraphVisual2 } from "./GraphVisual2";
+import { GraphVisual } from "./GraphVisual";
 import { Graph } from "./settings/interfaceGraph";
 
-// import
-
-// interface clipCfg {
-//   show?: boolean;
-//   type?: string;
-//   r?: number;
-// }
-
-// interface style {
-//   fill?: string;
-//   stroke?: string;
-//   height?: number;
-//   width?: number;
-// }
-
-// interface NodeVisualExtended extends NodeVisual {
-//   id?: string;
-//   x?: number;
-//   y?: number;
-//   size?: number;
-//   label?: string;
-//   img?: string;
-//   clipCfg?: clipCfg;
-//   style?: style;
-// }
-
-// export interface Graph {
-//   edges?: Maybe<Array<Maybe<Edge>>>;
-//   nodes?: Maybe<Array<Maybe<NodeVisualExtended>>>;
-// }
-
 export default {
-  title: "G6/GraphVisual2",
-  component: GraphVisual2,
+  title: "G6/GraphVisual",
+  component: GraphVisual,
   argTypes: {},
-} as ComponentMeta<typeof GraphVisual2>;
+} as ComponentMeta<typeof GraphVisual>;
 
-const Template: ComponentStory<typeof GraphVisual2> = (args) => {
+const Template: ComponentStory<typeof GraphVisual> = (args) => {
   // console.log("nodeTypeStyle", nodeTypeStyle);
-  return <GraphVisual2 {...args} />;
+  return <GraphVisual {...args} />;
 };
 
 const data2: Graph = {
@@ -55,12 +22,6 @@ const data2: Graph = {
       x: 5,
       y: 5,
       label: "eloi",
-      // style: {
-      //   fill: "#bae637",
-      //   stroke: "#eaff8f",
-      //   lineWidth: 5,
-      // },
-
       // ----------- Shwow Avatar User ---------
       type: "image",
       img: "https://cdn.discordapp.com/avatars/961730944170090516/e5844ca759a74e995027a0e50c5cb1bf.png",
