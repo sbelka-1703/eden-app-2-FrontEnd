@@ -49,7 +49,7 @@ export const MemberInfo = ({
         <div className="my-4 flex flex-col items-start justify-center sm:col-span-3 sm:my-0">
           {!!member?.bio && <TextLabel1>🪪 Short bio</TextLabel1>}
           {!loading ? (
-            <p className="text-soilBody font-Inter font-normal">
+            <p className="text-soilBody font-Inter whitespace-pre-wrap font-normal">
               {member?.bio}
             </p>
           ) : (

@@ -90,7 +90,9 @@ export const ProjectNodeMatchInfo = ({
           <div className={`mt-5 mb-2 flex uppercase`}>
             <TextLabel1>📃 Description of the project</TextLabel1>
           </div>
-          <div className="text-sm font-medium tracking-normal">
+          <div
+            className={`whitespace-pre-wrap text-sm font-medium tracking-normal`}
+          >
             {project?.description}
           </div>
         </div>
