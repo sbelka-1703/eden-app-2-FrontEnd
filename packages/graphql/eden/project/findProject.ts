@@ -86,6 +86,11 @@ export const FIND_PROJECT = gql`
         keyRosponsibilities
         nodes {
           nodeData {
+            aboveNodes {
+              _id
+              name
+              node
+            }
             _id
             name
             node

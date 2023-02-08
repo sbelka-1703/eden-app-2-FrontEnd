@@ -16,4 +16,5 @@ export const Default = Template.bind({});
 Default.args = {
   label: "label",
   name: "textfield",
+  labelOnTop: false,
 };

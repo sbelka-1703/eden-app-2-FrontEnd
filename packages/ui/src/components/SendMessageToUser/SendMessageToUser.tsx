@@ -68,6 +68,7 @@ export const SendMessageToUser = ({
       setTimeout(() => {
         setSendingMessage(false);
       }, 1000);
+      setIsMessageSent(true);
     },
     onError: (error) => {
       toast.error(error.message);
@@ -143,36 +144,34 @@ export const SendMessageToUser = ({
     }
 
     try {
-      await addNewChat({
+      await changeTeamMemberPhaseProject({
         variables: {
           fields: {
-            message: message,
-            projectID: project?._id!,
-            receiverID: member?._id!,
-            senderID: currentUser?._id!,
-            serverID: selectedServer?._id!,
-            threadID: threadId,
+            projectID: project?._id,
+            memberID: member?._id,
+            roleID: role?._id,
+            phase: "invited",
           },
         },
+        context: { serviceName: "soilservice" },
       });
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsMessageSent(true);
-      if (project?._id && member?._id && role?._id) {
-        changeTeamMemberPhaseProject({
+
+      if (currentUser?._id !== member?._id)
+        await addNewChat({
           variables: {
             fields: {
-              projectID: project?._id,
-              memberID: member?._id,
-              roleID: role?._id,
-              phase: "invited",
+              message: message,
+              projectID: project?._id!,
+              receiverID: member?._id!,
+              senderID: currentUser?._id!,
+              serverID: selectedServer?._id!,
+              threadID: threadId,
             },
           },
+          context: { serviceName: "soilservice" },
         });
-      } else {
-        toast.error("Something went wrong");
-      }
+    } catch (error) {
+      // console.log(error);
     }
   };
 

@@ -77,12 +77,14 @@ export const UserExperienceCard = ({
           defaultValue={experiences[index]}
         />
       ))}
-      <PlusCircleIcon
-        width={34}
-        height={34}
-        className="cursor-pointer text-slate-600"
-        onClick={handleAddExperience}
-      />
+      <div className="flex justify-center">
+        <PlusCircleIcon
+          width={34}
+          height={34}
+          className="cursor-pointer text-slate-600  hover:text-slate-400"
+          onClick={handleAddExperience}
+        />
+      </div>
     </div>
   );
 };

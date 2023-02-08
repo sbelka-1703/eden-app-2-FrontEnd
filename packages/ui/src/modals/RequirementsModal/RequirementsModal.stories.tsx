@@ -1,6 +1,5 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
-import { mockCompanyData } from "./mockData";
 import { RequirementsModal } from "./RequirementsModal";
 
 export default {
@@ -22,8 +21,6 @@ for (let i = 0; i < 1000; i++) {
 export const Default = Template.bind({});
 Default.args = {
   openModal: true,
-  matchesNumber: 29,
-  companies: mockCompanyData,
   salaryData: rangeNumbers,
   onClose: () => null,
   onSubmit: (data) => {

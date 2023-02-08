@@ -20,6 +20,8 @@ import { useContext, useState } from "react";
 import { toast } from "react-toastify";
 
 import {
+  // CreateDMApiRequestBody,
+  // CreateDMApiResponse,
   CreateMessageApiRequestBody,
   CreateThreadApiRequestBody,
   CreateThreadResponse,
@@ -101,11 +103,13 @@ export const SendMessageUserToUser = ({
       tagName: "User Introduction",
       embedMessage: embededMessage,
       senderAvatarURL: currentUser?.discordAvatar!,
-      senderName: `${currentUser?.discordName} -- Author`,
+      senderName: `${currentUser?.discordName} -- Just invite you to a conversation`,
       channelId: selectedServer.channel?.forumID!,
       threadName: `User Introduction`,
       ThreadAutoArchiveDuration: ThreadAutoArchiveDuration.OneDay,
     });
+
+    // handleDMCheck({ threadID: threadId });
 
     try {
       await createMessage({
@@ -119,6 +123,7 @@ export const SendMessageUserToUser = ({
       setSendingMessage(false);
     }
 
+    // NEED A PROJECT ID?
     // try {
     //   await addNewChat({
     //     variables: {
@@ -136,6 +141,37 @@ export const SendMessageUserToUser = ({
     //   console.log(error);
     // }
   };
+
+  // const handleDMCheck = async ({ threadID }: { threadID: string }) => {
+  //   const message = `Hello ${member?.discordName}, you just had a new connection form ${currentUser?.discordName}. threadID: ${threadID}`;
+
+  //   if (!currentUser) return;
+  //   const requestBody: CreateDMApiRequestBody = {
+  //     message: message,
+  //     recipientId: currentUser?._id as string,
+  //   };
+
+  //   try {
+  //     const response = await fetch(encodeURI("/api/discord/createDM"), {
+  //       method: "POST",
+  //       body: JSON.stringify(requestBody),
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Accept: "application/json",
+  //       },
+  //     });
+  //     const jsonData: CreateDMApiResponse = await response.json();
+
+  //     console.log(jsonData.status);
+  //     if (jsonData.status === "Done") {
+  //       console.log("done");
+  //     } else {
+  //       console.log("not done");
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   if (!member) return null;
 

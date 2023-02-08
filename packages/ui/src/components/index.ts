@@ -19,6 +19,7 @@ export * from "./SendMessageToChampion";
 export * from "./SendMessageToUser";
 export * from "./SendMessageUserToUser";
 export * from "./ServerFilter";
+export * from "./SkillSelector";
 export * from "./SocialMediaComponent";
 export * from "./SocialMediaInput";
 export * from "./SubNodesExpandable";

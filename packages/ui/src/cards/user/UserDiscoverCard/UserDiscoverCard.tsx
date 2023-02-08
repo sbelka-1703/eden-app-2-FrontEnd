@@ -47,8 +47,7 @@ export const UserDiscoverCard = ({
 
   return (
     <Card border>
-      <div className={`flex justify-between`}>
-        <div></div>
+      <div className={`flex justify-center`}>
         <div>
           <div className={`relative flex flex-col items-center`}>
             <UserWithDescription
@@ -62,7 +61,7 @@ export const UserDiscoverCard = ({
             )}
           </div>
         </div>
-        <div>
+        <div className="absolute right-2 top-2">
           <Button onClick={() => setIsOpen(!isOpen)}>More</Button>
         </div>
       </div>

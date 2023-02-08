@@ -1,4 +1,5 @@
-import { render } from "../../../utils/jest-apollo";
+import { render } from "@testing-library/react";
+
 import { WarningModal } from ".";
 
 describe("WarningModal", () => {

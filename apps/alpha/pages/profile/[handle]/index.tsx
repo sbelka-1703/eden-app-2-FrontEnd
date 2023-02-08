@@ -8,10 +8,13 @@ import {
   GridLayout,
   Loading,
   MemberInfo,
+  Missing404Section,
   SEOProfile,
 } from "@eden/package-ui";
 
-const ProfilePage = ({ member }: { member: Members }) => {
+const ProfilePage = ({ member, error }: { member: Members; error: string }) => {
+  if (error) return <Missing404Section />;
+
   return (
     <>
       <SEOProfile
@@ -60,19 +63,29 @@ const client = new ApolloClient({
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { handle } = context.query;
 
-  const { data } = await client.query({
-    query: FIND_MEMBER_INFO,
-    variables: {
-      fields: {
-        discordName: handle,
+  try {
+    const { data } = await client.query({
+      query: FIND_MEMBER_INFO,
+      variables: {
+        fields: {
+          discordName: handle,
+        },
+        ssr: true,
       },
-      ssr: true,
-    },
-  });
+    });
 
-  return {
-    props: {
-      member: data.findMember,
-    },
-  };
+    return {
+      props: {
+        member: data.findMember,
+        error: data.findMember ? null : "Profile not found",
+      },
+    };
+  } catch (error) {
+    return {
+      props: {
+        member: null,
+        error: "Profile not found",
+      },
+    };
+  }
 };

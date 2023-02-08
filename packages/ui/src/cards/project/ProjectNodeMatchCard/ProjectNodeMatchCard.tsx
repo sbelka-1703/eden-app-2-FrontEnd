@@ -15,6 +15,7 @@ import {
   ProjectNodeMatchModal,
   SocialMediaComp,
   TextHeading3,
+  TextLabel2,
 } from "@eden/package-ui";
 import { useState } from "react";
 
@@ -33,15 +34,10 @@ export const ProjectNodeMatchCard = ({
   const { project, matchPercentage, projectRoles } = matchedProject;
 
   if (!project) return null;
+
   return (
     <Card border>
-      <div className={`flex justify-between`}>
-        <div>
-          {/* <Favorite
-            favorite={isFavorite}
-            onFavorite={() => setIsFavorite((favorite) => !favorite)}
-          /> */}
-        </div>
+      <div className={`flex justify-center`}>
         <div>
           <div className={`relative flex flex-col items-center`}>
             <div className="relative">
@@ -63,7 +59,7 @@ export const ProjectNodeMatchCard = ({
             </div>
           </div>
         </div>
-        <div>
+        <div className="absolute right-2 top-2">
           <Button onClick={() => setIsOpen(!isOpen)}>More</Button>
         </div>
       </div>
@@ -97,7 +93,7 @@ export const ProjectNodeMatchCard = ({
           serverID={project?.serverID as string[]}
         />
       )}
-      <div className={`font-Inter text-sm text-zinc-500`}>🛠 Relevant Roles</div>
+      <TextLabel2>🛠 Relevant Roles</TextLabel2>
       <div>
         {projectRoles?.map((role: Maybe<MatchProjectRoles>, index: number) => (
           <Badge
@@ -107,25 +103,27 @@ export const ProjectNodeMatchCard = ({
           />
         ))}
       </div>
-      <div className={`font-Inter my-2 text-sm text-zinc-500`}>
-        👯‍♂️ Core Team
-      </div>
-      <div className="flex w-full flex-nowrap">
-        {project?.team &&
-          project?.team?.map((member: Maybe<TeamType>, index: number) => (
-            <div key={index}>
-              {member?.phase === "committed" && (
-                <div className={`-mr-3`}>
-                  <Avatar
-                    size={`xs`}
-                    src={member?.memberInfo?.discordAvatar || ""}
-                    alt={member?.memberInfo?.discordName || ""}
-                  />
-                </div>
-              )}
-            </div>
-          ))}
-      </div>
+      {project?.team && (
+        <>
+          <TextLabel2>👯‍♂️ Core Team</TextLabel2>
+          <div className="flex w-full flex-nowrap">
+            {project?.team?.map((member: Maybe<TeamType>, index: number) => (
+              <div key={index}>
+                {member?.phase === "committed" && (
+                  <div className={`-mr-3`}>
+                    <Avatar
+                      size={`xs`}
+                      src={member?.memberInfo?.discordAvatar || ""}
+                      alt={member?.memberInfo?.discordName || ""}
+                    />
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+
       {/* <div className={`font-Inter mt-2 text-sm text-zinc-500`}>
         Eden adoptiopn in Bankless is {item?.edenMembersDAO}%
       </div> */}

@@ -1,13 +1,7 @@
-/* eslint-disable camelcase */
 import { gql, useMutation } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
 import { UPDATE_MEMBER } from "@eden/package-graphql";
-import {
-  Members,
-  Mutation,
-  Project,
-  RoleType,
-} from "@eden/package-graphql/generated";
+import { Mutation, Project, RoleType } from "@eden/package-graphql/generated";
 import {
   Button,
   ConfettiContainer,
@@ -97,18 +91,15 @@ export const ApplyByRoleModal = ({
     },
   });
 
-  const [changeTeamMember_Phase_Project, {}] = useMutation(
-    SET_APPLY_TO_PROJECT,
-    {
-      onCompleted: () => {
-        if (refetch) refetch();
-        setSubmitting(false);
-      },
-      onError: (error) => {
-        console.log("onError", error);
-      },
-    }
-  );
+  const [changeTeamMemberPhaseProject, {}] = useMutation(SET_APPLY_TO_PROJECT, {
+    onCompleted: () => {
+      if (refetch) refetch();
+      setSubmitting(false);
+    },
+    onError: (error) => {
+      console.log("onError", error);
+    },
+  });
 
   const handleApply = async () => {
     // console.log("handleApply");
@@ -117,9 +108,7 @@ export const ApplyByRoleModal = ({
     updateMember({
       variables: {
         fields: {
-          // serverID: "alpha-test", // don't need this anymore
-          // TODO: Do we need to pass the current serverID?
-          _id: currentUser?._id,
+          // _id: currentUser?._id,
           serverID: currentUser?.serverID,
           bio: profileBio,
           hoursPerWeek: hoursPerWeek,
@@ -140,8 +129,9 @@ export const ApplyByRoleModal = ({
           ],
         },
       },
+      context: { serviceName: "soilservice" },
     });
-    changeTeamMember_Phase_Project({
+    changeTeamMemberPhaseProject({
       variables: {
         fields: {
           projectID: project?._id,
@@ -150,6 +140,7 @@ export const ApplyByRoleModal = ({
           phase: "engaged",
         },
       },
+      context: { serviceName: "soilservice" },
     });
 
     setApplied(true);
@@ -279,11 +270,7 @@ export const ApplyByRoleModal = ({
                 </ConfettiContainer>
               </div>
             ) : (
-              <SendMessageToChampion
-                project={project}
-                member={project?.champion as Members}
-                role={role}
-              />
+              <SendMessageToChampion project={project} role={role} />
             )}
           </>
         )}

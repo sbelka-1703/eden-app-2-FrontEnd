@@ -12,7 +12,7 @@ import {
   RoleTemplate,
 } from "@eden/package-graphql/generated";
 import {
-  BatteryStepper,
+  // BatteryStepper,
   Button,
   Card,
   FillSocialLinks,
@@ -90,9 +90,6 @@ export const FillUserProfileContainer = ({
   });
 
   const [updateMember] = useMutation(UPDATE_MEMBER, {
-    onError: () => {
-      setSubmitting(false);
-    },
     onCompleted({ updateMember }: Mutation) {
       if (!updateMember) console.log("updateMember is null");
       // console.log("updateMember", updateMember);
@@ -106,7 +103,11 @@ export const FillUserProfileContainer = ({
             memberID: currentUser?._id,
           },
         },
+        context: { serviceName: "soilservice" },
       });
+    },
+    onError: () => {
+      setSubmitting(false);
     },
   });
 
@@ -156,7 +157,6 @@ export const FillUserProfileContainer = ({
 
   const handleSubmitForm = () => {
     const fields = {
-      _id: currentUser?._id,
       bio: state?.bio,
       hoursPerWeek: state?.hoursPerWeek,
       links: state?.links?.map((item: any) => ({
@@ -233,7 +233,7 @@ export const FillUserProfileContainer = ({
   return (
     <Card className="bg-white p-4">
       <div className="scrollbar-hide h-8/10 overflow-scroll">
-        <section className="mb-4 grid grid-cols-4 gap-2">
+        <section className="mb-12 grid grid-cols-4 gap-2">
           <div className="col-span-3">
             <h2 className="mb-2 text-lg font-medium">
               {`Hello & Welcome! Let’s complete your profile step by step 🚀`}
@@ -243,9 +243,9 @@ export const FillUserProfileContainer = ({
                 other members your profile should be at least 50% complete.`}
             </p>
           </div>
-          <div className="col-span-1">
+          {/* <div className="col-span-1">
             <BatteryStepper showPercentage batteryPercentage={percentage} />
-          </div>
+          </div> */}
         </section>
         {!currentUser && (
           <div className="h-80">
