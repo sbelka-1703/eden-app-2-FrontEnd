@@ -61,9 +61,9 @@ IDiscoverTalentDropdownModalProps) => {
   );
 
   const [selectedNodes, setSelectedNodes] = useState<Node[]>(
-    currentUser
+    (currentUser
       ?.nodes!.filter((_node) => _node?.nodeData?.node === "sub_" + nodeType)
-      .map((_node) => _node?.nodeData) as Node[]
+      .map((_node) => _node?.nodeData) || []) as Node[]
   );
 
   const handleNext = () => {
