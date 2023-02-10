@@ -54,10 +54,6 @@ export default async (
       res.status(400).end();
     }
 
-    if (message) {
-      res.status(400);
-    }
-
     // Fetch forum Obj is to fetch tag ID
     const forumResponse = await myAxios.get<APIGuildForumChannel>(
       `${DISCORD_API_URL}/channels/${channelId}`
