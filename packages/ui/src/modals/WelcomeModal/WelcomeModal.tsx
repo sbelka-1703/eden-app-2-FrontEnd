@@ -18,7 +18,7 @@ export const WelcomeModal = ({
 }: IWelcomeModalProps) => {
   return (
     <Modal open={openModal} closeOnEsc={false}>
-      <div className={`mb-4`} id="modal__welcome">
+      <div className={`mb-4`}>
         <TextHeading3 className={``}>
           Welcome to Eden! I’ll find the right {text} for YOU 💫
         </TextHeading3>
