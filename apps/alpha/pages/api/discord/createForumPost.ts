@@ -42,6 +42,7 @@ export default async (
       channelId,
       threadName,
       ThreadAutoArchiveDuration,
+      enableButton,
     } = body as CreateThreadApiRequestBody;
 
     const myAxios = axios.create({
@@ -92,31 +93,33 @@ export default async (
             description: embedMessage,
           },
         ],
-        components: [
-          {
-            type: ComponentType.ActionRow,
-            components: [
+        components: enableButton
+          ? [
               {
-                custom_id: ButtonCustomId.AgreeToConnect,
-                label: "Let's connect",
-                style: ButtonStyle.Success,
-                type: ComponentType.Button,
+                type: ComponentType.ActionRow,
+                components: [
+                  {
+                    custom_id: ButtonCustomId.AgreeToConnect,
+                    label: "Let's connect",
+                    style: ButtonStyle.Success,
+                    type: ComponentType.Button,
+                  },
+                  {
+                    custom_id: ButtonCustomId.NoInterest,
+                    label: "No Interest",
+                    style: ButtonStyle.Primary,
+                    type: ComponentType.Button,
+                  },
+                  {
+                    custom_id: ButtonCustomId.RefuseConnect,
+                    label: "Don't notify me",
+                    style: ButtonStyle.Danger,
+                    type: ComponentType.Button,
+                  },
+                ],
               },
-              {
-                custom_id: ButtonCustomId.NoInterest,
-                label: "No Interest",
-                style: ButtonStyle.Primary,
-                type: ComponentType.Button,
-              },
-              {
-                custom_id: ButtonCustomId.RefuseConnect,
-                label: "Don't notify me",
-                style: ButtonStyle.Danger,
-                type: ComponentType.Button,
-              },
-            ],
-          },
-        ],
+            ]
+          : [],
       },
     });
 
