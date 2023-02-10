@@ -74,7 +74,7 @@ export const PreferencesModal = ({
 
   return (
     <Modal open={openModal} closeOnEsc={false}>
-      <div>
+      <div id="modal__preferences">
         <div className="flex justify-between">
           <div className="flex-1 pb-8">
             <TextHeading3>What do you want to find in Eden?</TextHeading3>
