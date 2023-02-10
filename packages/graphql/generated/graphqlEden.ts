@@ -71,6 +71,7 @@ export type Edge = {
   __typename?: "Edge";
   distanceRation?: Maybe<Scalars["Float"]>;
   source?: Maybe<Scalars["ID"]>;
+  style?: Maybe<StyleEdgeOut>;
   target?: Maybe<Scalars["ID"]>;
   type?: Maybe<Scalars["String"]>;
 };
@@ -525,6 +526,7 @@ export type NodeVisual = {
   fakeID?: Maybe<Array<Maybe<Scalars["ID"]>>>;
   name?: Maybe<Scalars["String"]>;
   originalNode?: Maybe<Scalars["ID"]>;
+  style?: Maybe<StyleNodeOut>;
   type?: Maybe<Scalars["String"]>;
 };
 
@@ -1034,6 +1036,25 @@ export enum SortableSkillFields {
   RegisteredAt = "registeredAt",
 }
 
+export type StyleEdgeOut = {
+  __typename?: "StyleEdgeOut";
+  distance?: Maybe<Scalars["Float"]>;
+  edgeColor?: Maybe<Scalars["String"]>;
+  strength?: Maybe<Scalars["Float"]>;
+};
+
+export type StyleIn = {
+  fill?: InputMaybe<Scalars["String"]>;
+  stroke?: InputMaybe<Scalars["String"]>;
+};
+
+export type StyleNodeOut = {
+  __typename?: "StyleNodeOut";
+  fill?: Maybe<Scalars["String"]>;
+  size?: Maybe<Scalars["Int"]>;
+  stroke?: Maybe<Scalars["String"]>;
+};
+
 export type Subscription = {
   __typename?: "Subscription";
   memberUpdated?: Maybe<Members>;
@@ -1447,6 +1468,14 @@ export type DeleteProjectInput = {
   projectID?: InputMaybe<Scalars["ID"]>;
 };
 
+export type EdgeSetting = {
+  distance?: InputMaybe<Scalars["Float"]>;
+  edgeColor?: InputMaybe<Scalars["String"]>;
+  nodeTypeSource?: InputMaybe<Scalars["String"]>;
+  nodeTypeTarget?: InputMaybe<Scalars["String"]>;
+  strength?: InputMaybe<Scalars["Float"]>;
+};
+
 export type EndorcmentInput = {
   registeredAt?: InputMaybe<Scalars["String"]>;
   skillID?: InputMaybe<Scalars["ID"]>;
@@ -1531,7 +1560,9 @@ export type FindGrantsInput = {
 };
 
 export type FindMemberGraphInput = {
+  edgeSettings?: InputMaybe<Array<InputMaybe<EdgeSetting>>>;
   memberID?: InputMaybe<Scalars["ID"]>;
+  nodeSettings?: InputMaybe<Array<InputMaybe<NodeSetting>>>;
   showAvatar?: InputMaybe<Scalars["Boolean"]>;
 };
 
@@ -1923,6 +1954,12 @@ export type NewTweetProjectInput = {
   content?: InputMaybe<Scalars["String"]>;
   projectID?: InputMaybe<Scalars["ID"]>;
   title?: InputMaybe<Scalars["String"]>;
+};
+
+export type NodeSetting = {
+  size?: InputMaybe<Scalars["Int"]>;
+  style?: InputMaybe<StyleIn>;
+  type?: InputMaybe<Scalars["String"]>;
 };
 
 export type NodesId_LevelInput = {
