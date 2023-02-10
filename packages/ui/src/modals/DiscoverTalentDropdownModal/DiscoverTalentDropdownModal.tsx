@@ -82,7 +82,7 @@ IDiscoverTalentDropdownModalProps) => {
   return (
     <Modal open={openModal} closeOnEsc={false}>
       {section && (
-        <div>
+        <div id="modal__discover-talent-dropdown">
           <div className={`mb-12 flex justify-between`}>
             <div>
               <div className="flex justify-between">
