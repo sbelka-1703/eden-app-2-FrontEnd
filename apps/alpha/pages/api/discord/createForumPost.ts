@@ -4,13 +4,15 @@ import axios, { AxiosResponse } from "axios";
 import {
   APIGuildForumChannel,
   APIThreadChannel,
+  ButtonStyle,
   ChannelType,
+  ComponentType,
   RESTPostAPIGuildForumThreadsJSONBody,
 } from "discord-api-types/v10";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getToken } from "next-auth/jwt";
 
-import { DISCORD_API_URL } from "../../../constants";
+import { ButtonCustomId, DISCORD_API_URL } from "../../../constants";
 import {
   CreateThreadApiRequestBody,
   CreateThreadResponse,
@@ -92,6 +94,31 @@ export default async (
               icon_url: senderAvatarURL,
             },
             description: embedMessage,
+          },
+        ],
+        components: [
+          {
+            type: ComponentType.ActionRow,
+            components: [
+              {
+                custom_id: ButtonCustomId.AgreeToConnect,
+                label: "Let's connect",
+                style: ButtonStyle.Success,
+                type: ComponentType.Button,
+              },
+              {
+                custom_id: ButtonCustomId.NoInterest,
+                label: "No Interest",
+                style: ButtonStyle.Primary,
+                type: ComponentType.Button,
+              },
+              {
+                custom_id: ButtonCustomId.RefuseConnect,
+                label: "Don't notify me",
+                style: ButtonStyle.Danger,
+                type: ComponentType.Button,
+              },
+            ],
           },
         ],
       },
