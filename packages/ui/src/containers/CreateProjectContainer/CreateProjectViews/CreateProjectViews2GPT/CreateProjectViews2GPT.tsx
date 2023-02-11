@@ -29,6 +29,7 @@ export const CreateProjectViews2GPT = ({
   onNext,
   setProject,
   project,
+  onReturn,
 }: CreateProjectViews2GPTProps) => {
   const { register, handleSubmit, watch, control, setValue } = useForm<Inputs>({
     defaultValues: {
