@@ -1,12 +1,12 @@
 import { gql, useQuery } from "@apollo/client";
 import { Edge, Maybe, NodeVisual } from "@eden/package-graphql/generated";
+import { edgeSettingsPreset } from "@eden/package-ui/g6/GraphVisual/data/edgeSettingsPreset";
+import { nodeSettingsPreset } from "@eden/package-ui/g6/GraphVisual/data/nodeSettingsPreset";
 import dynamic from "next/dynamic";
 import React, { RefObject, useEffect, useRef, useState } from "react";
 
 import type { NextPageWithLayout } from "../../_app";
-import { edgeSettingsPreset } from "./edgeSettingsPreset";
 import MenuOption from "./MenuOption";
-import { nodeSettingsPreset } from "./nodeSettingsPreset";
 
 const FIND_MEMBER_GRAPH = gql`
   query ($fields: findMemberGraphInput!) {
@@ -80,13 +80,25 @@ const FIND_PROJECT_GRAPH = gql`
         name
         type
         avatar
+        fakeID
         originalNode
         extraDistanceRation
+        style {
+          fill
+          stroke
+          size
+        }
       }
       edges {
         source
         target
         distanceRation
+        style {
+          fill
+          stroke
+          distance
+          strength
+        }
       }
     }
   }
@@ -100,13 +112,25 @@ const FIND_MULTIPLE_MEMBERS_PROJECTS_GRAPH = gql`
         name
         type
         avatar
-        # originalNode
-        # extraDistanceRation
+        fakeID
+        originalNode
+        extraDistanceRation
+        style {
+          fill
+          stroke
+          size
+        }
       }
       edges {
         source
         target
-        # distanceRation
+        distanceRation
+        style {
+          fill
+          stroke
+          distance
+          strength
+        }
       }
     }
   }
@@ -365,6 +389,78 @@ const GraphVisualPage: NextPageWithLayout = () => {
       fields: {
         projectID: settingsGraphs.projectID1,
         showAvatar: true,
+        nodeSettings: [
+          // nodeSettingsPreset["Member"]["main"],
+          nodeSettingsPreset["sub_typeProject"]["main"],
+          nodeSettingsPreset["typeProject"]["main"],
+          nodeSettingsPreset["sub_expertise"]["main"],
+          nodeSettingsPreset["expertise"]["main"],
+          // nodeSettingsPreset["Project"]["main"],
+          {
+            ...nodeSettingsPreset["Project"]["main"],
+            style: {
+              ...nodeSettingsPreset["Project"]["main"].style,
+              size: 90,
+            },
+          },
+          {
+            ...nodeSettingsPreset["Role"]["main"],
+            style: {
+              ...nodeSettingsPreset["Role"]["main"].style,
+              size: 70,
+            },
+          },
+          // nodeSettingsPreset["skill"]["main"],
+        ],
+        edgeSettings: [
+          // // ------ split sub_typeProject|Member -------
+          // edgeSettingsPreset["sub_typeProject|Member"]["typeProject"],
+          // edgeSettingsPreset["sub_typeProject|typeProject"]["edge"],
+          // edgeSettingsPreset["typeProject|Member"]["edge"],
+          // // ------ split sub_typeProject|Member -------
+
+          // // ------ split sub_expertise|Member -------
+          // // edgeSettingsPreset["sub_expertise|Member"]["edge"],
+          // edgeSettingsPreset["sub_expertise|Member"]["expertise"],
+          // edgeSettingsPreset["sub_expertise|expertise"]["edge"],
+          // edgeSettingsPreset["expertise|Member"]["edge"],
+          // // ------ split sub_expertise|Member -------
+
+          // ------ Project Edges -------
+          edgeSettingsPreset["Project|Role"]["edgeXL"],
+          edgeSettingsPreset["sub_expertise|Role"]["edge"],
+          edgeSettingsPreset["sub_typeProject|Role"]["edge"],
+          // edgeSettingsPreset["skill|Role"]["edge"],
+          // ------ Project Edges -------
+
+          // // // ------ skill Edges -------
+          // // edgeSettingsPreset["skill|Member"]["edge"],
+          // edgeSettingsPreset["skill|Member"]["doubleSplitEdge"],
+          // edgeSettingsPreset["skill|sub_expertise"]["edge"],
+          // // edgeSettingsPreset["sub_expertise|Member"]["edge"],
+          // // // ------ skill Edges -------
+
+          // ------ split sub_expertise|Role -------
+          edgeSettingsPreset["sub_expertise|Role"]["expertise"],
+          edgeSettingsPreset["sub_expertise|expertise"]["edge"],
+          edgeSettingsPreset["expertise|Role"]["edge"],
+          // ------ split sub_expertise|Role -------
+
+          // ------ split sub_typeProject|Role -------
+          edgeSettingsPreset["sub_typeProject|Role"]["typeProject"],
+          edgeSettingsPreset["sub_typeProject|typeProject"]["edge"],
+          edgeSettingsPreset["typeProject|Role"]["edge"],
+          // ------ split sub_typeProject|Role -------
+
+          // //  ------ Create Far Distance between member and project ------
+          edgeSettingsPreset["Role|Role"]["hiddenEdge"],
+          edgeSettingsPreset["Project|expertise"]["hiddenEdge"],
+          edgeSettingsPreset["Project|typeProject"]["hiddenEdge"],
+          // edgeSettingsPreset["expertise|expertise"]["hiddenEdge"],
+          // // edgeSettingsPreset["Project|Member"]["hiddenEdge"],
+          // edgeSettingsPreset["typeProject|expertise"]["hiddenEdge"],
+          // //  ------ Create Far Distance between member and project ------
+        ],
       },
     },
     context: { serviceName: "soilservice" },

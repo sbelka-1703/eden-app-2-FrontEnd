@@ -165,6 +165,17 @@ export const edgeSettingsPreset = {
         },
       },
     },
+    edgeXL: {
+      mainEdge: {
+        nodeTypeSource: "Project",
+        nodeTypeTarget: "Role",
+        style: {
+          color: "#E0E0E0",
+          distance: 150,
+          strength: 0.5,
+        },
+      },
+    },
   },
   "expertise|Role": {
     edge: {
@@ -173,7 +184,7 @@ export const edgeSettingsPreset = {
         nodeTypeTarget: "Role",
         style: {
           color: "#E0E0E0",
-          distance: 90,
+          distance: 160,
           strength: 0.5,
         },
       },
@@ -219,6 +230,38 @@ export const edgeSettingsPreset = {
         style: {
           color: "#E0E0E0",
           distance: 150,
+          strength: 0.5,
+        },
+      },
+    },
+    typeProject: {
+      mainEdge: {
+        nodeTypeSource: "sub_typeProject",
+        nodeTypeTarget: "Role",
+        style: {
+          color: "#E0E0E0",
+          distance: 150,
+          strength: 0.5,
+        },
+      },
+      moreThanSplit: 2,
+      splitEdge: [
+        {
+          nodeTypeSource: "sub_typeProject",
+          nodeTypeMiddle: "typeProject",
+          nodeTypeTarget: "Role",
+        },
+      ],
+    },
+  },
+  "typeProject|Role": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "typeProject",
+        nodeTypeTarget: "Role",
+        style: {
+          color: "#E0E0E0",
+          distance: 160,
           strength: 0.5,
         },
       },
@@ -294,6 +337,31 @@ export const edgeSettingsPreset = {
       hiddenEdge: true,
     },
   },
+  "Role|Role": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "Role",
+        nodeTypeTarget: "Role",
+        style: {
+          color: "#E0E0E0",
+          distance: 110,
+          strength: 0.5,
+        },
+      },
+    },
+    hiddenEdge: {
+      mainEdge: {
+        nodeTypeSource: "Role",
+        nodeTypeTarget: "Role",
+        style: {
+          color: "#FFFFFF",
+          distance: 250,
+          strength: 0.5,
+        },
+      },
+      hiddenEdge: true,
+    },
+  },
   "typeProject|expertise": {
     edge: {
       mainEdge: {
@@ -301,7 +369,7 @@ export const edgeSettingsPreset = {
         nodeTypeTarget: "expertise",
         style: {
           color: "#E0E0E0",
-          distance: 210,
+          distance: 150,
           strength: 0.5,
         },
       },
@@ -313,6 +381,81 @@ export const edgeSettingsPreset = {
         style: {
           color: "#FFFFFF",
           distance: 300,
+          strength: 0.5,
+        },
+      },
+      hiddenEdge: true,
+    },
+  },
+  "Project|expertise": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "Project",
+        nodeTypeTarget: "expertise",
+        style: {
+          color: "#E0E0E0",
+          distance: 150,
+          strength: 0.5,
+        },
+      },
+    },
+    hiddenEdge: {
+      mainEdge: {
+        nodeTypeSource: "Project",
+        nodeTypeTarget: "expertise",
+        style: {
+          color: "#FFFFFF",
+          distance: 300,
+          strength: 0.5,
+        },
+      },
+      hiddenEdge: true,
+    },
+  },
+  "Project|typeProject": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "Project",
+        nodeTypeTarget: "typeProject",
+        style: {
+          color: "#E0E0E0",
+          distance: 150,
+          strength: 0.5,
+        },
+      },
+    },
+    hiddenEdge: {
+      mainEdge: {
+        nodeTypeSource: "Project",
+        nodeTypeTarget: "typeProject",
+        style: {
+          color: "#FFFFFF",
+          distance: 300,
+          strength: 0.5,
+        },
+      },
+      hiddenEdge: true,
+    },
+  },
+  "expertise|expertise": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "expertise",
+        nodeTypeTarget: "expertise",
+        style: {
+          color: "#E0E0E0",
+          distance: 150,
+          strength: 0.5,
+        },
+      },
+    },
+    hiddenEdge: {
+      mainEdge: {
+        nodeTypeSource: "expertise",
+        nodeTypeTarget: "expertise",
+        style: {
+          color: "#FFFFFF",
+          distance: 600,
           strength: 0.5,
         },
       },

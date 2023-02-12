@@ -16,7 +16,7 @@ export const nodeSettingsPreset = {
       style: {
         fill: "#C2F7FF",
         stroke: "#9AECFE",
-        size: 70,
+        size: 60,
       },
     },
     larger: {
@@ -52,7 +52,7 @@ export const nodeSettingsPreset = {
     main: {
       type: "sub_expertise",
       style: {
-        size: 50,
+        size: 45,
         fill: "#EBFCFF",
         stroke: "#9AECaE",
       },
