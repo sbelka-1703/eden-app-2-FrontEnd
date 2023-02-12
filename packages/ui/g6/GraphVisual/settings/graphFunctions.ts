@@ -85,6 +85,16 @@ export function linkDistance(d: any) {
   // Change dinamicaloly the distance based on the number of connections
   let numConnections = 0;
 
+  // console.log("d = ", d);
+  // SOS 🆘 delete Test
+  // console.log("d = ", d);
+  if (d.style?.distance) {
+    return d.style.distance;
+  }
+  // if (d.source.id == "node0" && d.target.id == "node11") {
+  //   return 600;
+  // }
+
   if (d.source.numberConnections > d.target.numberConnections) {
     numConnections = d.source.numberConnections;
   } else {
@@ -277,8 +287,8 @@ export function updateNodes(
   const items: any[] = [];
   const itemsObj = {};
 
-  // find max and min sizeRation
-  let maxNodeSizeRatio = -0.1;
+  // -------- Change stype based on Type of Node -------
+  let maxNodeSizeRatio = -0.1; // find max and min sizeRation
 
   let minNodeSizeRation = 1.1;
 
@@ -308,8 +318,6 @@ export function updateNodes(
     if (node.disabledNode == true) {
       nodeType = "disabledNode";
     }
-
-    // -------- Change stype based on Type of Node -------
 
     // @ts-ignore
     if (nodeType && nodeTypeStyle[nodeType]) {
@@ -346,10 +354,11 @@ export function updateNodes(
       prepareLabelOfNode(node, globalFontSize, graph);
     }
     // -------- Change label of Node -------
+
+    // -------- Create the Menue of Graph -------
     // @ts-ignore
     const typeNowStyle = nodeTypeStyle[nodeType];
 
-    // -------- Create the Menue of Graph -------
     // @ts-ignore
     if (itemsObj[nodeType] == undefined && typeNowStyle != undefined) {
       // @ts-ignore
@@ -373,6 +382,58 @@ export function updateNodes(
     setItems(items as any);
     setCheckedItems(items);
   }
+
+  graph.layout();
+}
+
+export function updateNodesBackendSettings(
+  data: any,
+  graph: any
+  // setCheckedItems: any,
+  // setItems: any
+) {
+  graph.data(data);
+  graph.render();
+
+  data.nodes.forEach(function (node: any) {
+    if (!node) return;
+
+    let nodeType = node.nodeType;
+
+    if (node.disabledNode == true) {
+      nodeType = "disabledNode";
+    }
+
+    // -------- Change label of Node -------
+    prepareLabelOfNode(node, globalFontSize, graph);
+    // -------- Change label of Node -------
+
+    // -------- Change stype based on Type of Node -------
+    if (nodeType) {
+      // SOS 🆘 you cant chanege the style of the member node because the visualisation breaks
+      if (nodeType != "Member") {
+        graph.updateItem(node.id, {
+          size: node.style.size,
+          style: {
+            fill: node.style.fill,
+            stroke: node.style.stroke,
+            lineWidth: 1,
+            // @ts-ignore
+            // fill: nodeTypeStyle[nodeType].fill,
+            // @ts-ignore
+            // stroke: nodeTypeStyle[nodeType].stroke,
+          },
+          // size: nodeTypeStyle[nodeType].size,
+          // style: node.style,
+        });
+      } else {
+        graph.updateItem(node.id, {
+          label: "",
+        });
+      }
+    }
+    // -------- Change stype based on Type of Node -------
+  });
 
   graph.layout();
 }
