@@ -61,6 +61,7 @@ export interface ICreateProjectViewAddRoleGPTProps {
   roleIndex: number;
   onNewPosition: () => void;
   onLaunch: () => void;
+  descriptionOfProject?: string | null;
 }
 
 export const CreateProjectViewAddRoleGPT = ({
@@ -72,6 +73,7 @@ export const CreateProjectViewAddRoleGPT = ({
   roleIndex,
   onNewPosition,
   onLaunch,
+  descriptionOfProject,
 }: ICreateProjectViewAddRoleGPTProps) => {
   const [view, setView] = useState<"role" | "complete">("role");
 
@@ -105,6 +107,10 @@ export const CreateProjectViewAddRoleGPT = ({
   }, [watch]);
 
   const numInList = ["", "", "", ""];
+
+  const testFunction = () => {
+    console.log("descriptionOfProject form Add role", descriptionOfProject);
+  };
 
   return (
     <Card className={`scrollbar-hide h-85 overflow-y-scroll pb-6`}>
@@ -340,6 +346,7 @@ export const CreateProjectViewAddRoleGPT = ({
                       ...INITAL_ROLE,
                     });
                     onNewPosition();
+                    testFunction();
                   }}
                 >
                   Add New Position

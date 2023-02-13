@@ -15,8 +15,10 @@ import { NextPageWithLayout } from "../../_app";
 
 const TestPage: NextPageWithLayout = () => {
   const [project, setProject] = useState<Project>();
+  const [descriptionFromProjectViews, setDescriptionFromProjectViews] =
+    useState("");
 
-  const { register, handleSubmit, watch, control } = useForm({
+  const { control } = useForm({
     defaultValues: {
       example: "",
     },
@@ -37,24 +39,33 @@ const TestPage: NextPageWithLayout = () => {
               throw new Error("Function not implemented.");
             }}
           />
-          <Controller name={"example"} control={control}>
-            render=
-            {({ field: { onChange } }) => (
+          <Controller
+            name={"example"}
+            control={control}
+            render={({ field: { onChange } }) => (
               <CreateProjectViews2GPT
                 onBack={function (): void {
                   throw new Error("Function not implemented.");
                 }}
                 battery={2}
-                onNext={function (): void {
-                  throw new Error("Function not implemented.");
+                onNext={function () {
+                  console.log("Next");
                 }}
                 setProject={function (data): void {
                   console.info({ data });
                 }}
-                onReturn={(val) => onChange(val)}
+                onReturn={(val) =>
+                  onChange(
+                    () => setDescriptionFromProjectViews(val),
+                    console.log(
+                      "descriptionFromProjectViews from index",
+                      descriptionFromProjectViews
+                    )
+                  )
+                }
               />
             )}
-          </Controller>
+          ></Controller>
 
           <CreateProjectViewAddRoleGPT
             project={project}
@@ -68,6 +79,7 @@ const TestPage: NextPageWithLayout = () => {
               console.log("");
             }}
             onLaunch={() => console.log("")}
+            descriptionOfProject={descriptionFromProjectViews}
           />
         </GridItemSix>
         <GridItemSix>Test</GridItemSix>

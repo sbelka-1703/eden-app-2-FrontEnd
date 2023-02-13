@@ -21,7 +21,7 @@ export interface CreateProjectViews2GPTProps {
   onNext: () => void;
   setProject?: Dispatch<SetStateAction<any>>;
   project?: Project;
-  onReturn: React.Dispatch<React.SetStateAction<string | null>>;
+  onReturn?: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 export const CreateProjectViews2GPT = ({
@@ -57,9 +57,10 @@ export const CreateProjectViews2GPT = ({
   }, [watch]);
   /////////////
   const returnHandler = () => {
-    const value = onReturn(getValues("description"));
+    const description = getValues().description;
 
-    console.log(value);
+    onReturn(description);
+    console.log("getValues(description)+++++++", description);
   };
   /////////////////////////
 
