@@ -3,14 +3,12 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
 };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
-  {
-    [SubKey in K]?: Maybe<T[SubKey]>;
-  };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
-  {
-    [SubKey in K]: Maybe<T[SubKey]>;
-  };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -73,6 +71,7 @@ export type Edge = {
   __typename?: "Edge";
   distanceRation?: Maybe<Scalars["Float"]>;
   source?: Maybe<Scalars["ID"]>;
+  style?: Maybe<StyleEdgeOut>;
   target?: Maybe<Scalars["ID"]>;
   type?: Maybe<Scalars["String"]>;
 };
@@ -132,7 +131,7 @@ export type GrantTemplate = {
 export type Graph = {
   __typename?: "Graph";
   edges?: Maybe<Array<Maybe<Edge>>>;
-  nodes?: Maybe<Array<Maybe<NodeVis>>>;
+  nodesVisual?: Maybe<Array<Maybe<NodeVisual>>>;
 };
 
 export type Keyword = {
@@ -216,12 +215,9 @@ export type Mutation = {
   addNodesToProjectRole?: Maybe<Project>;
   addPreferencesToMember?: Maybe<Members>;
   addProjectRole?: Maybe<Project>;
-  addSkillToMember?: Maybe<Members>;
   applyGrant?: Maybe<GrantTemplate>;
-  approveOrRejectSkill?: Maybe<Skills>;
   approveTweet?: Maybe<Project>;
   changeTeamMember_Phase_Project?: Maybe<Project>;
-  createApprovedSkill?: Maybe<Skills>;
   createError?: Maybe<ErrorLog>;
   createNewEpic?: Maybe<Epic>;
   createNewRole?: Maybe<Role>;
@@ -230,8 +226,6 @@ export type Mutation = {
   createProject?: Maybe<Project>;
   createProjectUpdate?: Maybe<ProjectUpdate>;
   createRoom?: Maybe<Rooms>;
-  createSkill?: Maybe<Skills>;
-  createSkills?: Maybe<Array<Maybe<Skills>>>;
   deleteError?: Maybe<ErrorLog>;
   deleteMember?: Maybe<Members>;
   deleteNodesFromMember?: Maybe<Members>;
@@ -241,6 +235,7 @@ export type Mutation = {
   endorseAttribute?: Maybe<Members>;
   enterRoom?: Maybe<Rooms>;
   exitRoom?: Maybe<Rooms>;
+  inputToGPT?: Maybe<InputToGptOutput>;
   login: User;
   messageToGPT?: Maybe<MessageToGptOutput>;
   newTweetProject?: Maybe<TweetsProject>;
@@ -253,14 +248,13 @@ export type Mutation = {
   updateMember?: Maybe<Members>;
   updateMemberInRoom?: Maybe<Members>;
   updateMessage?: Maybe<Ai>;
+  updateNodesToGrant?: Maybe<GrantTemplate>;
   updateNodesToMember?: Maybe<Members>;
   updateNodesToMemberInRoom?: Maybe<Members>;
   updateNodesToProjectRole?: Maybe<Project>;
   updateProject?: Maybe<Project>;
   updateRoleTemplate?: Maybe<RoleTemplate>;
   updateServer?: Maybe<ServerTemplate>;
-  updateSkillCategory?: Maybe<SkillCategory>;
-  updateSkillSubCategory?: Maybe<SkillSubCategory>;
   useAI_OnMessage?: Maybe<UseAi_OnMessageOutput>;
 };
 
@@ -312,16 +306,8 @@ export type MutationAddProjectRoleArgs = {
   fields: AddProjectRoleInput;
 };
 
-export type MutationAddSkillToMemberArgs = {
-  fields: AddSkillToMember_Input;
-};
-
 export type MutationApplyGrantArgs = {
   fields?: InputMaybe<ApplyGrantInput>;
-};
-
-export type MutationApproveOrRejectSkillArgs = {
-  fields?: InputMaybe<ApproveOrRejectSkillInput>;
 };
 
 export type MutationApproveTweetArgs = {
@@ -330,10 +316,6 @@ export type MutationApproveTweetArgs = {
 
 export type MutationChangeTeamMember_Phase_ProjectArgs = {
   fields: ChangeTeamMember_Phase_ProjectInput;
-};
-
-export type MutationCreateApprovedSkillArgs = {
-  fields?: InputMaybe<CreateApprovedSkillInput>;
 };
 
 export type MutationCreateErrorArgs = {
@@ -366,14 +348,6 @@ export type MutationCreateProjectUpdateArgs = {
 
 export type MutationCreateRoomArgs = {
   fields: CreateRoomInput;
-};
-
-export type MutationCreateSkillArgs = {
-  fields?: InputMaybe<CreateSkillInput>;
-};
-
-export type MutationCreateSkillsArgs = {
-  fields?: InputMaybe<CreateSkillsInput>;
 };
 
 export type MutationDeleteErrorArgs = {
@@ -410,6 +384,10 @@ export type MutationEnterRoomArgs = {
 
 export type MutationExitRoomArgs = {
   fields: EnterRoomInput;
+};
+
+export type MutationInputToGptArgs = {
+  fields?: InputMaybe<InputToGptInput>;
 };
 
 export type MutationLoginArgs = {
@@ -460,6 +438,10 @@ export type MutationUpdateMessageArgs = {
   fields?: InputMaybe<UpdateMessageInput>;
 };
 
+export type MutationUpdateNodesToGrantArgs = {
+  fields?: InputMaybe<UpdateNodesToGrantInput>;
+};
+
 export type MutationUpdateNodesToMemberArgs = {
   fields: UpdateNodesToMemberInput;
 };
@@ -484,14 +466,6 @@ export type MutationUpdateServerArgs = {
   fields?: InputMaybe<UpdateServerInput>;
 };
 
-export type MutationUpdateSkillCategoryArgs = {
-  fields?: InputMaybe<UpdateSkillCategoryInput>;
-};
-
-export type MutationUpdateSkillSubCategoryArgs = {
-  fields?: InputMaybe<UpdateSkillSubCategoryInput>;
-};
-
 export type MutationUseAi_OnMessageArgs = {
   fields?: InputMaybe<UseAi_OnMessageInput>;
 };
@@ -514,14 +488,15 @@ export type Node = {
   subNodes?: Maybe<Array<Maybe<Node>>>;
 };
 
-export type NodeVis = {
-  __typename?: "NodeVis";
+export type NodeVisual = {
+  __typename?: "NodeVisual";
   _id?: Maybe<Scalars["ID"]>;
   avatar?: Maybe<Scalars["String"]>;
   extraDistanceRation?: Maybe<Scalars["Float"]>;
   fakeID?: Maybe<Array<Maybe<Scalars["ID"]>>>;
   name?: Maybe<Scalars["String"]>;
   originalNode?: Maybe<Scalars["ID"]>;
+  style?: Maybe<StyleNodeOut>;
   type?: Maybe<Scalars["String"]>;
 };
 
@@ -1031,6 +1006,25 @@ export enum SortableSkillFields {
   RegisteredAt = "registeredAt",
 }
 
+export type StyleEdgeOut = {
+  __typename?: "StyleEdgeOut";
+  distance?: Maybe<Scalars["Float"]>;
+  edgeColor?: Maybe<Scalars["String"]>;
+  strength?: Maybe<Scalars["Float"]>;
+};
+
+export type StyleIn = {
+  fill?: InputMaybe<Scalars["String"]>;
+  stroke?: InputMaybe<Scalars["String"]>;
+};
+
+export type StyleNodeOut = {
+  __typename?: "StyleNodeOut";
+  fill?: Maybe<Scalars["String"]>;
+  size?: Maybe<Scalars["Int"]>;
+  stroke?: Maybe<Scalars["String"]>;
+};
+
 export type Subscription = {
   __typename?: "Subscription";
   memberUpdated?: Maybe<Members>;
@@ -1444,6 +1438,14 @@ export type DeleteProjectInput = {
   projectID?: InputMaybe<Scalars["ID"]>;
 };
 
+export type EdgeSetting = {
+  distance?: InputMaybe<Scalars["Float"]>;
+  edgeColor?: InputMaybe<Scalars["String"]>;
+  nodeTypeSource?: InputMaybe<Scalars["String"]>;
+  nodeTypeTarget?: InputMaybe<Scalars["String"]>;
+  strength?: InputMaybe<Scalars["Float"]>;
+};
+
 export type EndorcmentInput = {
   registeredAt?: InputMaybe<Scalars["String"]>;
   skillID?: InputMaybe<Scalars["ID"]>;
@@ -1528,7 +1530,9 @@ export type FindGrantsInput = {
 };
 
 export type FindMemberGraphInput = {
+  edgeSettings?: InputMaybe<Array<InputMaybe<EdgeSetting>>>;
   memberID?: InputMaybe<Scalars["ID"]>;
+  nodeSettings?: InputMaybe<Array<InputMaybe<NodeSetting>>>;
   showAvatar?: InputMaybe<Scalars["Boolean"]>;
 };
 
@@ -1580,6 +1584,7 @@ export type FindNodeInput = {
 
 export type FindNodesInput = {
   _id?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  name?: InputMaybe<Scalars["String"]>;
   node?: InputMaybe<Scalars["String"]>;
   recalculate_en?: InputMaybe<RecalculateEnum>;
   selectedNodes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
@@ -1700,6 +1705,20 @@ export type GardenUpdateType = {
   __typename?: "gardenUpdateType";
   epic?: Maybe<Array<Maybe<Epic>>>;
   task?: Maybe<Array<Maybe<ProjectUpdate>>>;
+};
+
+export type InputToGptInput = {
+  descriptionProject?: InputMaybe<Scalars["String"]>;
+  expertiseRole?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  oneLinerProject?: InputMaybe<Scalars["String"]>;
+  titleRole?: InputMaybe<Scalars["String"]>;
+};
+
+export type InputToGptOutput = {
+  __typename?: "inputToGPTOutput";
+  benefitsRole?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  descriptionRole?: Maybe<Scalars["String"]>;
+  expectationsRole?: Maybe<Array<Maybe<Scalars["String"]>>>;
 };
 
 export enum LevelEnum {
@@ -1905,6 +1924,12 @@ export type NewTweetProjectInput = {
   content?: InputMaybe<Scalars["String"]>;
   projectID?: InputMaybe<Scalars["ID"]>;
   title?: InputMaybe<Scalars["String"]>;
+};
+
+export type NodeSetting = {
+  size?: InputMaybe<Scalars["Int"]>;
+  style?: InputMaybe<StyleIn>;
+  type?: InputMaybe<Scalars["String"]>;
 };
 
 export type NodesId_LevelInput = {
@@ -2336,6 +2361,13 @@ export type UpdateMemberInput = {
 export type UpdateMessageInput = {
   edenAI?: InputMaybe<EdenAiInput>;
   messageID?: InputMaybe<Scalars["ID"]>;
+};
+
+export type UpdateNodesToGrantInput = {
+  grantID?: InputMaybe<Scalars["ID"]>;
+  nodeType?: InputMaybe<Scalars["String"]>;
+  nodesID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  nodesID_level?: InputMaybe<Array<InputMaybe<NodesId_LevelInput>>>;
 };
 
 export type UpdateNodesToMemberInRoomInput = {

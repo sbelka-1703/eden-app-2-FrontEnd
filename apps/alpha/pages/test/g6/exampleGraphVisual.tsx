@@ -1,16 +1,12 @@
-import { AppUserLayout } from "@eden/package-ui";
-import dynamic from "next/dynamic";
-
-import MenuOption from "./MenuOption";
-const G6component = dynamic(
-  () => import("../../../src/components/G6component"),
-  {
-    ssr: false,
-  }
-);
-
 import { gql, useQuery } from "@apollo/client";
+import { Edge, Maybe, NodeVisual } from "@eden/package-graphql/generated";
+import { edgeSettingsPreset } from "@eden/package-ui/g6/GraphVisual/data/edgeSettingsPreset";
+import { nodeSettingsPreset } from "@eden/package-ui/g6/GraphVisual/data/nodeSettingsPreset";
+import dynamic from "next/dynamic";
 import React, { RefObject, useEffect, useRef, useState } from "react";
+
+import type { NextPageWithLayout } from "../../_app";
+import MenuOption from "./MenuOption";
 
 const FIND_MEMBER_GRAPH = gql`
   query ($fields: findMemberGraphInput!) {
@@ -20,13 +16,25 @@ const FIND_MEMBER_GRAPH = gql`
         name
         type
         avatar
+        fakeID
         originalNode
         extraDistanceRation
+        style {
+          fill
+          stroke
+          size
+        }
       }
       edges {
         source
         target
         distanceRation
+        style {
+          fill
+          stroke
+          distance
+          strength
+        }
       }
     }
   }
@@ -40,13 +48,25 @@ const FIND_MEMBER_PROJECT_GRAPH = gql`
         name
         type
         avatar
+        fakeID
         originalNode
         extraDistanceRation
+        style {
+          fill
+          stroke
+          size
+        }
       }
       edges {
         source
         target
         distanceRation
+        style {
+          fill
+          stroke
+          distance
+          strength
+        }
       }
     }
   }
@@ -60,13 +80,25 @@ const FIND_PROJECT_GRAPH = gql`
         name
         type
         avatar
+        fakeID
         originalNode
         extraDistanceRation
+        style {
+          fill
+          stroke
+          size
+        }
       }
       edges {
         source
         target
         distanceRation
+        style {
+          fill
+          stroke
+          distance
+          strength
+        }
       }
     }
   }
@@ -80,36 +112,63 @@ const FIND_MULTIPLE_MEMBERS_PROJECTS_GRAPH = gql`
         name
         type
         avatar
-        # originalNode
-        # extraDistanceRation
+        fakeID
+        originalNode
+        extraDistanceRation
+        style {
+          fill
+          stroke
+          size
+        }
       }
       edges {
         source
         target
-        # distanceRation
+        distanceRation
+        style {
+          fill
+          stroke
+          distance
+          strength
+        }
       }
     }
   }
 `;
 
-// import React, { useEffect, useState } from "react";
-// import { NextPageWithLayout } from "../../_app";
+interface clipCfg {
+  show?: boolean;
+  type?: string;
+  r?: number;
+}
 
-interface Node {
-  id: string;
+interface style {
+  fill?: string;
+  stroke?: string;
+  height?: number;
+  width?: number;
+}
+
+export interface NodeVisualExtended extends NodeVisual {
+  id?: string;
+  x?: number;
+  y?: number;
   size: number;
   label?: string;
-  style?: {
-    fill: string;
-    stroke: string;
-    lineWidth: number;
-  };
+  img?: string;
+  clipCfg?: clipCfg;
+  style?: style;
 }
 
-interface DataState {
-  nodes: Node[];
-  edges: { source: string; target: string }[];
+export interface Graph {
+  edges: Maybe<Array<Maybe<Edge>>>;
+  nodes: Array<Maybe<NodeVisualExtended>>;
 }
+
+// export interface GraphNV {
+//   edges: Maybe<Array<Maybe<Edge>>>;
+//   nodesVisual: Maybe<Array<Maybe<NodeVisualExtended>>>;
+// }
 
 const data2: any = {
   nodesVisual: [
@@ -125,19 +184,19 @@ const data2: any = {
       //   lineWidth: 5,
       // },
 
-      // // ----------- Shwow Avatar User ---------
-      // type: "image",
-      // img: "https://cdn.discordapp.com/avatars/961730944170090516/e5844ca759a74e995027a0e50c5cb1bf.png",
-      // clipCfg: {
-      //   show: true,
-      //   type: "circle",
-      //   r: 25,
-      // },
-      // style: {
-      //   height: 50,
-      //   width: 50,
-      // },
-      // // ----------- Shwow Avatar User ---------
+      // ----------- Shwow Avatar User ---------
+      type: "image",
+      img: "https://cdn.discordapp.com/avatars/961730944170090516/e5844ca759a74e995027a0e50c5cb1bf.png",
+      clipCfg: {
+        show: true,
+        type: "circle",
+        r: 25,
+      },
+      style: {
+        height: 50,
+        width: 50,
+      },
+      // ----------- Shwow Avatar User ---------
     },
     { id: "node1", x: 100, y: 150, size: 50, label: "sbelka" },
     { id: "node2", x: 10, y: 10, size: 50, label: "waxy" },
@@ -149,7 +208,7 @@ const data2: any = {
     { id: "node8", x: 700, y: 100, size: 30 },
     { id: "node9", x: 800, y: 100, size: 30 },
     { id: "node10", x: 900, y: 100, size: 30 },
-    { id: "node11", x: 1000, y: 100, size: 30 },
+    { id: "node11", x: 1000, y: 100, size: 30, label: "far" },
   ],
   edges: [
     { source: "node0", target: "node1" },
@@ -163,15 +222,30 @@ const data2: any = {
     { source: "node2", target: "node9" },
     { source: "node9", target: "node10" },
     { source: "node9", target: "node11" },
+    {
+      source: "node0",
+      target: "node11",
+      style: {
+        stroke: "#FFFFFF",
+      },
+      size: 10,
+    },
   ],
 };
 
-const TestPage = () => {
+const GraphVisual = dynamic(
+  () => import("@eden/package-ui/g6/GraphVisual/GraphVisual"),
+  {
+    ssr: false,
+  }
+);
+
+const GraphVisualPage: NextPageWithLayout = () => {
   const refContainer = useRef<HTMLDivElement>();
 
   const [width, setWidth] = useState<number>(0);
 
-  const [selectedOption, setSelectedOption] = useState<string>("Option 1");
+  const [selectedOption, setSelectedOption] = useState<string>("Option 2");
   const [settingsGraphs, setSettingsGraphs] = useState<any>({
     useAvatar: true,
     updateGraph: false,
@@ -187,9 +261,9 @@ const TestPage = () => {
     });
     // console.log("settingsNew = ", settingsNew);
 
-    if (settingsNew.updateGraph == true) {
-      updateGraph(settingsNew);
-    }
+    // if (settingsNew.updateGraph == true) {
+    //   updateGraph(settingsNew);
+    // }
 
     // refetchDataGraphAPImember();
   };
@@ -201,8 +275,50 @@ const TestPage = () => {
       fields: {
         memberID: settingsGraphs.memberID1,
         showAvatar: true,
+        nodeSettings: [
+          nodeSettingsPreset["Member"]["main"],
+          nodeSettingsPreset["sub_typeProject"]["main"],
+          nodeSettingsPreset["typeProject"]["main"],
+          nodeSettingsPreset["sub_expertise"]["main"],
+          nodeSettingsPreset["expertise"]["main"],
+          nodeSettingsPreset["skill"]["main"],
+        ],
+        edgeSettings: [
+          // ------ split sub_typeProject|Member -------
+          edgeSettingsPreset["sub_typeProject|Member"]["typeProject"],
+          edgeSettingsPreset["sub_typeProject|typeProject"]["edge"],
+          edgeSettingsPreset["typeProject|Member"]["edge"],
+          // ------ split sub_typeProject|Member -------
+
+          // ------ split skill|Member -------
+          edgeSettingsPreset["skill|Member"]["doubleSplitEdge"],
+          // edgeSettingsPreset["skill|Member"]["edge"],
+          edgeSettingsPreset["skill|sub_expertise"]["edge"],
+          // edgeSettingsPreset["sub_expertise|Member"]["edge"],
+          // ------ split skill|Member -------
+
+          // ------ split sub_expertise|Member -------
+          edgeSettingsPreset["sub_expertise|Member"]["expertise"],
+          edgeSettingsPreset["sub_expertise|expertise"]["edge"],
+          edgeSettingsPreset["expertise|Member"]["edge"],
+          // edgeSettingsPreset["sub_expertise|Member"]["edge"],
+          // ------ split sub_expertise|Member -------
+
+          // ------ Change edge --------
+          // {
+          //   ...edgeSettingsPreset["typeProject|Member"]["edge"],
+          //   mainEdge: {
+          //     ...edgeSettingsPreset["typeProject|Member"]["edge"].mainEdge,
+          //     style: {
+          //       color: "#C5947C",
+          //     },
+          //   },
+          // },
+          // ------ Change edge --------
+        ],
       },
     },
+    skip: selectedOption !== "Option 3",
     context: { serviceName: "soilservice" },
   });
 
@@ -214,8 +330,58 @@ const TestPage = () => {
           memberID: settingsGraphs.memberID1,
           projectID: settingsGraphs.projectID1,
           showAvatar: true,
+          nodeSettings: [
+            nodeSettingsPreset["Member"]["main"],
+            nodeSettingsPreset["sub_typeProject"]["main"],
+            nodeSettingsPreset["typeProject"]["main"],
+            nodeSettingsPreset["sub_expertise"]["main"],
+            nodeSettingsPreset["expertise"]["main"],
+            nodeSettingsPreset["Project"]["main"],
+            nodeSettingsPreset["Role"]["main"],
+            nodeSettingsPreset["skill"]["main"],
+          ],
+          edgeSettings: [
+            // ------ split sub_typeProject|Member -------
+            edgeSettingsPreset["sub_typeProject|Member"]["typeProject"],
+            edgeSettingsPreset["sub_typeProject|typeProject"]["edge"],
+            edgeSettingsPreset["typeProject|Member"]["edge"],
+            // ------ split sub_typeProject|Member -------
+
+            // ------ split sub_expertise|Member -------
+            // edgeSettingsPreset["sub_expertise|Member"]["edge"],
+            edgeSettingsPreset["sub_expertise|Member"]["expertise"],
+            edgeSettingsPreset["sub_expertise|expertise"]["edge"],
+            edgeSettingsPreset["expertise|Member"]["edge"],
+            // ------ split sub_expertise|Member -------
+
+            // ------ Project Edges -------
+            edgeSettingsPreset["Project|Role"]["edge"],
+            edgeSettingsPreset["sub_expertise|Role"]["edge"],
+            edgeSettingsPreset["sub_typeProject|Role"]["edge"],
+            edgeSettingsPreset["skill|Role"]["edge"],
+            // ------ Project Edges -------
+
+            // // ------ skill Edges -------
+            // edgeSettingsPreset["skill|Member"]["edge"],
+            edgeSettingsPreset["skill|Member"]["doubleSplitEdge"],
+            edgeSettingsPreset["skill|sub_expertise"]["edge"],
+            // edgeSettingsPreset["sub_expertise|Member"]["edge"],
+            // // ------ skill Edges -------
+
+            // // ------ split sub_expertise|Role -------
+            // edgeSettingsPreset["sub_expertise|Role"]["expertise"],
+            // edgeSettingsPreset["sub_expertise|expertise"]["edge"],
+            // edgeSettingsPreset["expertise|Role"]["edge"],
+            // // ------ split sub_expertise|Role -------
+
+            //  ------ Create Far Distance between member and project ------
+            edgeSettingsPreset["Project|Member"]["hiddenEdge"],
+            edgeSettingsPreset["typeProject|expertise"]["hiddenEdge"],
+            //  ------ Create Far Distance between member and project ------
+          ],
         },
       },
+      skip: selectedOption !== "Option 2",
       context: { serviceName: "soilservice" },
     }
   );
@@ -225,8 +391,81 @@ const TestPage = () => {
       fields: {
         projectID: settingsGraphs.projectID1,
         showAvatar: true,
+        nodeSettings: [
+          // nodeSettingsPreset["Member"]["main"],
+          nodeSettingsPreset["sub_typeProject"]["main"],
+          nodeSettingsPreset["typeProject"]["main"],
+          nodeSettingsPreset["sub_expertise"]["main"],
+          nodeSettingsPreset["expertise"]["main"],
+          // nodeSettingsPreset["Project"]["main"],
+          {
+            ...nodeSettingsPreset["Project"]["main"],
+            style: {
+              ...nodeSettingsPreset["Project"]["main"].style,
+              size: 90,
+            },
+          },
+          {
+            ...nodeSettingsPreset["Role"]["main"],
+            style: {
+              ...nodeSettingsPreset["Role"]["main"].style,
+              size: 70,
+            },
+          },
+          // nodeSettingsPreset["skill"]["main"],
+        ],
+        edgeSettings: [
+          // // ------ split sub_typeProject|Member -------
+          // edgeSettingsPreset["sub_typeProject|Member"]["typeProject"],
+          // edgeSettingsPreset["sub_typeProject|typeProject"]["edge"],
+          // edgeSettingsPreset["typeProject|Member"]["edge"],
+          // // ------ split sub_typeProject|Member -------
+
+          // // ------ split sub_expertise|Member -------
+          // // edgeSettingsPreset["sub_expertise|Member"]["edge"],
+          // edgeSettingsPreset["sub_expertise|Member"]["expertise"],
+          // edgeSettingsPreset["sub_expertise|expertise"]["edge"],
+          // edgeSettingsPreset["expertise|Member"]["edge"],
+          // // ------ split sub_expertise|Member -------
+
+          // ------ Project Edges -------
+          edgeSettingsPreset["Project|Role"]["edgeXL"],
+          edgeSettingsPreset["sub_expertise|Role"]["edge"],
+          edgeSettingsPreset["sub_typeProject|Role"]["edge"],
+          // edgeSettingsPreset["skill|Role"]["edge"],
+          // ------ Project Edges -------
+
+          // // // ------ skill Edges -------
+          // // edgeSettingsPreset["skill|Member"]["edge"],
+          // edgeSettingsPreset["skill|Member"]["doubleSplitEdge"],
+          // edgeSettingsPreset["skill|sub_expertise"]["edge"],
+          // // edgeSettingsPreset["sub_expertise|Member"]["edge"],
+          // // // ------ skill Edges -------
+
+          // ------ split sub_expertise|Role -------
+          edgeSettingsPreset["sub_expertise|Role"]["expertise"],
+          edgeSettingsPreset["sub_expertise|expertise"]["edge"],
+          edgeSettingsPreset["expertise|Role"]["edge"],
+          // ------ split sub_expertise|Role -------
+
+          // ------ split sub_typeProject|Role -------
+          edgeSettingsPreset["sub_typeProject|Role"]["typeProject"],
+          edgeSettingsPreset["sub_typeProject|typeProject"]["edge"],
+          edgeSettingsPreset["typeProject|Role"]["edge"],
+          // ------ split sub_typeProject|Role -------
+
+          // //  ------ Create Far Distance between member and project ------
+          edgeSettingsPreset["Role|Role"]["hiddenEdge"],
+          edgeSettingsPreset["Project|expertise"]["hiddenEdge"],
+          edgeSettingsPreset["Project|typeProject"]["hiddenEdge"],
+          // edgeSettingsPreset["expertise|expertise"]["hiddenEdge"],
+          // // edgeSettingsPreset["Project|Member"]["hiddenEdge"],
+          // edgeSettingsPreset["typeProject|expertise"]["hiddenEdge"],
+          // //  ------ Create Far Distance between member and project ------
+        ],
       },
     },
+    skip: selectedOption !== "Option 4",
     context: { serviceName: "soilservice" },
   });
 
@@ -248,6 +487,7 @@ const TestPage = () => {
           showAvatar: true,
         },
       },
+      skip: selectedOption !== "Option 5",
       context: { serviceName: "soilservice" },
     }
   );
@@ -256,23 +496,23 @@ const TestPage = () => {
     let dataGraphAPI;
 
     if (selectedOption == "Option 1") {
-      if (settingsGraphNow.useAvatar == true) {
-        data2.nodesVisual[0] = {
-          ...data2.nodesVisual[0],
-          // ----------- Shwow Avatar User ---------
-          type: "image",
-          img: "https://cdn.discordapp.com/avatars/961730944170090516/e5844ca759a74e995027a0e50c5cb1bf.png",
-          clipCfg: {
-            show: true,
-            type: "circle",
-            r: 25,
-          },
-          style: {
-            height: 50,
-            width: 50,
-          },
-          // ----------- Shwow Avatar User ---------
-        };
+      if (settingsGraphNow.useAvatar == true && data2.nodesVisual.length > 0) {
+        // data2?.nodesVisual?[0] = {
+        //   ...data2.nodesVisual[0],
+        //   // ----------- Shwow Avatar User ---------
+        //   type: "image",
+        //   img: "https://cdn.discordapp.com/avatars/961730944170090516/e5844ca759a74e995027a0e50c5cb1bf.png",
+        //   clipCfg: {
+        //     show: true,
+        //     type: "circle",
+        //     r: 25,
+        //   },
+        //   style: {
+        //     height: 50,
+        //     width: 50,
+        //   },
+        //   // ----------- Shwow Avatar User ---------
+        // };
       } else {
         data2.nodesVisual[0] = {
           ...data2.nodesVisual[0],
@@ -316,9 +556,15 @@ const TestPage = () => {
     }
 
     if (dataGraphAPI != undefined && selectedOption != "Option 1") {
+      console.log("dataGraphAPI = ", dataGraphAPI);
       const nodeDataObj: any = {};
       const edgesDataGraph = dataGraphAPI.edges.map(
-        (edge: { source: any; target: any; distanceRation: any }) => {
+        (edge: {
+          source: any;
+          target: any;
+          distanceRation: any;
+          style: any;
+        }) => {
           if (!nodeDataObj[edge.source]) {
             nodeDataObj[edge.source] = {
               numberConnections: 1,
@@ -337,6 +583,7 @@ const TestPage = () => {
             source: edge.source,
             target: edge.target,
             distanceRation: edge.distanceRation,
+            style: edge.style,
           };
         }
       );
@@ -350,6 +597,7 @@ const TestPage = () => {
           type: string;
           avatar: string;
           extraDistanceRation: Number;
+          style: any;
         }) => {
           let extraStyle = {};
 
@@ -417,6 +665,7 @@ const TestPage = () => {
             propertise: {
               name: node.name,
             },
+            style: node.style,
             ...extraStyle,
           };
         }
@@ -434,12 +683,25 @@ const TestPage = () => {
   };
 
   useEffect(() => {
-    updateGraph(settingsGraphs);
-  }, [selectedOption]);
+    if (
+      dataGraphAPImemberProject?.findMemberToProjectGraph ||
+      dataGraphAPImember?.findMemberGraph ||
+      dataGraphAPIProject?.findProjectGraph ||
+      dataGraphAPIMultipleMembersProjects?.findMultipleMembersProjectsGraph
+    ) {
+      updateGraph(settingsGraphs);
+    }
+  }, [
+    selectedOption,
+    dataGraphAPImemberProject?.findMemberToProjectGraph,
+    dataGraphAPImember?.findMemberGraph,
+    dataGraphAPIProject?.findProjectGraph,
+    dataGraphAPIMultipleMembersProjects?.findMultipleMembersProjectsGraph,
+  ]);
   // }, [dataGraphAPImember, dataGraphAPImemberProject, selectedOption]);
 
-  // const [data, setData] = React.useState<DataState>(data2);
-  const [data, setData] = React.useState<DataState>({
+  // const [data, setData] = React.useState<Graph>(data2);
+  const [data, setData] = React.useState<Graph>({
     nodes: [{ id: "node1", size: 50 }],
     edges: [],
   });
@@ -520,12 +782,12 @@ const TestPage = () => {
               ref={refContainer as RefObject<HTMLDivElement>}
             >
               {data && data.nodes && data.nodes.length > 0 ? (
-                <G6component
+                <GraphVisual
+                  data2={data}
                   width={width}
                   height={refContainer.current?.offsetHeight!}
                   // height={500}
                   // height={(1.3 * width) / 4}
-                  data2={data}
                   // data2={data2}
                   // handleClick={handleClick}
                 />
@@ -551,16 +813,4 @@ const TestPage = () => {
   );
 };
 
-TestPage.getLayout = (
-  page:
-    | string
-    | number
-    | boolean
-    | React.ReactElement<any, string | React.JSXElementConstructor<any>>
-    | React.ReactFragment
-    | React.ReactPortal
-    | null
-    | undefined
-) => <AppUserLayout>{page}</AppUserLayout>;
-
-export default TestPage;
+export default GraphVisualPage;

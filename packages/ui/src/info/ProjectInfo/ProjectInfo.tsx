@@ -58,7 +58,7 @@ export const ProjectInfo = ({ project }: IProjectInfoProps) => {
 
           <div className={`mx-4`}>
             <TextHeading2>{project?.title}</TextHeading2>
-            <div className="text-soilGray/100	font-normal	tracking-wide">
+            <div className="text-soilGray/100	whitespace-pre-wrap	font-normal tracking-wide">
               {project?.descriptionOneLine}
             </div>
             <div>
@@ -81,7 +81,7 @@ export const ProjectInfo = ({ project }: IProjectInfoProps) => {
           <div className={`mt-5 mb-2 flex uppercase`}>
             <TextLabel1>📃 Description of the project</TextLabel1>
           </div>
-          <div className="text-sm font-medium tracking-normal">
+          <div className="whitespace-pre-wrap text-sm font-medium tracking-normal">
             {project?.description}
           </div>
         </div>
