@@ -1,3 +1,4 @@
+export * from "./AdminReportsContainer";
 export * from "./ChampionNodesMatchContainer";
 export * from "./ConfettiContainer";
 export * from "./CreateProjectContainer";
