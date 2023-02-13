@@ -41,6 +41,7 @@ export const DescriptionGPT = ({
   const [messageToGPT] = useMutation(MESSAGE_TO_GPT, {
     onCompleted({ messageToGPT }) {
       if (messageToGPT) console.log("messageToGPT", messageToGPT);
+      //The line below brings messageToGPT.message to the parent
       onReturn(messageToGPT.message);
       setResponseFromGTP(messageToGPT.message);
       setState("Eden AI Refine");

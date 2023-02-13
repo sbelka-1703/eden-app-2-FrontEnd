@@ -37,7 +37,7 @@ const TestPage: NextPageWithLayout = () => {
               throw new Error("Function not implemented.");
             }}
           />
-          <Controller name={"GPT-Role"} control={control}>
+          <Controller name={"example"} control={control}>
             render=
             {({ field: { onChange } }) => (
               <CreateProjectViews2GPT
