@@ -1,7 +1,6 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
 import {
-  FIND_NODES,
   FIND_ROLE_TEMPLATES,
   UPDATE_MEMBER_IN_ROOM,
 } from "@eden/package-graphql";
@@ -16,33 +15,22 @@ import {
   Button,
   Card,
   FillSocialLinks,
-  Loading,
   Modal,
-  NodeList,
   ProgressBarGeneric,
   RoleSelector,
-  SelectBoxNode,
+  SelectNodes,
   TextArea,
   TextHeading2,
   TextHeading3,
   TextLabel1,
 } from "@eden/package-ui";
-import { forEach, isEmpty, map } from "lodash";
 import React, { useContext, useEffect, useState } from "react";
 
 import { getFillProfilePercentage } from "../../../utils/fill-profile-percentage";
 
-const ADD_NODES_TO_MEMBER_IN_ROOM = gql`
-  mutation ($fields: addNodesToMemberInRoomInput) {
-    addNodesToMemberInRoom(fields: $fields) {
-      _id
-    }
-  }
-`;
-
-const DELETE_NODES_TO_MEMBER_IN_ROOM = gql`
-  mutation ($fields: deleteNodesFromMemberInRoomInput) {
-    deleteNodesFromMemberInRoom(fields: $fields) {
+const UPDATE_NODES_TO_MEMBER_IN_ROOM = gql`
+  mutation ($fields: updateNodesToMemberInRoomInput) {
+    updateNodesToMemberInRoom(fields: $fields) {
       _id
     }
   }
@@ -93,9 +81,7 @@ export const EditProfileOnboardPartyNodesCard = ({
 
   const [updateMember] = useMutation(UPDATE_MEMBER_IN_ROOM, {});
 
-  const [addNodes] = useMutation(ADD_NODES_TO_MEMBER_IN_ROOM, {});
-
-  const [deleteNodes] = useMutation(DELETE_NODES_TO_MEMBER_IN_ROOM, {});
+  const [updateNodes] = useMutation(UPDATE_NODES_TO_MEMBER_IN_ROOM, {});
 
   const handleUpdateUser = (val: any, name: any) => {
     if (!RoomID || !currentUser) return;
@@ -137,28 +123,17 @@ export const EditProfileOnboardPartyNodesCard = ({
     });
   };
 
-  const handleSaveNodes = (data: string[]) => {
-    if (!RoomID || !currentUser) return;
-    addNodes({
-      variables: {
-        fields: {
-          memberID: currentUser._id,
-          nodesID: data,
-          RoomID: RoomID,
-        },
-      },
-      context: { serviceName: "soilservice" },
-    });
-  };
+  const handleSaveNodes = (data: Node[], nodeType: string) => {
+    const filteredNodes = data
+      .filter((_node) => _node.node === nodeType)
+      .map((_node) => _node._id);
 
-  const handleDeleteNodes = (data: string[]) => {
     if (!RoomID || !currentUser) return;
-    deleteNodes({
+    updateNodes({
       variables: {
         fields: {
-          memberID: currentUser._id,
-          nodesID: data,
-          RoomID: RoomID,
+          nodeType: nodeType,
+          nodesID: filteredNodes,
         },
       },
       context: { serviceName: "soilservice" },
@@ -223,12 +198,9 @@ export const EditProfileOnboardPartyNodesCard = ({
         title="What Subjects Do You Have Expertise In?"
         openModal={selectedModal === PARTY_STEPS.EXPERTISE}
         onClose={() => setSelectedModal("PROJECT_TYPE")}
-        onSubmit={(val: any) => {
-          handleSaveNodes(val);
+        onSubmit={(val: Node[], nodeType: string) => {
+          handleSaveNodes(val, nodeType);
           setSelectedModal("PROJECT_TYPE");
-        }}
-        onDeleteNode={(val: any) => {
-          handleDeleteNodes(val);
         }}
         nodeType={`expertise`}
         submitButtonLabel={`Next`}
@@ -238,12 +210,9 @@ export const EditProfileOnboardPartyNodesCard = ({
         title="What Types of Projects Do You Prefer?"
         openModal={selectedModal === PARTY_STEPS.PROJECT_TYPE}
         onClose={() => setSelectedModal("BIO")}
-        onSubmit={(val: any) => {
-          handleSaveNodes(val);
+        onSubmit={(val: Node[], nodeType: string) => {
+          handleSaveNodes(val, nodeType);
           setSelectedModal("BIO");
-        }}
-        onDeleteNode={(val: any) => {
-          handleDeleteNodes(val);
         }}
         nodeType={`typeProject`}
         submitButtonLabel={`Next`}
@@ -301,9 +270,9 @@ interface INodesModal {
   openModal?: boolean;
   onClose: () => void;
   // eslint-disable-next-line no-unused-vars
-  onSubmit?: (val: string[] | null) => void;
+  onSubmit?: (val: Node[], nodeType: string) => void;
   // eslint-disable-next-line no-unused-vars
-  onDeleteNode: (val: any) => void;
+  onDeleteNode?: (val: any) => void;
   welcomeMessage?: string;
   title?: string;
   subTitle?: string;
@@ -315,52 +284,25 @@ const NodesModal = ({
   openModal,
   onClose,
   onSubmit,
-  onDeleteNode,
+  // onDeleteNode,
   welcomeMessage,
   title,
   nodeType,
   submitButtonLabel = `Finished`,
 }: INodesModal) => {
   const { currentUser } = useContext(UserContext);
-
-  const [selectedItems, setSelectedItems] = useState<{
-    [key: string]: Node[];
-  }>({});
-  const [selectedNodes, setSelectedNodes] = useState<string[] | null>(null);
-
-  const { data: dataNodes } = useQuery(FIND_NODES, {
-    variables: {
-      fields: {
-        node: nodeType,
-      },
-    },
-    skip: !nodeType,
-    context: { serviceName: "soilservice" },
-  });
-
-  // if (dataNodes?.findNodes) console.log("dataNodes", dataNodes?.findNodes);
+  const [selectedItemsArray, setSelectedItemsArray] = useState<Node[]>([]);
 
   const nodesFilter =
     nodeType === "expertise" ? "sub_expertise" : "sub_typeProject";
 
-  useEffect(() => {
-    if (selectedItems) {
-      const selectedNodeId: string[] = [];
-
-      forEach(selectedItems, (el) => {
-        if (!isEmpty(el)) {
-          forEach(el, (item) => {
-            // console.log("item", item);
-            selectedNodeId.push(item?._id as string);
-          });
-        }
-      });
-      setSelectedNodes(selectedNodeId);
-    }
-  }, [selectedItems]);
-
   const handleFinish = () => {
-    onSubmit && onSubmit(selectedNodes as any);
+    // onSubmit && onSubmit(selectedNodes as any);
+    onSubmit && onSubmit(selectedItemsArray, nodesFilter);
+  };
+
+  const handleSetNodes = (val: Node[]) => {
+    setSelectedItemsArray(val);
   };
 
   return (
@@ -375,39 +317,16 @@ const NodesModal = ({
               </div>
             </div>
             <section className="mt-4">
-              <NodeList
-                closeButton
-                handleDeleteNode={(val) =>
-                  onDeleteNode([`${val?.nodeData?._id}`])
-                }
-                nodes={currentUser?.nodes?.filter(
-                  (node) => node?.nodeData?.node === nodesFilter
-                )}
-                colorRGB={`209,247,196`}
-              />
-
-              <div className="my-8 ml-4 flex h-52 w-full flex-wrap justify-center gap-2">
-                {dataNodes?.findNodes ? (
-                  <>
-                    {!isEmpty(dataNodes?.findNodes) &&
-                      map(dataNodes?.findNodes, (item: any, key: number) => (
-                        <SelectBoxNode
-                          multiple
-                          key={key}
-                          caption={item?.name}
-                          items={item?.subNodes}
-                          onChange={(val) => {
-                            setSelectedItems((prevState) => ({
-                              ...prevState,
-                              [item?._id]: val,
-                            }));
-                          }}
-                        />
-                      ))}
-                  </>
-                ) : (
-                  <Loading />
-                )}
+              <div className="py-16">
+                <SelectNodes
+                  nodeType={nodeType!}
+                  selectedNodes={currentUser?.nodes?.filter(
+                    (node) => node?.nodeData?.node === nodesFilter
+                  )}
+                  onChangeNodes={(val: Maybe<Node | undefined>[]) => {
+                    handleSetNodes(val as Node[]);
+                  }}
+                />
               </div>
             </section>
           </div>

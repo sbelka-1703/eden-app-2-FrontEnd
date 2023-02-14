@@ -53,7 +53,7 @@ export const DiscoverModalContainer = ({
           openModal={openModal === DiscoverModal.SKIP_ALERT}
           onSkipStep={() => setOpenModal(nextStep)}
           onSkipFlow={() => setOpenModal(null)}
-          percentage={50}
+          // percentage={50}
         />
       )}
 
@@ -64,26 +64,26 @@ export const DiscoverModalContainer = ({
           onNext={() => {
             setOpenModal(DiscoverModal.PREFERENCES);
           }}
+          text="members"
         />
       )}
 
       {openModal === DiscoverModal.PREFERENCES && (
         <PreferencesModal
           key={"" + project?.role?.length}
-          battery
+          // battery
           openModal={openModal === DiscoverModal.PREFERENCES}
           onClose={() => {
             setOpenModal(DiscoverModal.SKIP_ALERT);
             setNextStep(DiscoverModal.SKILLS_CATEGORY);
           }}
           onSubmit={(val) => {
-            console.log(val);
             if (val) {
               if (setPreferences) setPreferences(val);
             }
             setOpenModal(DiscoverModal.SKILLS_CATEGORY);
           }}
-          numMatches={38}
+          // numMatches={38}
         />
       )}
 
@@ -97,7 +97,7 @@ export const DiscoverModalContainer = ({
           onSubmit={(val: string[]) => {
             console.log("val", val);
             if (val) {
-              if (setNodeIdArray) setNodeIdArray([...nodeIdArray, ...val]);
+              if (setNodeIdArray) setNodeIdArray(val);
             }
             setOpenModal(DiscoverModal.SKILLS_SUBCATEGORY);
           }}
@@ -119,7 +119,7 @@ export const DiscoverModalContainer = ({
           onSubmit={(val: string[] | null) => {
             console.log("val2", val);
             if (val) {
-              if (setNodeIdArray) setNodeIdArray([...nodeIdArray, ...val]);
+              if (setNodeIdArray) setNodeIdArray(val);
             }
 
             // if (setArrayOfNodes) setArrayOfNodes(val);
@@ -136,7 +136,7 @@ export const DiscoverModalContainer = ({
       {openModal === DiscoverModal.PRIORITIZE && (
         <PrioritizeModal
           key={"" + project?.role?.length}
-          battery
+          // battery
           openModal={openModal === DiscoverModal.PRIORITIZE}
           onClose={() => {
             setOpenModal(DiscoverModal.SKIP_ALERT);
@@ -146,14 +146,14 @@ export const DiscoverModalContainer = ({
             console.log(val);
             setOpenModal(DiscoverModal.REQUIREMENTS);
           }}
-          numMatches={38}
+          // numMatches={38}
         />
       )}
 
       {openModal === DiscoverModal.REQUIREMENTS && (
         <RequirementsModal
           salaryData={rangeNumbers}
-          battery
+          // battery
           openModal={openModal === DiscoverModal.REQUIREMENTS}
           onClose={() => {
             // setOpenModal(LaunchProjectModal.PROJECT_INFO);
@@ -164,7 +164,7 @@ export const DiscoverModalContainer = ({
             setOpenModal(null);
             // setOpenModal(null);
           }}
-          numMatches={23}
+          // numMatches={23}
         />
       )}
     </>

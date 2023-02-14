@@ -1,8 +1,10 @@
 import { Button } from "@eden/package-ui";
 import { useRef, useState } from "react";
+import { AiFillCloseCircle } from "react-icons/ai";
 import { MdEditCalendar } from "react-icons/md";
 import DatePicker, { DateObject } from "react-multi-date-picker";
 import TimePicker from "react-multi-date-picker/plugins/time_picker";
+
 export interface ICalendarProps {
   label?: string;
   onlyMonthPicker?: boolean;
@@ -59,7 +61,12 @@ export const Calendar = ({
             <MdEditCalendar color="#BCBCBC" />
           </div>
           {inputValue ? (
-            <div className="font-light text-slate-600">{inputValue}</div>
+            <>
+              <div className="font-light text-slate-600">{inputValue}</div>
+              <div className="ml-2" onClick={() => setInputValue("")}>
+                <AiFillCloseCircle />
+              </div>
+            </>
           ) : (
             <div className="font-light text-slate-400">{label}</div>
           )}

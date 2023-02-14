@@ -29,7 +29,7 @@ export const SkipFlowModal = ({
             Add more data to get relevant matches!
           </TextHeading3>
 
-          <BatteryStepper batteryPercentage={percentage} />
+          {/* <BatteryStepper batteryPercentage={percentage} /> */}
         </section>
         <div className="flex justify-between">
           <div>

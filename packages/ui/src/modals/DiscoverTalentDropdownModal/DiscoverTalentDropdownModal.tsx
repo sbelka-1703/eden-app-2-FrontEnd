@@ -1,13 +1,14 @@
+import { UserContext } from "@eden/package-context";
 import { Maybe, Node } from "@eden/package-graphql/generated";
 import {
-  BatteryStepper,
+  // BatteryStepper,
   Button,
   Modal,
   SelectNodes,
   TextBody,
   TextHeading3,
 } from "@eden/package-ui";
-import { useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 
 type Data = {
@@ -42,8 +43,9 @@ export const DiscoverTalentDropdownModal = ({
   nodeType,
   // eslint-disable-next-line no-unused-vars
   previousValues,
-  batteryPercentage,
-}: IDiscoverTalentDropdownModalProps) => {
+}: // batteryPercentage,
+IDiscoverTalentDropdownModalProps) => {
+  const { currentUser } = useContext(UserContext);
   // console.log("hackathon talent dropdown modal", dataNodes);
   const section: Data = useMemo(
     () => ({
@@ -52,13 +54,17 @@ export const DiscoverTalentDropdownModal = ({
         ? title
         : "Alright, tell me who should I find to help you with your project?",
       subtitle: subTitle ? subTitle : "Please pick only one role for now!",
-      battery: true,
+      // battery: true,
       itemsTitle: "Focus On:",
     }),
     [title, subTitle]
   );
 
-  const [selectedNodes, setSelectedNodes] = useState<Node[]>([]);
+  const [selectedNodes, setSelectedNodes] = useState<Node[]>(
+    (currentUser
+      ?.nodes!.filter((_node) => _node?.nodeData?.node === "sub_" + nodeType)
+      .map((_node) => _node?.nodeData) || []) as Node[]
+  );
 
   const handleNext = () => {
     if (selectedNodes.length === 0) {
@@ -104,7 +110,7 @@ export const DiscoverTalentDropdownModal = ({
                 />
               </section>
             </div>
-            <div>
+            {/* <div>
               {section?.battery && (
                 <BatteryStepper
                   batteryPercentage={batteryPercentage || 0}
@@ -115,7 +121,7 @@ export const DiscoverTalentDropdownModal = ({
                   showPercentage
                 />
               )}
-            </div>
+            </div> */}
           </div>
 
           <div className="flex justify-between">

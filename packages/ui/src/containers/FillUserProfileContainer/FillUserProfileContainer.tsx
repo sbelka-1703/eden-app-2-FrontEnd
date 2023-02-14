@@ -12,7 +12,7 @@ import {
   RoleTemplate,
 } from "@eden/package-graphql/generated";
 import {
-  BatteryStepper,
+  // BatteryStepper,
   Button,
   Card,
   FillSocialLinks,
@@ -79,6 +79,9 @@ export const FillUserProfileContainer = ({
       if (!updateNodesToMember) console.log("updateNodesToMember is null");
       // console.log("updateNodesToMember", updateNodesToMember);
     },
+    onError: () => {
+      setSubmitting(false);
+    },
   });
 
   const [addPreferences, {}] = useMutation(ADD_PREFERENCES_TO_MEMBER, {
@@ -86,6 +89,9 @@ export const FillUserProfileContainer = ({
       if (!addPreferencesToMember)
         console.log("addPreferencesToMember is null");
       // console.log("addPreferencesToMember", addPreferencesToMember);
+    },
+    onError: () => {
+      setSubmitting(false);
     },
   });
 
@@ -100,7 +106,6 @@ export const FillUserProfileContainer = ({
             nodesID: state?.nodes
               ?.filter((node) => node?.nodeData?.node === "sub_expertise")
               .map((node) => node?.nodeData?._id),
-            memberID: currentUser?._id,
           },
         },
         context: { serviceName: "soilservice" },
@@ -233,7 +238,7 @@ export const FillUserProfileContainer = ({
   return (
     <Card className="bg-white p-4">
       <div className="scrollbar-hide h-8/10 overflow-scroll">
-        <section className="mb-4 grid grid-cols-4 gap-2">
+        <section className="mb-12 grid grid-cols-4 gap-2">
           <div className="col-span-3">
             <h2 className="mb-2 text-lg font-medium">
               {`Hello & Welcome! Let’s complete your profile step by step 🚀`}
@@ -243,9 +248,9 @@ export const FillUserProfileContainer = ({
                 other members your profile should be at least 50% complete.`}
             </p>
           </div>
-          <div className="col-span-1">
+          {/* <div className="col-span-1">
             <BatteryStepper showPercentage batteryPercentage={percentage} />
-          </div>
+          </div> */}
         </section>
         {!currentUser && (
           <div className="h-80">
@@ -331,7 +336,7 @@ export const FillUserProfileContainer = ({
                   onChange={(e) => {
                     handleSetBio(e.target.value);
                   }}
-                  value={state?.bio as string}
+                  value={(state?.bio as string) || ""}
                 />
               </>
             )}
@@ -424,8 +429,8 @@ export const FillUserProfileContainer = ({
                     handleSubmitPreferences();
                   }
                   if (step === STEPS.BIO && setStep) {
-                    if (!state?.bio || state?.bio?.length < 50) {
-                      toast.error("Bio should be at least 50 characters");
+                    if (!state?.bio || state?.bio?.length < 30) {
+                      toast.error("Bio should be at least 30 characters");
                       return;
                     }
                     if (state?.nodes?.length === 0) {

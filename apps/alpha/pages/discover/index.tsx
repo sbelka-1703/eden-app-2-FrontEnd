@@ -28,6 +28,7 @@ import {
   GridLayout,
   RoleList,
   SEO,
+  SubmenuSelector,
   UserDiscoverCard,
   WarningCard,
 } from "@eden/package-ui";
@@ -102,60 +103,65 @@ const DiscoverPage: NextPageWithLayout = () => {
       <SEO />
       <GridLayout>
         <GridItemThree>
-          {dataProject?.findProject?.role &&
-            dataProject?.findProject?.role.length > 0 && (
-              <Card className={`scrollbar-hide overflow-scroll bg-white p-4`}>
-                <RoleList
-                  roles={dataProject?.findProject?.role}
-                  addRole={false}
-                  handleSelectRole={(role) => {
-                    setSelectedRole(role);
-                    setNodesID(
-                      role?.nodes?.map(
-                        (node: Maybe<NodesType>) => node?.nodeData?._id || ""
-                      ) || null
-                    );
-                  }}
-                  selectedRole={selectedRole}
-                />
+          <Card className={`scrollbar-hide lg:h-85 overflow-scroll p-1`}>
+            <Card shadow className={"bg-white p-6"}>
+              <SubmenuSelector title={`Good Morning,`} />
+            </Card>
+            {dataProject?.findProject?.role &&
+              dataProject?.findProject?.role.length > 0 && (
+                <Card className={`scrollbar-hide overflow-scroll bg-white p-4`}>
+                  <RoleList
+                    roles={dataProject?.findProject?.role}
+                    addRole={false}
+                    handleSelectRole={(role) => {
+                      setSelectedRole(role);
+                      setNodesID(
+                        role?.nodes?.map(
+                          (node: Maybe<NodesType>) => node?.nodeData?._id || ""
+                        ) || null
+                      );
+                    }}
+                    selectedRole={selectedRole}
+                  />
+                </Card>
+              )}
+            {!dataProject?.findProject?.title && (
+              <Card
+                shadow
+                className="my-4 flex h-20 w-full flex-grow justify-center bg-white py-6 font-semibold"
+              >
+                <div className={``}>
+                  <Button
+                    variant="primary"
+                    radius="default"
+                    size="md"
+                    onClick={() => {
+                      setOpenModal(DiscoverModal.SKILLS_CATEGORY);
+                    }}
+                  >
+                    Update search parameters
+                  </Button>
+                </div>
               </Card>
             )}
-          {!dataProject?.findProject?.title && (
-            <Card
-              shadow
-              className="mb-4 w-full flex-grow border-[2px] bg-white p-10 font-semibold"
-            >
-              <div className="mt-3">
-                <Button
-                  variant="primary"
-                  radius="default"
-                  size="md"
-                  onClick={() => {
-                    setOpenModal(DiscoverModal.SKILLS_CATEGORY);
-                  }}
-                >
-                  Update search parameters
-                </Button>
-              </div>
-            </Card>
-          )}
-          {!dataProject?.findProject?.title && (
-            <WarningCard
-              // profilePercentage={getFillProfilePercentage({
-              //   ...state,
-              //   nodes:
-              //     currentUser &&
-              //     currentUser.nodes &&
-              //     currentUser.nodes?.length > (nodesID || []).length
-              //       ? currentUser.nodes
-              //       : nodesID,
-              // })}
-              onClickCompleteProfile={() => router.push(`/create-project`)}
-              text1="You can see users"
-              text2="Users can't find your project"
-              textButton="Create a project"
-            />
-          )}
+            {!dataProject?.findProject?.title && (
+              <WarningCard
+                // profilePercentage={getFillProfilePercentage({
+                //   ...state,
+                //   nodes:
+                //     currentUser &&
+                //     currentUser.nodes &&
+                //     currentUser.nodes?.length > (nodesID || []).length
+                //       ? currentUser.nodes
+                //       : nodesID,
+                // })}
+                onClickCompleteProfile={() => router.push(`/create-project`)}
+                text1="You can see users"
+                text2="Users can't find your project"
+                textButton="Create a project"
+              />
+            )}
+          </Card>
         </GridItemThree>
         <GridItemNine>
           <Card

@@ -56,7 +56,7 @@ OpenPositionCardProps) => {
             <LongText
               cutText={100}
               text={(role?.description as string) || ""}
-              className={`text-darkGreen font-Inter my-2 text-sm font-normal tracking-wide`}
+              className={`text-darkGreen font-Inter my-2 whitespace-pre-wrap text-sm font-normal tracking-wide`}
             />
           </div>
           <div className="text-xs font-medium">
@@ -85,7 +85,7 @@ OpenPositionCardProps) => {
               </div>
             </div>
           </div>
-          <div className="bottom-4 right-4 flex justify-end mt-8 h-8 w-full absolute">
+          <div className="absolute bottom-4 right-4 mt-8 flex h-8 w-full justify-end">
             {/* TODO: Refer feature is not developed yet */}
             {/* <Button
               variant="secondary"
