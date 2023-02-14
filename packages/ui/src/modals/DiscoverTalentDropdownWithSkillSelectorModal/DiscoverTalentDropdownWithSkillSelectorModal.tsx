@@ -76,7 +76,6 @@ export const DiscoverTalentDropdownWithSkillSelectorModal = ({
             } as Node)
         );
 
-        debugger;
         onSubmit!(
           [...selectedNodes, ..._mappedNodes].map((_node) => _node._id!)
         );
@@ -122,13 +121,13 @@ export const DiscoverTalentDropdownWithSkillSelectorModal = ({
                   }}
                 />
                 <div
-                  className={`flex justify-center items-center mt-5 mx-auto w-9/12 ${
+                  className={`mx-auto mt-5 flex w-9/12 items-center justify-center ${
                     showAdvancedSkill && "mb-52"
                   }`}
                 >
                   {!showAdvancedSkill && (
                     <button
-                      className="cursor-pointer text-gray-500 hover:text-gray-700 underline"
+                      className="cursor-pointer text-gray-500 underline hover:text-gray-700"
                       onClick={() => setShowAdvancedSkill((prev) => !prev)}
                     >
                       Show Advanced Skill

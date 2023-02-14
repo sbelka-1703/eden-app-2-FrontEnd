@@ -22,7 +22,7 @@ import {
   Button,
   Card,
   CardGrid,
-  DiscoverModalContainer,
+  DiscoverModalSkillSelectorContainer,
   GridItemNine,
   GridItemThree,
   GridLayout,
@@ -34,8 +34,8 @@ import {
 } from "@eden/package-ui";
 import { useContext, useState } from "react";
 
-import welcome from "../../public/welcome.png";
-import type { NextPageWithLayout } from "../_app";
+import welcome from "../../../public/welcome.png";
+import type { NextPageWithLayout } from "../../_app";
 
 const DiscoverPage: NextPageWithLayout = () => {
   const router = useRouter();
@@ -186,7 +186,7 @@ const DiscoverPage: NextPageWithLayout = () => {
         </GridItemNine>
       </GridLayout>
       {!dataProject?.findProject?._id && (
-        <DiscoverModalContainer
+        <DiscoverModalSkillSelectorContainer
           image={welcome.src}
           setArrayOfNodes={(val) => {
             setNodesID(val);
