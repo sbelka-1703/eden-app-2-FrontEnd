@@ -164,7 +164,6 @@ export const SendMessageToUser = ({
               message: message,
               projectID: project?._id!,
               receiverID: member?._id!,
-              senderID: currentUser?._id!,
               serverID: selectedServer?._id!,
               threadID: threadId,
             },

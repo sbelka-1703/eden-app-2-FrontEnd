@@ -150,7 +150,6 @@ export const SendMessageToChampion = ({
               message: message,
               projectID: project?._id!,
               receiverID: project?.champion?._id!,
-              senderID: currentUser?._id!,
               serverID: selectedServer?._id!,
               threadID: threadId,
             },
