@@ -183,6 +183,7 @@ const DiscoverPage: NextPageWithLayout = () => {
         <DiscoverModalContainer
           image={welcome.src}
           setArrayOfNodes={(val) => {
+            debugger;
             setNodesID(val);
           }}
           setPreferences={(val: PreferencesType) => {
