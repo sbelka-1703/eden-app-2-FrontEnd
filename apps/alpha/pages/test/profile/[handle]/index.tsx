@@ -7,7 +7,7 @@ import {
   GridItemTwo,
   GridLayout,
   Loading,
-  MemberInfo,
+  MemberInfoWithGraph,
   Missing404Section,
   SEOProfile,
 } from "@eden/package-ui";
@@ -32,7 +32,7 @@ const ProfilePage = ({ member, error }: { member: Members; error: string }) => {
             >
               {member ? (
                 <div className={`p-4 md:p-8`}>
-                  <MemberInfo member={member} hasGraph />
+                  <MemberInfoWithGraph member={member} hasGraph />
                 </div>
               ) : (
                 <Loading title={`Searching...`} />
