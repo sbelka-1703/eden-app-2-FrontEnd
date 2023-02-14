@@ -20,6 +20,7 @@ export interface IGraphVisualisation {
   data2: Graph;
   width: number;
   height: number;
+  hasMenu?: boolean;
 }
 
 const loadingNode: Graph = {
@@ -44,7 +45,12 @@ function refreshDragedNodePosition(e: any) {
 
 let graph: any;
 
-export const GraphVisual = ({ width, height, data2 }: IGraphVisualisation) => {
+export const GraphVisual = ({
+  width,
+  height,
+  data2,
+  hasMenu = true,
+}: IGraphVisualisation) => {
   const ref = React.useRef(null);
 
   //  -------------- Graph Setup ----------------
@@ -145,14 +151,16 @@ export const GraphVisual = ({ width, height, data2 }: IGraphVisualisation) => {
       {data2?.nodes && data2?.nodes?.length == 1 ? <div>loading</div> : true}
       <div ref={ref}></div>
 
-      <GraphMenu
-        items={items}
-        checkedItems={checkedItems}
-        handleCheckboxChange={handleCheckboxChange}
-        data2={data2}
-        setCheckedItems={setCheckedItems}
-        graph={graph}
-      />
+      {hasMenu && (
+        <GraphMenu
+          items={items}
+          checkedItems={checkedItems}
+          handleCheckboxChange={handleCheckboxChange}
+          data2={data2}
+          setCheckedItems={setCheckedItems}
+          graph={graph}
+        />
+      )}
     </div>
   );
 };
