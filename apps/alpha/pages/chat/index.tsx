@@ -168,7 +168,6 @@ const ChatPage: NextPageWithLayout = (session) => {
                       message: message,
                       projectID: "62f685952dc2d40004d395c7",
                       receiverID: member?._id!,
-                      senderID: currentUser?._id!,
                       serverID: "996558082098339953",
                       threadID: threadId,
                     },
