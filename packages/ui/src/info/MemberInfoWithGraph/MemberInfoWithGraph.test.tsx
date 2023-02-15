@@ -1,13 +1,14 @@
 import { MockedProvider } from "@apollo/client/testing";
+import { getMember } from "@eden/package-mock";
 import { render } from "@testing-library/react";
 
-import { SocialMediaModel } from ".";
+import { MemberInfoWithGraph } from "./MemberInfoWithGraph";
 
-describe("SocialMediaModel", () => {
+describe("MemberInfoWithGraph", () => {
   it("renders without throwing", () => {
     const { container } = render(
       <MockedProvider>
-        <SocialMediaModel />
+        <MemberInfoWithGraph member={getMember()} />
       </MockedProvider>
     );
 

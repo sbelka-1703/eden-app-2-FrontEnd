@@ -189,7 +189,7 @@ export type Members = {
   nodes?: Maybe<Array<Maybe<NodesType>>>;
   onbording?: Maybe<OnboardingType>;
   preferences?: Maybe<PreferencesType>;
-  previusProjects?: Maybe<Array<Maybe<PreviusProjectsType>>>;
+  previousProjects?: Maybe<Array<Maybe<PreviousProjectsType>>>;
   projects?: Maybe<Array<Maybe<ProjectMemberType>>>;
   registeredAt?: Maybe<Scalars["String"]>;
   serverID?: Maybe<Array<Maybe<Scalars["String"]>>>;
@@ -1171,7 +1171,7 @@ export type AddNewMemberInput = {
   discriminator?: InputMaybe<Scalars["String"]>;
   hoursPerWeek?: InputMaybe<Scalars["Float"]>;
   invitedBy?: InputMaybe<Scalars["String"]>;
-  previusProjects?: InputMaybe<Array<InputMaybe<PreviusProjectsInput>>>;
+  previousProjects?: InputMaybe<Array<InputMaybe<PreviousProjectsInput>>>;
   serverID?: InputMaybe<Scalars["String"]>;
 };
 
@@ -2131,7 +2131,7 @@ export type PreferencesTypeFind = {
   percentage?: Maybe<Scalars["Int"]>;
 };
 
-export type PreviusProjectsInput = {
+export type PreviousProjectsInput = {
   description?: InputMaybe<Scalars["String"]>;
   endDate?: InputMaybe<Scalars["String"]>;
   link?: InputMaybe<Scalars["String"]>;
@@ -2141,8 +2141,8 @@ export type PreviusProjectsInput = {
   title?: InputMaybe<Scalars["String"]>;
 };
 
-export type PreviusProjectsType = {
-  __typename?: "previusProjectsType";
+export type PreviousProjectsType = {
+  __typename?: "previousProjectsType";
   description?: Maybe<Scalars["String"]>;
   endDate?: Maybe<Scalars["String"]>;
   link?: Maybe<Scalars["String"]>;
@@ -2241,7 +2241,7 @@ export type RoleInput = {
   description?: InputMaybe<Scalars["String"]>;
   expectations?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
   hoursPerWeek?: InputMaybe<Scalars["Int"]>;
-  keyRosponsibilities?: InputMaybe<Scalars["String"]>;
+  keyResponsibilities?: InputMaybe<Scalars["String"]>;
   openPositions?: InputMaybe<Scalars["Int"]>;
   ratePerHour?: InputMaybe<Scalars["Int"]>;
   shortDescription?: InputMaybe<Scalars["String"]>;
@@ -2260,7 +2260,7 @@ export type RoleType = {
   description?: Maybe<Scalars["String"]>;
   expectations?: Maybe<Array<Maybe<Scalars["String"]>>>;
   hoursPerWeek?: Maybe<Scalars["Int"]>;
-  keyRosponsibilities?: Maybe<Scalars["String"]>;
+  keyResponsibilities?: Maybe<Scalars["String"]>;
   nodes?: Maybe<Array<Maybe<NodesType>>>;
   openPositions?: Maybe<Scalars["Int"]>;
   ratePerHour?: Maybe<Scalars["Int"]>;
@@ -2444,7 +2444,7 @@ export type UpdateMemberInRoomInput = {
   memberID?: InputMaybe<Scalars["ID"]>;
   memberRole?: InputMaybe<FindRoleTemplateInput>;
   onbording?: InputMaybe<OnboardingInput>;
-  previusProjects?: InputMaybe<Array<InputMaybe<PreviusProjectsInput>>>;
+  previousProjects?: InputMaybe<Array<InputMaybe<PreviousProjectsInput>>>;
   roomID?: InputMaybe<Scalars["ID"]>;
   serverID?: InputMaybe<Scalars["String"]>;
   skills?: InputMaybe<Array<InputMaybe<SkillInput_Member>>>;
@@ -2463,7 +2463,7 @@ export type UpdateMemberInput = {
   links?: InputMaybe<Array<InputMaybe<LinkInput>>>;
   memberRole?: InputMaybe<Scalars["ID"]>;
   onbording?: InputMaybe<OnboardingInput>;
-  previusProjects?: InputMaybe<Array<InputMaybe<PreviusProjectsInput>>>;
+  previousProjects?: InputMaybe<Array<InputMaybe<PreviousProjectsInput>>>;
   serverID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
   skills?: InputMaybe<Array<InputMaybe<SkillInput_Member>>>;
   timeZone?: InputMaybe<Scalars["String"]>;

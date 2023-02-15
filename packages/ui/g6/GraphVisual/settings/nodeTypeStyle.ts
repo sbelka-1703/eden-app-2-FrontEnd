@@ -4,6 +4,7 @@ interface styleData {
   size: number;
   displayName: string;
   sizeRatio: number;
+  order?: number;
 }
 
 interface mockData {
@@ -14,60 +15,77 @@ interface mockData {
   expertise: styleData;
   Project: styleData;
   Role: styleData;
+  skill: styleData;
   disabledNode: styleData;
 }
 
 export const nodeTypeStyle: mockData = {
+  Project: {
+    fill: "#F9FEE6",
+    stroke: "#CBFD50",
+    size: 75,
+    displayName: "Project",
+    sizeRatio: 1,
+    order: 1,
+  },
   Member: {
     fill: "#f9efff",
     stroke: "#bf55ff",
     size: 90,
     displayName: "Member",
     sizeRatio: 0.3,
+    order: 2,
+  },
+  Role: {
+    fill: "#FCF8ED",
+    stroke: "#F4BC67",
+    size: 60,
+    displayName: "Roles",
+    sizeRatio: 0.8,
+    order: 3,
+  },
+  typeProject: {
+    fill: "#FBF1F2",
+    stroke: "#EC7E8B",
+    size: 40,
+    displayName: "Interest Category",
+    sizeRatio: 0.15,
+    order: 4,
   },
   // eslint-disable-next-line camelcase
   sub_typeProject: {
-    fill: "#faffef",
-    stroke: "#cdff52",
+    fill: "#FBEDEC",
+    stroke: "#F3B8B4",
     size: 20,
-    displayName: "Sub Project Type",
+    displayName: "Interest",
     sizeRatio: 0.05,
+    order: 5,
   },
-  typeProject: {
-    fill: "#f0fdaf",
-    stroke: "#9AECaE",
+  // eslint-disable-next-line camelcase
+  expertise: {
+    fill: "#E7F1FD",
+    stroke: "#3882F5",
     size: 40,
-    displayName: "Project Type",
-    sizeRatio: 0.15,
+    displayName: "Expertise Category",
+    sizeRatio: 0.25,
+    order: 6,
   },
   // eslint-disable-next-line camelcase
   sub_expertise: {
-    fill: "#EBFCFF",
-    stroke: "#9AECaE",
+    fill: "#E8F6F9",
+    stroke: "#49A7CD",
+    size: 25,
+    displayName: "Expertise",
+    sizeRatio: 0.15,
+    order: 7,
+  },
+  skill: {
+    fill: "#F8FCFF",
+    stroke: "#C2F1FB",
     size: 25,
     displayName: "Skill",
     sizeRatio: 0.15,
-  },
-  expertise: {
-    fill: "#C2F7FF",
-    stroke: "#9AECFE",
-    size: 40,
-    displayName: "Expertise",
-    sizeRatio: 0.25,
-  },
-  Project: {
-    fill: "#FDFFDC",
-    stroke: "#FAE289",
-    size: 75,
-    displayName: "Project",
-    sizeRatio: 1,
-  },
-  Role: {
-    fill: "#E8FBDA",
-    stroke: "#C8F4A4",
-    size: 50,
-    displayName: "Project Role",
-    sizeRatio: 0.8,
+    order: 8,
   },
   disabledNode: {
     fill: "#E8EBED",
