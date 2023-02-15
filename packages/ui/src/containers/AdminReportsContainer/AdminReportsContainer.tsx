@@ -110,6 +110,13 @@ export const AdminReportsContainer = () => {
     );
 
     tempArray.splice(index, 1);
+    const layoutIndex = layouts.lg.indexOf(
+      layouts.lg.find((data: any) => data.i === key)!
+    );
+
+    const tempLayouts = { lg: layouts.lg.splice(layoutIndex, 1) };
+
+    setLayouts(tempLayouts);
     setWidgetArray(tempArray);
   };
 
