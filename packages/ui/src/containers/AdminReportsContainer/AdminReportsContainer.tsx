@@ -1,11 +1,13 @@
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 
-import { PlusIcon, XIcon } from "@heroicons/react/outline";
-import { PlusSmIcon } from "@heroicons/react/solid";
-import React, { useState } from "react";
+import { XIcon } from "@heroicons/react/outline";
+import React, { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import { Layouts, Responsive, WidthProvider } from "react-grid-layout";
+import { FaDownload } from "react-icons/fa";
+import { FiUpload } from "react-icons/fi";
+import { ImCross } from "react-icons/im";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
@@ -39,37 +41,91 @@ const _mockdata = {
   ],
 };
 
+// const widgetPreset = [
+//   {
+//     i: "widget1",
+//     x: 0,
+//     y: 0,
+//     w: 4,
+//     h: 3,
+//     content: { type: "graph" as null | string },
+//   },
+//   {
+//     i: "widget2",
+//     x: 4,
+//     y: 2,
+//     w: 2,
+//     h: 2,
+//     content: {
+//       type: "text" as null | string,
+//       value: "This is a text for a report",
+//     },
+//   },
+//   {
+//     i: "widget3",
+//     x: 0,
+//     y: 3,
+//     w: 2,
+//     h: 2,
+//     content: { type: null as null | string },
+//   },
+// ];
+
 export const AdminReportsContainer = () => {
   const [layouts, setLayouts] = useState<Layouts>({});
-  const [widgetArray, setWidgetArray] = useState([
-    {
-      i: "widget1",
-      x: 0,
-      y: 0,
-      w: 2,
-      h: 2,
-      content: { type: null as null | string },
-    },
-    {
-      i: "widget2",
-      x: 2,
-      y: 2,
-      w: 2,
-      h: 2,
-      content: { type: null as null | string },
-    },
-    {
-      i: "widget3",
-      x: 4,
-      y: 4,
-      w: 2,
-      h: 2,
-      content: { type: null as null | string },
-    },
-  ]);
+  const [title, setTitle] = useState<string>("");
+  const [widgetArray, setWidgetArray] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (localStorage && localStorage.getItem("metrics_report")) {
+      setWidgetArray(
+        JSON.parse(localStorage.getItem("metrics_report")!).widgets
+      );
+      setTitle(JSON.parse(localStorage.getItem("metrics_report")!).title);
+    }
+  }, []);
+
+  const handleAdd = () => {
+    setWidgetArray([
+      ...widgetArray,
+      {
+        i: "widget" + (widgetArray.length + 1 || 0),
+        x: 0,
+        y: 0,
+        w: 2,
+        h: 2,
+        content: { type: null as null | string },
+      },
+    ]);
+  };
+
+  const handleDelete = (key: any) => {
+    if (!widgetArray) return;
+    const tempArray = widgetArray.slice();
+    const index = tempArray.indexOf(
+      tempArray.find((data: any) => data.i === key)!
+    );
+
+    tempArray.splice(index, 1);
+    setWidgetArray(tempArray);
+  };
+
+  const jsonData = (arr = widgetArray) => {
+    var data = JSON.stringify({ title: title, widgets: arr });
+
+    return data;
+  };
+
+  const encodedJsonData = () => {
+    var data = encodeURIComponent(jsonData());
+
+    return "text/json;charset=utf-8," + data;
+  };
 
   const handleModify = (layouts: any, layout: any) => {
-    const tempArray = widgetArray;
+    const tempArray = widgetArray ? [...widgetArray!] : [];
+
+    debugger;
 
     setLayouts(layout);
     layouts?.map((position: any) => {
@@ -81,38 +137,87 @@ export const AdminReportsContainer = () => {
     setWidgetArray(tempArray);
   };
 
-  const handleAdd = () => {
-    setWidgetArray([
-      ...widgetArray,
-      {
-        i: "widget" + (widgetArray.length + 1),
-        x: 0,
-        y: 0,
-        w: 2,
-        h: 2,
-        content: { type: null as null | string },
+  useEffect(() => {
+    if (!!widgetArray.length && !!title)
+      localStorage.setItem("metrics_report", jsonData(widgetArray));
+  }, [widgetArray, title]);
+
+  const readFile = (e: any) => {
+    return new Response(e.target.files[0]).json().then(
+      (json) => {
+        console.log(json);
+        return json;
       },
-    ]);
-  };
-
-  const handleDelete = (key: any) => {
-    const tempArray = widgetArray.slice();
-    const index = tempArray.indexOf(tempArray.find((data) => data.i === key)!);
-
-    tempArray.splice(index, 1);
-    setWidgetArray(tempArray);
+      (err) => {
+        // not json
+        console.log("Err! Not a JSON");
+      }
+    );
   };
 
   return (
     <div className="w-full h-9/10 overflow-y-scroll">
-      <button
-        className="fixed right-12 bottom-12 z-10 text-white text-bold rounded-full bg-accentColor hover:cursor-pointer hover:bg-black"
-        onClick={() => handleAdd()}
-      >
-        <PlusSmIcon width={48} />
-      </button>
+      <section className="fixed right-12 bottom-12 z-10">
+        <div>
+          <input
+            type="file"
+            id="upload"
+            className="hidden"
+            onChange={async (e) => {
+              const fileData = await readFile(e);
 
+              if (fileData) {
+                setTitle(fileData.title);
+                setWidgetArray(fileData.widgets);
+              }
+            }}
+          />
+
+          <button
+            type="button"
+            className="cursor-pointer group flex items-center justify-center mb-2 h-[48px] w-[48px] text-slate-600 text-bold rounded-full bg-white shadow-md hover:cursor-pointer hover:bg-slate-400 hover:text-slate-100 hover:translate-x-1 transition-transform"
+          >
+            <span className="cursor-pointer text-center text-slate-500 text-sm absolute right-[52px] invisible group-hover:visible">
+              upload template
+            </span>
+            <label htmlFor="upload">
+              <FiUpload className="cursor-pointer" width={48} />
+            </label>
+          </button>
+        </div>
+
+        <a
+          className="group flex items-center justify-center mb-2 h-[48px] w-[48px] text-slate-600 text-bold rounded-full bg-white shadow-md hover:cursor-pointer hover:bg-slate-400 hover:text-slate-100 hover:translate-x-1 transition-transform"
+          href={`data:${encodedJsonData()}`}
+          download={title.toLowerCase().split(" ").join("_") + ".json"}
+        >
+          <span className="text-center text-slate-500 text-sm absolute right-[52px] invisible group-hover:visible">
+            save template
+          </span>
+          <button>
+            <FaDownload width={48} />
+          </button>
+        </a>
+        <button
+          className="group flex items-center justify-center h-[48px] w-[48px] text-white text-bold rounded-full bg-accentColor shadow-md hover:cursor-pointer hover:bg-black hover:translate-x-1 transition-transform"
+          onClick={() => handleAdd()}
+        >
+          <span className="text-center text-slate-500 text-sm absolute right-[52px] invisible group-hover:visible">
+            add widget
+          </span>
+          <ImCross className="rotate-45" width={48} />
+        </button>
+      </section>
+      <h1 className="ml-4 mt-2 text-2xl">
+        <input
+          className="bg-transparent outline-none w-1/2"
+          value={title}
+          type="text"
+          onChange={(e) => setTitle(e.currentTarget.value)}
+        />
+      </h1>
       <ResponsiveReactGridLayout
+        key={widgetArray?.toString()}
         onLayoutChange={handleModify}
         verticalCompact={true}
         layouts={layouts}
@@ -128,10 +233,10 @@ export const AdminReportsContainer = () => {
           xxs: [20, 20],
         }}
       >
-        {widgetArray?.map((widget, index) => {
+        {widgetArray?.map((widget: any, index: number) => {
           return (
             <div
-              className="reactGridItem rounded-lg shadow-sm bg-white relative p-4"
+              className="relative reactGridItem rounded-lg shadow-sm bg-white relative p-4"
               key={index}
               data-grid={{
                 x: widget?.x,
@@ -150,9 +255,15 @@ export const AdminReportsContainer = () => {
               <h3>
                 <input
                   type="text"
-                  defaultValue={widget.i}
+                  value={widget.i}
                   className="w-8/10 outline-none mb-8"
-                  onChange={() => {}}
+                  onChange={(e) => {
+                    const _newWidgetArray = [...widgetArray];
+
+                    _newWidgetArray[index].i = e.currentTarget.value;
+
+                    setWidgetArray(_newWidgetArray);
+                  }}
                 />
               </h3>
               <button
@@ -161,20 +272,22 @@ export const AdminReportsContainer = () => {
               >
                 <XIcon className="inline-block h-4 w-4 cursor-pointer text-gray-900 hover:text-slate-400" />
               </button>
-              <section>
+              <section className="h-[80%]">
                 {!widget.content?.type ? (
                   <select
+                    defaultValue={""}
                     onChange={(e) => {
                       const _newWidgetArray = [...widgetArray];
 
                       _newWidgetArray[index].content = {
+                        ..._newWidgetArray[index].content,
                         type: e.currentTarget.value,
                       };
 
                       setWidgetArray(_newWidgetArray);
                     }}
                   >
-                    <option value="" disabled selected>
+                    <option value="" disabled>
                       Select your option
                     </option>
                     <option value={"graph"}>graph</option>
@@ -187,7 +300,8 @@ export const AdminReportsContainer = () => {
                     )}
                     {widget.content?.type === "text" && (
                       <textarea
-                        className="w-full outline-none h-60"
+                        defaultValue={widget.content?.value}
+                        className="w-full outline-none h-full resize-none"
                         placeholder="Type some text here..."
                       ></textarea>
                     )}
