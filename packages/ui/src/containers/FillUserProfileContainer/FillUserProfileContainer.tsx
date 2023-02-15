@@ -77,7 +77,7 @@ export const FillUserProfileContainer = ({
   const [updateNodes, {}] = useMutation(UPDATE_NODES_MEMBER, {
     onCompleted({ updateNodesToMember }: Mutation) {
       if (!updateNodesToMember) console.log("updateNodesToMember is null");
-      console.log("updateNodesToMember", updateNodesToMember);
+      // console.log("updateNodesToMember", updateNodesToMember);
     },
     onError: () => {
       setSubmitting(false);
@@ -88,7 +88,7 @@ export const FillUserProfileContainer = ({
     onCompleted({ addPreferencesToMember }: Mutation) {
       if (!addPreferencesToMember)
         console.log("addPreferencesToMember is null");
-      console.log("addPreferencesToMember", addPreferencesToMember);
+      // console.log("addPreferencesToMember", addPreferencesToMember);
     },
     onError: () => {
       setSubmitting(false);
@@ -106,7 +106,6 @@ export const FillUserProfileContainer = ({
             nodesID: state?.nodes
               ?.filter((node) => node?.nodeData?.node === "sub_expertise")
               .map((node) => node?.nodeData?._id),
-            memberID: currentUser?._id,
           },
         },
         context: { serviceName: "soilservice" },

@@ -22,6 +22,7 @@ export interface IGraphVisualisation {
   height: number;
   settingsGraphs?: any;
   updateSettings?: any;
+  hasMenu?: boolean;
 }
 
 const loadingNode: Graph = {
@@ -52,6 +53,7 @@ export const GraphVisual = ({
   data2,
   settingsGraphs = undefined,
   updateSettings = undefined,
+  hasMenu = true,
 }: IGraphVisualisation) => {
   const ref = React.useRef(null);
 
@@ -153,16 +155,18 @@ export const GraphVisual = ({
       {data2?.nodes && data2?.nodes?.length == 1 ? <div>loading</div> : true}
       <div ref={ref}></div>
 
-      <GraphMenu
-        items={items}
-        checkedItems={checkedItems}
-        handleCheckboxChange={handleCheckboxChange}
-        data2={data2}
-        setCheckedItems={setCheckedItems}
-        graph={graph}
-        settingsGraphs={settingsGraphs}
-        updateSettings={updateSettings}
-      />
+      {hasMenu && (
+        <GraphMenu
+          items={items}
+          checkedItems={checkedItems}
+          handleCheckboxChange={handleCheckboxChange}
+          data2={data2}
+          setCheckedItems={setCheckedItems}
+          graph={graph}
+          settingsGraphs={settingsGraphs}
+          updateSettings={updateSettings}
+        />
+      )}
     </div>
   );
 };
