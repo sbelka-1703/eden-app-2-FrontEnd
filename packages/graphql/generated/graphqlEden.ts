@@ -3,12 +3,10 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
 };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
+  { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
+  { [SubKey in K]: Maybe<T[SubKey]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -16,6 +14,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  Date: any;
 };
 
 export type Ai = {
@@ -145,6 +144,12 @@ export type KeywordInput = {
   keywords?: InputMaybe<Scalars["String"]>;
 };
 
+export type LurkersAndContributors = {
+  __typename?: "LurkersAndContributors";
+  contributors?: Maybe<Scalars["Int"]>;
+  lurkers?: Maybe<Scalars["Int"]>;
+};
+
 export type MatchPercentage = {
   __typename?: "MatchPercentage";
   budgetPercentage?: Maybe<Scalars["Float"]>;
@@ -201,6 +206,18 @@ export type MembersSmallType = {
   discriminator?: Maybe<Scalars["String"]>;
 };
 
+export type MetricsGroupByMonthResult = {
+  __typename?: "MetricsGroupByMonthResult";
+  _id?: Maybe<MonthAndYear>;
+  count?: Maybe<Scalars["Int"]>;
+};
+
+export type MonthAndYear = {
+  __typename?: "MonthAndYear";
+  month?: Maybe<Scalars["Int"]>;
+  year?: Maybe<Scalars["Int"]>;
+};
+
 export type Mutation = {
   __typename?: "Mutation";
   addEndorsement?: Maybe<Members>;
@@ -241,7 +258,8 @@ export type Mutation = {
   newTweetProject?: Maybe<TweetsProject>;
   relatedNode?: Maybe<Node>;
   relatedNode_name?: Maybe<Node>;
-  relatedSkills?: Maybe<Skills>;
+  saveCoreProductFeatureInteration?: Maybe<Scalars["Boolean"]>;
+  saveDailyLogin?: Maybe<Scalars["Boolean"]>;
   updateChatReply?: Maybe<Chats>;
   updateChatResult?: Maybe<Chats>;
   updateGrant?: Maybe<GrantTemplate>;
@@ -410,8 +428,12 @@ export type MutationRelatedNode_NameArgs = {
   fields?: InputMaybe<RelatedNode_NameInput>;
 };
 
-export type MutationRelatedSkillsArgs = {
-  fields?: InputMaybe<RelatedSkillsInput>;
+export type MutationSaveCoreProductFeatureInterationArgs = {
+  fields?: InputMaybe<SaveCoreProductFeatureInterationInput>;
+};
+
+export type MutationSaveDailyLoginArgs = {
+  fields?: InputMaybe<SaveDailyLoginInput>;
 };
 
 export type MutationUpdateChatReplyArgs = {
@@ -582,7 +604,13 @@ export type ProjectUpdate = {
 
 export type Query = {
   __typename?: "Query";
+  activeMembersStats?: Maybe<Scalars["Int"]>;
+  activeMembersStatsGroupByMonth?: Maybe<
+    Array<Maybe<MetricsGroupByMonthResult>>
+  >;
+  activeUsersLoginQuery?: Maybe<Scalars["Int"]>;
   adminFindAllSkillsEveryState?: Maybe<Array<Maybe<Skills>>>;
+  dynamicSearchToProjectGraph?: Maybe<Graph>;
   errors?: Maybe<PaginatedErrorLogs>;
   findAllProjectsTeamsAnouncments?: Maybe<
     Array<Maybe<FindAllProjectsTeamsAnouncmentsOutput>>
@@ -620,6 +648,7 @@ export type Query = {
   findSkillSubCategory?: Maybe<SkillSubCategory>;
   findSkills?: Maybe<Array<Maybe<Skills>>>;
   findTeams?: Maybe<Array<Maybe<Team>>>;
+  lurkersContributorsQuery?: Maybe<LurkersAndContributors>;
   matchMembersToProject?: Maybe<Array<Maybe<MatchMembersToProjectOutput>>>;
   matchMembersToProjectRole?: Maybe<
     Array<Maybe<MatchMembersToProjectRoleOutput>>
@@ -641,6 +670,8 @@ export type Query = {
   matchSkillsToProjects?: Maybe<Array<Maybe<MatchSkillsToProjectsOutput>>>;
   match_projectToUser?: Maybe<ProjectUserMatchType>;
   members_autocomplete?: Maybe<Array<Maybe<Members>>>;
+  memberstatsGroupByMonth?: Maybe<Array<Maybe<MetricsGroupByMonthResult>>>;
+  newMemberStats?: Maybe<Scalars["Int"]>;
   nodes_autocomplete?: Maybe<Array<Maybe<Node>>>;
   setAllMatch_v2?: Maybe<Scalars["Boolean"]>;
   skills?: Maybe<PaginatedSkills>;
@@ -649,8 +680,20 @@ export type Query = {
   waitingToAproveSkills?: Maybe<Array<Maybe<Skills>>>;
 };
 
+export type QueryActiveMembersStatsArgs = {
+  fields?: InputMaybe<ActiveMembersStatsInput>;
+};
+
+export type QueryActiveUsersLoginQueryArgs = {
+  fields?: InputMaybe<ActiveUsersLoginQueryInput>;
+};
+
 export type QueryAdminFindAllSkillsEveryStateArgs = {
   fields?: InputMaybe<FindSkillsInput>;
+};
+
+export type QueryDynamicSearchToProjectGraphArgs = {
+  fields?: InputMaybe<DynamicSearchToProjectGraphInput>;
 };
 
 export type QueryErrorsArgs = {
@@ -861,6 +904,10 @@ export type QueryMembers_AutocompleteArgs = {
   fields?: InputMaybe<Members_AutocompleteInput>;
 };
 
+export type QueryNewMemberStatsArgs = {
+  fields?: InputMaybe<NewMemberStatsInput>;
+};
+
 export type QueryNodes_AutocompleteArgs = {
   fields?: InputMaybe<Nodes_AutocompleteInput>;
 };
@@ -1009,12 +1056,14 @@ export enum SortableSkillFields {
 export type StyleEdgeOut = {
   __typename?: "StyleEdgeOut";
   distance?: Maybe<Scalars["Float"]>;
-  edgeColor?: Maybe<Scalars["String"]>;
+  fill?: Maybe<Scalars["String"]>;
   strength?: Maybe<Scalars["Float"]>;
+  stroke?: Maybe<Scalars["String"]>;
 };
 
 export type StyleIn = {
   fill?: InputMaybe<Scalars["String"]>;
+  size?: InputMaybe<Scalars["Int"]>;
   stroke?: InputMaybe<Scalars["String"]>;
 };
 
@@ -1073,6 +1122,16 @@ export type User = {
   token?: Maybe<Scalars["String"]>;
 };
 
+export type ActiveMembersStatsInput = {
+  endPeriod?: InputMaybe<Scalars["String"]>;
+  startPeriod?: InputMaybe<Scalars["String"]>;
+};
+
+export type ActiveUsersLoginQueryInput = {
+  endDate?: InputMaybe<Scalars["String"]>;
+  startDate?: InputMaybe<Scalars["String"]>;
+};
+
 export type AddEndorsementInput = {
   endorseeID?: InputMaybe<Scalars["ID"]>;
   endorsementMessage?: InputMaybe<Scalars["String"]>;
@@ -1081,7 +1140,6 @@ export type AddEndorsementInput = {
 
 export type AddFavoriteProjectInput = {
   favorite?: InputMaybe<Scalars["Boolean"]>;
-  memberID?: InputMaybe<Scalars["ID"]>;
   projectID?: InputMaybe<Scalars["ID"]>;
 };
 
@@ -1101,7 +1159,6 @@ export type AddNewChatInput = {
   projectID: Scalars["ID"];
   projectRoleID?: InputMaybe<Scalars["ID"]>;
   receiverID: Scalars["ID"];
-  senderID: Scalars["ID"];
   serverID: Scalars["ID"];
   threadID: Scalars["ID"];
 };
@@ -1438,12 +1495,31 @@ export type DeleteProjectInput = {
   projectID?: InputMaybe<Scalars["ID"]>;
 };
 
+export type DynamicSearchToProjectGraphInput = {
+  edgeSettings?: InputMaybe<Array<InputMaybe<EdgeSetting>>>;
+  nodeSettings?: InputMaybe<Array<InputMaybe<NodeSetting>>>;
+  nodesID?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  projectID?: InputMaybe<Scalars["ID"]>;
+  showAvatar?: InputMaybe<Scalars["Boolean"]>;
+};
+
 export type EdgeSetting = {
-  distance?: InputMaybe<Scalars["Float"]>;
-  edgeColor?: InputMaybe<Scalars["String"]>;
+  hiddenEdge?: InputMaybe<Scalars["Boolean"]>;
+  mainEdge?: InputMaybe<EdgeSettingIn>;
+  moreThanSplit?: InputMaybe<Scalars["Int"]>;
+  splitEdge?: InputMaybe<Array<InputMaybe<EdgeSettingSplitIn>>>;
+};
+
+export type EdgeSettingIn = {
   nodeTypeSource?: InputMaybe<Scalars["String"]>;
   nodeTypeTarget?: InputMaybe<Scalars["String"]>;
-  strength?: InputMaybe<Scalars["Float"]>;
+  style?: InputMaybe<StyleEdgeIn>;
+};
+
+export type EdgeSettingSplitIn = {
+  nodeTypeMiddle?: InputMaybe<Scalars["String"]>;
+  nodeTypeSource?: InputMaybe<Scalars["String"]>;
+  nodeTypeTarget?: InputMaybe<Scalars["String"]>;
 };
 
 export type EndorcmentInput = {
@@ -1478,6 +1554,13 @@ export type ErrorsInput = {
   _id?: InputMaybe<Scalars["ID"]>;
   errorType?: InputMaybe<ErrorTypeEnum>;
 };
+
+export enum ExploreFeatureEnum {
+  ExploreProjectsButton = "exploreProjectsButton",
+  FindFriendButton = "findFriendButton",
+  GrantButton = "grantButton",
+  SkillButton = "skillButton",
+}
 
 export type FindAllProjectsTeamsAnouncmentsInput = {
   _id?: InputMaybe<Scalars["ID"]>;
@@ -1543,13 +1626,17 @@ export type FindMemberInput = {
 };
 
 export type FindMemberToMemberGraphInput = {
+  edgeSettings?: InputMaybe<Array<InputMaybe<EdgeSetting>>>;
   memberOneID?: InputMaybe<Scalars["ID"]>;
   memberTwoID?: InputMaybe<Scalars["ID"]>;
+  nodeSettings?: InputMaybe<Array<InputMaybe<NodeSetting>>>;
   showAvatar?: InputMaybe<Scalars["Boolean"]>;
 };
 
 export type FindMemberToProjectGraphInput = {
+  edgeSettings?: InputMaybe<Array<InputMaybe<EdgeSetting>>>;
   memberID?: InputMaybe<Scalars["ID"]>;
+  nodeSettings?: InputMaybe<Array<InputMaybe<NodeSetting>>>;
   projectID?: InputMaybe<Scalars["ID"]>;
   showAvatar?: InputMaybe<Scalars["Boolean"]>;
 };
@@ -1573,7 +1660,9 @@ export type FindMessageInputPaginated = {
 };
 
 export type FindMultipleMembersProjectsGraphInput = {
+  edgeSettings?: InputMaybe<Array<InputMaybe<EdgeSetting>>>;
   membersID?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  nodeSettings?: InputMaybe<Array<InputMaybe<NodeSetting>>>;
   projectsID?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   showAvatar?: InputMaybe<Scalars["Boolean"]>;
 };
@@ -1592,11 +1681,15 @@ export type FindNodesInput = {
 };
 
 export type FindOneMemberToMembersGraphInput = {
+  edgeSettings?: InputMaybe<Array<InputMaybe<EdgeSetting>>>;
   memberID?: InputMaybe<Scalars["ID"]>;
+  nodeSettings?: InputMaybe<Array<InputMaybe<NodeSetting>>>;
   showAvatar?: InputMaybe<Scalars["Boolean"]>;
 };
 
 export type FindProjectGraphInput = {
+  edgeSettings?: InputMaybe<Array<InputMaybe<EdgeSetting>>>;
+  nodeSettings?: InputMaybe<Array<InputMaybe<NodeSetting>>>;
   projectID?: InputMaybe<Scalars["ID"]>;
   showAvatar?: InputMaybe<Scalars["Boolean"]>;
 };
@@ -1918,6 +2011,11 @@ export type NetworkInput = {
   memberID?: InputMaybe<Scalars["ID"]>;
 };
 
+export type NewMemberStatsInput = {
+  endPeriod?: InputMaybe<Scalars["String"]>;
+  startPeriod?: InputMaybe<Scalars["String"]>;
+};
+
 export type NewTweetProjectInput = {
   approved?: InputMaybe<Scalars["Boolean"]>;
   author?: InputMaybe<Scalars["String"]>;
@@ -1927,7 +2025,6 @@ export type NewTweetProjectInput = {
 };
 
 export type NodeSetting = {
-  size?: InputMaybe<Scalars["Int"]>;
   style?: InputMaybe<StyleIn>;
   type?: InputMaybe<Scalars["String"]>;
 };
@@ -2172,6 +2269,14 @@ export type RoleType = {
   title?: Maybe<Scalars["String"]>;
 };
 
+export type SaveCoreProductFeatureInterationInput = {
+  buttonClicked: ExploreFeatureEnum;
+};
+
+export type SaveDailyLoginInput = {
+  loginDate?: InputMaybe<Scalars["String"]>;
+};
+
 export enum ServerTypeEnum {
   Dao = "DAO",
   Hackathon = "Hackathon",
@@ -2233,6 +2338,12 @@ export enum StateEnum {
   Rejected = "rejected",
   Waiting = "waiting",
 }
+
+export type StyleEdgeIn = {
+  color?: InputMaybe<Scalars["String"]>;
+  distance?: InputMaybe<Scalars["Float"]>;
+  strength?: InputMaybe<Scalars["Float"]>;
+};
 
 export type TeamInput = {
   memberID?: InputMaybe<Scalars["String"]>;
@@ -2378,7 +2489,6 @@ export type UpdateNodesToMemberInRoomInput = {
 };
 
 export type UpdateNodesToMemberInput = {
-  memberID?: InputMaybe<Scalars["ID"]>;
   nodeType?: InputMaybe<Scalars["String"]>;
   nodesID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
   nodesID_level?: InputMaybe<Array<InputMaybe<NodesId_LevelInput>>>;

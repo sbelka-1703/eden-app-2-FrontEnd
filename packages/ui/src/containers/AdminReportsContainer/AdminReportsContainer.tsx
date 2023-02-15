@@ -11,36 +11,6 @@ import { ImCross } from "react-icons/im";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
-const labels = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL"];
-const _mockdata = {
-  labels: labels,
-  datasets: [
-    {
-      label: "My First Dataset",
-      data: [65, 59, 80, 81, 56, 55, 40],
-      backgroundColor: [
-        "rgba(255, 99, 132, 0.2)",
-        "rgba(255, 159, 64, 0.2)",
-        "rgba(255, 205, 86, 0.2)",
-        "rgba(75, 192, 192, 0.2)",
-        "rgba(54, 162, 235, 0.2)",
-        "rgba(153, 102, 255, 0.2)",
-        "rgba(201, 203, 207, 0.2)",
-      ],
-      borderColor: [
-        "rgb(255, 99, 132)",
-        "rgb(255, 159, 64)",
-        "rgb(255, 205, 86)",
-        "rgb(75, 192, 192)",
-        "rgb(54, 162, 235)",
-        "rgb(153, 102, 255)",
-        "rgb(201, 203, 207)",
-      ],
-      borderWidth: 1,
-    },
-  ],
-};
-
 // const widgetPreset = [
 //   {
 //     i: "widget1",
@@ -70,6 +40,13 @@ const _mockdata = {
 //     content: { type: null as null | string },
 //   },
 // ];
+
+export enum CHARTS {
+  // eslint-disable-next-line no-unused-vars
+  TEXT = "Text",
+  // eslint-disable-next-line no-unused-vars
+  BARS_NEW_USER = "New Users",
+}
 
 export const AdminReportsContainer = () => {
   const [layouts, setLayouts] = useState<Layouts>({});
@@ -288,6 +265,9 @@ export const AdminReportsContainer = () => {
                 {!widget.content?.type ? (
                   <select
                     defaultValue={""}
+                    onFocus={(e) => {
+                      e.stopPropagation();
+                    }}
                     onChange={(e) => {
                       const _newWidgetArray = [...widgetArray];
 
@@ -302,15 +282,18 @@ export const AdminReportsContainer = () => {
                     <option value="" disabled>
                       Select your option
                     </option>
-                    <option value={"graph"}>graph</option>
-                    <option value={"text"}>text</option>
+                    <option value={CHARTS.BARS_NEW_USER}>
+                      {CHARTS.BARS_NEW_USER}
+                    </option>
+                    <option value={CHARTS.TEXT}>{CHARTS.TEXT}</option>
                   </select>
                 ) : (
                   <>
-                    {widget.content?.type === "graph" && (
-                      <Bar data={_mockdata} />
+                    {widget.content?.type === CHARTS.BARS_NEW_USER && (
+                      // <Bar data={_mockdata} />
+                      <BarsNewMembers />
                     )}
-                    {widget.content?.type === "text" && (
+                    {widget.content?.type === CHARTS.TEXT && (
                       <textarea
                         defaultValue={widget.content?.value}
                         className="w-full outline-none h-full resize-none"
@@ -325,5 +308,76 @@ export const AdminReportsContainer = () => {
         })}
       </ResponsiveReactGridLayout>
     </div>
+  );
+};
+
+// ---------- CHARTS ------------
+
+import { gql, useQuery } from "@apollo/client";
+
+export const BarsNewMembers = () => {
+  const NEW_MEMBERS = gql`
+    query newMembers {
+      memberstatsGroupByMonth {
+        _id {
+          month
+          year
+        }
+        count
+      }
+    }
+  `;
+
+  const { data: newMembersData } = useQuery(NEW_MEMBERS, {
+    context: { serviceName: "soilservice" },
+  });
+
+  const formatData = () => {
+    const _labels = newMembersData?.memberstatsGroupByMonth.map(
+      (_item: any) => `${_item._id.month}/${_item._id.year}`
+    );
+    const _data = newMembersData?.memberstatsGroupByMonth.map(
+      (_item: any) => _item.count
+    );
+
+    debugger;
+
+    const chartData = {
+      labels: _labels,
+      datasets: [
+        {
+          //       label: "My First Dataset",
+          data: _data,
+          backgroundColor: [
+            "rgba(255, 99, 132, 0.2)",
+            "rgba(255, 159, 64, 0.2)",
+            "rgba(255, 205, 86, 0.2)",
+            "rgba(75, 192, 192, 0.2)",
+            "rgba(54, 162, 235, 0.2)",
+            "rgba(153, 102, 255, 0.2)",
+            "rgba(201, 203, 207, 0.2)",
+          ],
+          borderColor: [
+            "rgb(255, 99, 132)",
+            "rgb(255, 159, 64)",
+            "rgb(255, 205, 86)",
+            "rgb(75, 192, 192)",
+            "rgb(54, 162, 235)",
+            "rgb(153, 102, 255)",
+            "rgb(201, 203, 207)",
+          ],
+          borderWidth: 1,
+        },
+      ],
+    };
+
+    return chartData;
+  };
+
+  return (
+    <>
+      {/* {JSON.stringify(formatData())} */}
+      <Bar data={formatData()} />
+    </>
   );
 };
