@@ -150,7 +150,7 @@ export const AdminReportsContainer = () => {
       },
       (err) => {
         // not json
-        console.log("Err! Not a JSON");
+        console.log("Err! Not a JSON", err);
       }
     );
   };
