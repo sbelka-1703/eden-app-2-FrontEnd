@@ -341,7 +341,7 @@ const MenuOption = (props: any) => {
             <button
               className="rounded bg-blue-500 py-2 px-4 font-bold text-white shadow hover:bg-blue-700"
               onClick={() => {
-                let nodesIDnew = props.settingsGraphs.nodesID;
+                const nodesIDnew = props.settingsGraphs.nodesID;
 
                 console.log(
                   "nodesIDnew = ",

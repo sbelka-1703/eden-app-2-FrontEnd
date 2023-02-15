@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 import React, { RefObject, useEffect, useRef, useState } from "react";
 
 import type { NextPageWithLayout } from "../../_app";
-import MemberToProjectGraph from "./MemberToProjectGraph";
+// import MemberToProjectGraph from "./MemberToProjectGraph";
 import MenuOption from "./MenuOption";
 
 const FIND_MEMBER_GRAPH = gql`

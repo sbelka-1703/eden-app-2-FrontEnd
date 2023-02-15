@@ -79,7 +79,8 @@ const MemberToProjectGraph = (props: any) => {
   const { data: dataGraphAPImember } = useQuery(FIND_MEMBER_GRAPH, {
     variables: {
       fields: {
-        memberID: props.settingsGraphs.memberID1,
+        memberID: "961730944170090516",
+        // memberID: props.settingsGraphs.memberID1,
         showAvatar: true,
         nodeSettings: [
           nodeSettingsPreset["Member"]["main"],
