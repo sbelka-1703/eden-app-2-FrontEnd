@@ -89,12 +89,15 @@ export const AdminReportsContainer = () => {
     setWidgetArray([
       ...widgetArray,
       {
-        i: "widget" + (widgetArray.length + 1 || 0),
+        i: widgetArray.length,
         x: 0,
-        y: 0,
+        y: 9999,
         w: 2,
         h: 2,
-        content: { type: null as null | string },
+        content: {
+          title: "widget" + (widgetArray.length + 1),
+          type: null as null | string,
+        },
       },
     ]);
   };
@@ -214,6 +217,8 @@ export const AdminReportsContainer = () => {
           onChange={(e) => setTitle(e.currentTarget.value)}
         />
       </h1>
+      {/* xxxxxx{JSON.stringify(widgetArray)}xxxxxxx yyyyyy{JSON.stringify(layouts)}
+      yyyyyy */}
       <ResponsiveReactGridLayout
         key={widgetArray?.toString()}
         onLayoutChange={handleModify}
@@ -253,12 +258,14 @@ export const AdminReportsContainer = () => {
               <h3>
                 <input
                   type="text"
-                  value={widget.i}
+                  value={widget.content.title}
                   className="w-8/10 outline-none mb-8"
+                  onMouseDown={(e) => e.stopPropagation()}
                   onChange={(e) => {
                     const _newWidgetArray = [...widgetArray];
 
-                    _newWidgetArray[index].i = e.currentTarget.value;
+                    _newWidgetArray[index].content.title =
+                      e.currentTarget.value;
 
                     setWidgetArray(_newWidgetArray);
                   }}
