@@ -14,10 +14,9 @@ import { Controller, useForm } from "react-hook-form";
 import { NextPageWithLayout } from "../../_app";
 
 const TestPage: NextPageWithLayout = () => {
-  const [project, setProject] = useState<Project>();
+  const [project, setProject] = useState<Project | undefined>();
   const [descriptionFromProjectViews, setDescriptionFromProjectViews] =
-    useState("");
-
+    useState<string | null>(null);
   const { control } = useForm({
     defaultValues: {
       example: "",

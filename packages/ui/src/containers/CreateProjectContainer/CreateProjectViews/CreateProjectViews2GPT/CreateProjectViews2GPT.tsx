@@ -59,7 +59,7 @@ export const CreateProjectViews2GPT = ({
   const returnHandler = () => {
     const description = getValues().description;
 
-    onReturn(description);
+    onReturn && onReturn(description);
     console.log("getValues(description)+++++++", description);
   };
   /////////////////////////
