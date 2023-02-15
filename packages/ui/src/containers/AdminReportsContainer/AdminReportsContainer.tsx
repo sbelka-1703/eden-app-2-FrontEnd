@@ -125,8 +125,6 @@ export const AdminReportsContainer = () => {
   const handleModify = (layouts: any, layout: any) => {
     const tempArray = widgetArray ? [...widgetArray!] : [];
 
-    debugger;
-
     setLayouts(layout);
     layouts?.map((position: any) => {
       tempArray[Number(position.i)].x = position.x;
