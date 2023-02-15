@@ -1,7 +1,7 @@
-import { PreviusProjectsType } from "@eden/package-graphql/generated";
+import { PreviousProjectsType } from "@eden/package-graphql/generated";
 import { faker } from "@faker-js/faker";
 
-export const getPreviusProjectsTypeMock = (): PreviusProjectsType => ({
+export const getPreviousProjectsTypeMock = (): PreviousProjectsType => ({
   title: faker.name.firstName(),
   positionName: faker.name.jobTitle(),
   description: faker.lorem.paragraph(),
@@ -11,7 +11,7 @@ export const getPreviusProjectsTypeMock = (): PreviusProjectsType => ({
   picture: faker.image.image(),
 });
 
-export const getPreviusProjectsTypeMockArray = (
+export const getPreviousProjectsTypeMockArray = (
   total: number
-): PreviusProjectsType[] =>
-  Array.from({ length: total }, () => getPreviusProjectsTypeMock());
+): PreviousProjectsType[] =>
+  Array.from({ length: total }, () => getPreviousProjectsTypeMock());
