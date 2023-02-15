@@ -275,7 +275,7 @@ export const MemberInfoWithGraph = ({
 
       {refContainer && hasGraph && (
         <div
-          className="w-full h-[340px]"
+          className="h-[340px] w-full"
           ref={refContainer as RefObject<HTMLDivElement>}
         >
           {data && data.nodes && data.nodes.length > 0 ? (
@@ -352,11 +352,11 @@ export const MemberInfoWithGraph = ({
           />
         </div>
       </div>
-      {((member?.previusProjects && member?.previusProjects.length) ||
+      {((member?.previousProjects && member?.previousProjects.length) ||
         (member?.endorsements && member?.endorsements.length > 0)) && (
         <div className={`my-4`}>
           <UserBackground
-            background={member?.previusProjects || []}
+            background={member?.previousProjects || []}
             initialEndorsements={member?.endorsements || []}
             setExperienceOpen={setExperienceOpen!}
             experienceOpen={experienceOpen!}
