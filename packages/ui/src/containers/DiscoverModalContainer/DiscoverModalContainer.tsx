@@ -1,7 +1,7 @@
 import { DiscoverContext, DiscoverModal } from "@eden/package-context";
 import { PreferencesType } from "@eden/package-graphql/generated";
 import {
-  DiscoverTalentDropdownWithSkillSelectorModal,
+  DiscoverTalentDropdownModal,
   PreferencesModal,
   PrioritizeModal,
   RequirementsModal,
@@ -88,7 +88,7 @@ export const DiscoverModalContainer = ({
       )}
 
       {openModal === DiscoverModal.SKILLS_CATEGORY && (
-        <DiscoverTalentDropdownWithSkillSelectorModal
+        <DiscoverTalentDropdownModal
           openModal={openModal === DiscoverModal.SKILLS_CATEGORY}
           onClose={() => {
             setOpenModal(DiscoverModal.SKIP_ALERT);
@@ -110,7 +110,7 @@ export const DiscoverModalContainer = ({
       )}
 
       {openModal === DiscoverModal.SKILLS_SUBCATEGORY && (
-        <DiscoverTalentDropdownWithSkillSelectorModal
+        <DiscoverTalentDropdownModal
           openModal={openModal === DiscoverModal.SKILLS_SUBCATEGORY}
           onClose={() => {
             setOpenModal(DiscoverModal.SKIP_ALERT);
