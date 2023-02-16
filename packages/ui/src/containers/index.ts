@@ -4,6 +4,7 @@ export * from "./ConfettiContainer";
 export * from "./CreateProjectContainer";
 export * from "./DiscoverContainer";
 export * from "./DiscoverModalContainer";
+export * from "./DiscoverModalSkillSelctorContainer";
 export * from "./FillUserProfileContainer";
 export * from "./GrantsModalContainer";
 export * from "./NodesOnboardPartyContainer";
