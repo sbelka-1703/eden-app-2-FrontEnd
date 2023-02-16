@@ -81,8 +81,8 @@ const ProjectsPage: NextPageWithLayout = () => {
       // console.log("updateMember", updateNodesToMember);
       // setSubmitting(false);
     },
-    onError(error) {
-      console.log("error", error);
+    onError() {
+      console.log("error");
     },
   });
 
@@ -120,7 +120,6 @@ const ProjectsPage: NextPageWithLayout = () => {
         fields: {
           nodeType: type,
           nodesID: val,
-          memberID: currentUser?._id,
         },
       },
       context: { serviceName: "soilservice" },
