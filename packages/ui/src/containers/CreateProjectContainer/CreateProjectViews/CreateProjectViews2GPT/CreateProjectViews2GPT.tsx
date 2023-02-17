@@ -90,6 +90,7 @@ export const CreateProjectViews2GPT = ({
               control={control}
               render={() => (
                 <DescriptionGPT
+                  onClickGPTCondition={"messageToGPT"}
                   showTextArea={false}
                   customPrompt={autocomplete}
                   messageFromParent={watch("descriptionOneLine")}

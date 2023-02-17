@@ -10,9 +10,9 @@ export const MESSAGE_TO_GPT = gql`
   }
 `;
 
-export const INPUT_TO_GTP = gql`
+export const INPUT_TO_GPT = gql`
   mutation ($fields: inputToGPTInput!) {
-    inputToGTP(fields: $fields) {
+    inputToGPT(fields: $fields) {
       descriptionRole
       benefitsRole
       expectationsRole
@@ -47,7 +47,7 @@ export interface IDescriptionGPTProps {
   oneLinerFromParent?: String;
   titleRole?: String;
   expertiseRole?: [String];
-  onReturn: React.Dispatch<React.SetStateAction<string | null>>;
+  onReturn?: React.Dispatch<React.SetStateAction<string | null>>;
   onClickGPTCondition: "messageToGPT" | "inputToGPT";
 }
 
@@ -75,7 +75,7 @@ export const DescriptionGPT = ({
     },
   });
 
-  const [inputToGPT] = useMutation(INPUT_TO_GTP, {
+  const [inputToGPT] = useMutation(INPUT_TO_GPT, {
     onCompleted({ inputToGPT }) {
       if (inputToGPT) console.log("+++++inputToGPT+++++", inputToGPT);
 
@@ -110,11 +110,19 @@ export const DescriptionGPT = ({
             descriptionProject: responseFromGTP,
             titleRole: titleRole,
             oneLinerProject: oneLinerFromParent,
-            expertiseRole: [],
+            expertiseRole: [""],
           },
         },
         context: { serviceName: "soilservice" },
       });
+      console.log("inputToGPT", inputToGPT);
+      console.log(
+        "titleRole=====",
+        titleRole,
+
+        "oneLinerFromParent======",
+        oneLinerFromParent
+      );
     }
   };
 

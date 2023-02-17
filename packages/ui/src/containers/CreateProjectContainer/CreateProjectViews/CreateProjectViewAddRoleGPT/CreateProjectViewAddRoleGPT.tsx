@@ -3,6 +3,7 @@ import {
   BatteryStepper,
   Button,
   Card,
+  DescriptionGPT,
   SelectNodes,
   TextHeading3,
   TextInputLabel,
@@ -174,6 +175,14 @@ export const CreateProjectViewAddRoleGPT = ({
                             {...register(`role.${index}.shortDescription`)}
                           />
                         </div>
+                        <DescriptionGPT
+                          showTextArea={false}
+                          onClickGPTCondition={"inputToGPT"}
+                          oneLinerFromParent={watch(
+                            `role.${index}.shortDescription`
+                          )}
+                          titleRole={watch(`role.${index}.title`)}
+                        />
                         {/* Role Long Description */}
                         <ToggleElement
                           htmlFor={`role-description`}
