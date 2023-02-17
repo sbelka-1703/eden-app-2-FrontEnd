@@ -16,6 +16,7 @@ export interface RangeChartOneProps {
   maxCaption?: string;
   leftCaption?: string;
   rightCaption?: string;
+  chartLabel?: string;
   // eslint-disable-next-line no-unused-vars
   onChange?: (data: {
     domain: number[];
@@ -43,6 +44,7 @@ export const RangeChartOne = ({
   maxCaption,
   leftCaption,
   rightCaption,
+  chartLabel,
 }: RangeChartOneProps) => {
   const [rangesData, setRangesData] = useState<{
     domain: number[];
@@ -138,6 +140,7 @@ export const RangeChartOne = ({
 
   return (
     <div className="space-y-4">
+      <TextHeading3 className="mb-3 text-center">{chartLabel}</TextHeading3>
       <div className="b relative ">
         <TextHeading3 className="absolute bottom-0 left-0 -mt-6 -ml-2 py-4">
           <div className="flex flex-col items-center text-[16px] text-gray-500">
