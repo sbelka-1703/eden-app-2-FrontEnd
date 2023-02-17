@@ -108,7 +108,6 @@ export const FillUserProfileContainer = ({
               .map((node) => node?.nodeData?._id),
           },
         },
-        context: { serviceName: "soilservice" },
       });
     },
     onError: () => {
@@ -120,7 +119,6 @@ export const FillUserProfileContainer = ({
     variables: {
       fields: {},
     },
-    context: { serviceName: "soilservice" },
   });
 
   const handleSetRole = (value: RoleTemplate) => {
@@ -185,7 +183,6 @@ export const FillUserProfileContainer = ({
       variables: {
         fields: fields,
       },
-      context: { serviceName: "soilservice" },
     });
   };
 
@@ -204,7 +201,6 @@ export const FillUserProfileContainer = ({
       variables: {
         fields: fields,
       },
-      context: { serviceName: "soilservice" },
     });
   };
 
