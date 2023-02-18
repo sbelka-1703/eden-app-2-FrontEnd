@@ -17,8 +17,10 @@ export const remapValue = (
 
 export function addEdge(newEdge: any, graph: any) {
   const model2 = {
-    source: newEdge.source,
-    target: newEdge.target,
+    ...newEdge,
+    // source: newEdge.source,
+    // target: newEdge.target,
+    // style: newEdge.style,
   };
 
   graph.addItem("edge", model2);
@@ -262,6 +264,7 @@ export const handleCheckboxChange = (
   data2?.edges?.forEach(function (edge: any) {
     // @ts-ignore
     if (addNodesObj[edge.source] || addNodesObj[edge.target]) {
+      // console.log("edge Change = ", edge);
       addEdge(edge, graph);
     }
   });
@@ -388,12 +391,15 @@ export function updateNodes(
 
 export function updateNodesBackendSettings(
   data: any,
-  graph: any
-  // setCheckedItems: any,
-  // setItems: any
+  graph: any,
+  setCheckedItems: any,
+  setItems: any
 ) {
   graph.data(data);
   graph.render();
+
+  const items: any[] = [];
+  const itemsObj = {};
 
   data.nodes.forEach(function (node: any) {
     if (!node) return;
@@ -411,7 +417,7 @@ export function updateNodesBackendSettings(
     // -------- Change stype based on Type of Node -------
     if (nodeType) {
       // SOS 🆘 you cant chanege the style of the member node because the visualisation breaks
-      if (nodeType != "Member") {
+      if (nodeType != "Member" && nodeType != "dynamicSearch") {
         graph.updateItem(node.id, {
           size: node.style.size,
           style: {
@@ -433,7 +439,41 @@ export function updateNodesBackendSettings(
       }
     }
     // -------- Change stype based on Type of Node -------
+
+    // -------- Create the Menue of Graph -------
+    // @ts-ignore
+    const typeNowStyle = nodeTypeStyle[nodeType];
+
+    // @ts-ignore
+    if (itemsObj[nodeType] == undefined && typeNowStyle != undefined) {
+      // @ts-ignore
+      itemsObj[nodeType] = {
+        res: typeNowStyle,
+      };
+      items.push({
+        id: items.length,
+        name: typeNowStyle?.displayName,
+        fill: typeNowStyle?.fill,
+        stroke: typeNowStyle?.stroke,
+        order: typeNowStyle?.order,
+        nodeType: nodeType,
+        checked: true,
+      });
+    }
+    // -------- Create the Menue of Graph -------
   });
+
+  //Solution
+  const itemsNew = items.sort((a, b) => a.order - b.order);
+
+  // console.log("items = ", items);
+  // console.log("items_new = ", itemsNew);
+
+  if (itemsNew.length > 1) {
+    // Create the Menue of Graph
+    setItems(itemsNew as any);
+    setCheckedItems(itemsNew);
+  }
 
   graph.layout();
 }

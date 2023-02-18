@@ -56,6 +56,62 @@ export const edgeSettingsPreset = {
       ],
     },
   },
+  "skill|dynamicSearch": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "skill",
+        nodeTypeTarget: "dynamicSearch",
+        style: {
+          color: "#E0E0E0",
+          distance: 170,
+          strength: 0.5,
+        },
+      },
+    },
+    sub_expertise: {
+      mainEdge: {
+        nodeTypeSource: "skill",
+        nodeTypeTarget: "dynamicSearch",
+        style: {
+          color: "#E0E0E0",
+          distance: 200,
+          strength: 0.5,
+        },
+      },
+      moreThanSplit: 2,
+      splitEdge: [
+        {
+          nodeTypeSource: "skill",
+          nodeTypeMiddle: "sub_expertise",
+          nodeTypeTarget: "dynamicSearch",
+        },
+      ],
+    },
+    doubleSplitEdge: {
+      mainEdge: {
+        nodeTypeSource: "skill",
+        nodeTypeTarget: "dynamicSearch",
+        style: {
+          color: "#E0E0E0",
+          distance: 200,
+          strength: 0.5,
+        },
+      },
+      moreThanSplit: 2,
+      splitEdge: [
+        {
+          nodeTypeSource: "skill",
+          nodeTypeMiddle: "sub_expertise",
+          nodeTypeTarget: "expertise",
+        },
+        {
+          nodeTypeSource: "sub_expertise",
+          nodeTypeMiddle: "expertise",
+          nodeTypeTarget: "dynamicSearch",
+        },
+      ],
+    },
+  },
   "skill|Role": {
     edge: {
       mainEdge: {
@@ -108,6 +164,19 @@ export const edgeSettingsPreset = {
       },
     },
   },
+  "expertise|dynamicSearch": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "expertise",
+        nodeTypeTarget: "dynamicSearch",
+        style: {
+          color: "#E0E0E0",
+          distance: 170,
+          strength: 0.5,
+        },
+      },
+    },
+  },
   "sub_expertise|Member": {
     edge: {
       mainEdge: {
@@ -136,6 +205,38 @@ export const edgeSettingsPreset = {
           nodeTypeSource: "sub_expertise",
           nodeTypeMiddle: "expertise",
           nodeTypeTarget: "Member",
+        },
+      ],
+    },
+  },
+  "sub_expertise|dynamicSearch": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "sub_expertise",
+        nodeTypeTarget: "dynamicSearch",
+        style: {
+          color: "#E0E0E0",
+          distance: 200,
+          strength: 0.5,
+        },
+      },
+    },
+    expertise: {
+      mainEdge: {
+        nodeTypeSource: "sub_expertise",
+        nodeTypeTarget: "dynamicSearch",
+        style: {
+          color: "#E0E0E0",
+          distance: 200,
+          strength: 0.5,
+        },
+      },
+      moreThanSplit: 2,
+      splitEdge: [
+        {
+          nodeTypeSource: "sub_expertise",
+          nodeTypeMiddle: "expertise",
+          nodeTypeTarget: "dynamicSearch",
         },
       ],
     },
@@ -280,6 +381,19 @@ export const edgeSettingsPreset = {
       },
     },
   },
+  "typeProject|dynamicSearch": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "typeProject",
+        nodeTypeTarget: "dynamicSearch",
+        style: {
+          color: "#E0E0E0",
+          distance: 170,
+          strength: 0.5,
+        },
+      },
+    },
+  },
   "sub_typeProject|Member": {
     edge: {
       mainEdge: {
@@ -312,6 +426,38 @@ export const edgeSettingsPreset = {
       ],
     },
   },
+  "sub_typeProject|dynamicSearch": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "sub_typeProject",
+        nodeTypeTarget: "dynamicSearch",
+        style: {
+          color: "#E0E0E0",
+          distance: 110,
+          strength: 0.5,
+        },
+      },
+    },
+    typeProject: {
+      mainEdge: {
+        nodeTypeSource: "sub_typeProject",
+        nodeTypeTarget: "dynamicSearch",
+        style: {
+          color: "#E0E0E0",
+          distance: 110,
+          strength: 0.5,
+        },
+      },
+      moreThanSplit: 2,
+      splitEdge: [
+        {
+          nodeTypeSource: "sub_typeProject",
+          nodeTypeMiddle: "typeProject",
+          nodeTypeTarget: "dynamicSearch",
+        },
+      ],
+    },
+  },
   "Project|Member": {
     edge: {
       mainEdge: {
@@ -328,6 +474,31 @@ export const edgeSettingsPreset = {
       mainEdge: {
         nodeTypeSource: "Project",
         nodeTypeTarget: "Member",
+        style: {
+          color: "#FFFFFF",
+          distance: 500,
+          strength: 0.5,
+        },
+      },
+      hiddenEdge: true,
+    },
+  },
+  "Project|dynamicSearch": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "Project",
+        nodeTypeTarget: "dynamicSearch",
+        style: {
+          color: "#E0E0E0",
+          distance: 110,
+          strength: 0.5,
+        },
+      },
+    },
+    hiddenEdge: {
+      mainEdge: {
+        nodeTypeSource: "Project",
+        nodeTypeTarget: "dynamicSearch",
         style: {
           color: "#FFFFFF",
           distance: 500,
@@ -381,6 +552,56 @@ export const edgeSettingsPreset = {
         style: {
           color: "#FFFFFF",
           distance: 300,
+          strength: 0.5,
+        },
+      },
+      hiddenEdge: true,
+    },
+  },
+  "Role|expertise": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "Role",
+        nodeTypeTarget: "expertise",
+        style: {
+          color: "#E0E0E0",
+          distance: 150,
+          strength: 0.5,
+        },
+      },
+    },
+    hiddenEdge: {
+      mainEdge: {
+        nodeTypeSource: "Role",
+        nodeTypeTarget: "expertise",
+        style: {
+          color: "#FFFFFF",
+          distance: 250,
+          strength: 0.5,
+        },
+      },
+      hiddenEdge: true,
+    },
+  },
+  "Role|typeProject": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "Role",
+        nodeTypeTarget: "typeProject",
+        style: {
+          color: "#E0E0E0",
+          distance: 150,
+          strength: 0.5,
+        },
+      },
+    },
+    hiddenEdge: {
+      mainEdge: {
+        nodeTypeSource: "Role",
+        nodeTypeTarget: "typeProject",
+        style: {
+          color: "#FFFFFF",
+          distance: 250,
           strength: 0.5,
         },
       },

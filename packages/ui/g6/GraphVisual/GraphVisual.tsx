@@ -20,6 +20,9 @@ export interface IGraphVisualisation {
   data2: Graph;
   width: number;
   height: number;
+  settingsGraphs?: any;
+  updateSettings?: any;
+  hasMenu?: boolean;
 }
 
 const loadingNode: Graph = {
@@ -44,7 +47,14 @@ function refreshDragedNodePosition(e: any) {
 
 let graph: any;
 
-export const GraphVisual = ({ width, height, data2 }: IGraphVisualisation) => {
+export const GraphVisual = ({
+  width,
+  height,
+  data2,
+  settingsGraphs = undefined,
+  updateSettings = undefined,
+  hasMenu = true,
+}: IGraphVisualisation) => {
   const ref = React.useRef(null);
 
   //  -------------- Graph Setup ----------------
@@ -91,8 +101,8 @@ export const GraphVisual = ({ width, height, data2 }: IGraphVisualisation) => {
       });
 
       // updateNodes(loadingNode, graph, setItems, setCheckedItems);
-      updateNodesBackendSettings(loadingNode, graph);
-      // updateNodesBackendSettings(loadingNode, graph, setItems, setCheckedItems);
+      // updateNodesBackendSettings(loadingNode, graph);
+      updateNodesBackendSettings(loadingNode, graph, setItems, setCheckedItems);
 
       graph.on("node:dragstart", (e: any) => {
         graph.layout();
@@ -121,16 +131,16 @@ export const GraphVisual = ({ width, height, data2 }: IGraphVisualisation) => {
       // protect it for firing the rerender too early
 
       // updateNodes(data2, graph, setItems, setCheckedItems);
-      updateNodesBackendSettings(data2, graph);
-      // updateNodesBackendSettings(data2, graph, setItems, setCheckedItems);
+      // updateNodesBackendSettings(data2, graph);
+      updateNodesBackendSettings(data2, graph, setItems, setCheckedItems);
     }, 100);
   }, [data2]);
   //  -------------- Graph Setup ----------------
 
   // ---------- Menue Nodes, Check UnCheck -------------
   const [checkedItems, setCheckedItems] = useState<any>([]);
-  const [items] = useState([]);
-  // const [items, setItems] = useState([]);
+  // const [items] = useState([]);
+  const [items, setItems] = useState([]);
   // ---------- Menue Nodes, Check UnCheck -------------
 
   useEffect(() => {
@@ -145,14 +155,18 @@ export const GraphVisual = ({ width, height, data2 }: IGraphVisualisation) => {
       {data2?.nodes && data2?.nodes?.length == 1 ? <div>loading</div> : true}
       <div ref={ref}></div>
 
-      <GraphMenu
-        items={items}
-        checkedItems={checkedItems}
-        handleCheckboxChange={handleCheckboxChange}
-        data2={data2}
-        setCheckedItems={setCheckedItems}
-        graph={graph}
-      />
+      {hasMenu && (
+        <GraphMenu
+          items={items}
+          checkedItems={checkedItems}
+          handleCheckboxChange={handleCheckboxChange}
+          data2={data2}
+          setCheckedItems={setCheckedItems}
+          graph={graph}
+          settingsGraphs={settingsGraphs}
+          updateSettings={updateSettings}
+        />
+      )}
     </div>
   );
 };

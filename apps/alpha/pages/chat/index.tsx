@@ -24,7 +24,7 @@ import { toast } from "react-toastify";
 
 import type { NextPageWithLayout } from "../_app";
 
-const ChatPage: NextPageWithLayout = (session) => {
+const ChatPage: NextPageWithLayout = () => {
   const [selectedMember, setSelectedMember] = useState<Members>();
   const { data: dataMembers } = useQuery(FIND_MEMBERS, {
     variables: {
@@ -32,7 +32,6 @@ const ChatPage: NextPageWithLayout = (session) => {
         _id: null,
       },
     },
-    context: { serviceName: "soilservice" },
   });
 
   const [search, setSearch] = useState("");
@@ -44,7 +43,6 @@ const ChatPage: NextPageWithLayout = (session) => {
       },
     },
     skip: !search || search === "",
-    context: { serviceName: "soilservice" },
   });
 
   const searchMember = dataSearchMember?.findMember;
@@ -168,7 +166,6 @@ const ChatPage: NextPageWithLayout = (session) => {
                       message: message,
                       projectID: "62f685952dc2d40004d395c7",
                       receiverID: member?._id!,
-                      senderID: currentUser?._id!,
                       serverID: "996558082098339953",
                       threadID: threadId,
                     },

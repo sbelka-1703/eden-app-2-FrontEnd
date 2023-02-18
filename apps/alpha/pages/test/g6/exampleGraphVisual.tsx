@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import React, { RefObject, useEffect, useRef, useState } from "react";
 
 import type { NextPageWithLayout } from "../../_app";
+// import MemberToProjectGraph from "./MemberToProjectGraph";
 import MenuOption from "./MenuOption";
 
 const FIND_MEMBER_GRAPH = gql`
@@ -136,6 +137,102 @@ const FIND_MULTIPLE_MEMBERS_PROJECTS_GRAPH = gql`
   }
 `;
 
+const DYNAMIC_SEARCH_TO_PROJECT_GRAPH = gql`
+  query ($fields: dynamicSearchToProjectGraphInput!) {
+    dynamicSearchToProjectGraph(fields: $fields) {
+      nodesVisual {
+        _id
+        name
+        type
+        avatar
+        fakeID
+        originalNode
+        extraDistanceRation
+        style {
+          fill
+          stroke
+          size
+        }
+      }
+      edges {
+        source
+        target
+        distanceRation
+        style {
+          fill
+          stroke
+          distance
+          strength
+        }
+      }
+    }
+  }
+`;
+
+const DYNAMIC_SEARCH_GRAPH = gql`
+  query ($fields: dynamicSearchGraphInput!) {
+    dynamicSearchGraph(fields: $fields) {
+      nodesVisual {
+        _id
+        name
+        type
+        avatar
+        fakeID
+        originalNode
+        extraDistanceRation
+        style {
+          fill
+          stroke
+          size
+        }
+      }
+      edges {
+        source
+        target
+        distanceRation
+        style {
+          fill
+          stroke
+          distance
+          strength
+        }
+      }
+    }
+  }
+`;
+
+const DYNAMIC_SEARCH_TO_MEMBER_GRAPH = gql`
+  query ($fields: dynamicSearchToMemberGraphInput!) {
+    dynamicSearchToMemberGraph(fields: $fields) {
+      nodesVisual {
+        _id
+        name
+        type
+        avatar
+        fakeID
+        originalNode
+        extraDistanceRation
+        style {
+          fill
+          stroke
+          size
+        }
+      }
+      edges {
+        source
+        target
+        distanceRation
+        style {
+          fill
+          stroke
+          distance
+          strength
+        }
+      }
+    }
+  }
+`;
+
 interface clipCfg {
   show?: boolean;
   type?: string;
@@ -164,11 +261,6 @@ export interface Graph {
   edges: Maybe<Array<Maybe<Edge>>>;
   nodes: Array<Maybe<NodeVisualExtended>>;
 }
-
-// export interface GraphNV {
-//   edges: Maybe<Array<Maybe<Edge>>>;
-//   nodesVisual: Maybe<Array<Maybe<NodeVisualExtended>>>;
-// }
 
 const data2: any = {
   nodesVisual: [
@@ -245,36 +337,51 @@ const GraphVisualPage: NextPageWithLayout = () => {
 
   const [width, setWidth] = useState<number>(0);
 
-  const [selectedOption, setSelectedOption] = useState<string>("Option 2");
-  const [settingsGraphs, setSettingsGraphs] = useState<any>({
-    useAvatar: true,
-    updateGraph: false,
-    memberID1: "961730944170090516",
-    projectID1: "637ad5a6f0f9c427e03a03a8",
-    // memberID1: "908392557258604544",
-    // projectID1: "637ad5a6f0f9c427e03a03a8",
-  });
   const updateSettings = (settingsNew: any) => {
     setSettingsGraphs({
       ...settingsNew,
       updateGraph: false,
     });
-    // console.log("settingsNew = ", settingsNew);
 
-    // if (settingsNew.updateGraph == true) {
-    //   updateGraph(settingsNew);
-    // }
-
-    // refetchDataGraphAPImember();
+    updateSettingsGraph({
+      ...settingsNew,
+      updateGraph: false,
+    });
   };
 
   // create a function that handle a click and will pass on G6component component
 
-  const { data: dataGraphAPImember } = useQuery(FIND_MEMBER_GRAPH, {
-    variables: {
-      fields: {
-        memberID: settingsGraphs.memberID1,
-        showAvatar: true,
+  const [nodeEdgeSettingsGraph] = useState<any>({
+    dataGraphAPImember: {
+      simple: {
+        nodeSettings: [
+          nodeSettingsPreset["Member"]["main"],
+          nodeSettingsPreset["typeProject"]["main"],
+          nodeSettingsPreset["expertise"]["main"],
+        ],
+        edgeSettings: [
+          // ------ split sub_typeProject|Member -------
+          edgeSettingsPreset["sub_typeProject|Member"]["typeProject"],
+          edgeSettingsPreset["sub_typeProject|typeProject"]["edge"],
+          edgeSettingsPreset["typeProject|Member"]["edge"],
+          // ------ split sub_typeProject|Member -------
+
+          // ------ split skill|Member -------
+          edgeSettingsPreset["skill|Member"]["doubleSplitEdge"],
+          // edgeSettingsPreset["skill|Member"]["edge"],
+          edgeSettingsPreset["skill|sub_expertise"]["edge"],
+          // edgeSettingsPreset["sub_expertise|Member"]["edge"],
+          // ------ split skill|Member -------
+
+          // ------ split sub_expertise|Member -------
+          edgeSettingsPreset["sub_expertise|Member"]["expertise"],
+          edgeSettingsPreset["sub_expertise|expertise"]["edge"],
+          edgeSettingsPreset["expertise|Member"]["edge"],
+          // edgeSettingsPreset["sub_expertise|Member"]["edge"],
+          // ------ split sub_expertise|Member -------
+        ],
+      },
+      detailed: {
         nodeSettings: [
           nodeSettingsPreset["Member"]["main"],
           nodeSettingsPreset["sub_typeProject"]["main"],
@@ -303,19 +410,215 @@ const GraphVisualPage: NextPageWithLayout = () => {
           edgeSettingsPreset["expertise|Member"]["edge"],
           // edgeSettingsPreset["sub_expertise|Member"]["edge"],
           // ------ split sub_expertise|Member -------
-
-          // ------ Change edge --------
-          // {
-          //   ...edgeSettingsPreset["typeProject|Member"]["edge"],
-          //   mainEdge: {
-          //     ...edgeSettingsPreset["typeProject|Member"]["edge"].mainEdge,
-          //     style: {
-          //       color: "#C5947C",
-          //     },
-          //   },
-          // },
-          // ------ Change edge --------
         ],
+      },
+    },
+    dataGraphAPImemberProject: {
+      simple: {
+        nodeSettings: [
+          nodeSettingsPreset["Member"]["main"],
+          nodeSettingsPreset["sub_typeProject"]["main"],
+          // nodeSettingsPreset["typeProject"]["main"],
+          nodeSettingsPreset["sub_expertise"]["main"],
+          // nodeSettingsPreset["expertise"]["main"],
+          nodeSettingsPreset["Project"]["main"],
+          nodeSettingsPreset["Role"]["main"],
+          // nodeSettingsPreset["skill"]["main"],
+        ],
+        edgeSettings: [
+          // ------ split sub_typeProject|Member -------
+          edgeSettingsPreset["sub_typeProject|Member"]["edge"],
+          // edgeSettingsPreset["sub_typeProject|Member"]["typeProject"],
+          // edgeSettingsPreset["sub_typeProject|typeProject"]["edge"],
+          // edgeSettingsPreset["typeProject|Member"]["edge"],
+          // ------ split sub_typeProject|Member -------
+
+          // ------ split sub_expertise|Member -------
+          edgeSettingsPreset["sub_expertise|Member"]["edge"],
+          // edgeSettingsPreset["sub_expertise|Member"]["expertise"],
+          // edgeSettingsPreset["sub_expertise|expertise"]["edge"],
+          // edgeSettingsPreset["expertise|Member"]["edge"],
+          // ------ split sub_expertise|Member -------
+
+          // ------ Project Edges -------
+          edgeSettingsPreset["Project|Role"]["edge"],
+          edgeSettingsPreset["sub_expertise|Role"]["edge"],
+          edgeSettingsPreset["sub_typeProject|Role"]["edge"],
+          edgeSettingsPreset["skill|Role"]["edge"],
+          // ------ Project Edges -------
+
+          // // ------ skill Edges -------
+          // edgeSettingsPreset["skill|Member"]["edge"],
+          edgeSettingsPreset["skill|Member"]["doubleSplitEdge"],
+          edgeSettingsPreset["skill|sub_expertise"]["edge"],
+          // edgeSettingsPreset["sub_expertise|Member"]["edge"],
+          // // ------ skill Edges -------
+
+          //  ------ Create Far Distance between member and project ------
+          edgeSettingsPreset["Project|Member"]["hiddenEdge"],
+          edgeSettingsPreset["typeProject|expertise"]["hiddenEdge"],
+          edgeSettingsPreset["Role|expertise"]["hiddenEdge"],
+          edgeSettingsPreset["Role|typeProject"]["hiddenEdge"],
+          //  ------ Create Far Distance between member and project ------
+        ],
+      },
+      detailed: {
+        nodeSettings: [
+          nodeSettingsPreset["Member"]["main"],
+          nodeSettingsPreset["sub_typeProject"]["main"],
+          nodeSettingsPreset["typeProject"]["main"],
+          nodeSettingsPreset["sub_expertise"]["main"],
+          nodeSettingsPreset["expertise"]["main"],
+          nodeSettingsPreset["Project"]["main"],
+          nodeSettingsPreset["Role"]["main"],
+          nodeSettingsPreset["skill"]["main"],
+        ],
+        edgeSettings: [
+          // ------ split sub_typeProject|Member -------
+          edgeSettingsPreset["sub_typeProject|Member"]["typeProject"],
+          edgeSettingsPreset["sub_typeProject|typeProject"]["edge"],
+          edgeSettingsPreset["typeProject|Member"]["edge"],
+          // ------ split sub_typeProject|Member -------
+
+          // ------ split sub_expertise|Member -------
+          // edgeSettingsPreset["sub_expertise|Member"]["edge"],
+          edgeSettingsPreset["sub_expertise|Member"]["expertise"],
+          edgeSettingsPreset["sub_expertise|expertise"]["edge"],
+          edgeSettingsPreset["expertise|Member"]["edge"],
+          // ------ split sub_expertise|Member -------
+
+          // ------ Project Edges -------
+          edgeSettingsPreset["Project|Role"]["edge"],
+          edgeSettingsPreset["sub_expertise|Role"]["edge"],
+          edgeSettingsPreset["sub_typeProject|Role"]["edge"],
+          edgeSettingsPreset["skill|Role"]["edge"],
+          // ------ Project Edges -------
+
+          // // ------ skill Edges -------
+          // edgeSettingsPreset["skill|Member"]["edge"],
+          edgeSettingsPreset["skill|Member"]["doubleSplitEdge"],
+          edgeSettingsPreset["skill|sub_expertise"]["edge"],
+          // edgeSettingsPreset["sub_expertise|Member"]["edge"],
+          // // ------ skill Edges -------
+
+          //  ------ Create Far Distance between member and project ------
+          edgeSettingsPreset["Project|Member"]["hiddenEdge"],
+          edgeSettingsPreset["typeProject|expertise"]["hiddenEdge"],
+          edgeSettingsPreset["Role|expertise"]["hiddenEdge"],
+          edgeSettingsPreset["Role|typeProject"]["hiddenEdge"],
+          //  ------ Create Far Distance between member and project ------
+        ],
+      },
+    },
+  });
+
+  const [selectedOption, setSelectedOption] = useState<string>("Option 3");
+
+  const [settingsGraphs, setSettingsGraphs] = useState<any>({
+    useAvatar: true,
+    updateGraph: false,
+    memberID1: "961730944170090516",
+    projectID1: "637ad5a6f0f9c427e03a03a8",
+    // memberID1: "908392557258604544",
+    // projectID1: "637ad5a6f0f9c427e03a03a8",
+    simpleDetail: "simple",
+    nodesID: ["637a9137b8953f12f501e156", "637a9134b8953f12f501e0f7"],
+    // nodesID: ["637a9137b8953f12f501e156", "637a913ab8953f12f501e190"],
+    // nodesID: [
+    //   "637a9135b8953f12f501e118",
+    //   "637a9134b8953f12f501e0f7",
+    //   "637a9151b8953f12f501e2aa",
+    //   "637a913fb8953f12f501e1af",
+    //   "63d1ad93a90f12cef67a7c7b",
+    // ],
+    nodePresetPos: 1,
+    nodeSettings:
+      nodeEdgeSettingsGraph.dataGraphAPImember.detailed.nodeSettings,
+    edgeSettings:
+      nodeEdgeSettingsGraph.dataGraphAPImember.detailed.edgeSettings,
+  });
+
+  const updateSettingsGraph = (settingsGraphs: any) => {
+    const simpleDetail = settingsGraphs.simpleDetail;
+
+    if (selectedOption == "Option 2") {
+      setSettingsGraphs({
+        ...settingsGraphs,
+        nodeSettings:
+          nodeEdgeSettingsGraph.dataGraphAPImemberProject[simpleDetail]
+            .nodeSettings,
+        edgeSettings:
+          nodeEdgeSettingsGraph.dataGraphAPImemberProject[simpleDetail]
+            .edgeSettings,
+      });
+    } else if (selectedOption == "Option 3") {
+      setSettingsGraphs({
+        ...settingsGraphs,
+        nodeSettings:
+          nodeEdgeSettingsGraph.dataGraphAPImember[simpleDetail].nodeSettings,
+        edgeSettings:
+          nodeEdgeSettingsGraph.dataGraphAPImember[simpleDetail].edgeSettings,
+      });
+    } else if (selectedOption == "Option 4") {
+    } else if (selectedOption == "Option 5") {
+    }
+  };
+
+  useEffect(() => {
+    updateSettingsGraph(settingsGraphs);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedOption]);
+  // }, [selectedOption, settingsGraphs]);
+
+  const { data: dataGraphAPImember } = useQuery(FIND_MEMBER_GRAPH, {
+    variables: {
+      fields: {
+        memberID: settingsGraphs.memberID1,
+        showAvatar: true,
+        nodeSettings: settingsGraphs.nodeSettings,
+        edgeSettings: settingsGraphs.edgeSettings,
+        // ...nodeEdgeSettingsGraph.dataGraphAPImember.detailed,
+        // nodeSettings: [
+        //   nodeSettingsPreset["Member"]["main"],
+        //   nodeSettingsPreset["sub_typeProject"]["main"],
+        //   nodeSettingsPreset["typeProject"]["main"],
+        //   nodeSettingsPreset["sub_expertise"]["main"],
+        //   nodeSettingsPreset["expertise"]["main"],
+        //   nodeSettingsPreset["skill"]["main"],
+        // ],
+        // edgeSettings: [
+        //   // ------ split sub_typeProject|Member -------
+        //   edgeSettingsPreset["sub_typeProject|Member"]["typeProject"],
+        //   edgeSettingsPreset["sub_typeProject|typeProject"]["edge"],
+        //   edgeSettingsPreset["typeProject|Member"]["edge"],
+        //   // ------ split sub_typeProject|Member -------
+
+        // // ------ split skill|Member -------
+        // edgeSettingsPreset["skill|Member"]["doubleSplitEdge"],
+        // // edgeSettingsPreset["skill|Member"]["edge"],
+        // edgeSettingsPreset["skill|sub_expertise"]["edge"],
+        // // edgeSettingsPreset["sub_expertise|Member"]["edge"],
+        // // ------ split skill|Member -------
+
+        //   // ------ split sub_expertise|Member -------
+        //   edgeSettingsPreset["sub_expertise|Member"]["expertise"],
+        //   edgeSettingsPreset["sub_expertise|expertise"]["edge"],
+        //   edgeSettingsPreset["expertise|Member"]["edge"],
+        //   // edgeSettingsPreset["sub_expertise|Member"]["edge"],
+        //   // ------ split sub_expertise|Member -------
+
+        //   // ------ Change edge --------
+        //   // {
+        //   //   ...edgeSettingsPreset["typeProject|Member"]["edge"],
+        //   //   mainEdge: {
+        //   //     ...edgeSettingsPreset["typeProject|Member"]["edge"].mainEdge,
+        //   //     style: {
+        //   //       color: "#C5947C",
+        //   //     },
+        //   //   },
+        //   // },
+        //   // ------ Change edge --------
+        // ],
       },
     },
     skip: selectedOption !== "Option 3",
@@ -330,43 +633,191 @@ const GraphVisualPage: NextPageWithLayout = () => {
           memberID: settingsGraphs.memberID1,
           projectID: settingsGraphs.projectID1,
           showAvatar: true,
+
+          nodeSettings: settingsGraphs.nodeSettings,
+          edgeSettings: settingsGraphs.edgeSettings,
+          // nodeSettings: [
+          //   nodeSettingsPreset["Member"]["main"],
+          //   nodeSettingsPreset["sub_typeProject"]["main"],
+          //   nodeSettingsPreset["typeProject"]["main"],
+          //   nodeSettingsPreset["sub_expertise"]["main"],
+          //   nodeSettingsPreset["expertise"]["main"],
+          //   nodeSettingsPreset["Project"]["main"],
+          //   nodeSettingsPreset["Role"]["main"],
+          //   nodeSettingsPreset["skill"]["main"],
+          // ],
+          // edgeSettings: [
+          //   // ------ split sub_typeProject|Member -------
+          //   edgeSettingsPreset["sub_typeProject|Member"]["typeProject"],
+          //   edgeSettingsPreset["sub_typeProject|typeProject"]["edge"],
+          //   edgeSettingsPreset["typeProject|Member"]["edge"],
+          //   // ------ split sub_typeProject|Member -------
+
+          //   // ------ split sub_expertise|Member -------
+          //   // edgeSettingsPreset["sub_expertise|Member"]["edge"],
+          //   edgeSettingsPreset["sub_expertise|Member"]["expertise"],
+          //   edgeSettingsPreset["sub_expertise|expertise"]["edge"],
+          //   edgeSettingsPreset["expertise|Member"]["edge"],
+          //   // ------ split sub_expertise|Member -------
+
+          //   // ------ Project Edges -------
+          //   edgeSettingsPreset["Project|Role"]["edge"],
+          //   edgeSettingsPreset["sub_expertise|Role"]["edge"],
+          //   edgeSettingsPreset["sub_typeProject|Role"]["edge"],
+          //   edgeSettingsPreset["skill|Role"]["edge"],
+          //   // ------ Project Edges -------
+
+          //   // // ------ skill Edges -------
+          //   // edgeSettingsPreset["skill|Member"]["edge"],
+          //   edgeSettingsPreset["skill|Member"]["doubleSplitEdge"],
+          //   edgeSettingsPreset["skill|sub_expertise"]["edge"],
+          //   // edgeSettingsPreset["sub_expertise|Member"]["edge"],
+          //   // // ------ skill Edges -------
+
+          //   // // ------ split sub_expertise|Role -------
+          //   // edgeSettingsPreset["sub_expertise|Role"]["expertise"],
+          //   // edgeSettingsPreset["sub_expertise|expertise"]["edge"],
+          //   // edgeSettingsPreset["expertise|Role"]["edge"],
+          //   // // ------ split sub_expertise|Role -------
+
+          //   //  ------ Create Far Distance between member and project ------
+          //   edgeSettingsPreset["Project|Member"]["hiddenEdge"],
+          //   edgeSettingsPreset["typeProject|expertise"]["hiddenEdge"],
+          //   edgeSettingsPreset["Role|expertise"]["hiddenEdge"],
+          //   edgeSettingsPreset["Role|typeProject"]["hiddenEdge"],
+          //   //  ------ Create Far Distance between member and project ------
+          // ],
+        },
+      },
+      skip: selectedOption !== "Option 2",
+      context: { serviceName: "soilservice" },
+    }
+  );
+
+  const {
+    data: dataDynamicSearchToProject,
+    refetch: refetchDynamicSearchToProject,
+  } = useQuery(DYNAMIC_SEARCH_TO_PROJECT_GRAPH, {
+    variables: {
+      fields: {
+        // memberID: settingsGraphs.memberID1,
+        // nodesID: [
+        //   // "637a9133b8953f12f501e0d6",
+        //   "637a9135b8953f12f501e118",
+        //   "637a9134b8953f12f501e0f7",
+        //   "637a914ab8953f12f501e1ca",
+        //   "637a9151b8953f12f501e2aa",
+        //   "637a913fb8953f12f501e1af",
+        //   "63d1ad93a90f12cef67a7c7b",
+        // ],
+        nodesID: settingsGraphs.nodesID,
+        projectID: settingsGraphs.projectID1,
+        showAvatar: true,
+
+        nodeSettings: [
+          // nodeSettingsPreset["Member"]["main"],
+          nodeSettingsPreset["dynamicSearch"]["main"],
+          nodeSettingsPreset["sub_typeProject"]["main"],
+          nodeSettingsPreset["typeProject"]["main"],
+          nodeSettingsPreset["sub_expertise"]["main"],
+          nodeSettingsPreset["expertise"]["main"],
+          nodeSettingsPreset["Project"]["main"],
+          nodeSettingsPreset["Role"]["main"],
+          // nodeSettingsPreset["skill"]["main"],
+        ],
+        edgeSettings: [
+          // ------ split sub_typeProject|dynamicSearch -------
+          edgeSettingsPreset["sub_typeProject|dynamicSearch"]["typeProject"],
+          edgeSettingsPreset["sub_typeProject|typeProject"]["edge"],
+          edgeSettingsPreset["typeProject|dynamicSearch"]["edge"],
+          // ------ split sub_typeProject|dynamicSearch -------
+
+          // ------ split sub_expertise|dynamicSearch -------
+          // edgeSettingsPreset["sub_expertise|dynamicSearch"]["edge"],
+          edgeSettingsPreset["sub_expertise|dynamicSearch"]["expertise"],
+          edgeSettingsPreset["sub_expertise|expertise"]["edge"],
+          edgeSettingsPreset["expertise|dynamicSearch"]["edge"],
+          // ------ split sub_expertise|dynamicSearch -------
+
+          // ------ Project Edges -------
+          edgeSettingsPreset["Project|Role"]["edge"],
+          edgeSettingsPreset["sub_expertise|Role"]["edge"],
+          edgeSettingsPreset["sub_typeProject|Role"]["edge"],
+          // edgeSettingsPreset["skill|Role"]["edge"],
+          // ------ Project Edges -------
+
+          // // // ------ skill Edges -------
+          // // edgeSettingsPreset["skill|dynamicSearch"]["edge"],
+          // edgeSettingsPreset["skill|dynamicSearch"]["doubleSplitEdge"],
+          // edgeSettingsPreset["skill|sub_expertise"]["edge"],
+          // // edgeSettingsPreset["sub_expertise|dynamicSearch"]["edge"],
+          // // // ------ skill Edges -------
+
+          // // ------ split sub_expertise|Role -------
+          // edgeSettingsPreset["sub_expertise|Role"]["expertise"],
+          // edgeSettingsPreset["sub_expertise|expertise"]["edge"],
+          // edgeSettingsPreset["expertise|Role"]["edge"],
+          // // ------ split sub_expertise|Role -------
+
+          //  ------ Create Far Distance between member and project ------
+          edgeSettingsPreset["Project|dynamicSearch"]["hiddenEdge"],
+          edgeSettingsPreset["typeProject|expertise"]["hiddenEdge"],
+          edgeSettingsPreset["Role|expertise"]["hiddenEdge"],
+          edgeSettingsPreset["Role|typeProject"]["hiddenEdge"],
+          //  ------ Create Far Distance between member and project ------
+        ],
+      },
+    },
+    skip: selectedOption !== "Option 6",
+    context: { serviceName: "soilservice" },
+  });
+
+  const { data: dataDynamicSearch, refetch: refetchDynamicSearch } = useQuery(
+    DYNAMIC_SEARCH_GRAPH,
+    {
+      variables: {
+        fields: {
+          nodesID: settingsGraphs.nodesID,
+          showAvatar: true,
+
           nodeSettings: [
-            nodeSettingsPreset["Member"]["main"],
+            // nodeSettingsPreset["Member"]["main"],
+            nodeSettingsPreset["dynamicSearch"]["main"],
             nodeSettingsPreset["sub_typeProject"]["main"],
             nodeSettingsPreset["typeProject"]["main"],
             nodeSettingsPreset["sub_expertise"]["main"],
             nodeSettingsPreset["expertise"]["main"],
-            nodeSettingsPreset["Project"]["main"],
-            nodeSettingsPreset["Role"]["main"],
-            nodeSettingsPreset["skill"]["main"],
+            // nodeSettingsPreset["Project"]["main"],
+            // nodeSettingsPreset["Role"]["main"],
+            // nodeSettingsPreset["skill"]["main"],
           ],
           edgeSettings: [
-            // ------ split sub_typeProject|Member -------
-            edgeSettingsPreset["sub_typeProject|Member"]["typeProject"],
+            // // ------ split sub_typeProject|dynamicSearch -------
+            edgeSettingsPreset["sub_typeProject|dynamicSearch"]["typeProject"],
             edgeSettingsPreset["sub_typeProject|typeProject"]["edge"],
-            edgeSettingsPreset["typeProject|Member"]["edge"],
-            // ------ split sub_typeProject|Member -------
+            edgeSettingsPreset["typeProject|dynamicSearch"]["edge"],
+            // // ------ split sub_typeProject|dynamicSearch -------
 
-            // ------ split sub_expertise|Member -------
-            // edgeSettingsPreset["sub_expertise|Member"]["edge"],
-            edgeSettingsPreset["sub_expertise|Member"]["expertise"],
+            // ------ split sub_expertise|dynamicSearch -------
+            // edgeSettingsPreset["sub_expertise|dynamicSearch"]["edge"],
+            edgeSettingsPreset["sub_expertise|dynamicSearch"]["expertise"],
             edgeSettingsPreset["sub_expertise|expertise"]["edge"],
-            edgeSettingsPreset["expertise|Member"]["edge"],
-            // ------ split sub_expertise|Member -------
+            edgeSettingsPreset["expertise|dynamicSearch"]["edge"],
+            // ------ split sub_expertise|dynamicSearch -------
 
-            // ------ Project Edges -------
-            edgeSettingsPreset["Project|Role"]["edge"],
-            edgeSettingsPreset["sub_expertise|Role"]["edge"],
-            edgeSettingsPreset["sub_typeProject|Role"]["edge"],
-            edgeSettingsPreset["skill|Role"]["edge"],
-            // ------ Project Edges -------
+            // // ------ Project Edges -------
+            // edgeSettingsPreset["Project|Role"]["edge"],
+            // edgeSettingsPreset["sub_expertise|Role"]["edge"],
+            // edgeSettingsPreset["sub_typeProject|Role"]["edge"],
+            // // edgeSettingsPreset["skill|Role"]["edge"],
+            // // ------ Project Edges -------
 
-            // // ------ skill Edges -------
-            // edgeSettingsPreset["skill|Member"]["edge"],
-            edgeSettingsPreset["skill|Member"]["doubleSplitEdge"],
-            edgeSettingsPreset["skill|sub_expertise"]["edge"],
-            // edgeSettingsPreset["sub_expertise|Member"]["edge"],
-            // // ------ skill Edges -------
+            // // // ------ skill Edges -------
+            // // edgeSettingsPreset["skill|dynamicSearch"]["edge"],
+            // edgeSettingsPreset["skill|dynamicSearch"]["doubleSplitEdge"],
+            // edgeSettingsPreset["skill|sub_expertise"]["edge"],
+            // // edgeSettingsPreset["sub_expertise|dynamicSearch"]["edge"],
+            // // // ------ skill Edges -------
 
             // // ------ split sub_expertise|Role -------
             // edgeSettingsPreset["sub_expertise|Role"]["expertise"],
@@ -374,17 +825,112 @@ const GraphVisualPage: NextPageWithLayout = () => {
             // edgeSettingsPreset["expertise|Role"]["edge"],
             // // ------ split sub_expertise|Role -------
 
-            //  ------ Create Far Distance between member and project ------
-            edgeSettingsPreset["Project|Member"]["hiddenEdge"],
-            edgeSettingsPreset["typeProject|expertise"]["hiddenEdge"],
-            //  ------ Create Far Distance between member and project ------
+            // //  ------ Create Far Distance between member and project ------
+            // edgeSettingsPreset["Project|dynamicSearch"]["hiddenEdge"],
+            // edgeSettingsPreset["typeProject|expertise"]["hiddenEdge"],
+            // edgeSettingsPreset["Role|expertise"]["hiddenEdge"],
+            // edgeSettingsPreset["Role|typeProject"]["hiddenEdge"],
+            // //  ------ Create Far Distance between member and project ------
           ],
         },
       },
-      skip: selectedOption !== "Option 2",
+      skip: selectedOption !== "Option 8",
       context: { serviceName: "soilservice" },
     }
   );
+
+  const {
+    data: dataDynamicSearchToMember,
+    refetch: refetchDynamicSearchToMember,
+  } = useQuery(DYNAMIC_SEARCH_TO_MEMBER_GRAPH, {
+    variables: {
+      fields: {
+        // memberID: settingsGraphs.memberID1,
+        // nodesID: [
+        //   // "637a9133b8953f12f501e0d6",
+        //   "637a9135b8953f12f501e118",
+        //   "637a9134b8953f12f501e0f7",
+        //   "637a914ab8953f12f501e1ca",
+        //   "637a9151b8953f12f501e2aa",
+        //   "637a913fb8953f12f501e1af",
+        //   "63d1ad93a90f12cef67a7c7b",
+        // ],
+        nodesID: settingsGraphs.nodesID,
+        memberID: settingsGraphs.memberID1,
+        showAvatar: true,
+
+        nodeSettings: [
+          nodeSettingsPreset["Member"]["main"],
+          nodeSettingsPreset["dynamicSearch"]["main"],
+          nodeSettingsPreset["sub_typeProject"]["main"],
+          nodeSettingsPreset["typeProject"]["main"],
+          nodeSettingsPreset["sub_expertise"]["main"],
+          nodeSettingsPreset["expertise"]["main"],
+          // nodeSettingsPreset["Project"]["main"],
+          // nodeSettingsPreset["Role"]["main"],
+          // nodeSettingsPreset["skill"]["main"],
+        ],
+        edgeSettings: [
+          // ------ split sub_typeProject|dynamicSearch -------
+          edgeSettingsPreset["sub_typeProject|dynamicSearch"]["edge"],
+          // edgeSettingsPreset["sub_typeProject|dynamicSearch"]["typeProject"],
+          // edgeSettingsPreset["sub_typeProject|typeProject"]["edge"],
+          // edgeSettingsPreset["typeProject|dynamicSearch"]["edge"],
+          // ------ split sub_typeProject|dynamicSearch -------
+
+          // ------ split skill|Member -------
+          // edgeSettingsPreset["sub_expertise|Member"]["edge"],
+          edgeSettingsPreset["sub_expertise|Member"]["expertise"],
+          edgeSettingsPreset["sub_expertise|expertise"]["edge"],
+          //  edgeSettingsPreset["skill|sub_expertise"]["edge"],
+          edgeSettingsPreset["expertise|Member"]["edge"],
+          // ------ split skill|Member -------
+
+          // ------ split sub_typeProject|Member -------
+          edgeSettingsPreset["sub_typeProject|Member"]["typeProject"],
+          edgeSettingsPreset["sub_typeProject|typeProject"]["edge"],
+          edgeSettingsPreset["typeProject|Member"]["edge"],
+          // ------ split sub_typeProject|Member -------
+
+          // ------ split sub_expertise|dynamicSearch -------
+          edgeSettingsPreset["sub_expertise|dynamicSearch"]["edge"],
+          // edgeSettingsPreset["sub_expertise|dynamicSearch"]["expertise"],
+          // edgeSettingsPreset["sub_expertise|expertise"]["edge"],
+          // edgeSettingsPreset["expertise|dynamicSearch"]["edge"],
+          // ------ split sub_expertise|dynamicSearch -------
+
+          // // ------ Project Edges -------
+          // edgeSettingsPreset["Project|Role"]["edge"],
+          // edgeSettingsPreset["sub_expertise|Role"]["edge"],
+          // edgeSettingsPreset["sub_typeProject|Role"]["edge"],
+          // // edgeSettingsPreset["skill|Role"]["edge"],
+          // // ------ Project Edges -------
+
+          // // // ------ skill Edges -------
+          // // edgeSettingsPreset["skill|dynamicSearch"]["edge"],
+          // edgeSettingsPreset["skill|dynamicSearch"]["doubleSplitEdge"],
+          // edgeSettingsPreset["skill|sub_expertise"]["edge"],
+          // // edgeSettingsPreset["sub_expertise|dynamicSearch"]["edge"],
+          // // // ------ skill Edges -------
+
+          // // ------ split sub_expertise|Role -------
+          // edgeSettingsPreset["sub_expertise|Role"]["expertise"],
+          // edgeSettingsPreset["sub_expertise|expertise"]["edge"],
+          // edgeSettingsPreset["expertise|Role"]["edge"],
+          // // ------ split sub_expertise|Role -------
+
+          //  ------ Create Far Distance between member and project ------
+          edgeSettingsPreset["Project|dynamicSearch"]["hiddenEdge"],
+          edgeSettingsPreset["typeProject|expertise"]["hiddenEdge"],
+          edgeSettingsPreset["Role|expertise"]["hiddenEdge"],
+          edgeSettingsPreset["Role|typeProject"]["hiddenEdge"],
+          //  ------ Create Far Distance between member and project ------
+        ],
+      },
+    },
+    skip: selectedOption !== "Option 7",
+    context: { serviceName: "soilservice" },
+  });
 
   const { data: dataGraphAPIProject } = useQuery(FIND_PROJECT_GRAPH, {
     variables: {
@@ -457,7 +1003,7 @@ const GraphVisualPage: NextPageWithLayout = () => {
           // //  ------ Create Far Distance between member and project ------
           edgeSettingsPreset["Role|Role"]["hiddenEdge"],
           edgeSettingsPreset["Project|expertise"]["hiddenEdge"],
-          edgeSettingsPreset["Project|typeProject"]["hiddenEdge"],
+          // edgeSettingsPreset["Projet|typeProject"]["hiddenEdge"],
           // edgeSettingsPreset["expertise|expertise"]["hiddenEdge"],
           // // edgeSettingsPreset["Project|Member"]["hiddenEdge"],
           // edgeSettingsPreset["typeProject|expertise"]["hiddenEdge"],
@@ -494,6 +1040,8 @@ const GraphVisualPage: NextPageWithLayout = () => {
 
   const updateGraph = (settingsGraphNow: any) => {
     let dataGraphAPI;
+
+    console.log("dataDynamicSearchToMember = ", dataDynamicSearchToMember);
 
     if (selectedOption == "Option 1") {
       if (settingsGraphNow.useAvatar == true && data2.nodesVisual.length > 0) {
@@ -553,6 +1101,27 @@ const GraphVisualPage: NextPageWithLayout = () => {
     ) {
       dataGraphAPI =
         dataGraphAPIMultipleMembersProjects.findMultipleMembersProjectsGraph;
+    } else if (
+      selectedOption == "Option 6" &&
+      dataDynamicSearchToProject &&
+      dataDynamicSearchToProject.dynamicSearchToProjectGraph
+    ) {
+      console.log("change = 6");
+      dataGraphAPI = dataDynamicSearchToProject.dynamicSearchToProjectGraph;
+    } else if (
+      selectedOption == "Option 7" &&
+      dataDynamicSearchToMember &&
+      dataDynamicSearchToMember.dynamicSearchToMemberGraph
+    ) {
+      console.log("change = 7");
+      dataGraphAPI = dataDynamicSearchToMember.dynamicSearchToMemberGraph;
+    } else if (
+      selectedOption == "Option 8" &&
+      dataDynamicSearch &&
+      dataDynamicSearch.dynamicSearchGraph
+    ) {
+      console.log("change = 8");
+      dataGraphAPI = dataDynamicSearch.dynamicSearchGraph;
     }
 
     if (dataGraphAPI != undefined && selectedOption != "Option 1") {
@@ -588,7 +1157,7 @@ const GraphVisualPage: NextPageWithLayout = () => {
         }
       );
 
-      // console.log("edgesDataGraph = ", edgesDataGraph);
+      console.log("edgesDataGraph = ", edgesDataGraph);
 
       let nodesDataGraph = dataGraphAPI.nodesVisual.map(
         (node: {
@@ -687,16 +1256,36 @@ const GraphVisualPage: NextPageWithLayout = () => {
       dataGraphAPImemberProject?.findMemberToProjectGraph ||
       dataGraphAPImember?.findMemberGraph ||
       dataGraphAPIProject?.findProjectGraph ||
-      dataGraphAPIMultipleMembersProjects?.findMultipleMembersProjectsGraph
+      dataGraphAPIMultipleMembersProjects?.findMultipleMembersProjectsGraph ||
+      dataDynamicSearchToProject?.dynamicSearchToProjectGraph ||
+      dataDynamicSearchToMember?.dynamicSearchToMemberGraph ||
+      dataDynamicSearch?.dynamicSearchGraph
     ) {
-      updateGraph(settingsGraphs);
+      console.log("dataDynamicSearchToMember = ", dataDynamicSearchToMember);
+      if (selectedOption == "Option 6") {
+        refetchDynamicSearchToProject();
+        updateGraph(settingsGraphs);
+      } else if (selectedOption == "Option 7") {
+        refetchDynamicSearchToMember();
+        updateGraph(settingsGraphs);
+      } else if (selectedOption == "Option 8") {
+        refetchDynamicSearch();
+        updateGraph(settingsGraphs);
+      } else {
+        updateGraph(settingsGraphs);
+      }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     selectedOption,
+    settingsGraphs,
     dataGraphAPImemberProject?.findMemberToProjectGraph,
     dataGraphAPImember?.findMemberGraph,
     dataGraphAPIProject?.findProjectGraph,
     dataGraphAPIMultipleMembersProjects?.findMultipleMembersProjectsGraph,
+    dataDynamicSearchToProject?.dynamicSearchToProjectGraph,
+    dataDynamicSearchToMember?.dynamicSearchToMemberGraph,
+    dataDynamicSearch?.dynamicSearchGraph,
   ]);
   // }, [dataGraphAPImember, dataGraphAPImemberProject, selectedOption]);
 
@@ -724,11 +1313,6 @@ const GraphVisualPage: NextPageWithLayout = () => {
 
   return (
     <>
-      {/* {data && data.nodes && data.nodes.length > 0 ? (
-        <G6component data2={data} handleClick={handleClick} />
-      ) : (
-        <p>Don't have Graph Data Yet</p>
-      )} */}
       <div
         style={{
           flexDirection: "column",
@@ -737,10 +1321,7 @@ const GraphVisualPage: NextPageWithLayout = () => {
           width: "100%",
         }}
       >
-        <div
-        // className="fixed-top top-0 left-0 z-50 h-16 w-full bg-white"
-        // style={{ height: "500", width: "500" }}
-        >
+        <div>
           <MenuOption
             selectedOption={selectedOption}
             setSelectedOption={setSelectedOption}
@@ -748,33 +1329,44 @@ const GraphVisualPage: NextPageWithLayout = () => {
             updateSettings={updateSettings}
           />
         </div>
-        <div
-          className={`flex h-screen w-full gap-4`}
-          // style={{
-          //   flexDirection: "column",
-          //   alignItems: "center",
-          //   padding: "10",
-          // }}
-        >
+
+        {/* <MemberToProjectGraph
+          settingsGraphs={settingsGraphs}
+          selectedOption={selectedOption}
+        /> */}
+
+        {/* {(() => {
+          switch (selectedOption) {
+            case "Option 1":
+              return "Case 1";
+            case "Option 2":
+              return (
+                <p>asdf</p>
+                // <MemberToProjectGraph
+                //   settingsGraphs={settingsGraphs}
+                //   selectedOption={selectedOption}
+                // />
+              );
+            case "Option 3":
+              return (
+                <MemberToProjectGraph
+                  settingsGraphs={settingsGraphs}
+                  selectedOption={selectedOption}
+                />
+              );
+            case "Option 4":
+              return "Case 4";
+            case "Option 5":
+              return "Case 5";
+            default:
+              return "Unknown case";
+          }
+        })()} */}
+        <div className={`flex h-screen w-full gap-4`}>
           <div
-            className={`h-screen 
-            px-2 py-1 text-center`}
+            className={`h-screen
+             py-1 text-center`}
           ></div>
-          {/* <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          height: "100%",
-          width: "100%",
-          padding: "10",
-        }}
-        style={{
-          flexDirection: "column",
-          alignItems: "center",
-          padding: "10",
-        }}
-      > */}
 
           {refContainer && (
             <div
@@ -786,10 +1378,8 @@ const GraphVisualPage: NextPageWithLayout = () => {
                   data2={data}
                   width={width}
                   height={refContainer.current?.offsetHeight!}
-                  // height={500}
-                  // height={(1.3 * width) / 4}
-                  // data2={data2}
-                  // handleClick={handleClick}
+                  settingsGraphs={settingsGraphs}
+                  updateSettings={updateSettings}
                 />
               ) : (
                 <p>Dont have Graph Data Yet</p>
@@ -798,17 +1388,6 @@ const GraphVisualPage: NextPageWithLayout = () => {
           )}
         </div>
       </div>
-      {/* {dataGraphAPImember &&
-      dataGraphAPImember.findMemberGraph &&
-      dataGraphAPImember.findMemberGraph.nodes &&
-      dataGraphAPImember.findMemberGraph.nodes.length > 0 ? (
-        <G6component
-          data2={dataGraphAPImember.findMemberGraph}
-          handleClick={handleClick}
-        />
-      ) : (
-        <p>Don't have Graph Data Yet</p>
-      )} */}
     </>
   );
 };
