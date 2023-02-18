@@ -154,7 +154,6 @@ export const SendMessageToUser = ({
             phase: "invited",
           },
         },
-        context: { serviceName: "soilservice" },
       });
 
       if (currentUser?._id !== member?._id)
@@ -168,7 +167,6 @@ export const SendMessageToUser = ({
               threadID: threadId,
             },
           },
-          context: { serviceName: "soilservice" },
         });
     } catch (error) {
       // console.log(error);

@@ -44,7 +44,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         },
       },
       skip: !id,
-      context: { serviceName: "soilservice" },
+      // context: { serviceName: "soilservice" },
       ssr: false,
       onCompleted: (data) => {
         // console.log("dataMember", data);
@@ -61,7 +61,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
       },
     },
     skip: !id,
-    context: { serviceName: "soilservice" },
+    // context: { serviceName: "soilservice" },
   });
 
   useQuery(FIND_SERVERS, {
@@ -71,7 +71,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
       },
     },
     skip: memberServerIDs.length === 0,
-    context: { serviceName: "soilservice" },
+    // context: { serviceName: "soilservice" },
     onCompleted: (data) => {
       setMemberServers([...data.findServers]);
       // setSelectedServer(data.findServers[0]);
@@ -92,14 +92,6 @@ export const UserProvider = ({ children }: UserProviderProps) => {
       console.log(`==== ----------- ====`);
     }
   }, [dataMember]);
-
-  // useEffect(() => {
-  //   if (selectedServer && process.env.NODE_ENV === "development") {
-  //     console.log(`==== current SERVER ====`);
-  //     console.log(selectedServer);
-  //     console.log(`==== ----------- ====`);
-  //   }
-  // }, [selectedServer]);
 
   const injectContext = {
     currentUser: dataMember?.findMember || undefined,
