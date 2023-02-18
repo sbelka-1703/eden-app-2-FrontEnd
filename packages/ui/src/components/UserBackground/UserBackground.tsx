@@ -48,7 +48,7 @@ export const UserBackground = ({
                 >
                   {!empty && index === experienceOpen ? "▼" : "▶"}
                 </span>
-                <div className="min-w-30 flex h-8 w-1/2 items-center !rounded-full border-0 bg-cyan-200 px-4 outline-0">
+                <div className="max-w-[66%] whitespace-nowrap overflow-x-scroll flex h-8 items-center !rounded-full border-0 bg-[#DEFEFF] px-4 outline-0">
                   {item?.title}
                 </div>
                 {index < 2 && <span className="ml-3 text-xl">⭐️</span>}
