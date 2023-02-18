@@ -107,10 +107,16 @@ export const DescriptionGPT = ({
       inputToGPT({
         variables: {
           fields: {
-            descriptionProject: responseFromGTP,
+            descriptionProject: "responseFromGTP",
             titleRole: titleRole,
             oneLinerProject: oneLinerFromParent,
-            expertiseRole: [""],
+            expertiseRole: [
+              "Web development",
+              "App development",
+              "Accessibility",
+              "Tracking Analytics",
+              "SEO Best Practices",
+            ].toString(),
           },
         },
         context: { serviceName: "soilservice" },
