@@ -154,7 +154,6 @@ export const SendMessageToChampion = ({
               threadID: threadId,
             },
           },
-          context: { serviceName: "soilservice" },
         });
     } catch (error) {
       console.log(error);
@@ -170,7 +169,6 @@ export const SendMessageToChampion = ({
               phase: "engaged",
             },
           },
-          context: { serviceName: "soilservice" },
         });
       } else {
         toast.error("Something went wrong");

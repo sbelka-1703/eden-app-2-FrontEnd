@@ -114,7 +114,6 @@ export const DiscordCreateGardenTeam = ({}: IDiscordCreateGardenTeamProps) => {
               selectedChannel.type === 15 ? selectedChannel?.id! : "0",
           },
         },
-        context: { serviceName: "soilservice" },
       });
     } else {
       addNewTeam({
@@ -131,7 +130,6 @@ export const DiscordCreateGardenTeam = ({}: IDiscordCreateGardenTeamProps) => {
               selectedChannel.type === 15 ? selectedChannel?.id! : "0",
           },
         },
-        context: { serviceName: "soilservice" },
       });
     }
   };
