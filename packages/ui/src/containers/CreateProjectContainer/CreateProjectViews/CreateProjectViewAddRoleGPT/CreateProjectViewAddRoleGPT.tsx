@@ -78,14 +78,13 @@ export const CreateProjectViewAddRoleGPT = ({
 }: ICreateProjectViewAddRoleGPTProps) => {
   const [view, setView] = useState<"role" | "complete">("role");
 
-  const { register, handleSubmit, watch, control } = useForm<ProjectRoleInputs>(
-    {
+  const { register, handleSubmit, watch, control, setValue } =
+    useForm<ProjectRoleInputs>({
       defaultValues: {
         // @ts-ignore
         role: project?.role || [],
       },
-    }
-  );
+    });
   const onSubmit: SubmitHandler<ProjectRoleInputs> = () => onLaunch();
 
   const { fields, append } = useFieldArray({
@@ -182,6 +181,27 @@ export const CreateProjectViewAddRoleGPT = ({
                             `role.${index}.shortDescription`
                           )}
                           titleRole={watch(`role.${index}.title`)}
+                          descriptionFromAI={descriptionOfProject}
+                          onReturnRoleDescription={(val: any) => {
+                            setValue(
+                              `role.${index}.description`,
+                              val.descriptionRole
+                            );
+                            console.log(
+                              "val shortDescription =_+_)+)_+)+)_)_+ ",
+                              val.descriptionRole
+                            );
+                            for (let i = 0; i < 4; i++) {
+                              setValue(
+                                `role.${index}.expectations.${i}`,
+                                val.expectationsRole[i]
+                              );
+                              setValue(
+                                `role.${index}.benefits.${i}`,
+                                val.benefitsRole[i]
+                              );
+                            }
+                          }}
                         />
                         {/* Role Long Description */}
                         <ToggleElement

@@ -94,7 +94,7 @@ export const CreateProjectViews2GPT = ({
                   showTextArea={false}
                   customPrompt={autocomplete}
                   messageFromParent={watch("descriptionOneLine")}
-                  onReturn={(val: any) => {
+                  onReturnProjectDescription={(val: any) => {
                     setValue("description", val);
                   }}
                 />
