@@ -1,6 +1,6 @@
 import { gql, useMutation } from "@apollo/client";
 import { Button, TextArea } from "@eden/package-ui";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export const MESSAGE_TO_GPT = gql`
   mutation ($fields: messageToGPTInput!) {
@@ -19,16 +19,7 @@ export const INPUT_TO_GPT = gql`
     }
   }
 `;
-/*
-mutation InputToGPT($fields: inputToGPTInput) {
-  inputToGPT(fields: $fields) {
-    descriptionRole
-    benefitsRole
-    expectationsRole
-  }
-}
 
-*/
 enum CATEGORY {
   Skill = "skill",
   Project = "project",
@@ -65,44 +56,33 @@ export const DescriptionGPT = ({
   onReturnProjectDescription,
   onReturnRoleDescription,
   onClickGPTCondition,
-  descriptionFromAI,
 }: IDescriptionGPTProps) => {
   const [responseFromGTP, setResponseFromGTP] = useState("");
   const [messageToGTP, setMessageToGTP] = useState("");
   const [state, setState] = useState<AiButtonState>("Eden AI Autocomplete");
 
-  let descriptionFromGPT: String = "";
   const [messageToGPT] = useMutation(MESSAGE_TO_GPT, {
     onCompleted({ messageToGPT }) {
-      if (messageToGPT && messageToGPT.message) {
+      if (onReturnProjectDescription && messageToGPT.message) {
         console.log("messageToGPT", messageToGPT);
         //The line below brings messageToGPT.message to the parent
         onReturnProjectDescription(messageToGPT.message);
 
         setState("Eden AI Refine");
-        console.log(
-          "messageToGPT.message from onCompleted",
-          messageToGPT.message
-        );
-        descriptionFromGPT = messageToGPT.message;
-
-        setResponseFromGTP(messageToGPT.message);
-
-        console.log("descriptionFromGPT", descriptionFromGPT);
+        // console.log(
+        //   "messageToGPT.message from onCompleted",
+        //   messageToGPT.message
+        // );
       }
     },
   });
 
-  useEffect(() => {
-    console.log("responseFromGTP from useEffect", responseFromGTP);
-  }, [responseFromGTP]);
-
   const [inputToGPT] = useMutation(INPUT_TO_GPT, {
     onCompleted({ inputToGPT }) {
-      if (inputToGPT) console.log("+++++inputToGPT+++++", inputToGPT);
-      onReturnRoleDescription(inputToGPT);
+      if (inputToGPT && onReturnRoleDescription)
+        // console.log("+++++inputToGPT+++++", inputToGPT);
+        onReturnRoleDescription(inputToGPT);
       // onReturn(messageToGPT.message);
-      // setResponseFromGTP(messageToGPT.message);
       setState("Eden AI Refine");
     },
   });
@@ -143,14 +123,14 @@ export const DescriptionGPT = ({
         },
         context: { serviceName: "soilservice" },
       });
-      console.log("inputToGPT", inputToGPT);
-      console.log(
-        "titleRole=====",
-        titleRole,
+      // console.log("inputToGPT", inputToGPT);
+      // console.log(
+      //   "titleRole=====",
+      //   titleRole,
 
-        "oneLinerFromParent======",
-        oneLinerFromParent
-      );
+      //   "oneLinerFromParent======",
+      //   oneLinerFromParent
+      // );
     }
   };
 

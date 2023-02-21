@@ -108,10 +108,6 @@ export const CreateProjectViewAddRoleGPT = ({
 
   const numInList = ["", "", "", ""];
 
-  const testFunction = () => {
-    console.log("descriptionOfProject form Add role", descriptionOfProject);
-  };
-
   return (
     <Card className={`scrollbar-hide h-85 overflow-y-scroll pb-6`}>
       <div className="mb-4 flex items-center justify-between bg-green-100 p-7">
@@ -187,10 +183,7 @@ export const CreateProjectViewAddRoleGPT = ({
                               `role.${index}.description`,
                               val.descriptionRole
                             );
-                            console.log(
-                              "val shortDescription =_+_)+)_+)+)_)_+ ",
-                              val.descriptionRole
-                            );
+
                             for (let i = 0; i < 4; i++) {
                               setValue(
                                 `role.${index}.expectations.${i}`,
@@ -375,7 +368,6 @@ export const CreateProjectViewAddRoleGPT = ({
                       ...INITAL_ROLE,
                     });
                     onNewPosition();
-                    testFunction();
                   }}
                 >
                   Add New Position
