@@ -52,10 +52,11 @@ export const DescriptionGPT = ({
   messageFromParent,
   oneLinerFromParent,
   titleRole,
-  // expertiseRole,
+  expertiseRole,
   onReturnProjectDescription,
   onReturnRoleDescription,
   onClickGPTCondition,
+  descriptionFromAI,
 }: IDescriptionGPTProps) => {
   const [responseFromGTP, setResponseFromGTP] = useState("");
   const [messageToGTP, setMessageToGTP] = useState("");
@@ -111,14 +112,8 @@ export const DescriptionGPT = ({
           fields: {
             oneLinerProject: oneLinerFromParent,
             titleRole: titleRole,
-            descriptionProject: "descriptionFromAI",
-            expertiseRole: [
-              "Web development",
-              "App development",
-              "Accessibility",
-              "Tracking Analytics",
-              "SEO Best Practices",
-            ],
+            descriptionProject: descriptionFromAI,
+            expertiseRole: expertiseRole,
           },
         },
         context: { serviceName: "soilservice" },
