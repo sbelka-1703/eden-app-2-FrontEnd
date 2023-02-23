@@ -517,12 +517,12 @@ const GraphVisualPage: NextPageWithLayout = () => {
   const [settingsGraphs, setSettingsGraphs] = useState<any>({
     useAvatar: true,
     updateGraph: false,
-    memberID1: "961730944170090516",
-    projectID1: "637ad5a6f0f9c427e03a03a8",
+    memberID1: "908392557258604544",
+    projectID1: "63ebca723f7197ebd2adbd21",
     // memberID1: "908392557258604544",
     // projectID1: "637ad5a6f0f9c427e03a03a8",
     simpleDetail: "simple",
-    nodesID: ["637a9137b8953f12f501e156", "637a9134b8953f12f501e0f7"],
+    nodesID: ["63eaefc44862b62edc3037b4", "63eaefebdf71c82f61c177eb"],
     // nodesID: ["637a9137b8953f12f501e156", "637a913ab8953f12f501e190"],
     // nodesID: [
     //   "637a9135b8953f12f501e118",
