@@ -77,14 +77,14 @@ const chatEden: NextPageWithLayout = () => {
   const [edenAIsentMessage, setEdenAIsentMessage] = useState<boolean>(false);
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [keywordsDiscussion, setKeywordsDiscussion] = useState<any>([""]);
+  const [keywordsDiscussion, setKeywordsDiscussion] = useState<any>([]);
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [nodesN, setNodesN] = useState<any>(nodesExample);
 
+  // const dataEdenGPTReply = {}
   const {
     data: dataEdenGPTReply,
-    // refetch: refetchEdenGPTReply,
     // eslint-disable-next-line react-hooks/rules-of-hooks
   } = useQuery(EDEN_GPT_REPLY, {
     variables: {
@@ -133,9 +133,22 @@ const chatEden: NextPageWithLayout = () => {
       edges: edgesNew,
     });
 
-    console.log("newKeywords = ", newKeywords);
-    return Array.from(uniqueKeywords);
+    const mergeUniqueK = Array.from(uniqueKeywords);
+
+    const mergeUniqueKNew = [];
+
+    for (let i = 0; i < mergeUniqueK.length; i++) {
+      if (mergeUniqueK[i] !== "") {
+        mergeUniqueKNew.push(mergeUniqueK[i]);
+      }
+    }
+
+    // console.log(mergeUniqueKNew);
+
+    return mergeUniqueKNew;
   };
+
+  // console.log("nodesN = " , nodesN)
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
@@ -144,25 +157,50 @@ const chatEden: NextPageWithLayout = () => {
 
       chatT.push({
         user: "02",
+        // message: "test",
         message: dataEdenGPTReply.edenGPTreply.reply,
       });
       setChatN(chatT);
 
       setEdenAIsentMessage(false);
 
-      // if the dataEdenGPTReply.edenGPTreply.keywords are new then add them to keywordsDiscussion
-      if (dataEdenGPTReply.edenGPTreply.keywords.length > 0) {
+      // // ---------  Add new keywords to the graph ---------
+      // // if the dataEdenGPTReply.edenGPTreply.keywords are new then add them to keywordsDiscussion -> SOS 🆘 real
+      // // create an array of frontend skills
+      // const frontendSkills = ['Integrate Backend frontend', 'CSS', 'React developer', 'React', 'Quality Asurance QA', 'Vue', 'trouble shouuting super code', 'Sass', 'Webpack', 'Gulp'];
+
+      // // generate a random number between 0 and 2 to determine how many skills to choose
+      // const numSkills = Math.floor(Math.random() * 3);
+
+      // // choose random frontend skills
+      // const keywordsAI = [];
+
+      // for (let i = 0; i < numSkills; i++) {
+      //   const randomSkill = frontendSkills[Math.floor(Math.random() * frontendSkills.length)];
+
+      //   keywordsAI.push(randomSkill);
+      // }
+
+      // // console.log("keywordsAI = " , keywordsAI)
+      // // asdf1
+
+      // // ---------  Add new keywords to the graph ---------
+
+      const keywordsAI = dataEdenGPTReply.edenGPTreply.keywords;
+
+      if (keywordsAI.length > 0) {
         setKeywordsDiscussion(
-          mergeUniqueKeywords(
-            keywordsDiscussion,
-            dataEdenGPTReply.edenGPTreply.keywords
-          )
+          mergeUniqueKeywords(keywordsDiscussion, keywordsAI)
         );
       }
     }
   }, [dataEdenGPTReply]);
 
-  console.log("keywordsDiscussion =--------- ", keywordsDiscussion);
+  // console.log("nodesN.nodes = " , nodesN.nodes)
+  // // console.log("nodesN.edges = " , nodesN.edges)
+  // console.log("-----------------------------" )
+
+  // console.log("keywordsDiscussion =--------- ", keywordsDiscussion);
 
   const handleSentMessage = (messageN: any, userN: any) => {
     const chatT = [...chatN];
@@ -177,10 +215,10 @@ const chatEden: NextPageWithLayout = () => {
 
     setEdenAIsentMessage(true);
 
-    console.log("handleSentMessage = ", chatT);
+    // console.log("handleSentMessage = ", chatT);
   };
 
-  console.log("dataEdenGPTReply = ", dataEdenGPTReply);
+  // console.log("dataEdenGPTReply = ", dataEdenGPTReply);
 
   return (
     <>

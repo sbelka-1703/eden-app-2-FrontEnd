@@ -67,5 +67,5 @@ const chatN: any = [
 export const Default = Template.bind({});
 Default.args = {
   chatN: chatN,
-  setChatN: undefined,
+  // setChatN: undefined,
 };
