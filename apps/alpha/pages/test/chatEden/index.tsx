@@ -65,7 +65,8 @@ const chatEden: NextPageWithLayout = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { selectedServerID } = useContext(UserContext);
 
-  const [nodesID, setNodesID] = useState<string[] | null>(null);
+  const [nodesID] = useState<string[] | null>(null);
+  // const [nodesID, setNodesID] = useState<string[] | null>(null);
 
   const { data: dataEdenGPTReply } = useQuery(EDEN_GPT_REPLY, {
     variables: {
@@ -87,6 +88,8 @@ const chatEden: NextPageWithLayout = () => {
     skip: !nodesID || !selectedServerID,
     context: { serviceName: "soilservice" },
   });
+
+  console.log("dataMembers = ", dataMembers);
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [chatN, setChatN] = useState([
