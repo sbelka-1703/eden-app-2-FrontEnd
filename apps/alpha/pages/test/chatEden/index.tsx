@@ -190,11 +190,11 @@ const chatEden: NextPageWithLayout = () => {
         </div>
         {/* <div className="w-1/2">Right Component</div> */}
         <div className="w-1/2">
-          <ul>
+          {/* <ul>
             {keywordsDiscussion.map((item: any, index: any) => (
               <li key={index}>{item}</li>
             ))}
-          </ul>
+          </ul> */}
           {nodesExample &&
           nodesExample.nodes &&
           nodesExample.nodes.length > 0 ? (

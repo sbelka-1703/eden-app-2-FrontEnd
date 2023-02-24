@@ -153,7 +153,7 @@ export const GraphVisual = ({
 
   return (
     <div className="relative w-full">
-      {data2?.nodes && data2?.nodes?.length == 1 ? <div>loading</div> : true}
+      {/* {data2?.nodes && data2?.nodes?.length == 1 ? <div>loading</div> : true} */}
       <div ref={ref}></div>
 
       {hasMenu && (
