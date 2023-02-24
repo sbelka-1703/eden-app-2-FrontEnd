@@ -140,7 +140,13 @@ export const prepareLabelOfNode = (
 
   if (node.label == undefined) return "";
 
-  const words = node.label.replace("& ", "").replace("| ", "").split(" ");
+  const words = node.label
+    .replace("\n", " ")
+    .replace("\n", " ")
+    .replace("\n", " ")
+    .replace("& ", "")
+    .replace("| ", "")
+    .split(" ");
 
   let i = 0;
 
@@ -188,6 +194,7 @@ export const prepareLabelOfNode = (
         },
       },
     };
+    // console.log("node,fontSizeNew --1--= ", node.label, fontSizeNew, words);
   } else if (words.length == 1) {
     flagUpdate = true;
 
@@ -217,6 +224,7 @@ export const prepareLabelOfNode = (
         },
       },
     };
+    // console.log("node,fontSizeNew --2--= ", node.label, fontSizeNew, words);
   }
 
   if (flagUpdate == true) {
@@ -411,6 +419,7 @@ export function updateNodesBackendSettings(
     }
 
     // -------- Change label of Node -------
+    // console.log("before prepare node  = ", node);
     prepareLabelOfNode(node, globalFontSize, graph);
     // -------- Change label of Node -------
 
@@ -462,6 +471,8 @@ export function updateNodesBackendSettings(
     }
     // -------- Create the Menue of Graph -------
   });
+
+  // console.log("change = ------------------");
 
   //Solution
   const itemsNew = items.sort((a, b) => a.order - b.order);

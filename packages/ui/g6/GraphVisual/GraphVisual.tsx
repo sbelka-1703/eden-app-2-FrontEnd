@@ -132,6 +132,7 @@ export const GraphVisual = ({
 
       // updateNodes(data2, graph, setItems, setCheckedItems);
       // updateNodesBackendSettings(data2, graph);
+      // console.log("data2 = ", data2);
       updateNodesBackendSettings(data2, graph, setItems, setCheckedItems);
     }, 100);
   }, [data2]);
@@ -150,9 +151,11 @@ export const GraphVisual = ({
     }
   }, [width, height]);
 
+  console.log("settingsGraphs = ", settingsGraphs);
+
   return (
     <div className="relative w-full">
-      {data2?.nodes && data2?.nodes?.length == 1 ? <div>loading</div> : true}
+      {/* {data2?.nodes && data2?.nodes?.length == 1 ? <div>loading</div> : true} */}
       <div ref={ref}></div>
 
       {hasMenu && (

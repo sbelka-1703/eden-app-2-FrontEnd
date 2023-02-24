@@ -1,6 +1,7 @@
 export * from "./AvailabilityComp";
 export * from "./CalendarComp";
 export * from "./CalendarComp";
+export * from "./ChatSimple";
 export * from "./ClassicGraphs";
 export * from "./DescriptionGPT";
 export * from "./DiscoverTalent";
