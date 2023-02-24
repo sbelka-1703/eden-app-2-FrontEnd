@@ -12,36 +12,40 @@ export const GraphMenu = ({
   return (
     <div>
       <div className="fixed bottom-0 left-0 p-10">
-        <div>
-          <input
-            type="radio"
-            id="simple"
-            value="simple"
-            checked={settingsGraphs.simpleDetail == "simple"}
-            onChange={(e) =>
-              updateSettings({
-                ...settingsGraphs,
-                simpleDetail: e.target.value,
-              })
-            }
-          />
-          <label htmlFor="option1">Simple</label>
-        </div>
-        <div>
-          <input
-            type="radio"
-            id="detailed"
-            value="detailed"
-            checked={settingsGraphs.simpleDetail == "detailed"}
-            onChange={(e) =>
-              updateSettings({
-                ...settingsGraphs,
-                simpleDetail: e.target.value,
-              })
-            }
-          />
-          <label htmlFor="option2">Detailed</label>
-        </div>
+        {settingsGraphs != undefined && (
+          <>
+            <div>
+              <input
+                type="radio"
+                id="simple"
+                value="simple"
+                checked={settingsGraphs.simpleDetail == "simple"}
+                onChange={(e) =>
+                  updateSettings({
+                    ...settingsGraphs,
+                    simpleDetail: e.target.value,
+                  })
+                }
+              />
+              <label htmlFor="option1">Simple</label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                id="detailed"
+                value="detailed"
+                checked={settingsGraphs.simpleDetail == "detailed"}
+                onChange={(e) =>
+                  updateSettings({
+                    ...settingsGraphs,
+                    simpleDetail: e.target.value,
+                  })
+                }
+              />
+              <label htmlFor="option2">Detailed</label>
+            </div>{" "}
+          </>
+        )}
       </div>
       <div className="fixed bottom-0 right-0 p-10">
         {/* <div className="absolute right-2 bottom-0 flex flex-col"> */}
