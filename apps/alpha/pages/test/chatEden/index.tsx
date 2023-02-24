@@ -1,7 +1,10 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { gql, useQuery } from "@apollo/client";
+import { UserContext } from "@eden/package-context";
+import { MATCH_NODES_MEMBERS } from "@eden/package-graphql";
 import { ChatSimple } from "@eden/package-ui";
 import dynamic from "next/dynamic";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import type { NextPageWithLayout } from "../../_app";
 
@@ -43,31 +46,8 @@ const nodesExample = {
       },
       // ----------- Shwow Avatar User ---------
     },
-    // { id: "node1", x: 100, y: 150, size: 50, label: "sbelka" },
-    // { id: "node2", x: 10, y: 10, size: 50, label: "waxy" },
-    // { id: "node3", x: 20, y: 10, size: 50, label: "figma" },
-    // { id: "node4", x: 30, y: 10, size: 50, label: "UX" },
-    // { id: "node5", x: 40, y: 10, size: 50, label: "ImpactBilli" },
-    // { id: "node6", x: 500, y: 100, size: 30 },
-    // { id: "node7", x: 600, y: 100, size: 30 },
-    // { id: "node8", x: 700, y: 100, size: 30 },
-    // { id: "node9", x: 800, y: 100, size: 30 },
-    // { id: "node10", x: 900, y: 100, size: 30 },
-    // { id: "node11", x: 1000, y: 100, size: 30 },
   ],
-  edges: [
-    // { source: "node0", target: "node1" },
-    // { source: "node0", target: "node2" },
-    // { source: "node0", target: "node3" },
-    // { source: "node0", target: "node4" },
-    // { source: "node0", target: "node5" },
-    // { source: "node1", target: "node6" },
-    // { source: "node1", target: "node7" },
-    // { source: "node2", target: "node8" },
-    // { source: "node2", target: "node9" },
-    // { source: "node9", target: "node10" },
-    // { source: "node9", target: "node11" },
-  ],
+  edges: [],
 };
 
 const chatEden: NextPageWithLayout = () => {
@@ -82,17 +62,29 @@ const chatEden: NextPageWithLayout = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [nodesN, setNodesN] = useState<any>(nodesExample);
 
-  const {
-    data: dataEdenGPTReply,
-    // refetch: refetchEdenGPTReply,
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-  } = useQuery(EDEN_GPT_REPLY, {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const { selectedServerID } = useContext(UserContext);
+
+  const [nodesID, setNodesID] = useState<string[] | null>(null);
+
+  const { data: dataEdenGPTReply } = useQuery(EDEN_GPT_REPLY, {
     variables: {
       fields: {
         message: messageUser,
       },
     },
     skip: messageUser == "",
+    context: { serviceName: "soilservice" },
+  });
+
+  const { data: dataMembers } = useQuery(MATCH_NODES_MEMBERS, {
+    variables: {
+      fields: {
+        nodesID: nodesID,
+        serverID: selectedServerID,
+      },
+    },
+    skip: !nodesID || !selectedServerID,
     context: { serviceName: "soilservice" },
   });
 
@@ -162,7 +154,7 @@ const chatEden: NextPageWithLayout = () => {
     }
   }, [dataEdenGPTReply]);
 
-  console.log("keywordsDiscussion =--------- ", keywordsDiscussion);
+  // console.log("keywordsDiscussion =--------- ", keywordsDiscussion);
 
   const handleSentMessage = (messageN: any, userN: any) => {
     const chatT = [...chatN];
@@ -177,10 +169,10 @@ const chatEden: NextPageWithLayout = () => {
 
     setEdenAIsentMessage(true);
 
-    console.log("handleSentMessage = ", chatT);
+    // console.log("handleSentMessage = ", chatT);
   };
 
-  console.log("dataEdenGPTReply = ", dataEdenGPTReply);
+  // console.log("dataEdenGPTReply = ", dataEdenGPTReply);
 
   return (
     <>

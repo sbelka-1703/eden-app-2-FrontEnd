@@ -1021,16 +1021,109 @@ const GraphVisualPage: NextPageWithLayout = () => {
       variables: {
         fields: {
           membersID: [
-            // "730282901576482826",
-            "935999176393781258",
+            "901188444057907310",
+            "518418233968295940",
             "908392557258604544",
           ],
           projectsID: [
-            "63c6ca5de3538042bff317fb",
-            "63b21094de31eaa8c95d27e2",
-            "63b7fb9703003f7d3efd07d3",
+            "63eb74db447ffd92042a3bcb",
+            "63ebac71447ffd92042a3beb",
+            "63ef46fce8ab5a32b803fe3c",
           ],
           showAvatar: true,
+          nodeSettings: [
+            {
+              type: "Member",
+              style: {
+                size: 20,
+                fill: "#C5947C",
+                stroke: "#C5947C",
+              },
+            },
+            // {
+            //   type: "sub_typeProject",
+            //   style: {
+            //     size: 40,
+            //     fill: "#f0fdaf",
+            //     stroke: "#9AECaE",
+            //   },
+            // },
+            // {
+            //   type: "typeProject",
+            //   style: {
+            //     size: 55,
+            //     fill: "#faffef",
+            //     stroke: "#cdff52",
+            //   },
+            // },
+            {
+              type: "sub_expertise",
+              style: {
+                size: 50,
+                fill: "#EBFCFF",
+                stroke: "#9AECaE",
+              },
+            },
+            {
+              type: "expertise",
+              style: {
+                fill: "#C2F7FF",
+                stroke: "#9AECFE",
+                size: 70,
+              },
+            },
+            {
+              type: "Project",
+              style: {
+                fill: "#FDFFDC",
+                stroke: "#FAE289",
+                size: 75,
+              },
+            },
+            {
+              type: "Role",
+              style: {
+                fill: "#E8FBDA",
+                stroke: "#C8F4A4",
+                size: 50,
+              },
+            },
+          ],
+          edgeSettings: [
+            {
+              mainEdge: {
+                nodeTypeSource: "Project",
+                nodeTypeTarget: "Role",
+                style: {
+                  color: "#E0E0E0",
+                  distance: 90,
+                  strength: 0.5,
+                },
+              },
+            },
+            {
+              mainEdge: {
+                nodeTypeSource: "sub_expertise",
+                nodeTypeTarget: "Role",
+                style: {
+                  color: "#E0E0E0",
+                  distance: 70,
+                  strength: 0.5,
+                },
+              },
+            },
+            {
+              mainEdge: {
+                nodeTypeSource: "sub_expertise",
+                nodeTypeTarget: "Member",
+                style: {
+                  color: "#F4F6F8",
+                  distance: 200,
+                  strength: 0.5,
+                },
+              },
+            },
+          ],
         },
       },
       skip: selectedOption !== "Option 5",
