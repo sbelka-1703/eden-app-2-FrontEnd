@@ -33,7 +33,7 @@ export default HomePage;
 import { IncomingMessage, ServerResponse } from "http";
 import dynamic from "next/dynamic";
 import { getSession } from "next-auth/react";
-import { RefObject, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 export async function getServerSideProps(ctx: {
   req: IncomingMessage;
@@ -81,94 +81,92 @@ const HomeTutorialModalContainer = () => {
   );
   const [data, setData] = useState<any>({});
 
-  const refContainer = useRef<HTMLDivElement>();
-
   useEffect(() => {
-    setData(updateGraph(dataMember));
-  }, []);
+    switch (openModal) {
+      case HomeTutorialSteps.STEP_1:
+        setData(updateGraph(dataMember));
+        break;
+      case HomeTutorialSteps.STEP_2:
+        setData(updateGraph(dataMemberToProject));
+        break;
+      default:
+    }
+  }, [openModal]);
 
   console.log("data that goes on the graph:", data);
 
   return (
     <>
-      {openModal === HomeTutorialSteps.STEP_1 && (
-        <Modal open={openModal === HomeTutorialSteps.STEP_1} closeOnEsc={false}>
-          <h1 className="text-center text-2xl">Welcome to Eden!</h1>
-          <p className="text-center">This is how the network sees you</p>
-          <p className="text-center">{`It's a bit empty, don't you think?`}</p>
-          <div
-            className="w-full"
-            ref={refContainer as RefObject<HTMLDivElement>}
-          >
-            <GraphVisual
-              hasMenu={false}
-              data2={data}
-              width={700}
-              height={400}
-            />
+      <Modal closeOnEsc={false} open={!!openModal}>
+        {openModal === HomeTutorialSteps.STEP_1 && (
+          <div>
+            <h1 className="text-center text-2xl">Welcome to Eden!</h1>
+            <p className="text-center">This is how the network sees you</p>
+            <p className="text-center">{`It's a bit empty, don't you think?`}</p>
+            <Button
+              className="absolute right-3 bottom-3 z-20"
+              radius="rounded"
+              variant={`secondary`}
+              onClick={() => setOpenModal(HomeTutorialSteps.STEP_2)}
+            >
+              Next
+            </Button>
           </div>
-          <Button
-            className="absolute right-3 bottom-3"
-            radius="rounded"
-            variant={`secondary`}
-            onClick={() => setOpenModal(HomeTutorialSteps.STEP_2)}
-          >
-            Next
-          </Button>
-        </Modal>
-      )}
-      {openModal === HomeTutorialSteps.STEP_2 && (
-        <Modal open={openModal === HomeTutorialSteps.STEP_2} closeOnEsc={false}>
-          <h1 className="text-center text-2xl">In Eden you are a node</h1>
-          <p className="text-center">{`And this is how it's all connected`}</p>
-          <Button
-            className="absolute right-3 bottom-3"
-            radius="rounded"
-            variant={`secondary`}
-            onClick={() => setOpenModal(HomeTutorialSteps.STEP_3)}
-          >
-            Next
-          </Button>
-        </Modal>
-      )}
-      {openModal === HomeTutorialSteps.STEP_3 && (
-        <Modal open={openModal === HomeTutorialSteps.STEP_3} closeOnEsc={false}>
-          <h1 className="text-center text-2xl">
-            This is our ✨Knowledge Graph✨ today
-          </h1>
-          <div className="flex justify-center">
-            <ul className="">
-              <li>190 members</li>
-              <li>6 projects</li>
-              <li>3 grants</li>
-            </ul>
+        )}
+        {openModal === HomeTutorialSteps.STEP_2 && (
+          <div>
+            <h1 className="text-center text-2xl">In Eden you are a node</h1>
+            <p className="text-center">{`And this is how it's all connected`}</p>
+            <Button
+              className="absolute right-3 bottom-3 z-20"
+              radius="rounded"
+              variant={`secondary`}
+              onClick={() => setOpenModal(HomeTutorialSteps.STEP_3)}
+            >
+              Next
+            </Button>
           </div>
-          <p className="text-center">
-            <span className="bg-[#DEFEFF] px-2">{`Connect to Eden Network to get a match`}</span>
-          </p>
-          <Button
-            className="absolute right-3 bottom-3"
-            radius="rounded"
-            variant={`secondary`}
-            onClick={() => setOpenModal(HomeTutorialSteps.STEP_4)}
-          >
-            Next
-          </Button>
-        </Modal>
-      )}
-      {openModal === HomeTutorialSteps.STEP_4 && (
-        <Modal open={openModal === HomeTutorialSteps.STEP_4} closeOnEsc={false}>
-          <h1 className="text-center text-2xl">{`Now, let's get you connected to the graph!`}</h1>
-          <Button
-            className="absolute right-3 bottom-3"
-            radius="rounded"
-            variant={`secondary`}
-            onClick={() => setOpenModal(null)}
-          >
-            Next
-          </Button>
-        </Modal>
-      )}
+        )}
+        {openModal === HomeTutorialSteps.STEP_3 && (
+          <div>
+            <h1 className="text-center text-2xl">
+              This is our ✨Knowledge Graph✨ today
+            </h1>
+            <div className="flex justify-center">
+              <ul className="">
+                <li>190 members</li>
+                <li>6 projects</li>
+                <li>3 grants</li>
+              </ul>
+            </div>
+            <p className="text-center">
+              <span className="bg-[#DEFEFF] px-2">{`Connect to Eden Network to get a match`}</span>
+            </p>
+            <Button
+              className="absolute right-3 bottom-3 z-20"
+              radius="rounded"
+              variant={`secondary`}
+              onClick={() => setOpenModal(HomeTutorialSteps.STEP_4)}
+            >
+              Next
+            </Button>
+          </div>
+        )}
+        {openModal === HomeTutorialSteps.STEP_4 && (
+          <div>
+            <h1 className="text-center text-2xl">{`Now, let's get you connected to the graph!`}</h1>
+            <Button
+              className="absolute right-3 bottom-3 z-20"
+              radius="rounded"
+              variant={`secondary`}
+              onClick={() => setOpenModal(null)}
+            >
+              Next
+            </Button>
+          </div>
+        )}
+        <GraphVisual hasMenu={false} data2={data} width={720} height={400} />
+      </Modal>
     </>
   );
 };
@@ -276,10 +274,10 @@ const dataMember: any = {
     {
       __typename: "NodeVisual",
       _id: "901188444057907310",
-      name: "eloigil",
+      name: "BluePanda",
       type: "Member",
       avatar:
-        "https://cdn.discordapp.com/avatars/901188444057907310/99a904b9733bf9263feb7a73c7e0608f.png",
+        "https://cdn.discordapp.com/avatars/908392557258604544/5472104b88b4876e3ad06803da45bee6.png",
       fakeID: null,
       originalNode: null,
       extraDistanceRation: null,
@@ -803,4 +801,200 @@ const dataMember: any = {
       },
     },
   ],
+};
+
+const dataMemberToProject = {
+  nodesVisual: [
+    {
+      _id: "908392557258604544",
+      name: "BluePanda",
+      type: "Member",
+      avatar:
+        "https://cdn.discordapp.com/avatars/908392557258604544/5472104b88b4876e3ad06803da45bee6.png",
+      fakeID: null,
+      originalNode: null,
+      extraDistanceRation: null,
+      style: {
+        fill: "#C5947C",
+        stroke: "#C5947C",
+        size: 20,
+        __typename: "StyleNodeOut",
+      },
+      __typename: "NodeVisual",
+    },
+    {
+      _id: "63eaefc44862b62edc3037b4",
+      name: "Wireframe implementation",
+      type: "sub_expertise",
+      avatar: null,
+      fakeID: null,
+      originalNode: null,
+      extraDistanceRation: null,
+      style: {
+        fill: "#E8F6F9",
+        stroke: "#49A7CD",
+        size: 45,
+        __typename: "StyleNodeOut",
+      },
+      __typename: "NodeVisual",
+    },
+    {
+      _id: "63ebca723f719753b8adbd22",
+      name: "FrontEnd",
+      type: "Role",
+      avatar: null,
+      fakeID: null,
+      originalNode: null,
+      extraDistanceRation: null,
+      style: {
+        fill: "#FCF8ED",
+        stroke: "#F4BC67",
+        size: 50,
+        __typename: "StyleNodeOut",
+      },
+      __typename: "NodeVisual",
+    },
+    {
+      _id: "63ebca723f7197ebd2adbd21",
+      name: "Soil",
+      type: "Project",
+      avatar: null,
+      fakeID: null,
+      originalNode: null,
+      extraDistanceRation: null,
+      style: {
+        fill: "#F9FEE6",
+        stroke: "#CBFD50",
+        size: 75,
+        __typename: "StyleNodeOut",
+      },
+      __typename: "NodeVisual",
+    },
+    {
+      _id: "63eaefeedf71c82f61c177f3",
+      name: "Develop REST API",
+      type: "sub_expertise",
+      avatar: null,
+      fakeID: null,
+      originalNode: null,
+      extraDistanceRation: null,
+      style: {
+        fill: "#E8F6F9",
+        stroke: "#49A7CD",
+        size: 45,
+        __typename: "StyleNodeOut",
+      },
+      __typename: "NodeVisual",
+    },
+    {
+      _id: "63ebca723f7197e22fadbd23",
+      name: "BackEnd",
+      type: "Role",
+      avatar: null,
+      fakeID: null,
+      originalNode: null,
+      extraDistanceRation: null,
+      style: {
+        fill: "#FCF8ED",
+        stroke: "#F4BC67",
+        size: 50,
+        __typename: "StyleNodeOut",
+      },
+      __typename: "NodeVisual",
+    },
+  ],
+  edges: [
+    {
+      source: "908392557258604544",
+      target: "63eaefc44862b62edc3037b4",
+      distanceRation: 0.5,
+      style: {
+        fill: "#E0E0E0",
+        stroke: "#E0E0E0",
+        distance: 200,
+        strength: 0.5,
+        __typename: "StyleEdgeOut",
+      },
+      __typename: "Edge",
+    },
+    {
+      source: "63eaefc44862b62edc3037b4",
+      target: "63ebca723f719753b8adbd22",
+      distanceRation: 0.5,
+      style: {
+        fill: "#E0E0E0",
+        stroke: "#E0E0E0",
+        distance: 130,
+        strength: 0.5,
+        __typename: "StyleEdgeOut",
+      },
+      __typename: "Edge",
+    },
+    {
+      source: "63ebca723f719753b8adbd22",
+      target: "63ebca723f7197ebd2adbd21",
+      distanceRation: 0.5,
+      style: {
+        fill: "#E0E0E0",
+        stroke: "#E0E0E0",
+        distance: 90,
+        strength: 0.5,
+        __typename: "StyleEdgeOut",
+      },
+      __typename: "Edge",
+    },
+    {
+      source: "908392557258604544",
+      target: "63eaefeedf71c82f61c177f3",
+      distanceRation: 0.5,
+      style: {
+        fill: "#E0E0E0",
+        stroke: "#E0E0E0",
+        distance: 200,
+        strength: 0.5,
+        __typename: "StyleEdgeOut",
+      },
+      __typename: "Edge",
+    },
+    {
+      source: "63eaefeedf71c82f61c177f3",
+      target: "63ebca723f7197e22fadbd23",
+      distanceRation: 0.5,
+      style: {
+        fill: "#E0E0E0",
+        stroke: "#E0E0E0",
+        distance: 130,
+        strength: 0.5,
+        __typename: "StyleEdgeOut",
+      },
+      __typename: "Edge",
+    },
+    {
+      source: "63ebca723f7197e22fadbd23",
+      target: "63ebca723f7197ebd2adbd21",
+      distanceRation: 0.5,
+      style: {
+        fill: "#E0E0E0",
+        stroke: "#E0E0E0",
+        distance: 90,
+        strength: 0.5,
+        __typename: "StyleEdgeOut",
+      },
+      __typename: "Edge",
+    },
+    {
+      source: "63ebca723f7197ebd2adbd21",
+      target: "908392557258604544",
+      distanceRation: null,
+      style: {
+        fill: "#FFFFFF",
+        stroke: "#FFFFFF",
+        distance: 500,
+        strength: 0.5,
+        __typename: "StyleEdgeOut",
+      },
+      __typename: "Edge",
+    },
+  ],
+  __typename: "Graph",
 };
