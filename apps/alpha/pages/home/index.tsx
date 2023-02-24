@@ -104,7 +104,7 @@ const HomeTutorialModalContainer = () => {
               hasMenu={false}
               data2={data}
               width={700}
-              height={350}
+              height={400}
             />
           </div>
           <Button
@@ -214,33 +214,33 @@ const updateGraph = (data: any) => {
     }) => {
       let extraStyle = {};
 
-      // if (settingsGraphNow.useAvatar == true && node.avatar != undefined) {
-      extraStyle = {
-        // ----------- Shwow Avatar User ---------
-        type: "image",
-        img: node.avatar,
-        clipCfg: {
-          show: true,
-          type: "circle",
-          r: 25,
-        },
-        style: {
-          height: 50,
-          width: 50,
-        },
-        // ----------- Shwow Avatar User ---------
-      };
-      // }
-      // if (settingsGraphNow.useAvatar == false && node.avatar != undefined) {
-      // extraStyle = {
-      //   // ----------- Shwow Avatar User ---------
-      //   type: node.type,
-      //   // img: "",
-      //   clipCfg: {},
-      //   style: {},
-      //   // ----------- Shwow Avatar User ---------
-      // };
-      // }
+      if (node.avatar && node.avatar != undefined) {
+        extraStyle = {
+          // ----------- Shwow Avatar User ---------
+          type: "image",
+          img: node.avatar,
+          clipCfg: {
+            show: true,
+            type: "circle",
+            r: 25,
+          },
+          style: {
+            height: 50,
+            width: 50,
+          },
+          // ----------- Shwow Avatar User ---------
+        };
+      }
+      if (!node.avatar && node.avatar != undefined) {
+        extraStyle = {
+          // ----------- Shwow Avatar User ---------
+          type: node.type,
+          // img: "",
+          clipCfg: {},
+          style: {},
+          // ----------- Shwow Avatar User ---------
+        };
+      }
 
       return {
         id: node._id,
