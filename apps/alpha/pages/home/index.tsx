@@ -64,7 +64,7 @@ const HomeHeroSection = ({
         description:
           "Find Members of Eden to collaborate, create projects, and apply for grants!",
         display: usersPage,
-        style: "absolute left-4 top-4",
+        style: "absolute left-8 top-8",
       },
       {
         title: "Explore Projects",
@@ -72,7 +72,7 @@ const HomeHeroSection = ({
         bgColor: "rgba(155, 103, 255, 0.3)",
         description: "Find a project, and apply for it!",
         display: projectsPage,
-        style: "absolute left-4 bottom-4",
+        style: "absolute left-8 bottom-8",
       },
       {
         title: "Add Skills",
@@ -81,7 +81,7 @@ const HomeHeroSection = ({
         description:
           "Finish your profile to get discovered by people in your community!",
         display: profilePage,
-        style: "absolute right-4 top-4",
+        style: "absolute right-8 top-8",
       },
       {
         title: "Launch new Project",
@@ -98,7 +98,7 @@ const HomeHeroSection = ({
         bgColor: "rgba(155, 103, 255, 0.3)",
         description: "Find a grant and apply for it!",
         display: grantsPage,
-        style: "absolute right-4 bottom-4",
+        style: "absolute right-8 bottom-8",
       },
     ];
     const showNavItems = navItems.filter((item) => item.display);
