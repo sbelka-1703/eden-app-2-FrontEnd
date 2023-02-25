@@ -16,34 +16,101 @@ export const ChatSimple = ({ chatN, handleSentMessage }: IChatSimple) => {
   const componentRef = useRef<any>(null);
   const Users: any = {
     "01": {
-      name: "John",
-      img: "https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144",
+      name: "EdenAI",
+      img: "https://pbs.twimg.com/profile_images/1595723986524045312/fqOO4ZI__400x400.jpg",
     },
     "02": {
-      name: "Niko",
-      img: "https://images.unsplash.com/photo-1590031905470-a1a1feacbb0b?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144",
+      name: "USer",
+      img: "https://cdn.discordapp.com/avatars/961730944170090516/e5844ca759a74e995027a0e50c5cb1bf.png",
     },
   };
 
   const [inputMessage, setInputMessage] = useState("");
 
-  // const handleSentMessage = (messageN: any, userN: any) => {
-  //   const chatT = [...chatN];
-
-  //   chatT.push({
-  //     user: userN,
-  //     message: messageN,
-  //   });
-  //   setChatN(chatT);
-  //   setInputMessage("");
-
-  //   console.log("handleSentMessage = ", chatT);
-  // };
-
   useEffect(() => {
     // Keep the scroll position at the bottom of the component
     componentRef.current.scrollTop = componentRef.current.scrollHeight;
+    console.log(
+      "componentRef.current.scrollHeight = ",
+      componentRef.current.scrollHeight
+    );
   });
+
+  // console.log("chatN = ", chatN);
+
+  return (
+    <>
+      <div className="flex h-full flex-col justify-between">
+        <div
+          ref={componentRef}
+          // className="h-full overflow-y-auto bg-white p-4"
+          className="scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch flex flex-col space-y-4 overflow-y-auto p-3"
+        >
+          {/* <div className="p:2 flex h-screen flex-1 flex-col justify-between sm:p-6"> */}
+          {/* <p className="text-lg font-bold">Message Title</p> */}
+          <div className="my-4">
+            {chatN.map((chat: any, index: any) => (
+              <>
+                <div className="chat-message p-2" key={index}>
+                  <div
+                    className={classNames(
+                      chat.user == "01" ? "" : "justify-end",
+                      "flex items-end"
+                    )}
+                  >
+                    <div
+                      className={classNames(
+                        chat.user == "01" ? "order-2" : "order-1",
+                        "mx-2 flex max-w-xs flex-col items-start space-y-2 text-xs"
+                      )}
+                    >
+                      <div>
+                        <span
+                          // className="inline-block rounded-lg rounded-bl-none bg-gray-300 px-4 py-2 text-gray-600"
+                          className={classNames(
+                            chat.user == "01"
+                              ? "bg-gray-300 text-gray-600"
+                              : "bg-blue-600 text-white",
+                            "inline-block rounded-lg rounded-bl-none  px-4 py-2 "
+                          )}
+                        >
+                          {chat.message}
+                        </span>
+                      </div>
+                    </div>
+                    <img
+                      src={Users[chat.user].img}
+                      alt="My profile"
+                      className="order-1 h-6 w-6 rounded-full"
+                    />
+                  </div>
+                </div>
+              </>
+            ))}
+          </div>
+        </div>
+        <div className="flex items-center justify-between bg-white p-4">
+          <input
+            type="text"
+            className="mr-4 w-full rounded border border-gray-400 py-2 px-4"
+            placeholder="Type your message here..."
+            value={inputMessage}
+            onChange={(e) => setInputMessage(e.target.value)}
+          />
+          <button
+            className="rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
+            onClick={() => {
+              handleSentMessage(inputMessage, "02");
+
+              setInputMessage("");
+            }}
+          >
+            Send
+          </button>
+        </div>
+      </div>
+    </>
+  );
 
   return (
     <div className="p:2 flex h-screen flex-1 flex-col justify-between sm:p-6">
@@ -126,7 +193,7 @@ export const ChatSimple = ({ chatN, handleSentMessage }: IChatSimple) => {
               type="button"
               className="inline-flex h-10 w-10 items-center justify-center rounded-full text-gray-500 transition duration-500 ease-in-out hover:bg-gray-300 focus:outline-none"
               onClick={() => {
-                handleSentMessage(inputMessage, "02");
+                handleSentMessage(inputMessage, "01");
 
                 setInputMessage("");
               }}
@@ -148,7 +215,7 @@ export const ChatSimple = ({ chatN, handleSentMessage }: IChatSimple) => {
             </button>
             <button
               onClick={() => {
-                handleSentMessage(inputMessage, "01");
+                handleSentMessage(inputMessage, "02");
                 setInputMessage("");
               }}
               type="button"
