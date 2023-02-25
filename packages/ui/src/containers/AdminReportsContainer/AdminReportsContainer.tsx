@@ -340,8 +340,6 @@ export const BarsNewMembers = () => {
       (_item: any) => _item.count
     );
 
-    debugger;
-
     const chartData = {
       labels: _labels,
       datasets: [
