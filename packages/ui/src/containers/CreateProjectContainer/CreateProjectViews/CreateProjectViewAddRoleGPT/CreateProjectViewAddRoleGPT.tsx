@@ -77,7 +77,7 @@ export const CreateProjectViewAddRoleGPT = ({
   descriptionOfProject,
 }: ICreateProjectViewAddRoleGPTProps) => {
   const [view, setView] = useState<"role" | "complete">("role");
-  const [selectedRolesArr, setSelectedRolesArr] = useState([]);
+  const [selectedRolesArr, setSelectedRolesArr] = useState<[String]>([""]);
 
   const { register, handleSubmit, watch, control, setValue } =
     useForm<ProjectRoleInputs>({
@@ -156,6 +156,7 @@ export const CreateProjectViewAddRoleGPT = ({
                                 onChange={onChange}
                                 onChangeNodes={(val) => {
                                   setSelectedRolesArr(
+                                    // @ts-ignore
                                     val.slice(1).map((item) => item.name)
                                   );
                                 }}
