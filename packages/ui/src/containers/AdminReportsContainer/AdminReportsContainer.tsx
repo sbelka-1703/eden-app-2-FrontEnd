@@ -141,7 +141,7 @@ export const AdminReportsContainer = () => {
   };
 
   return (
-    <div className="w-full h-9/10 overflow-y-scroll">
+    <div className="h-9/10 w-full overflow-y-scroll">
       <section className="fixed right-12 bottom-12 z-10">
         <div>
           <input
@@ -160,9 +160,9 @@ export const AdminReportsContainer = () => {
 
           <button
             type="button"
-            className="cursor-pointer group flex items-center justify-center mb-2 h-[48px] w-[48px] text-slate-600 text-bold rounded-full bg-white shadow-md hover:cursor-pointer hover:bg-slate-400 hover:text-slate-100 hover:translate-x-1 transition-transform"
+            className="text-bold group mb-2 flex h-[48px] w-[48px] cursor-pointer items-center justify-center rounded-full bg-white text-slate-600 shadow-md transition-transform hover:translate-x-1 hover:cursor-pointer hover:bg-slate-400 hover:text-slate-100"
           >
-            <span className="cursor-pointer text-center text-slate-500 text-sm absolute right-[52px] invisible group-hover:visible">
+            <span className="invisible absolute right-[52px] cursor-pointer text-center text-sm text-slate-500 group-hover:visible">
               upload template
             </span>
             <label htmlFor="upload">
@@ -172,11 +172,11 @@ export const AdminReportsContainer = () => {
         </div>
 
         <a
-          className="group flex items-center justify-center mb-2 h-[48px] w-[48px] text-slate-600 text-bold rounded-full bg-white shadow-md hover:cursor-pointer hover:bg-slate-400 hover:text-slate-100 hover:translate-x-1 transition-transform"
+          className="text-bold group mb-2 flex h-[48px] w-[48px] items-center justify-center rounded-full bg-white text-slate-600 shadow-md transition-transform hover:translate-x-1 hover:cursor-pointer hover:bg-slate-400 hover:text-slate-100"
           href={`data:${encodedJsonData()}`}
           download={title.toLowerCase().split(" ").join("_") + ".json"}
         >
-          <span className="text-center text-slate-500 text-sm absolute right-[52px] invisible group-hover:visible">
+          <span className="invisible absolute right-[52px] text-center text-sm text-slate-500 group-hover:visible">
             save template
           </span>
           <button>
@@ -184,10 +184,10 @@ export const AdminReportsContainer = () => {
           </button>
         </a>
         <button
-          className="group flex items-center justify-center h-[48px] w-[48px] text-white text-bold rounded-full bg-accentColor shadow-md hover:cursor-pointer hover:bg-black hover:translate-x-1 transition-transform"
+          className="text-bold bg-accentColor group flex h-[48px] w-[48px] items-center justify-center rounded-full text-white shadow-md transition-transform hover:translate-x-1 hover:cursor-pointer hover:bg-black"
           onClick={() => handleAdd()}
         >
-          <span className="text-center text-slate-500 text-sm absolute right-[52px] invisible group-hover:visible">
+          <span className="invisible absolute right-[52px] text-center text-sm text-slate-500 group-hover:visible">
             add widget
           </span>
           <ImCross className="rotate-45" width={48} />
@@ -195,7 +195,7 @@ export const AdminReportsContainer = () => {
       </section>
       <h1 className="ml-4 mt-2 text-2xl">
         <input
-          className="bg-transparent outline-none w-1/2"
+          className="w-1/2 bg-transparent outline-none"
           value={title}
           type="text"
           onChange={(e) => setTitle(e.currentTarget.value)}
@@ -223,7 +223,7 @@ export const AdminReportsContainer = () => {
         {widgetArray?.map((widget: any, index: number) => {
           return (
             <div
-              className="relative reactGridItem rounded-lg shadow-sm bg-white relative p-4"
+              className="reactGridItem relative relative rounded-lg bg-white p-4 shadow-sm"
               key={index}
               data-grid={{
                 x: widget?.x,
@@ -243,7 +243,7 @@ export const AdminReportsContainer = () => {
                 <input
                   type="text"
                   value={widget.content.title}
-                  className="w-8/10 outline-none mb-8"
+                  className="w-8/10 mb-8 outline-none"
                   onMouseDown={(e) => e.stopPropagation()}
                   onChange={(e) => {
                     const _newWidgetArray = [...widgetArray];
@@ -296,7 +296,7 @@ export const AdminReportsContainer = () => {
                     {widget.content?.type === CHARTS.TEXT && (
                       <textarea
                         defaultValue={widget.content?.value}
-                        className="w-full outline-none h-full resize-none"
+                        className="h-full w-full resize-none outline-none"
                         placeholder="Type some text here..."
                       ></textarea>
                     )}
