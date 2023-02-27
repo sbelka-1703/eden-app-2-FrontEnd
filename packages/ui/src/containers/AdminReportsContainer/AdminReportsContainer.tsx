@@ -276,6 +276,13 @@ export const AdminReportsContainer = () => {
                         type: e.currentTarget.value,
                       };
 
+                      if (e.currentTarget.value === CHARTS.BARS_NEW_USER) {
+                        _newWidgetArray[index].content = {
+                          ..._newWidgetArray[index].content,
+                          range: "days",
+                        };
+                      }
+
                       setWidgetArray(_newWidgetArray);
                     }}
                   >
@@ -291,7 +298,111 @@ export const AdminReportsContainer = () => {
                   <>
                     {widget.content?.type === CHARTS.BARS_NEW_USER && (
                       // <Bar data={_mockdata} />
-                      <BarsNewMembers />
+                      <>
+                        <BarsNewMembers
+                          range={widget.content.range}
+                          startDate={widget.content.startDate}
+                          endDate={widget.content.endDate}
+                        />
+                        <div className="flex">
+                          <div>
+                            <label className="mr-2">range</label>
+                            <select
+                              name="range"
+                              defaultValue={widget.content.range || "days"}
+                              onChange={(e) => {
+                                const _newWidgetArray = [...widgetArray];
+
+                                _newWidgetArray[index].content.range =
+                                  e.currentTarget.value;
+
+                                delete _newWidgetArray[index].content.startDate;
+                                delete _newWidgetArray[index].content.endDate;
+
+                                setWidgetArray(_newWidgetArray);
+                              }}
+                            >
+                              <option value="months">months</option>
+                              <option value="days">days</option>
+                            </select>
+                          </div>
+                          {widget.content.range === "months" ? (
+                            <div className="ml-auto flex flex-col">
+                              <div>
+                                <label className="mr-2">start</label>
+                                <input
+                                  className="mr-2"
+                                  type="month"
+                                  name="start"
+                                  defaultValue={widget.content.startDate}
+                                  onChange={(e) => {
+                                    const _newWidgetArray = [...widgetArray];
+
+                                    _newWidgetArray[index].content.startDate =
+                                      e.target.value;
+
+                                    setWidgetArray(_newWidgetArray);
+                                  }}
+                                />
+                              </div>
+                              <div>
+                                <label className="mr-2">end</label>
+                                <input
+                                  className="mr-2"
+                                  type="month"
+                                  name="end"
+                                  defaultValue={widget.content.endDate}
+                                  onChange={(e) => {
+                                    const _newWidgetArray = [...widgetArray];
+
+                                    _newWidgetArray[index].content.endDate =
+                                      e.target.value;
+
+                                    setWidgetArray(_newWidgetArray);
+                                  }}
+                                />
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="ml-auto flex flex-col">
+                              <div>
+                                <label className="mr-2">start</label>
+                                <input
+                                  className="mr-2"
+                                  type="date"
+                                  name="start"
+                                  defaultValue={widget.content.startDate}
+                                  onChange={(e) => {
+                                    const _newWidgetArray = [...widgetArray];
+
+                                    _newWidgetArray[index].content.startDate =
+                                      e.target.value;
+
+                                    setWidgetArray(_newWidgetArray);
+                                  }}
+                                />
+                              </div>
+                              <div>
+                                <label className="mr-2">end</label>
+                                <input
+                                  className="mr-2"
+                                  type="date"
+                                  name="end"
+                                  defaultValue={widget.content.endDate}
+                                  onChange={(e) => {
+                                    const _newWidgetArray = [...widgetArray];
+
+                                    _newWidgetArray[index].content.endDate =
+                                      e.target.value;
+
+                                    setWidgetArray(_newWidgetArray);
+                                  }}
+                                />
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </>
                     )}
                     {widget.content?.type === CHARTS.TEXT && (
                       <textarea
@@ -315,11 +426,12 @@ export const AdminReportsContainer = () => {
 
 import { gql, useQuery } from "@apollo/client";
 
-export const BarsNewMembers = () => {
+export const BarsNewMembers = ({ range, startDate, endDate }: any) => {
   const NEW_MEMBERS = gql`
-    query newMembers {
-      memberstatsGroupByMonth {
-        _id {
+    query ($fields: statsInput) {
+      membersStats(fields: $fields) {
+        date {
+          day
           month
           year
         }
@@ -329,16 +441,33 @@ export const BarsNewMembers = () => {
   `;
 
   const { data: newMembersData } = useQuery(NEW_MEMBERS, {
+    variables: {
+      fields: {
+        range: range,
+        // start of the selected range timestamp
+        startDate: Number(new Date(startDate)) / 1000,
+        // end of the selected range timestamp
+        endDate:
+          range === "months"
+            ? Number(
+                new Date(endDate).setMonth(new Date(endDate).getMonth() + 1)
+              ) / 1000
+            : Number(
+                new Date(endDate).setDate(new Date(endDate).getDate() + 1)
+              ) / 1000,
+      },
+    },
+    skip: !range || !startDate || !endDate,
     context: { serviceName: "soilservice" },
   });
 
   const formatData = () => {
-    const _labels = newMembersData?.memberstatsGroupByMonth.map(
-      (_item: any) => `${_item._id.month}/${_item._id.year}`
+    const _labels = newMembersData?.membersStats.map((_item: any) =>
+      range === "months"
+        ? `${_item.date.month}/${_item.date.year}`
+        : `${_item.date.month}/${_item.date.day}/${_item.date.year}`
     );
-    const _data = newMembersData?.memberstatsGroupByMonth.map(
-      (_item: any) => _item.count
-    );
+    const _data = newMembersData?.membersStats.map((_item: any) => _item.count);
 
     const chartData = {
       labels: _labels,
