@@ -26,7 +26,7 @@
     "build:storybook": "turbo run build:storybook --filter=storybook...",
     "build-storybook": "yarn workspace storybook build-storybook",
     "prepare": "husky install",
-    "codegen:eden": "turbo run codegen:eden"
+    "codegen": "turbo run codegen"
   },
   "devDependencies": {
     "@eden/package-config": "*",

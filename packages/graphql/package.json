@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rm -rf node_modules",
     "clean-windows": "rd /s /q node_modules",
-    "codegen:eden": "graphql-codegen --config eden/codegen.yml"
+    "codegen": "graphql-codegen --config eden/codegen.yml"
   },
   "dependencies": {
     "@apollo/client": "^3.7.5",
