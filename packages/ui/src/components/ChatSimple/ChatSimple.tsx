@@ -89,7 +89,7 @@ export const ChatSimple = ({ chatN, handleSentMessage }: IChatSimple) => {
             ))}
           </div>
         </div>
-        <div className="flex items-center justify-between bg-white p-4">
+        <div className="flex items-center justify-between p-4">
           <input
             type="text"
             className="mr-4 w-full rounded border border-gray-400 py-2 px-4"
