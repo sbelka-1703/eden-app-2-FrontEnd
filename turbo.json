@@ -43,7 +43,7 @@
     "clean-windows": {
       "cache": false
     },
-    "codegen:eden": { "cache": false }
+    "codegen": { "cache": false }
   },
   "globalDependencies": [".env", "tsconfig.json"]
 }
