@@ -49,6 +49,13 @@ export type Chats = {
   threadID?: Maybe<Scalars["ID"]>;
 };
 
+export type DateType = {
+  __typename?: "DateType";
+  day?: Maybe<Scalars["Int"]>;
+  month?: Maybe<Scalars["Int"]>;
+  year?: Maybe<Scalars["Int"]>;
+};
+
 export type DistanceType = {
   __typename?: "DistanceType";
   hop0?: Maybe<Array<Maybe<Scalars["ID"]>>>;
@@ -156,6 +163,7 @@ export type MatchPercentage = {
   __typename?: "MatchPercentage";
   budgetPercentage?: Maybe<Scalars["Float"]>;
   hoursPercentage?: Maybe<Scalars["Float"]>;
+  percentageWithPenalty?: Maybe<Scalars["Float"]>;
   realTotalPercentage?: Maybe<Scalars["Float"]>;
   skillTotalPercentage?: Maybe<Scalars["Float"]>;
   totalPercentage?: Maybe<Scalars["Float"]>;
@@ -206,18 +214,6 @@ export type MembersSmallType = {
   discordAvatar?: Maybe<Scalars["String"]>;
   discordName?: Maybe<Scalars["String"]>;
   discriminator?: Maybe<Scalars["String"]>;
-};
-
-export type MetricsGroupByMonthResult = {
-  __typename?: "MetricsGroupByMonthResult";
-  _id?: Maybe<MonthAndYear>;
-  count?: Maybe<Scalars["Int"]>;
-};
-
-export type MonthAndYear = {
-  __typename?: "MonthAndYear";
-  month?: Maybe<Scalars["Int"]>;
-  year?: Maybe<Scalars["Int"]>;
 };
 
 export type Mutation = {
@@ -606,13 +602,13 @@ export type ProjectUpdate = {
 
 export type Query = {
   __typename?: "Query";
-  activeMembersStats?: Maybe<Scalars["Int"]>;
-  activeMembersStatsGroupByMonth?: Maybe<
-    Array<Maybe<MetricsGroupByMonthResult>>
-  >;
-  activeUsersLoginQuery?: Maybe<Scalars["Int"]>;
+  activeMembersStats?: Maybe<Array<Maybe<ResultCount>>>;
   adminFindAllSkillsEveryState?: Maybe<Array<Maybe<Skills>>>;
+  dynamicSearchGraph?: Maybe<Graph>;
+  dynamicSearchToMemberGraph?: Maybe<Graph>;
   dynamicSearchToProjectGraph?: Maybe<Graph>;
+  edenGPTreply?: Maybe<EdenGpTreplyOutput>;
+  edenGPTsearchProfiles?: Maybe<EdenGpTsearchProfilesOutput>;
   errors?: Maybe<PaginatedErrorLogs>;
   findAllProjectsTeamsAnouncments?: Maybe<
     Array<Maybe<FindAllProjectsTeamsAnouncmentsOutput>>
@@ -671,9 +667,8 @@ export type Query = {
   matchSkillsToMembers?: Maybe<Array<Maybe<MatchMembersToSkillOutput>>>;
   matchSkillsToProjects?: Maybe<Array<Maybe<MatchSkillsToProjectsOutput>>>;
   match_projectToUser?: Maybe<ProjectUserMatchType>;
+  membersStats?: Maybe<Array<Maybe<ResultCount>>>;
   members_autocomplete?: Maybe<Array<Maybe<Members>>>;
-  memberstatsGroupByMonth?: Maybe<Array<Maybe<MetricsGroupByMonthResult>>>;
-  newMemberStats?: Maybe<Scalars["Int"]>;
   nodes_autocomplete?: Maybe<Array<Maybe<Node>>>;
   setAllMatch_v2?: Maybe<Scalars["Boolean"]>;
   skills?: Maybe<PaginatedSkills>;
@@ -683,19 +678,31 @@ export type Query = {
 };
 
 export type QueryActiveMembersStatsArgs = {
-  fields?: InputMaybe<ActiveMembersStatsInput>;
-};
-
-export type QueryActiveUsersLoginQueryArgs = {
-  fields?: InputMaybe<ActiveUsersLoginQueryInput>;
+  fields?: InputMaybe<StatsInput>;
 };
 
 export type QueryAdminFindAllSkillsEveryStateArgs = {
   fields?: InputMaybe<FindSkillsInput>;
 };
 
+export type QueryDynamicSearchGraphArgs = {
+  fields?: InputMaybe<DynamicSearchGraphInput>;
+};
+
+export type QueryDynamicSearchToMemberGraphArgs = {
+  fields?: InputMaybe<DynamicSearchToMemberGraphInput>;
+};
+
 export type QueryDynamicSearchToProjectGraphArgs = {
   fields?: InputMaybe<DynamicSearchToProjectGraphInput>;
+};
+
+export type QueryEdenGpTreplyArgs = {
+  fields?: InputMaybe<EdenGpTreplyInput>;
+};
+
+export type QueryEdenGpTsearchProfilesArgs = {
+  fields?: InputMaybe<EdenGpTsearchProfilesInput>;
 };
 
 export type QueryErrorsArgs = {
@@ -902,12 +909,12 @@ export type QueryMatch_ProjectToUserArgs = {
   fields?: InputMaybe<Match_ProjectToUserInput>;
 };
 
-export type QueryMembers_AutocompleteArgs = {
-  fields?: InputMaybe<Members_AutocompleteInput>;
+export type QueryMembersStatsArgs = {
+  fields?: InputMaybe<StatsInput>;
 };
 
-export type QueryNewMemberStatsArgs = {
-  fields?: InputMaybe<NewMemberStatsInput>;
+export type QueryMembers_AutocompleteArgs = {
+  fields?: InputMaybe<Members_AutocompleteInput>;
 };
 
 export type QueryNodes_AutocompleteArgs = {
@@ -933,6 +940,12 @@ export type QueryTreeOfRelatedNodesArgs = {
 
 export type QueryWaitingToAproveSkillsArgs = {
   fields?: InputMaybe<FindSkillsInput>;
+};
+
+export type ResultCount = {
+  __typename?: "ResultCount";
+  count?: Maybe<Scalars["Int"]>;
+  date?: Maybe<DateType>;
 };
 
 export type Role = {
@@ -1122,16 +1135,6 @@ export type User = {
   password?: Maybe<Scalars["String"]>;
   registeredAt?: Maybe<Scalars["String"]>;
   token?: Maybe<Scalars["String"]>;
-};
-
-export type ActiveMembersStatsInput = {
-  endPeriod?: InputMaybe<Scalars["String"]>;
-  startPeriod?: InputMaybe<Scalars["String"]>;
-};
-
-export type ActiveUsersLoginQueryInput = {
-  endDate?: InputMaybe<Scalars["String"]>;
-  startDate?: InputMaybe<Scalars["String"]>;
 };
 
 export type AddEndorsementInput = {
@@ -1497,12 +1500,47 @@ export type DeleteProjectInput = {
   projectID?: InputMaybe<Scalars["ID"]>;
 };
 
+export type DynamicSearchGraphInput = {
+  edgeSettings?: InputMaybe<Array<InputMaybe<EdgeSetting>>>;
+  nodeSettings?: InputMaybe<Array<InputMaybe<NodeSetting>>>;
+  nodesID?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  showAvatar?: InputMaybe<Scalars["Boolean"]>;
+};
+
+export type DynamicSearchToMemberGraphInput = {
+  edgeSettings?: InputMaybe<Array<InputMaybe<EdgeSetting>>>;
+  memberID?: InputMaybe<Scalars["ID"]>;
+  nodeSettings?: InputMaybe<Array<InputMaybe<NodeSetting>>>;
+  nodesID?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  showAvatar?: InputMaybe<Scalars["Boolean"]>;
+};
+
 export type DynamicSearchToProjectGraphInput = {
   edgeSettings?: InputMaybe<Array<InputMaybe<EdgeSetting>>>;
   nodeSettings?: InputMaybe<Array<InputMaybe<NodeSetting>>>;
   nodesID?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   projectID?: InputMaybe<Scalars["ID"]>;
   showAvatar?: InputMaybe<Scalars["Boolean"]>;
+};
+
+export type EdenGpTreplyInput = {
+  message?: InputMaybe<Scalars["String"]>;
+};
+
+export type EdenGpTreplyOutput = {
+  __typename?: "edenGPTreplyOutput";
+  keywords?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  reply?: Maybe<Scalars["String"]>;
+};
+
+export type EdenGpTsearchProfilesInput = {
+  message?: InputMaybe<Scalars["String"]>;
+  profileIDs?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+};
+
+export type EdenGpTsearchProfilesOutput = {
+  __typename?: "edenGPTsearchProfilesOutput";
+  reply?: Maybe<Scalars["String"]>;
 };
 
 export type EdgeSetting = {
@@ -1676,6 +1714,7 @@ export type FindNodeInput = {
 export type FindNodesInput = {
   _id?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   name?: InputMaybe<Scalars["String"]>;
+  names?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
   node?: InputMaybe<Scalars["String"]>;
   recalculate_en?: InputMaybe<RecalculateEnum>;
   selectedNodes?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
@@ -1870,6 +1909,7 @@ export type MatchMembersToSkillInput = {
 
 export type MatchMembersToSkillOutput = {
   __typename?: "matchMembersToSkillOutput";
+  extraMatch?: Maybe<Scalars["Boolean"]>;
   matchPercentage?: Maybe<MatchPercentage>;
   member?: Maybe<Members>;
   nodesPercentage?: Maybe<Array<Maybe<NodesPercentageType>>>;
@@ -2011,11 +2051,6 @@ export type MessageToGptOutput = {
 export type NetworkInput = {
   endorcment?: InputMaybe<Array<InputMaybe<EndorcmentInput>>>;
   memberID?: InputMaybe<Scalars["ID"]>;
-};
-
-export type NewMemberStatsInput = {
-  endPeriod?: InputMaybe<Scalars["String"]>;
-  startPeriod?: InputMaybe<Scalars["String"]>;
 };
 
 export type NewTweetProjectInput = {
@@ -2177,6 +2212,11 @@ export type ProjectUserMatchType = {
   skillsDontMatch?: Maybe<Array<Maybe<Skills>>>;
   skillsMatch?: Maybe<Array<Maybe<Skills>>>;
 };
+
+export enum Range {
+  Days = "days",
+  Months = "months",
+}
 
 export enum RecalculateEnum {
   All = "All",
@@ -2340,6 +2380,12 @@ export enum StateEnum {
   Rejected = "rejected",
   Waiting = "waiting",
 }
+
+export type StatsInput = {
+  endDate?: InputMaybe<Scalars["Date"]>;
+  range?: InputMaybe<Range>;
+  startDate?: InputMaybe<Scalars["Date"]>;
+};
 
 export type StyleEdgeIn = {
   color?: InputMaybe<Scalars["String"]>;
