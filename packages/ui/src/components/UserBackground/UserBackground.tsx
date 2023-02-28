@@ -57,7 +57,7 @@ export const UserBackground = ({
                 <Card border className="grid grid-cols-2 py-4 px-6">
                   <div className="col-span-1">
                     <TextLabel1>Description</TextLabel1>
-                    <p>{item?.description}</p>
+                    <p className="whitespace-pre-wrap">{item?.description}</p>
                   </div>
                   <div className="col-span-1">
                     <TextLabel1>Timeline</TextLabel1>

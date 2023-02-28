@@ -182,7 +182,7 @@ const ExperienceForm = ({
               name="description"
               placeholder="Start typing here..."
               onChange={(e) => setVal({ ...val, description: e.target.value })}
-              value={defaultValue?.description || ""}
+              defaultValue={defaultValue?.description || ""}
             />
           </div>
 
