@@ -57,7 +57,9 @@ export const ViewUserProfileContainer = ({
             }`}
           >
             <TextLabel1>🪪 Short bio</TextLabel1>
-            <p className="text-soilBody font-Inter font-normal">{user?.bio}</p>
+            <p className="text-soilBody font-Inter font-normal whitespace-pre-wrap">
+              {user?.bio}
+            </p>
           </div>
           <div></div>
           <div className={`pl-14 ${step !== STEPS.SOCIALS ? "blur-sm" : ""}`}>
