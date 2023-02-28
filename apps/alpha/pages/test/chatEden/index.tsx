@@ -40,11 +40,29 @@ const GraphVisual = dynamic(
   }
 );
 
-const EDEN_GPT_REPLY = gql`
-  query ($fields: edenGPTreplyInput!) {
-    edenGPTreply(fields: $fields) {
+// const EDEN_GPT_REPLY = gql`
+//   query ($fields: edenGPTreplyInput!) {
+//     edenGPTreply(fields: $fields) {
+//       reply
+//       keywords
+//     }
+//   }
+// `;
+
+const EDEN_GPT_REPLY_MEMORY = gql`
+  query ($fields: edenGPTreplyMemoryInput!) {
+    edenGPTreplyMemory(fields: $fields) {
       reply
       keywords
+    }
+  }
+`;
+
+const STORE_LONG_TERM_MEMORY = gql`
+  mutation ($fields: storeLongTermMemoryInput!) {
+    storeLongTermMemory(fields: $fields) {
+      summary
+      success
     }
   }
 `;
@@ -88,6 +106,7 @@ const nodesExample = {
 const chatEden: NextPageWithLayout = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [messageUser, setMessageUser] = useState<string>("");
+
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [edenAIsentMessage, setEdenAIsentMessage] = useState<boolean>(false);
 
@@ -98,10 +117,12 @@ const chatEden: NextPageWithLayout = () => {
   const [nodesN, setNodesN] = useState<any>(nodesExample);
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { selectedServerID } = useContext(UserContext);
+  const { currentUser, selectedServerID } = useContext(UserContext);
+
+  console.log("currentUser = ", currentUser);
 
   // const [nodesID] = useState<string[] | null>(null);
-  const [nodesID, setNodesID] = useState<string[] | null>(null);
+  const [nodesID, setNodesID] = useState<string[] | null>([]);
 
   // const [nodeNames]
 
@@ -119,13 +140,46 @@ const chatEden: NextPageWithLayout = () => {
     context: { serviceName: "soilservice" },
   });
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [chatN, setChatN] = useState([
+    {
+      user: "01",
+      message: "Hey I am Eden AI, how can I help you?",
+    },
+  ]);
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [chatNprepareGPT, setChatNprepareGPT] = useState<string>("");
+
+  // const chatN_T = chatN.map(obj => {
+  //   if (obj.user === "01") {
+  //     return { ...obj, name: "Eden: ", user: undefined };
+  //   } else {
+  //     return { ...obj, name: "User: ", user: undefined };
+  //   }
+  // });
+
+  // console.log("chatN_T = " , chatN_T)
+
   console.log("dataFindNodesName = ", dataFindNodesName);
   console.log("keywordsDiscussion = ", keywordsDiscussion);
 
-  const { data: dataEdenGPTReply } = useQuery(EDEN_GPT_REPLY, {
+  // const { data: dataEdenGPTReply } = useQuery(EDEN_GPT_REPLY, {
+  //   variables: {
+  //     fields: {
+  //       message: messageUser,
+  //     },
+  //   },
+  //   skip: messageUser == "",
+  //   context: { serviceName: "soilservice" },
+  // });
+
+  const { data: dataEdenGPTReply } = useQuery(EDEN_GPT_REPLY_MEMORY, {
     variables: {
       fields: {
         message: messageUser,
+        memorySort: chatNprepareGPT,
+        userID: currentUser?._id,
       },
     },
     skip: messageUser == "",
@@ -135,9 +189,9 @@ const chatEden: NextPageWithLayout = () => {
   const { data: dataMembers } = useQuery(MATCH_NODES_MEMBERS, {
     variables: {
       fields: {
-        // nodesID: nodesID,
+        nodesID: nodesID,
         // nodesID: ["63eaefc44862b62edc3037b4"],
-        nodesID: ["63eaefb14862b62edc303768", "63eaefc44862b62edc3037b4"],
+        // nodesID: ["63eaefb14862b62edc303768", "63eaefc44862b62edc3037b4"],
         serverID: selectedServerID,
       },
     },
@@ -147,13 +201,37 @@ const chatEden: NextPageWithLayout = () => {
 
   console.log("dataMembers = ", dataMembers);
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [chatN, setChatN] = useState([
-    {
-      user: "01",
-      message: "Hey I am Eden AI, how can I help you?",
+  const [numMessageLongTermMem, setNumMessageLongTermMem] = useState<any>(0);
+
+  const [storeLongTermMemory, {}] = useMutation(STORE_LONG_TERM_MEMORY, {
+    onCompleted({ storeLongTermMemory }) {
+      // if (!storeLongTermMemory) console.log("deleteError is null");
+      // //   console.log("deleteError", deleteError);
+      // refetchErrors();
+      console.log("you just saved memory with sumary = ", storeLongTermMemory);
     },
-  ]);
+  });
+
+  const handleStoreLongTermMemory = () => {
+    storeLongTermMemory({
+      variables: {
+        fields: {
+          messages: chatN
+            .map((obj) => {
+              if (obj.user === "01") {
+                return { ...obj, name: "Eden: ", user: undefined };
+              } else {
+                return { ...obj, name: "User: ", user: undefined };
+              }
+            })
+            .slice(-6),
+          userID: currentUser?._id,
+        },
+      },
+    });
+  };
+
+  // console.log("chatNprepareGPT = " , chatNprepareGPT)
 
   const mergeUniqueKeywords = (arr1: any, arr2: any) => {
     const uniqueKeywords = new Set([...arr1, ...arr2]);
@@ -206,15 +284,32 @@ const chatEden: NextPageWithLayout = () => {
 
       chatT.push({
         user: "01",
-        message: dataEdenGPTReply.edenGPTreply.reply,
+        // message: dataEdenGPTReply.edenGPTreply.reply,
+        message: dataEdenGPTReply.edenGPTreplyMemory.reply,
       });
       setChatN(chatT);
+
+      // from chatT that is an array of objects, translate it to a string
+      let chatNprepareGPTP = "";
+
+      for (let i = 0; i < chatT.length; i++) {
+        // console.log("chatNprepareGPTP = " , i,chatT[i].message)
+
+        if (chatT[i].user == "01")
+          chatNprepareGPTP += "Eden AI: " + chatT[i].message + "\n";
+        else chatNprepareGPTP += "User: " + chatT[i].message + "\n";
+      }
+
+      // console.log("chatNprepareGPTP = FINAL -- " , chatNprepareGPTP)
+
+      setChatNprepareGPT(chatNprepareGPTP);
 
       setEdenAIsentMessage(false);
 
       // if the dataEdenGPTReply.edenGPTreply.keywords are new then add them to keywordsDiscussion
 
-      const keywordsAI = dataEdenGPTReply.edenGPTreply.keywords;
+      // const keywordsAI = dataEdenGPTReply.edenGPTreply.keywords;
+      const keywordsAI = dataEdenGPTReply.edenGPTreplyMemory.keywords;
 
       const newKeywords = mergeUniqueKeywords(keywordsDiscussion, keywordsAI);
 
@@ -251,6 +346,13 @@ const chatEden: NextPageWithLayout = () => {
     });
     setChatN(chatT);
 
+    setNumMessageLongTermMem(numMessageLongTermMem + 1);
+
+    if (numMessageLongTermMem > 3) {
+      handleStoreLongTermMemory();
+      setNumMessageLongTermMem(0);
+    }
+
     console.log("messageN ==------- ", messageN);
 
     setMessageUser(messageN);
@@ -261,86 +363,7 @@ const chatEden: NextPageWithLayout = () => {
   };
 
   console.log("messageUser = ", messageUser);
-
-  // console.log("dataEdenGPTReply = ", dataEdenGPTReply);
-
-  //   return ( <div className="h-full flex flex-col justify-between">
-  //   <div className="p-4 bg-white h-full overflow-y-auto">
-  //     <p className="text-lg font-bold">Message Title</p>
-  //     <div className="my-4">
-  //       <p>Message 1</p>
-  //       <p>Message 2</p>
-  //       <p>Message 3</p>
-  //     </div>
-  //   </div>
-  //   <div className="p-4 bg-white flex justify-between items-center">
-  //     <input type="text" className="w-full mr-4 py-2 px-4 rounded border border-gray-400" placeholder="Type your message here..."/>
-  //     <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Send</button>
-  //   </div>
-  // </div>)
-
-  // return (
-  //   <>
-  //   <div className="flex h-screen">
-
-  //     <div className="w-1/2 h-1/2 bg-gray-200">
-  //       <div className="h-full flex flex-col justify-between">
-  //         <div className="p-4 bg-white h-full overflow-y-auto">
-  //           <p className="text-lg font-bold">Message Title</p>
-  //           <div className="my-4">
-  //             <p>Message 1</p>
-  //             <p>Message 2</p>
-  //             <p>Message 3</p>
-  //           </div>
-  //         </div>
-  //         <div className="p-4 bg-white flex justify-between items-center">
-  //           <input type="text" className="w-full mr-4 py-2 px-4 rounded border border-gray-400" placeholder="Type your message here..."/>
-  //           <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Send</button>
-  //         </div>
-  //       </div>
-  //     </div>
-
-  //     <div className="w-1/2 h-1/2 bg-gray-300"></div>
-
-  //     <div className="w-1/2 h-screen bg-gray-400"></div>
-
-  //     </div>
-
-  //   </>
-  // )
-
-  // return (<>
-  //   <div className="flex flex-wrap h-screen">
-
-  //       <div className="w-1/2 h-1/2 bg-gray-200">
-  //         <div className="h-full flex flex-col justify-between">
-  //           <div className="p-4 bg-white h-full overflow-y-auto">
-  //             <p className="text-lg font-bold">Message Title</p>
-  //             <div className="my-4">
-  //               <p>Message 1</p>
-  //               <p>Message 2</p>
-  //               <p>Message 3</p>
-  //             </div>
-  //           </div>
-  //           <div className="p-4 bg-white flex justify-between items-center">
-  //             <input type="text" className="w-full mr-4 py-2 px-4 rounded border border-gray-400" placeholder="Type your message here..."/>
-  //             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Send</button>
-  //           </div>
-  //         </div>
-  //       </div>
-
-  //       <div className="w-1/2 h-full bg-gray-300">X1</div>
-  //       <div className="w-1/2 h-1/2 bg-gray-400">Y2</div>
-
-  //     </div>
-
-  // </>)
-
-  // return (
-  //   <>
-  //           <ChatSimple chatN={chatN} handleSentMessage={handleSentMessage} />
-  //   </>
-  // )
+  console.log("numMessageLongTermMem = ", numMessageLongTermMem);
 
   return (
     <>
@@ -350,6 +373,19 @@ const chatEden: NextPageWithLayout = () => {
             <ChatSimple chatN={chatN} handleSentMessage={handleSentMessage} />
           </div>
           <div className="h-1/2 bg-gray-50">
+            <button
+              type="button"
+              className={
+                "rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none"
+              }
+              onClick={() => {
+                handleStoreLongTermMemory();
+                setNumMessageLongTermMem(0);
+              }}
+            >
+              {" "}
+              Save Memory{" "}
+            </button>
             {nodesExample &&
             nodesExample.nodes &&
             nodesExample.nodes.length > 0 ? (
@@ -387,43 +423,6 @@ const chatEden: NextPageWithLayout = () => {
       </div>
     </>
   );
-
-  // return (
-  //   <>
-  //     {/* <div className="flex h-screen">
-  //       <div className="w-1/2 ">
-  //         <ChatSimple chatN={chatN} handleSentMessage={handleSentMessage} />
-  //       </div>
-  //       <div className="w-1/2">
-  //         {nodesExample &&
-  //         nodesExample.nodes &&
-  //         nodesExample.nodes.length > 0 ? (
-  //           <GraphVisual data2={nodesN} width={500} height={500} />
-  //         ) : (
-  //           <p>Dont have Graph Data Yet</p>
-  //         )}
-  //       </div>
-  //     </div> */}
-  //     <div className="flex h-screen">
-  //       <div className="flex flex-1 flex-col">
-  //         <div className="h-1/2 bg-gray-100">
-  //           <ChatSimple chatN={chatN} handleSentMessage={handleSentMessage} />
-  //         </div>
-  //         <div className="h-1/2 bg-gray-200">
-  //           T
-  //           {/* {nodesExample &&
-  //           nodesExample.nodes &&
-  //           nodesExample.nodes.length > 0 ? (
-  //             <GraphVisual data2={nodesN} width={500} height={500} />
-  //           ) : (
-  //             <p>Dont have Graph Data Yet</p>
-  //           )} */}
-  //         </div>
-  //       </div>
-  //       <div className="h-full flex-1 bg-gray-400">Z</div>
-  //     </div>
-  //   </>
-  // );
 };
 
 export default chatEden;
@@ -681,6 +680,10 @@ const UserMessageModal = ({
       user: "01",
       message: `Do you have any questions about ${member?.discordName}?`,
     },
+    {
+      user: "01",
+      message: `In the profile I only have only basic info, you can now dig deeper with me ✌️`,
+    },
   ]);
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [messageUser, setMessageUser] = useState<string>("");
@@ -797,7 +800,7 @@ const UserMessageModal = ({
     <ChatModal open={open} onClose={onClose}>
       {open && (
         <div
-          className="fixed -right-[340px] z-50 bg-white w-[300px] h-8/10 bottom-0 rounded-lg"
+          className="h-8/10 fixed -right-[340px] bottom-0 z-50 w-[300px] rounded-lg bg-white"
           onClick={(e) => {
             console.log("this event :)");
 
