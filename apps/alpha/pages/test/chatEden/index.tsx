@@ -44,7 +44,6 @@ const GraphVisual = dynamic(
 //   query ($fields: edenGPTreplyInput!) {
 //     edenGPTreply(fields: $fields) {
 //       reply
-//       keywords
 //     }
 //   }
 // `;
@@ -53,7 +52,18 @@ const EDEN_GPT_REPLY_MEMORY = gql`
   query ($fields: edenGPTreplyMemoryInput!) {
     edenGPTreplyMemory(fields: $fields) {
       reply
-      keywords
+    }
+  }
+`;
+
+const MESSAGE_MAP_KG = gql`
+  query ($fields: messageMapKGInput!) {
+    messageMapKG(fields: $fields) {
+      keywords {
+        keyword
+        confidence
+        nodeID
+      }
     }
   }
 `;
@@ -186,6 +196,18 @@ const chatEden: NextPageWithLayout = () => {
     context: { serviceName: "soilservice" },
   });
 
+  const { data: dataMessageMapKG } = useQuery(MESSAGE_MAP_KG, {
+    variables: {
+      fields: {
+        message: messageUser,
+      },
+    },
+    skip: messageUser == "",
+    context: { serviceName: "soilservice" },
+  });
+
+  console.log("dataMessageMapKG = ", dataMessageMapKG);
+
   const { data: dataMembers } = useQuery(MATCH_NODES_MEMBERS, {
     variables: {
       fields: {
@@ -309,7 +331,12 @@ const chatEden: NextPageWithLayout = () => {
       // if the dataEdenGPTReply.edenGPTreply.keywords are new then add them to keywordsDiscussion
 
       // const keywordsAI = dataEdenGPTReply.edenGPTreply.keywords;
-      const keywordsAI = dataEdenGPTReply.edenGPTreplyMemory.keywords;
+      // const keywordsAI = dataEdenGPTReply.edenGPTreplyMemory.keywords;
+      const keywordsAI = dataMessageMapKG?.messageMapKG?.keywords?.map(
+        (keyword: any) => keyword.keyword
+      );
+
+      console.log("keywordsAI = ", keywordsAI);
 
       const newKeywords = mergeUniqueKeywords(keywordsDiscussion, keywordsAI);
 
