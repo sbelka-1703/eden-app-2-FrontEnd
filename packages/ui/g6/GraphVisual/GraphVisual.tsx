@@ -45,8 +45,6 @@ function refreshDragedNodePosition(e: any) {
 }
 //  -------------- Graph Functions ------------
 
-let graph: any;
-
 export const GraphVisual = ({
   width,
   height,
@@ -55,6 +53,7 @@ export const GraphVisual = ({
   updateSettings = undefined,
   hasMenu = true,
 }: IGraphVisualisation) => {
+  let graph: any;
   const ref = React.useRef(null);
 
   //  -------------- Graph Setup ----------------
