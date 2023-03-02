@@ -56,7 +56,7 @@ const HomeHeroSection = ({
         description:
           "Find Members of Eden to collaborate, create projects, and apply for grants!",
         display: usersPage,
-        style: "absolute left-8 top-8",
+        style: "absolute left-8 top-24",
       },
       {
         title: "Explore Projects",
@@ -73,7 +73,7 @@ const HomeHeroSection = ({
         description:
           "Finish your profile to get discovered by people in your community!",
         display: profilePage,
-        style: "absolute right-8 top-8",
+        style: "absolute right-8 top-24",
       },
       {
         title: "Launch new Project",
@@ -110,6 +110,7 @@ const HomeHeroSection = ({
       shadow
       className={`w-1/2 min-w-[720px] h-85 scrollbar-hide m-auto flex flex-col overflow-scroll bg-white py-8`}
     >
+      <h1 className="text-center text-2xl">{`Now, let's get you connected to the graph!`}</h1>
       <div className="w-full h-full flex items-center">
         {currentUser?._id && <MemberGraph memberId={currentUser?._id!} />}
       </div>
