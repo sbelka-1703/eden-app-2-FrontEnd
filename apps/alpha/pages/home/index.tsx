@@ -108,7 +108,7 @@ const HomeHeroSection = ({
   return (
     <Card
       shadow
-      className={`h-85 scrollbar-hide m-auto flex flex-col overflow-scroll bg-white py-8`}
+      className={`w-1/2 min-w-[720px] h-85 scrollbar-hide m-auto flex flex-col overflow-scroll bg-white py-8`}
     >
       <div className="w-full h-full flex items-center">
         {currentUser?._id && <MemberGraph memberId={currentUser?._id!} />}
@@ -136,7 +136,7 @@ const HomeHeroSection = ({
 };
 
 HomePage.getLayout = (page) => (
-  <AppUserSubmenuLayout>{page}</AppUserSubmenuLayout>
+  <AppUserSubmenuLayout showSubmenu={false}>{page}</AppUserSubmenuLayout>
 );
 
 export default HomePage;

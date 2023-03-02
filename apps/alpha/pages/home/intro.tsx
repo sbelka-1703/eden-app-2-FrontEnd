@@ -1,5 +1,5 @@
 import {
-  // AppUserSubmenuLayout,
+  AppPublicLayout,
   Button,
   // Card,
   // MemberGraph,
@@ -134,7 +134,7 @@ const HomePage: NextPageWithLayout = () => {
 //   );
 // };
 
-HomePage.getLayout = (page) => <>{page}</>;
+HomePage.getLayout = (page) => <AppPublicLayout>{page}</AppPublicLayout>;
 
 export default HomePage;
 
@@ -211,7 +211,7 @@ const HomeTutorialModalContainer = () => {
 
   return (
     <>
-      <section className="h-screen flex flex-col items-center justify-center">
+      <section className="w-full h-screen flex flex-col items-center justify-center">
         {openModal === HomeTutorialSteps.STEP_1 && (
           <div>
             <h1 className="text-center text-2xl">Welcome to Eden!</h1>
@@ -260,13 +260,15 @@ const HomeTutorialModalContainer = () => {
               className="absolute right-3 bottom-3 z-20"
               radius="rounded"
               variant={`secondary`}
-              onClick={() => setOpenModal(HomeTutorialSteps.STEP_4)}
+              onClick={() => {
+                router.push("/home");
+              }}
             >
               Next
             </Button>
           </div>
         )}
-        {openModal === HomeTutorialSteps.STEP_4 && (
+        {/* {openModal === HomeTutorialSteps.STEP_4 && (
           <div>
             <h1 className="text-center text-2xl">{`Now, let's get you connected to the graph!`}</h1>
             <Button
@@ -278,7 +280,7 @@ const HomeTutorialModalContainer = () => {
               Next
             </Button>
           </div>
-        )}
+        )} */}
         {openModal !== HomeTutorialSteps.STEP_4 && (
           <div className="flex justify-center">
             <GraphVisual
