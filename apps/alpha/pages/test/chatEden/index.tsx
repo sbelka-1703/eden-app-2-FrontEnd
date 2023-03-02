@@ -32,6 +32,7 @@ import dynamic from "next/dynamic";
 import React, { Fragment, useContext, useEffect, useState } from "react";
 
 import type { NextPageWithLayout } from "../../_app";
+import ButtonGroup from "./ButtonGroup";
 
 const GraphVisual = dynamic(
   () => import("@eden/package-ui/g6/GraphVisual/GraphVisual"),
@@ -40,17 +41,25 @@ const GraphVisual = dynamic(
   }
 );
 
-// const EDEN_GPT_REPLY = gql`
-//   query ($fields: edenGPTreplyInput!) {
-//     edenGPTreply(fields: $fields) {
-//       reply
-//     }
-//   }
-// `;
+const EDEN_GPT_REPLY = gql`
+  query ($fields: edenGPTreplyInput!) {
+    edenGPTreply(fields: $fields) {
+      reply
+    }
+  }
+`;
 
 const EDEN_GPT_REPLY_MEMORY = gql`
   query ($fields: edenGPTreplyMemoryInput!) {
     edenGPTreplyMemory(fields: $fields) {
+      reply
+    }
+  }
+`;
+
+const EDEN_GPT_REPLY_CHAT_API = gql`
+  query ($fields: edenGPTreplyChatAPIInput!) {
+    edenGPTreplyChatAPI(fields: $fields) {
       reply
     }
   }
@@ -174,17 +183,25 @@ const chatEden: NextPageWithLayout = () => {
   console.log("dataFindNodesName = ", dataFindNodesName);
   console.log("keywordsDiscussion = ", keywordsDiscussion);
 
-  // const { data: dataEdenGPTReply } = useQuery(EDEN_GPT_REPLY, {
-  //   variables: {
-  //     fields: {
-  //       message: messageUser,
-  //     },
-  //   },
-  //   skip: messageUser == "",
-  //   context: { serviceName: "soilservice" },
-  // });
+  const [selectedOption, setSelectedOption] = useState<string | null>(
+    "option3"
+  );
 
-  const { data: dataEdenGPTReply } = useQuery(EDEN_GPT_REPLY_MEMORY, {
+  const handleButtonClick = (option: string) => {
+    setSelectedOption(option);
+  };
+
+  const { data: dataEdenGPTReply } = useQuery(EDEN_GPT_REPLY, {
+    variables: {
+      fields: {
+        message: messageUser,
+      },
+    },
+    skip: messageUser == "" || selectedOption != "option1",
+    context: { serviceName: "soilservice" },
+  });
+
+  const { data: dataEdenGPTReplyMemory } = useQuery(EDEN_GPT_REPLY_MEMORY, {
     variables: {
       fields: {
         message: messageUser,
@@ -192,7 +209,27 @@ const chatEden: NextPageWithLayout = () => {
         userID: currentUser?._id,
       },
     },
-    skip: messageUser == "",
+    skip: messageUser == "" || selectedOption != "option2",
+    context: { serviceName: "soilservice" },
+  });
+
+  const { data: dataEdenGPTReplyChatAPI } = useQuery(EDEN_GPT_REPLY_CHAT_API, {
+    variables: {
+      fields: {
+        message: messageUser,
+        conversation: chatN
+          .map((obj) => {
+            if (obj.user === "01") {
+              return { role: "assistant", content: obj.message };
+            } else {
+              return { role: "user", content: obj.message };
+            }
+          })
+          .slice(-6),
+        userID: currentUser?._id,
+      },
+    },
+    skip: messageUser == "" || selectedOption != "option3",
     context: { serviceName: "soilservice" },
   });
 
@@ -301,13 +338,27 @@ const chatEden: NextPageWithLayout = () => {
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
-    if (dataEdenGPTReply && edenAIsentMessage == true) {
+    if (
+      (dataEdenGPTReply || dataEdenGPTReplyMemory || dataEdenGPTReplyChatAPI) &&
+      edenAIsentMessage == true
+    ) {
       const chatT = [...chatN];
 
+      let newMessage = "";
+
+      if (selectedOption == "option3") {
+        newMessage = dataEdenGPTReplyChatAPI.edenGPTreplyChatAPI.reply;
+      } else if (selectedOption == "option2") {
+        newMessage = dataEdenGPTReplyMemory.edenGPTreplyMemory.reply;
+      } else if (selectedOption == "option1") {
+        newMessage = dataEdenGPTReply.edenGPTreply.reply;
+      }
       chatT.push({
         user: "01",
         // message: dataEdenGPTReply.edenGPTreply.reply,
-        message: dataEdenGPTReply.edenGPTreplyMemory.reply,
+        // message: dataEdenGPTReply.edenGPTreplyMemory.reply,
+        // message: dataEdenGPTReply.edenGPTreplyChatAPI.reply,
+        message: newMessage,
       });
       setChatN(chatT);
 
@@ -327,24 +378,28 @@ const chatEden: NextPageWithLayout = () => {
       setChatNprepareGPT(chatNprepareGPTP);
 
       setEdenAIsentMessage(false);
+    }
+  }, [dataEdenGPTReply, dataEdenGPTReplyMemory, dataEdenGPTReplyChatAPI]);
 
-      // if the dataEdenGPTReply.edenGPTreply.keywords are new then add them to keywordsDiscussion
-
-      // const keywordsAI = dataEdenGPTReply.edenGPTreply.keywords;
-      // const keywordsAI = dataEdenGPTReply.edenGPTreplyMemory.keywords;
+  useEffect(() => {
+    if (dataMessageMapKG) {
       const keywordsAI = dataMessageMapKG?.messageMapKG?.keywords?.map(
         (keyword: any) => keyword.keyword
       );
 
       console.log("keywordsAI = ", keywordsAI);
 
-      const newKeywords = mergeUniqueKeywords(keywordsDiscussion, keywordsAI);
+      let newKeywords = [];
 
-      if (keywordsAI.length > 0) {
+      if (keywordsAI) {
+        newKeywords = mergeUniqueKeywords(keywordsDiscussion, keywordsAI);
+      }
+
+      if (newKeywords.length > 0) {
         setKeywordsDiscussion(newKeywords);
       }
     }
-  }, [dataEdenGPTReply]);
+  }, [dataMessageMapKG]);
 
   useEffect(() => {
     if (dataFindNodesName?.findNodes?.length > 0) {
@@ -413,6 +468,12 @@ const chatEden: NextPageWithLayout = () => {
               {" "}
               Save Memory{" "}
             </button>
+            <div>
+              <ButtonGroup
+                selectedOption={selectedOption}
+                handleButtonClick={handleButtonClick}
+              />
+            </div>
             {nodesExample &&
             nodesExample.nodes &&
             nodesExample.nodes.length > 0 ? (
