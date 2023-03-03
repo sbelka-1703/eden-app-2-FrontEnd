@@ -1,15 +1,15 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
-import { DynamicSearchMemberGraphs } from "./DynamicSearchMemberGraphs";
+import { DynamicSearchMemberGraph } from "./DynamicSearchMemberGraph";
 
 export default {
-  title: "Components/DynamicSearchMemberGraphs",
-  component: DynamicSearchMemberGraphs,
+  title: "Components/DynamicSearchMemberGraph",
+  component: DynamicSearchMemberGraph,
   argTypes: {},
-} as ComponentMeta<typeof DynamicSearchMemberGraphs>;
+} as ComponentMeta<typeof DynamicSearchMemberGraph>;
 
-const Template: ComponentStory<typeof DynamicSearchMemberGraphs> = (args) => {
-  return <DynamicSearchMemberGraphs {...args} />;
+const Template: ComponentStory<typeof DynamicSearchMemberGraph> = (args) => {
+  return <DynamicSearchMemberGraph {...args} />;
 };
 
 export const Default = Template.bind({});
