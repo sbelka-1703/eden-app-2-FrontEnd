@@ -14,9 +14,9 @@ const GraphVisual = dynamic(
   }
 );
 
-const FIND_MEMBER_GRAPH = gql`
-  query ($fields: findMemberGraphInput!) {
-    findMemberGraph(fields: $fields) {
+const DYNAMIC_SEARCH_GRAPH = gql`
+  query ($fields: dynamicSearchGraphInput!) {
+    dynamicSearchGraph(fields: $fields) {
       nodesVisual {
         _id
         name
@@ -46,11 +46,11 @@ const FIND_MEMBER_GRAPH = gql`
   }
 `;
 
-export interface IMemberGraphProps {
-  memberId: string;
+export interface IDynamicSearchGraphProps {
+  nodesID: [string];
 }
 
-export const MemberGraph = ({ memberId }: IMemberGraphProps) => {
+export const DynamicSearchGraph = ({ nodesID }: IDynamicSearchGraphProps) => {
   const refContainer = useRef<HTMLDivElement>();
 
   const [data, setData] = useState<Graph>({
@@ -61,47 +61,42 @@ export const MemberGraph = ({ memberId }: IMemberGraphProps) => {
 
   const [dataGraphAPI, setDataGraphAPI] = useState<any>(undefined);
 
-  const {} = useQuery(FIND_MEMBER_GRAPH, {
+  const {} = useQuery(DYNAMIC_SEARCH_GRAPH, {
     variables: {
       fields: {
-        memberID: memberId,
+        // nodesID: ["63eaefc44862b62edc3037b4", "63eaefebdf71c82f61c177eb"],
+        nodesID: nodesID,
         showAvatar: true,
+
         nodeSettings: [
-          nodeSettingsPreset["Member"]["main"],
+          nodeSettingsPreset["dynamicSearch"]["main"],
           nodeSettingsPreset["sub_typeProject"]["main"],
           nodeSettingsPreset["typeProject"]["main"],
           nodeSettingsPreset["sub_expertise"]["main"],
           nodeSettingsPreset["expertise"]["main"],
-          nodeSettingsPreset["skill"]["main"],
         ],
         edgeSettings: [
-          // ------ split sub_typeProject|Member -------
-          edgeSettingsPreset["sub_typeProject|Member"]["typeProject"],
+          // // ------ split sub_typeProject|dynamicSearch -------
+          edgeSettingsPreset["sub_typeProject|dynamicSearch"]["typeProject"],
           edgeSettingsPreset["sub_typeProject|typeProject"]["edge"],
-          edgeSettingsPreset["typeProject|Member"]["edge"],
-          // ------ split sub_typeProject|Member -------
+          edgeSettingsPreset["typeProject|dynamicSearch"]["edge"],
+          // // ------ split sub_typeProject|dynamicSearch -------
 
-          // ------ split skill|Member -------
-          edgeSettingsPreset["skill|Member"]["doubleSplitEdge"],
-          // edgeSettingsPreset["skill|Member"]["edge"],
-          edgeSettingsPreset["skill|sub_expertise"]["edge"],
-          // edgeSettingsPreset["sub_expertise|Member"]["edge"],
-          // ------ split skill|Member -------
-
-          // ------ split sub_expertise|Member -------
-          edgeSettingsPreset["sub_expertise|Member"]["expertise"],
+          // ------ split sub_expertise|dynamicSearch -------
+          // edgeSettingsPreset["sub_expertise|dynamicSearch"]["edge"],
+          edgeSettingsPreset["sub_expertise|dynamicSearch"]["expertise"],
           edgeSettingsPreset["sub_expertise|expertise"]["edge"],
-          edgeSettingsPreset["expertise|Member"]["edge"],
-          // edgeSettingsPreset["sub_expertise|Member"]["edge"],
-          // ------ split sub_expertise|Member -------
+          edgeSettingsPreset["expertise|dynamicSearch"]["edge"],
+          // ------ split sub_expertise|dynamicSearch -------
         ],
       },
     },
-    skip: !memberId,
+    skip: nodesID == undefined,
+    // skip: selectedOption !== "Option 8",
     context: { serviceName: "soilservice" },
     onCompleted: (data) => {
       if (data) {
-        setDataGraphAPI(data.findMemberGraph);
+        setDataGraphAPI(data.dynamicSearchGraph);
       }
     },
   });
@@ -119,6 +114,7 @@ export const MemberGraph = ({ memberId }: IMemberGraphProps) => {
   }, [dataGraphAPI]);
   // ----------- Update the Graph Visual ----------
 
+  // ----------- Update the Hight/Width of the Graph Visual ----------
   useEffect(() => {
     const getwidth = () => {
       setWidth(refContainer.current?.offsetWidth!);
@@ -132,6 +128,8 @@ export const MemberGraph = ({ memberId }: IMemberGraphProps) => {
     // remove the event listener before the component gets unmounted
     return () => window.removeEventListener("resize", getwidth);
   }, []);
+  // ----------- Update the Hight/Width of the Graph Visual ----------
+
   return (
     <>
       {refContainer && (
