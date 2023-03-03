@@ -95,7 +95,7 @@ export const TabsSelector = ({
               </button>
             )}
             <button
-              className={`relative h-full w-full overflow-y-scroll rounded-t-xl border-t px-3 pt-0 text-center text-sm font-medium uppercase !leading-5 md:text-lg ${
+              className={`scrollbar-hide relative h-full w-full overflow-y-scroll rounded-t-xl border-t px-3 pt-0 text-center text-sm font-medium uppercase !leading-5 md:text-lg ${
                 !index ? "border-l" : ""
               } ${
                 currentTab == index
