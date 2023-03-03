@@ -1,8 +1,6 @@
-import { RawDataGraph } from "@eden/package-ui";
+import { MemberProjectGraph } from "@eden/package-ui";
 import React, { RefObject, useRef } from "react";
 
-// import { rawDataPersonProject } from "../../../utils/data/rawDataPersonProject";
-import { rawDataBigGraph } from "../../../utils/data/rawDataBigGraph";
 import type { NextPageWithLayout } from "../../_app";
 
 const GraphVisualPage: NextPageWithLayout = () => {
@@ -29,7 +27,10 @@ const GraphVisualPage: NextPageWithLayout = () => {
               className="w-full"
               ref={refContainer as RefObject<HTMLDivElement>}
             >
-              <RawDataGraph rawData={rawDataBigGraph} />
+              <MemberProjectGraph
+                memberId={"908392557258604544"}
+                projectID={"63ebca723f7197ebd2adbd21"}
+              />
             </div>
           )}
         </div>
