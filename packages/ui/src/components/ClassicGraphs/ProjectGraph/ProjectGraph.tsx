@@ -5,6 +5,14 @@ import { RefObject, useEffect, useRef, useState } from "react";
 import { edgeSettingsPreset } from "../../../../g6/GraphVisual/data/edgeSettingsPreset";
 import { nodeSettingsPreset } from "../../../../g6/GraphVisual/data/nodeSettingsPreset";
 import { Graph } from "../../../../g6/GraphVisual/settings/interfaceGraph";
+import { backendGraphToVisualGraph } from "../utils/helperFunctions";
+
+const GraphVisual = dynamic(
+  () => import("@eden/package-ui/g6/GraphVisual/GraphVisual"),
+  {
+    ssr: false,
+  }
+);
 
 const FIND_PROJECT_GRAPH = gql`
   query ($fields: findProjectGraphInput!) {
@@ -38,24 +46,12 @@ const FIND_PROJECT_GRAPH = gql`
   }
 `;
 
-const GraphVisual = dynamic(
-  () => import("@eden/package-ui/g6/GraphVisual/GraphVisual"),
-  {
-    ssr: false,
-  }
-);
-
 export interface IProjectGraphProps {
   projectId: string;
 }
 
 export const ProjectGraph = ({ projectId }: IProjectGraphProps) => {
   const refContainer = useRef<HTMLDivElement>();
-  const settingsGraphs = {
-    useAvatar: true,
-    updateGraph: false,
-    projectID1: projectId,
-  };
 
   const [data, setData] = useState<Graph>({
     nodes: [{ id: "node1", size: 50 }],
@@ -63,10 +59,12 @@ export const ProjectGraph = ({ projectId }: IProjectGraphProps) => {
   });
   const [width, setWidth] = useState<number>(0);
 
-  const { data: dataGraphAPIProject } = useQuery(FIND_PROJECT_GRAPH, {
+  const [dataGraphAPI, setDataGraphAPI] = useState<any>(undefined);
+
+  const {} = useQuery(FIND_PROJECT_GRAPH, {
     variables: {
       fields: {
-        projectID: settingsGraphs.projectID1,
+        projectID: projectId,
         showAvatar: true,
         nodeSettings: [
           // nodeSettingsPreset["Member"]["main"],
@@ -144,113 +142,28 @@ export const ProjectGraph = ({ projectId }: IProjectGraphProps) => {
     },
     skip: !projectId,
     context: { serviceName: "soilservice" },
+    onCompleted: (data) => {
+      if (data) {
+        setDataGraphAPI(data.findProjectGraph);
+      }
+    },
   });
 
+  // ----------- Update the Graph Visual ----------
   useEffect(() => {
-    if (dataGraphAPIProject?.findProjectGraph) {
-      updateGraph(settingsGraphs);
+    if (dataGraphAPI) {
+      const resNodeData = backendGraphToVisualGraph(dataGraphAPI, true);
+
+      setData({
+        nodes: resNodeData.nodes,
+        edges: resNodeData.edges,
+      });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [settingsGraphs, dataGraphAPIProject?.findProjectGraph]);
+  }, [dataGraphAPI]);
+  // ----------- Update the Graph Visual ----------
 
-  const updateGraph = (settingsGraphNow: any) => {
-    const dataGraphAPI = dataGraphAPIProject.findProjectGraph;
-
-    console.log("dataGraphAPI = ", dataGraphAPI);
-    const nodeDataObj: any = {};
-    const edgesDataGraph = dataGraphAPI.edges.map(
-      (edge: { source: any; target: any; distanceRation: any; style: any }) => {
-        if (!nodeDataObj[edge.source]) {
-          nodeDataObj[edge.source] = {
-            numberConnections: 1,
-          };
-        } else {
-          nodeDataObj[edge.source].numberConnections += 1;
-        }
-        if (!nodeDataObj[edge.target]) {
-          nodeDataObj[edge.target] = {
-            numberConnections: 1,
-          };
-        } else {
-          nodeDataObj[edge.target].numberConnections += 1;
-        }
-        return {
-          source: edge.source,
-          target: edge.target,
-          distanceRation: edge.distanceRation,
-          style: edge.style,
-        };
-      }
-    );
-
-    console.log("edgesDataGraph = ", edgesDataGraph);
-
-    let nodesDataGraph = dataGraphAPI.nodesVisual.map(
-      (node: {
-        _id: any;
-        name: any;
-        type: string;
-        avatar: string;
-        extraDistanceRation: Number;
-        style: any;
-      }) => {
-        let extraStyle = {};
-
-        if (settingsGraphNow.useAvatar == true && node.avatar != undefined) {
-          extraStyle = {
-            // ----------- Shwow Avatar User ---------
-            type: "image",
-            img: node.avatar,
-            clipCfg: {
-              show: true,
-              type: "circle",
-              r: 25,
-            },
-            style: {
-              height: 50,
-              width: 50,
-            },
-            // ----------- Shwow Avatar User ---------
-          };
-        }
-        if (settingsGraphNow.useAvatar == false && node.avatar != undefined) {
-          extraStyle = {
-            // ----------- Shwow Avatar User ---------
-            type: node.type,
-            // img: "",
-            clipCfg: {},
-            style: {},
-            // ----------- Shwow Avatar User ---------
-          };
-        }
-
-        return {
-          id: node._id,
-          label: node.name,
-          nodeType: node.type,
-          extraDistanceRation: node.extraDistanceRation,
-          size: 50,
-          numberConnections: nodeDataObj[node._id]
-            ? nodeDataObj[node._id].numberConnections
-            : 0,
-          propertise: {
-            name: node.name,
-          },
-          style: node.style,
-          ...extraStyle,
-        };
-      }
-    );
-
-    if (nodesDataGraph.length == 0) {
-      nodesDataGraph = [{ id: "node1", size: 50 }];
-    }
-
-    setData({
-      nodes: nodesDataGraph,
-      edges: edgesDataGraph,
-    });
-  };
+  console.log("data = ", data);
+  console.log("dataGraphAPI = ", dataGraphAPI);
 
   useEffect(() => {
     const getwidth = () => {
