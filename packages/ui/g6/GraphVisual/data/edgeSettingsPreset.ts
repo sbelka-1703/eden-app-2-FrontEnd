@@ -476,7 +476,7 @@ export const edgeSettingsPreset = {
         nodeTypeTarget: "Member",
         style: {
           color: "#FFFFFF",
-          distance: 500,
+          distance: 600,
           strength: 0.5,
         },
       },
@@ -752,6 +752,43 @@ export const edgeSettingsPreset = {
         style: {
           color: "#FFFFFF",
           distance: 200,
+          strength: 0.5,
+        },
+      },
+      hiddenEdge: true,
+    },
+  },
+  "Member|dynamicSearch": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "Member",
+        nodeTypeTarget: "dynamicSearch",
+        style: {
+          color: "#E0E0E0",
+          distance: 150,
+          strength: 0.5,
+        },
+      },
+    },
+    hiddenEdge: {
+      mainEdge: {
+        nodeTypeSource: "Member",
+        nodeTypeTarget: "dynamicSearch",
+        style: {
+          color: "#FFFFFF",
+          distance: 230,
+          strength: 0.5,
+        },
+      },
+      hiddenEdge: true,
+    },
+    hiddenEdgeFar: {
+      mainEdge: {
+        nodeTypeSource: "Member",
+        nodeTypeTarget: "dynamicSearch",
+        style: {
+          color: "#FFFFFF",
+          distance: 430,
           strength: 0.5,
         },
       },
