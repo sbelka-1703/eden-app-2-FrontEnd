@@ -88,6 +88,12 @@ export const DynamicSearchGraph = ({ nodesID }: IDynamicSearchGraphProps) => {
           edgeSettingsPreset["sub_expertise|expertise"]["edge"],
           edgeSettingsPreset["expertise|dynamicSearch"]["edge"],
           // ------ split sub_expertise|dynamicSearch -------
+
+          // //  ------ Create Far Distance between member and project ------
+          // edgeSettingsPreset["dynamicSearch|sub_expertise"]["hiddenEdge"],
+          edgeSettingsPreset["expertise|expertise"]["hiddenEdge"],
+          edgeSettingsPreset["expertise|typeProject"]["hiddenEdge"],
+          // //  ------ Create Far Distance between member and project ------
         ],
       },
     },
@@ -104,7 +110,7 @@ export const DynamicSearchGraph = ({ nodesID }: IDynamicSearchGraphProps) => {
   // ----------- Update the Graph Visual ----------
   useEffect(() => {
     if (dataGraphAPI) {
-      const resNodeData = backendGraphToVisualGraph(dataGraphAPI, true);
+      const resNodeData = backendGraphToVisualGraph(dataGraphAPI, true, true);
 
       setData({
         nodes: resNodeData.nodes,
@@ -134,7 +140,7 @@ export const DynamicSearchGraph = ({ nodesID }: IDynamicSearchGraphProps) => {
     <>
       {refContainer && (
         <div
-          className="h-[340px] w-full"
+          className="h-[540px] w-full"
           ref={refContainer as RefObject<HTMLDivElement>}
         >
           {data && data.nodes && data.nodes.length > 0 ? (

@@ -1,6 +1,7 @@
 export const backendGraphToVisualGraph = (
   dataGraphAPI: any,
-  useAvatar: boolean
+  useAvatar: boolean,
+  randomPosition: boolean
 ) => {
   if (dataGraphAPI == undefined) return {};
 
@@ -30,6 +31,7 @@ export const backendGraphToVisualGraph = (
     }
   );
 
+  let idx = 0;
   const nodesDataGraph = dataGraphAPI.nodesVisual.map(
     (node: {
       _id: any;
@@ -69,6 +71,15 @@ export const backendGraphToVisualGraph = (
         };
       }
 
+      if (randomPosition == true) {
+        console.log("change =aaaaaaaaaaaaaaaaaaaaaa ");
+        extraStyle = {
+          ...extraStyle,
+          x: idx * 50,
+          y: idx * 50,
+        };
+      }
+
       return {
         id: node._id,
         label: node.name,
@@ -84,6 +95,8 @@ export const backendGraphToVisualGraph = (
         style: node.style,
         ...extraStyle,
       };
+
+      idx += 1;
     }
   );
 
