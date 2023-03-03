@@ -1,9 +1,9 @@
 import { RawDataGraph } from "@eden/package-ui";
 import React, { RefObject, useRef } from "react";
 
-import type { NextPageWithLayout } from "../../_app";
 // import { rawDataPersonProject } from "./data/rawDataPersonProject";
-import { rawDataBigGraph } from "./data/rawDataBigGraph";
+import { rawDataBigGraph } from "../../../utils/data/rawDataBigGraph";
+import type { NextPageWithLayout } from "../../_app";
 
 const GraphVisualPage: NextPageWithLayout = () => {
   const refContainer = useRef<HTMLDivElement>();
