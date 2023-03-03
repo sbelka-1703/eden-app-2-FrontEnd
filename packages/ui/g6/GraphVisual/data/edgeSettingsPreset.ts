@@ -676,7 +676,82 @@ export const edgeSettingsPreset = {
         nodeTypeTarget: "expertise",
         style: {
           color: "#FFFFFF",
-          distance: 600,
+          distance: 300,
+          strength: 0.5,
+        },
+      },
+      hiddenEdge: true,
+    },
+  },
+  "expertise|typeProject": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "expertise",
+        nodeTypeTarget: "typeProject",
+        style: {
+          color: "#E0E0E0",
+          distance: 150,
+          strength: 0.5,
+        },
+      },
+    },
+    hiddenEdge: {
+      mainEdge: {
+        nodeTypeSource: "expertise",
+        nodeTypeTarget: "typeProject",
+        style: {
+          color: "#FFFFFF",
+          distance: 300,
+          strength: 0.5,
+        },
+      },
+      hiddenEdge: true,
+    },
+  },
+  "dynamicSearch|sub_expertise": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "dynamicSearch",
+        nodeTypeTarget: "sub_expertise",
+        style: {
+          color: "#E0E0E0",
+          distance: 150,
+          strength: 0.5,
+        },
+      },
+    },
+    hiddenEdge: {
+      mainEdge: {
+        nodeTypeSource: "dynamicSearch",
+        nodeTypeTarget: "sub_expertise",
+        style: {
+          color: "#FFFFFF",
+          distance: 200,
+          strength: 0.5,
+        },
+      },
+      hiddenEdge: true,
+    },
+  },
+  "typeProject|sub_expertise": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "typeProject",
+        nodeTypeTarget: "sub_expertise",
+        style: {
+          color: "#E0E0E0",
+          distance: 150,
+          strength: 0.5,
+        },
+      },
+    },
+    hiddenEdge: {
+      mainEdge: {
+        nodeTypeSource: "typeProject",
+        nodeTypeTarget: "sub_expertise",
+        style: {
+          color: "#FFFFFF",
+          distance: 200,
           strength: 0.5,
         },
       },

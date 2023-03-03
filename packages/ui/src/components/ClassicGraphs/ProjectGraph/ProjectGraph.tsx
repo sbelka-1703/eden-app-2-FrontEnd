@@ -152,7 +152,7 @@ export const ProjectGraph = ({ projectId }: IProjectGraphProps) => {
   // ----------- Update the Graph Visual ----------
   useEffect(() => {
     if (dataGraphAPI) {
-      const resNodeData = backendGraphToVisualGraph(dataGraphAPI, true);
+      const resNodeData = backendGraphToVisualGraph(dataGraphAPI, true, false);
 
       setData({
         nodes: resNodeData.nodes,
@@ -182,7 +182,7 @@ export const ProjectGraph = ({ projectId }: IProjectGraphProps) => {
     <>
       {refContainer && (
         <div
-          className="h-[340px] w-full"
+          className="h-[540px] w-full"
           ref={refContainer as RefObject<HTMLDivElement>}
         >
           {data && data.nodes && data.nodes.length > 0 ? (

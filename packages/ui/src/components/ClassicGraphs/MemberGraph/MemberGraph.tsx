@@ -94,6 +94,17 @@ export const MemberGraph = ({ memberId }: IMemberGraphProps) => {
           edgeSettingsPreset["expertise|Member"]["edge"],
           // edgeSettingsPreset["sub_expertise|Member"]["edge"],
           // ------ split sub_expertise|Member -------
+
+          // //  ------ Create Far Distance between member and project ------
+          edgeSettingsPreset["expertise|expertise"]["hiddenEdge"],
+          // edgeSettingsPreset["typeProject|sub_expertise"]["hiddenEdge"],
+          edgeSettingsPreset["expertise|typeProject"]["hiddenEdge"],
+          // edgeSettingsPreset["Project|expertise"]["hiddenEdge"],
+          // edgeSettingsPreset["Projet|typeProject"]["hiddenEdge"],
+          // edgeSettingsPreset["expertise|expertise"]["hiddenEdge"],
+          // // edgeSettingsPreset["Project|Member"]["hiddenEdge"],
+          // edgeSettingsPreset["typeProject|expertise"]["hiddenEdge"],
+          // //  ------ Create Far Distance between member and project ------
         ],
       },
     },
@@ -109,7 +120,7 @@ export const MemberGraph = ({ memberId }: IMemberGraphProps) => {
   // ----------- Update the Graph Visual ----------
   useEffect(() => {
     if (dataGraphAPI) {
-      const resNodeData = backendGraphToVisualGraph(dataGraphAPI, true);
+      const resNodeData = backendGraphToVisualGraph(dataGraphAPI, true, false);
 
       setData({
         nodes: resNodeData.nodes,
@@ -136,7 +147,7 @@ export const MemberGraph = ({ memberId }: IMemberGraphProps) => {
     <>
       {refContainer && (
         <div
-          className="h-[340px] w-full"
+          className="h-[540px] w-full"
           ref={refContainer as RefObject<HTMLDivElement>}
         >
           {data && data.nodes && data.nodes.length > 0 ? (
