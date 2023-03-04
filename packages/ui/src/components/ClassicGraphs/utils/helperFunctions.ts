@@ -1,9 +1,12 @@
 export const backendGraphToVisualGraph = (
   dataGraphAPI: any,
   useAvatar: boolean,
-  randomPosition: boolean
+  randomPosition: boolean,
+  nodeIDsObj?: any
 ) => {
   if (dataGraphAPI == undefined) return {};
+
+  console.log("nodeIDsObj = ", nodeIDsObj);
 
   const nodeDataObj: any = {};
   const edgesDataGraph = dataGraphAPI.edges.map(
@@ -72,11 +75,25 @@ export const backendGraphToVisualGraph = (
       }
 
       if (randomPosition == true) {
-        console.log("change =aaaaaaaaaaaaaaaaaaaaaa ");
+        // console.log("change =aaaaaaaaaaaaaaaaaaaaaa ");
         extraStyle = {
           ...extraStyle,
           x: idx * 50,
           y: idx * 50,
+        };
+      }
+
+      if (nodeIDsObj[node._id] == false) {
+        // this means that this node is not active
+        extraStyle = {
+          ...extraStyle,
+          activate: false,
+          style: {
+            size: 70,
+
+            fill: "#D3D3D3",
+            stroke: "#A9A9A9",
+          },
         };
       }
 
@@ -100,6 +117,7 @@ export const backendGraphToVisualGraph = (
     }
   );
 
+  console.log("nodesDataGraph = ", nodesDataGraph);
   return {
     nodes: nodesDataGraph,
     edges: edgesDataGraph,

@@ -6,7 +6,6 @@ import React, { useEffect, useState } from "react";
 
 import GraphMenu from "./graphMenu";
 import {
-  addNodeAndEdge,
   edgeStrength,
   handleCheckboxChange,
   linkDistance,
@@ -25,6 +24,7 @@ export interface IGraphVisualisation {
   hasMenu?: boolean;
   graph?: any;
   setGraph?: any;
+  setActivateNodeEvent?: any;
 }
 
 const loadingNode: Graph = {
@@ -58,6 +58,7 @@ export const GraphVisual = ({
   hasMenu = true,
   graph,
   setGraph,
+  setActivateNodeEvent,
 }: IGraphVisualisation) => {
   const ref = React.useRef(null);
 
@@ -125,9 +126,12 @@ export const GraphVisual = ({
         e.item.get("model").fy = null;
       });
       graph.on("node:click", (e: any) => {
-        const nodeConnectID = e.item._cfg.id;
+        const nodeConnectID = e.item?._cfg?.id;
 
-        addNodeAndEdge(nodeConnectID, {}, graph);
+        // if a node is inactive you can activate it
+        if (e.item._cfg?.model?.activate == false) {
+          setActivateNodeEvent(nodeConnectID);
+        }
       });
     }
   }, [data2]);
@@ -135,10 +139,6 @@ export const GraphVisual = ({
   useEffect(() => {
     setTimeout(function () {
       // protect it for firing the rerender too early
-
-      // updateNodes(data2, graph, setItems, setCheckedItems);
-      // updateNodesBackendSettings(data2, graph);
-      // console.log("data2 = ", data2);
       updateNodesBackendSettings(data2, graph, setItems, setCheckedItems);
     }, 100);
   }, [data2]);
@@ -150,16 +150,9 @@ export const GraphVisual = ({
   const [items, setItems] = useState([]);
   // ---------- Menue Nodes, Check UnCheck -------------
 
-  // useEffect(() => {
-  //   if (graph) {
-  //     graph.changeSize(width, height);
-  //     graph.refresh();
-  //   }
-  // }, [width, height]);
-
   useEffect(() => {
     if (graph) {
-      console.log("width, height = ", width, height);
+      // console.log("width, height = ", width, height);
       if (width != undefined && height != undefined) {
         if (width != 0 && height != 0) {
           graph.changeSize(width, height);
@@ -169,7 +162,7 @@ export const GraphVisual = ({
     }
   }, [width, height]);
 
-  console.log("settingsGraphs = ", settingsGraphs);
+  // console.log("settingsGraphs = ", settingsGraphs);
 
   return (
     <div className="relative w-full">
