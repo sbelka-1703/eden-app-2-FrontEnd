@@ -154,6 +154,8 @@ export const MemberProjectGraph = ({
     // remove the event listener before the component gets unmounted
     return () => window.removeEventListener("resize", getwidth);
   }, []);
+  const [graph, setGraph] = useState<any>();
+
   return (
     <>
       {refContainer && (
@@ -167,6 +169,8 @@ export const MemberProjectGraph = ({
               width={width}
               height={refContainer.current?.offsetHeight!}
               hasMenu={false}
+              graph={graph}
+              setGraph={setGraph}
             />
           ) : (
             <p>Dont have Graph Data Yet</p>

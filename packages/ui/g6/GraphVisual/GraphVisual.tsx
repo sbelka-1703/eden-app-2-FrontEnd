@@ -23,6 +23,8 @@ export interface IGraphVisualisation {
   settingsGraphs?: any;
   updateSettings?: any;
   hasMenu?: boolean;
+  graph?: any;
+  setGraph?: any;
 }
 
 const loadingNode: Graph = {
@@ -45,7 +47,7 @@ function refreshDragedNodePosition(e: any) {
 }
 //  -------------- Graph Functions ------------
 
-let graph: any;
+// let graph: any;
 
 export const GraphVisual = ({
   width,
@@ -54,6 +56,8 @@ export const GraphVisual = ({
   settingsGraphs = undefined,
   updateSettings = undefined,
   hasMenu = true,
+  graph,
+  setGraph,
 }: IGraphVisualisation) => {
   const ref = React.useRef(null);
 
@@ -100,6 +104,8 @@ export const GraphVisual = ({
         plugins: [tooltip],
       });
 
+      setGraph(graph);
+
       // updateNodes(loadingNode, graph, setItems, setCheckedItems);
       // updateNodesBackendSettings(loadingNode, graph);
       updateNodesBackendSettings(loadingNode, graph, setItems, setCheckedItems);
@@ -144,10 +150,22 @@ export const GraphVisual = ({
   const [items, setItems] = useState([]);
   // ---------- Menue Nodes, Check UnCheck -------------
 
+  // useEffect(() => {
+  //   if (graph) {
+  //     graph.changeSize(width, height);
+  //     graph.refresh();
+  //   }
+  // }, [width, height]);
+
   useEffect(() => {
     if (graph) {
-      graph.changeSize(width, height);
-      graph.refresh();
+      console.log("width, height = ", width, height);
+      if (width != undefined && height != undefined) {
+        if (width != 0 && height != 0) {
+          graph.changeSize(width, height);
+          graph.refresh();
+        }
+      }
     }
   }, [width, height]);
 

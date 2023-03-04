@@ -209,9 +209,11 @@ const HomeTutorialModalContainer = () => {
     }
   }, [openModal]);
 
+  const [graph, setGraph] = useState<any>();
+
   return (
     <>
-      <section className="w-full h-screen flex flex-col items-center justify-center">
+      <section className="flex h-screen w-full flex-col items-center justify-center">
         {openModal === HomeTutorialSteps.STEP_1 && (
           <div>
             <h1 className="text-center text-2xl">Welcome to Eden!</h1>
@@ -288,6 +290,8 @@ const HomeTutorialModalContainer = () => {
               data2={data}
               width={720}
               height={400}
+              graph={graph}
+              setGraph={setGraph}
             />
           </div>
         )}
