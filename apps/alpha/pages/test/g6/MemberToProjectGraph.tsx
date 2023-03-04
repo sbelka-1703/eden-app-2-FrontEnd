@@ -296,6 +296,8 @@ const MemberToProjectGraph = (props: any) => {
     refContainer.current?.offsetHeight!
   );
 
+  const [graph, setGraph] = useState<any>();
+
   return (
     <div>
       <p>boom</p>
@@ -314,6 +316,8 @@ const MemberToProjectGraph = (props: any) => {
                 data2={data}
                 width={width}
                 height={refContainer.current?.offsetHeight!}
+                graph={graph}
+                setGraph={setGraph}
               />
             ) : (
               <p>Dont have Graph Data Yet</p>

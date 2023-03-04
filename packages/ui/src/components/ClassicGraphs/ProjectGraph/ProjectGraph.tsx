@@ -178,6 +178,9 @@ export const ProjectGraph = ({ projectId }: IProjectGraphProps) => {
     // remove the event listener before the component gets unmounted
     return () => window.removeEventListener("resize", getwidth);
   }, []);
+
+  const [graph, setGraph] = useState<any>();
+
   return (
     <>
       {refContainer && (
@@ -191,6 +194,8 @@ export const ProjectGraph = ({ projectId }: IProjectGraphProps) => {
               width={width}
               height={refContainer.current?.offsetHeight!}
               hasMenu={false}
+              graph={graph}
+              setGraph={setGraph}
               // height={500}
               // height={(1.3 * width) / 4}
               // data2={data2}

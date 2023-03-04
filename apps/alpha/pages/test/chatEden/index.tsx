@@ -447,6 +447,8 @@ const chatEden: NextPageWithLayout = () => {
   console.log("messageUser = ", messageUser);
   console.log("numMessageLongTermMem = ", numMessageLongTermMem);
 
+  const [graph, setGraph] = useState<any>();
+
   return (
     <>
       <div className="flex h-screen">
@@ -477,7 +479,13 @@ const chatEden: NextPageWithLayout = () => {
             {nodesExample &&
             nodesExample.nodes &&
             nodesExample.nodes.length > 0 ? (
-              <GraphVisual data2={nodesN} width={500} height={500} />
+              <GraphVisual
+                data2={nodesN}
+                width={500}
+                height={500}
+                graph={graph}
+                setGraph={setGraph}
+              />
             ) : (
               <p>Dont have Graph Data Yet</p>
             )}

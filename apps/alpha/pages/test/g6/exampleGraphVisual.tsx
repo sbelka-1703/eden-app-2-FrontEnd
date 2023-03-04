@@ -1404,6 +1404,8 @@ const GraphVisualPage: NextPageWithLayout = () => {
     return () => window.removeEventListener("resize", getwidth);
   }, []);
 
+  const [graph, setGraph] = useState<any>();
+
   return (
     <>
       <div
@@ -1473,6 +1475,8 @@ const GraphVisualPage: NextPageWithLayout = () => {
                   height={refContainer.current?.offsetHeight!}
                   settingsGraphs={settingsGraphs}
                   updateSettings={updateSettings}
+                  graph={graph}
+                  setGraph={setGraph}
                 />
               ) : (
                 <p>Dont have Graph Data Yet</p>

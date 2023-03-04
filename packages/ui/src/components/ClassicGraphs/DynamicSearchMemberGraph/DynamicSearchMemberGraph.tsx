@@ -159,6 +159,7 @@ export const DynamicSearchMemberGraph = ({
     return () => window.removeEventListener("resize", getwidth);
   }, []);
   // ----------- Update the Hight/Width of the Graph Visual ----------
+  const [graph, setGraph] = useState<any>();
 
   return (
     <>
@@ -173,6 +174,8 @@ export const DynamicSearchMemberGraph = ({
               width={width}
               height={refContainer.current?.offsetHeight!}
               hasMenu={false}
+              graph={graph}
+              setGraph={setGraph}
             />
           ) : (
             <p>Dont have Graph Data Yet</p>
