@@ -48,10 +48,18 @@ const DYNAMIC_SEARCH_GRAPH = gql`
 
 export interface IDynamicSearchGraphProps {
   nodesID: [string];
+  activeNodes?: [Boolean];
+  setActivateNodeEvent?: any;
 }
 
-export const DynamicSearchGraph = ({ nodesID }: IDynamicSearchGraphProps) => {
+export const DynamicSearchGraph = ({
+  nodesID,
+  activeNodes,
+  setActivateNodeEvent,
+}: IDynamicSearchGraphProps) => {
   const refContainer = useRef<HTMLDivElement>();
+
+  // console.log("activeNodes = ", activeNodes);
 
   const [data, setData] = useState<Graph>({
     nodes: [{ id: "node1", size: 50 }],
@@ -110,14 +118,26 @@ export const DynamicSearchGraph = ({ nodesID }: IDynamicSearchGraphProps) => {
   // ----------- Update the Graph Visual ----------
   useEffect(() => {
     if (dataGraphAPI) {
-      const resNodeData = backendGraphToVisualGraph(dataGraphAPI, true, true);
+      const nodeIDsObj: any = {};
+
+      if (activeNodes) {
+        nodesID.forEach((node, index) => {
+          nodeIDsObj[node] = activeNodes[index];
+        });
+      }
+      const resNodeData = backendGraphToVisualGraph(
+        dataGraphAPI,
+        true,
+        true,
+        nodeIDsObj
+      );
 
       setData({
         nodes: resNodeData.nodes,
         edges: resNodeData.edges,
       });
     }
-  }, [dataGraphAPI]);
+  }, [dataGraphAPI, activeNodes]);
   // ----------- Update the Graph Visual ----------
 
   // ----------- Update the Hight/Width of the Graph Visual ----------
@@ -152,6 +172,7 @@ export const DynamicSearchGraph = ({ nodesID }: IDynamicSearchGraphProps) => {
               hasMenu={false}
               graph={graph}
               setGraph={setGraph}
+              setActivateNodeEvent={setActivateNodeEvent}
             />
           ) : (
             <p>Dont have Graph Data Yet</p>
