@@ -252,7 +252,8 @@ const chatEden: NextPageWithLayout = () => {
   const { data: dataMembers } = useQuery(MATCH_NODES_MEMBERS, {
     variables: {
       fields: {
-        nodesID: nodesID,
+        nodesID: nodesID.filter((node, index) => activeNodes[index]),
+        // nodesID: nodesID,
         // nodesID: ["63eaefc44862b62edc3037b4"],
         // nodesID: ["63eaefb14862b62edc303768", "63eaefc44862b62edc3037b4"],
         serverID: selectedServerID,
@@ -398,14 +399,25 @@ const chatEden: NextPageWithLayout = () => {
         }
       });
 
-      // only add new nodes if there are new nodes on the nodesIDK
-      const newNodesIDK = [...nodesIDK];
-      const newActiveNodes = [...activeNodes];
+      const newNodesIDK = [];
+      const newActiveNodes = [];
+
+      //  --------- only take the ones that are true ------------
+      for (let i = 0; i < nodesIDK.length; i++) {
+        const nodeN = nodesIDK[i];
+        const nodeActive = activeNodes[i];
+
+        if (nodeActive) {
+          newNodesIDK.push(nodeN);
+          newActiveNodes.push(nodeActive);
+        }
+      }
+      //  --------- only take the ones that are true ------------
 
       for (let i = 0; i < newNodeID.length; i++) {
         if (!newNodesIDK.includes(newNodeID[i])) {
           newNodesIDK.push(newNodeID[i]);
-          newActiveNodes.push(Math.random() < 0.2);
+          newActiveNodes.push(Math.random() < 0.01);
         }
       }
 
@@ -526,29 +538,22 @@ const chatEden: NextPageWithLayout = () => {
               handleButtonClick={handleButtonClick}
             />
           </div>
+          <div className="w-full py-2">
+            <div className="h-1 w-full bg-gray-300"></div>
+          </div>
+
           <div className="h-1/2">
             <ChatSimple chatN={chatN} handleSentMessage={handleSentMessage} />
           </div>
           <div className="h-1/2">
-            {/* {nodesExample &&
-            nodesExample.nodes &&
-            nodesExample.nodes.length > 0 ? (
-              <GraphVisual
-                data2={nodesN}
-                width={500}
-                height={500}
-                graph={graph}
-                setGraph={setGraph}
-              />
-            ) : (
-              <p>Dont have Graph Data Yet</p>
-            )} */}
             <div className={`flex h-screen w-full gap-4`}>
               <div className="h-full w-full">
                 <DynamicSearchGraph
                   nodesID={nodesIDK}
                   activeNodes={activeNodes}
                   setActivateNodeEvent={setActivateNodeEvent}
+                  height={"380"}
+                  graphType={"simple"}
                 />
               </div>
             </div>

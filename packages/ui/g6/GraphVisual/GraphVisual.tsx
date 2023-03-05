@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 
 import GraphMenu from "./graphMenu";
 import {
+  afterDrawG6,
   edgeStrength,
   handleCheckboxChange,
   linkDistance,
@@ -47,7 +48,15 @@ function refreshDragedNodePosition(e: any) {
 }
 //  -------------- Graph Functions ------------
 
-// let graph: any;
+G6.registerNode(
+  "background-animate",
+  {
+    afterDraw(cfg, group) {
+      afterDrawG6(cfg, group);
+    },
+  },
+  "circle"
+);
 
 export const GraphVisual = ({
   width,
@@ -136,6 +145,8 @@ export const GraphVisual = ({
     }
   }, [data2]);
 
+  console.log("data2 = =3=34=2432=34432=24=2=4 ", data2);
+
   useEffect(() => {
     setTimeout(function () {
       // protect it for firing the rerender too early
@@ -166,7 +177,6 @@ export const GraphVisual = ({
 
   return (
     <div className="relative w-full">
-      {/* {data2?.nodes && data2?.nodes?.length == 1 ? <div>loading</div> : true} */}
       <div ref={ref} className="flex justify-center"></div>
 
       {hasMenu && (

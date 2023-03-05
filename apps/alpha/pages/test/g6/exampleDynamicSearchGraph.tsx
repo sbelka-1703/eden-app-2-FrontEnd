@@ -15,8 +15,11 @@ const GraphVisualPage: NextPageWithLayout = () => {
     "63eaf009df71c82f61c1784b",
   ];
 
-  const [nodesIDt, setNodesIDt] = useState<any>();
-  const [activeNodes, setActiveNodes] = useState<any>();
+  const [nodesIDt, setNodesIDt] = useState<any>([
+    "63eaefebdf71c82f61c177eb",
+    "63eaf018df71c82f61c178ac",
+  ]);
+  const [activeNodes, setActiveNodes] = useState<any>([false, false]);
 
   //  ------------- change activation nodes when click ----
   const [activateNodeEvent, setActivateNodeEvent] = useState<any>(null);

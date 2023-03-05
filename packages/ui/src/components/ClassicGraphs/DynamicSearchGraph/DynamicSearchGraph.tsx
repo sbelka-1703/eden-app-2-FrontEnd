@@ -50,12 +50,16 @@ export interface IDynamicSearchGraphProps {
   nodesID: string[];
   activeNodes?: Boolean[];
   setActivateNodeEvent?: any;
+  height?: string;
+  graphType?: string;
 }
 
 export const DynamicSearchGraph = ({
   nodesID,
   activeNodes,
   setActivateNodeEvent,
+  height,
+  graphType,
 }: IDynamicSearchGraphProps) => {
   const refContainer = useRef<HTMLDivElement>();
 
@@ -69,6 +73,62 @@ export const DynamicSearchGraph = ({
 
   const [dataGraphAPI, setDataGraphAPI] = useState<any>(undefined);
 
+  const [nodeSettings, setNodeSettings] = useState<any>([]);
+  const [edgeSettings, setEdgeSettings] = useState<any>([]);
+
+  useEffect(() => {
+    if (graphType == undefined || graphType == "simple") {
+      setNodeSettings([
+        nodeSettingsPreset["dynamicSearch"]["main"],
+        nodeSettingsPreset["sub_typeProject"]["main"],
+        nodeSettingsPreset["sub_expertise"]["main"],
+      ]);
+
+      setEdgeSettings([
+        // // ------ split sub_typeProject|dynamicSearch -------
+        edgeSettingsPreset["sub_typeProject|dynamicSearch"]["edge_close"],
+        // // ------ split sub_typeProject|dynamicSearch -------
+
+        // ------ split sub_expertise|dynamicSearch -------
+        edgeSettingsPreset["sub_expertise|dynamicSearch"]["edge_close"],
+        // ------ split sub_expertise|dynamicSearch -------
+
+        // //  ------ Create Far Distance between member and project ------
+        // edgeSettingsPreset["sub_expertise|sub_expertise"]["hiddenEdge"],
+        // //  ------ Create Far Distance between member and project ------
+      ]);
+    } else if (graphType == "splitCategories") {
+      setNodeSettings([
+        nodeSettingsPreset["dynamicSearch"]["main"],
+        nodeSettingsPreset["sub_typeProject"]["main"],
+        nodeSettingsPreset["typeProject"]["main"],
+        nodeSettingsPreset["sub_expertise"]["main"],
+        nodeSettingsPreset["expertise"]["main"],
+      ]);
+
+      setEdgeSettings([
+        // // ------ split sub_typeProject|dynamicSearch -------
+        edgeSettingsPreset["sub_typeProject|dynamicSearch"]["typeProject"],
+        edgeSettingsPreset["sub_typeProject|typeProject"]["edge"],
+        edgeSettingsPreset["typeProject|dynamicSearch"]["edge"],
+        // // ------ split sub_typeProject|dynamicSearch -------
+
+        // ------ split sub_expertise|dynamicSearch -------
+        // edgeSettingsPreset["sub_expertise|dynamicSearch"]["edge"],
+        edgeSettingsPreset["sub_expertise|dynamicSearch"]["expertise"],
+        edgeSettingsPreset["sub_expertise|expertise"]["edge"],
+        edgeSettingsPreset["expertise|dynamicSearch"]["edge"],
+        // ------ split sub_expertise|dynamicSearch -------
+
+        // //  ------ Create Far Distance between member and project ------
+        // edgeSettingsPreset["dynamicSearch|sub_expertise"]["hiddenEdge"],
+        edgeSettingsPreset["expertise|expertise"]["hiddenEdge"],
+        edgeSettingsPreset["expertise|typeProject"]["hiddenEdge"],
+        // //  ------ Create Far Distance between member and project ------
+      ]);
+    }
+  }, []);
+
   const {} = useQuery(DYNAMIC_SEARCH_GRAPH, {
     variables: {
       fields: {
@@ -76,33 +136,8 @@ export const DynamicSearchGraph = ({
         nodesID: nodesID,
         showAvatar: true,
 
-        nodeSettings: [
-          nodeSettingsPreset["dynamicSearch"]["main"],
-          nodeSettingsPreset["sub_typeProject"]["main"],
-          nodeSettingsPreset["typeProject"]["main"],
-          nodeSettingsPreset["sub_expertise"]["main"],
-          nodeSettingsPreset["expertise"]["main"],
-        ],
-        edgeSettings: [
-          // // ------ split sub_typeProject|dynamicSearch -------
-          edgeSettingsPreset["sub_typeProject|dynamicSearch"]["typeProject"],
-          edgeSettingsPreset["sub_typeProject|typeProject"]["edge"],
-          edgeSettingsPreset["typeProject|dynamicSearch"]["edge"],
-          // // ------ split sub_typeProject|dynamicSearch -------
-
-          // ------ split sub_expertise|dynamicSearch -------
-          // edgeSettingsPreset["sub_expertise|dynamicSearch"]["edge"],
-          edgeSettingsPreset["sub_expertise|dynamicSearch"]["expertise"],
-          edgeSettingsPreset["sub_expertise|expertise"]["edge"],
-          edgeSettingsPreset["expertise|dynamicSearch"]["edge"],
-          // ------ split sub_expertise|dynamicSearch -------
-
-          // //  ------ Create Far Distance between member and project ------
-          // edgeSettingsPreset["dynamicSearch|sub_expertise"]["hiddenEdge"],
-          edgeSettingsPreset["expertise|expertise"]["hiddenEdge"],
-          edgeSettingsPreset["expertise|typeProject"]["hiddenEdge"],
-          // //  ------ Create Far Distance between member and project ------
-        ],
+        nodeSettings: nodeSettings,
+        edgeSettings: edgeSettings,
       },
     },
     skip: nodesID == undefined,
@@ -139,6 +174,23 @@ export const DynamicSearchGraph = ({
         resNodeData.nodes.push({
           id: "node1",
           size: 50,
+          x: 5,
+          y: 5,
+          label: "milo",
+
+          // ----------- Shwow Avatar User ---------
+          type: "image",
+          img: "https://cdn0.iconfinder.com/data/icons/very-basic-2-android-l-lollipop-icon-pack/24/search-512.png",
+          clipCfg: {
+            show: true,
+            type: "circle",
+            r: 25,
+          },
+          style: {
+            height: 50,
+            width: 50,
+          },
+          // ----------- Shwow Avatar User ---------
         });
       }
 
@@ -171,7 +223,10 @@ export const DynamicSearchGraph = ({
     <>
       {refContainer && (
         <div
-          className="h-[540px] w-full"
+          // className="h-[380px] w-full"
+          className={`${
+            height == undefined ? "h-full" : `h-[${height}px]`
+          } w-full`}
           ref={refContainer as RefObject<HTMLDivElement>}
         >
           {data && data.nodes && data.nodes.length > 0 ? (
