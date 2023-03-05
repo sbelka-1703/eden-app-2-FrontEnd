@@ -144,23 +144,24 @@ const chatEden: NextPageWithLayout = () => {
 
   // console.log("currentUser = ", currentUser);
 
-  // const [nodesID] = useState<string[] | null>(null);
-  const [nodesID, setNodesID] = useState<string[]>([
-    "63eaf095df71c82f61c17a3c",
-    "63eaf031df71c82f61c178fc",
-  ]);
+  // const [nodesID, setNodesID] = useState<string[]>([
+  //   "63eaf095df71c82f61c17a3c",
+  //   "63eaf031df71c82f61c178fc",
+  // ]);
+
+  // console.log("nodesID = ", nodesID);
+  // const [nodesIDK, setNodesIDK] = useState<string[]>([
+  //   "63eaf095df71c82f61c17a3c",
+  //   "63eaf031df71c82f61c178fc",
+  // ]);
+  // const [activeNodes, setActiveNodes] = useState<Boolean[]>([false, false]);
+
+  const [nodesID, setNodesID] = useState<string[]>([]);
+
+  const [nodesIDK, setNodesIDK] = useState<string[]>([]);
+  const [activeNodes, setActiveNodes] = useState<Boolean[]>([]);
 
   console.log("nodesID = ", nodesID);
-  const [nodesIDK, setNodesIDK] = useState<string[]>([
-    "63eaf095df71c82f61c17a3c",
-    "63eaf031df71c82f61c178fc",
-  ]);
-  const [activeNodes, setActiveNodes] = useState<Boolean[]>([false, false]);
-
-  // const [nodesID, setNodesID] = useState<string[]>([]);
-
-  // const [nodesIDK, setNodesIDK] = useState<string[]>([]);
-  // const [activeNodes, setActiveNodes] = useState<Boolean[]>([]);
 
   // const [nodeNames]
 
