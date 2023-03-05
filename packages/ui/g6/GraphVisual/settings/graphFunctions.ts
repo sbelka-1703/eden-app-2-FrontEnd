@@ -15,6 +15,89 @@ export const remapValue = (
   return ((value - fromLow) * (toHigh - toLow)) / (fromHigh - fromLow) + toLow;
 };
 
+export function afterDrawG6(cfg: any, group: any) {
+  const sizeT: any = cfg?.size || 0;
+
+  const r = sizeT / 2.4;
+  const back1 = group?.addShape("circle", {
+    zIndex: -3,
+    attrs: {
+      x: 0,
+      y: 0,
+      r,
+      fill: cfg?.color,
+      opacity: 0.8,
+    },
+    // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
+    name: "back1-shape",
+  });
+  const back2 = group?.addShape("circle", {
+    zIndex: -2,
+    attrs: {
+      x: 0,
+      y: 0,
+      r,
+      fill: cfg?.color,
+      opacity: 0.8,
+    },
+    // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
+    name: "back2-shape",
+  });
+  const back3 = group?.addShape("circle", {
+    zIndex: -1,
+    attrs: {
+      x: 0,
+      y: 0,
+      r,
+      fill: cfg?.color,
+      opacity: 0.6,
+    },
+    // must be assigned in G6 3.3 and later versions. it can be any string you want, but should be unique in a custom item type
+    name: "back3-shape",
+  });
+
+  group?.sort(); // Sort according to the zIndex
+  back1?.animate(
+    {
+      // Magnifying and disappearing
+      r: r + 14,
+      opacity: 0.3,
+    },
+    {
+      duration: 3000,
+      easing: "easeCubic",
+      delay: 0,
+      repeat: true, // repeat
+    }
+  ); // no delay
+  back2?.animate(
+    {
+      // Magnifying and disappearing
+      r: r + 12,
+      opacity: 0.2,
+    },
+    {
+      duration: 3000,
+      easing: "easeCubic",
+      delay: 1000,
+      repeat: true, // repeat
+    }
+  ); // 1s delay
+  back3?.animate(
+    {
+      // Magnifying and disappearing
+      r: r + 10,
+      opacity: 0.1,
+    },
+    {
+      duration: 3000,
+      easing: "easeCubic",
+      delay: 2000,
+      repeat: true, // repeat
+    }
+  ); // 3s delay
+}
+
 export function addEdge(newEdge: any, graph: any) {
   const model2 = {
     ...newEdge,

@@ -6,7 +6,7 @@ export const backendGraphToVisualGraph = (
 ) => {
   if (dataGraphAPI == undefined) return {};
 
-  console.log("nodeIDsObj = ", nodeIDsObj);
+  // // console.log("nodeIDsObj = ", nodeIDsObj);
 
   const nodeDataObj: any = {};
   const edgesDataGraph = dataGraphAPI.edges.map(
@@ -25,12 +25,41 @@ export const backendGraphToVisualGraph = (
       } else {
         nodeDataObj[edge.target].numberConnections += 1;
       }
-      return {
-        source: edge.source,
-        target: edge.target,
-        distanceRation: edge.distanceRation,
-        style: edge.style,
-      };
+
+      // // console.log("------ssssss------------");
+      // // console.log(edge.source, edge.target);
+      // // console.log(nodeIDsObj[edge.source], nodeIDsObj[edge.target]);
+      if (
+        nodeIDsObj &&
+        (nodeIDsObj[edge.source] == false || nodeIDsObj[edge.target] == false)
+      ) {
+        // this means that this node is not active
+
+        // // console.log("hide");
+        // // console.log("------ssssss------------");
+
+        return {
+          source: edge.source,
+          target: edge.target,
+          distanceRation: edge.distanceRation,
+          style: {
+            ...edge.style,
+            stroke: "#FFFFFF",
+            fill: "#FFFFFF",
+          },
+        };
+      } else {
+        // // console.log("show", edge.style);
+
+        // // console.log("------ssssss------------");
+
+        return {
+          source: edge.source,
+          target: edge.target,
+          distanceRation: edge.distanceRation,
+          style: edge.style,
+        };
+      }
     }
   );
 
@@ -78,22 +107,25 @@ export const backendGraphToVisualGraph = (
         // console.log("change =aaaaaaaaaaaaaaaaaaaaaa ");
         extraStyle = {
           ...extraStyle,
-          x: idx * 50,
-          y: idx * 50,
+          x: idx * Math.floor(Math.random() * 800) + 50,
+          y: idx * Math.floor(Math.random() * 800) + 50,
         };
       }
 
-      if (nodeIDsObj[node._id] == false) {
+      if (nodeIDsObj && nodeIDsObj[node._id] == false) {
         // this means that this node is not active
         extraStyle = {
           ...extraStyle,
           activate: false,
           style: {
-            size: 40,
+            size: 48,
 
             fill: "#ECECEC",
             stroke: "#A9A9A9",
           },
+
+          type: "background-animate",
+          color: "#40a9ff",
         };
       }
 
@@ -117,7 +149,7 @@ export const backendGraphToVisualGraph = (
     }
   );
 
-  console.log("nodesDataGraph = ", nodesDataGraph);
+  // console.log("nodesDataGraph = ", nodesDataGraph);
   return {
     nodes: nodesDataGraph,
     edges: edgesDataGraph,

@@ -1,8 +1,9 @@
 import { Maybe, Members } from "@eden/package-graphql/generated";
 import {
   Badge,
+  // MemberGraph,
+  DynamicSearchMemberGraph,
   IPREFERENCES_TITLE,
-  MemberGraph,
   NodeList,
   PREFERENCES_TITLE,
   SocialMediaComp,
@@ -12,18 +13,20 @@ import {
 } from "@eden/package-ui";
 import { useState } from "react";
 
-export interface IMemberInfoWithGraphProps {
+export interface IMemberInfoWithDynamicGraphProps {
   member?: Maybe<Members>;
   percentage?: number;
   loading?: boolean;
   hasGraph?: boolean;
+  nodesID?: any;
 }
 
-export const MemberInfoWithGraph = ({
+export const MemberInfoWithDynamicGraph = ({
   member,
   percentage,
   loading = false,
-}: IMemberInfoWithGraphProps) => {
+  nodesID,
+}: IMemberInfoWithDynamicGraphProps) => {
   const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
 
   const subExpertise = member?.nodes?.filter(
@@ -48,7 +51,11 @@ export const MemberInfoWithGraph = ({
       <UserWithDescription member={member} percentage={percentage} />
 
       <div className="h-[280px] w-full">
-        <MemberGraph memberId={member._id!} disableZoom={true} />
+        <DynamicSearchMemberGraph
+          memberID={member._id!}
+          nodesID={nodesID}
+          disableZoom={true}
+        />
       </div>
 
       <div className="mb-4 grid grid-cols-1 sm:grid-cols-5">

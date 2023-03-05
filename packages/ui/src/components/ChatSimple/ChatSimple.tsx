@@ -30,10 +30,10 @@ export const ChatSimple = ({ chatN, handleSentMessage }: IChatSimple) => {
   useEffect(() => {
     // Keep the scroll position at the bottom of the component
     componentRef.current.scrollTop = componentRef.current.scrollHeight;
-    console.log(
-      "componentRef.current.scrollHeight = ",
-      componentRef.current.scrollHeight
-    );
+    // console.log(
+    //   "componentRef.current.scrollHeight = ",
+    //   componentRef.current.scrollHeight
+    // );
   });
 
   // console.log("chatN = ", chatN);

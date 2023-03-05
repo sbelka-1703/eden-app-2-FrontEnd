@@ -48,11 +48,13 @@ const DYNAMIC_SEARCH_TO_MEMBER_GRAPH = gql`
 export interface IDynamicSearchMemberGraphProps {
   nodesID: [string];
   memberID: string;
+  disableZoom?: boolean;
 }
 
 export const DynamicSearchMemberGraph = ({
   nodesID,
   memberID,
+  disableZoom,
 }: IDynamicSearchMemberGraphProps) => {
   const refContainer = useRef<HTMLDivElement>();
 
@@ -92,7 +94,7 @@ export const DynamicSearchMemberGraph = ({
 
           // ------ split skill|Member -------
           // edgeSettingsPreset["sub_expertise|Member"]["edge"],
-          edgeSettingsPreset["sub_expertise|Member"]["expertise"],
+          edgeSettingsPreset["sub_expertise|Member"]["expertise_close"],
           edgeSettingsPreset["sub_expertise|expertise"]["edge"],
           //  edgeSettingsPreset["skill|sub_expertise"]["edge"],
           edgeSettingsPreset["expertise|Member"]["edge"],
@@ -105,7 +107,7 @@ export const DynamicSearchMemberGraph = ({
           // ------ split sub_typeProject|Member -------
 
           // ------ split sub_expertise|dynamicSearch -------
-          edgeSettingsPreset["sub_expertise|dynamicSearch"]["edge"],
+          edgeSettingsPreset["sub_expertise|dynamicSearch"]["edge_close"],
           // edgeSettingsPreset["sub_expertise|dynamicSearch"]["expertise"],
           // edgeSettingsPreset["sub_expertise|expertise"]["edge"],
           // edgeSettingsPreset["expertise|dynamicSearch"]["edge"],
@@ -165,7 +167,7 @@ export const DynamicSearchMemberGraph = ({
     <>
       {refContainer && (
         <div
-          className="h-[540px] w-full"
+          className="h-full w-full"
           ref={refContainer as RefObject<HTMLDivElement>}
         >
           {data && data.nodes && data.nodes.length > 0 ? (
@@ -176,6 +178,7 @@ export const DynamicSearchMemberGraph = ({
               hasMenu={false}
               graph={graph}
               setGraph={setGraph}
+              disableZoom={disableZoom}
             />
           ) : (
             <p>Dont have Graph Data Yet</p>
