@@ -19,7 +19,9 @@ import {
   CommonServerAvatarList,
   DynamicSearchGraph,
   LongText,
-  MemberInfo,
+  // MemberGraph,
+  // MemberInfo,
+  MemberInfoWithGraph,
   SendMessageUserToUser,
   SocialMediaComp,
   TextHeading3,
@@ -139,13 +141,25 @@ const chatEden: NextPageWithLayout = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { currentUser, selectedServerID } = useContext(UserContext);
 
-  console.log("currentUser = ", currentUser);
+  // console.log("currentUser = ", currentUser);
 
   // const [nodesID] = useState<string[] | null>(null);
-  const [nodesID, setNodesID] = useState<string[]>([]);
+  const [nodesID, setNodesID] = useState<string[]>([
+    "63eaf095df71c82f61c17a3c",
+    "63eaf031df71c82f61c178fc",
+  ]);
 
-  const [nodesIDK, setNodesIDK] = useState<string[]>([]);
-  const [activeNodes, setActiveNodes] = useState<Boolean[]>([]);
+  console.log("nodesID = ", nodesID);
+  const [nodesIDK, setNodesIDK] = useState<string[]>([
+    "63eaf095df71c82f61c17a3c",
+    "63eaf031df71c82f61c178fc",
+  ]);
+  const [activeNodes, setActiveNodes] = useState<Boolean[]>([false, false]);
+
+  // const [nodesID, setNodesID] = useState<string[]>([]);
+
+  // const [nodesIDK, setNodesIDK] = useState<string[]>([]);
+  // const [activeNodes, setActiveNodes] = useState<Boolean[]>([]);
 
   // const [nodeNames]
 
@@ -182,10 +196,10 @@ const chatEden: NextPageWithLayout = () => {
   //   }
   // });
 
-  // console.log("chatN_T = " , chatN_T)
+  // // console.log("chatN_T = " , chatN_T)
 
-  console.log("dataFindNodesName = ", dataFindNodesName);
-  console.log("keywordsDiscussion = ", keywordsDiscussion);
+  // console.log("dataFindNodesName = ", dataFindNodesName);
+  // console.log("keywordsDiscussion = ", keywordsDiscussion);
 
   const [selectedOption, setSelectedOption] = useState<string | null>(
     "option3"
@@ -247,12 +261,13 @@ const chatEden: NextPageWithLayout = () => {
     context: { serviceName: "soilservice" },
   });
 
-  console.log("dataMessageMapKG = ", dataMessageMapKG);
+  // console.log("dataMessageMapKG = ", dataMessageMapKG);
 
   const { data: dataMembers } = useQuery(MATCH_NODES_MEMBERS, {
     variables: {
       fields: {
-        nodesID: nodesID.filter((node, index) => activeNodes[index]),
+        nodesID: nodesIDK.filter((node, index) => activeNodes[index]),
+        // nodesID: nodesID.filter((node, index) => activeNodes[index]),
         // nodesID: nodesID,
         // nodesID: ["63eaefc44862b62edc3037b4"],
         // nodesID: ["63eaefb14862b62edc303768", "63eaefc44862b62edc3037b4"],
@@ -263,17 +278,17 @@ const chatEden: NextPageWithLayout = () => {
     context: { serviceName: "soilservice" },
   });
 
-  console.log("dataMembers = ", dataMembers);
+  // console.log("dataMembers = ", dataMembers);
 
   const [numMessageLongTermMem, setNumMessageLongTermMem] = useState<any>(0);
 
   const [storeLongTermMemory, {}] = useMutation(STORE_LONG_TERM_MEMORY, {
-    onCompleted({ storeLongTermMemory }) {
-      // if (!storeLongTermMemory) console.log("deleteError is null");
-      // //   console.log("deleteError", deleteError);
-      // refetchErrors();
-      console.log("you just saved memory with sumary = ", storeLongTermMemory);
-    },
+    // onCompleted({ storeLongTermMemory }) {
+    //   // // if (!storeLongTermMemory) console.log("deleteError is null");
+    //   // // //   console.log("deleteError", deleteError);
+    //   // refetchErrors();
+    //   // console.log("you just saved memory with sumary = ", storeLongTermMemory);
+    // },
   });
 
   const handleStoreLongTermMemory = () => {
@@ -295,7 +310,7 @@ const chatEden: NextPageWithLayout = () => {
     });
   };
 
-  // console.log("chatNprepareGPT = " , chatNprepareGPT)
+  // // console.log("chatNprepareGPT = " , chatNprepareGPT)
 
   const mergeUniqueKeywords = (arr1: any, arr2: any) => {
     const uniqueKeywords = new Set([...arr1, ...arr2]);
@@ -336,7 +351,7 @@ const chatEden: NextPageWithLayout = () => {
       }
     }
 
-    // console.log(mergeUniqueKNew);
+    // // console.log(mergeUniqueKNew);
 
     return mergeUniqueKNew;
   };
@@ -371,14 +386,14 @@ const chatEden: NextPageWithLayout = () => {
       let chatNprepareGPTP = "";
 
       for (let i = 0; i < chatT.length; i++) {
-        // console.log("chatNprepareGPTP = " , i,chatT[i].message)
+        // // console.log("chatNprepareGPTP = " , i,chatT[i].message)
 
         if (chatT[i].user == "01")
           chatNprepareGPTP += "Eden AI: " + chatT[i].message + "\n";
         else chatNprepareGPTP += "User: " + chatT[i].message + "\n";
       }
 
-      // console.log("chatNprepareGPTP = FINAL -- " , chatNprepareGPTP)
+      // // console.log("chatNprepareGPTP = FINAL -- " , chatNprepareGPTP)
 
       setChatNprepareGPT(chatNprepareGPTP);
 
@@ -417,14 +432,14 @@ const chatEden: NextPageWithLayout = () => {
       for (let i = 0; i < newNodeID.length; i++) {
         if (!newNodesIDK.includes(newNodeID[i])) {
           newNodesIDK.push(newNodeID[i]);
-          newActiveNodes.push(Math.random() < 0.01);
+          newActiveNodes.push(Math.random() < 0.05);
         }
       }
 
       setNodesIDK(newNodesIDK);
       setActiveNodes(newActiveNodes);
 
-      console.log("keywordsAI = ", keywordsAI);
+      // console.log("keywordsAI = ", keywordsAI);
 
       let newKeywords = [];
 
@@ -443,7 +458,7 @@ const chatEden: NextPageWithLayout = () => {
       const newNodesID: any = [];
 
       dataFindNodesName.findNodes.map((nodes: any) => {
-        console.log("nodes = ", nodes);
+        // console.log("nodes = ", nodes);
 
         newNodesID.push(nodes._id);
       });
@@ -456,10 +471,10 @@ const chatEden: NextPageWithLayout = () => {
     }
   }, [dataFindNodesName]);
 
-  console.log("nodesID = ", nodesID);
-  console.log("activeNodes = ", activeNodes);
+  // console.log("nodesID = ", nodesID);
+  // console.log("activeNodes = ", activeNodes);
 
-  // console.log("keywordsDiscussion =--------- ", keywordsDiscussion);
+  // // console.log("keywordsDiscussion =--------- ", keywordsDiscussion);
 
   const handleSentMessage = (messageN: any, userN: any) => {
     const chatT = [...chatN];
@@ -477,17 +492,17 @@ const chatEden: NextPageWithLayout = () => {
       setNumMessageLongTermMem(0);
     }
 
-    console.log("messageN ==------- ", messageN);
+    // console.log("messageN ==------- ", messageN);
 
     setMessageUser(messageN);
 
     setEdenAIsentMessage(true);
 
-    // console.log("handleSentMessage = ", chatT);
+    // // console.log("handleSentMessage = ", chatT);
   };
 
-  console.log("messageUser = ", messageUser);
-  console.log("numMessageLongTermMem = ", numMessageLongTermMem);
+  // console.log("messageUser = ", messageUser);
+  // console.log("numMessageLongTermMem = ", numMessageLongTermMem);
 
   // const [graph, setGraph] = useState<any>();
 
@@ -697,6 +712,7 @@ const UserDiscoverCard = ({
               member={member}
               percentage={round(Number(matchPercentage?.totalPercentage), 0)}
             />
+
             {member?.links && (
               <div className="flex justify-center">
                 <SocialMediaComp size="sm" title="" links={member?.links} />
@@ -805,15 +821,15 @@ const UserDiscoverCard = ({
   );
 };
 
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 
-const SET_APPLY_TO_PROJECT = gql`
-  mutation ($fields: changeTeamMember_Phase_ProjectInput!) {
-    changeTeamMember_Phase_Project(fields: $fields) {
-      _id
-    }
-  }
-`;
+// const SET_APPLY_TO_PROJECT = gql`
+//   mutation ($fields: changeTeamMember_Phase_ProjectInput!) {
+//     changeTeamMember_Phase_Project(fields: $fields) {
+//       _id
+//     }
+//   }
+// `;
 
 export interface IUserMessageModalProps {
   member?: Members;
@@ -840,16 +856,16 @@ const UserMessageModal = ({
   const findMember = dataMemberInfo?.findMember;
   const [showMessage, setShowMessage] = useState(false);
 
-  const [changeTeamMemberPhaseProject, {}] = useMutation(SET_APPLY_TO_PROJECT, {
-    onCompleted: () => {
-      console.log(changeTeamMemberPhaseProject);
-      toast.success("success");
-      onClose && onClose();
-    },
-    onError: (error) => {
-      toast.error(error.message);
-    },
-  });
+  // const [changeTeamMemberPhaseProject, {}] = useMutation(SET_APPLY_TO_PROJECT, {
+  //   onCompleted: () => {
+  //     // console.log(changeTeamMemberPhaseProject);
+  //     toast.success("success");
+  //     onClose && onClose();
+  //   },
+  //   onError: (error) => {
+  //     toast.error(error.message);
+  //   },
+  // });
   const [chatN, setChatN] = useState([
     {
       user: "01",
@@ -878,7 +894,7 @@ const UserMessageModal = ({
     });
     setChatN(chatT);
 
-    console.log("messageN ==------- ", messageN);
+    // console.log("messageN ==------- ", messageN);
 
     setMessageUser(messageN);
 
@@ -886,7 +902,7 @@ const UserMessageModal = ({
 
     setEdenAIsentMessage(true);
 
-    // console.log("handleSentMessage = ", chatT);
+    // // console.log("handleSentMessage = ", chatT);
   };
 
   // const mergeUniqueKeywords = (arr1: any, arr2: any) => {
@@ -928,7 +944,7 @@ const UserMessageModal = ({
   //   }
   // }
 
-  // console.log(mergeUniqueKNew);
+  // // console.log(mergeUniqueKNew);
 
   //   return mergeUniqueKNew;
   // };
@@ -977,7 +993,7 @@ const UserMessageModal = ({
         <div
           className="h-8/10 fixed -right-[340px] bottom-0 z-50 w-[300px] rounded-lg bg-white"
           onClick={(e) => {
-            console.log("this event :)");
+            // console.log("this event :)");
 
             e.preventDefault();
             e.stopPropagation();
@@ -1020,9 +1036,14 @@ const UserMessageModal = ({
               <SendMessageUserToUser member={member} />
             </div>
           ) : (
-            <MemberInfo
+            // <MemberInfo
+            //   member={findMember || member}
+            //   percentage={matchPercentage?.totalPercentage || undefined}
+            // />
+            <MemberInfoWithGraph
               member={findMember || member}
               percentage={matchPercentage?.totalPercentage || undefined}
+              hasGraph
             />
           )}
         </div>

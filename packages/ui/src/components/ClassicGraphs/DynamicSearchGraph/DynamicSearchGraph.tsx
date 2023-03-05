@@ -167,7 +167,7 @@ export const DynamicSearchGraph = ({
         nodeIDsObj
       );
 
-      console.log("resNodeData = ", resNodeData);
+      // console.log("resNodeData = ", resNodeData);
 
       if (resNodeData.nodes.length === 0) {
         // in case the node is not found, put a dummy node

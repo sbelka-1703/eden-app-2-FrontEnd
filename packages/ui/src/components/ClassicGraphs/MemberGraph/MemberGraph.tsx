@@ -48,9 +48,10 @@ const FIND_MEMBER_GRAPH = gql`
 
 export interface IMemberGraphProps {
   memberId: string;
+  disableZoom?: boolean;
 }
 
-export const MemberGraph = ({ memberId }: IMemberGraphProps) => {
+export const MemberGraph = ({ memberId, disableZoom }: IMemberGraphProps) => {
   const refContainer = useRef<HTMLDivElement>();
 
   const [data, setData] = useState<Graph>({
@@ -150,7 +151,8 @@ export const MemberGraph = ({ memberId }: IMemberGraphProps) => {
     <>
       {refContainer && (
         <div
-          className="h-[540px] w-full"
+          // className="h-[540px] w-full"
+          className="h-full w-full"
           ref={refContainer as RefObject<HTMLDivElement>}
         >
           {data && data.nodes && data.nodes.length > 0 ? (
@@ -161,6 +163,7 @@ export const MemberGraph = ({ memberId }: IMemberGraphProps) => {
               hasMenu={false}
               graph={graph}
               setGraph={setGraph}
+              disableZoom={disableZoom}
             />
           ) : (
             <p>Dont have Graph Data Yet</p>

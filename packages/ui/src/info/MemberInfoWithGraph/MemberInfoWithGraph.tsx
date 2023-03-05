@@ -47,7 +47,9 @@ export const MemberInfoWithGraph = ({
     <div>
       <UserWithDescription member={member} percentage={percentage} />
 
-      <MemberGraph memberId={member._id!} />
+      <div className="h-[280px] w-full">
+        <MemberGraph memberId={member._id!} disableZoom={true} />
+      </div>
 
       <div className="mb-4 grid grid-cols-1 sm:grid-cols-5">
         <div className="my-4 flex flex-col items-start justify-center sm:col-span-3 sm:my-0">

@@ -26,6 +26,7 @@ export interface IGraphVisualisation {
   graph?: any;
   setGraph?: any;
   setActivateNodeEvent?: any;
+  disableZoom?: boolean;
 }
 
 const loadingNode: Graph = {
@@ -68,11 +69,17 @@ export const GraphVisual = ({
   graph,
   setGraph,
   setActivateNodeEvent,
+  disableZoom,
 }: IGraphVisualisation) => {
   const ref = React.useRef(null);
 
   //  -------------- Graph Setup ----------------
   useEffect(() => {
+    let modes = ["drag-canvas", "zoom-canvas"];
+
+    if (disableZoom == true) {
+      modes = ["drag-canvas"];
+    }
     if (!graph) {
       // eslint-disable-next-line react-hooks/exhaustive-deps
       graph = new G6.Graph({
@@ -80,7 +87,9 @@ export const GraphVisual = ({
         width: width,
         height: height,
         modes: {
-          default: ["drag-canvas", "zoom-canvas"],
+          default: modes,
+          // default: ["drag-canvas"],
+          // default: ["drag-canvas", "zoom-canvas"],
           // default: ["drag-canvas", "zoom-canvas", "activate-relations"],
         },
         animate: true, // Boolean, whether to activate the animation when global changes happen
@@ -145,7 +154,7 @@ export const GraphVisual = ({
     }
   }, [data2]);
 
-  console.log("data2 = =3=34=2432=34432=24=2=4 ", data2);
+  // console.log("data2 = =3=34=2432=34432=24=2=4 ", data2);
 
   useEffect(() => {
     setTimeout(function () {
@@ -163,7 +172,7 @@ export const GraphVisual = ({
 
   useEffect(() => {
     if (graph) {
-      // console.log("width, height = ", width, height);
+      // // console.log("width, height = ", width, height);
       if (width != undefined && height != undefined) {
         if (width != 0 && height != 0) {
           graph.changeSize(width, height);
@@ -173,7 +182,7 @@ export const GraphVisual = ({
     }
   }, [width, height]);
 
-  // console.log("settingsGraphs = ", settingsGraphs);
+  // // console.log("settingsGraphs = ", settingsGraphs);
 
   return (
     <div className="relative w-full">
