@@ -19,9 +19,10 @@ import {
   CommonServerAvatarList,
   DynamicSearchGraph,
   LongText,
+  MemberInfoWithDynamicGraph,
   // MemberGraph,
   // MemberInfo,
-  MemberInfoWithGraph,
+  // MemberInfoWithGraph,
   SendMessageUserToUser,
   SocialMediaComp,
   TextHeading3,
@@ -591,6 +592,7 @@ const chatEden: NextPageWithLayout = () => {
                     // project={dataProject?.findProject}
                     invite
                     phase={``}
+                    nodesIDK={nodesIDK}
                   />
                 )
               )}
@@ -687,6 +689,7 @@ export interface IUserDiscoverCardProps {
   invite?: boolean;
   messageUser?: boolean;
   phase?: string;
+  nodesIDK?: string[];
 }
 
 const UserDiscoverCard = ({
@@ -695,6 +698,7 @@ const UserDiscoverCard = ({
   role,
   invite,
   phase,
+  nodesIDK,
 }: IUserDiscoverCardProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const member = matchMember?.member;
@@ -813,6 +817,7 @@ const UserDiscoverCard = ({
             open={isOpen}
             member={member}
             matchPercentage={matchPercentage}
+            nodesIDK={nodesIDK}
             onClose={() => setIsOpen(!isOpen)}
           />
         </>
@@ -835,6 +840,7 @@ export interface IUserMessageModalProps {
   member?: Members;
   matchPercentage?: Maybe<MatchPercentage>;
   open?: boolean;
+  nodesIDK?: string[];
   onClose?: () => void;
 }
 
@@ -842,6 +848,7 @@ const UserMessageModal = ({
   member,
   matchPercentage,
   open,
+  nodesIDK,
   onClose,
 }: IUserMessageModalProps) => {
   const { data: dataMemberInfo } = useQuery(FIND_MEMBER_INFO, {
@@ -987,6 +994,8 @@ const UserMessageModal = ({
   if (!member) return null;
   // if (!findMember) return null;
 
+  console.log("nodesIDK", nodesIDK);
+
   return (
     <ChatModal open={open} onClose={onClose}>
       {open && (
@@ -1040,8 +1049,14 @@ const UserMessageModal = ({
             //   member={findMember || member}
             //   percentage={matchPercentage?.totalPercentage || undefined}
             // />
-            <MemberInfoWithGraph
+            // <MemberInfoWithGraph
+            //   member={findMember || member}
+            //   percentage={matchPercentage?.totalPercentage || undefined}
+            //   hasGraph
+            // />
+            <MemberInfoWithDynamicGraph
               member={findMember || member}
+              nodesID={nodesIDK}
               percentage={matchPercentage?.totalPercentage || undefined}
               hasGraph
             />

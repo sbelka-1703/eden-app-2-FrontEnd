@@ -145,7 +145,7 @@ export const edgeSettingsPreset = {
         nodeTypeTarget: "expertise",
         style: {
           color: "#E0E0E0",
-          distance: 95,
+          distance: 85,
           strength: 0.5,
         },
       },
@@ -158,7 +158,7 @@ export const edgeSettingsPreset = {
         nodeTypeTarget: "Member",
         style: {
           color: "#E0E0E0",
-          distance: 170,
+          distance: 110,
           strength: 0.5,
         },
       },
@@ -208,6 +208,25 @@ export const edgeSettingsPreset = {
         },
       ],
     },
+    expertise_close: {
+      mainEdge: {
+        nodeTypeSource: "sub_expertise",
+        nodeTypeTarget: "Member",
+        style: {
+          color: "#E0E0E0",
+          distance: 90,
+          strength: 0.5,
+        },
+      },
+      moreThanSplit: 2,
+      splitEdge: [
+        {
+          nodeTypeSource: "sub_expertise",
+          nodeTypeMiddle: "expertise",
+          nodeTypeTarget: "Member",
+        },
+      ],
+    },
   },
   "sub_expertise|dynamicSearch": {
     edge: {
@@ -227,7 +246,7 @@ export const edgeSettingsPreset = {
         nodeTypeTarget: "dynamicSearch",
         style: {
           color: "#E0E0E0",
-          distance: 150,
+          distance: 85,
           strength: 0.5,
         },
       },
@@ -835,7 +854,7 @@ export const edgeSettingsPreset = {
         nodeTypeTarget: "dynamicSearch",
         style: {
           color: "#FFFFFF",
-          distance: 430,
+          distance: 330,
           strength: 0.5,
         },
       },
