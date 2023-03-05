@@ -29,18 +29,18 @@ import {
   UserInviteModal,
   UserWithDescription,
 } from "@eden/package-ui";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 import React, { Fragment, useContext, useEffect, useState } from "react";
 
 import type { NextPageWithLayout } from "../../_app";
 import ButtonGroup from "./ButtonGroup";
 
-const GraphVisual = dynamic(
-  () => import("@eden/package-ui/g6/GraphVisual/GraphVisual"),
-  {
-    ssr: false,
-  }
-);
+// const GraphVisual = dynamic(
+//   () => import("@eden/package-ui/g6/GraphVisual/GraphVisual"),
+//   {
+//     ssr: false,
+//   }
+// );
 
 const EDEN_GPT_REPLY = gql`
   query ($fields: edenGPTreplyInput!) {
@@ -438,7 +438,7 @@ const chatEden: NextPageWithLayout = () => {
 
       setNodesID(newNodesID);
       // create an array of false values with the length of newNodesID
-      const newNodesIDSelected = new Array(newNodesID.length).fill(true);
+      // const newNodesIDSelected = new Array(newNodesID.length).fill(true);
 
       // setActiveNodes(newNodesIDSelected);
     }
@@ -477,7 +477,7 @@ const chatEden: NextPageWithLayout = () => {
   console.log("messageUser = ", messageUser);
   console.log("numMessageLongTermMem = ", numMessageLongTermMem);
 
-  const [graph, setGraph] = useState<any>();
+  // const [graph, setGraph] = useState<any>();
 
   //  ------------- change activation nodes when click ----
   const [activateNodeEvent, setActivateNodeEvent] = useState<any>(null);
