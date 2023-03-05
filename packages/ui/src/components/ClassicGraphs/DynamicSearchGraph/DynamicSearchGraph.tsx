@@ -47,8 +47,8 @@ const DYNAMIC_SEARCH_GRAPH = gql`
 `;
 
 export interface IDynamicSearchGraphProps {
-  nodesID: [string];
-  activeNodes?: [Boolean];
+  nodesID: string[];
+  activeNodes?: Boolean[];
   setActivateNodeEvent?: any;
 }
 
@@ -131,6 +131,16 @@ export const DynamicSearchGraph = ({
         true,
         nodeIDsObj
       );
+
+      console.log("resNodeData = ", resNodeData);
+
+      if (resNodeData.nodes.length === 0) {
+        // in case the node is not found, put a dummy node
+        resNodeData.nodes.push({
+          id: "node1",
+          size: 50,
+        });
+      }
 
       setData({
         nodes: resNodeData.nodes,

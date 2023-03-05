@@ -17,6 +17,7 @@ import {
   CardGrid,
   ChatSimple,
   CommonServerAvatarList,
+  DynamicSearchGraph,
   LongText,
   MemberInfo,
   SendMessageUserToUser,
@@ -141,7 +142,10 @@ const chatEden: NextPageWithLayout = () => {
   console.log("currentUser = ", currentUser);
 
   // const [nodesID] = useState<string[] | null>(null);
-  const [nodesID, setNodesID] = useState<string[] | null>([]);
+  const [nodesID, setNodesID] = useState<string[]>([]);
+
+  const [nodesIDK, setNodesIDK] = useState<string[]>([]);
+  const [activeNodes, setActiveNodes] = useState<Boolean[]>([]);
 
   // const [nodeNames]
 
@@ -383,9 +387,30 @@ const chatEden: NextPageWithLayout = () => {
 
   useEffect(() => {
     if (dataMessageMapKG) {
-      const keywordsAI = dataMessageMapKG?.messageMapKG?.keywords?.map(
-        (keyword: any) => keyword.keyword
-      );
+      const keywordsAI: any = [];
+      const newNodeID: any = [];
+
+      dataMessageMapKG?.messageMapKG?.keywords?.forEach((keyword: any) => {
+        keywordsAI.push(keyword.keyword);
+
+        if (keyword.nodeID) {
+          newNodeID.push(keyword.nodeID);
+        }
+      });
+
+      // only add new nodes if there are new nodes on the nodesIDK
+      const newNodesIDK = [...nodesIDK];
+      const newActiveNodes = [...activeNodes];
+
+      for (let i = 0; i < newNodeID.length; i++) {
+        if (!newNodesIDK.includes(newNodeID[i])) {
+          newNodesIDK.push(newNodeID[i]);
+          newActiveNodes.push(Math.random() < 0.2);
+        }
+      }
+
+      setNodesIDK(newNodesIDK);
+      setActiveNodes(newActiveNodes);
 
       console.log("keywordsAI = ", keywordsAI);
 
@@ -412,10 +437,15 @@ const chatEden: NextPageWithLayout = () => {
       });
 
       setNodesID(newNodesID);
+      // create an array of false values with the length of newNodesID
+      const newNodesIDSelected = new Array(newNodesID.length).fill(true);
+
+      // setActiveNodes(newNodesIDSelected);
     }
   }, [dataFindNodesName]);
 
   console.log("nodesID = ", nodesID);
+  console.log("activeNodes = ", activeNodes);
 
   // console.log("keywordsDiscussion =--------- ", keywordsDiscussion);
 
@@ -449,34 +479,58 @@ const chatEden: NextPageWithLayout = () => {
 
   const [graph, setGraph] = useState<any>();
 
+  //  ------------- change activation nodes when click ----
+  const [activateNodeEvent, setActivateNodeEvent] = useState<any>(null);
+
+  useEffect(() => {
+    // what node where clicked
+    if (activateNodeEvent != null) {
+      activateNode(activateNodeEvent);
+      setActivateNodeEvent(null);
+    }
+  }, [activateNodeEvent]);
+
+  const activateNode = (nodeID: string) => {
+    // activate the node that was clicked
+    const matchingIndex = nodesIDK?.indexOf(nodeID);
+
+    if (matchingIndex != -1 && matchingIndex != undefined) {
+      const newActiveNodes = [...activeNodes];
+
+      newActiveNodes[matchingIndex] = true;
+      setActiveNodes(newActiveNodes);
+    }
+  };
+  //  ------------- change activation nodes when click ----
+
   return (
     <>
       <div className="flex h-screen">
         <div className="flex flex-1 flex-col">
-          <div className="h-1/2 bg-gray-100">
+          <button
+            type="button"
+            className={
+              "rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none"
+            }
+            onClick={() => {
+              handleStoreLongTermMemory();
+              setNumMessageLongTermMem(0);
+            }}
+          >
+            {" "}
+            Save Memory{" "}
+          </button>
+          <div>
+            <ButtonGroup
+              selectedOption={selectedOption}
+              handleButtonClick={handleButtonClick}
+            />
+          </div>
+          <div className="h-1/2">
             <ChatSimple chatN={chatN} handleSentMessage={handleSentMessage} />
           </div>
-          <div className="h-1/2 bg-gray-50">
-            <button
-              type="button"
-              className={
-                "rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none"
-              }
-              onClick={() => {
-                handleStoreLongTermMemory();
-                setNumMessageLongTermMem(0);
-              }}
-            >
-              {" "}
-              Save Memory{" "}
-            </button>
-            <div>
-              <ButtonGroup
-                selectedOption={selectedOption}
-                handleButtonClick={handleButtonClick}
-              />
-            </div>
-            {nodesExample &&
+          <div className="h-1/2">
+            {/* {nodesExample &&
             nodesExample.nodes &&
             nodesExample.nodes.length > 0 ? (
               <GraphVisual
@@ -488,7 +542,16 @@ const chatEden: NextPageWithLayout = () => {
               />
             ) : (
               <p>Dont have Graph Data Yet</p>
-            )}
+            )} */}
+            <div className={`flex h-screen w-full gap-4`}>
+              <div className="h-full w-full">
+                <DynamicSearchGraph
+                  nodesID={nodesIDK}
+                  activeNodes={activeNodes}
+                  setActivateNodeEvent={setActivateNodeEvent}
+                />
+              </div>
+            </div>
           </div>
         </div>
         <div className="h-full flex-1 ">
@@ -524,6 +587,17 @@ const chatEden: NextPageWithLayout = () => {
 export default chatEden;
 
 // ---------------- FROM HERE, ELOI'S MESS UwU ------------------
+// ------------------------------------------------------------
+// ------------------------------------------------------------
+// ------------------------------------------------------------
+// ------------------------------------------------------------
+// ------------------------------------------------------------
+// ------------------------------------------------------------
+// ------------------------------------------------------------
+// ------------------------------------------------------------
+// ------------------------------------------------------------
+// ------------------------------------------------------------
+// ------------------------------------------------------------
 
 import { round } from "@eden/package-ui/utils";
 import { Maybe } from "graphql/jsutils/Maybe";
