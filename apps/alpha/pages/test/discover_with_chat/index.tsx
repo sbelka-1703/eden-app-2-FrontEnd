@@ -591,7 +591,7 @@ const UserMessageModal = ({
     <ChatModal open={open} onClose={onClose}>
       {open && (
         <div
-          className="fixed -right-[340px] z-50 bg-white w-[300px] h-8/10 bottom-0 rounded-lg"
+          className="h-8/10 fixed -right-[340px] bottom-0 z-50 w-[300px] rounded-lg bg-white"
           onClick={(e) => {
             console.log("this event :)");
 
