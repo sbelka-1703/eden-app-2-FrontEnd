@@ -89,9 +89,9 @@ export const backendGraphToVisualGraph = (
           ...extraStyle,
           activate: false,
           style: {
-            size: 70,
+            size: 40,
 
-            fill: "#D3D3D3",
+            fill: "#ECECEC",
             stroke: "#A9A9A9",
           },
         };

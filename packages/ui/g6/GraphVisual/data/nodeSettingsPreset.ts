@@ -62,7 +62,7 @@ export const nodeSettingsPreset = {
     main: {
       type: "sub_expertise",
       style: {
-        size: 45,
+        size: 52,
         fill: "#E8F6F9",
         stroke: "#49A7CD",
       },

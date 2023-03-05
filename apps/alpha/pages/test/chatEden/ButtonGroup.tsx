@@ -30,7 +30,7 @@ function ButtonGroup({ selectedOption, handleButtonClick }: ButtonGroupProps) {
       <button
         className={`${
           selectedOption === "option3"
-            ? "bg-red-600 text-white"
+            ? "bg-purple-600 text-white"
             : "bg-white text-gray-700 hover:bg-gray-100"
         } rounded-md px-2 py-1 font-medium shadow-sm focus:outline-none`}
         onClick={() => handleButtonClick("option3")}
