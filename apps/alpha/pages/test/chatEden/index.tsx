@@ -36,7 +36,7 @@ import {
 import React, { Fragment, useContext, useEffect, useState } from "react";
 
 import type { NextPageWithLayout } from "../../_app";
-import ButtonGroup from "./ButtonGroup";
+// import ButtonGroup from "./ButtonGroup";
 
 // const GraphVisual = dynamic(
 //   () => import("@eden/package-ui/g6/GraphVisual/GraphVisual"),
@@ -203,13 +203,14 @@ const chatEden: NextPageWithLayout = () => {
   // console.log("dataFindNodesName = ", dataFindNodesName);
   // console.log("keywordsDiscussion = ", keywordsDiscussion);
 
-  const [selectedOption, setSelectedOption] = useState<string | null>(
-    "option3"
-  );
+  const [
+    selectedOption,
+    // setSelectedOption
+  ] = useState<string | null>("option3");
 
-  const handleButtonClick = (option: string) => {
-    setSelectedOption(option);
-  };
+  // const handleButtonClick = (option: string) => {
+  //   setSelectedOption(option);
+  // };
 
   const { data: dataEdenGPTReply } = useQuery(EDEN_GPT_REPLY, {
     variables: {
@@ -536,7 +537,7 @@ const chatEden: NextPageWithLayout = () => {
     <>
       <div className="flex h-screen">
         <div className="flex flex-1 flex-col">
-          <button
+          {/* <button
             type="button"
             className={
               "rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none"
@@ -557,12 +558,25 @@ const chatEden: NextPageWithLayout = () => {
           </div>
           <div className="w-full py-2">
             <div className="h-1 w-full bg-gray-300"></div>
-          </div>
+          </div> */}
 
           <div className="h-1/2">
             <ChatSimple chatN={chatN} handleSentMessage={handleSentMessage} />
           </div>
           <div className="h-1/2">
+            {nodesID?.length > 0 &&
+              dataMembers?.matchNodesToMembers.length == 0 && (
+                <div className="flex justify-center py-4">
+                  <h1 className="h-16 rounded-lg bg-gray-200 px-6 py-2 text-center text-sm shadow-md sm:h-16 sm:text-lg">
+                    <span className="block leading-tight">
+                      Click Grey Bubbles to{" "}
+                    </span>
+                    <span className="block leading-tight">
+                      Connect them to your search
+                    </span>
+                  </h1>
+                </div>
+              )}
             <div className={`flex h-screen w-full gap-4`}>
               <div className="h-full w-full">
                 <DynamicSearchGraph
