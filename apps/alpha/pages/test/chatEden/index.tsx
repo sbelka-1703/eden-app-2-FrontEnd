@@ -36,7 +36,7 @@ import {
 import React, { Fragment, useContext, useEffect, useState } from "react";
 
 import type { NextPageWithLayout } from "../../_app";
-import ButtonGroup from "./ButtonGroup";
+// import ButtonGroup from "./ButtonGroup";
 
 // const GraphVisual = dynamic(
 //   () => import("@eden/package-ui/g6/GraphVisual/GraphVisual"),
@@ -203,13 +203,14 @@ const chatEden: NextPageWithLayout = () => {
   // console.log("dataFindNodesName = ", dataFindNodesName);
   // console.log("keywordsDiscussion = ", keywordsDiscussion);
 
-  const [selectedOption, setSelectedOption] = useState<string | null>(
-    "option3"
-  );
+  const [
+    selectedOption,
+    // setSelectedOption
+  ] = useState<string | null>("option3");
 
-  const handleButtonClick = (option: string) => {
-    setSelectedOption(option);
-  };
+  // const handleButtonClick = (option: string) => {
+  //   setSelectedOption(option);
+  // };
 
   const { data: dataEdenGPTReply } = useQuery(EDEN_GPT_REPLY, {
     variables: {
