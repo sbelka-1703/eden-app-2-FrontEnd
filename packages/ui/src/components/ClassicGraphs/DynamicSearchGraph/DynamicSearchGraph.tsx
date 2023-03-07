@@ -140,7 +140,7 @@ export const DynamicSearchGraph = ({
         edgeSettings: edgeSettings,
       },
     },
-    skip: nodesID == undefined,
+    skip: nodesID == undefined || nodesID.length == 0,
     // skip: selectedOption !== "Option 8",
     context: { serviceName: "soilservice" },
     onCompleted: (data) => {
