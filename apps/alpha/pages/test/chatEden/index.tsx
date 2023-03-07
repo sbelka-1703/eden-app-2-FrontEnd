@@ -1,7 +1,10 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
-import { FIND_MEMBER_INFO, MATCH_NODES_MEMBERS } from "@eden/package-graphql";
+import {
+  FIND_MEMBER_INFO,
+  MATCH_NODES_MEMBERS_AI4,
+} from "@eden/package-graphql";
 import {
   MatchMembersToSkillOutput,
   MatchPercentage,
@@ -140,7 +143,7 @@ const chatEden: NextPageWithLayout = () => {
   const [nodesN, setNodesN] = useState<any>(nodesExample);
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { currentUser, selectedServerID } = useContext(UserContext);
+  const { currentUser } = useContext(UserContext);
 
   // console.log("currentUser = ", currentUser);
 
@@ -261,18 +264,50 @@ const chatEden: NextPageWithLayout = () => {
 
   // console.log("dataMessageMapKG = ", dataMessageMapKG);
 
-  const { data: dataMembers } = useQuery(MATCH_NODES_MEMBERS, {
+  // const { data: dataMembers } = useQuery(MATCH_NODES_MEMBERS, {
+  //   variables: {
+  //     fields: {
+  //       nodesID: nodesIDK.filter((node, index) => activeNodes[index]),
+  //       // nodesID: nodesID.filter((node, index) => activeNodes[index]),
+  //       // nodesID: nodesID,
+  //       // nodesID: ["63eaefc44862b62edc3037b4"],
+  //       // nodesID: ["63eaefb14862b62edc303768", "63eaefc44862b62edc3037b4"],
+  //       serverID: selectedServerID,
+  //     },
+  //   },
+  //   // skip: !nodesID || !selectedServerID,
+  // });
+
+  const [dataMembersA, setDataMembersA] = useState<any>(null);
+
+  const {} = useQuery(MATCH_NODES_MEMBERS_AI4, {
     variables: {
       fields: {
         nodesID: nodesIDK.filter((node, index) => activeNodes[index]),
-        // nodesID: nodesID.filter((node, index) => activeNodes[index]),
-        // nodesID: nodesID,
-        // nodesID: ["63eaefc44862b62edc3037b4"],
-        // nodesID: ["63eaefb14862b62edc303768", "63eaefc44862b62edc3037b4"],
-        serverID: selectedServerID,
+        weightModules: [
+          {
+            type: "node_subExpertise",
+            weight: 80,
+          },
+          {
+            type: "node_subTypeProject",
+            weight: 20,
+          },
+          {
+            type: "node_total",
+            weight: 50,
+          },
+          {
+            type: "everything_else",
+            weight: 50,
+          },
+        ],
       },
     },
-    // skip: !nodesID || !selectedServerID,
+    // skip: !nodesID
+    onCompleted: (data) => {
+      setDataMembersA(data.matchNodesToMembers_AI4);
+    },
   });
 
   // console.log("dataMembers = ", dataMembers);
@@ -558,19 +593,18 @@ const chatEden: NextPageWithLayout = () => {
             <ChatSimple chatN={chatN} handleSentMessage={handleSentMessage} />
           </div>
           <div className="h-1/2">
-            {nodesID?.length > 0 &&
-              dataMembers?.matchNodesToMembers.length == 0 && (
-                <div className="flex justify-center py-4">
-                  <h1 className="h-16 rounded-lg bg-gray-200 px-6 py-2 text-center text-sm shadow-md sm:h-16 sm:text-lg">
-                    <span className="block leading-tight">
-                      Click Grey Bubbles to{" "}
-                    </span>
-                    <span className="block leading-tight">
-                      Connect them to your search
-                    </span>
-                  </h1>
-                </div>
-              )}
+            {nodesID?.length > 0 && dataMembersA?.length == 0 && (
+              <div className="flex justify-center py-4">
+                <h1 className="h-16 rounded-lg bg-gray-200 px-6 py-2 text-center text-sm shadow-md sm:h-16 sm:text-lg">
+                  <span className="block leading-tight">
+                    Click Grey Bubbles to{" "}
+                  </span>
+                  <span className="block leading-tight">
+                    Connect them to your search
+                  </span>
+                </h1>
+              </div>
+            )}
             <div className={`flex h-screen w-full gap-4`}>
               <div className="h-full w-full">
                 <DynamicSearchGraph
@@ -592,7 +626,7 @@ const chatEden: NextPageWithLayout = () => {
             className="scrollbar-hide h-full overflow-scroll bg-white p-4"
           >
             <CardGrid>
-              {dataMembers?.matchNodesToMembers?.map(
+              {dataMembersA?.map(
                 (member: MatchMembersToSkillOutput, index: number) => (
                   <UserDiscoverCard
                     key={index}
