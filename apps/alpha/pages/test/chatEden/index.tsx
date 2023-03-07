@@ -176,7 +176,6 @@ const chatEden: NextPageWithLayout = () => {
       },
     },
     skip: keywordsDiscussion.length == 0,
-    context: { serviceName: "soilservice" },
   });
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -219,7 +218,6 @@ const chatEden: NextPageWithLayout = () => {
       },
     },
     skip: messageUser == "" || selectedOption != "option1",
-    context: { serviceName: "soilservice" },
   });
 
   const { data: dataEdenGPTReplyMemory } = useQuery(EDEN_GPT_REPLY_MEMORY, {
@@ -231,7 +229,6 @@ const chatEden: NextPageWithLayout = () => {
       },
     },
     skip: messageUser == "" || selectedOption != "option2",
-    context: { serviceName: "soilservice" },
   });
 
   const { data: dataEdenGPTReplyChatAPI } = useQuery(EDEN_GPT_REPLY_CHAT_API, {
@@ -251,7 +248,6 @@ const chatEden: NextPageWithLayout = () => {
       },
     },
     skip: messageUser == "" || selectedOption != "option3",
-    context: { serviceName: "soilservice" },
   });
 
   const { data: dataMessageMapKG } = useQuery(MESSAGE_MAP_KG, {
@@ -261,7 +257,6 @@ const chatEden: NextPageWithLayout = () => {
       },
     },
     skip: messageUser == "",
-    context: { serviceName: "soilservice" },
   });
 
   // console.log("dataMessageMapKG = ", dataMessageMapKG);
@@ -278,7 +273,6 @@ const chatEden: NextPageWithLayout = () => {
       },
     },
     // skip: !nodesID || !selectedServerID,
-    context: { serviceName: "soilservice" },
   });
 
   // console.log("dataMembers = ", dataMembers);
@@ -979,7 +973,6 @@ const UserMessageModal = ({
       },
     },
     skip: messageUser == "",
-    context: { serviceName: "soilservice" },
   });
 
   // eslint-disable-next-line react-hooks/rules-of-hooks

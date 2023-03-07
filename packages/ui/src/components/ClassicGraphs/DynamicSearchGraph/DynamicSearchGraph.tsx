@@ -142,7 +142,6 @@ export const DynamicSearchGraph = ({
     },
     skip: nodesID == undefined,
     // skip: selectedOption !== "Option 8",
-    context: { serviceName: "soilservice" },
     onCompleted: (data) => {
       if (data) {
         setDataGraphAPI(data.dynamicSearchGraph);

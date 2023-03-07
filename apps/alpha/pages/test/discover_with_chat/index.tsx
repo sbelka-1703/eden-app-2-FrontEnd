@@ -96,7 +96,6 @@ const DiscoverWithChatPage: NextPageWithLayout = () => {
       },
     },
     skip: !nodesID || !selectedServerID,
-    context: { serviceName: "soilservice" },
   });
 
   // if (dataMembers) console.log("dataMembers", dataMembers);
@@ -108,7 +107,6 @@ const DiscoverWithChatPage: NextPageWithLayout = () => {
       },
     },
     skip: !router.query.project,
-    context: { serviceName: "soilservice" },
   });
 
   // if (dataProject) console.log("dataProject", dataProject);
@@ -557,7 +555,6 @@ const UserMessageModal = ({
       },
     },
     skip: messageUser == "",
-    context: { serviceName: "soilservice" },
   });
 
   // eslint-disable-next-line react-hooks/rules-of-hooks

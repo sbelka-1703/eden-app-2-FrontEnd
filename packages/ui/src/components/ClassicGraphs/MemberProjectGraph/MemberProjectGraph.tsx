@@ -120,7 +120,6 @@ export const MemberProjectGraph = ({
       },
     },
     skip: !memberId,
-    context: { serviceName: "soilservice" },
     onCompleted: (data) => {
       if (data) {
         setDataGraphAPI(data.findMemberToProjectGraph);
