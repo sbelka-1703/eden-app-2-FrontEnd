@@ -1,6 +1,8 @@
 import {
   AppPublicLayout,
   Button,
+  ProjectGraph,
+  RawDataGraph,
   // Card,
   // MemberGraph,
   // Modal,
@@ -145,6 +147,8 @@ import { useRouter } from "next/router";
 // import { useRouter } from "next/router";
 import { getSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+
+import { rawDataBigGraph } from "../../utils/data/rawDataBigGraph";
 // import { useContext, useEffect, useState } from "react";
 
 export async function getServerSideProps(ctx: {
@@ -283,18 +287,30 @@ const HomeTutorialModalContainer = () => {
             </Button>
           </div>
         )} */}
-        {openModal !== HomeTutorialSteps.STEP_4 && (
-          <div className="flex justify-center">
-            <GraphVisual
-              hasMenu={false}
-              data2={data}
-              width={720}
-              height={400}
-              graph={graph}
-              setGraph={setGraph}
-            />
+        {openModal === HomeTutorialSteps.STEP_2 && (
+          <div className="flex h-[400px] w-full justify-center">
+            <ProjectGraph projectId={"63ebca723f7197ebd2adbd21"} />
           </div>
         )}
+        {openModal === HomeTutorialSteps.STEP_3 && (
+          <div className="flex h-[400px] w-full justify-center">
+            <RawDataGraph rawData={rawDataBigGraph} />
+          </div>
+        )}
+        {openModal !== HomeTutorialSteps.STEP_2 &&
+          openModal !== HomeTutorialSteps.STEP_3 &&
+          openModal !== HomeTutorialSteps.STEP_4 && (
+            <div className="flex justify-center">
+              <GraphVisual
+                hasMenu={false}
+                data2={data}
+                width={720}
+                height={400}
+                graph={graph}
+                setGraph={setGraph}
+              />
+            </div>
+          )}
       </section>
     </>
   );
@@ -403,7 +419,7 @@ const dataMember: any = {
     {
       __typename: "NodeVisual",
       _id: "63eaefb64862b62edc303774",
-      name: "",
+      name: "FrontEnd Developer",
       type: "expertise",
       avatar: null,
       fakeID: null,
@@ -436,7 +452,7 @@ const dataMember: any = {
     {
       __typename: "NodeVisual",
       _id: "63eb074cdf71c82f61c1d18c",
-      name: "",
+      name: "UI Development",
       type: "typeProject",
       avatar: null,
       fakeID: null,
