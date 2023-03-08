@@ -147,9 +147,9 @@ export const GraphVisual = ({
         const nodeConnectID = e.item?._cfg?.id;
 
         // if a node is inactive you can activate it
-        if (e.item._cfg?.model?.activate == false) {
-          setActivateNodeEvent(nodeConnectID);
-        }
+        // if (e.item._cfg?.model?.activate == false) {
+        setActivateNodeEvent(nodeConnectID);
+        // }
       });
     }
   }, [data2]);

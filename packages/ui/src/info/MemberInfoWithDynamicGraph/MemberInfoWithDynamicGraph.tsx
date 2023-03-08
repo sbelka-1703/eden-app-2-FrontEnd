@@ -29,6 +29,8 @@ export const MemberInfoWithDynamicGraph = ({
 }: IMemberInfoWithDynamicGraphProps) => {
   const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
 
+  console.log("nodesID -- -2--2-2 = ", nodesID);
+
   const subExpertise = member?.nodes?.filter(
     (node) => node?.nodeData?.node === "sub_expertise"
   );
@@ -45,6 +47,8 @@ export const MemberInfoWithDynamicGraph = ({
     : null;
 
   if (!member) return null;
+
+  console.log("member = ", member);
 
   return (
     <div>

@@ -82,11 +82,14 @@ export const DynamicSearchGraph = ({
         nodeSettingsPreset["dynamicSearch"]["main"],
         nodeSettingsPreset["sub_typeProject"]["main"],
         nodeSettingsPreset["sub_expertise"]["main"],
+        nodeSettingsPreset["skill"]["main"],
       ]);
 
       setEdgeSettings([
         // // ------ split sub_typeProject|dynamicSearch -------
         edgeSettingsPreset["sub_typeProject|dynamicSearch"]["edge_close"],
+
+        edgeSettingsPreset["skill|dynamicSearch"]["edge"],
         // // ------ split sub_typeProject|dynamicSearch -------
 
         // ------ split sub_expertise|dynamicSearch -------
@@ -104,6 +107,7 @@ export const DynamicSearchGraph = ({
         nodeSettingsPreset["typeProject"]["main"],
         nodeSettingsPreset["sub_expertise"]["main"],
         nodeSettingsPreset["expertise"]["main"],
+        nodeSettingsPreset["skill"]["main"],
       ]);
 
       setEdgeSettings([
@@ -112,6 +116,8 @@ export const DynamicSearchGraph = ({
         edgeSettingsPreset["sub_typeProject|typeProject"]["edge"],
         edgeSettingsPreset["typeProject|dynamicSearch"]["edge"],
         // // ------ split sub_typeProject|dynamicSearch -------
+
+        edgeSettingsPreset["skill|dynamicSearch"]["edge"],
 
         // ------ split sub_expertise|dynamicSearch -------
         // edgeSettingsPreset["sub_expertise|dynamicSearch"]["edge"],
@@ -145,10 +151,13 @@ export const DynamicSearchGraph = ({
     context: { serviceName: "soilservice" },
     onCompleted: (data) => {
       if (data) {
+        console.log("IAM WORKINGINSDIFN  = ", nodesID, data.dynamicSearchGraph);
         setDataGraphAPI(data.dynamicSearchGraph);
       }
     },
   });
+
+  console.log("activeNodes,nodesID = ", activeNodes, nodesID);
 
   // ----------- Update the Graph Visual ----------
   useEffect(() => {
@@ -160,12 +169,16 @@ export const DynamicSearchGraph = ({
           nodeIDsObj[node] = activeNodes[index];
         });
       }
+
+      console.log("nodeIDsObj = ", nodeIDsObj);
       const resNodeData = backendGraphToVisualGraph(
         dataGraphAPI,
         true,
         true,
         nodeIDsObj
       );
+
+      console.log("dataGraphAPI = ", dataGraphAPI);
 
       // console.log("resNodeData = ", resNodeData);
 

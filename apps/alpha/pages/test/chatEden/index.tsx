@@ -23,15 +23,10 @@ import {
   DynamicSearchGraph,
   LongText,
   MemberInfoWithDynamicGraph,
-  // MemberGraph,
-  // MemberInfo,
-  // MemberInfoWithGraph,
   SendMessageUserToUser,
   SocialMediaComp,
   TextHeading3,
   TextLabel1,
-  // GridItemNine,
-  // GridLayout,
   UserInviteModal,
   UserWithDescription,
 } from "@eden/package-ui";
@@ -39,95 +34,13 @@ import {
 import React, { Fragment, useContext, useEffect, useState } from "react";
 
 import type { NextPageWithLayout } from "../../_app";
-// import ButtonGroup from "./ButtonGroup";
-
-// const GraphVisual = dynamic(
-//   () => import("@eden/package-ui/g6/GraphVisual/GraphVisual"),
-//   {
-//     ssr: false,
-//   }
-// );
-
-const EDEN_GPT_REPLY = gql`
-  query ($fields: edenGPTreplyInput!) {
-    edenGPTreply(fields: $fields) {
-      reply
-    }
-  }
-`;
-
-const EDEN_GPT_REPLY_MEMORY = gql`
-  query ($fields: edenGPTreplyMemoryInput!) {
-    edenGPTreplyMemory(fields: $fields) {
-      reply
-    }
-  }
-`;
-
-const EDEN_GPT_REPLY_CHAT_API = gql`
-  query ($fields: edenGPTreplyChatAPIInput!) {
-    edenGPTreplyChatAPI(fields: $fields) {
-      reply
-    }
-  }
-`;
-
-const MESSAGE_MAP_KG = gql`
-  query ($fields: messageMapKGInput!) {
-    messageMapKG(fields: $fields) {
-      keywords {
-        keyword
-        confidence
-        nodeID
-      }
-    }
-  }
-`;
-
-const STORE_LONG_TERM_MEMORY = gql`
-  mutation ($fields: storeLongTermMemoryInput!) {
-    storeLongTermMemory(fields: $fields) {
-      summary
-      success
-    }
-  }
-`;
-
-const FIND_NODES_NAME = gql`
-  query ($fields: findNodesInput!) {
-    findNodes(fields: $fields) {
-      _id
-      name
-      node
-    }
-  }
-`;
-
-const nodesExample = {
-  nodes: [
-    {
-      id: "node0",
-      size: 80,
-      x: 5,
-      y: 5,
-      label: "eloi",
-      // ----------- Shwow Avatar User ---------
-      type: "image",
-      img: "https://cdn.discordapp.com/avatars/961730944170090516/e5844ca759a74e995027a0e50c5cb1bf.png",
-      clipCfg: {
-        show: true,
-        type: "circle",
-        r: 25,
-      },
-      style: {
-        height: 50,
-        width: 50,
-      },
-      // ----------- Shwow Avatar User ---------
-    },
-  ],
-  edges: [],
-};
+import {
+  EDEN_GPT_REPLY,
+  EDEN_GPT_REPLY_CHAT_API,
+  EDEN_GPT_REPLY_MEMORY,
+  MESSAGE_MAP_KG,
+  STORE_LONG_TERM_MEMORY,
+} from "./utils/GQLfuncitons";
 
 const chatEden: NextPageWithLayout = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -135,12 +48,6 @@ const chatEden: NextPageWithLayout = () => {
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [edenAIsentMessage, setEdenAIsentMessage] = useState<boolean>(false);
-
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [keywordsDiscussion, setKeywordsDiscussion] = useState<any>([]);
-
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [nodesN, setNodesN] = useState<any>(nodesExample);
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { currentUser } = useContext(UserContext);
@@ -153,7 +60,7 @@ const chatEden: NextPageWithLayout = () => {
   // ]);
 
   // console.log("nodesID = ", nodesID);
-  // const [nodesIDK, setNodesIDK] = useState<string[]>([
+  // const [nodesID, setNodesIDK] = useState<string[]>([
   //   "63eaf095df71c82f61c17a3c",
   //   "63eaf031df71c82f61c178fc",
   // ]);
@@ -161,26 +68,13 @@ const chatEden: NextPageWithLayout = () => {
 
   const [nodesID, setNodesID] = useState<string[]>([]);
 
-  const [nodesIDK, setNodesIDK] = useState<string[]>([]);
+  // const [nodesID, setNodesIDK] = useState<string[]>([]);
+  const [nodesConfidence, setNodesConfidence] = useState<string[]>([]);
   const [activeNodes, setActiveNodes] = useState<Boolean[]>([]);
 
-  console.log("nodesID = ", nodesID);
+  // console.log("nodesID = ", nodesID);
 
   // const [nodeNames]
-
-  const { data: dataFindNodesName } = useQuery(FIND_NODES_NAME, {
-    variables: {
-      fields: {
-        // Continue here with -> keywordsDiscussion
-        names: keywordsDiscussion,
-        // names: [
-        //   'Design User Interfaces', 'UX/UI Design'
-        // ],
-      },
-    },
-    skip: keywordsDiscussion.length == 0,
-    context: { serviceName: "soilservice" },
-  });
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [chatN, setChatN] = useState([
@@ -193,27 +87,13 @@ const chatEden: NextPageWithLayout = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [chatNprepareGPT, setChatNprepareGPT] = useState<string>("");
 
-  // const chatN_T = chatN.map(obj => {
-  //   if (obj.user === "01") {
-  //     return { ...obj, name: "Eden: ", user: undefined };
-  //   } else {
-  //     return { ...obj, name: "User: ", user: undefined };
-  //   }
-  // });
-
-  // // console.log("chatN_T = " , chatN_T)
-
-  // console.log("dataFindNodesName = ", dataFindNodesName);
-  // console.log("keywordsDiscussion = ", keywordsDiscussion);
+  // console.log("nodesID = " , nodesID)
+  // console.log("nodesConfidence = " , nodesConfidence)
 
   const [
     selectedOption,
     // setSelectedOption
   ] = useState<string | null>("option3");
-
-  // const handleButtonClick = (option: string) => {
-  //   setSelectedOption(option);
-  // };
 
   const { data: dataEdenGPTReply } = useQuery(EDEN_GPT_REPLY, {
     variables: {
@@ -267,28 +147,12 @@ const chatEden: NextPageWithLayout = () => {
     context: { serviceName: "soilservice" },
   });
 
-  // console.log("dataMessageMapKG = ", dataMessageMapKG);
-
-  // const { data: dataMembers } = useQuery(MATCH_NODES_MEMBERS, {
-  //   variables: {
-  //     fields: {
-  //       nodesID: nodesIDK.filter((node, index) => activeNodes[index]),
-  //       // nodesID: nodesID.filter((node, index) => activeNodes[index]),
-  //       // nodesID: nodesID,
-  //       // nodesID: ["63eaefc44862b62edc3037b4"],
-  //       // nodesID: ["63eaefb14862b62edc303768", "63eaefc44862b62edc3037b4"],
-  //       serverID: selectedServerID,
-  //     },
-  //   },
-  //   // skip: !nodesID || !selectedServerID,
-  // });
-
   const [dataMembersA, setDataMembersA] = useState<any>(null);
 
   const {} = useQuery(MATCH_NODES_MEMBERS_AI4, {
     variables: {
       fields: {
-        nodesID: nodesIDK.filter((node, index) => activeNodes[index]),
+        nodesID: nodesID.filter((node, index) => activeNodes[index]),
         weightModules: [
           {
             type: "node_subExpertise",
@@ -347,52 +211,6 @@ const chatEden: NextPageWithLayout = () => {
     });
   };
 
-  // // console.log("chatNprepareGPT = " , chatNprepareGPT)
-
-  const mergeUniqueKeywords = (arr1: any, arr2: any) => {
-    const uniqueKeywords = new Set([...arr1, ...arr2]);
-
-    // const newKeywords = Array.from(arr2.filter(keyword => !uniqueKeywords.has(keyword)));
-    const newKeywords = arr2.filter((keyword: any) => !arr1.includes(keyword));
-
-    const nodesNew = [...nodesN.nodes];
-
-    const edgesNew = [...nodesN.edges];
-
-    newKeywords.forEach((keyword: any) => {
-      if (keyword != "") {
-        nodesNew.push({
-          id: keyword,
-          label: keyword,
-          size: 40,
-        });
-        edgesNew.push({
-          source: "node0",
-          target: keyword,
-        });
-      }
-    });
-
-    setNodesN({
-      nodes: nodesNew,
-      edges: edgesNew,
-    });
-
-    const mergeUniqueK = Array.from(uniqueKeywords);
-
-    const mergeUniqueKNew = [];
-
-    for (let i = 0; i < mergeUniqueK.length; i++) {
-      if (mergeUniqueK[i] !== "") {
-        mergeUniqueKNew.push(mergeUniqueK[i]);
-      }
-    }
-
-    // // console.log(mergeUniqueKNew);
-
-    return mergeUniqueKNew;
-  };
-
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     if (
@@ -412,9 +230,6 @@ const chatEden: NextPageWithLayout = () => {
       }
       chatT.push({
         user: "01",
-        // message: dataEdenGPTReply.edenGPTreply.reply,
-        // message: dataEdenGPTReply.edenGPTreplyMemory.reply,
-        // message: dataEdenGPTReply.edenGPTreplyChatAPI.reply,
         message: newMessage,
       });
       setChatN(chatT);
@@ -438,80 +253,68 @@ const chatEden: NextPageWithLayout = () => {
     }
   }, [dataEdenGPTReply, dataEdenGPTReplyMemory, dataEdenGPTReplyChatAPI]);
 
+  // ---------------- update nodes ------------
   useEffect(() => {
     if (dataMessageMapKG) {
       const keywordsAI: any = [];
       const newNodeID: any = [];
+      const newNodeConfidence: any = [];
 
       dataMessageMapKG?.messageMapKG?.keywords?.forEach((keyword: any) => {
-        keywordsAI.push(keyword.keyword);
-
         if (keyword.nodeID) {
+          keywordsAI.push(keyword.keyword);
           newNodeID.push(keyword.nodeID);
+          newNodeConfidence.push(keyword.confidence);
         }
       });
 
+      // const newNodesIDK = [...nodesID];
+      // const newActiveNodes = [...activeNodes];
+      // const newNodesConfidence = [...nodesConfidence]
+
       const newNodesIDK = [];
       const newActiveNodes = [];
+      const newNodesConfidence = [];
 
-      //  --------- only take the ones that are true ------------
-      for (let i = 0; i < nodesIDK.length; i++) {
-        const nodeN = nodesIDK[i];
+      //  --------- only take the ones that are true or have high confidence ------------
+      for (let i = 0; i < nodesID.length; i++) {
+        const nodeN = nodesID[i];
         const nodeActive = activeNodes[i];
+        const nodeConfidence = nodesConfidence[i];
 
         if (nodeActive) {
           newNodesIDK.push(nodeN);
           newActiveNodes.push(nodeActive);
+          newNodesConfidence.push(nodeConfidence);
+        } else {
+          if (parseInt(nodeConfidence) > 6) {
+            newNodesIDK.push(nodeN);
+            newActiveNodes.push(nodeActive);
+            newNodesConfidence.push(nodeConfidence);
+          }
         }
       }
-      //  --------- only take the ones that are true ------------
+      //  --------- only take the ones that are true or have high confidence ------------
 
       for (let i = 0; i < newNodeID.length; i++) {
         if (!newNodesIDK.includes(newNodeID[i])) {
           newNodesIDK.push(newNodeID[i]);
-          newActiveNodes.push(Math.random() < 0.05);
+          newNodesConfidence.push(newNodeConfidence[i]);
+          if (newNodeConfidence[i] > 6) {
+            newActiveNodes.push(true);
+          } else {
+            newActiveNodes.push(false);
+          }
         }
       }
 
-      setNodesIDK(newNodesIDK);
+      // setNodesIDK(newNodesIDK);
+      setNodesID(newNodesIDK);
       setActiveNodes(newActiveNodes);
-
-      // console.log("keywordsAI = ", keywordsAI);
-
-      let newKeywords = [];
-
-      if (keywordsAI) {
-        newKeywords = mergeUniqueKeywords(keywordsDiscussion, keywordsAI);
-      }
-
-      if (newKeywords.length > 0) {
-        setKeywordsDiscussion(newKeywords);
-      }
+      setNodesConfidence(newNodesConfidence);
     }
   }, [dataMessageMapKG]);
-
-  useEffect(() => {
-    if (dataFindNodesName?.findNodes?.length > 0) {
-      const newNodesID: any = [];
-
-      dataFindNodesName.findNodes.map((nodes: any) => {
-        // console.log("nodes = ", nodes);
-
-        newNodesID.push(nodes._id);
-      });
-
-      setNodesID(newNodesID);
-      // create an array of false values with the length of newNodesID
-      // const newNodesIDSelected = new Array(newNodesID.length).fill(true);
-
-      // setActiveNodes(newNodesIDSelected);
-    }
-  }, [dataFindNodesName]);
-
-  // console.log("nodesID = ", nodesID);
-  // console.log("activeNodes = ", activeNodes);
-
-  // // console.log("keywordsDiscussion =--------- ", keywordsDiscussion);
+  // ---------------- update nodes ------------
 
   const handleSentMessage = (messageN: any, userN: any) => {
     const chatT = [...chatN];
@@ -538,11 +341,6 @@ const chatEden: NextPageWithLayout = () => {
     // // console.log("handleSentMessage = ", chatT);
   };
 
-  // console.log("messageUser = ", messageUser);
-  // console.log("numMessageLongTermMem = ", numMessageLongTermMem);
-
-  // const [graph, setGraph] = useState<any>();
-
   //  ------------- change activation nodes when click ----
   const [activateNodeEvent, setActivateNodeEvent] = useState<any>(null);
 
@@ -556,12 +354,12 @@ const chatEden: NextPageWithLayout = () => {
 
   const activateNode = (nodeID: string) => {
     // activate the node that was clicked
-    const matchingIndex = nodesIDK?.indexOf(nodeID);
+    const matchingIndex = nodesID?.indexOf(nodeID);
 
     if (matchingIndex != -1 && matchingIndex != undefined) {
       const newActiveNodes = [...activeNodes];
 
-      newActiveNodes[matchingIndex] = true;
+      newActiveNodes[matchingIndex] = !newActiveNodes[matchingIndex];
       setActiveNodes(newActiveNodes);
     }
   };
@@ -613,7 +411,7 @@ const chatEden: NextPageWithLayout = () => {
             <div className={`flex h-screen w-full gap-4`}>
               <div className="h-full w-full">
                 <DynamicSearchGraph
-                  nodesID={nodesIDK}
+                  nodesID={nodesID}
                   activeNodes={activeNodes}
                   setActivateNodeEvent={setActivateNodeEvent}
                   height={"380"}
@@ -640,7 +438,7 @@ const chatEden: NextPageWithLayout = () => {
                     // project={dataProject?.findProject}
                     invite
                     phase={``}
-                    nodesIDK={nodesIDK}
+                    nodesID={nodesID}
                   />
                 )
               )}
@@ -704,32 +502,6 @@ const EDEN_GPT_PROFILES = gql`
   }
 `;
 
-// const nodesExample = {
-//   nodes: [
-//     {
-//       id: "node0",
-//       size: 80,
-//       x: 5,
-//       y: 5,
-//       label: "eloi",
-//       // ----------- Shwow Avatar User ---------
-//       type: "image",
-//       img: "https://cdn.discordapp.com/avatars/961730944170090516/e5844ca759a74e995027a0e50c5cb1bf.png",
-//       clipCfg: {
-//         show: true,
-//         type: "circle",
-//         r: 25,
-//       },
-//       style: {
-//         height: 50,
-//         width: 50,
-//       },
-//       // ----------- Shwow Avatar User ---------
-//     },
-//   ],
-//   edges: [],
-// };
-
 export interface IUserDiscoverCardProps {
   matchMember?: Maybe<MatchMembersToSkillOutput>;
   project?: Maybe<Project>;
@@ -737,7 +509,7 @@ export interface IUserDiscoverCardProps {
   invite?: boolean;
   messageUser?: boolean;
   phase?: string;
-  nodesIDK?: string[];
+  nodesID?: string[];
 }
 
 const UserDiscoverCard = ({
@@ -746,7 +518,7 @@ const UserDiscoverCard = ({
   role,
   invite,
   phase,
-  nodesIDK,
+  nodesID,
 }: IUserDiscoverCardProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const member = matchMember?.member;
@@ -865,7 +637,8 @@ const UserDiscoverCard = ({
             open={isOpen}
             member={member}
             matchPercentage={matchPercentage}
-            nodesIDK={nodesIDK}
+            nodesPercentage={nodesPercentage}
+            nodesID={nodesID}
             onClose={() => setIsOpen(!isOpen)}
           />
         </>
@@ -888,7 +661,8 @@ export interface IUserMessageModalProps {
   member?: Members;
   matchPercentage?: Maybe<MatchPercentage>;
   open?: boolean;
-  nodesIDK?: string[];
+  nodesPercentage?: any;
+  nodesID?: string[];
   onClose?: () => void;
 }
 
@@ -896,7 +670,8 @@ const UserMessageModal = ({
   member,
   matchPercentage,
   open,
-  nodesIDK,
+  nodesPercentage,
+  nodesID,
   onClose,
 }: IUserMessageModalProps) => {
   const { data: dataMemberInfo } = useQuery(FIND_MEMBER_INFO, {
@@ -935,10 +710,6 @@ const UserMessageModal = ({
   const [messageUser, setMessageUser] = useState<string>("");
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [edenAIsentMessage, setEdenAIsentMessage] = useState<boolean>(false);
-
-  // const [keywordsDiscussion, setKeywordsDiscussion] = useState<any>([]);
-
-  // const [nodesN, setNodesN] = useState<any>(nodesExample);
 
   const handleSentMessage = (messageN: any, userN: any) => {
     const chatT = [...chatN];
@@ -1042,7 +813,7 @@ const UserMessageModal = ({
   if (!member) return null;
   // if (!findMember) return null;
 
-  console.log("nodesIDK", nodesIDK);
+  console.log("nodesID", nodesID);
 
   return (
     <ChatModal open={open} onClose={onClose}>
@@ -1104,7 +875,10 @@ const UserMessageModal = ({
             // />
             <MemberInfoWithDynamicGraph
               member={findMember || member}
-              nodesID={nodesIDK}
+              nodesID={nodesPercentage
+                .flatMap((obj: { conn_nodeIDs: any }) => obj.conn_nodeIDs)
+                .slice(0, 4)}
+              // nodesID={nodesPercentage.map((node: { node: { _id: any; }; }) => node.node._id)}
               percentage={matchPercentage?.totalPercentage || undefined}
               hasGraph
             />
