@@ -33,14 +33,14 @@ import {
 // import dynamic from "next/dynamic";
 import React, { Fragment, useContext, useEffect, useState } from "react";
 
-import type { NextPageWithLayout } from "../../_app";
 import {
   EDEN_GPT_REPLY,
   EDEN_GPT_REPLY_CHAT_API,
   EDEN_GPT_REPLY_MEMORY,
   MESSAGE_MAP_KG,
   STORE_LONG_TERM_MEMORY,
-} from "./utils/GQLfuncitons";
+} from "../../../utils/data/GQLfuncitons";
+import type { NextPageWithLayout } from "../../_app";
 
 const chatEden: NextPageWithLayout = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
