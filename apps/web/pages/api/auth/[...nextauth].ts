@@ -18,16 +18,22 @@ type edenTokenType = {
 
 async function getEdenToken(accessToken: string) {
   const NEXT_PUBLIC_AUTH_URL = process.env.NEXT_PUBLIC_AUTH_URL;
-  const res = await fetch(`${NEXT_PUBLIC_AUTH_URL}/auth/token`, {
-    method: "POST",
-    body: JSON.stringify({ accessToken }),
-    headers: { "Content-Type": "application/json" },
-  });
-  const data = await res.json();
 
-  // console.log("FETCH TOKEN API DATA", data);
+  try {
+    const res = await fetch(`${NEXT_PUBLIC_AUTH_URL}/auth/token`, {
+      method: "POST",
+      body: JSON.stringify({ accessToken }),
+      headers: { "Content-Type": "application/json" },
+    });
 
-  return data;
+    const data = await res.json();
+
+    return data;
+  } catch {
+    // TODO: if the server is down, user still gets a session token but should be rejected
+
+    return null;
+  }
 }
 
 export default NextAuth({
