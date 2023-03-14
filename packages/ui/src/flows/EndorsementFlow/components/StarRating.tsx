@@ -8,7 +8,7 @@ interface IStarRatingProps {
 
 export const StarRating = ({ rating, className }: IStarRatingProps) => {
   const [totalStars, setTotalStars] = useState(rating);
-  const stars = [...Array(5).keys()];
+  const stars = [1, 2, 3, 4, 5];
 
   return (
     <div
