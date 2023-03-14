@@ -4,6 +4,7 @@ export * from "./charts";
 export * from "./components";
 export * from "./containers";
 export * from "./elements";
+export * from "./flows";
 export * from "./info";
 export * from "./layout";
 export * from "./lists";

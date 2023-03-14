@@ -1,6 +1,5 @@
 import { gql, useMutation } from "@apollo/client";
 import { Mutation, Project } from "@eden/package-graphql/generated";
-import { project } from "@eden/package-mock";
 import {
   Card,
   CreateProjectViewAddRole,
@@ -215,7 +214,7 @@ export const CreateProjectContainer = ({
       case PROJECT_STEPS.START:
         return (
           <CreateProjectViewStart
-            battery={getFillProjectPercentage(project)}
+            battery={getFillProjectPercentage(state || {})}
             onNext={() => setStep(PROJECT_STEPS.DESCRIPTION)}
             setProject={setState}
             project={state}
@@ -225,7 +224,7 @@ export const CreateProjectContainer = ({
       case PROJECT_STEPS.DESCRIPTION:
         return (
           <CreateProjectViewDescription
-            battery={getFillProjectPercentage(project)}
+            battery={getFillProjectPercentage(state || {})}
             onNext={() => setStep(PROJECT_STEPS.ADD_ROLE)}
             onBack={() => setStep(PROJECT_STEPS.START)}
             setProject={setState}
@@ -235,7 +234,7 @@ export const CreateProjectContainer = ({
       case PROJECT_STEPS.ADD_ROLE:
         return (
           <CreateProjectViewAddRole
-            battery={getFillProjectPercentage(project)}
+            battery={getFillProjectPercentage(state || {})}
             onBack={() => setStep(PROJECT_STEPS.DESCRIPTION)}
             project={state}
             setProject={setState}

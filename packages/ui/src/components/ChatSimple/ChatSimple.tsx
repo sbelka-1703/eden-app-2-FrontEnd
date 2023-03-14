@@ -50,42 +50,40 @@ export const ChatSimple = ({ chatN, handleSentMessage }: IChatSimple) => {
           {/* <p className="text-lg font-bold">Message Title</p> */}
           <div className="my-4">
             {chatN.map((chat: any, index: any) => (
-              <>
-                <div className="chat-message p-2" key={index}>
+              <div className="chat-message p-2" key={index}>
+                <div
+                  className={classNames(
+                    chat.user == "01" ? "" : "justify-end",
+                    "flex items-end"
+                  )}
+                >
                   <div
                     className={classNames(
-                      chat.user == "01" ? "" : "justify-end",
-                      "flex items-end"
+                      chat.user == "01" ? "order-2" : "order-1",
+                      "mx-2 flex max-w-xs flex-col items-start space-y-2 text-xs"
                     )}
                   >
-                    <div
-                      className={classNames(
-                        chat.user == "01" ? "order-2" : "order-1",
-                        "mx-2 flex max-w-xs flex-col items-start space-y-2 text-xs"
-                      )}
-                    >
-                      <div>
-                        <span
-                          // className="inline-block rounded-lg rounded-bl-none bg-gray-300 px-4 py-2 text-gray-600"
-                          className={classNames(
-                            chat.user == "01"
-                              ? "bg-gray-300 text-gray-600"
-                              : "bg-blue-600 text-white",
-                            "inline-block rounded-lg rounded-bl-none  px-4 py-2 "
-                          )}
-                        >
-                          {chat.message}
-                        </span>
-                      </div>
+                    <div>
+                      <span
+                        // className="inline-block rounded-lg rounded-bl-none bg-gray-300 px-4 py-2 text-gray-600"
+                        className={classNames(
+                          chat.user == "01"
+                            ? "bg-gray-300 text-gray-600"
+                            : "bg-blue-600 text-white",
+                          "inline-block rounded-lg rounded-bl-none  px-4 py-2 "
+                        )}
+                      >
+                        {chat.message}
+                      </span>
                     </div>
-                    <img
-                      src={Users[chat.user].img}
-                      alt="My profile"
-                      className="order-1 h-6 w-6 rounded-full"
-                    />
                   </div>
+                  <img
+                    src={Users[chat.user].img}
+                    alt="My profile"
+                    className="order-1 h-6 w-6 rounded-full"
+                  />
                 </div>
-              </>
+              </div>
             ))}
           </div>
         </div>
