@@ -24,17 +24,19 @@ export const CandidateProfileCard = ({
       className="scrollbar-hide relative overflow-scroll bg-white p-3"
       focused={selected}
     >
-      <div className={`flex	items-center gap-8`}>
+      <div className={`flex	items-center gap-2`}>
         <MatchAvatar
           src={member?.discordAvatar!}
           size="md"
           percentage={percentage ? round(Number(percentage), 0) : undefined}
         />
         <div>
-          <div>
-            <span className="text-xl font-medium tracking-wide">
-              {member?.discordName}
-            </span>
+          <div className={`text-neutral-700`}>
+            {member?.discordName && (
+              <span className="text-xl font-medium tracking-wide">
+                @{member?.discordName}
+              </span>
+            )}
             {member?.discriminator && (
               <span className="ml-1 text-xs font-normal text-neutral-400">
                 {`#${member?.discriminator}`}
@@ -42,7 +44,7 @@ export const CandidateProfileCard = ({
             )}
           </div>
           <div>
-            <span className="text-xs uppercase tracking-wide">
+            <span className="text-xs font-medium uppercase tracking-wide">
               {member?.memberRole?.title}
             </span>
           </div>

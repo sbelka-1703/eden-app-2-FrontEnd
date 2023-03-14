@@ -76,12 +76,7 @@ export const roleTemplates = [
   },
   {
     _id: "638a0b76adbafff9d3ee3eab",
-    title: "Mobile develope",
-    description: null,
-  },
-  {
-    _id: "638a0b82adbaffd80eee3eae",
-    title: "Mobile develope",
+    title: "Mobile developer",
     description: null,
   },
   {
