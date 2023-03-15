@@ -10,17 +10,8 @@ import { useContext } from "react";
 
 import { EndorsementMemberContainer } from "./components";
 
-/* eslint-disable no-unused-vars */
-// export enum ENDORSEMENT_FLOW_STEPS {
-//   START = "START",
-//   DESCRIPTION = "DESCRIPTION",
-//   ADD_ROLE = "ADD_ROLE",
-//   ADD_ANOTHER_ROLE = "ADD_ANOTHER_ROLE",
-// }
-
 export const EndorsementFlow = ({}) => {
   const { currentUser } = useContext(UserContext);
-  // const [step, setStep] = useState(ENDORSEMENT_FLOW_STEPS.START);
 
   return (
     <GridLayout>
