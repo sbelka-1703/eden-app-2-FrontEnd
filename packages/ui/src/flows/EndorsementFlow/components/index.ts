@@ -5,4 +5,5 @@ export * from "./EndorsementMemberContainer";
 export * from "./EndorsementModalView1";
 export * from "./EndorsementModalView2";
 export * from "./EndorsementModalView3";
+export * from "./KeywordList";
 export * from "./StarRating";

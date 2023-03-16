@@ -42,10 +42,10 @@ export const ChatBox = ({ chatN, handleSentMessage }: IChatBoxProps) => {
   // }, [chatN]);
 
   return (
-    <div className="flex h-full flex-col justify-between rounded-lg border shadow-md">
+    <div className="flex h-1/2 flex-col justify-between  rounded-lg border shadow-md">
       <div
         ref={componentRef}
-        className="scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch flex flex-col space-y-4 overflow-y-auto p-3"
+        className="scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch scrollbar-hide flex flex-col space-y-4 overflow-scroll overflow-y-auto p-3"
       >
         <div className="my-4">
           {chatN &&
@@ -67,9 +67,9 @@ export const ChatBox = ({ chatN, handleSentMessage }: IChatBoxProps) => {
                       <span
                         className={classNames(
                           chat.user == "01"
-                            ? "rounded-bl-none bg-gray-300 text-gray-600"
-                            : "rounded-br-none bg-blue-600 text-white",
-                          "inline-block rounded-lg  px-4 py-2 "
+                            ? "rounded-bl-none bg-slate-200 text-slate-700"
+                            : "rounded-br-none bg-blue-600 text-slate-100",
+                          "inline-block rounded-lg border px-4 py-2 font-medium shadow"
                         )}
                       >
                         {chat.message}

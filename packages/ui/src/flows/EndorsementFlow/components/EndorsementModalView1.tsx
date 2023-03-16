@@ -1,16 +1,27 @@
-// eslint-disable-next-line no-unused-vars
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
 import { Members, Project } from "@eden/package-graphql/generated";
 import { Avatar, TextLabel1 } from "@eden/package-ui";
 import { useCallback, useContext, useEffect, useState } from "react";
 
-import { ChatBox, EndorseButton, StarRating } from "./";
+import { ChatBox, EndorseButton, KeywordList, StarRating } from "./";
 
-const EDEN_GPT_REPLY_CHAT_API = gql`
-  query ($fields: edenGPTreplyChatAPIInput!) {
-    edenGPTreplyChatAPI(fields: $fields) {
+const EDEN_GPT_ENDORSE_CHAT_API = gql`
+  query ($fields: edenGPTEndorseChatAPIInput!) {
+    edenGPTEndorseChatAPI(fields: $fields) {
       reply
+    }
+  }
+`;
+
+const MESSAGE_MAP_KG = gql`
+  query ($fields: messageMapKGInput!) {
+    messageMapKG(fields: $fields) {
+      keywords {
+        keyword
+        confidence
+        nodeID
+      }
     }
   }
 `;
@@ -43,7 +54,14 @@ export const EndorsementModalView1 = ({
   // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = useState<boolean>(false);
 
-  const { data: dataEdenGPTReplyChatAPI } = useQuery(EDEN_GPT_REPLY_CHAT_API, {
+  const [kgNodes, setKgNodes] = useState<any[]>([]);
+
+  const [topSkillsNodes, setTopSkillsNodes] = useState<any[]>([]);
+  const [prosNodes, setProsNodes] = useState<any[]>([]);
+  const [consNodes, setConsNodes] = useState<any[]>([]);
+  const [generalNodes, setGeneralNodes] = useState<any[]>([]);
+
+  useQuery(EDEN_GPT_ENDORSE_CHAT_API, {
     variables: {
       fields: {
         message: messageUser,
@@ -61,20 +79,56 @@ export const EndorsementModalView1 = ({
     },
     skip: messageUser == "",
     onCompleted: (data) => {
-      console.log("dataEdenGPTReplyChatAPI = ", data);
+      // console.log("dataEdenGPTEndorseChatAPI = ", data);
       setChatN((prev) => [
         ...prev,
-        { user: "01", message: data.edenGPTreplyChatAPI.reply },
+        { user: "01", message: data.edenGPTEndorseChatAPI.reply },
       ]);
       setMessageUser("");
       setLoading(false);
     },
   });
 
+  // useEffect(() => {
+  //   if (dataEdenGPTEndorseChatAPI)
+  //     console.log("dataEdenGPTReplyChatAPI = ", dataEdenGPTEndorseChatAPI);
+  // }, [dataEdenGPTEndorseChatAPI]);
+
   useEffect(() => {
-    if (dataEdenGPTReplyChatAPI)
-      console.log("dataEdenGPTReplyChatAPI = ", dataEdenGPTReplyChatAPI);
-  }, [dataEdenGPTReplyChatAPI]);
+    if (kgNodes.length > 0) {
+      setTopSkillsNodes(kgNodes.filter((node) => node.confidence === 10));
+      setProsNodes(
+        kgNodes.filter((node) => node.confidence > 6 && node.confidence < 10)
+      );
+      setConsNodes(kgNodes.filter((node) => node.confidence === 0));
+      setGeneralNodes(
+        kgNodes.filter((node) => node.confidence < 6 && node.confidence > 0)
+      );
+    }
+  }, [kgNodes]);
+
+  const chatNToString = () => {
+    let chatNString = "";
+
+    chatN.forEach((message) => {
+      chatNString += message.message + " ";
+    });
+    // console.log("chatNString = ", chatNString);
+    return chatNString;
+  };
+
+  useQuery(MESSAGE_MAP_KG, {
+    variables: {
+      fields: {
+        message: chatNToString(),
+      },
+    },
+    skip: chatN.length < 2,
+    onCompleted: (data) => {
+      // console.log("dataMessageMapKG = ", data);
+      setKgNodes(data.messageMapKG.keywords);
+    },
+  });
 
   useEffect(() => {
     if (member && project && currentUser && chatN.length === 0)
@@ -82,7 +136,7 @@ export const EndorsementModalView1 = ({
         ...prev,
         {
           user: "01",
-          message: `Hey @${currentUser?.discordName}!  How was your experience working with @${member?.discordName} on ${project?.title}?`,
+          message: `Hey ${currentUser?.discordName}!  How was your experience working with ${member?.discordName} on ${project?.title}?`,
         },
       ]);
   }, [member, project, currentUser, chatN]);
@@ -124,18 +178,42 @@ export const EndorsementModalView1 = ({
           </div>
         </div>
 
-        <div>
-          <TextLabel1 className={`text-neutral-600`}>Top Skills:</TextLabel1>
-        </div>
-        <div>
-          <TextLabel1 className={`text-neutral-600`}>Pros:</TextLabel1>
-        </div>
-        <div>
-          <TextLabel1 className={`text-neutral-600`}>Cons:</TextLabel1>
-        </div>
-        <div>
-          <TextLabel1 className={`text-neutral-600`}>General:</TextLabel1>
-        </div>
+        <KeywordList
+          label={`Top Skills:`}
+          nodes={topSkillsNodes}
+          colorRGB={`235,225,255`}
+          closeButton
+          handleDeleteNode={(val) => {
+            setTopSkillsNodes((prev) => prev.filter((node) => node !== val));
+          }}
+        />
+        <KeywordList
+          label={`Pros:`}
+          nodes={prosNodes}
+          colorRGB={`209,247,196`}
+          closeButton
+          handleDeleteNode={(val) => {
+            setProsNodes((prev) => prev.filter((node) => node !== val));
+          }}
+        />
+        <KeywordList
+          label={`Cons:`}
+          nodes={consNodes}
+          colorRGB={`209,247,196`}
+          closeButton
+          handleDeleteNode={(val) => {
+            setConsNodes((prev) => prev.filter((node) => node !== val));
+          }}
+        />
+        <KeywordList
+          label={`General:`}
+          nodes={generalNodes}
+          colorRGB={`209,247,196`}
+          closeButton
+          handleDeleteNode={(val) => {
+            setGeneralNodes((prev) => prev.filter((node) => node !== val));
+          }}
+        />
         <div className={`my-4 text-center`}>
           <TextLabel1 className={`text-xs text-neutral-600`}>
             Would you want to work with @{member?.discordName} again?
