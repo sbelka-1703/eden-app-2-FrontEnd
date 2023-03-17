@@ -8,6 +8,7 @@ import GraphMenu from "./graphMenu";
 import {
   afterDrawG6,
   edgeStrength,
+  focusCenterItem,
   handleCheckboxChange,
   linkDistance,
   tooltip,
@@ -27,6 +28,8 @@ export interface IGraphVisualisation {
   setGraph?: any;
   setActivateNodeEvent?: any;
   disableZoom?: boolean;
+  centerGraph?: boolean;
+  zoomGraph?: number;
 }
 
 const loadingNode: Graph = {
@@ -37,6 +40,7 @@ const loadingNode: Graph = {
     },
   ],
   edges: [],
+  combos: [],
 };
 
 //  -------------- Graph Functions ------------
@@ -70,15 +74,17 @@ export const GraphVisual = ({
   setGraph,
   setActivateNodeEvent,
   disableZoom,
+  centerGraph,
+  zoomGraph,
 }: IGraphVisualisation) => {
   const ref = React.useRef(null);
 
   //  -------------- Graph Setup ----------------
   useEffect(() => {
-    let modes = ["drag-canvas", "zoom-canvas"];
+    let modes = ["drag-canvas", "drag-combo", "zoom-canvas"];
 
     if (disableZoom == true) {
-      modes = ["drag-canvas"];
+      modes = ["drag-canvas", "drag-combo"];
     }
     if (!graph) {
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -86,11 +92,9 @@ export const GraphVisual = ({
         container: ref.current as unknown as string | HTMLElement,
         width: width,
         height: height,
+        fitCenter: true,
         modes: {
           default: modes,
-          // default: ["drag-canvas"],
-          // default: ["drag-canvas", "zoom-canvas"],
-          // default: ["drag-canvas", "zoom-canvas", "activate-relations"],
         },
         animate: true, // Boolean, whether to activate the animation when global changes happen
         defaultNode: {
@@ -114,6 +118,8 @@ export const GraphVisual = ({
           preventOverlap: true,
           strictRadial: true,
           linkDistance: (d: any) => {
+            console.log("d source= ", d.source);
+            console.log("d target = ", d.target);
             return linkDistance(d);
           },
           edgeStrength: (d: any) => {
@@ -125,8 +131,6 @@ export const GraphVisual = ({
 
       setGraph(graph);
 
-      // updateNodes(loadingNode, graph, setItems, setCheckedItems);
-      // updateNodesBackendSettings(loadingNode, graph);
       updateNodesBackendSettings(loadingNode, graph, setItems, setCheckedItems);
 
       graph.on("node:dragstart", (e: any) => {
@@ -143,36 +147,54 @@ export const GraphVisual = ({
         e.item.get("model").fx = null;
         e.item.get("model").fy = null;
       });
-      graph.on("node:click", (e: any) => {
+      graph.on("node:click", async (e: any) => {
         const nodeConnectID = e.item?._cfg?.id;
 
-        // if a node is inactive you can activate it
-        // if (e.item._cfg?.model?.activate == false) {
-        setActivateNodeEvent(nodeConnectID);
-        // }
+        if (setActivateNodeEvent) {
+          setActivateNodeEvent(nodeConnectID);
+        }
       });
     }
   }, [data2]);
 
-  // console.log("data2 = =3=34=2432=34432=24=2=4 ", data2);
-
   useEffect(() => {
     setTimeout(function () {
       // protect it for firing the rerender too early
+      console.log("data2 = ", data2);
       updateNodesBackendSettings(data2, graph, setItems, setCheckedItems);
     }, 100);
   }, [data2]);
-  //  -------------- Graph Setup ----------------
+
+  // ------------- Center and Zoom Graph ----------------
+  useEffect(() => {
+    if (centerGraph == true) {
+      if (zoomGraph) {
+        setTimeout(function () {
+          graph.zoom(
+            zoomGraph,
+            { x: graph.getWidth() / 2, y: graph.getHeight() / 2 },
+            true,
+            {
+              duration: 200,
+            }
+          );
+        }, 1000);
+      }
+
+      setTimeout(function () {
+        focusCenterItem(graph);
+      }, 300);
+    }
+  }, [centerGraph]);
+  // ------------- Center and Zoom Graph ----------------
 
   // ---------- Menue Nodes, Check UnCheck -------------
   const [checkedItems, setCheckedItems] = useState<any>([]);
-  // const [items] = useState([]);
   const [items, setItems] = useState([]);
   // ---------- Menue Nodes, Check UnCheck -------------
 
   useEffect(() => {
     if (graph) {
-      // // console.log("width, height = ", width, height);
       if (width != undefined && height != undefined) {
         if (width != 0 && height != 0) {
           graph.changeSize(width, height);
@@ -181,8 +203,6 @@ export const GraphVisual = ({
       }
     }
   }, [width, height]);
-
-  // // console.log("settingsGraphs = ", settingsGraphs);
 
   return (
     <div className="relative w-full">

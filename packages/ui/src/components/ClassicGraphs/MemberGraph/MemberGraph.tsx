@@ -48,10 +48,17 @@ const FIND_MEMBER_GRAPH = gql`
 
 export interface IMemberGraphProps {
   memberId: string;
+  graphType?: string;
   disableZoom?: boolean;
+  zoomGraph?: number;
 }
 
-export const MemberGraph = ({ memberId, disableZoom }: IMemberGraphProps) => {
+export const MemberGraph = ({
+  memberId,
+  graphType,
+  disableZoom,
+  zoomGraph,
+}: IMemberGraphProps) => {
   const refContainer = useRef<HTMLDivElement>();
 
   const [data, setData] = useState<Graph>({
@@ -62,54 +69,74 @@ export const MemberGraph = ({ memberId, disableZoom }: IMemberGraphProps) => {
 
   const [dataGraphAPI, setDataGraphAPI] = useState<any>(undefined);
 
+  const [nodeSettings, setNodeSettings] = useState<any>([]);
+  const [edgeSettings, setEdgeSettings] = useState<any>([]);
+
+  useEffect(() => {
+    if (graphType == undefined || graphType == "original_KG") {
+      setNodeSettings([
+        nodeSettingsPreset["Member"]["main"],
+        nodeSettingsPreset["sub_typeProject"]["main"],
+        nodeSettingsPreset["typeProject"]["main"],
+        nodeSettingsPreset["sub_expertise"]["main"],
+        nodeSettingsPreset["expertise"]["main"],
+        nodeSettingsPreset["skill"]["main"],
+      ]);
+
+      setEdgeSettings([
+        // ------ split sub_typeProject|Member -------
+        edgeSettingsPreset["sub_typeProject|Member"]["typeProject"],
+        edgeSettingsPreset["sub_typeProject|typeProject"]["edge"],
+        edgeSettingsPreset["typeProject|Member"]["edge"],
+        // ------ split sub_typeProject|Member -------
+
+        // ------ split skill|Member -------
+        edgeSettingsPreset["skill|Member"]["doubleSplitEdge"],
+        edgeSettingsPreset["skill|sub_expertise"]["edge"],
+        // ------ split skill|Member -------
+
+        // ------ split sub_expertise|Member -------
+        edgeSettingsPreset["sub_expertise|Member"]["expertise"],
+        edgeSettingsPreset["sub_expertise|expertise"]["edge"],
+        edgeSettingsPreset["expertise|Member"]["edge"],
+        // ------ split sub_expertise|Member -------
+
+        // //  ------ Create Far Distance between member and project ------
+        edgeSettingsPreset["expertise|expertise"]["hiddenEdge"],
+        edgeSettingsPreset["expertise|typeProject"]["hiddenEdge"],
+        // //  ------ Create Far Distance between member and project ------
+      ]);
+    } else if (graphType == "KG_AI") {
+      setNodeSettings([
+        nodeSettingsPreset["Member"]["main"],
+        nodeSettingsPreset["Skill"]["main"],
+        nodeSettingsPreset["Expertise"]["main"],
+        nodeSettingsPreset["Role"]["main"],
+      ]);
+
+      setEdgeSettings([
+        // // ------ split sub_typeProject|dynamicSearch -------
+        edgeSettingsPreset["Member|Skill"]["edge"],
+        edgeSettingsPreset["Member|Expertise"]["edge"],
+        edgeSettingsPreset["Member|Role"]["edge"],
+        // // ------ split sub_typeProject|dynamicSearch -------
+      ]);
+    }
+  }, [data]);
+
+  console.log("nodeSettings = ", nodeSettings);
+
   const {} = useQuery(FIND_MEMBER_GRAPH, {
     variables: {
       fields: {
         memberID: memberId,
         showAvatar: true,
-        nodeSettings: [
-          nodeSettingsPreset["Member"]["main"],
-          nodeSettingsPreset["sub_typeProject"]["main"],
-          nodeSettingsPreset["typeProject"]["main"],
-          nodeSettingsPreset["sub_expertise"]["main"],
-          nodeSettingsPreset["expertise"]["main"],
-          nodeSettingsPreset["skill"]["main"],
-        ],
-        edgeSettings: [
-          // ------ split sub_typeProject|Member -------
-          edgeSettingsPreset["sub_typeProject|Member"]["typeProject"],
-          edgeSettingsPreset["sub_typeProject|typeProject"]["edge"],
-          edgeSettingsPreset["typeProject|Member"]["edge"],
-          // ------ split sub_typeProject|Member -------
 
-          // ------ split skill|Member -------
-          edgeSettingsPreset["skill|Member"]["doubleSplitEdge"],
-          // edgeSettingsPreset["skill|Member"]["edge"],
-          edgeSettingsPreset["skill|sub_expertise"]["edge"],
-          // edgeSettingsPreset["sub_expertise|Member"]["edge"],
-          // ------ split skill|Member -------
-
-          // ------ split sub_expertise|Member -------
-          edgeSettingsPreset["sub_expertise|Member"]["expertise"],
-          edgeSettingsPreset["sub_expertise|expertise"]["edge"],
-          edgeSettingsPreset["expertise|Member"]["edge"],
-          // edgeSettingsPreset["sub_expertise|Member"]["edge"],
-          // ------ split sub_expertise|Member -------
-
-          // //  ------ Create Far Distance between member and project ------
-          edgeSettingsPreset["expertise|expertise"]["hiddenEdge"],
-          // edgeSettingsPreset["typeProject|sub_expertise"]["hiddenEdge"],
-          edgeSettingsPreset["expertise|typeProject"]["hiddenEdge"],
-          // edgeSettingsPreset["Project|expertise"]["hiddenEdge"],
-          // edgeSettingsPreset["Projet|typeProject"]["hiddenEdge"],
-          // edgeSettingsPreset["expertise|expertise"]["hiddenEdge"],
-          // // edgeSettingsPreset["Project|Member"]["hiddenEdge"],
-          // edgeSettingsPreset["typeProject|expertise"]["hiddenEdge"],
-          // //  ------ Create Far Distance between member and project ------
-        ],
+        nodeSettings: nodeSettings,
+        edgeSettings: edgeSettings,
       },
     },
-    skip: !memberId,
+    skip: !memberId || nodeSettings.length == 0 || edgeSettings.length == 0,
     context: { serviceName: "soilservice" },
     onCompleted: (data) => {
       if (data) {
@@ -131,6 +158,21 @@ export const MemberGraph = ({ memberId, disableZoom }: IMemberGraphProps) => {
   }, [dataGraphAPI]);
   // ----------- Update the Graph Visual ----------
 
+  // ------------------ centerGraph --------------
+  const [centerGraph, setCenterGraph] = useState<any>(false);
+
+  useEffect(() => {
+    setTimeout(function () {
+      setCenterGraph(true); // Start Centering the Graph
+    }, 1550);
+
+    setTimeout(function () {
+      setCenterGraph(false); // Stop Centering the Graph
+    }, 2800);
+  }, []);
+  // ------------------ centerGraph --------------
+
+  // -------------- Width Height Graph -----------
   useEffect(() => {
     const getwidth = () => {
       setWidth(refContainer.current?.offsetWidth!);
@@ -144,6 +186,7 @@ export const MemberGraph = ({ memberId, disableZoom }: IMemberGraphProps) => {
     // remove the event listener before the component gets unmounted
     return () => window.removeEventListener("resize", getwidth);
   }, []);
+  // -------------- Width Height Graph -----------
 
   const [graph, setGraph] = useState<any>();
 
@@ -164,6 +207,8 @@ export const MemberGraph = ({ memberId, disableZoom }: IMemberGraphProps) => {
               graph={graph}
               setGraph={setGraph}
               disableZoom={disableZoom}
+              centerGraph={centerGraph}
+              zoomGraph={zoomGraph}
             />
           ) : (
             <p>Dont have Graph Data Yet</p>

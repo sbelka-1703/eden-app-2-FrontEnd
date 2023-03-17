@@ -213,7 +213,7 @@ const HomeTutorialModalContainer = () => {
 
   return (
     <>
-      <section className="flex h-screen w-full flex-col items-center justify-center">
+      <section className="flex h-screen w-full flex-col items-center bg-white py-10">
         {openModal === HomeTutorialSteps.STEP_1 && (
           <div>
             <h1 className="text-center text-2xl">Welcome to Eden!</h1>
@@ -256,7 +256,7 @@ const HomeTutorialModalContainer = () => {
               </ul>
             </div>
             <p className="text-center">
-              <span className="bg-[#DEFEFF] px-2">{`Connect to Eden Network to get a match`}</span>
+              <span className=" px-2">{`Connect to Eden Network to get a match`}</span>
             </p>
             <Button
               className="absolute right-3 bottom-3 z-20"
@@ -303,7 +303,7 @@ const HomeTutorialModalContainer = () => {
 const updateGraph = (data: any) => {
   const dataGraphAPI = data;
 
-  console.log("dataGraphAPI = ", dataGraphAPI);
+  // console.log("dataGraphAPI = ", dataGraphAPI);
   const nodeDataObj: any = {};
   const edgesDataGraph = dataGraphAPI.edges.map(
     (edge: { source: any; target: any; distanceRation: any; style: any }) => {
@@ -342,21 +342,31 @@ const updateGraph = (data: any) => {
       let extraStyle = {};
 
       if (node.avatar && node.avatar != undefined) {
-        extraStyle = {
-          // ----------- Shwow Avatar User ---------
-          type: "image",
-          img: node.avatar,
-          clipCfg: {
-            show: true,
-            type: "circle",
-            r: 25,
-          },
-          style: {
-            height: 50,
-            width: 50,
-          },
-          // ----------- Shwow Avatar User ---------
-        };
+        if (node.type == "dynamicSearch") {
+          console.log("change = ICON TIME");
+          extraStyle = {
+            icon: true,
+            img: node.avatar,
+            width: 40,
+            height: 40,
+          };
+        } else {
+          extraStyle = {
+            // ----------- Shwow Avatar User ---------
+            type: "image",
+            img: node.avatar,
+            clipCfg: {
+              show: true,
+              type: "circle",
+              r: 25,
+            },
+            style: {
+              height: 50,
+              width: 50,
+            },
+            // ----------- Shwow Avatar User ---------
+          };
+        }
       }
       if (!node.avatar && node.avatar != undefined) {
         extraStyle = {
