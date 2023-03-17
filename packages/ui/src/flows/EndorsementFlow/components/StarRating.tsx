@@ -35,9 +35,12 @@ export const StarRating = ({
           onClick={() => handleOnChange(star + 1)}
         >
           {star < totalStars ? (
-            <BsStarFill key={star} className={`h-6 w-6 text-yellow-400`} />
+            <BsStarFill
+              key={star}
+              className={`h-6 w-6 text-yellow-400 shadow`}
+            />
           ) : (
-            <BsStar key={star} className={`h-6 w-6 text-yellow-400`} />
+            <BsStar key={star} className={`h-6 w-6 text-yellow-400 shadow`} />
           )}
         </button>
       ))}
