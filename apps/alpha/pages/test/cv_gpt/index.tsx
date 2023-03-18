@@ -1,7 +1,7 @@
 interface CvGPTProps {}
 
 const CvGPT: CvGPTProps = () => {
-  return <div></div>;
+  return <div>HI!</div>;
 };
 
 export default CvGPT;
