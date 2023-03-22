@@ -3,7 +3,6 @@ interface CvGPTProps {}
 
 const CvGPT: CvGPTProps = () => {
   const [file, setFile] = useState<File | null>(null);
-  const [string, setString] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement> | null) => {
     setFile(e.target.files[0]);
@@ -11,13 +10,13 @@ const CvGPT: CvGPTProps = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
+    const body = new FormData();
 
-    formData.append("file", file);
+    body.append("file", file);
 
     const response = await fetch("../api/extract-pdf/extract-pdf", {
       method: "POST",
-      body: formData,
+      body,
     });
 
     if (response.ok) {
