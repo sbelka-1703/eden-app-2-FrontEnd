@@ -430,7 +430,7 @@ const dataMember: any = {
     {
       __typename: "NodeVisual",
       _id: "63eaefb64862b62edc303774",
-      name: "",
+      name: "FrontEnd Developer",
       type: "expertise",
       avatar: null,
       fakeID: null,
@@ -464,7 +464,7 @@ const dataMember: any = {
     {
       __typename: "NodeVisual",
       _id: "63eb074cdf71c82f61c1d18c",
-      name: "",
+      name: "UI Development",
       type: "typeProject",
       avatar: null,
       fakeID: null,

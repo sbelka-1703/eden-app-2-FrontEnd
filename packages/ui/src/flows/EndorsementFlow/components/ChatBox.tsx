@@ -10,6 +10,7 @@ type ChatBoxInputs = {
 
 export interface IChatBoxProps {
   chatN?: any;
+  messageLoading?: boolean;
   // eslint-disable-next-line no-unused-vars
   handleSentMessage: (message: string, user: string) => void;
 }

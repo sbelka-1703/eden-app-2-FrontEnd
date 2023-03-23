@@ -1,4 +1,6 @@
+import { UserContext } from "@eden/package-context";
 import { AppUserSubmenuLayout, Card, MemberGraph, SEO } from "@eden/package-ui";
+import { useContext, useEffect, useState } from "react";
 
 import type { NextPageWithLayout } from "../_app";
 
@@ -44,8 +46,10 @@ const HomeHeroSection = ({
   profilePage,
 }: IHomeHeroSectionProps) => {
   const router = useRouter();
-  // const { currentUser } = useContext(UserContext);
+  const { currentUser } = useContext(UserContext);
   const [displayNav, setDisplayNav] = useState<INavItems[]>([]);
+
+  console.log("currentUser = ", currentUser);
 
   useEffect(() => {
     const navItems = [
@@ -151,8 +155,10 @@ const HomeHeroSection = ({
           {`Now, let's get you connected to the graph!`}
         </h1>
         <div className="flex h-full w-full items-center">
-          {/* {currentUser?._id && <MemberGraph memberId={currentUser?._id!} />} */}
-          <MemberGraph memberId={"250828754665716323"} graphType={"KG_AI"} />
+          {/* {currentUser?._id && (
+            <MemberGraph memberId={currentUser?._id!} graphType={"KG_AI2"} />
+          )} */}
+          <MemberGraph memberId={"723655233626971206"} graphType={"KG_AI2"} />
         </div>
         {displayNav.map((item, index: number) => (
           <button
@@ -239,7 +245,7 @@ export default HomePage;
 import { IncomingMessage, ServerResponse } from "http";
 import { useRouter } from "next/router";
 import { getSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 
 export async function getServerSideProps(ctx: {
   req: IncomingMessage;

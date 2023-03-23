@@ -121,6 +121,45 @@ export const MemberGraph = ({
         edgeSettingsPreset["Member|Role"]["edge"],
         // // ------ split sub_typeProject|dynamicSearch -------
       ]);
+    } else if (graphType == "KG_AI2") {
+      setNodeSettings([
+        nodeSettingsPreset["Combo"]["main"],
+        nodeSettingsPreset["Member"]["main"],
+        nodeSettingsPreset["Skill"]["smallBlue"],
+        nodeSettingsPreset["Category"]["smallBlue"],
+        nodeSettingsPreset["Group"]["smallBlue"],
+        nodeSettingsPreset["dynamicSearch"]["main"],
+      ]);
+
+      setEdgeSettings([
+        edgeSettingsPreset["dynamicSearch|Role"]["edge"],
+        edgeSettingsPreset["dynamicSearch|Skill"]["edge"],
+        edgeSettingsPreset["dynamicSearch|Expertise"]["edge"],
+
+        edgeSettingsPreset["Member|Role"]["long"],
+        edgeSettingsPreset["Member|Skill"]["long"],
+        edgeSettingsPreset["Member|Expertise"]["long"],
+
+        edgeSettingsPreset["Skill|Role"]["edge"],
+        edgeSettingsPreset["Skill|Expertise"]["edge"],
+        edgeSettingsPreset["Role|Expertise"]["edge"],
+
+        edgeSettingsPreset["Skill|Skill"]["edge"],
+        edgeSettingsPreset["Expertise|Expertise"]["edge"],
+        edgeSettingsPreset["Role|Role"]["edge"],
+
+        // ----- Combo ------
+        edgeSettingsPreset["dynamicSearch|Combo"]["edge"],
+        edgeSettingsPreset["Skill|Combo"]["edge"],
+        edgeSettingsPreset["Role|Combo"]["edge"],
+        edgeSettingsPreset["Expertise|Combo"]["edge"],
+        edgeSettingsPreset["Member|Combo"]["edge"],
+        // ----- Combo ------
+
+        // //  ------ Create Far Distance between member and project ------
+        edgeSettingsPreset["dynamicSearch|Member"]["hiddenEdge"],
+        // //  ------ Create Far Distance between member and project ------
+      ]);
     }
   }, [data]);
 

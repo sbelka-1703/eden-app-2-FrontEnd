@@ -3,6 +3,7 @@ import { UserContext } from "@eden/package-context";
 import { Members, Project } from "@eden/package-graphql/generated";
 import { Avatar, TextLabel1 } from "@eden/package-ui";
 import { useCallback, useContext, useEffect, useState } from "react";
+import { BsCoin } from "react-icons/bs";
 
 import { ChatBox, EndorseButton, KeywordList, StarRating } from "./";
 
@@ -154,7 +155,11 @@ export const EndorsementModalView1 = ({
   return (
     <div className={`grid grid-cols-3 gap-4`}>
       <div className={`col-span-2`}>
-        <ChatBox chatN={chatN} handleSentMessage={handleSentMessage} />
+        <ChatBox
+          chatN={chatN}
+          messageLoading={loading}
+          handleSentMessage={handleSentMessage}
+        />
       </div>
       <div className={`col-span-1`}>
         <div className={`text-lg font-medium uppercase text-neutral-700`}>
@@ -214,14 +219,25 @@ export const EndorsementModalView1 = ({
             setGeneralNodes((prev) => prev.filter((node) => node !== val));
           }}
         />
-        <div className={`my-4 text-center`}>
-          <TextLabel1 className={`text-xs text-neutral-600`}>
+        <div className={`my-4 text-center shadow-md`}>
+          <TextLabel1 className={`text-xs font-semibold text-neutral-800`}>
             Would you want to work with @{member?.discordName} again?
           </TextLabel1>
           <StarRating rating={rating} onRatingChange={onRatingChange} />
         </div>
-        <div className={`my-2 flex justify-center`}>
-          <EndorseButton type={`button`} onClick={onNext} />
+        <div className={`mt-12 flex justify-center`}>
+          {chatN.length < 5 ? (
+            <button
+              type={`button`}
+              disabled
+              className={`rounded-full border-2 bg-[#D7D7FF]/10 py-1 px-4 font-semibold uppercase text-neutral-400`}
+            >
+              Endorse{" "}
+              <BsCoin className={`ml-2 inline-block h-4 w-4 text-yellow-500`} />
+            </button>
+          ) : (
+            <EndorseButton type={`button`} onClick={onNext} />
+          )}
         </div>
       </div>
     </div>
