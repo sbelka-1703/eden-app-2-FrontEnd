@@ -23,7 +23,6 @@ import {
   DynamicSearchGraph,
   LongText,
   MemberInfoWithDynamicGraph,
-  MemberInfoWithGraph,
   SendMessageUserToUser,
   SocialMediaComp,
   TextHeading3,
@@ -38,10 +37,18 @@ import {
   EDEN_GPT_REPLY,
   EDEN_GPT_REPLY_CHAT_API,
   EDEN_GPT_REPLY_MEMORY,
-  MESSAGE_MAP_KG,
+  MESSAGE_MAP_KG_V2,
   STORE_LONG_TERM_MEMORY,
 } from "../../../utils/data/GQLfuncitons";
 import type { NextPageWithLayout } from "../../_app";
+
+interface NodeObj {
+  [key: string]: {
+    active: boolean;
+    confidence: number;
+    isNew: boolean;
+  };
+}
 
 const chatEden: NextPageWithLayout = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -61,13 +68,13 @@ const chatEden: NextPageWithLayout = () => {
   // const [nodesConfidence, setNodesConfidence] = useState<string[]>(["9"]);
   // const [activeNodes, setActiveNodes] = useState<Boolean[]>([false]);
 
-  const [nodeObj, setNodeObj] = useState<any>({
+  const [nodeObj, setNodeObj] = useState<NodeObj>({
     // "640a739dc5d61b4bae0ee091": { // SOS 🆘 -> problem with this node combination
     //   confidence: "9",
     //   active: false,
     //   isNew: true,
     // },
-    // "640a75422484854db2012cd0": {
+    // "6416b6e1a57032640bd813aa": {
     //   confidence: "9",
     //   active: true,
     //   isNew: true,
@@ -78,23 +85,6 @@ const chatEden: NextPageWithLayout = () => {
     //   isNew: false,
     // },
   });
-
-  // const [nodesID, setNodesID] = useState<string[]>([
-  //   "640a739dc5d61b4bae0ee091",
-  // "640a74bb2484854db2012bf8"],
-  // );
-  // const [nodesConfidence, setNodesConfidence] = useState<string[]>(["9","6"]);
-  // const [activeNodes, setActiveNodes] = useState<Boolean[]>([false,true]);
-
-  // const [nodesID, setNodesID] = useState<string[]>([]);
-  // const [nodesConfidence, setNodesConfidence] = useState<string[]>([]);
-  // const [activeNodes, setActiveNodes] = useState<Boolean[]>([]);
-
-  // console.log("nodesID = ", nodesID);
-
-  // console.log("nodesID = ", nodesID);
-
-  // const [nodeNames]
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [chatN, setChatN] = useState([
@@ -122,7 +112,6 @@ const chatEden: NextPageWithLayout = () => {
       },
     },
     skip: messageUser == "" || selectedOption != "option1",
-    context: { serviceName: "soilservice" },
   });
 
   const { data: dataEdenGPTReplyMemory } = useQuery(EDEN_GPT_REPLY_MEMORY, {
@@ -134,7 +123,6 @@ const chatEden: NextPageWithLayout = () => {
       },
     },
     skip: messageUser == "" || selectedOption != "option2",
-    context: { serviceName: "soilservice" },
   });
 
   const { data: dataEdenGPTReplyChatAPI } = useQuery(EDEN_GPT_REPLY_CHAT_API, {
@@ -154,17 +142,15 @@ const chatEden: NextPageWithLayout = () => {
       },
     },
     skip: messageUser == "" || selectedOption != "option3",
-    context: { serviceName: "soilservice" },
   });
 
-  const { data: dataMessageMapKG } = useQuery(MESSAGE_MAP_KG, {
+  const { data: dataMessageMapKGV2 } = useQuery(MESSAGE_MAP_KG_V2, {
     variables: {
       fields: {
         message: messageUser,
       },
     },
     skip: messageUser == "",
-    context: { serviceName: "soilservice" },
   });
 
   const [dataMembersA, setDataMembersA] = useState<any>(null);
@@ -177,16 +163,20 @@ const chatEden: NextPageWithLayout = () => {
         // nodesID: nodesID.filter((node, index) => activeNodes[index]),
         weightModules: [
           {
-            type: "node_subExpertise",
-            weight: 80,
+            type: "node_Skill",
+            weight: 70,
           },
           {
-            type: "node_subTypeProject",
+            type: "node_Category",
             weight: 20,
           },
           {
+            type: "node_Group",
+            weight: 5,
+          },
+          {
             type: "node_total",
-            weight: 50,
+            weight: 5,
           },
           {
             type: "everything_else",
@@ -196,7 +186,7 @@ const chatEden: NextPageWithLayout = () => {
       },
     },
     // skip: !nodesID
-    skip: nodeObj == [],
+    skip: Object.keys(nodeObj).length == 0,
 
     onCompleted: (data) => {
       setDataMembersA(data.matchNodesToMembers_AI4);
@@ -279,13 +269,13 @@ const chatEden: NextPageWithLayout = () => {
 
   // ---------------- update nodes ------------
   useEffect(() => {
-    if (dataMessageMapKG) {
+    if (dataMessageMapKGV2) {
       // const newNodeID: any = [];
       // const newNodeConfidence: any = [];
 
       const newNodeObj: any = [];
 
-      dataMessageMapKG?.messageMapKG?.keywords?.forEach((keyword: any) => {
+      dataMessageMapKGV2?.messageMapKG_V2?.keywords?.forEach((keyword: any) => {
         if (keyword.nodeID) {
           // newNodeID.push(keyword.nodeID);
           // newNodeConfidence.push(keyword.confidence);
@@ -314,11 +304,6 @@ const chatEden: NextPageWithLayout = () => {
 
       // for (let i = 0; i < nodeObj.length; i++) {
       for (const [key, value] of Object.entries(nodeObj)) {
-        // const nodeN = nodesID[i];
-        // const nodeActive = activeNodes[i];
-        // const nodeConfidence = nodesConfidence[i];
-
-        const nodeN = value.nodeID;
         const nodeActive = value.active;
         const nodeConfidence = value.confidence;
 
@@ -333,7 +318,7 @@ const chatEden: NextPageWithLayout = () => {
           };
         } else {
           if (Object.keys(nodeObj).length > 7) {
-            if (parseInt(nodeConfidence) > 5) {
+            if (nodeConfidence > 5) {
               // newNodesIDK.push(nodeN);
               // newActiveNodes.push(nodeActive);
               // newNodesConfidence.push(nodeConfidence);
@@ -401,7 +386,7 @@ const chatEden: NextPageWithLayout = () => {
       setNodeObj(newNodesObjK);
       // ------- Array of objects to disctionary ------------
     }
-  }, [dataMessageMapKG]);
+  }, [dataMessageMapKGV2]);
   // ---------------- update nodes ------------
 
   const handleSentMessage = (messageN: any, userN: any) => {
@@ -521,7 +506,7 @@ const chatEden: NextPageWithLayout = () => {
                   setActivateNodeEvent={setActivateNodeEvent}
                   height={"380"}
                   // graphType={"simple"}
-                  graphType={"KG_AI"}
+                  graphType={"KG_AI_2"}
                   // zoomGraph={1.1}
                 />
               </div>
@@ -793,7 +778,6 @@ const UserMessageModal = ({
   member,
   matchPercentage,
   open,
-  nodesPercentage,
   conversation,
   nodesID,
   onClose,
@@ -907,7 +891,6 @@ const UserMessageModal = ({
       },
     },
     skip: messageUser == "",
-    context: { serviceName: "soilservice" },
   });
 
   // eslint-disable-next-line react-hooks/rules-of-hooks

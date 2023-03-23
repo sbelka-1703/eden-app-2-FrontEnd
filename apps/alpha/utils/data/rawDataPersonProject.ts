@@ -24,10 +24,10 @@ export const rawDataPersonProject: any = {
       // ----------- Shwow Avatar User ---------
     },
     {
-      id: "Project",
+      id: "Opportunity",
       x: 100,
       y: 150,
-      label: "Project",
+      label: "Opportunity",
       ...nodeTypeStyle["Project"],
     },
     {
@@ -90,12 +90,32 @@ export const rawDataPersonProject: any = {
     { source: "Role2", target: "skillBackEnd4", style: { distance: 80 } },
     { source: "Role2", target: "skillBackEnd5", style: { distance: 80 } },
 
-    { source: "Project", target: "skillFrontEnd1", style: { distance: 210 } },
-    { source: "Project", target: "skillFrontEnd2", style: { distance: 210 } },
-    { source: "Project", target: "skillFrontEnd3", style: { distance: 210 } },
+    {
+      source: "Opportunity",
+      target: "skillFrontEnd1",
+      style: { distance: 210 },
+    },
+    {
+      source: "Opportunity",
+      target: "skillFrontEnd2",
+      style: { distance: 210 },
+    },
+    {
+      source: "Opportunity",
+      target: "skillFrontEnd3",
+      style: { distance: 210 },
+    },
 
-    { source: "Project", target: "skillBackEnd4", style: { distance: 210 } },
-    { source: "Project", target: "skillBackEnd5", style: { distance: 210 } },
+    {
+      source: "Opportunity",
+      target: "skillBackEnd4",
+      style: { distance: 210 },
+    },
+    {
+      source: "Opportunity",
+      target: "skillBackEnd5",
+      style: { distance: 210 },
+    },
 
     {
       source: "Role2",
@@ -103,7 +123,7 @@ export const rawDataPersonProject: any = {
       style: { distance: 300, stroke: "#FFFFFF" },
     },
     {
-      source: "Project",
+      source: "Opportunity",
       target: "milo",
       style: { distance: 450, stroke: "#FFFFFF" },
     },

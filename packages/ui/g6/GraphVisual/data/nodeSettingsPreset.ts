@@ -120,6 +120,74 @@ export const nodeSettingsPreset = {
       },
     },
   },
+  Category: {
+    main: {
+      type: "Category",
+      style: {
+        size: 65,
+        fill: "#FBEDEC",
+        stroke: "#F3B8B4",
+      },
+    },
+    small: {
+      type: "Category",
+      style: {
+        size: 50,
+        fill: "#FBEDEC",
+        stroke: "#F3B8B4",
+      },
+    },
+    smallBlue: {
+      type: "Category",
+      style: {
+        size: 60,
+        fill: "#EBF8FF",
+        stroke: "#179FFF",
+      },
+    },
+    bigYellow: {
+      type: "Category",
+      style: {
+        size: 75,
+        fill: "#FCF8ED",
+        stroke: "#F4BC67",
+      },
+    },
+  },
+  Group: {
+    main: {
+      type: "Group",
+      style: {
+        size: 65,
+        fill: "#FBEDEC",
+        stroke: "#F3B8B4",
+      },
+    },
+    small: {
+      type: "Group",
+      style: {
+        size: 50,
+        fill: "#FBEDEC",
+        stroke: "#F3B8B4",
+      },
+    },
+    smallBlue: {
+      type: "Group",
+      style: {
+        size: 45,
+        fill: "#EBF8FF",
+        stroke: "#179FFF",
+      },
+    },
+    bigYellow: {
+      type: "Group",
+      style: {
+        size: 75,
+        fill: "#FCF8ED",
+        stroke: "#F4BC67",
+      },
+    },
+  },
   Role: {
     main: {
       type: "Role",
@@ -184,7 +252,7 @@ export const nodeSettingsPreset = {
     smallBlue: {
       type: "Skill",
       style: {
-        size: 45,
+        size: 52,
         fill: "#EBF8FF",
         stroke: "#179FFF",
       },

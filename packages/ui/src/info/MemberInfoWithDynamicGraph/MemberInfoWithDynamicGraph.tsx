@@ -31,23 +31,56 @@ const EDEN_GPT_SUMMARY_PROFILE = gql`
   }
 `;
 
-const HighlightText = ({ text }) => {
-  // const highlightStyle = "bg-yellow-200 font-semibold";
-  // const highlightStyle = "bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-white px-1 py-0.5 rounded-md shadow-md";
-  const highlightStyle =
-    "bg-blue-200 text-blue-800 px-1 py-0.5 rounded-md shadow-sm";
+// const HighlightText = ({ text }) => {
+//   // const highlightStyle = "bg-yellow-200 font-semibold";
+//   // const highlightStyle = "bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-white px-1 py-0.5 rounded-md shadow-md";
+//   const highlightStyle =
+//     "bg-blue-200 text-blue-800 px-1 py-0.5 rounded-md shadow-sm";
 
-  const parts = text.split("*");
+//   const parts = text.split("*");
+//   const highlightedText = parts.map((part: string, index: number) => {
+//     if (index % 2 === 1) {
+//       return (
+//         <span key={index} className={highlightStyle}>
+//           {part}
+//         </span>
+//       );
+//     } else {
+//       return part;
+//     }
+//   });
+
+//   return <p>{highlightedText}</p>;
+// };
+interface HighlightTextProps {
+  text: string | null;
+}
+
+const HighlightText = ({ text }: HighlightTextProps) => {
+  // const highlightStyle =
+  //   "bg-blue-200 text-blue-800 px-1 py-0.5 rounded-md shadow-sm";
+  const bulletPoint = (
+    <span className="mx-2 text-xl font-bold text-blue-500">•</span>
+  );
+
+  if (text == null) text = "";
+
+  // const parts = text.replace(/^\n+/g, "").split(/\n-+/);
+  const parts = text.replace(/^\n+/g, "").split(/\n\s*[•-]\s*/);
+
+  for (let i = 0; i < parts.length; i++) {
+    parts[i] = parts[i].replace(/-/g, "").replace(/•/g, "");
+  }
+
+  // parts = parts.replace(/-/g, "");
   const highlightedText = parts.map((part: string, index: number) => {
-    if (index % 2 === 1) {
-      return (
-        <span key={index} className={highlightStyle}>
-          {part}
-        </span>
-      );
-    } else {
-      return part;
-    }
+    return (
+      <span key={index}>
+        {bulletPoint}
+        <span>{part.trim()}</span>
+        <br />
+      </span>
+    );
   });
 
   return <p>{highlightedText}</p>;
@@ -125,7 +158,7 @@ export const MemberInfoWithDynamicGraph = ({
             <>
               <p className="text-soilBody font-Inter font-normal">
                 {/* {edenGPTsummary} */}
-                <HighlightText text={edenGPTsummary} />
+                <HighlightText text={edenGPTsummary || ""} />
               </p>
             </>
           ) : (
@@ -152,7 +185,8 @@ export const MemberInfoWithDynamicGraph = ({
           memberID={member._id!}
           nodesID={nodesID}
           disableZoom={true}
-          graphType={"KG_AI"}
+          graphType={"KG_AI2"}
+          // graphType={"KG_AI"}
           // zoomGraph={1.1}
         />
       </div>

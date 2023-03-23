@@ -1,5 +1,5 @@
 module.exports = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   transpilePackages: [
     "@eden/package-ui",
     "@eden/package-context",

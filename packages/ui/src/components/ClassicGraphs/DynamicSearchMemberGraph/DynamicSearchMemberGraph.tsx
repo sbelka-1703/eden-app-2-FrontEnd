@@ -51,8 +51,8 @@ const GraphVisual = dynamic(
 // `;
 
 const DYNAMIC_SEARCH_TO_MEMBER_GRAPH_GPT = gql`
-  query ($fields: dynamicSearchToMemberGraphGPTInput!) {
-    dynamicSearchToMemberGraphGPT(fields: $fields) {
+  query ($fields: dynamicSearchToMemberCategoryGroupInput!) {
+    dynamicSearchToMemberCategoryGroup(fields: $fields) {
       nodesVisual {
         _id
         name
@@ -188,6 +188,45 @@ export const DynamicSearchMemberGraph = ({
         edgeSettingsPreset["dynamicSearch|Member"]["hiddenEdge"],
         // //  ------ Create Far Distance between member and project ------
       ]);
+    } else if (graphType == "KG_AI2") {
+      setNodeSettings([
+        nodeSettingsPreset["Combo"]["main"],
+        nodeSettingsPreset["Member"]["main"],
+        nodeSettingsPreset["Skill"]["smallBlue"],
+        nodeSettingsPreset["Category"]["smallBlue"],
+        nodeSettingsPreset["Group"]["smallBlue"],
+        nodeSettingsPreset["dynamicSearch"]["main"],
+      ]);
+
+      setEdgeSettings([
+        edgeSettingsPreset["dynamicSearch|Role"]["edge"],
+        edgeSettingsPreset["dynamicSearch|Skill"]["edge"],
+        edgeSettingsPreset["dynamicSearch|Expertise"]["edge"],
+
+        edgeSettingsPreset["Member|Role"]["long"],
+        edgeSettingsPreset["Member|Skill"]["long"],
+        edgeSettingsPreset["Member|Expertise"]["long"],
+
+        edgeSettingsPreset["Skill|Role"]["edge"],
+        edgeSettingsPreset["Skill|Expertise"]["edge"],
+        edgeSettingsPreset["Role|Expertise"]["edge"],
+
+        edgeSettingsPreset["Skill|Skill"]["edge"],
+        edgeSettingsPreset["Expertise|Expertise"]["edge"],
+        edgeSettingsPreset["Role|Role"]["edge"],
+
+        // ----- Combo ------
+        edgeSettingsPreset["dynamicSearch|Combo"]["edge"],
+        edgeSettingsPreset["Skill|Combo"]["edge"],
+        edgeSettingsPreset["Role|Combo"]["edge"],
+        edgeSettingsPreset["Expertise|Combo"]["edge"],
+        edgeSettingsPreset["Member|Combo"]["edge"],
+        // ----- Combo ------
+
+        // //  ------ Create Far Distance between member and project ------
+        edgeSettingsPreset["dynamicSearch|Member"]["hiddenEdge"],
+        // //  ------ Create Far Distance between member and project ------
+      ]);
     }
   }, [data]);
 
@@ -196,9 +235,8 @@ export const DynamicSearchMemberGraph = ({
       fields: {
         // nodesID: ["63eaefc44862b62edc3037b4", "63eaefebdf71c82f61c177eb"],
         nodesID: nodesID,
-        showAvatar: true,
         memberID: memberID,
-
+        showAvatar: true,
         nodeSettings: nodeSettings,
         edgeSettings: edgeSettings,
       },
@@ -208,7 +246,7 @@ export const DynamicSearchMemberGraph = ({
     // skip: selectedOption !== "Option 8",
     onCompleted: (data) => {
       if (data) {
-        setDataGraphAPI(data.dynamicSearchToMemberGraphGPT);
+        setDataGraphAPI(data.dynamicSearchToMemberCategoryGroup);
       }
     },
   });
@@ -234,11 +272,11 @@ export const DynamicSearchMemberGraph = ({
   useEffect(() => {
     setTimeout(function () {
       setCenterGraph(true); // Start Centering the Graph
-    }, 4250);
+    }, 1050);
 
     setTimeout(function () {
       setCenterGraph(false); // Stop Centering the Graph
-    }, 6300);
+    }, 1400);
   }, []);
   // ------------------ centerGraph --------------
 

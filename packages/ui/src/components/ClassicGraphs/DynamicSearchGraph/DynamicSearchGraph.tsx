@@ -175,6 +175,21 @@ export const DynamicSearchGraph = ({
         edgeSettingsPreset["dynamicSearch|Role"]["longEdge"],
         // // ------ split sub_typeProject|dynamicSearch -------
       ]);
+    } else if (graphType == "KG_AI_2") {
+      setNodeSettings([
+        nodeSettingsPreset["dynamicSearch"]["main"],
+        nodeSettingsPreset["Skill"]["bigYellow"],
+        nodeSettingsPreset["Category"]["bigYellow"],
+        nodeSettingsPreset["Group"]["bigYellow"],
+      ]);
+
+      setEdgeSettings([
+        // // ------ split sub_typeProject|dynamicSearch -------
+        edgeSettingsPreset["dynamicSearch|Skill"]["longEdge"],
+        edgeSettingsPreset["dynamicSearch|Category"]["longEdge"],
+        edgeSettingsPreset["dynamicSearch|Group"]["longEdge"],
+        // // ------ split sub_typeProject|dynamicSearch -------
+      ]);
     }
   }, [data]);
 
@@ -198,7 +213,6 @@ export const DynamicSearchGraph = ({
       edgeSettings.length == 0 ||
       nodeSettings.length == 0,
     // skip: selectedOption !== "Option 8",
-    context: { serviceName: "soilservice" },
     onCompleted: (data) => {
       if (data) {
         // console.log("IAM WORKINGINSDIFN  = ", nodesID, data.dynamicSearchGraph);
@@ -211,7 +225,9 @@ export const DynamicSearchGraph = ({
 
   const [previusDataGraphAPI, setPreviusDataGraphAPI] =
     useState<any>(undefined);
-  const [previusactiveNodes, setPreviusactiveNodes] = useState<Boolean[]>([]);
+  const [previusactiveNodes, setPreviusactiveNodes] = useState<
+    Boolean[] | undefined
+  >([]);
 
   // ----------- Update the Graph Visual ----------
   useEffect(() => {

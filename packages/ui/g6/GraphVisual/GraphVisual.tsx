@@ -118,8 +118,8 @@ export const GraphVisual = ({
           preventOverlap: true,
           strictRadial: true,
           linkDistance: (d: any) => {
-            console.log("d source= ", d.source);
-            console.log("d target = ", d.target);
+            // console.log("d source= ", d.source);
+            // console.log("d target = ", d.target);
             return linkDistance(d);
           },
           edgeStrength: (d: any) => {

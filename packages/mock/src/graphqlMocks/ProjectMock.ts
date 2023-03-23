@@ -1,7 +1,7 @@
 import { PhaseType, Project } from "@eden/package-graphql/generated";
 import { faker } from "@faker-js/faker";
 
-import { phase } from "../data";
+import { phase, projectData } from "../data";
 import { getRoleTypeMockArray, getTeamTypeMockArray } from "../typeMocks";
 import { getMemberLite } from "./MembersMock";
 
@@ -17,11 +17,9 @@ export const randomTeamType = () =>
     }
   );
 
-export const project: Project = {
+export const getProject = (): Project => ({
   _id: String(faker.random.numeric(5)),
-  title: faker.name.firstName(),
-  description: faker.lorem.sentences(5),
-  descriptionOneLine: faker.lorem.sentences(1),
+  ...faker.helpers.uniqueArray(projectData, 1)[0],
   emoji: faker.internet.emoji(),
   backColorEmoji: faker.color.rgb({ prefix: "#" }),
   budget: {
@@ -59,11 +57,7 @@ export const project: Project = {
     () => faker.random.numeric(12)
   ),
   __typename: "Project",
-};
-
-export const getProject = () => {
-  return project;
-};
+});
 
 export const getProjectArray = (total: number) =>
   Array.from({ length: total }, () => getProject());

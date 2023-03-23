@@ -1,6 +1,7 @@
 import {
   AppPublicLayout,
   Button,
+  RawDataGraph,
   // Card,
   // MemberGraph,
   // Modal,
@@ -145,6 +146,9 @@ import { useRouter } from "next/router";
 // import { useRouter } from "next/router";
 import { getSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+
+import { rawDataBigGraph } from "../../utils/data/rawDataBigGraph";
+import { rawDataPersonProject } from "../../utils/data/rawDataPersonProject";
 // import { useContext, useEffect, useState } from "react";
 
 export async function getServerSideProps(ctx: {
@@ -213,7 +217,7 @@ const HomeTutorialModalContainer = () => {
 
   return (
     <>
-      <section className="flex h-screen w-full flex-col items-center bg-white py-10">
+      <section className="flex h-screen w-full flex-col items-center bg-white py-10 ">
         {openModal === HomeTutorialSteps.STEP_1 && (
           <div>
             <h1 className="text-center text-2xl">Welcome to Eden!</h1>
@@ -245,19 +249,18 @@ const HomeTutorialModalContainer = () => {
         )}
         {openModal === HomeTutorialSteps.STEP_3 && (
           <div>
-            <h1 className="text-center text-2xl">
-              This is our ✨Knowledge Graph✨ today
+            <h1 className="p-3 text-center text-2xl">
+              This is our ✨Knowledge Graph✨
             </h1>
             <div className="flex justify-center">
               <ul className="">
-                <li>190 members</li>
-                <li>6 projects</li>
-                <li>3 grants</li>
+                <li>Hire one of our 160 talented people 🙆</li>
+                <li>Join one of our 17 opportunities 💼</li>
               </ul>
             </div>
-            <p className="text-center">
+            {/* <p className="py-2 text-center">
               <span className=" px-2">{`Connect to Eden Network to get a match`}</span>
-            </p>
+            </p> */}
             <Button
               className="absolute right-3 bottom-3 z-20"
               radius="rounded"
@@ -283,18 +286,32 @@ const HomeTutorialModalContainer = () => {
             </Button>
           </div>
         )} */}
-        {openModal !== HomeTutorialSteps.STEP_4 && (
-          <div className="flex justify-center">
-            <GraphVisual
-              hasMenu={false}
-              data2={data}
-              width={720}
-              height={400}
-              graph={graph}
-              setGraph={setGraph}
-            />
+        {openModal === HomeTutorialSteps.STEP_2 && (
+          <div className="flex h-full w-full justify-center py-10">
+            {/* <ProjectGraph projectId={"63ebca723f7197ebd2adbd21"} /> */}
+            <RawDataGraph rawData={rawDataPersonProject} disableZoom={true} />
           </div>
         )}
+        {openModal === HomeTutorialSteps.STEP_3 && (
+          <div className="flex h-full w-full justify-center py-10">
+            <RawDataGraph rawData={rawDataBigGraph} disableZoom={true} />
+          </div>
+        )}
+        {openModal !== HomeTutorialSteps.STEP_2 &&
+          openModal !== HomeTutorialSteps.STEP_3 &&
+          openModal !== HomeTutorialSteps.STEP_4 && (
+            <div className="flex justify-center py-10">
+              <GraphVisual
+                hasMenu={false}
+                data2={data}
+                width={720}
+                height={400}
+                graph={graph}
+                setGraph={setGraph}
+                disableZoom={true}
+              />
+            </div>
+          )}
       </section>
     </>
   );
@@ -432,7 +449,8 @@ const dataMember: any = {
       name: "BluePanda",
       type: "Member",
       avatar:
-        "https://cdn.discordapp.com/avatars/908392557258604544/5472104b88b4876e3ad06803da45bee6.png",
+        // "https://cdn.discordapp.com/avatars/908392557258604544/5472104b88b4876e3ad06803da45bee6.png",
+        "https://cdn.discordapp.com/avatars/961730944170090516/e5844ca759a74e995027a0e50c5cb1bf.png",
       fakeID: null,
       originalNode: null,
       extraDistanceRation: null,

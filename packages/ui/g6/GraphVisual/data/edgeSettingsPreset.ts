@@ -558,6 +558,30 @@ export const edgeSettingsPreset = {
       },
     },
   },
+  "dynamicSearch|Category": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "dynamicSearch",
+        nodeTypeTarget: "Category",
+        style: {
+          color: "#E0E0E0",
+          distance: 70,
+          strength: 0.5,
+        },
+      },
+    },
+    longEdge: {
+      mainEdge: {
+        nodeTypeSource: "dynamicSearch",
+        nodeTypeTarget: "Category",
+        style: {
+          color: "#E0E0E0",
+          distance: 118,
+          strength: 0.5,
+        },
+      },
+    },
+  },
   "dynamicSearch|Role": {
     edge: {
       mainEdge: {
@@ -574,6 +598,30 @@ export const edgeSettingsPreset = {
       mainEdge: {
         nodeTypeSource: "dynamicSearch",
         nodeTypeTarget: "Role",
+        style: {
+          color: "#E0E0E0",
+          distance: 118,
+          strength: 0.5,
+        },
+      },
+    },
+  },
+  "dynamicSearch|Group": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "dynamicSearch",
+        nodeTypeTarget: "Group",
+        style: {
+          color: "#E0E0E0",
+          distance: 70,
+          strength: 0.5,
+        },
+      },
+    },
+    longEdge: {
+      mainEdge: {
+        nodeTypeSource: "dynamicSearch",
+        nodeTypeTarget: "Group",
         style: {
           color: "#E0E0E0",
           distance: 118,
