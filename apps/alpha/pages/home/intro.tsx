@@ -1,7 +1,6 @@
 import {
   AppPublicLayout,
   Button,
-  ProjectGraph,
   RawDataGraph,
   // Card,
   // MemberGraph,
@@ -149,6 +148,7 @@ import { getSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 import { rawDataBigGraph } from "../../utils/data/rawDataBigGraph";
+import { rawDataPersonProject } from "../../utils/data/rawDataPersonProject";
 // import { useContext, useEffect, useState } from "react";
 
 export async function getServerSideProps(ctx: {
@@ -217,7 +217,7 @@ const HomeTutorialModalContainer = () => {
 
   return (
     <>
-      <section className="flex h-screen w-full flex-col items-center justify-center">
+      <section className="flex h-screen w-full flex-col items-center bg-white py-10 ">
         {openModal === HomeTutorialSteps.STEP_1 && (
           <div>
             <h1 className="text-center text-2xl">Welcome to Eden!</h1>
@@ -249,19 +249,18 @@ const HomeTutorialModalContainer = () => {
         )}
         {openModal === HomeTutorialSteps.STEP_3 && (
           <div>
-            <h1 className="text-center text-2xl">
-              This is our ✨Knowledge Graph✨ today
+            <h1 className="p-3 text-center text-2xl">
+              This is our ✨Knowledge Graph✨
             </h1>
             <div className="flex justify-center">
               <ul className="">
-                <li>190 members</li>
-                <li>6 projects</li>
-                <li>3 grants</li>
+                <li>Hire one of our 160 talented people 🙆</li>
+                <li>Join one of our 17 opportunities 💼</li>
               </ul>
             </div>
-            <p className="text-center">
-              <span className="bg-[#DEFEFF] px-2">{`Connect to Eden Network to get a match`}</span>
-            </p>
+            {/* <p className="py-2 text-center">
+              <span className=" px-2">{`Connect to Eden Network to get a match`}</span>
+            </p> */}
             <Button
               className="absolute right-3 bottom-3 z-20"
               radius="rounded"
@@ -288,19 +287,20 @@ const HomeTutorialModalContainer = () => {
           </div>
         )} */}
         {openModal === HomeTutorialSteps.STEP_2 && (
-          <div className="flex h-[400px] w-full justify-center">
-            <ProjectGraph projectId={"63ebca723f7197ebd2adbd21"} />
+          <div className="flex h-full w-full justify-center py-10">
+            {/* <ProjectGraph projectId={"63ebca723f7197ebd2adbd21"} /> */}
+            <RawDataGraph rawData={rawDataPersonProject} disableZoom={true} />
           </div>
         )}
         {openModal === HomeTutorialSteps.STEP_3 && (
-          <div className="flex h-[400px] w-full justify-center">
-            <RawDataGraph rawData={rawDataBigGraph} />
+          <div className="flex h-full w-full justify-center py-10">
+            <RawDataGraph rawData={rawDataBigGraph} disableZoom={true} />
           </div>
         )}
         {openModal !== HomeTutorialSteps.STEP_2 &&
           openModal !== HomeTutorialSteps.STEP_3 &&
           openModal !== HomeTutorialSteps.STEP_4 && (
-            <div className="flex justify-center">
+            <div className="flex justify-center py-10">
               <GraphVisual
                 hasMenu={false}
                 data2={data}
@@ -308,6 +308,7 @@ const HomeTutorialModalContainer = () => {
                 height={400}
                 graph={graph}
                 setGraph={setGraph}
+                disableZoom={true}
               />
             </div>
           )}
@@ -319,7 +320,7 @@ const HomeTutorialModalContainer = () => {
 const updateGraph = (data: any) => {
   const dataGraphAPI = data;
 
-  console.log("dataGraphAPI = ", dataGraphAPI);
+  // console.log("dataGraphAPI = ", dataGraphAPI);
   const nodeDataObj: any = {};
   const edgesDataGraph = dataGraphAPI.edges.map(
     (edge: { source: any; target: any; distanceRation: any; style: any }) => {
@@ -358,21 +359,31 @@ const updateGraph = (data: any) => {
       let extraStyle = {};
 
       if (node.avatar && node.avatar != undefined) {
-        extraStyle = {
-          // ----------- Shwow Avatar User ---------
-          type: "image",
-          img: node.avatar,
-          clipCfg: {
-            show: true,
-            type: "circle",
-            r: 25,
-          },
-          style: {
-            height: 50,
-            width: 50,
-          },
-          // ----------- Shwow Avatar User ---------
-        };
+        if (node.type == "dynamicSearch") {
+          console.log("change = ICON TIME");
+          extraStyle = {
+            icon: true,
+            img: node.avatar,
+            width: 40,
+            height: 40,
+          };
+        } else {
+          extraStyle = {
+            // ----------- Shwow Avatar User ---------
+            type: "image",
+            img: node.avatar,
+            clipCfg: {
+              show: true,
+              type: "circle",
+              r: 25,
+            },
+            style: {
+              height: 50,
+              width: 50,
+            },
+            // ----------- Shwow Avatar User ---------
+          };
+        }
       }
       if (!node.avatar && node.avatar != undefined) {
         extraStyle = {
@@ -438,7 +449,8 @@ const dataMember: any = {
       name: "BluePanda",
       type: "Member",
       avatar:
-        "https://cdn.discordapp.com/avatars/908392557258604544/5472104b88b4876e3ad06803da45bee6.png",
+        // "https://cdn.discordapp.com/avatars/908392557258604544/5472104b88b4876e3ad06803da45bee6.png",
+        "https://cdn.discordapp.com/avatars/961730944170090516/e5844ca759a74e995027a0e50c5cb1bf.png",
       fakeID: null,
       originalNode: null,
       extraDistanceRation: null,

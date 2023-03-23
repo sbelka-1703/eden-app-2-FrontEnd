@@ -10,9 +10,10 @@ const GraphVisual = dynamic(
 
 export interface IRawDataGraphProps {
   rawData: any;
+  disableZoom: boolean;
 }
 
-export const RawDataGraph = ({ rawData }: IRawDataGraphProps) => {
+export const RawDataGraph = ({ rawData, disableZoom }: IRawDataGraphProps) => {
   const refContainer = useRef<HTMLDivElement>();
 
   const [width, setWidth] = useState<number>(0);
@@ -48,6 +49,7 @@ export const RawDataGraph = ({ rawData }: IRawDataGraphProps) => {
               hasMenu={false}
               graph={graph}
               setGraph={setGraph}
+              disableZoom={disableZoom}
             />
           ) : (
             <p>Dont have Graph Data Yet</p>

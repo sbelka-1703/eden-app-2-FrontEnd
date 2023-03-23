@@ -1,3 +1,4 @@
+import { gql, useQuery } from "@apollo/client";
 import { Maybe, Members } from "@eden/package-graphql/generated";
 import {
   Badge,
@@ -19,18 +20,110 @@ export interface IMemberInfoWithDynamicGraphProps {
   loading?: boolean;
   hasGraph?: boolean;
   nodesID?: any;
+  conversation?: any;
 }
+
+const EDEN_GPT_SUMMARY_PROFILE = gql`
+  query ($fields: edenGPTsummaryProfileInput!) {
+    edenGPTsummaryProfile(fields: $fields) {
+      reply
+    }
+  }
+`;
+
+// const HighlightText = ({ text }) => {
+//   // const highlightStyle = "bg-yellow-200 font-semibold";
+//   // const highlightStyle = "bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-white px-1 py-0.5 rounded-md shadow-md";
+//   const highlightStyle =
+//     "bg-blue-200 text-blue-800 px-1 py-0.5 rounded-md shadow-sm";
+
+//   const parts = text.split("*");
+//   const highlightedText = parts.map((part: string, index: number) => {
+//     if (index % 2 === 1) {
+//       return (
+//         <span key={index} className={highlightStyle}>
+//           {part}
+//         </span>
+//       );
+//     } else {
+//       return part;
+//     }
+//   });
+
+//   return <p>{highlightedText}</p>;
+// };
+interface HighlightTextProps {
+  text: string | null;
+}
+
+const HighlightText = ({ text }: HighlightTextProps) => {
+  // const highlightStyle =
+  //   "bg-blue-200 text-blue-800 px-1 py-0.5 rounded-md shadow-sm";
+  const bulletPoint = (
+    <span className="mx-2 text-xl font-bold text-blue-500">•</span>
+  );
+
+  if (text == null) text = "";
+
+  // const parts = text.replace(/^\n+/g, "").split(/\n-+/);
+  const parts = text.replace(/^\n+/g, "").split(/\n\s*[•-]\s*/);
+
+  for (let i = 0; i < parts.length; i++) {
+    parts[i] = parts[i].replace(/-/g, "").replace(/•/g, "");
+  }
+
+  // parts = parts.replace(/-/g, "");
+  const highlightedText = parts.map((part: string, index: number) => {
+    return (
+      <span key={index}>
+        {bulletPoint}
+        <span>{part.trim()}</span>
+        <br />
+      </span>
+    );
+  });
+
+  return <p>{highlightedText}</p>;
+};
 
 export const MemberInfoWithDynamicGraph = ({
   member,
   percentage,
   loading = false,
   nodesID,
+  conversation,
 }: IMemberInfoWithDynamicGraphProps) => {
   const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
 
-  console.log("nodesID -- -2--2-2 = ", nodesID);
+  // console.log("nodesID -- -2--2-2 = ", nodesID);
 
+  const [edenGPTsummary, setEdenGPTsummary] = useState<string | null>(null);
+  const [loadingGPTsummary, setLoadingGPTsummary] = useState<boolean>(true);
+
+  const {} = useQuery(EDEN_GPT_SUMMARY_PROFILE, {
+    variables: {
+      fields: {
+        conversation: conversation,
+        memberID: member?._id,
+      },
+    },
+    // skip: nodesID == undefined,
+    skip: !member?._id || !conversation,
+    // skip: selectedOption !== "Option 8",
+    onCompleted: (data) => {
+      if (data) {
+        setEdenGPTsummary(data?.edenGPTsummaryProfile?.reply);
+        setLoadingGPTsummary(false);
+        console.log(
+          "data.edenGPTsummaryProfile = ",
+          data.edenGPTsummaryProfile
+        );
+        // setDataGraphAPI(data.dynamicSearchToMemberGraphGPT);
+      }
+    },
+  });
+
+  console.log("conversation = 232", conversation);
   const subExpertise = member?.nodes?.filter(
     (node) => node?.nodeData?.node === "sub_expertise"
   );
@@ -48,17 +141,53 @@ export const MemberInfoWithDynamicGraph = ({
 
   if (!member) return null;
 
-  console.log("member = ", member);
+  // console.log("member = ", member);
 
   return (
     <div>
       <UserWithDescription member={member} percentage={percentage} />
 
-      <div className="h-[280px] w-full">
+      <div className="m-5 mb-4 sm:grid-cols-5">
+        <div className="my-4 flex flex-col items-start justify-center sm:col-span-3 sm:my-0">
+          {!!member?.bio && (
+            <TextLabel1>
+              🪄 Why {member.discordName} is Perfect for you? 🪄{" "}
+            </TextLabel1>
+          )}
+          {!loadingGPTsummary ? (
+            <>
+              <p className="text-soilBody font-Inter font-normal">
+                {/* {edenGPTsummary} */}
+                <HighlightText text={edenGPTsummary || ""} />
+              </p>
+            </>
+          ) : (
+            <>
+              <div className="flex w-full animate-pulse space-x-4">
+                <div className="flex-1 space-y-2 py-1">
+                  <div className="h-3 rounded bg-slate-200"></div>
+                  <div className="h-3 rounded bg-slate-200"></div>
+                  <div className="h-3 rounded bg-slate-200"></div>
+                  <div className="h-3 rounded bg-slate-200"></div>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+        {/* <div></div>
+        {member?.links && member?.links.length > 0 && (
+          <SocialMediaComp links={member?.links} />
+        )} */}
+      </div>
+
+      <div className="mt-3 h-[360px] w-full">
         <DynamicSearchMemberGraph
           memberID={member._id!}
           nodesID={nodesID}
           disableZoom={true}
+          graphType={"KG_AI2"}
+          // graphType={"KG_AI"}
+          // zoomGraph={1.1}
         />
       </div>
 

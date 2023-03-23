@@ -17,7 +17,11 @@ const GraphVisualPage: NextPageWithLayout = () => {
       content = (
         <div className={`flex h-[500px] w-full gap-4`}>
           <div className="w-full">
-            <MemberGraph memberId={"961730944170090516"} />
+            <MemberGraph
+              memberId={"250828754665716323"}
+              zoomGraph={1.2}
+              graphType={"KG_AI"}
+            />
 
             {/* <ProjectGraph projectId={"63ebca723f7197ebd2adbd21"} /> */}
           </div>
@@ -28,7 +32,7 @@ const GraphVisualPage: NextPageWithLayout = () => {
       content = (
         <div className={`flex h-[500px] w-full gap-4`}>
           <div className="w-full">
-            <ProjectGraph projectId={"63ebca723f7197ebd2adbd21"} />
+            {/* <ProjectGraph projectId={"63ebca723f7197ebd2adbd21"} /> */}
             {/* <MemberGraph2 memberId={"908392557258604544"} /> */}
           </div>
         </div>
@@ -39,7 +43,11 @@ const GraphVisualPage: NextPageWithLayout = () => {
         <div className={`flex h-[500px] w-full gap-4`}>
           <div className="w-full">
             {/* <ProjectGraph projectId={"63ebca723f7197ebd2adbd21"} /> */}
-            <MemberGraph memberId={"961730944170090516"} />
+            <MemberGraph
+              memberId={"944354302695047593"}
+              zoomGraph={0.8}
+              graphType={"KG_AI"}
+            />
 
             {/* <MemberGraph2 memberId={"961730944170090516"} /> */}
           </div>

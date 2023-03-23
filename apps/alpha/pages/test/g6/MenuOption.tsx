@@ -364,18 +364,18 @@ const MenuOption = (props: any) => {
               onClick={() => {
                 const nodesIDnew = props.settingsGraphs.nodesID;
 
-                console.log(
-                  "nodesIDnew = ",
-                  nodesIDnew,
-                  props.settingsGraphs.nodePresetPos,
-                  presetNodesID[props.settingsGraphs.nodePresetPos]
-                );
+                // console.log(
+                //   "nodesIDnew = ",
+                //   nodesIDnew,
+                //   props.settingsGraphs.nodePresetPos,
+                //   presetNodesID[props.settingsGraphs.nodePresetPos]
+                // );
                 if (presetNodesID.length > props.settingsGraphs.nodePresetPos) {
                   nodesIDnew.push(
                     presetNodesID[props.settingsGraphs.nodePresetPos]
                   );
 
-                  console.log("nodesIDnew = ", nodesIDnew);
+                  // console.log("nodesIDnew = ", nodesIDnew);
                 }
                 props.updateSettings({
                   ...props.settingsGraphs,
@@ -417,18 +417,18 @@ const MenuOption = (props: any) => {
               onClick={() => {
                 const nodesIDnew = props.settingsGraphs.nodesID;
 
-                console.log(
-                  "nodesIDnew = ",
-                  nodesIDnew,
-                  props.settingsGraphs.nodePresetPos,
-                  presetNodesID[props.settingsGraphs.nodePresetPos]
-                );
+                // console.log(
+                //   "nodesIDnew = ",
+                //   nodesIDnew,
+                //   props.settingsGraphs.nodePresetPos,
+                //   presetNodesID[props.settingsGraphs.nodePresetPos]
+                // );
                 if (presetNodesID.length > props.settingsGraphs.nodePresetPos) {
                   nodesIDnew.push(
                     presetNodesID[props.settingsGraphs.nodePresetPos]
                   );
 
-                  console.log("nodesIDnew = ", nodesIDnew);
+                  // console.log("nodesIDnew = ", nodesIDnew);
                 }
                 props.updateSettings({
                   ...props.settingsGraphs,
@@ -448,18 +448,18 @@ const MenuOption = (props: any) => {
               onClick={() => {
                 const nodesIDnew = props.settingsGraphs.nodesID;
 
-                console.log(
-                  "nodesIDnew = ",
-                  nodesIDnew,
-                  props.settingsGraphs.nodePresetPos,
-                  presetNodesID[props.settingsGraphs.nodePresetPos]
-                );
+                // console.log(
+                //   "nodesIDnew = ",
+                //   nodesIDnew,
+                //   props.settingsGraphs.nodePresetPos,
+                //   presetNodesID[props.settingsGraphs.nodePresetPos]
+                // );
                 if (presetNodesID.length > props.settingsGraphs.nodePresetPos) {
                   nodesIDnew.push(
                     presetNodesID[props.settingsGraphs.nodePresetPos]
                   );
 
-                  console.log("nodesIDnew = ", nodesIDnew);
+                  // console.log("nodesIDnew = ", nodesIDnew);
                 }
                 props.updateSettings({
                   ...props.settingsGraphs,

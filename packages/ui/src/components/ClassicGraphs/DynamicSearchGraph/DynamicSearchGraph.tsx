@@ -49,19 +49,47 @@ const DYNAMIC_SEARCH_GRAPH = gql`
 export interface IDynamicSearchGraphProps {
   nodesID: string[];
   activeNodes?: Boolean[];
+  isNewNodes?: Boolean[];
   setActivateNodeEvent?: any;
   height?: string;
   graphType?: string;
+  zoomGraph?: number;
+}
+
+function arraysAreEqual(arr1: any, arr2: any) {
+  if (arr1.length != arr2.length) {
+    return false;
+  }
+  for (let i = 0; i < arr1.length; i++) {
+    if (JSON.stringify(arr1[i]) != JSON.stringify(arr2[i])) {
+      return false;
+    }
+  }
+  return true;
 }
 
 export const DynamicSearchGraph = ({
   nodesID,
   activeNodes,
+  isNewNodes,
   setActivateNodeEvent,
   height,
   graphType,
+  zoomGraph,
 }: IDynamicSearchGraphProps) => {
   const refContainer = useRef<HTMLDivElement>();
+
+  // useEffect(() => {
+  //   console.log("CJAAAAANGE - nodesID = ", nodesID);
+  // }, [nodesID]);
+
+  // useEffect(() => {
+  //   console.log("CJAAAAANGE - activeNodes = ", activeNodes);
+  // }, [activeNodes]);
+
+  // useEffect(() => {
+  //   console.log("CJAAAAANGE - isNewNodes = ", isNewNodes);
+  // }, [isNewNodes]);
 
   // console.log("activeNodes = ", activeNodes);
 
@@ -132,8 +160,41 @@ export const DynamicSearchGraph = ({
         edgeSettingsPreset["expertise|typeProject"]["hiddenEdge"],
         // //  ------ Create Far Distance between member and project ------
       ]);
+    } else if (graphType == "KG_AI") {
+      setNodeSettings([
+        nodeSettingsPreset["dynamicSearch"]["main"],
+        nodeSettingsPreset["Skill"]["bigYellow"],
+        nodeSettingsPreset["Expertise"]["bigYellow"],
+        nodeSettingsPreset["Role"]["bigYellow"],
+      ]);
+
+      setEdgeSettings([
+        // // ------ split sub_typeProject|dynamicSearch -------
+        edgeSettingsPreset["dynamicSearch|Skill"]["longEdge"],
+        edgeSettingsPreset["dynamicSearch|Expertise"]["longEdge"],
+        edgeSettingsPreset["dynamicSearch|Role"]["longEdge"],
+        // // ------ split sub_typeProject|dynamicSearch -------
+      ]);
+    } else if (graphType == "KG_AI_2") {
+      setNodeSettings([
+        nodeSettingsPreset["dynamicSearch"]["main"],
+        nodeSettingsPreset["Skill"]["bigYellow"],
+        nodeSettingsPreset["Category"]["bigYellow"],
+        nodeSettingsPreset["Group"]["bigYellow"],
+      ]);
+
+      setEdgeSettings([
+        // // ------ split sub_typeProject|dynamicSearch -------
+        edgeSettingsPreset["dynamicSearch|Skill"]["longEdge"],
+        edgeSettingsPreset["dynamicSearch|Category"]["longEdge"],
+        edgeSettingsPreset["dynamicSearch|Group"]["longEdge"],
+        // // ------ split sub_typeProject|dynamicSearch -------
+      ]);
     }
-  }, []);
+  }, [data]);
+
+  // console.log("nodeSettings = ", nodeSettings);
+  // console.log("edgeSettings = ", edgeSettings);
 
   const {} = useQuery(DYNAMIC_SEARCH_GRAPH, {
     variables: {
@@ -146,76 +207,156 @@ export const DynamicSearchGraph = ({
         edgeSettings: edgeSettings,
       },
     },
-    skip: nodesID == undefined || nodesID.length == 0,
+    skip:
+      nodesID == undefined ||
+      nodesID.length == 0 ||
+      edgeSettings.length == 0 ||
+      nodeSettings.length == 0,
     // skip: selectedOption !== "Option 8",
     onCompleted: (data) => {
       if (data) {
-        console.log("IAM WORKINGINSDIFN  = ", nodesID, data.dynamicSearchGraph);
+        // console.log("IAM WORKINGINSDIFN  = ", nodesID, data.dynamicSearchGraph);
         setDataGraphAPI(data.dynamicSearchGraph);
       }
     },
   });
 
-  console.log("activeNodes,nodesID = ", activeNodes, nodesID);
+  // console.log("activeNodes,nodesID = ", activeNodes, nodesID);
+
+  const [previusDataGraphAPI, setPreviusDataGraphAPI] =
+    useState<any>(undefined);
+  const [previusactiveNodes, setPreviusactiveNodes] = useState<
+    Boolean[] | undefined
+  >([]);
 
   // ----------- Update the Graph Visual ----------
   useEffect(() => {
     if (dataGraphAPI) {
-      const nodeIDsObj: any = {};
+      let edgeArrayEqual = false;
+      let nodeArrayEqual = false;
+      let activeNodeEqual = false;
 
-      if (activeNodes) {
-        nodesID.forEach((node, index) => {
-          nodeIDsObj[node] = activeNodes[index];
-        });
+      if (previusDataGraphAPI != undefined) {
+        // console.log("CHANGE --- DATA = " ,  nodeArrayEqualData.nodes)
+        nodeArrayEqual = arraysAreEqual(
+          dataGraphAPI.nodesVisual,
+          previusDataGraphAPI.nodesVisual
+        );
+        edgeArrayEqual = arraysAreEqual(
+          dataGraphAPI.edges,
+          previusDataGraphAPI.edges
+        );
+
+        if (nodeArrayEqual == true && edgeArrayEqual == true) {
+          activeNodeEqual = arraysAreEqual(activeNodes, previusactiveNodes);
+        }
       }
 
-      console.log("nodeIDsObj = ", nodeIDsObj);
-      const resNodeData = backendGraphToVisualGraph(
-        dataGraphAPI,
-        true,
-        true,
-        nodeIDsObj
-      );
+      // SOS 🆘 the "activeNodeEqual" Create the double render, TODO: solve it
+      // if (nodeArrayEqual == false || edgeArrayEqual == false) {
+      if (
+        nodeArrayEqual == false ||
+        edgeArrayEqual == false ||
+        activeNodeEqual == false
+      ) {
+        const nodeIDsObj: any = {};
 
-      console.log("dataGraphAPI = ", dataGraphAPI);
+        if (activeNodes) {
+          nodesID.forEach((node, index) => {
+            if (isNewNodes) {
+              nodeIDsObj[node] = {
+                active: activeNodes[index],
+                isNew: isNewNodes[index],
+              };
+            } else {
+              nodeIDsObj[node] = {
+                active: activeNodes[index],
+              };
+            }
+          });
+        }
 
-      // console.log("resNodeData = ", resNodeData);
+        // console.log("nodeIDsObj = ", nodeIDsObj);
+        const resNodeData = backendGraphToVisualGraph(
+          dataGraphAPI,
+          true,
+          true,
+          nodeIDsObj
+        );
 
-      if (resNodeData.nodes.length === 0) {
-        // in case the node is not found, put a dummy node
-        resNodeData.nodes.push({
-          id: "node1",
-          size: 50,
-          x: 5,
-          y: 5,
-          label: "milo",
+        // console.log("dataGraphAPI = ", dataGraphAPI);
 
-          // ----------- Shwow Avatar User ---------
-          type: "image",
-          img: "https://cdn0.iconfinder.com/data/icons/very-basic-2-android-l-lollipop-icon-pack/24/search-512.png",
-          clipCfg: {
-            show: true,
-            type: "circle",
-            r: 25,
-          },
-          style: {
-            height: 50,
-            width: 50,
-          },
-          // ----------- Shwow Avatar User ---------
+        // console.log("resNodeData = ", resNodeData);
+
+        if (resNodeData.nodes.length === 0) {
+          // in case the node is not found, put a dummy node
+          console.log("change = TT2");
+
+          resNodeData.nodes.push({
+            id: "node1",
+            size: 50,
+            x: 5,
+            y: 5,
+            label: "milo",
+
+            // ----------- Shwow Avatar User ---------
+            type: "image",
+            img: "https://cdn0.iconfinder.com/data/icons/very-basic-2-android-l-lollipop-icon-pack/24/search-512.png",
+            clipCfg: {
+              show: true,
+              type: "circle",
+              r: 25,
+            },
+            style: {
+              height: 50,
+              width: 50,
+            },
+            // ----------- Shwow Avatar User ---------
+          });
+        }
+
+        // console.log("CHANGE --- DATA = " ,  resNodeData.nodes)
+        // const resNode = arraysAreEqual(data.nodes, resNodeData.nodes);
+        // const resEdge = arraysAreEqual(data.edges, resNodeData.edges);
+
+        // console.log("resNode,resEdge = " , resNode,resEdge)
+
+        setPreviusDataGraphAPI(dataGraphAPI);
+        setPreviusactiveNodes(activeNodes);
+
+        setData({
+          nodes: resNodeData.nodes,
+          edges: resNodeData.edges,
         });
       }
-
-      setData({
-        nodes: resNodeData.nodes,
-        edges: resNodeData.edges,
-      });
     }
   }, [dataGraphAPI, activeNodes]);
   // ----------- Update the Graph Visual ----------
 
+  // ------------------ centerGraph --------------
+  const [centerGraph, setCenterGraph] = useState<any>(false);
+
+  useEffect(() => {
+    setTimeout(function () {
+      setCenterGraph(true); // Start Centering the Graph
+    }, 1550);
+
+    setTimeout(function () {
+      setCenterGraph(false); // Stop Centering the Graph
+    }, 2800);
+  }, []);
+  // ------------------ centerGraph --------------
+
   // ----------- Update the Hight/Width of the Graph Visual ----------
   useEffect(() => {
+    // setTimeout(function () {
+    //   setCenterGraph(true);
+    // }, 850);
+
+    // setTimeout(function () {
+    //   setCenterGraph(false);
+    // }, 1200);
+
     const getwidth = () => {
       setWidth(refContainer.current?.offsetWidth!);
     };
@@ -229,6 +370,7 @@ export const DynamicSearchGraph = ({
     return () => window.removeEventListener("resize", getwidth);
   }, []);
   // ----------- Update the Hight/Width of the Graph Visual ----------
+
   const [graph, setGraph] = useState<any>();
 
   return (
@@ -250,6 +392,8 @@ export const DynamicSearchGraph = ({
               graph={graph}
               setGraph={setGraph}
               setActivateNodeEvent={setActivateNodeEvent}
+              centerGraph={centerGraph}
+              zoomGraph={zoomGraph}
             />
           ) : (
             <p>Dont have Graph Data Yet</p>
