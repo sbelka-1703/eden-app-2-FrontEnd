@@ -19,7 +19,11 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-export const ChatBox = ({ chatN, handleSentMessage }: IChatBoxProps) => {
+export const ChatBox = ({
+  chatN,
+  messageLoading,
+  handleSentMessage,
+}: IChatBoxProps) => {
   const { currentUser } = useContext(UserContext);
   const { register, handleSubmit, reset } = useForm<ChatBoxInputs>({});
   const onSubmit: SubmitHandler<ChatBoxInputs> = (data) => {
@@ -43,10 +47,10 @@ export const ChatBox = ({ chatN, handleSentMessage }: IChatBoxProps) => {
   // }, [chatN]);
 
   return (
-    <div className="flex h-1/2 flex-col justify-between  rounded-lg border shadow-md">
+    <div className="flex h-full flex-col justify-between rounded-lg border shadow-md">
       <div
         ref={componentRef}
-        className="scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch scrollbar-hide flex flex-col space-y-4 overflow-scroll overflow-y-auto p-3"
+        className="scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch scrollbar-hide flex max-h-96 flex-col space-y-4 overflow-scroll overflow-y-auto p-3"
       >
         <div className="my-4">
           {chatN &&
@@ -90,6 +94,18 @@ export const ChatBox = ({ chatN, handleSentMessage }: IChatBoxProps) => {
                 </div>
               </div>
             ))}
+          {messageLoading && (
+            <div className={`mt-4 flex pl-2`}>
+              <div className={``}>
+                <Avatar isProject size={`xs`} />
+              </div>
+              <span
+                className={`text-slate-700" ml-2 -mt-2 inline-block rounded-lg rounded-bl-none border bg-slate-200 px-4 py-2 font-medium shadow`}
+              >
+                ...
+              </span>
+            </div>
+          )}
         </div>
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
