@@ -109,6 +109,8 @@ const HomeHeroSection = ({
     profilePage,
   ]);
 
+  console.log("hello");
+
   // <MemberGraph memberId={"250828754665716323"} graphType={"KG_AI"} />
 
   return (
