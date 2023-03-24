@@ -1,13 +1,15 @@
-import { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useState } from "react";
 
 const CvGPT = () => {
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState<File | null>(null);
 
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setFile(e.target.files[0]);
+    }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!file) {
       return;
@@ -25,17 +27,16 @@ const CvGPT = () => {
       });
 
       if (response.ok) {
-        const { text } = await response.json;
+        const { text } = await response.json();
 
         console.log(text);
       } else {
-        const { error } = await response.json;
+        const { error } = await response.json();
 
-        console.log(error);
+        console.log("error aaa", error);
       }
-
-      reader.readAsDataURL(file);
     };
+    reader.readAsDataURL(file);
   };
 
   return (
@@ -52,6 +53,7 @@ const CvGPT = () => {
           className="ml-60"
           onChange={handleFileChange}
           type="file"
+          accept=".pdf"
         ></input>
         <button
           className="border-2 border-blue-400 hover:bg-blue-700 hover:text-white rounded-lg hover:border-blue-700 text-blue-400 font-bold px-2"
