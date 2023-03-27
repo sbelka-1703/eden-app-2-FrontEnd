@@ -37,10 +37,18 @@ import {
   EDEN_GPT_REPLY,
   EDEN_GPT_REPLY_CHAT_API,
   EDEN_GPT_REPLY_MEMORY,
-  MESSAGE_MAP_KG,
+  MESSAGE_MAP_KG_V2,
   STORE_LONG_TERM_MEMORY,
 } from "../../../utils/data/GQLfuncitons";
 import type { NextPageWithLayout } from "../../_app";
+
+interface NodeObj {
+  [key: string]: {
+    active: boolean;
+    confidence: number;
+    isNew: boolean;
+  };
+}
 
 const chatEden: NextPageWithLayout = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -55,26 +63,28 @@ const chatEden: NextPageWithLayout = () => {
   // console.log("currentUser = ", currentUser);
 
   // const [nodesID, setNodesID] = useState<string[]>([
-  //   "63eaf095df71c82f61c17a3c",
-  //   "63eaf031df71c82f61c178fc",
+  //   "63eaf157df71c82f61c17e06",
   // ]);
+  // const [nodesConfidence, setNodesConfidence] = useState<string[]>(["9"]);
+  // const [activeNodes, setActiveNodes] = useState<Boolean[]>([false]);
 
-  // console.log("nodesID = ", nodesID);
-  // const [nodesID, setNodesIDK] = useState<string[]>([
-  //   "63eaf095df71c82f61c17a3c",
-  //   "63eaf031df71c82f61c178fc",
-  // ]);
-  // const [activeNodes, setActiveNodes] = useState<Boolean[]>([false, false]);
-
-  const [nodesID, setNodesID] = useState<string[]>([]);
-
-  // const [nodesID, setNodesIDK] = useState<string[]>([]);
-  const [nodesConfidence, setNodesConfidence] = useState<string[]>([]);
-  const [activeNodes, setActiveNodes] = useState<Boolean[]>([]);
-
-  // console.log("nodesID = ", nodesID);
-
-  // const [nodeNames]
+  const [nodeObj, setNodeObj] = useState<NodeObj>({
+    // "640a739dc5d61b4bae0ee091": { // SOS 🆘 -> problem with this node combination
+    //   confidence: "9",
+    //   active: false,
+    //   isNew: true,
+    // },
+    // "6416b6e1a57032640bd813aa": {
+    //   confidence: "9",
+    //   active: true,
+    //   isNew: true,
+    // },
+    // "640a74bb2484854db2012bf8": {
+    //   confidence: "6",
+    //   active: false,
+    //   isNew: false,
+    // },
+  });
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [chatN, setChatN] = useState([
@@ -134,7 +144,7 @@ const chatEden: NextPageWithLayout = () => {
     skip: messageUser == "" || selectedOption != "option3",
   });
 
-  const { data: dataMessageMapKG } = useQuery(MESSAGE_MAP_KG, {
+  const { data: dataMessageMapKGV2 } = useQuery(MESSAGE_MAP_KG_V2, {
     variables: {
       fields: {
         message: messageUser,
@@ -148,19 +158,25 @@ const chatEden: NextPageWithLayout = () => {
   const {} = useQuery(MATCH_NODES_MEMBERS_AI4, {
     variables: {
       fields: {
-        nodesID: nodesID.filter((node, index) => activeNodes[index]),
+        // nodesID: Object.keys(nodeObj),
+        nodesID: Object.keys(nodeObj).filter((key) => nodeObj[key].active),
+        // nodesID: nodesID.filter((node, index) => activeNodes[index]),
         weightModules: [
           {
-            type: "node_subExpertise",
-            weight: 80,
+            type: "node_Skill",
+            weight: 70,
           },
           {
-            type: "node_subTypeProject",
+            type: "node_Category",
             weight: 20,
           },
           {
+            type: "node_Group",
+            weight: 5,
+          },
+          {
             type: "node_total",
-            weight: 50,
+            weight: 5,
           },
           {
             type: "everything_else",
@@ -170,6 +186,8 @@ const chatEden: NextPageWithLayout = () => {
       },
     },
     // skip: !nodesID
+    skip: Object.keys(nodeObj).length == 0,
+
     onCompleted: (data) => {
       setDataMembersA(data.matchNodesToMembers_AI4);
     },
@@ -251,16 +269,23 @@ const chatEden: NextPageWithLayout = () => {
 
   // ---------------- update nodes ------------
   useEffect(() => {
-    if (dataMessageMapKG) {
-      const keywordsAI: any = [];
-      const newNodeID: any = [];
-      const newNodeConfidence: any = [];
+    if (dataMessageMapKGV2) {
+      // const newNodeID: any = [];
+      // const newNodeConfidence: any = [];
 
-      dataMessageMapKG?.messageMapKG?.keywords?.forEach((keyword: any) => {
+      const newNodeObj: any = [];
+
+      dataMessageMapKGV2?.messageMapKG_V2?.keywords?.forEach((keyword: any) => {
         if (keyword.nodeID) {
-          keywordsAI.push(keyword.keyword);
-          newNodeID.push(keyword.nodeID);
-          newNodeConfidence.push(keyword.confidence);
+          // newNodeID.push(keyword.nodeID);
+          // newNodeConfidence.push(keyword.confidence);
+
+          newNodeObj.push({
+            nodeID: keyword.nodeID,
+            active: true,
+            confidence: keyword.confidence,
+            isNew: true,
+          });
         }
       });
 
@@ -268,48 +293,100 @@ const chatEden: NextPageWithLayout = () => {
       // const newActiveNodes = [...activeNodes];
       // const newNodesConfidence = [...nodesConfidence]
 
-      const newNodesIDK = [];
-      const newActiveNodes = [];
-      const newNodesConfidence = [];
+      // const newNodesObjK: { nodeID: any; active: boolean,confidence: number }[] = []
+      const newNodesObjK: any = {};
+
+      // const newNodesIDK = [];
+      // const newActiveNodes = [];
+      // const newNodesConfidence = [];
 
       //  --------- only take the ones that are true or have high confidence ------------
-      for (let i = 0; i < nodesID.length; i++) {
-        const nodeN = nodesID[i];
-        const nodeActive = activeNodes[i];
-        const nodeConfidence = nodesConfidence[i];
+
+      // for (let i = 0; i < nodeObj.length; i++) {
+      for (const [key, value] of Object.entries(nodeObj)) {
+        const nodeActive = value.active;
+        const nodeConfidence = value.confidence;
 
         if (nodeActive) {
-          newNodesIDK.push(nodeN);
-          newActiveNodes.push(nodeActive);
-          newNodesConfidence.push(nodeConfidence);
+          // newNodesIDK.push(nodeN);
+          // newActiveNodes.push(nodeActive);
+          // newNodesConfidence.push(nodeConfidence);
+          // newNodesObjK.push({nodeID: nodeN, active: nodeActive, confidence: nodeConfidence})
+          newNodesObjK[key] = {
+            active: nodeActive,
+            confidence: nodeConfidence,
+          };
         } else {
-          if (parseInt(nodeConfidence) > 6) {
-            newNodesIDK.push(nodeN);
-            newActiveNodes.push(nodeActive);
-            newNodesConfidence.push(nodeConfidence);
+          if (Object.keys(nodeObj).length > 7) {
+            if (nodeConfidence > 5) {
+              // newNodesIDK.push(nodeN);
+              // newActiveNodes.push(nodeActive);
+              // newNodesConfidence.push(nodeConfidence);
+              // newNodesObjK.push({nodeID: nodeN, active: nodeActive, confidence: nodeConfidence})
+              newNodesObjK[key] = {
+                active: nodeActive,
+                confidence: nodeConfidence,
+              };
+            }
+          } else {
+            // newNodesIDK.push(nodeN);
+            // newActiveNodes.push(nodeActive);
+            // newNodesConfidence.push(nodeConfidence);
+            // newNodesObjK.push({nodeID: nodeN, active: nodeActive, confidence: nodeConfidence})
+            newNodesObjK[key] = {
+              active: nodeActive,
+              confidence: nodeConfidence,
+            };
           }
         }
       }
       //  --------- only take the ones that are true or have high confidence ------------
 
-      for (let i = 0; i < newNodeID.length; i++) {
-        if (!newNodesIDK.includes(newNodeID[i])) {
-          newNodesIDK.push(newNodeID[i]);
-          newNodesConfidence.push(newNodeConfidence[i]);
-          if (newNodeConfidence[i] > 6) {
-            newActiveNodes.push(true);
-          } else {
-            newActiveNodes.push(false);
+      for (let i = 0; i < newNodeObj.length; i++) {
+        // const isIdExists = newNodesObjK.some((obj:any ) => obj.nodeID === newNodeObj[i].nodeID);
+
+        if (!Object.keys(newNodesObjK).includes(newNodeObj[i].nodeID)) {
+          // if (!isIdExists) {
+          // newNodesObjK.push(newNodeObj[i].nodeID);
+          // newNodesConfidence.push(newNodeConfidence[i]);
+          let newActive = false;
+
+          if (newNodeObj[i].confidence > 6) {
+            newActive = true;
           }
+          // else {
+          //   newActiveNodes.push(false);
+          // }
+          // newNodesObjK.push({nodeID: newNodeObj[i].nodeID, active: newActive, confidence: newNodeObj[i].confidence})
+          newNodesObjK[newNodeObj[i].nodeID] = {
+            active: newActive,
+            confidence: newNodeObj[i].confidence,
+            isNew: true,
+          };
         }
       }
 
       // setNodesIDK(newNodesIDK);
-      setNodesID(newNodesIDK);
-      setActiveNodes(newActiveNodes);
-      setNodesConfidence(newNodesConfidence);
+      // setNodesID(newNodesIDK);
+      // setActiveNodes(newActiveNodes);
+      // setNodesConfidence(newNodesConfidence);
+
+      // ------- Array of objects to disctionary ------------
+      // const newNodesObjK2: any = {};
+
+      // for (let i = 0; i < newNodesObjK.length; i++) {
+      //   newNodesObjK2[newNodesObjK[i].nodeID] = {
+      //     active: newNodesObjK[i].active,
+      //     confidence: newNodesObjK[i].confidence,
+      //   };
+      // }
+
+      // console.log("CHANGE --- newNodesObjK = ", newNodesObjK);
+
+      setNodeObj(newNodesObjK);
+      // ------- Array of objects to disctionary ------------
     }
-  }, [dataMessageMapKG]);
+  }, [dataMessageMapKGV2]);
   // ---------------- update nodes ------------
 
   const handleSentMessage = (messageN: any, userN: any) => {
@@ -350,17 +427,29 @@ const chatEden: NextPageWithLayout = () => {
 
   const activateNode = (nodeID: string) => {
     // activate the node that was clicked
-    const matchingIndex = nodesID?.indexOf(nodeID);
+    // const matchingIndex = nodesID?.indexOf(nodeID);
 
-    if (matchingIndex != -1 && matchingIndex != undefined) {
-      const newActiveNodes = [...activeNodes];
+    // console.log("fuckOF = ");
 
-      newActiveNodes[matchingIndex] = !newActiveNodes[matchingIndex];
-      setActiveNodes(newActiveNodes);
+    if (nodeObj[nodeID]) {
+      nodeObj[nodeID].active = !nodeObj[nodeID].active;
+      setNodeObj(nodeObj);
     }
+
+    // if (matchingIndex != -1 && matchingIndex != undefined) {
+    //   const newActiveNodes = [...activeNodes];
+
+    //   newActiveNodes[matchingIndex] = !newActiveNodes[matchingIndex];
+    //   setActiveNodes(newActiveNodes);
+    // }
   };
   //  ------------- change activation nodes when click ----
 
+  // useEffect(() => {
+  //   console.log("CJAAAAANGE - nodeObj = ", nodeObj);
+  // }, [nodeObj]);
+
+  // console.log("activeNodes = ", activeNodes);
   return (
     <>
       <div className="flex h-screen">
@@ -392,7 +481,7 @@ const chatEden: NextPageWithLayout = () => {
             <ChatSimple chatN={chatN} handleSentMessage={handleSentMessage} />
           </div>
           <div className="h-1/2">
-            {nodesID?.length > 0 && dataMembersA?.length == 0 && (
+            {/* {nodesID?.length > 0 && dataMembersA?.length == 0 && (
               <div className="flex justify-center py-4">
                 <h1 className="h-16 rounded-lg bg-gray-200 px-6 py-2 text-center text-sm shadow-md sm:h-16 sm:text-lg">
                   <span className="block leading-tight">
@@ -403,15 +492,22 @@ const chatEden: NextPageWithLayout = () => {
                   </span>
                 </h1>
               </div>
-            )}
+            )} */}
             <div className={`flex h-screen w-full gap-4`}>
               <div className="h-full w-full">
                 <DynamicSearchGraph
-                  nodesID={nodesID}
-                  activeNodes={activeNodes}
+                  nodesID={Object.keys(nodeObj)}
+                  activeNodes={Object.values(nodeObj).map(
+                    (node: any) => node.active
+                  )}
+                  isNewNodes={Object.values(nodeObj).map(
+                    (node: any) => node.isNew
+                  )}
                   setActivateNodeEvent={setActivateNodeEvent}
                   height={"380"}
-                  graphType={"simple"}
+                  // graphType={"simple"}
+                  graphType={"KG_AI_2"}
+                  // zoomGraph={1.1}
                 />
               </div>
             </div>
@@ -434,7 +530,19 @@ const chatEden: NextPageWithLayout = () => {
                     // project={dataProject?.findProject}
                     invite
                     phase={``}
-                    nodesID={nodesID}
+                    nodesID={Object.keys(nodeObj).filter(
+                      (key) => nodeObj[key].active
+                    )}
+                    conversation={chatN
+                      .map((obj) => {
+                        if (obj.user === "01") {
+                          return { role: "assistant", content: obj.message };
+                        } else {
+                          return { role: "user", content: obj.message };
+                        }
+                      })
+                      .slice(-6)}
+                    // nodesID={Object.keys(nodeObj)}
                   />
                 )
               )}
@@ -506,6 +614,7 @@ export interface IUserDiscoverCardProps {
   messageUser?: boolean;
   phase?: string;
   nodesID?: string[];
+  conversation?: any;
 }
 
 const UserDiscoverCard = ({
@@ -515,6 +624,7 @@ const UserDiscoverCard = ({
   invite,
   phase,
   nodesID,
+  conversation,
 }: IUserDiscoverCardProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const member = matchMember?.member;
@@ -636,6 +746,7 @@ const UserDiscoverCard = ({
             nodesPercentage={nodesPercentage}
             nodesID={nodesID}
             onClose={() => setIsOpen(!isOpen)}
+            conversation={conversation}
           />
         </>
       )}
@@ -658,6 +769,7 @@ export interface IUserMessageModalProps {
   matchPercentage?: Maybe<MatchPercentage>;
   open?: boolean;
   nodesPercentage?: any;
+  conversation?: any;
   nodesID?: string[];
   onClose?: () => void;
 }
@@ -666,7 +778,7 @@ const UserMessageModal = ({
   member,
   matchPercentage,
   open,
-  nodesPercentage,
+  conversation,
   nodesID,
   onClose,
 }: IUserMessageModalProps) => {
@@ -808,7 +920,7 @@ const UserMessageModal = ({
   if (!member) return null;
   // if (!findMember) return null;
 
-  console.log("nodesID", nodesID);
+  // console.log("nodesID", nodesID);
 
   return (
     <ChatModal open={open} onClose={onClose}>
@@ -868,14 +980,25 @@ const UserMessageModal = ({
             //   percentage={matchPercentage?.totalPercentage || undefined}
             //   hasGraph
             // />
+            // <MemberInfoWithGraph
+            //   member={findMember || member}
+            //   // nodesID={nodesPercentage
+            //   //   .flatMap((obj: { conn_nodeIDs: any }) => obj.conn_nodeIDs)
+            //   //   .slice(0, 4)}
+            //   // nodesID={nodesPercentage.map((node: { node: { _id: any; }; }) => node.node._id)}
+            //   percentage={matchPercentage?.totalPercentage || undefined}
+            //   hasGraph
+            // />
             <MemberInfoWithDynamicGraph
               member={findMember || member}
-              nodesID={nodesPercentage
-                .flatMap((obj: { conn_nodeIDs: any }) => obj.conn_nodeIDs)
-                .slice(0, 4)}
+              // nodesID={nodesPercentage
+              //   .flatMap((obj: { conn_nodeIDs: any }) => obj.conn_nodeIDs)
+              //   .slice(0, 4)}
               // nodesID={nodesPercentage.map((node: { node: { _id: any; }; }) => node.node._id)}
               percentage={matchPercentage?.totalPercentage || undefined}
               hasGraph
+              nodesID={nodesID}
+              conversation={conversation}
             />
           )}
         </div>

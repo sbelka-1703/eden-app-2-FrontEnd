@@ -27,7 +27,7 @@ export const SwitchButton = ({
 
   return (
     <div className={switchButtonCls}>
-      <div className="text-start text-lg tracking-wide">{label}</div>
+      <div className="text-start text-sm tracking-wide">{label}</div>
       <label className="switch ml-3">
         <input
           name={name}

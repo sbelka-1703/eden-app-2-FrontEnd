@@ -1,17 +1,16 @@
 import { UserContext } from "@eden/package-context";
+import { Avatar } from "@eden/package-ui";
 import { useContext, useEffect, useRef } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FiSend } from "react-icons/fi";
 
-import { Avatar } from "../../../elements";
-
 type ChatBoxInputs = {
   message: string;
-  description: string;
 };
 
 export interface IChatBoxProps {
   chatN?: any;
+  messageLoading?: boolean;
   // eslint-disable-next-line no-unused-vars
   handleSentMessage: (message: string, user: string) => void;
 }
@@ -20,24 +19,19 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-export const ChatBox = ({ chatN, handleSentMessage }: IChatBoxProps) => {
+export const ChatBox = ({
+  chatN,
+  messageLoading,
+  handleSentMessage,
+}: IChatBoxProps) => {
   const { currentUser } = useContext(UserContext);
-
-  const { register, handleSubmit } = useForm<ChatBoxInputs>({});
-  const onSubmit: SubmitHandler<ChatBoxInputs> = (data) =>
-    handleSentMessage(data.message, currentUser?.discordName || "02");
+  const { register, handleSubmit, reset } = useForm<ChatBoxInputs>({});
+  const onSubmit: SubmitHandler<ChatBoxInputs> = (data) => {
+    handleSentMessage(data.message, "02");
+    reset();
+  };
 
   const componentRef = useRef<any>(null);
-  //   const Users: any = {
-  //     "01": {
-  //       name: "EdenAI",
-  //       img: "https://pbs.twimg.com/profile_images/1595723986524045312/fqOO4ZI__400x400.jpg",
-  //     },
-  //     "02": {
-  //       name: "USer",
-  //       img: "https://cdn.discordapp.com/avatars/961730944170090516/e5844ca759a74e995027a0e50c5cb1bf.png",
-  //     },
-  //   };
 
   useEffect(() => {
     // Keep the scroll position at the bottom of the component
@@ -48,12 +42,15 @@ export const ChatBox = ({ chatN, handleSentMessage }: IChatBoxProps) => {
     // );
   });
 
-  // console.log("chatN = ", chatN);
+  // useEffect(() => {
+  //   console.log("chatN CHATBOX = ", chatN);
+  // }, [chatN]);
+
   return (
-    <div className="flex h-full flex-col justify-between">
+    <div className="flex h-full flex-col justify-between rounded-lg border shadow-md">
       <div
         ref={componentRef}
-        className="scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch flex flex-col space-y-4 overflow-y-auto p-3"
+        className="scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch scrollbar-hide flex max-h-96 flex-col space-y-4 overflow-scroll overflow-y-auto p-3"
       >
         <div className="my-4">
           {chatN &&
@@ -71,28 +68,44 @@ export const ChatBox = ({ chatN, handleSentMessage }: IChatBoxProps) => {
                       "mx-2 flex max-w-xs flex-col items-start space-y-2 text-xs"
                     )}
                   >
-                    <div>
+                    <div className={`flex`}>
                       <span
                         className={classNames(
                           chat.user == "01"
-                            ? "bg-gray-300 text-gray-600"
-                            : "bg-blue-600 text-white",
-                          "inline-block rounded-lg rounded-bl-none  px-4 py-2 "
+                            ? "rounded-bl-none bg-slate-200 text-slate-700"
+                            : "rounded-br-none bg-blue-600 text-slate-100",
+                          "inline-block rounded-lg border px-4 py-2 font-medium shadow"
                         )}
                       >
                         {chat.message}
                       </span>
+
+                      {chat.user == "02" && (
+                        <div className="ml-2">
+                          <Avatar
+                            src={currentUser?.discordAvatar || ""}
+                            size={`xs`}
+                          />
+                        </div>
+                      )}
                     </div>
                   </div>
-                  <Avatar isProject size={`xs`} />
-                  {/* <img
-                    src={Users[chat.user].img}
-                    alt="My profile"
-                    className="order-1 h-6 w-6 rounded-full"
-                  /> */}
+                  {chat.user == "01" && <Avatar isProject size={`xs`} />}
                 </div>
               </div>
             ))}
+          {messageLoading && (
+            <div className={`mt-4 flex pl-2`}>
+              <div className={``}>
+                <Avatar isProject size={`xs`} />
+              </div>
+              <span
+                className={`text-slate-700" ml-2 -mt-2 inline-block rounded-lg rounded-bl-none border bg-slate-200 px-4 py-2 font-medium shadow`}
+              >
+                ...
+              </span>
+            </div>
+          )}
         </div>
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>

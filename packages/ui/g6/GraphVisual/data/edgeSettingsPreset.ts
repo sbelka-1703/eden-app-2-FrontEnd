@@ -125,6 +125,136 @@ export const edgeSettingsPreset = {
       },
     },
   },
+  "Skill|Role": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "Skill",
+        nodeTypeTarget: "Role",
+        style: {
+          color: "#E0E0E0",
+          distance: 100,
+          strength: 0.5,
+        },
+      },
+    },
+  },
+  "Skill|Expertise": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "Skill",
+        nodeTypeTarget: "Expertise",
+        style: {
+          color: "#E0E0E0",
+          distance: 100,
+          strength: 0.5,
+        },
+      },
+    },
+  },
+  "dynamicSearch|Combo": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "dynamicSearch",
+        nodeTypeTarget: "Combo",
+        style: {
+          color: "#F5F5F5",
+          distance: 170,
+          strength: 0.5,
+        },
+      },
+    },
+  },
+  "Skill|Combo": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "Skill",
+        nodeTypeTarget: "Combo",
+        style: {
+          color: "#F5F5F5",
+          distance: 200,
+          strength: 0.5,
+        },
+      },
+    },
+  },
+  "Expertise|Combo": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "Expertise",
+        nodeTypeTarget: "Combo",
+        style: {
+          color: "#F5F5F5",
+          distance: 200,
+          strength: 0.5,
+        },
+      },
+    },
+  },
+  "Role|Combo": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "Role",
+        nodeTypeTarget: "Combo",
+        style: {
+          color: "#F5F5F5",
+          distance: 200,
+          strength: 0.5,
+        },
+      },
+    },
+  },
+  "Member|Combo": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "Member",
+        nodeTypeTarget: "Combo",
+        style: {
+          color: "#F5F5F5",
+          distance: 160,
+          strength: 0.5,
+        },
+      },
+    },
+  },
+  "Role|Expertise": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "Role",
+        nodeTypeTarget: "Expertise",
+        style: {
+          color: "#E0E0E0",
+          distance: 100,
+          strength: 0.5,
+        },
+      },
+    },
+  },
+  "Skill|Skill": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "Skill",
+        nodeTypeTarget: "Skill",
+        style: {
+          color: "#E0E0E0",
+          distance: 100,
+          strength: 0.5,
+        },
+      },
+    },
+  },
+  "Expertise|Expertise": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "Expertise",
+        nodeTypeTarget: "Expertise",
+        style: {
+          color: "#E0E0E0",
+          distance: 100,
+          strength: 0.5,
+        },
+      },
+    },
+  },
   "skill|sub_expertise": {
     edge: {
       mainEdge: {
@@ -303,6 +433,198 @@ export const edgeSettingsPreset = {
         style: {
           color: "#E0E0E0",
           distance: 150,
+          strength: 0.5,
+        },
+      },
+    },
+  },
+  "Member|Skill": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "Member",
+        nodeTypeTarget: "Skill",
+        style: {
+          color: "#E0E0E0",
+          distance: 90,
+          strength: 0.5,
+        },
+      },
+    },
+    long: {
+      mainEdge: {
+        nodeTypeSource: "Member",
+        nodeTypeTarget: "Skill",
+        style: {
+          color: "#E0E0E0",
+          distance: 170,
+          strength: 0.5,
+        },
+      },
+    },
+  },
+  "Member|Expertise": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "Member",
+        nodeTypeTarget: "Expertise",
+        style: {
+          color: "#E0E0E0",
+          distance: 90,
+          strength: 0.5,
+        },
+      },
+    },
+    long: {
+      mainEdge: {
+        nodeTypeSource: "Member",
+        nodeTypeTarget: "Expertise",
+        style: {
+          color: "#E0E0E0",
+          distance: 170,
+          strength: 0.5,
+        },
+      },
+    },
+  },
+  "Member|Role": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "Member",
+        nodeTypeTarget: "Role",
+        style: {
+          color: "#E0E0E0",
+          distance: 90,
+          strength: 0.5,
+        },
+      },
+    },
+    long: {
+      mainEdge: {
+        nodeTypeSource: "Member",
+        nodeTypeTarget: "Role",
+        style: {
+          color: "#E0E0E0",
+          distance: 160,
+          strength: 0.5,
+        },
+      },
+    },
+  },
+  "dynamicSearch|Skill": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "dynamicSearch",
+        nodeTypeTarget: "Skill",
+        style: {
+          color: "#E0E0E0",
+          distance: 70,
+          strength: 0.5,
+        },
+      },
+    },
+    longEdge: {
+      mainEdge: {
+        nodeTypeSource: "dynamicSearch",
+        nodeTypeTarget: "Skill",
+        style: {
+          color: "#E0E0E0",
+          distance: 118,
+          strength: 0.5,
+        },
+      },
+    },
+  },
+  "dynamicSearch|Expertise": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "dynamicSearch",
+        nodeTypeTarget: "Expertise",
+        style: {
+          color: "#E0E0E0",
+          distance: 70,
+          strength: 0.5,
+        },
+      },
+    },
+    longEdge: {
+      mainEdge: {
+        nodeTypeSource: "dynamicSearch",
+        nodeTypeTarget: "Expertise",
+        style: {
+          color: "#E0E0E0",
+          distance: 118,
+          strength: 0.5,
+        },
+      },
+    },
+  },
+  "dynamicSearch|Category": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "dynamicSearch",
+        nodeTypeTarget: "Category",
+        style: {
+          color: "#E0E0E0",
+          distance: 70,
+          strength: 0.5,
+        },
+      },
+    },
+    longEdge: {
+      mainEdge: {
+        nodeTypeSource: "dynamicSearch",
+        nodeTypeTarget: "Category",
+        style: {
+          color: "#E0E0E0",
+          distance: 118,
+          strength: 0.5,
+        },
+      },
+    },
+  },
+  "dynamicSearch|Role": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "dynamicSearch",
+        nodeTypeTarget: "Role",
+        style: {
+          color: "#E0E0E0",
+          distance: 70,
+          strength: 0.5,
+        },
+      },
+    },
+    longEdge: {
+      mainEdge: {
+        nodeTypeSource: "dynamicSearch",
+        nodeTypeTarget: "Role",
+        style: {
+          color: "#E0E0E0",
+          distance: 118,
+          strength: 0.5,
+        },
+      },
+    },
+  },
+  "dynamicSearch|Group": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "dynamicSearch",
+        nodeTypeTarget: "Group",
+        style: {
+          color: "#E0E0E0",
+          distance: 70,
+          strength: 0.5,
+        },
+      },
+    },
+    longEdge: {
+      mainEdge: {
+        nodeTypeSource: "dynamicSearch",
+        nodeTypeTarget: "Group",
+        style: {
+          color: "#E0E0E0",
+          distance: 118,
           strength: 0.5,
         },
       },
@@ -518,6 +840,31 @@ export const edgeSettingsPreset = {
         style: {
           color: "#FFFFFF",
           distance: 200,
+          strength: 0.5,
+        },
+      },
+      hiddenEdge: true,
+    },
+  },
+  "dynamicSearch|Member": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "dynamicSearch",
+        nodeTypeTarget: "Member",
+        style: {
+          color: "#E0E0E0",
+          distance: 110,
+          strength: 0.5,
+        },
+      },
+    },
+    hiddenEdge: {
+      mainEdge: {
+        nodeTypeSource: "dynamicSearch",
+        nodeTypeTarget: "Member",
+        style: {
+          color: "#FFFFFF",
+          distance: 280,
           strength: 0.5,
         },
       },

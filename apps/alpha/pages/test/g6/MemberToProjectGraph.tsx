@@ -155,7 +155,7 @@ const MemberToProjectGraph = (props: any) => {
     if (dataGraphAPImember) {
       const dataGraphAPI = dataGraphAPImember.findMemberGraph;
 
-      console.log("dataGraphAPI = ", dataGraphAPI);
+      // console.log("dataGraphAPI = ", dataGraphAPI);
       const nodeDataObj: any = {};
       const edgesDataGraph = dataGraphAPI.edges.map(
         (edge: {

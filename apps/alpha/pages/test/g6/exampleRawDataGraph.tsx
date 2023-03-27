@@ -29,7 +29,7 @@ const GraphVisualPage: NextPageWithLayout = () => {
               className="w-full"
               ref={refContainer as RefObject<HTMLDivElement>}
             >
-              <RawDataGraph rawData={rawDataBigGraph} />
+              <RawDataGraph rawData={rawDataBigGraph} disableZoom={false} />
             </div>
           )}
         </div>

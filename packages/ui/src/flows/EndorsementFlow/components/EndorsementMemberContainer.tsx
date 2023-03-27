@@ -17,6 +17,7 @@ export const EndorsementMemberContainer =
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [memberSelected, setMemberSelected] = useState<Members>();
     const [projectSelected, setProjectSelected] = useState<Project>();
+    const [currentRating, setCurrentRating] = useState<number>(0);
     const [membersWorkedWith, setMembersWorkedWith] = useState<any[]>([]);
 
     const [step, setStep] = useState(0);
@@ -35,6 +36,7 @@ export const EndorsementMemberContainer =
     const handleSelectMember = useCallback(
       (member: Members, project: Project) => {
         setStep(0);
+        setCurrentRating(0);
         setMemberSelected(member);
         setProjectSelected(project);
         setIsModalOpen(true);
@@ -64,6 +66,8 @@ export const EndorsementMemberContainer =
               member={memberSelected}
               project={projectSelected}
               onNext={handleNext}
+              rating={currentRating}
+              onRatingChange={setCurrentRating}
             />
           )}
           {memberSelected && step === 1 && (
@@ -71,6 +75,8 @@ export const EndorsementMemberContainer =
               member={memberSelected}
               project={projectSelected}
               onNext={handleNext}
+              rating={currentRating}
+              onRatingChange={setCurrentRating}
             />
           )}
           {memberSelected && step === 2 && (

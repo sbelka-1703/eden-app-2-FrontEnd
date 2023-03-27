@@ -63,18 +63,26 @@ export const ChatSimple = ({ chatN, handleSentMessage }: IChatSimple) => {
                       "mx-2 flex max-w-xs flex-col items-start space-y-2 text-xs"
                     )}
                   >
-                    <div>
-                      <span
-                        // className="inline-block rounded-lg rounded-bl-none bg-gray-300 px-4 py-2 text-gray-600"
-                        className={classNames(
-                          chat.user == "01"
-                            ? "bg-gray-300 text-gray-600"
-                            : "bg-blue-600 text-white",
-                          "inline-block rounded-lg rounded-bl-none  px-4 py-2 "
-                        )}
-                      >
-                        {chat.message}
-                      </span>
+                    <div
+                      key={index}
+                      className={classNames(
+                        chat.user == "01" ? "order-2" : "order-1",
+                        "mx-2 flex max-w-xs flex-col items-start space-y-2 text-xs"
+                      )}
+                    >
+                      <div key={index}>
+                        <span
+                          // className="inline-block rounded-lg rounded-bl-none bg-gray-300 px-4 py-2 text-gray-600"
+                          className={classNames(
+                            chat.user == "01"
+                              ? "bg-gray-300 text-gray-600"
+                              : "bg-blue-600 text-white",
+                            "inline-block rounded-lg rounded-bl-none  px-4 py-2 "
+                          )}
+                        >
+                          {chat.message}
+                        </span>
+                      </div>
                     </div>
                   </div>
                   <img

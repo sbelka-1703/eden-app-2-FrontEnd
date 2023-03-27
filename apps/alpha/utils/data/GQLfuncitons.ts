@@ -36,6 +36,29 @@ export const MESSAGE_MAP_KG = gql`
   }
 `;
 
+export const MESSAGE_MAP_KG_V2 = gql`
+  query ($fields: messageMapKG_V2Input!) {
+    messageMapKG_V2(fields: $fields) {
+      keywords {
+        keyword
+        confidence
+        nodeID
+        node {
+          _id
+          name
+          node
+          categoryNodes {
+            name
+          }
+          groupNodes {
+            name
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const STORE_LONG_TERM_MEMORY = gql`
   mutation ($fields: storeLongTermMemoryInput!) {
     storeLongTermMemory(fields: $fields) {

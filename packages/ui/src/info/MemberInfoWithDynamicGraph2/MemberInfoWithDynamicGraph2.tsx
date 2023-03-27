@@ -1,12 +1,8 @@
 import { gql, useQuery } from "@apollo/client";
 import { Maybe, Members } from "@eden/package-graphql/generated";
 import {
-  Badge,
   // MemberGraph,
   DynamicSearchMemberGraph,
-  IPREFERENCES_TITLE,
-  NodeList,
-  PREFERENCES_TITLE,
   SocialMediaComp,
   TextLabel1,
   UserBackground,
@@ -14,7 +10,7 @@ import {
 } from "@eden/package-ui";
 import { useState } from "react";
 
-export interface IMemberInfoWithDynamicGraphProps {
+export interface IMemberInfoWithDynamicGraph2Props {
   member?: Maybe<Members>;
   percentage?: number;
   loading?: boolean;
@@ -86,13 +82,13 @@ const HighlightText = ({ text }: HighlightTextProps) => {
   return <p>{highlightedText}</p>;
 };
 
-export const MemberInfoWithDynamicGraph = ({
+export const MemberInfoWithDynamicGraph2 = ({
   member,
   percentage,
   loading = false,
   nodesID,
   conversation,
-}: IMemberInfoWithDynamicGraphProps) => {
+}: IMemberInfoWithDynamicGraph2Props) => {
   const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
 
   // console.log("nodesID -- -2--2-2 = ", nodesID);
@@ -123,32 +119,33 @@ export const MemberInfoWithDynamicGraph = ({
     },
   });
 
-  console.log("conversation = 232", conversation);
-  const subExpertise = member?.nodes?.filter(
-    (node) => node?.nodeData?.node === "sub_expertise"
-  );
-
-  const projectType = member?.nodes?.filter(
-    (node) => node?.nodeData?.node === "sub_typeProject"
-  );
-
-  const selectedPreferences = member?.preferences
-    ? (Object.keys(member?.preferences) as [keyof IPREFERENCES_TITLE]).filter(
-        (key) =>
-          member.preferences![key]?.interestedMatch && key.includes("find")
-      )
-    : null;
-
   if (!member) return null;
 
   // console.log("member = ", member);
 
   return (
     <div>
-      <UserWithDescription member={member} percentage={percentage} />
-
-      <div className="m-5 mb-4 sm:grid-cols-5">
-        <div className="my-4 flex flex-col items-start justify-center sm:col-span-3 sm:my-0">
+      <div className="mb-10 sm:grid sm:grid-cols-6">
+        <div className="flex flex-col items-center justify-end sm:col-span-2">
+          <p className="border-b border-slate-200 text-center">
+            <span className="text-2xl">$4200</span>
+          </p>
+          <p className="text-center text-sm text-slate-400">Eden lvl3</p>
+        </div>
+        <div className="sm:col-span-2">
+          <UserWithDescription member={member} />
+        </div>
+        <div className="flex flex-col items-center justify-end sm:col-span-2">
+          <p className="border-b border-slate-200 text-center text-sm">
+            <span className="text-2xl">10</span>
+            <br />
+            completed opportunities
+          </p>
+          <p className="text-center text-sm text-slate-400">💎 Eden Native</p>
+        </div>
+      </div>
+      <div className="mb-8 sm:grid-cols-6">
+        <div className="my-4 flex flex-col items-start justify-center sm:col-span-4 sm:my-0">
           {!!member?.bio && (
             <TextLabel1>
               🪄 Why {member.discordName} is Perfect for you? 🪄{" "}
@@ -180,19 +177,8 @@ export const MemberInfoWithDynamicGraph = ({
         )} */}
       </div>
 
-      <div className="mt-3 h-[360px] w-full">
-        <DynamicSearchMemberGraph
-          memberID={member._id!}
-          nodesID={nodesID}
-          disableZoom={true}
-          graphType={"KG_AI2"}
-          // graphType={"KG_AI"}
-          // zoomGraph={1.1}
-        />
-      </div>
-
-      <div className="mb-4 grid grid-cols-1 sm:grid-cols-5">
-        <div className="my-4 flex flex-col items-start justify-center sm:col-span-3 sm:my-0">
+      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-6">
+        <div className="sm:col-span-4 sm:my-0">
           {!!member?.bio && <TextLabel1>🪪 Short bio</TextLabel1>}
           {!loading ? (
             <p className="text-soilBody font-Inter whitespace-pre-wrap font-normal">
@@ -207,57 +193,67 @@ export const MemberInfoWithDynamicGraph = ({
             </div>
           )}
         </div>
-        <div></div>
-        {member?.links && member?.links.length > 0 && (
-          <SocialMediaComp links={member?.links} />
-        )}
+        <div className="flex flex-col items-center sm:col-span-2 sm:my-0">
+          <section className="mb-4">
+            <p className="text-center">
+              <TextLabel1>⚡️ Match</TextLabel1>
+            </p>
+            <p className="text-[62px] font-bold leading-none text-[#cb10ff]">
+              {percentage}%
+            </p>
+          </section>
+          <section className="mb-4">
+            <p className="text-center">
+              <TextLabel1>💰 Hourly rate</TextLabel1>
+            </p>
+            <p className="text-center">
+              <span className="text-2xl font-bold text-[#fcba03]">
+                ${percentage}
+              </span>{" "}
+              per hour
+            </p>
+            <p className="text-center text-sm text-slate-400">
+              Base rate + tax
+            </p>
+          </section>
+        </div>
       </div>
-      {selectedPreferences && (
-        <div className="mb-4">
-          <TextLabel1>🔎 PREFERENCES</TextLabel1>
-          <div>
-            {selectedPreferences.map(
-              (preference: keyof IPREFERENCES_TITLE, index: number) => (
-                <Badge
-                  key={index}
-                  text={PREFERENCES_TITLE[preference]}
-                  colorRGB={`255,255,167`}
-                  className={`font-Inter text-sm`}
-                  closeButton={false}
-                  cutText={16}
-                />
-              )
+
+      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-6">
+        <div className="sm:col-span-4 sm:my-0">
+          {((member?.previousProjects && member?.previousProjects.length) ||
+            (member?.endorsements && member?.endorsements.length > 0)) && (
+            <UserBackground
+              background={member?.previousProjects || []}
+              initialEndorsements={[]}
+              setExperienceOpen={setExperienceOpen!}
+              experienceOpen={experienceOpen!}
+            />
+          )}
+        </div>
+        <div className="flex flex-col items-center sm:col-span-2 sm:my-0">
+          <section className="mb-4">
+            {member?.links && member?.links.length > 0 && (
+              <SocialMediaComp links={member?.links} />
             )}
-          </div>
-        </div>
-      )}
-      <div className={`grid grid-cols-1 gap-4 md:grid-cols-2`}>
-        <div className={`flex flex-col`}>
-          <NodeList
-            label={`EXPERTISE`}
-            nodes={subExpertise}
-            colorRGB={`235,225,255`}
-          />
-        </div>
-        <div className={`flex flex-col`}>
-          <NodeList
-            label={`PREFERRED PROJECTS`}
-            nodes={projectType}
-            colorRGB={`209,247,196`}
-          />
+          </section>
+          <section>
+            <TextLabel1>🌍 Timezone</TextLabel1>
+            <p className="text-center font-bold text-slate-600">UTC+1</p>
+          </section>
         </div>
       </div>
-      {((member?.previousProjects && member?.previousProjects.length) ||
-        (member?.endorsements && member?.endorsements.length > 0)) && (
-        <div className={`my-4`}>
-          <UserBackground
-            background={member?.previousProjects || []}
-            initialEndorsements={member?.endorsements || []}
-            setExperienceOpen={setExperienceOpen!}
-            experienceOpen={experienceOpen!}
-          />
-        </div>
-      )}
+
+      <div className="mt-3 h-[360px] w-full">
+        <DynamicSearchMemberGraph
+          memberID={member._id!}
+          nodesID={nodesID}
+          disableZoom={true}
+          graphType={"KG_AI2"}
+          // graphType={"KG_AI"}
+          // zoomGraph={1.1}
+        />
+      </div>
     </div>
   );
 };

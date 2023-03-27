@@ -48,7 +48,11 @@ export const MemberInfoWithGraph = ({
       <UserWithDescription member={member} percentage={percentage} />
 
       <div className="h-[280px] w-full">
-        <MemberGraph memberId={member._id!} disableZoom={true} />
+        <MemberGraph
+          memberId={member._id!}
+          disableZoom={true}
+          graphType={"KG_AI"}
+        />
       </div>
 
       <div className="mb-4 grid grid-cols-1 sm:grid-cols-5">
