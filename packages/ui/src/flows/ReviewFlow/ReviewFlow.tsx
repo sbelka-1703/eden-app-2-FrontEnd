@@ -8,9 +8,9 @@ import {
 } from "@eden/package-ui";
 import { useContext } from "react";
 
-import { EndorsementMemberContainer } from "./components";
+import { ReviewMemberContainer } from "./components";
 
-export const EndorsementFlow = ({}) => {
+export const ReviewFlow = ({}) => {
   const { currentUser } = useContext(UserContext);
 
   return (
@@ -28,7 +28,7 @@ export const EndorsementFlow = ({}) => {
           shadow
           className={"scrollbar-hide h-85 overflow-scroll bg-white p-4"}
         >
-          <EndorsementMemberContainer />
+          <ReviewMemberContainer />
         </Card>
       </GridItemNine>
     </GridLayout>

@@ -12,8 +12,8 @@ import {
 } from "react";
 import { BsCoin } from "react-icons/bs";
 
-import { ChatBox, EndorseButton, KeywordList, StarRating } from "./";
-import { IChatMessages } from "./EndorsementMemberContainer";
+import { ChatBox, KeywordList, ReviewButton, StarRating } from "./";
+import { IChatMessages } from "./ReviewMemberContainer";
 
 const EDEN_GPT_ENDORSE_CHAT_API = gql`
   query ($fields: edenGPTEndorseChatAPIInput!) {
@@ -35,7 +35,7 @@ const MESSAGE_MAP_KG = gql`
   }
 `;
 
-interface IEndorsementModalView1Props {
+interface IReviewModalView1Props {
   member?: Members;
   project?: Project;
   onNext: () => void;
@@ -47,7 +47,7 @@ interface IEndorsementModalView1Props {
   onChatMessagesChange: Dispatch<SetStateAction<IChatMessages[]>>;
 }
 
-export const EndorsementModalView1 = ({
+export const ReviewModalView1 = ({
   member,
   project,
   onNext,
@@ -55,7 +55,7 @@ export const EndorsementModalView1 = ({
   onRatingChange,
   chatMessages,
   onChatMessagesChange,
-}: IEndorsementModalView1Props) => {
+}: IReviewModalView1Props) => {
   const { currentUser } = useContext(UserContext);
 
   const [messageUser, setMessageUser] = useState<string>("");
@@ -233,7 +233,7 @@ export const EndorsementModalView1 = ({
               <BsCoin className={`ml-2 inline-block h-4 w-4 text-yellow-500`} />
             </button>
           ) : (
-            <EndorseButton type={`button`} onClick={onNext} />
+            <ReviewButton type={`button`} onClick={onNext} />
           )}
         </div>
       </div>

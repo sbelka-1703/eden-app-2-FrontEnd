@@ -1,4 +1,4 @@
-import { AppUserSubmenuLayout, EndorsementFlow, SEO } from "@eden/package-ui";
+import { AppUserSubmenuLayout, ReviewFlow, SEO } from "@eden/package-ui";
 
 import type { NextPageWithLayout } from "../../../_app";
 
@@ -6,7 +6,7 @@ const EndorsementPage: NextPageWithLayout = () => {
   return (
     <>
       <SEO />
-      <EndorsementFlow />
+      <ReviewFlow />
     </>
   );
 };

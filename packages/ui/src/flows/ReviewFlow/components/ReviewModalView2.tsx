@@ -10,7 +10,7 @@ import {
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { IChatMessages } from "./EndorsementMemberContainer";
+import { IChatMessages } from "./ReviewMemberContainer";
 
 const EDEN_GPT_REPLY = gql`
   query ($fields: edenGPTreplyInput!) {
@@ -20,13 +20,13 @@ const EDEN_GPT_REPLY = gql`
   }
 `;
 
-type EndorsementInputs = {
+type ReviewInputs = {
   message: string;
 };
 
-import { EndorseButton, StarRating } from "./";
+import { ReviewButton, StarRating } from "./";
 
-interface IEndorsementModalView2Props {
+interface IReviewModalView2Props {
   member?: Members;
   project?: Project;
   onNext: () => void;
@@ -36,21 +36,21 @@ interface IEndorsementModalView2Props {
   chatMessages?: IChatMessages[];
 }
 
-export const EndorsementModalView2 = ({
+export const ReviewModalView2 = ({
   member,
   onNext,
   rating,
   onRatingChange,
   chatMessages,
-}: IEndorsementModalView2Props) => {
+}: IReviewModalView2Props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [amountStake, setAmountStake] = useState(0);
-  const { register, handleSubmit, reset } = useForm<EndorsementInputs>({
+  const { register, handleSubmit, reset } = useForm<ReviewInputs>({
     defaultValues: {
       message: `Working with ${member?.discordName} is a pleasure.  They are a great team player and always willing to help out. I would recommend them to any team.  I look forward to working with them again in the future.`,
     },
   });
-  const onSubmit: SubmitHandler<EndorsementInputs> = (data) => {
+  const onSubmit: SubmitHandler<ReviewInputs> = (data) => {
     console.log("submit", data);
     onNext();
   };
@@ -241,7 +241,7 @@ export const EndorsementModalView2 = ({
             </Card>
           </div>
           <div className={`my-2 flex justify-end`}>
-            <EndorseButton type={`submit`} />
+            <ReviewButton type={`submit`} />
           </div>
         </form>
       </div>
