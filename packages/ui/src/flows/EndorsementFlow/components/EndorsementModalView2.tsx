@@ -1,3 +1,4 @@
+import { gql, useQuery } from "@apollo/client";
 import { Members, Project } from "@eden/package-graphql/generated";
 import {
   Avatar,
@@ -8,6 +9,16 @@ import {
 } from "@eden/package-ui";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+
+import { IChatMessages } from "./EndorsementMemberContainer";
+
+const EDEN_GPT_REPLY = gql`
+  query ($fields: edenGPTreplyInput!) {
+    edenGPTreply(fields: $fields) {
+      reply
+    }
+  }
+`;
 
 type EndorsementInputs = {
   message: string;
@@ -22,6 +33,7 @@ interface IEndorsementModalView2Props {
   rating: number;
   // eslint-disable-next-line no-unused-vars
   onRatingChange: (rating: number) => void;
+  chatMessages?: IChatMessages[];
 }
 
 export const EndorsementModalView2 = ({
@@ -29,10 +41,11 @@ export const EndorsementModalView2 = ({
   onNext,
   rating,
   onRatingChange,
+  chatMessages,
 }: IEndorsementModalView2Props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [amountStake, setAmountStake] = useState(0);
-  const { register, handleSubmit } = useForm<EndorsementInputs>({
+  const { register, handleSubmit, reset } = useForm<EndorsementInputs>({
     defaultValues: {
       message: `Working with ${member?.discordName} is a pleasure.  They are a great team player and always willing to help out. I would recommend them to any team.  I look forward to working with them again in the future.`,
     },
@@ -41,6 +54,53 @@ export const EndorsementModalView2 = ({
     console.log("submit", data);
     onNext();
   };
+
+  const handleCheckReview = () => {
+    if (!chatMessages) return;
+
+    // const message = chatMessages.map((chat) => chat.message).join(" ");
+
+    // join all the user messages together
+    const message = chatMessages
+      .filter((chat) => chat.user === "user")
+      .map((chat) => chat.message)
+      .join(" ");
+
+    // console.log("message", message);
+    const end = `/n/n === /n/nWith the information in the above, write a review statement for ${member?.discordName}`;
+
+    const messageReview = message + end;
+
+    return messageReview;
+  };
+
+  const { refetch } = useQuery(EDEN_GPT_REPLY, {
+    variables: {
+      fields: {
+        message: handleCheckReview(),
+      },
+    },
+    skip: !chatMessages,
+    onCompleted: (data: any) => {
+      console.log("data", data);
+      reset({
+        message: data.edenGPTreply.reply,
+      });
+    },
+  });
+
+  // useEffect(() => {
+  //   if (chatMessages) {
+  //     console.log("chatMessages", chatMessages);
+  //   }
+  // }, [chatMessages]);
+
+  // useEffect(() => {
+  //   if (dataReview) {
+  //     console.log("dataReview", dataReview);
+  //   }
+  //   [dataReview];
+  // });
 
   return (
     <>
@@ -134,6 +194,9 @@ export const EndorsementModalView2 = ({
               This is how your endorsement will look:
             </div>
             <TextLabel2>You are in edit mode</TextLabel2>
+            <button type={`button`} onClick={() => refetch()}>
+              refetch
+            </button>
             <Card border>
               <div className={`grid grid-cols-3`}>
                 <div className={`col-span-2`}>

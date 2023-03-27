@@ -10,6 +10,11 @@ import {
   EndorsementModalView3,
 } from "./";
 
+export interface IChatMessages {
+  user?: string;
+  message?: string;
+}
+
 interface IEndorsementMemberContainerProps {}
 
 export const EndorsementMemberContainer =
@@ -19,6 +24,7 @@ export const EndorsementMemberContainer =
     const [projectSelected, setProjectSelected] = useState<Project>();
     const [currentRating, setCurrentRating] = useState<number>(0);
     const [membersWorkedWith, setMembersWorkedWith] = useState<any[]>([]);
+    const [chatMessages, setChatMessages] = useState<IChatMessages[]>([]);
 
     const [step, setStep] = useState(0);
 
@@ -39,6 +45,7 @@ export const EndorsementMemberContainer =
         setCurrentRating(0);
         setMemberSelected(member);
         setProjectSelected(project);
+        setChatMessages([]);
         setIsModalOpen(true);
       },
       []
@@ -68,6 +75,8 @@ export const EndorsementMemberContainer =
               onNext={handleNext}
               rating={currentRating}
               onRatingChange={setCurrentRating}
+              chatMessages={chatMessages}
+              onChatMessagesChange={setChatMessages}
             />
           )}
           {memberSelected && step === 1 && (
@@ -77,6 +86,7 @@ export const EndorsementMemberContainer =
               onNext={handleNext}
               rating={currentRating}
               onRatingChange={setCurrentRating}
+              chatMessages={chatMessages}
             />
           )}
           {memberSelected && step === 2 && (
