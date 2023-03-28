@@ -1,8 +1,14 @@
 import { AppUserSubmenuLayout, EndorsementFlow, SEO } from "@eden/package-ui";
+import { useRouter } from "next/router";
 
 import type { NextPageWithLayout } from "../../../_app";
 
 const EndorsementPage: NextPageWithLayout = () => {
+  const router = useRouter();
+  const { id } = router.query;
+
+  console.log("endorsement page ID ===>", id);
+
   return (
     <>
       <SEO />
