@@ -40,6 +40,32 @@ export const FIND_MEMBER_INFO = gql`
       #     discriminator
       #   }
       # }
+      endorsementsReceive {
+        _id
+        userSend {
+          discordName
+        }
+        stars
+        stake
+        endorsementMessage
+      }
+      endorseSummary {
+        summary
+        mainNodes {
+          node {
+            _id
+            name
+          }
+          confidence
+        }
+        averageStars
+        averageStake
+        totalStake
+        numberEndorsement
+        endorsers {
+          discordName
+        }
+      }
       preferences {
         findCoFounder {
           interestedMatch
