@@ -111,16 +111,16 @@ export const FIND_CURRENTUSER = gql`
         title
         description
       }
-      endorsements {
-        endorser {
-          _id
-          discordName
-          discordAvatar
-          discriminator
-        }
-        endorsementMessage
-        arweaveTransactionID
-      }
+      # endorsements {
+      #   endorser {
+      #     _id
+      #     discordName
+      #     discordAvatar
+      #     discriminator
+      #   }
+      #   endorsementMessage
+      #   arweaveTransactionID
+      # }
       preferences {
         findCoFounder {
           interestedMatch

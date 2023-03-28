@@ -47,16 +47,16 @@ export const FIND_MEMBER = gql`
         startDate
         endDate
       }
-      endorsements {
-        endorser {
-          _id
-          discordName
-          discordAvatar
-          discriminator
-        }
-        endorsementMessage
-        arweaveTransactionID
-      }
+      # endorsements {
+      #   endorser {
+      #     _id
+      #     discordName
+      #     discordAvatar
+      #     discriminator
+      #   }
+      #   endorsementMessage
+      #   arweaveTransactionID
+      # }
       preferences {
         findCoFounder {
           interestedMatch
