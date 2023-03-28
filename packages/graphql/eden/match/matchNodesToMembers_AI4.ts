@@ -10,14 +10,14 @@ export const MATCH_NODES_MEMBERS_AI4 = gql`
         discriminator
         bio
         serverID
-        endorsements {
-          endorser {
-            _id
-            discordAvatar
-            discordName
-            discriminator
-          }
-        }
+        # endorsements {
+        #   endorser {
+        #     _id
+        #     discordAvatar
+        #     discordName
+        #     discriminator
+        #   }
+        # }
         memberRole {
           _id
           title
