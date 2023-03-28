@@ -1,7 +1,23 @@
+import { gql, useMutation } from "@apollo/client";
 import React, { ChangeEvent, FormEvent, useState } from "react";
+
+export const CV_TO_SUMMARY = gql`
+  mutation ($fields: CVtoSummaryInput!) {
+    cvString(fields: $fields) {
+      result
+    }
+  }
+`;
 
 const CvGPT = () => {
   const [file, setFile] = useState<File | null>(null);
+  const [cvString] = useMutation(CV_TO_SUMMARY, {
+    onCompleted({ cvString }) {
+      if (cvString) {
+        console.log("cvString", cvString);
+      }
+    },
+  });
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -28,6 +44,10 @@ const CvGPT = () => {
 
       if (response.ok) {
         const { text } = await response.json();
+
+        cvString({
+          variables: { fields: text },
+        });
 
         console.log(text);
       } else {
