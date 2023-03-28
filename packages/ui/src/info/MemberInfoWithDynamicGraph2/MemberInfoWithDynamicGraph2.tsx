@@ -218,12 +218,12 @@ export const MemberInfoWithDynamicGraph2 = ({
       </div>
 
       <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-6">
+        {/* MEMEBER.ENDORSEMENT NO LONGER EXISTS */}
+
         <div className="sm:col-span-4 sm:my-0">
-          {((member?.previousProjects && member?.previousProjects.length) ||
-            (member?.endorsements && member?.endorsements.length > 0)) && (
+          {member?.previousProjects && member?.previousProjects.length && (
             <UserBackground
               background={member?.previousProjects || []}
-              initialEndorsements={[]}
               setExperienceOpen={setExperienceOpen!}
               experienceOpen={experienceOpen!}
             />

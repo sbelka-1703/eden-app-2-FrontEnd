@@ -29,6 +29,15 @@ export type Ai = {
   serverID?: Maybe<Scalars["String"]>;
 };
 
+export type CVtoSummaryInput = {
+  cvString?: InputMaybe<Scalars["String"]>;
+};
+
+export type CVtoSummaryOutput = {
+  __typename?: "CVtoSummaryOutput";
+  result?: Maybe<Scalars["String"]>;
+};
+
 export enum CategoryEnum {
   Project = "project",
   Role = "role",
@@ -47,6 +56,13 @@ export type Chats = {
   senderID?: Maybe<Scalars["ID"]>;
   serverID?: Maybe<Scalars["ID"]>;
   threadID?: Maybe<Scalars["ID"]>;
+};
+
+export type Combo = {
+  __typename?: "Combo";
+  id?: Maybe<Scalars["ID"]>;
+  label?: Maybe<Scalars["String"]>;
+  style?: Maybe<StyleNodeOut>;
 };
 
 export type DateType = {
@@ -82,6 +98,20 @@ export type Edge = {
   style?: Maybe<StyleEdgeOut>;
   target?: Maybe<Scalars["ID"]>;
   type?: Maybe<Scalars["String"]>;
+};
+
+export type Endorsement = {
+  __typename?: "Endorsement";
+  _id?: Maybe<Scalars["ID"]>;
+  arweaveTransactionID?: Maybe<Scalars["String"]>;
+  createdAt?: Maybe<Scalars["Date"]>;
+  discussion?: Maybe<Array<Maybe<DiscussionMessage>>>;
+  endorsementMessage?: Maybe<Scalars["String"]>;
+  nodes?: Maybe<Array<Maybe<EndorseNode>>>;
+  stake?: Maybe<Scalars["Float"]>;
+  stars?: Maybe<Scalars["Int"]>;
+  userReceive?: Maybe<Members>;
+  userSend?: Maybe<Members>;
 };
 
 export type Epic = {
@@ -138,6 +168,7 @@ export type GrantTemplate = {
 
 export type Graph = {
   __typename?: "Graph";
+  combos?: Maybe<Array<Maybe<Combo>>>;
   edges?: Maybe<Array<Maybe<Edge>>>;
   nodesVisual?: Maybe<Array<Maybe<NodeVisual>>>;
 };
@@ -151,6 +182,14 @@ export type Keyword = {
 export type KeywordInput = {
   embedding?: InputMaybe<Array<InputMaybe<Scalars["Float"]>>>;
   keywords?: InputMaybe<Scalars["String"]>;
+};
+
+export type KeywordValue = {
+  __typename?: "KeywordValue";
+  confidence?: Maybe<Scalars["Int"]>;
+  keyword?: Maybe<Scalars["String"]>;
+  node?: Maybe<Node>;
+  nodeID?: Maybe<Scalars["ID"]>;
 };
 
 export type LurkersAndContributors = {
@@ -188,7 +227,9 @@ export type Members = {
   discordAvatar?: Maybe<Scalars["String"]>;
   discordName?: Maybe<Scalars["String"]>;
   discriminator?: Maybe<Scalars["String"]>;
-  endorsements?: Maybe<Array<Maybe<Endorsements>>>;
+  endorseSummary?: Maybe<EndorseSummaryType>;
+  endorsementsReceive?: Maybe<Array<Maybe<Endorsement>>>;
+  endorsementsSend?: Maybe<Array<Maybe<Endorsement>>>;
   gardenUpdate?: Maybe<GardenUpdateType>;
   hoursPerWeek?: Maybe<Scalars["Float"]>;
   interest?: Maybe<Scalars["String"]>;
@@ -202,9 +243,13 @@ export type Members = {
   previousProjects?: Maybe<Array<Maybe<PreviousProjectsType>>>;
   projects?: Maybe<Array<Maybe<ProjectMemberType>>>;
   registeredAt?: Maybe<Scalars["String"]>;
+  reviewSummary?: Maybe<ReviewSummaryType>;
+  reviewsReceive?: Maybe<Array<Maybe<Review>>>;
+  reviewsSend?: Maybe<Array<Maybe<Review>>>;
   serverID?: Maybe<Array<Maybe<Scalars["String"]>>>;
   skills?: Maybe<Array<Maybe<SkillType_Member>>>;
   timeZone?: Maybe<Scalars["String"]>;
+  totalNodeTrust?: Maybe<TotalNodeTrustType>;
   tweets?: Maybe<Array<Maybe<Scalars["String"]>>>;
 };
 
@@ -218,7 +263,8 @@ export type MembersSmallType = {
 
 export type Mutation = {
   __typename?: "Mutation";
-  addEndorsement?: Maybe<Members>;
+  CVtoSummary?: Maybe<CVtoSummaryOutput>;
+  addEndorsement?: Maybe<Endorsement>;
   addFavoriteProject?: Maybe<Members>;
   addMessage?: Maybe<Ai>;
   addMessages?: Maybe<Array<Maybe<Ai>>>;
@@ -230,14 +276,18 @@ export type Mutation = {
   addNodesToProjectRole?: Maybe<Project>;
   addPreferencesToMember?: Maybe<Members>;
   addProjectRole?: Maybe<Project>;
+  addReview?: Maybe<Review>;
   applyGrant?: Maybe<GrantTemplate>;
   approveTweet?: Maybe<Project>;
   changeTeamMember_Phase_Project?: Maybe<Project>;
   createError?: Maybe<ErrorLog>;
+  createFakeEndorsement?: Maybe<Endorsement>;
+  createFakeUser?: Maybe<Members>;
   createNewEpic?: Maybe<Epic>;
   createNewRole?: Maybe<Role>;
   createNewTeam?: Maybe<Team>;
   createNode?: Maybe<Node>;
+  createNodeCategoryGroup?: Maybe<Node>;
   createProject?: Maybe<Project>;
   createProjectUpdate?: Maybe<ProjectUpdate>;
   createRoom?: Maybe<Rooms>;
@@ -250,12 +300,15 @@ export type Mutation = {
   endorseAttribute?: Maybe<Members>;
   enterRoom?: Maybe<Rooms>;
   exitRoom?: Maybe<Rooms>;
+  findEndorsements?: Maybe<Array<Maybe<Endorsement>>>;
+  findReviews?: Maybe<Array<Maybe<Review>>>;
   inputToGPT?: Maybe<InputToGptOutput>;
   login: User;
   messageToGPT?: Maybe<MessageToGptOutput>;
   newTweetProject?: Maybe<TweetsProject>;
   relatedNode?: Maybe<Node>;
   relatedNode_name?: Maybe<Node>;
+  saveActionsPerformed?: Maybe<Scalars["Boolean"]>;
   saveCoreProductFeatureInteration?: Maybe<Scalars["Boolean"]>;
   saveDailyLogin?: Maybe<Scalars["Boolean"]>;
   storeLongTermMemory?: Maybe<StoreLongTermMemoryOutput>;
@@ -272,7 +325,12 @@ export type Mutation = {
   updateProject?: Maybe<Project>;
   updateRoleTemplate?: Maybe<RoleTemplate>;
   updateServer?: Maybe<ServerTemplate>;
+  uploadUserDataGPT?: Maybe<Members>;
   useAI_OnMessage?: Maybe<UseAi_OnMessageOutput>;
+};
+
+export type MutationCVtoSummaryArgs = {
+  fields?: InputMaybe<CVtoSummaryInput>;
 };
 
 export type MutationAddEndorsementArgs = {
@@ -323,6 +381,10 @@ export type MutationAddProjectRoleArgs = {
   fields: AddProjectRoleInput;
 };
 
+export type MutationAddReviewArgs = {
+  fields?: InputMaybe<AddReviewInput>;
+};
+
 export type MutationApplyGrantArgs = {
   fields?: InputMaybe<ApplyGrantInput>;
 };
@@ -339,6 +401,14 @@ export type MutationCreateErrorArgs = {
   fields: CreateErrorInput;
 };
 
+export type MutationCreateFakeEndorsementArgs = {
+  fields?: InputMaybe<CreateFakeEndorsementInput>;
+};
+
+export type MutationCreateFakeUserArgs = {
+  fields?: InputMaybe<CreateFakeUserInput>;
+};
+
 export type MutationCreateNewEpicArgs = {
   fields: CreateNewEpicInput;
 };
@@ -353,6 +423,10 @@ export type MutationCreateNewTeamArgs = {
 
 export type MutationCreateNodeArgs = {
   fields?: InputMaybe<CreateNodeInput>;
+};
+
+export type MutationCreateNodeCategoryGroupArgs = {
+  fields?: InputMaybe<CreateNodeCategoryGroupInput>;
 };
 
 export type MutationCreateProjectArgs = {
@@ -403,6 +477,14 @@ export type MutationExitRoomArgs = {
   fields: EnterRoomInput;
 };
 
+export type MutationFindEndorsementsArgs = {
+  fields?: InputMaybe<FindEndorsementsInput>;
+};
+
+export type MutationFindReviewsArgs = {
+  fields?: InputMaybe<FindReviewsInput>;
+};
+
 export type MutationInputToGptArgs = {
   fields?: InputMaybe<InputToGptInput>;
 };
@@ -425,6 +507,10 @@ export type MutationRelatedNodeArgs = {
 
 export type MutationRelatedNode_NameArgs = {
   fields?: InputMaybe<RelatedNode_NameInput>;
+};
+
+export type MutationSaveActionsPerformedArgs = {
+  fields?: InputMaybe<SaveActionsPerformedInput>;
 };
 
 export type MutationSaveCoreProductFeatureInterationArgs = {
@@ -491,6 +577,10 @@ export type MutationUpdateServerArgs = {
   fields?: InputMaybe<UpdateServerInput>;
 };
 
+export type MutationUploadUserDataGptArgs = {
+  fields?: InputMaybe<UploadUserDataGptInput>;
+};
+
 export type MutationUseAi_OnMessageArgs = {
   fields?: InputMaybe<UseAi_OnMessageInput>;
 };
@@ -499,6 +589,8 @@ export type Node = {
   __typename?: "Node";
   _id?: Maybe<Scalars["ID"]>;
   aboveNodes?: Maybe<Array<Maybe<Node>>>;
+  categoryNodes?: Maybe<Array<Maybe<Node>>>;
+  groupNodes?: Maybe<Array<Maybe<Node>>>;
   level?: Maybe<Scalars["Int"]>;
   match_v2?: Maybe<Array<Maybe<Match_V2Type>>>;
   match_v2_update?: Maybe<Match_V2_UpdateType>;
@@ -517,6 +609,7 @@ export type NodeVisual = {
   __typename?: "NodeVisual";
   _id?: Maybe<Scalars["ID"]>;
   avatar?: Maybe<Scalars["String"]>;
+  comboId?: Maybe<Scalars["String"]>;
   extraDistanceRation?: Maybe<Scalars["Float"]>;
   fakeID?: Maybe<Array<Maybe<Scalars["ID"]>>>;
   name?: Maybe<Scalars["String"]>;
@@ -608,14 +701,20 @@ export type ProjectUpdate = {
 export type Query = {
   __typename?: "Query";
   activeMembersStats?: Maybe<Array<Maybe<ResultCount>>>;
+  activeUsersQueryStats?: Maybe<Array<Maybe<ResultCount2>>>;
   adminFindAllSkillsEveryState?: Maybe<Array<Maybe<Skills>>>;
   dynamicSearchGraph?: Maybe<Graph>;
+  dynamicSearchToMemberCategoryGroup?: Maybe<Graph>;
   dynamicSearchToMemberGraph?: Maybe<Graph>;
+  dynamicSearchToMemberGraphGPT?: Maybe<Graph>;
+  dynamicSearchToMemberGraphV2?: Maybe<Graph>;
   dynamicSearchToProjectGraph?: Maybe<Graph>;
+  edenGPTEndorseChatAPI?: Maybe<EdenGptEndorseChatApiOutput>;
   edenGPTreply?: Maybe<EdenGpTreplyOutput>;
   edenGPTreplyChatAPI?: Maybe<EdenGpTreplyChatApiOutput>;
   edenGPTreplyMemory?: Maybe<EdenGpTreplyMemoryOutput>;
   edenGPTsearchProfiles?: Maybe<EdenGpTsearchProfilesOutput>;
+  edenGPTsummaryProfile?: Maybe<EdenGpTsummaryProfileOutput>;
   errors?: Maybe<PaginatedErrorLogs>;
   findAllProjectsTeamsAnouncments?: Maybe<
     Array<Maybe<FindAllProjectsTeamsAnouncmentsOutput>>
@@ -661,12 +760,14 @@ export type Query = {
   matchMembersToSkills?: Maybe<Array<Maybe<MatchMembersToSkillOutput>>>;
   matchMembersToUser?: Maybe<Array<Maybe<MatchMembersToUserOutput>>>;
   matchNodesToMembers?: Maybe<Array<Maybe<MatchMembersToSkillOutput>>>;
+  matchNodesToMembers_AI4?: Maybe<Array<Maybe<MatchMembersToSkillOutput>>>;
   matchNodesToMembers_old?: Maybe<Array<Maybe<MatchMembersToSkillOutput>>>;
   matchNodesToProjectRoles?: Maybe<Array<Maybe<MatchSkillsToProjectsOutput>>>;
   matchNodesToProjectRoles_old?: Maybe<
     Array<Maybe<MatchSkillsToProjectsOutput>>
   >;
   matchPrepareNode?: Maybe<Node>;
+  matchPrepareNode_AI4?: Maybe<Node>;
   matchPrepareNode_old?: Maybe<Node>;
   matchPrepareSkillToMembers?: Maybe<Skills>;
   matchPrepareSkillToProjectRoles?: Maybe<Skills>;
@@ -677,6 +778,7 @@ export type Query = {
   membersStats?: Maybe<Array<Maybe<ResultCount>>>;
   members_autocomplete?: Maybe<Array<Maybe<Members>>>;
   messageMapKG?: Maybe<MessageMapKgOutput>;
+  messageMapKG_V2?: Maybe<MessageMapKg_V2Output>;
   nodes_autocomplete?: Maybe<Array<Maybe<Node>>>;
   setAllMatch_v2?: Maybe<Scalars["Boolean"]>;
   skills?: Maybe<PaginatedSkills>;
@@ -689,6 +791,10 @@ export type QueryActiveMembersStatsArgs = {
   fields?: InputMaybe<StatsInput>;
 };
 
+export type QueryActiveUsersQueryStatsArgs = {
+  fields?: InputMaybe<ActiveUsersInput>;
+};
+
 export type QueryAdminFindAllSkillsEveryStateArgs = {
   fields?: InputMaybe<FindSkillsInput>;
 };
@@ -697,12 +803,28 @@ export type QueryDynamicSearchGraphArgs = {
   fields?: InputMaybe<DynamicSearchGraphInput>;
 };
 
+export type QueryDynamicSearchToMemberCategoryGroupArgs = {
+  fields?: InputMaybe<DynamicSearchToMemberCategoryGroupInput>;
+};
+
 export type QueryDynamicSearchToMemberGraphArgs = {
   fields?: InputMaybe<DynamicSearchToMemberGraphInput>;
 };
 
+export type QueryDynamicSearchToMemberGraphGptArgs = {
+  fields?: InputMaybe<DynamicSearchToMemberGraphGptInput>;
+};
+
+export type QueryDynamicSearchToMemberGraphV2Args = {
+  fields?: InputMaybe<DynamicSearchToMemberGraphV2Input>;
+};
+
 export type QueryDynamicSearchToProjectGraphArgs = {
   fields?: InputMaybe<DynamicSearchToProjectGraphInput>;
+};
+
+export type QueryEdenGptEndorseChatApiArgs = {
+  fields?: InputMaybe<EdenGptEndorseChatApiInput>;
 };
 
 export type QueryEdenGpTreplyArgs = {
@@ -719,6 +841,10 @@ export type QueryEdenGpTreplyMemoryArgs = {
 
 export type QueryEdenGpTsearchProfilesArgs = {
   fields?: InputMaybe<EdenGpTsearchProfilesInput>;
+};
+
+export type QueryEdenGpTsummaryProfileArgs = {
+  fields?: InputMaybe<EdenGpTsummaryProfileInput>;
 };
 
 export type QueryErrorsArgs = {
@@ -881,6 +1007,10 @@ export type QueryMatchNodesToMembersArgs = {
   fields?: InputMaybe<MatchNodesToMembersInput>;
 };
 
+export type QueryMatchNodesToMembers_Ai4Args = {
+  fields?: InputMaybe<MatchNodesToMembers_Ai4Input>;
+};
+
 export type QueryMatchNodesToMembers_OldArgs = {
   fields?: InputMaybe<MatchNodesToMembersInput>;
 };
@@ -895,6 +1025,10 @@ export type QueryMatchNodesToProjectRoles_OldArgs = {
 
 export type QueryMatchPrepareNodeArgs = {
   fields?: InputMaybe<MatchPrepareNodeInput>;
+};
+
+export type QueryMatchPrepareNode_Ai4Args = {
+  fields?: InputMaybe<MatchPrepareNode_Ai4Input>;
 };
 
 export type QueryMatchPrepareNode_OldArgs = {
@@ -937,6 +1071,10 @@ export type QueryMessageMapKgArgs = {
   fields?: InputMaybe<MessageMapKgInput>;
 };
 
+export type QueryMessageMapKg_V2Args = {
+  fields?: InputMaybe<MessageMapKg_V2Input>;
+};
+
 export type QueryNodes_AutocompleteArgs = {
   fields?: InputMaybe<Nodes_AutocompleteInput>;
 };
@@ -966,6 +1104,25 @@ export type ResultCount = {
   __typename?: "ResultCount";
   count?: Maybe<Scalars["Int"]>;
   date?: Maybe<DateType>;
+};
+
+export type ResultCount2 = {
+  __typename?: "ResultCount2";
+  count?: Maybe<Scalars["Int"]>;
+  date?: Maybe<Scalars["String"]>;
+};
+
+export type Review = {
+  __typename?: "Review";
+  arweaveTransactionID?: Maybe<Scalars["String"]>;
+  createdAt?: Maybe<Scalars["Date"]>;
+  discussion?: Maybe<Array<Maybe<DiscussionMessage>>>;
+  income?: Maybe<Scalars["Float"]>;
+  nodes?: Maybe<Array<Maybe<ReviewNode>>>;
+  reviewMessage?: Maybe<Scalars["String"]>;
+  stars?: Maybe<Scalars["Int"]>;
+  userReceive?: Maybe<Members>;
+  userSend?: Maybe<Members>;
 };
 
 export type Role = {
@@ -1157,10 +1314,25 @@ export type User = {
   token?: Maybe<Scalars["String"]>;
 };
 
+export enum ActionTypeEnum {
+  MessageUser = "messageUser",
+  SearchProfile = "searchProfile",
+}
+
+export type ActiveUsersInput = {
+  endDate?: InputMaybe<Scalars["Date"]>;
+  range?: InputMaybe<Range2>;
+  startDate?: InputMaybe<Scalars["Date"]>;
+};
+
 export type AddEndorsementInput = {
-  endorseeID?: InputMaybe<Scalars["ID"]>;
+  discussion?: InputMaybe<Array<InputMaybe<DiscussionMessageInput>>>;
+  endorseNodes?: InputMaybe<Array<InputMaybe<EndorseNodeInput>>>;
   endorsementMessage?: InputMaybe<Scalars["String"]>;
-  endorserID?: InputMaybe<Scalars["ID"]>;
+  stake?: InputMaybe<Scalars["Float"]>;
+  stars?: InputMaybe<Scalars["Int"]>;
+  userReceiveID?: InputMaybe<Scalars["ID"]>;
+  userSendID?: InputMaybe<Scalars["ID"]>;
 };
 
 export type AddFavoriteProjectInput = {
@@ -1231,6 +1403,16 @@ export type AddProjectRoleInput = {
   description?: InputMaybe<Scalars["String"]>;
   projectID?: InputMaybe<Scalars["ID"]>;
   title?: InputMaybe<Scalars["String"]>;
+};
+
+export type AddReviewInput = {
+  discussion?: InputMaybe<Array<InputMaybe<DiscussionMessageInput>>>;
+  income?: InputMaybe<Scalars["Float"]>;
+  reviewMessage?: InputMaybe<Scalars["String"]>;
+  reviewNodes?: InputMaybe<Array<InputMaybe<EndorseNodeInput>>>;
+  stars?: InputMaybe<Scalars["Int"]>;
+  userReceiveID?: InputMaybe<Scalars["ID"]>;
+  userSendID?: InputMaybe<Scalars["ID"]>;
 };
 
 export type AddSkillToMember_Input = {
@@ -1368,6 +1550,16 @@ export type CreateErrorInput = {
   url?: InputMaybe<Scalars["String"]>;
 };
 
+export type CreateFakeEndorsementInput = {
+  userReceiveID?: InputMaybe<Scalars["ID"]>;
+  userSendID?: InputMaybe<Scalars["ID"]>;
+};
+
+export type CreateFakeUserInput = {
+  expertise?: InputMaybe<Array<InputMaybe<NodeCategoryInput>>>;
+  interests?: InputMaybe<Array<InputMaybe<NodeCategoryInput>>>;
+};
+
 export type CreateNewEpicInput = {
   _id?: InputMaybe<Scalars["ID"]>;
   authorID?: InputMaybe<Scalars["String"]>;
@@ -1404,6 +1596,15 @@ export type CreateNewTeamInput = {
   name?: InputMaybe<Scalars["String"]>;
   projectID?: InputMaybe<Scalars["String"]>;
   serverID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
+export type CreateNodeCategoryGroupInput = {
+  categoryID?: InputMaybe<Scalars["ID"]>;
+  categoryName?: InputMaybe<Scalars["String"]>;
+  groupID?: InputMaybe<Scalars["String"]>;
+  groupName?: InputMaybe<Scalars["String"]>;
+  name?: InputMaybe<Scalars["String"]>;
+  node?: InputMaybe<Scalars["String"]>;
 };
 
 export type CreateNodeInput = {
@@ -1520,6 +1721,17 @@ export type DeleteProjectInput = {
   projectID?: InputMaybe<Scalars["ID"]>;
 };
 
+export type DiscussionMessage = {
+  __typename?: "discussionMessage";
+  content?: Maybe<Scalars["String"]>;
+  role?: Maybe<Scalars["String"]>;
+};
+
+export type DiscussionMessageInput = {
+  content?: InputMaybe<Scalars["String"]>;
+  role?: InputMaybe<Scalars["String"]>;
+};
+
 export type DynamicSearchGraphInput = {
   edgeSettings?: InputMaybe<Array<InputMaybe<EdgeSetting>>>;
   nodeSettings?: InputMaybe<Array<InputMaybe<NodeSetting>>>;
@@ -1527,7 +1739,33 @@ export type DynamicSearchGraphInput = {
   showAvatar?: InputMaybe<Scalars["Boolean"]>;
 };
 
+export type DynamicSearchToMemberCategoryGroupInput = {
+  edgeSettings?: InputMaybe<Array<InputMaybe<EdgeSetting>>>;
+  memberID?: InputMaybe<Scalars["ID"]>;
+  nodeSettings?: InputMaybe<Array<InputMaybe<NodeSetting>>>;
+  nodesID?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  showAvatar?: InputMaybe<Scalars["Boolean"]>;
+};
+
+export type DynamicSearchToMemberGraphGptInput = {
+  conversation?: InputMaybe<Array<InputMaybe<MessageChat>>>;
+  edgeSettings?: InputMaybe<Array<InputMaybe<EdgeSetting>>>;
+  memberID?: InputMaybe<Scalars["ID"]>;
+  nodeSettings?: InputMaybe<Array<InputMaybe<NodeSetting>>>;
+  nodesID?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  showAvatar?: InputMaybe<Scalars["Boolean"]>;
+  showOnlyRelevant?: InputMaybe<Scalars["Boolean"]>;
+};
+
 export type DynamicSearchToMemberGraphInput = {
+  edgeSettings?: InputMaybe<Array<InputMaybe<EdgeSetting>>>;
+  memberID?: InputMaybe<Scalars["ID"]>;
+  nodeSettings?: InputMaybe<Array<InputMaybe<NodeSetting>>>;
+  nodesID?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  showAvatar?: InputMaybe<Scalars["Boolean"]>;
+};
+
+export type DynamicSearchToMemberGraphV2Input = {
   edgeSettings?: InputMaybe<Array<InputMaybe<EdgeSetting>>>;
   memberID?: InputMaybe<Scalars["ID"]>;
   nodeSettings?: InputMaybe<Array<InputMaybe<NodeSetting>>>;
@@ -1541,6 +1779,17 @@ export type DynamicSearchToProjectGraphInput = {
   nodesID?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   projectID?: InputMaybe<Scalars["ID"]>;
   showAvatar?: InputMaybe<Scalars["Boolean"]>;
+};
+
+export type EdenGptEndorseChatApiInput = {
+  conversation?: InputMaybe<Array<InputMaybe<MessageChat>>>;
+  message?: InputMaybe<Scalars["String"]>;
+  userID?: InputMaybe<Scalars["ID"]>;
+};
+
+export type EdenGptEndorseChatApiOutput = {
+  __typename?: "edenGPTEndorseChatAPIOutput";
+  reply?: Maybe<Scalars["String"]>;
 };
 
 export type EdenGpTreplyChatApiInput = {
@@ -1584,6 +1833,16 @@ export type EdenGpTsearchProfilesOutput = {
   reply?: Maybe<Scalars["String"]>;
 };
 
+export type EdenGpTsummaryProfileInput = {
+  conversation?: InputMaybe<Array<InputMaybe<MessageChat>>>;
+  memberID?: InputMaybe<Scalars["ID"]>;
+};
+
+export type EdenGpTsummaryProfileOutput = {
+  __typename?: "edenGPTsummaryProfileOutput";
+  reply?: Maybe<Scalars["String"]>;
+};
+
 export type EdgeSetting = {
   hiddenEdge?: InputMaybe<Scalars["Boolean"]>;
   mainEdge?: InputMaybe<EdgeSettingIn>;
@@ -1613,11 +1872,44 @@ export type EndorseAttributeInput = {
   attribute?: InputMaybe<AttributesEnum>;
 };
 
+export type EndorseNode = {
+  __typename?: "endorseNode";
+  confidence?: Maybe<Scalars["Float"]>;
+  node?: Maybe<Node>;
+};
+
+export type EndorseNodeInput = {
+  confidence?: InputMaybe<Scalars["Float"]>;
+  nodeID?: InputMaybe<Scalars["ID"]>;
+};
+
+export enum EndorseOrReviewEnum {
+  Endorse = "ENDORSE",
+  Review = "REVIEW",
+}
+
+export type EndorseSummaryType = {
+  __typename?: "endorseSummaryType";
+  averageStake?: Maybe<Scalars["Float"]>;
+  averageStars?: Maybe<Scalars["Float"]>;
+  endorsers?: Maybe<Array<Maybe<MembersSmallType>>>;
+  mainNodes?: Maybe<Array<Maybe<EndorseNode>>>;
+  numberEndorsement?: Maybe<Scalars["Int"]>;
+  summary?: Maybe<Scalars["String"]>;
+  totalStake?: Maybe<Scalars["Float"]>;
+};
+
 export type Endorsements = {
   __typename?: "endorsements";
   arweaveTransactionID?: Maybe<Scalars["String"]>;
+  discussion?: Maybe<Array<Maybe<DiscussionMessage>>>;
+  endorseNodes?: Maybe<Array<Maybe<EndorseNode>>>;
+  endorseOrReview?: Maybe<EndorseOrReviewEnum>;
   endorsementMessage?: Maybe<Scalars["String"]>;
   endorser?: Maybe<MembersSmallType>;
+  income?: Maybe<Scalars["Float"]>;
+  stake?: Maybe<Scalars["Float"]>;
+  stars?: Maybe<Scalars["Int"]>;
 };
 
 export type EnterRoomInput = {
@@ -1660,6 +1952,12 @@ export type FindAllProjectsTeamsAnouncmentsOutput = {
 export type FindChatInput = {
   _id?: InputMaybe<Scalars["ID"]>;
   threadID?: InputMaybe<Scalars["ID"]>;
+};
+
+export type FindEndorsementsInput = {
+  endorsementsID?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  userReceive?: InputMaybe<Scalars["ID"]>;
+  userSend?: InputMaybe<Scalars["ID"]>;
 };
 
 export enum FindEnum {
@@ -1809,6 +2107,12 @@ export type FindProjects_RequireSkillInput = {
   skillID?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
 };
 
+export type FindReviewsInput = {
+  reviewsID?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  userReceive?: InputMaybe<Scalars["ID"]>;
+  userSend?: InputMaybe<Scalars["ID"]>;
+};
+
 export type FindRoleTemplateInput = {
   _id?: InputMaybe<Scalars["ID"]>;
 };
@@ -1896,13 +2200,6 @@ export type InputToGptOutput = {
   expectationsRole?: Maybe<Array<Maybe<Scalars["String"]>>>;
 };
 
-export type KeywordValue = {
-  __typename?: "keywordValue";
-  confidence?: Maybe<Scalars["Int"]>;
-  keyword?: Maybe<Scalars["String"]>;
-  nodeID?: Maybe<Scalars["ID"]>;
-};
-
 export enum LevelEnum {
   Junior = "junior",
   Learning = "learning",
@@ -1986,6 +2283,13 @@ export type MatchNodesToMembersInput = {
   serverID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
+export type MatchNodesToMembers_Ai4Input = {
+  limit?: InputMaybe<Scalars["Int"]>;
+  nodesID?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  page?: InputMaybe<Scalars["Int"]>;
+  weightModules?: InputMaybe<Array<InputMaybe<WeightModulesInput>>>;
+};
+
 export type MatchNodesToProjectRolesInput = {
   limit?: InputMaybe<Scalars["Int"]>;
   nodesID?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
@@ -1998,6 +2302,13 @@ export type MatchPrepareNodeInput = {
   nodeID?: InputMaybe<Scalars["ID"]>;
   serverID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
   weightSkills?: InputMaybe<Scalars["Boolean"]>;
+};
+
+export type MatchPrepareNode_Ai4Input = {
+  distancePenalty?: InputMaybe<Array<InputMaybe<Scalars["Float"]>>>;
+  find?: InputMaybe<FindEnum>;
+  nodeID?: InputMaybe<Scalars["ID"]>;
+  serverID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type MatchPrepareSkillToMembersInput = {
@@ -2105,6 +2416,15 @@ export type MessageMapKgOutput = {
   keywords?: Maybe<Array<Maybe<KeywordValue>>>;
 };
 
+export type MessageMapKg_V2Input = {
+  message?: InputMaybe<Scalars["String"]>;
+};
+
+export type MessageMapKg_V2Output = {
+  __typename?: "messageMapKG_V2Output";
+  keywords?: Maybe<Array<Maybe<KeywordValue>>>;
+};
+
 export type MessageToGptInput = {
   category?: InputMaybe<CategoryEnum>;
   message?: InputMaybe<Scalars["String"]>;
@@ -2129,9 +2449,20 @@ export type NewTweetProjectInput = {
   title?: InputMaybe<Scalars["String"]>;
 };
 
+export type NodeCategoryInput = {
+  _id?: InputMaybe<Scalars["ID"]>;
+  numberNodes?: InputMaybe<Scalars["Int"]>;
+};
+
 export type NodeSetting = {
   style?: InputMaybe<StyleIn>;
   type?: InputMaybe<Scalars["String"]>;
+};
+
+export type NodeTrustType = {
+  __typename?: "nodeTrustType";
+  endorseTrust?: Maybe<Scalars["Float"]>;
+  totalTrust?: Maybe<Scalars["Float"]>;
 };
 
 export type NodesId_LevelInput = {
@@ -2143,6 +2474,7 @@ export type NodesId_LevelInput = {
 
 export type NodesPercentageType = {
   __typename?: "nodesPercentageType";
+  conn_nodeIDs?: Maybe<Array<Maybe<Scalars["ID"]>>>;
   node?: Maybe<Node>;
   totalPercentage?: Maybe<Scalars["Float"]>;
 };
@@ -2153,6 +2485,7 @@ export type NodesType = {
   level?: Maybe<Scalars["Int"]>;
   nodeData?: Maybe<Node>;
   orderIndex?: Maybe<Scalars["Int"]>;
+  trust?: Maybe<NodeTrustType>;
   weight?: Maybe<Scalars["Float"]>;
 };
 
@@ -2286,6 +2619,12 @@ export enum Range {
   Months = "months",
 }
 
+export enum Range2 {
+  Daily = "daily",
+  Months = "months",
+  Weekly = "weekly",
+}
+
 export enum RecalculateEnum {
   All = "All",
   Member = "Member",
@@ -2341,6 +2680,22 @@ export enum ResultEnum {
   Unsuccesful = "unsuccesful",
 }
 
+export type ReviewNode = {
+  __typename?: "reviewNode";
+  confidence?: Maybe<Scalars["Float"]>;
+  node?: Maybe<Node>;
+};
+
+export type ReviewSummaryType = {
+  __typename?: "reviewSummaryType";
+  averageStars?: Maybe<Scalars["Float"]>;
+  mainNodes?: Maybe<Array<Maybe<EndorseNode>>>;
+  numberReview?: Maybe<Scalars["Int"]>;
+  reviewers?: Maybe<Array<Maybe<MembersSmallType>>>;
+  summary?: Maybe<Scalars["String"]>;
+  totalIncome?: Maybe<Scalars["Float"]>;
+};
+
 export type RoleInput = {
   _id?: InputMaybe<Scalars["ID"]>;
   archive?: InputMaybe<Scalars["Boolean"]>;
@@ -2377,6 +2732,10 @@ export type RoleType = {
   shortDescription?: Maybe<Scalars["String"]>;
   skills?: Maybe<Array<Maybe<SkillRoleType>>>;
   title?: Maybe<Scalars["String"]>;
+};
+
+export type SaveActionsPerformedInput = {
+  actionType?: InputMaybe<ActionTypeEnum>;
 };
 
 export type SaveCoreProductFeatureInterationInput = {
@@ -2495,6 +2854,13 @@ export type TeamsType_Garden = {
   __typename?: "teamsType_garden";
   role?: Maybe<Array<Maybe<RoleType_Garden>>>;
   teamData?: Maybe<Team>;
+};
+
+export type TotalNodeTrustType = {
+  __typename?: "totalNodeTrustType";
+  averageTrustNum?: Maybe<Scalars["Float"]>;
+  numberOfTrustNodes?: Maybe<Scalars["Int"]>;
+  totalTrustNum?: Maybe<Scalars["Float"]>;
 };
 
 export type TreeOfRelatedNodesInput = {
@@ -2676,6 +3042,10 @@ export type UpdateSkillSubCategoryInput = {
   skills?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
+export type UploadUserDataGptInput = {
+  memberID?: InputMaybe<Scalars["ID"]>;
+};
+
 export type UseAi_OnMessageInput = {
   cash?: InputMaybe<Scalars["Boolean"]>;
   message?: InputMaybe<Scalars["String"]>;
@@ -2687,6 +3057,11 @@ export type UseAi_OnMessageOutput = {
   expertiseIdentified?: Maybe<Array<Maybe<Scalars["String"]>>>;
   keywordsMessage?: Maybe<Array<Maybe<Scalars["String"]>>>;
   mainExpertise?: Maybe<Scalars["String"]>;
+};
+
+export type WeightModulesInput = {
+  type?: InputMaybe<Scalars["String"]>;
+  weight?: InputMaybe<Scalars["Int"]>;
 };
 
 export type Wh_K_ArrType = {

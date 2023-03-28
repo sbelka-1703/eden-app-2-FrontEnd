@@ -118,26 +118,26 @@ export const ViewUserProfileContainer = ({
           {user?.previousProjects && (
             <UserBackground
               background={user.previousProjects}
-              initialEndorsements={[
-                {
-                  endorser: {
-                    discordAvatar:
-                      "https://cdn.discordapp.com/embed/avatars/4.png",
-                    discordName: "BluePanda",
-                    discriminator: "0001",
-                  },
-                  endorsementMessage:
-                    "One of the finest people I’ve ever known in business or any field. Simply the most brilliant opportunity creator I've ever worked with.",
-                  arweaveTransactionID: "123",
-                  // level: {
-                  //   name: 2000,
-                  //   smallName: "L2",
-                  //   meaning: "Community Favourite",
-                  //   SuccessfulEndorsementsGive: "23",
-                  //   SuccessfulEndorsementsReceive: "12",
-                  // },
-                },
-              ]}
+              // initialEndorsements={[
+              //   {
+              //     endorser: {
+              //       discordAvatar:
+              //         "https://cdn.discordapp.com/embed/avatars/4.png",
+              //       discordName: "BluePanda",
+              //       discriminator: "0001",
+              //     },
+              //     endorsementMessage:
+              //       "One of the finest people I’ve ever known in business or any field. Simply the most brilliant opportunity creator I've ever worked with.",
+              //     arweaveTransactionID: "123",
+              //     // level: {
+              //     //   name: 2000,
+              //     //   smallName: "L2",
+              //     //   meaning: "Community Favourite",
+              //     //   SuccessfulEndorsementsGive: "23",
+              //     //   SuccessfulEndorsementsReceive: "12",
+              //     // },
+              //   },
+              // ]}
               setExperienceOpen={setExperienceOpen!}
               experienceOpen={experienceOpen!}
             />

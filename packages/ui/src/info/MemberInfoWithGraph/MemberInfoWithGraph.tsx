@@ -111,12 +111,13 @@ export const MemberInfoWithGraph = ({
           />
         </div>
       </div>
-      {((member?.previousProjects && member?.previousProjects.length) ||
-        (member?.endorsements && member?.endorsements.length > 0)) && (
+      {/* MEMEBER.ENDORSEMENT NO LONGER EXISTS */}
+
+      {member?.previousProjects && member?.previousProjects.length && (
         <div className={`my-4`}>
           <UserBackground
             background={member?.previousProjects || []}
-            initialEndorsements={member?.endorsements || []}
+            // initialEndorsements={member?.endorsements || []}
             setExperienceOpen={setExperienceOpen!}
             experienceOpen={experienceOpen!}
           />
