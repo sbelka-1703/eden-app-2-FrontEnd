@@ -86,17 +86,7 @@ const CvGPT = () => {
           Upload Resume
         </button>
       </form>
-      <div className="ml-10">
-        {summary ? (
-          <ul>{summaryList}</ul>
-        ) : (
-          <ul>
-            <li> Coffee</li>
-            <li>Tea</li>
-            <li>Milk</li>
-          </ul>
-        )}
-      </div>
+      <div className="ml-10">{summary ? <ul>{summaryList}</ul> : null}</div>
     </div>
   );
 };
