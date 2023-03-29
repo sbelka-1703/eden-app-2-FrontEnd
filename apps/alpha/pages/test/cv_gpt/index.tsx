@@ -10,8 +10,15 @@ export const CV_TO_SUMMARY = gql`
 `;
 const CvGPT = () => {
   const [file, setFile] = useState<File | null>(null);
+  const [summary, setSummary] = useState<string | null>(null);
 
-  const [CVtoSummary] = useMutation(CV_TO_SUMMARY);
+  const [CVtoSummary] = useMutation(CV_TO_SUMMARY, {
+    onCompleted({ CVtoSummary }) {
+      console.log("CVtoSummary", CVtoSummary);
+      console.log("CVtoSummary.result", CVtoSummary.result);
+      setSummary(CVtoSummary.result);
+    },
+  });
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -41,17 +48,6 @@ const CvGPT = () => {
 
         CVtoSummary({ variables: { fields: { cvString: text } } });
 
-        //   messageToGPT({
-        //     variables: {
-        //       fields: {
-        //         message: (customPrompt || "") + messageFromParent,
-        //         category: category,
-        //         prompt: prompt,
-        //       },
-        //     },
-        //   });
-        // }
-
         console.log(text);
       } else {
         const { error } = await response.json();
@@ -62,6 +58,10 @@ const CvGPT = () => {
 
     reader.readAsDataURL(file);
   };
+
+  const summaryList = summary
+    ? summary.split("•").map((item, index) => <li key={index}>{"•" + item}</li>)
+    : [];
 
   return (
     <div className="w-72 ">
@@ -86,6 +86,17 @@ const CvGPT = () => {
           Upload Resume
         </button>
       </form>
+      <div className="ml-10">
+        {summary ? (
+          <ul>{summaryList}</ul>
+        ) : (
+          <ul>
+            <li> Coffee</li>
+            <li>Tea</li>
+            <li>Milk</li>
+          </ul>
+        )}
+      </div>
     </div>
   );
 };

@@ -14465,11 +14465,7 @@ turbo-windows-arm64@1.8.6:
   resolved "https://registry.yarnpkg.com/turbo-windows-arm64/-/turbo-windows-arm64-1.8.6.tgz#a675c0443e068e49bc64db679880282601756a8a"
   integrity sha512-4jWUaI7Lmonp2I3x81GruiCYd0aQsG/xDOYhuv9+j2yIgB/UHJFz/P8PWp/nziwPtGpRd/AheDlPzzyd9lWoqw==
 
-<<<<<<< HEAD
-turbo@^1.8.3:
-=======
 turbo@^1.8.6:
->>>>>>> develop
   version "1.8.6"
   resolved "https://registry.yarnpkg.com/turbo/-/turbo-1.8.6.tgz#35a14872de5bf00ba6062cf90dd2692a95e5f6e2"
   integrity sha512-6IOOaa8ytgjnSCTnp3LKAd2uGBZ/Kmx8ZPlI/YMWuKMUqvkXKLbh+w76ApMgMm+faUqti+QujVWovCu2kY6KuQ==
