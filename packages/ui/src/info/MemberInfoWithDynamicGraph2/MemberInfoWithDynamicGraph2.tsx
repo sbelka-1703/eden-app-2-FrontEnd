@@ -145,12 +145,10 @@ export const MemberInfoWithDynamicGraph2 = ({
         </div>
       </div>
       <div className="mb-8 sm:grid-cols-6">
-        <div className="my-4 flex flex-col items-start justify-center sm:col-span-4 sm:my-0">
-          {!!member?.bio && (
-            <TextLabel1>
-              🪄 Why {member.discordName} is Perfect for you? 🪄{" "}
-            </TextLabel1>
-          )}
+        <div className="my-4 flex flex-col items-start justify-center rounded-xl bg-cyan-50 p-4 pt-3 sm:col-span-4 sm:my-0">
+          <TextLabel1>
+            🪄 Why {member.discordName} is Perfect for you? 🪄{" "}
+          </TextLabel1>
           {!loadingGPTsummary ? (
             <>
               <p className="text-soilBody font-Inter font-normal">

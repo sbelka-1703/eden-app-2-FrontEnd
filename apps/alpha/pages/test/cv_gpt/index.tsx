@@ -3,21 +3,15 @@ import React, { ChangeEvent, FormEvent, useState } from "react";
 
 export const CV_TO_SUMMARY = gql`
   mutation ($fields: CVtoSummaryInput!) {
-    cvString(fields: $fields) {
+    CVtoSummary(fields: $fields) {
       result
     }
   }
 `;
-
 const CvGPT = () => {
   const [file, setFile] = useState<File | null>(null);
-  const [cvString] = useMutation(CV_TO_SUMMARY, {
-    onCompleted({ cvString }) {
-      if (cvString) {
-        console.log("cvString", cvString);
-      }
-    },
-  });
+
+  const [CVtoSummary] = useMutation(CV_TO_SUMMARY);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -45,9 +39,18 @@ const CvGPT = () => {
       if (response.ok) {
         const { text } = await response.json();
 
-        cvString({
-          variables: { fields: text },
-        });
+        CVtoSummary({ variables: { fields: { cvString: text } } });
+
+        //   messageToGPT({
+        //     variables: {
+        //       fields: {
+        //         message: (customPrompt || "") + messageFromParent,
+        //         category: category,
+        //         prompt: prompt,
+        //       },
+        //     },
+        //   });
+        // }
 
         console.log(text);
       } else {
@@ -56,6 +59,7 @@ const CvGPT = () => {
         console.log("error aaa", error);
       }
     };
+
     reader.readAsDataURL(file);
   };
 
@@ -76,7 +80,7 @@ const CvGPT = () => {
           accept=".pdf"
         ></input>
         <button
-          className="border-2 border-blue-400 hover:bg-blue-700 hover:text-white rounded-lg hover:border-blue-700 text-blue-400 font-bold px-2"
+          className="rounded-lg border-2 border-blue-400 px-2 font-bold text-blue-400 hover:border-blue-700 hover:bg-blue-700 hover:text-white"
           type="submit"
         >
           Upload Resume
