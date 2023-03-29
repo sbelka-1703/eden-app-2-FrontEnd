@@ -60,7 +60,10 @@ const CvGPT = () => {
   };
 
   const summaryList = summary
-    ? summary.split("•").map((item, index) => <li key={index}>{"•" + item}</li>)
+    ? summary
+        .split("•")
+        .filter((item) => item.trim() !== "")
+        .map((item, index) => <li key={index}>{"•" + item}</li>)
     : [];
 
   return (
@@ -86,7 +89,9 @@ const CvGPT = () => {
           Upload Resume
         </button>
       </form>
-      <div className="ml-10">{summary ? <ul>{summaryList}</ul> : null}</div>
+      <div className="ml-10">
+        {summary ? <ul className="space-y-[3px]">{summaryList}</ul> : null}
+      </div>
     </div>
   );
 };
