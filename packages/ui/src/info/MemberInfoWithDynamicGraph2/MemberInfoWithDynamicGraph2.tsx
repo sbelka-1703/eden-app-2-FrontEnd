@@ -1,9 +1,14 @@
 import { gql, useQuery } from "@apollo/client";
 import { Maybe, Members } from "@eden/package-graphql/generated";
 import {
+  Avatar,
+  Card,
   // MemberGraph,
   DynamicSearchMemberGraph,
+  MemberModal,
   SocialMediaComp,
+  TextBody,
+  TextHeading3,
   TextLabel1,
   UserBackground,
   UserWithDescription,
@@ -90,6 +95,7 @@ export const MemberInfoWithDynamicGraph2 = ({
   conversation,
 }: IMemberInfoWithDynamicGraph2Props) => {
   const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // console.log("nodesID -- -2--2-2 = ", nodesID);
 
@@ -216,6 +222,43 @@ export const MemberInfoWithDynamicGraph2 = ({
           </section>
         </div>
       </div>
+      {/* {JSON.stringify(member.endorsementsReceive)} */}
+      <section className="mb-8">
+        <TextLabel1>👑 Reviews</TextLabel1>
+        <div className="flex w-full overflow-x-auto pt-14">
+          {member.endorsementsReceive?.map((endorsement, index) => (
+            <Card
+              className="mr-4 w-[320px] flex-none px-4 pt-4"
+              border
+              shadow
+              key={index}
+            >
+              <div className="flex w-full flex-col items-center">
+                <button onClick={() => setIsModalOpen(true)}>
+                  <div className="-mt-14">
+                    <Avatar
+                      src={endorsement?.userSend?.discordAvatar || ""}
+                      size={`md`}
+                    />
+                  </div>
+                </button>
+
+                <TextHeading3 className="text-soilGray -ml-2">
+                  @{endorsement?.userSend?.discordName}
+                </TextHeading3>
+              </div>
+              <section className={`mb-6`}>
+                <TextBody>{endorsement?.endorsementMessage}</TextBody>
+              </section>
+              <MemberModal
+                member={endorsement?.userSend as Members}
+                open={isModalOpen}
+                onClose={() => setIsModalOpen(!isModalOpen)}
+              />
+            </Card>
+          ))}
+        </div>
+      </section>
 
       <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-6">
         {/* MEMEBER.ENDORSEMENT NO LONGER EXISTS */}

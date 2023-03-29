@@ -61,6 +61,7 @@ export const FIND_MEMBER = gql`
         _id
         userSend {
           discordName
+          discordAvatar
         }
         stars
         stake
