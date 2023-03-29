@@ -18,6 +18,33 @@ export const MATCH_NODES_MEMBERS_AI4 = gql`
         #     discriminator
         #   }
         # }
+        endorsementsReceive {
+          _id
+          userSend {
+            discordName
+            discordAvatar
+          }
+          stars
+          stake
+          endorsementMessage
+        }
+        endorseSummary {
+          summary
+          mainNodes {
+            node {
+              _id
+              name
+            }
+            confidence
+          }
+          averageStars
+          averageStake
+          totalStake
+          numberEndorsement
+          endorsers {
+            discordName
+          }
+        }
         memberRole {
           _id
           title
