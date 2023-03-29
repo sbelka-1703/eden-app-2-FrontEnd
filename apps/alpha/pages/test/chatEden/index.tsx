@@ -2,7 +2,7 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
 import {
-  FIND_MEMBER_INFO,
+  // FIND_MEMBER_INFO,
   MATCH_NODES_MEMBERS_AI4,
 } from "@eden/package-graphql";
 import {
@@ -22,7 +22,8 @@ import {
   CommonServerAvatarList,
   DynamicSearchGraph,
   LongText,
-  MemberInfoWithDynamicGraph,
+  // MemberInfoWithDynamicGraph,
+  MemberInfoWithDynamicGraph2,
   SendMessageUserToUser,
   SocialMediaComp,
   TextHeading3,
@@ -780,20 +781,20 @@ const UserMessageModal = ({
   member,
   matchPercentage,
   open,
-  conversation,
-  nodesID,
+  // conversation,
+  // nodesID,
   onClose,
 }: IUserMessageModalProps) => {
-  const { data: dataMemberInfo } = useQuery(FIND_MEMBER_INFO, {
-    variables: {
-      fields: {
-        _id: member?._id,
-      },
-    },
-    skip: !member?._id || !open,
-  });
+  // const { data: dataMemberInfo } = useQuery(FIND_MEMBER_INFO, {
+  //   variables: {
+  //     fields: {
+  //       _id: member?._id,
+  //     },
+  //   },
+  //   skip: !member?._id || !open,
+  // });
 
-  const findMember = dataMemberInfo?.findMember;
+  // const findMember = dataMemberInfo?.findMember;
   const [showMessage, setShowMessage] = useState(false);
 
   // const [changeTeamMemberPhaseProject, {}] = useMutation(SET_APPLY_TO_PROJECT, {
@@ -991,16 +992,9 @@ const UserMessageModal = ({
             //   percentage={matchPercentage?.totalPercentage || undefined}
             //   hasGraph
             // />
-            <MemberInfoWithDynamicGraph
-              member={findMember || member}
-              // nodesID={nodesPercentage
-              //   .flatMap((obj: { conn_nodeIDs: any }) => obj.conn_nodeIDs)
-              //   .slice(0, 4)}
-              // nodesID={nodesPercentage.map((node: { node: { _id: any; }; }) => node.node._id)}
+            <MemberInfoWithDynamicGraph2
+              member={member}
               percentage={matchPercentage?.totalPercentage || undefined}
-              hasGraph
-              nodesID={nodesID}
-              conversation={conversation}
             />
           )}
         </div>
