@@ -1,11 +1,12 @@
 import { gql, useQuery } from "@apollo/client";
-import { Maybe, Members } from "@eden/package-graphql/generated";
+import { Maybe, Members, NodesType } from "@eden/package-graphql/generated";
 import {
   Avatar,
   Card,
   // MemberGraph,
   DynamicSearchMemberGraph,
   MemberModal,
+  NodeList,
   SocialMediaComp,
   TextBody,
   TextHeading3,
@@ -14,6 +15,8 @@ import {
   UserWithDescription,
 } from "@eden/package-ui";
 import { useState } from "react";
+
+import { StarRating } from "../../flows/ReviewFlow/components";
 
 export interface IMemberInfoWithDynamicGraph2Props {
   member?: Maybe<Members>;
@@ -238,7 +241,7 @@ export const MemberInfoWithDynamicGraph2 = ({
       {/* {JSON.stringify(member.endorsementsReceive)} */}
       <section className="mb-8">
         <TextLabel1>👑 Reviews</TextLabel1>
-        <div className="flex w-full overflow-x-auto pt-14">
+        <div className="flex w-full overflow-x-auto">
           {member.endorsementsReceive?.map((endorsement, index) => (
             <Card
               className="mr-4 w-[320px] flex-none px-4 pt-4"
@@ -246,20 +249,39 @@ export const MemberInfoWithDynamicGraph2 = ({
               shadow
               key={index}
             >
-              <div className="flex w-full flex-col items-center">
+              <div className="mb-2 flex w-full">
                 <button onClick={() => setIsModalOpen(true)}>
-                  <div className="-mt-14">
+                  <div className="mr-2">
                     <Avatar
                       src={endorsement?.userSend?.discordAvatar || ""}
                       size={`md`}
                     />
                   </div>
                 </button>
-
-                <TextHeading3 className="text-soilGray -ml-2">
-                  @{endorsement?.userSend?.discordName}
-                </TextHeading3>
+                <div>
+                  <TextHeading3 className="text-soilGray">
+                    @{endorsement?.userSend?.discordName}
+                  </TextHeading3>
+                  {endorsement?.userSend?.memberRole?.title && (
+                    <p className="text-sm text-gray-400">
+                      {endorsement?.userSend?.memberRole.title}
+                    </p>
+                  )}
+                  <StarRating rating={endorsement?.stars!} />
+                </div>
+                <div className="ml-auto text-right">
+                  <TextLabel1>Stake</TextLabel1>
+                  <p>${endorsement?.stake}</p>
+                </div>
               </div>
+              <NodeList
+                nodes={endorsement?.nodes?.map(
+                  (node) =>
+                    ({
+                      nodeData: node,
+                    } as NodesType)
+                )}
+              />
               <section className={`mb-6`}>
                 <TextBody>{endorsement?.endorsementMessage}</TextBody>
               </section>
