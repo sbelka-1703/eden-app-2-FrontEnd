@@ -782,7 +782,7 @@ const UserMessageModal = ({
   matchPercentage,
   open,
   // conversation,
-  // nodesID,
+  nodesID,
   onClose,
 }: IUserMessageModalProps) => {
   // const { data: dataMemberInfo } = useQuery(FIND_MEMBER_INFO, {
@@ -945,11 +945,11 @@ const UserMessageModal = ({
           <div className={`col-span-2 flex justify-end`}></div>
           <div className={`col-span-1 h-8`}></div>
           <div className={`col-span-2`}>
-            {!showMessage && (
+            {/* {!showMessage && (
               <Button onClick={() => setShowMessage(!showMessage)}>
                 Connect with {member?.discordName}
               </Button>
-            )}
+            )} */}
             {showMessage && (
               <Button onClick={() => setShowMessage(!showMessage)}>
                 Cancel Message
@@ -995,6 +995,16 @@ const UserMessageModal = ({
             <MemberInfoWithDynamicGraph2
               member={member}
               percentage={matchPercentage?.totalPercentage || undefined}
+              nodesID={nodesID}
+              conversation={chatN
+                .map((obj) => {
+                  if (obj.user === "01") {
+                    return { role: "assistant", content: obj.message };
+                  } else {
+                    return { role: "user", content: obj.message };
+                  }
+                })
+                .slice(-6)}
             />
           )}
         </div>
