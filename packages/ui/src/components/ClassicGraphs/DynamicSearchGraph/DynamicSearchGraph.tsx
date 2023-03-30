@@ -190,6 +190,44 @@ export const DynamicSearchGraph = ({
         edgeSettingsPreset["dynamicSearch|Group"]["longEdge"],
         // // ------ split sub_typeProject|dynamicSearch -------
       ]);
+    } else if (graphType == "KG_AI") {
+      setNodeSettings([
+        nodeSettingsPreset["dynamicSearch"]["main"],
+        nodeSettingsPreset["Skill"]["bigYellow"],
+        nodeSettingsPreset["Expertise"]["bigYellow"],
+        nodeSettingsPreset["Role"]["bigYellow"],
+      ]);
+
+      setEdgeSettings([
+        // // ------ split sub_typeProject|dynamicSearch -------
+        edgeSettingsPreset["dynamicSearch|Skill"]["longEdge"],
+        edgeSettingsPreset["dynamicSearch|Expertise"]["longEdge"],
+        edgeSettingsPreset["dynamicSearch|Role"]["longEdge"],
+        // // ------ split sub_typeProject|dynamicSearch -------
+      ]);
+    } else if (graphType == "KG_AI_2_plusIndustry") {
+      setNodeSettings([
+        nodeSettingsPreset["dynamicSearch"]["main"],
+        nodeSettingsPreset["Skill"]["bigYellow"],
+        nodeSettingsPreset["Category"]["bigYellow"],
+        nodeSettingsPreset["Group"]["bigYellow"],
+
+        nodeSettingsPreset["SubSector"]["bigBlue"],
+        nodeSettingsPreset["Sector"]["bigBlue"],
+        nodeSettingsPreset["Industry"]["bigBlue"],
+      ]);
+
+      setEdgeSettings([
+        // // ------ split sub_typeProject|dynamicSearch -------
+        edgeSettingsPreset["dynamicSearch|Skill"]["longEdge"],
+        edgeSettingsPreset["dynamicSearch|Category"]["longEdge"],
+        edgeSettingsPreset["dynamicSearch|Group"]["longEdge"],
+
+        edgeSettingsPreset["dynamicSearch|SubSector"]["longEdge"],
+        edgeSettingsPreset["dynamicSearch|Sector"]["longEdge"],
+        edgeSettingsPreset["dynamicSearch|Industry"]["longEdge"],
+        // // ------ split sub_typeProject|dynamicSearch -------
+      ]);
     }
   }, [data]);
 

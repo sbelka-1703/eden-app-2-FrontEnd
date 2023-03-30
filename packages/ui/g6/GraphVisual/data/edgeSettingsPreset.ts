@@ -510,6 +510,78 @@ export const edgeSettingsPreset = {
       },
     },
   },
+  "dynamicSearch|SubSector": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "dynamicSearch",
+        nodeTypeTarget: "SubSector",
+        style: {
+          color: "#E0E0E0",
+          distance: 70,
+          strength: 0.5,
+        },
+      },
+    },
+    longEdge: {
+      mainEdge: {
+        nodeTypeSource: "dynamicSearch",
+        nodeTypeTarget: "SubSector",
+        style: {
+          color: "#E0E0E0",
+          distance: 135,
+          strength: 0.5,
+        },
+      },
+    },
+  },
+  "dynamicSearch|Sector": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "dynamicSearch",
+        nodeTypeTarget: "Sector",
+        style: {
+          color: "#E0E0E0",
+          distance: 70,
+          strength: 0.5,
+        },
+      },
+    },
+    longEdge: {
+      mainEdge: {
+        nodeTypeSource: "dynamicSearch",
+        nodeTypeTarget: "Sector",
+        style: {
+          color: "#E0E0E0",
+          distance: 135,
+          strength: 0.5,
+        },
+      },
+    },
+  },
+  "dynamicSearch|Industry": {
+    edge: {
+      mainEdge: {
+        nodeTypeSource: "dynamicSearch",
+        nodeTypeTarget: "Industry",
+        style: {
+          color: "#E0E0E0",
+          distance: 70,
+          strength: 0.5,
+        },
+      },
+    },
+    longEdge: {
+      mainEdge: {
+        nodeTypeSource: "dynamicSearch",
+        nodeTypeTarget: "Industry",
+        style: {
+          color: "#E0E0E0",
+          distance: 135,
+          strength: 0.5,
+        },
+      },
+    },
+  },
   "dynamicSearch|Skill": {
     edge: {
       mainEdge: {

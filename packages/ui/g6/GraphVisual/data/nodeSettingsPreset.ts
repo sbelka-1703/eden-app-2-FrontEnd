@@ -86,6 +86,60 @@ export const nodeSettingsPreset = {
       },
     },
   },
+  SubSector: {
+    main: {
+      type: "SubSector",
+      style: {
+        size: 65,
+        fill: "#FBEDEC",
+        stroke: "#F3B8B4",
+      },
+    },
+    bigBlue: {
+      type: "SubSector",
+      style: {
+        size: 75,
+        fill: "#EBF8FF",
+        stroke: "#179FFF",
+      },
+    },
+  },
+  Sector: {
+    main: {
+      type: "SubSector",
+      style: {
+        size: 65,
+        fill: "#FBEDEC",
+        stroke: "#F3B8B4",
+      },
+    },
+    bigBlue: {
+      type: "SubSector",
+      style: {
+        size: 75,
+        fill: "#EBF8FF",
+        stroke: "#179FFF",
+      },
+    },
+  },
+  Industry: {
+    main: {
+      type: "SubSector",
+      style: {
+        size: 65,
+        fill: "#FBEDEC",
+        stroke: "#F3B8B4",
+      },
+    },
+    bigBlue: {
+      type: "SubSector",
+      style: {
+        size: 75,
+        fill: "#EBF8FF",
+        stroke: "#179FFF",
+      },
+    },
+  },
   Expertise: {
     main: {
       type: "Expertise",

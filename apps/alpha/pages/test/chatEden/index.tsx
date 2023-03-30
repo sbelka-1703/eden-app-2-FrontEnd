@@ -75,16 +75,16 @@ const chatEden: NextPageWithLayout = () => {
     //   active: false,
     //   isNew: true,
     // },
-    // "6416b6e1a57032640bd813aa": {
-    //   confidence: "9",
-    //   active: true,
-    //   isNew: true,
-    // },
-    // "640a74bb2484854db2012bf8": {
-    //   confidence: "6",
-    //   active: false,
-    //   isNew: false,
-    // },
+    "6416b6e1a57032640bd813aa": {
+      confidence: "9",
+      active: true,
+      isNew: true,
+    },
+    "640a74bb2484854db2012bf8": {
+      confidence: "6",
+      active: false,
+      isNew: false,
+    },
   });
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -507,7 +507,8 @@ const chatEden: NextPageWithLayout = () => {
                   setActivateNodeEvent={setActivateNodeEvent}
                   height={"380"}
                   // graphType={"simple"}
-                  graphType={"KG_AI_2"}
+                  // graphType={"KG_AI_2"}
+                  graphType={"KG_AI_2_plusIndustry"}
                   // zoomGraph={1.1}
                 />
               </div>
