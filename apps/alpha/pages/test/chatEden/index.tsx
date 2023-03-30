@@ -71,20 +71,20 @@ const chatEden: NextPageWithLayout = () => {
 
   const [nodeObj, setNodeObj] = useState<NodeObj>({
     // "640a739dc5d61b4bae0ee091": { // SOS 🆘 -> problem with this node combination
-    //   confidence: "9",
+    //   confidence: 9,
     //   active: false,
     //   isNew: true,
     // },
-    "6416b6e1a57032640bd813aa": {
-      confidence: "9",
-      active: true,
-      isNew: true,
-    },
-    "640a74bb2484854db2012bf8": {
-      confidence: "6",
-      active: false,
-      isNew: false,
-    },
+    // "6416b6e1a57032640bd813aa": {
+    //   confidence: 9,
+    //   active: true,
+    //   isNew: true,
+    // },
+    // "640a74bb2484854db2012bf8": {
+    //   confidence: 6,
+    //   active: false,
+    //   isNew: false,
+    // },
   });
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
