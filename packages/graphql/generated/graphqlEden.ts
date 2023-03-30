@@ -223,6 +223,7 @@ export type Members = {
   attributes?: Maybe<AttributesType>;
   bio?: Maybe<Scalars["String"]>;
   chat?: Maybe<ChatResponse>;
+  completedOpportunities?: Maybe<Scalars["Int"]>;
   content?: Maybe<ContentType>;
   discordAvatar?: Maybe<Scalars["String"]>;
   discordName?: Maybe<Scalars["String"]>;
@@ -235,6 +236,7 @@ export type Members = {
   interest?: Maybe<Scalars["String"]>;
   invitedBy?: Maybe<MembersSmallType>;
   links?: Maybe<Array<Maybe<LinkType>>>;
+  location?: Maybe<Scalars["String"]>;
   memberRole?: Maybe<RoleTemplate>;
   network?: Maybe<Array<Maybe<Members>>>;
   nodes?: Maybe<Array<Maybe<NodesType>>>;
@@ -249,6 +251,7 @@ export type Members = {
   serverID?: Maybe<Array<Maybe<Scalars["String"]>>>;
   skills?: Maybe<Array<Maybe<SkillType_Member>>>;
   timeZone?: Maybe<Scalars["String"]>;
+  totalIncome?: Maybe<Scalars["Float"]>;
   totalNodeTrust?: Maybe<TotalNodeTrustType>;
   tweets?: Maybe<Array<Maybe<Scalars["String"]>>>;
 };
@@ -317,6 +320,7 @@ export type Mutation = {
   updateGrant?: Maybe<GrantTemplate>;
   updateMember?: Maybe<Members>;
   updateMemberInRoom?: Maybe<Members>;
+  updateMemberSignalInfo?: Maybe<Members>;
   updateMessage?: Maybe<Ai>;
   updateNodesToGrant?: Maybe<GrantTemplate>;
   updateNodesToMember?: Maybe<Members>;
@@ -543,6 +547,10 @@ export type MutationUpdateMemberArgs = {
 
 export type MutationUpdateMemberInRoomArgs = {
   fields?: InputMaybe<UpdateMemberInRoomInput>;
+};
+
+export type MutationUpdateMemberSignalInfoArgs = {
+  fields?: InputMaybe<UpdateMemberSignalInfoInput>;
 };
 
 export type MutationUpdateMessageArgs = {
@@ -1601,8 +1609,10 @@ export type CreateNewTeamInput = {
 export type CreateNodeCategoryGroupInput = {
   categoryID?: InputMaybe<Scalars["ID"]>;
   categoryName?: InputMaybe<Scalars["String"]>;
+  categoryTypeName?: InputMaybe<Scalars["String"]>;
   groupID?: InputMaybe<Scalars["String"]>;
   groupName?: InputMaybe<Scalars["String"]>;
+  groupTypeName?: InputMaybe<Scalars["String"]>;
   name?: InputMaybe<Scalars["String"]>;
   node?: InputMaybe<Scalars["String"]>;
 };
@@ -2960,6 +2970,15 @@ export type UpdateMemberInput = {
   serverID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
   skills?: InputMaybe<Array<InputMaybe<SkillInput_Member>>>;
   timeZone?: InputMaybe<Scalars["String"]>;
+};
+
+export type UpdateMemberSignalInfoInput = {
+  completedOpportunities?: InputMaybe<Scalars["Int"]>;
+  hoursPerWeek?: InputMaybe<Scalars["Int"]>;
+  location?: InputMaybe<Scalars["String"]>;
+  memberID?: InputMaybe<Scalars["ID"]>;
+  timeZone?: InputMaybe<Scalars["String"]>;
+  totalIncome?: InputMaybe<Scalars["Float"]>;
 };
 
 export type UpdateMessageInput = {
