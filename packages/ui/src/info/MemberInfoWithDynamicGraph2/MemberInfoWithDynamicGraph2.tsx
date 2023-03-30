@@ -133,17 +133,18 @@ export const MemberInfoWithDynamicGraph2 = ({
     <div>
       <div className="mb-10 sm:grid sm:grid-cols-6">
         <div className="flex flex-col items-center justify-end sm:col-span-2">
-          <p className="border-b border-slate-200 text-center">
-            <span className="text-2xl">$4200</span>
+          {/* <p className="border-b border-slate-200 text-center"> */}
+          <p className="text-center">
+            <span className="text-2xl">${member.totalIncome}</span>
           </p>
-          <p className="text-center text-sm text-slate-400">Eden lvl3</p>
+          {/* <p className="text-center text-sm text-slate-400">Eden lvl3</p> */}
         </div>
         <div className="sm:col-span-2">
           <UserWithDescription member={member} />
         </div>
         <div className="flex flex-col items-center justify-end sm:col-span-2">
           <p className="border-b border-slate-200 text-center text-sm">
-            <span className="text-2xl">10</span>
+            <span className="text-2xl">{member.completedOpportunities}</span>
             <br />
             completed opportunities
           </p>
@@ -220,6 +221,18 @@ export const MemberInfoWithDynamicGraph2 = ({
               Base rate + tax
             </p>
           </section>
+          <section className="mb-4">
+            <TextLabel1>❤️ Availability</TextLabel1>
+            <p className="text-center font-bold text-slate-600">
+              <span className="text-2xl">{member.hoursPerWeek}</span> hours/week
+            </p>
+          </section>
+          <section className="mb-4">
+            <TextLabel1>🌍 Timezone</TextLabel1>
+            <p className="text-center font-bold text-slate-600">
+              {member.timeZone}
+            </p>
+          </section>
         </div>
       </div>
       {/* {JSON.stringify(member.endorsementsReceive)} */}
@@ -277,10 +290,6 @@ export const MemberInfoWithDynamicGraph2 = ({
             {member?.links && member?.links.length > 0 && (
               <SocialMediaComp links={member?.links} />
             )}
-          </section>
-          <section>
-            <TextLabel1>🌍 Timezone</TextLabel1>
-            <p className="text-center font-bold text-slate-600">UTC+1</p>
           </section>
         </div>
       </div>

@@ -10,6 +10,11 @@ export const MATCH_NODES_MEMBERS_AI4 = gql`
         discriminator
         bio
         serverID
+        timeZone
+        hoursPerWeek
+        location
+        totalIncome
+        completedOpportunities
         # endorsements {
         #   endorser {
         #     _id
