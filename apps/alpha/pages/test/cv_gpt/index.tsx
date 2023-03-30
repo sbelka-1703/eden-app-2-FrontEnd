@@ -63,8 +63,10 @@ const CvGPT = () => {
     ? summary
         .split("•")
         .filter((item) => item.trim() !== "")
-        .map((item, index) => <li key={index}>{"•" + item}</li>)
+        .map((item, index) => <li key={index}>{item}</li>)
     : [];
+
+  console.log("summaryList", summaryList);
 
   return (
     <div className="w-72 ">
@@ -89,9 +91,17 @@ const CvGPT = () => {
           Upload Resume
         </button>
       </form>
-      <div className="ml-10">
-        {summary ? <ul className="space-y-[3px]">{summaryList}</ul> : null}
-      </div>
+
+      {summary ? (
+        <div className="mt-2 ml-2 w-96 rounded-md border-2 border-black pl-6 pr-4 ">
+          <label htmlFor="ul" className="text-right text-lg font-bold">
+            CV Summary:
+          </label>
+          <ul className="list-outside list-disc space-y-[3px]	">
+            {summaryList}
+          </ul>
+        </div>
+      ) : null}
     </div>
   );
 };
