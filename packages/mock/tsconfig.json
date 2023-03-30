@@ -1,5 +1,9 @@
 {
   "extends": "@eden/package-tsconfig/react-library.json",
-  "include": [".", "../config/jest/setup.ts"],
+  "include": [
+    ".",
+    "../config/jest/setup.ts",
+    "../ui/utils/resizeObserverMock.ts"
+  ],
   "exclude": ["dist", "build", "node_modules"]
 }
