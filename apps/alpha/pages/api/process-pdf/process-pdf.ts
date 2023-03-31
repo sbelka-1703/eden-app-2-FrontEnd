@@ -12,6 +12,13 @@ type ResponseData = {
 type errorResponse = {
   error: string;
 };
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: "10mb", // Set desired value here
+    },
+  },
+};
 
 const processPdf = async (
   req: NextApiRequest,

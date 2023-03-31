@@ -12,7 +12,7 @@ const EndorsementPage: NextPageWithLayout = () => {
   return (
     <>
       <SEO />
-      <EndorsementFlow />
+      <EndorsementFlow endorsementID={id as string} />
     </>
   );
 };

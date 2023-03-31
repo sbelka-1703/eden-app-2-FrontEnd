@@ -69,7 +69,7 @@ const CvGPT = () => {
   console.log("summaryList", summaryList);
 
   return (
-    <div className="w-5/12 ">
+    <div className="w-fit ">
       <form
         onSubmit={handleSubmit}
         className="flex flex-col items-center justify-center space-y-2"
@@ -92,7 +92,7 @@ const CvGPT = () => {
         </button>
       </form>
       {summary ? (
-        <div className="mt-2 ml-2 w-full rounded-md border-2 border-black pl-6 pr-4 ">
+        <div className="mt-2 ml-2 w-fit rounded-md border-2 border-black pl-6 pr-4 ">
           <label htmlFor="ul" className="text-right text-lg font-bold">
             CV Summary:
           </label>
