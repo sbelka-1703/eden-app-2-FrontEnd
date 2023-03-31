@@ -64,7 +64,7 @@ const HighlightText = ({ text }: HighlightTextProps) => {
   // const highlightStyle =
   //   "bg-blue-200 text-blue-800 px-1 py-0.5 rounded-md shadow-sm";
   const bulletPoint = (
-    <span className="mx-2 text-xl font-bold text-blue-500">•</span>
+    <span className="mx-2 -mt-1 text-xl font-bold text-blue-500">•</span>
   );
 
   if (text == null) text = "";
@@ -79,7 +79,7 @@ const HighlightText = ({ text }: HighlightTextProps) => {
   // parts = parts.replace(/-/g, "");
   const highlightedText = parts.map((part: string, index: number) => {
     return (
-      <span key={index}>
+      <span key={index} className="-ml-2 mb-1 flex">
         {bulletPoint}
         <span>{part.trim()}</span>
         <br />
@@ -156,9 +156,11 @@ export const MemberInfoWithDynamicGraph2 = ({
       </div>
       <div className="mb-8 sm:grid-cols-6">
         <div className="my-4 flex flex-col items-start justify-center rounded-xl bg-cyan-50 p-4 pt-3 sm:col-span-4 sm:my-0">
-          <TextLabel1>
-            🪄 Why {member.discordName} is Perfect for you? 🪄{" "}
-          </TextLabel1>
+          <p className="mb-2">
+            <TextLabel1>
+              🪄 Why {member.discordName} is Perfect for you? 🪄{" "}
+            </TextLabel1>
+          </p>
           {!loadingGPTsummary ? (
             <>
               <p className="text-soilBody font-Inter font-normal">
@@ -185,11 +187,11 @@ export const MemberInfoWithDynamicGraph2 = ({
         )} */}
       </div>
 
-      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-6">
-        <div className="sm:col-span-4 sm:my-0">
+      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-12">
+        <div className="sm:col-span-7 sm:my-0">
           {!!member?.bio && <TextLabel1>🪪 Short bio</TextLabel1>}
           {!loading ? (
-            <p className="text-soilBody font-Inter whitespace-pre-wrap font-normal">
+            <p className="text-soilBody font-Inter mb-2 whitespace-pre-wrap font-normal">
               {member?.bio}
             </p>
           ) : (
@@ -200,17 +202,34 @@ export const MemberInfoWithDynamicGraph2 = ({
               </div>
             </div>
           )}
+          <div className="">
+            <p className="text-left">
+              <TextLabel1>🧙‍♂️ Wizard Skills</TextLabel1>
+            </p>
+            <NodeList
+              colorRGB={`235,225,255`}
+              nodes={member.endorseSummary?.mainNodes?.map(
+                (node) =>
+                  ({
+                    nodeData: {
+                      name: node?.node?.name,
+                    },
+                  } as NodesType)
+              )}
+            />
+          </div>
         </div>
-        <div className="flex flex-col items-center sm:col-span-2 sm:my-0">
-          <section className="mb-4">
+        <div className="col-span-2"></div>
+        <div className="flex flex-col items-center sm:col-span-3 sm:my-0">
+          <section className="border-soilGrey-200 mb-4 w-full rounded-xl border p-2 text-center">
             <p className="text-center">
               <TextLabel1>⚡️ Match</TextLabel1>
             </p>
-            <p className="text-[62px] font-bold leading-none text-[#cb10ff]">
+            <p className="text-center text-[62px] font-bold leading-none text-[#cb10ff]">
               {percentage}%
             </p>
           </section>
-          <section className="mb-4">
+          <section className="border-soilGrey-200 mb-4 w-full rounded-xl border p-2 text-center">
             <p className="text-center">
               <TextLabel1>💰 Hourly rate</TextLabel1>
             </p>
@@ -224,13 +243,13 @@ export const MemberInfoWithDynamicGraph2 = ({
               Base rate + tax
             </p>
           </section>
-          <section className="mb-4">
+          <section className="border-soilGrey-200 mb-4 w-full rounded-xl border p-2 text-center">
             <TextLabel1>❤️ Availability</TextLabel1>
             <p className="text-center font-bold text-slate-600">
               <span className="text-2xl">{member.hoursPerWeek}</span> hours/week
             </p>
           </section>
-          <section className="mb-4">
+          <section className="border-soilGrey-200 mb-4 w-full rounded-xl border p-2 text-center">
             <TextLabel1>🌍 Timezone</TextLabel1>
             <p className="text-center font-bold text-slate-600">
               {member.timeZone}
@@ -240,62 +259,95 @@ export const MemberInfoWithDynamicGraph2 = ({
       </div>
       {/* {JSON.stringify(member.endorsementsReceive)} */}
       <section className="mb-8">
-        <TextLabel1>👑 Reviews</TextLabel1>
-        <div className="flex w-full overflow-x-auto">
-          {member.endorsementsReceive?.map((endorsement, index) => (
-            <Card
-              className="mr-4 w-[320px] flex-none px-4 pt-4"
-              border
-              shadow
-              key={index}
-            >
-              <div className="mb-2 flex w-full">
-                <button onClick={() => setIsModalOpen(true)}>
-                  <div className="mr-2">
-                    <Avatar
-                      src={endorsement?.userSend?.discordAvatar || ""}
-                      size={`md`}
-                    />
-                  </div>
-                </button>
-                <div>
-                  <TextHeading3 className="text-soilGray">
-                    @{endorsement?.userSend?.discordName}
-                  </TextHeading3>
-                  {endorsement?.userSend?.memberRole?.title && (
-                    <p className="text-sm text-gray-400">
-                      {endorsement?.userSend?.memberRole.title}
-                    </p>
-                  )}
-                  <StarRating isReadOnly rating={endorsement?.stars!} />
-                </div>
-                <div className="ml-auto text-right">
-                  <TextLabel1>Stake</TextLabel1>
-                  <p>${endorsement?.stake}</p>
-                </div>
+        <p className="mb-2">
+          <TextLabel1>👑 Reviews</TextLabel1>
+        </p>
+        <section className="grid grid-cols-12 gap-2">
+          <Card className="col-span-6 mr-4 px-4 pt-4" border shadow>
+            <div className="mb-2 flex w-full">
+              <div className="text-left">
+                <TextHeading3 className="text-md">General Vibe</TextHeading3>
+                <StarRating
+                  isReadOnly
+                  rating={member.endorseSummary?.averageStars!}
+                />
               </div>
-              <NodeList
-                colorRGB={`235,225,255`}
-                nodes={endorsement?.nodes?.map(
-                  (node) =>
-                    ({
-                      nodeData: {
-                        name: node?.node?.name,
-                      },
-                    } as NodesType)
-                )}
-              />
-              <section className={`mb-6`}>
-                <TextBody>{endorsement?.endorsementMessage}</TextBody>
-              </section>
-              <MemberModal
-                member={endorsement?.userSend as Members}
-                open={isModalOpen}
-                onClose={() => setIsModalOpen(!isModalOpen)}
-              />
-            </Card>
-          ))}
-        </div>
+              <div className="ml-auto text-right">
+                <TextLabel1>Total Stake</TextLabel1>
+                <p>${member.endorseSummary?.totalStake}</p>
+              </div>
+            </div>
+            <NodeList
+              colorRGB={`235,225,255`}
+              nodes={member.endorseSummary?.mainNodes?.map(
+                (node) =>
+                  ({
+                    nodeData: {
+                      name: node?.node?.name,
+                    },
+                  } as NodesType)
+              )}
+            />
+            <section className={`mb-6`}>
+              <TextBody>{member.endorseSummary?.summary}</TextBody>
+            </section>
+          </Card>
+          <div className="col-span-6 flex overflow-x-auto">
+            {member.endorsementsReceive?.map((endorsement, index) => (
+              <Card
+                className="mr-4 w-[320px] flex-none px-4 pt-4"
+                border
+                shadow
+                key={index}
+              >
+                <div className="mb-2 flex w-full">
+                  <button onClick={() => setIsModalOpen(true)}>
+                    <div className="mr-2">
+                      <Avatar
+                        src={endorsement?.userSend?.discordAvatar || ""}
+                        size={`md`}
+                      />
+                    </div>
+                  </button>
+                  <div>
+                    <TextHeading3 className="text-soilGray">
+                      @{endorsement?.userSend?.discordName}
+                    </TextHeading3>
+                    {endorsement?.userSend?.memberRole?.title && (
+                      <p className="text-sm text-gray-400">
+                        {endorsement?.userSend?.memberRole.title}
+                      </p>
+                    )}
+                    <StarRating isReadOnly rating={endorsement?.stars!} />
+                  </div>
+                  <div className="ml-auto text-right">
+                    <TextLabel1>Stake</TextLabel1>
+                    <p>${endorsement?.stake}</p>
+                  </div>
+                </div>
+                <NodeList
+                  colorRGB={`235,225,255`}
+                  nodes={endorsement?.nodes?.map(
+                    (node) =>
+                      ({
+                        nodeData: {
+                          name: node?.node?.name,
+                        },
+                      } as NodesType)
+                  )}
+                />
+                <section className={`mb-6`}>
+                  <TextBody>{endorsement?.endorsementMessage}</TextBody>
+                </section>
+                <MemberModal
+                  member={endorsement?.userSend as Members}
+                  open={isModalOpen}
+                  onClose={() => setIsModalOpen(!isModalOpen)}
+                />
+              </Card>
+            ))}
+          </div>
+        </section>
       </section>
 
       <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-6">
