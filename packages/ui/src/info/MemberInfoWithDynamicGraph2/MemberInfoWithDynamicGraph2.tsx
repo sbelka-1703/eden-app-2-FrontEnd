@@ -87,7 +87,7 @@ const HighlightText = ({ text }: HighlightTextProps) => {
     );
   });
 
-  return <p>{highlightedText}</p>;
+  return <span>{highlightedText}</span>;
 };
 
 export const MemberInfoWithDynamicGraph2 = ({
@@ -267,7 +267,7 @@ export const MemberInfoWithDynamicGraph2 = ({
                       {endorsement?.userSend?.memberRole.title}
                     </p>
                   )}
-                  <StarRating rating={endorsement?.stars!} />
+                  <StarRating isReadOnly rating={endorsement?.stars!} />
                 </div>
                 <div className="ml-auto text-right">
                   <TextLabel1>Stake</TextLabel1>
@@ -275,10 +275,13 @@ export const MemberInfoWithDynamicGraph2 = ({
                 </div>
               </div>
               <NodeList
+                colorRGB={`235,225,255`}
                 nodes={endorsement?.nodes?.map(
                   (node) =>
                     ({
-                      nodeData: node,
+                      nodeData: {
+                        name: node?.node?.name,
+                      },
                     } as NodesType)
                 )}
               />
