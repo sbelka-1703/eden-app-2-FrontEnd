@@ -23,6 +23,13 @@ export const EDEN_GPT_REPLY_CHAT_API = gql`
     }
   }
 `;
+export const EDEN_GPT_REPLY_CHAT_API_V2 = gql`
+  query ($fields: edenGPTreplyChatAPI_V2Input!) {
+    edenGPTreplyChatAPI_V2(fields: $fields) {
+      reply
+    }
+  }
+`;
 
 export const MESSAGE_MAP_KG = gql`
   query ($fields: messageMapKGInput!) {
