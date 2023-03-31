@@ -36,7 +36,8 @@ import React, { Fragment, useContext, useEffect, useState } from "react";
 
 import {
   EDEN_GPT_REPLY,
-  EDEN_GPT_REPLY_CHAT_API,
+  // EDEN_GPT_REPLY_CHAT_API,
+  EDEN_GPT_REPLY_CHAT_API_V2,
   EDEN_GPT_REPLY_MEMORY,
   MESSAGE_MAP_KG_V2,
   STORE_LONG_TERM_MEMORY,
@@ -75,16 +76,26 @@ const chatEden: NextPageWithLayout = () => {
     //   active: false,
     //   isNew: true,
     // },
-    // "6416b6e1a57032640bd813aa": {
-    //   confidence: 9,
-    //   active: true,
-    //   isNew: true,
-    // },
-    // "640a74bb2484854db2012bf8": {
-    //   confidence: 6,
-    //   active: false,
-    //   isNew: false,
-    // },
+    "6416b6e1a57032640bd813aa": {
+      confidence: 9,
+      active: true,
+      isNew: true,
+    },
+    "6425213bfd005e8c789ceaca": {
+      confidence: 10,
+      active: true,
+      isNew: true,
+    },
+    "6425213cfd005e8c789ceacd": {
+      confidence: 10,
+      active: true,
+      isNew: true,
+    },
+    "6425213dfd005e8c789cead0": {
+      confidence: 10,
+      active: true,
+      isNew: false,
+    },
   });
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -126,24 +137,27 @@ const chatEden: NextPageWithLayout = () => {
     skip: messageUser == "" || selectedOption != "option2",
   });
 
-  const { data: dataEdenGPTReplyChatAPI } = useQuery(EDEN_GPT_REPLY_CHAT_API, {
-    variables: {
-      fields: {
-        message: messageUser,
-        conversation: chatN
-          .map((obj) => {
-            if (obj.user === "01") {
-              return { role: "assistant", content: obj.message };
-            } else {
-              return { role: "user", content: obj.message };
-            }
-          })
-          .slice(-6),
-        userID: currentUser?._id,
+  const { data: dataEdenGPTReplyChatAPI } = useQuery(
+    EDEN_GPT_REPLY_CHAT_API_V2,
+    {
+      variables: {
+        fields: {
+          message: messageUser,
+          conversation: chatN
+            .map((obj) => {
+              if (obj.user === "01") {
+                return { role: "assistant", content: obj.message };
+              } else {
+                return { role: "user", content: obj.message };
+              }
+            })
+            .slice(-6),
+          userID: currentUser?._id,
+        },
       },
-    },
-    skip: messageUser == "" || selectedOption != "option3",
-  });
+      skip: messageUser == "" || selectedOption != "option3",
+    }
+  );
 
   const { data: dataMessageMapKGV2 } = useQuery(MESSAGE_MAP_KG_V2, {
     variables: {
@@ -237,7 +251,7 @@ const chatEden: NextPageWithLayout = () => {
       let newMessage = "";
 
       if (selectedOption == "option3") {
-        newMessage = dataEdenGPTReplyChatAPI.edenGPTreplyChatAPI.reply;
+        newMessage = dataEdenGPTReplyChatAPI.edenGPTreplyChatAPI_V2.reply;
       } else if (selectedOption == "option2") {
         newMessage = dataEdenGPTReplyMemory.edenGPTreplyMemory.reply;
       } else if (selectedOption == "option1") {
