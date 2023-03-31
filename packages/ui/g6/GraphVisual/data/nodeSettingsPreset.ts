@@ -106,7 +106,7 @@ export const nodeSettingsPreset = {
   },
   Sector: {
     main: {
-      type: "SubSector",
+      type: "Sector",
       style: {
         size: 65,
         fill: "#FBEDEC",
@@ -114,7 +114,7 @@ export const nodeSettingsPreset = {
       },
     },
     bigBlue: {
-      type: "SubSector",
+      type: "Sector",
       style: {
         size: 75,
         fill: "#EBF8FF",
@@ -124,7 +124,7 @@ export const nodeSettingsPreset = {
   },
   Industry: {
     main: {
-      type: "SubSector",
+      type: "Industry",
       style: {
         size: 65,
         fill: "#FBEDEC",
@@ -132,7 +132,7 @@ export const nodeSettingsPreset = {
       },
     },
     bigBlue: {
-      type: "SubSector",
+      type: "Industry",
       style: {
         size: 75,
         fill: "#EBF8FF",

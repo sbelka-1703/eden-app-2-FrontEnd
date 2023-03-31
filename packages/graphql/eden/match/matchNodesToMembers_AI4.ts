@@ -15,6 +15,9 @@ export const MATCH_NODES_MEMBERS_AI4 = gql`
         location
         totalIncome
         completedOpportunities
+        budget {
+          perHour
+        }
         # endorsements {
         #   endorser {
         #     _id
@@ -32,6 +35,11 @@ export const MATCH_NODES_MEMBERS_AI4 = gql`
           stars
           stake
           endorsementMessage
+          nodes {
+            node {
+              name
+            }
+          }
         }
         endorseSummary {
           summary

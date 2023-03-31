@@ -36,7 +36,8 @@ import React, { Fragment, useContext, useEffect, useState } from "react";
 
 import {
   EDEN_GPT_REPLY,
-  EDEN_GPT_REPLY_CHAT_API,
+  // EDEN_GPT_REPLY_CHAT_API,
+  EDEN_GPT_REPLY_CHAT_API_V2,
   EDEN_GPT_REPLY_MEMORY,
   MESSAGE_MAP_KG_V2,
   STORE_LONG_TERM_MEMORY,
@@ -80,9 +81,19 @@ const chatEden: NextPageWithLayout = () => {
     //   active: true,
     //   isNew: true,
     // },
-    // "640a74bb2484854db2012bf8": {
-    //   confidence: 6,
-    //   active: false,
+    // "6425213bfd005e8c789ceaca": {
+    //   confidence: 10,
+    //   active: true,
+    //   isNew: true,
+    // },
+    // "6425213cfd005e8c789ceacd": {
+    //   confidence: 10,
+    //   active: true,
+    //   isNew: true,
+    // },
+    // "6425213dfd005e8c789cead0": {
+    //   confidence: 10,
+    //   active: true,
     //   isNew: false,
     // },
   });
@@ -126,24 +137,27 @@ const chatEden: NextPageWithLayout = () => {
     skip: messageUser == "" || selectedOption != "option2",
   });
 
-  const { data: dataEdenGPTReplyChatAPI } = useQuery(EDEN_GPT_REPLY_CHAT_API, {
-    variables: {
-      fields: {
-        message: messageUser,
-        conversation: chatN
-          .map((obj) => {
-            if (obj.user === "01") {
-              return { role: "assistant", content: obj.message };
-            } else {
-              return { role: "user", content: obj.message };
-            }
-          })
-          .slice(-6),
-        userID: currentUser?._id,
+  const { data: dataEdenGPTReplyChatAPI } = useQuery(
+    EDEN_GPT_REPLY_CHAT_API_V2,
+    {
+      variables: {
+        fields: {
+          message: messageUser,
+          conversation: chatN
+            .map((obj) => {
+              if (obj.user === "01") {
+                return { role: "assistant", content: obj.message };
+              } else {
+                return { role: "user", content: obj.message };
+              }
+            })
+            .slice(-6),
+          userID: currentUser?._id,
+        },
       },
-    },
-    skip: messageUser == "" || selectedOption != "option3",
-  });
+      skip: messageUser == "" || selectedOption != "option3",
+    }
+  );
 
   const { data: dataMessageMapKGV2 } = useQuery(MESSAGE_MAP_KG_V2, {
     variables: {
@@ -237,7 +251,7 @@ const chatEden: NextPageWithLayout = () => {
       let newMessage = "";
 
       if (selectedOption == "option3") {
-        newMessage = dataEdenGPTReplyChatAPI.edenGPTreplyChatAPI.reply;
+        newMessage = dataEdenGPTReplyChatAPI.edenGPTreplyChatAPI_V2.reply;
       } else if (selectedOption == "option2") {
         newMessage = dataEdenGPTReplyMemory.edenGPTreplyMemory.reply;
       } else if (selectedOption == "option1") {
@@ -453,9 +467,10 @@ const chatEden: NextPageWithLayout = () => {
   // console.log("activeNodes = ", activeNodes);
   return (
     <>
-      <div className="flex h-screen">
-        <div className="flex flex-1 flex-col">
-          {/* <button
+      <div className="flex h-screen w-full bg-[#f5f5f5] py-2">
+        <div className="mx-auto grid h-full w-full max-w-5xl grid-cols-12 gap-4">
+          <div className="col-span-4 flex flex-1 flex-col overflow-y-hidden">
+            {/* <button
             type="button"
             className={
               "rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none"
@@ -478,11 +493,11 @@ const chatEden: NextPageWithLayout = () => {
             <div className="h-1 w-full bg-gray-300"></div>
           </div> */}
 
-          <div className="h-1/2">
-            <ChatSimple chatN={chatN} handleSentMessage={handleSentMessage} />
-          </div>
-          <div className="h-1/2">
-            {/* {nodesID?.length > 0 && dataMembersA?.length == 0 && (
+            <Card shadow className="h-[66vh] w-full bg-white">
+              <ChatSimple chatN={chatN} handleSentMessage={handleSentMessage} />
+            </Card>
+            <div className="-mb-2 h-1/3 w-full">
+              {/* {nodesID?.length > 0 && dataMembersA?.length == 0 && (
               <div className="flex justify-center py-4">
                 <h1 className="h-16 rounded-lg bg-gray-200 px-6 py-2 text-center text-sm shadow-md sm:h-16 sm:text-lg">
                   <span className="block leading-tight">
@@ -494,7 +509,6 @@ const chatEden: NextPageWithLayout = () => {
                 </h1>
               </div>
             )} */}
-            <div className={`flex h-screen w-full gap-4`}>
               <div className="h-full w-full">
                 <DynamicSearchGraph
                   nodesID={Object.keys(nodeObj)}
@@ -505,7 +519,7 @@ const chatEden: NextPageWithLayout = () => {
                     (node: any) => node.isNew
                   )}
                   setActivateNodeEvent={setActivateNodeEvent}
-                  height={"380"}
+                  height={"280"}
                   // graphType={"simple"}
                   // graphType={"KG_AI_2"}
                   graphType={"KG_AI_2_plusIndustry"}
@@ -514,44 +528,44 @@ const chatEden: NextPageWithLayout = () => {
               </div>
             </div>
           </div>
-        </div>
-        <div className="h-full flex-1 ">
-          {/* <GridLayout> */}
-          {/* <GridItemNine> */}
-          <Card
-            shadow
-            className="scrollbar-hide h-full overflow-scroll bg-white p-4"
-          >
-            <CardGrid>
-              {dataMembersA?.map(
-                (member: MatchMembersToSkillOutput, index: number) => (
-                  <UserDiscoverCard
-                    key={index}
-                    matchMember={member}
-                    // role={selectedRole}
-                    // project={dataProject?.findProject}
-                    invite
-                    phase={``}
-                    nodesID={Object.keys(nodeObj).filter(
-                      (key) => nodeObj[key].active
-                    )}
-                    conversation={chatN
-                      .map((obj) => {
-                        if (obj.user === "01") {
-                          return { role: "assistant", content: obj.message };
-                        } else {
-                          return { role: "user", content: obj.message };
-                        }
-                      })
-                      .slice(-6)}
-                    // nodesID={Object.keys(nodeObj)}
-                  />
-                )
-              )}
-            </CardGrid>
-          </Card>
-          {/* </GridItemNine> */}
-          {/* </GridLayout> */}
+          <div className="col-span-8 -mt-2 h-screen flex-1 py-2">
+            {/* <GridLayout> */}
+            {/* <GridItemNine> */}
+            <Card
+              shadow
+              className="scrollbar-hide h-full overflow-scroll bg-white p-4"
+            >
+              <CardGrid>
+                {dataMembersA?.map(
+                  (member: MatchMembersToSkillOutput, index: number) => (
+                    <UserDiscoverCard
+                      key={index}
+                      matchMember={member}
+                      // role={selectedRole}
+                      // project={dataProject?.findProject}
+                      invite
+                      phase={``}
+                      nodesID={Object.keys(nodeObj).filter(
+                        (key) => nodeObj[key].active
+                      )}
+                      conversation={chatN
+                        .map((obj) => {
+                          if (obj.user === "01") {
+                            return { role: "assistant", content: obj.message };
+                          } else {
+                            return { role: "user", content: obj.message };
+                          }
+                        })
+                        .slice(-6)}
+                      // nodesID={Object.keys(nodeObj)}
+                    />
+                  )
+                )}
+              </CardGrid>
+            </Card>
+            {/* </GridItemNine> */}
+            {/* </GridLayout> */}
+          </div>
         </div>
       </div>
     </>
@@ -1057,7 +1071,7 @@ const ChatModal = ({
       >
         <div
           className={
-            "flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0"
+            "flex min-h-screen items-end justify-center px-4 pb-20 pt-4 text-center sm:block sm:p-0"
           }
         >
           <Transition.Child
@@ -1098,7 +1112,7 @@ const ChatModal = ({
               }
             >
               <div
-                className={"absolute top-0 right-0 hidden pt-4 pr-4 sm:block"}
+                className={"absolute right-0 top-0 hidden pr-4 pt-4 sm:block"}
               >
                 {closeOnEsc && (
                   <button

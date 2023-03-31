@@ -3,12 +3,14 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
 };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
+  {
+    [SubKey in K]?: Maybe<T[SubKey]>;
+  };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
+  {
+    [SubKey in K]: Maybe<T[SubKey]>;
+  };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -222,6 +224,7 @@ export type Members = {
   archiveProjects?: Maybe<Array<Maybe<Scalars["String"]>>>;
   attributes?: Maybe<AttributesType>;
   bio?: Maybe<Scalars["String"]>;
+  budget?: Maybe<BudgetMemberType>;
   chat?: Maybe<ChatResponse>;
   completedOpportunities?: Maybe<Scalars["Int"]>;
   content?: Maybe<ContentType>;
@@ -720,6 +723,7 @@ export type Query = {
   edenGPTEndorseChatAPI?: Maybe<EdenGptEndorseChatApiOutput>;
   edenGPTreply?: Maybe<EdenGpTreplyOutput>;
   edenGPTreplyChatAPI?: Maybe<EdenGpTreplyChatApiOutput>;
+  edenGPTreplyChatAPI_V2?: Maybe<EdenGpTreplyChatApi_V2Output>;
   edenGPTreplyMemory?: Maybe<EdenGpTreplyMemoryOutput>;
   edenGPTsearchProfiles?: Maybe<EdenGpTsearchProfilesOutput>;
   edenGPTsummaryProfile?: Maybe<EdenGpTsummaryProfileOutput>;
@@ -841,6 +845,10 @@ export type QueryEdenGpTreplyArgs = {
 
 export type QueryEdenGpTreplyChatApiArgs = {
   fields?: InputMaybe<EdenGpTreplyChatApiInput>;
+};
+
+export type QueryEdenGpTreplyChatApi_V2Args = {
+  fields?: InputMaybe<EdenGpTreplyChatApi_V2Input>;
 };
 
 export type QueryEdenGpTreplyMemoryArgs = {
@@ -1484,6 +1492,14 @@ export type BudgetInput = {
   totalBudget?: InputMaybe<Scalars["String"]>;
 };
 
+export type BudgetMemberType = {
+  __typename?: "budgetMemberType";
+  perHour?: Maybe<Scalars["Float"]>;
+  perMonth?: Maybe<Scalars["Float"]>;
+  token?: Maybe<Scalars["String"]>;
+  totalBudget?: Maybe<Scalars["Float"]>;
+};
+
 export type BudgetType = {
   __typename?: "budgetType";
   perHour?: Maybe<Scalars["String"]>;
@@ -1566,6 +1582,7 @@ export type CreateFakeEndorsementInput = {
 export type CreateFakeUserInput = {
   expertise?: InputMaybe<Array<InputMaybe<NodeCategoryInput>>>;
   interests?: InputMaybe<Array<InputMaybe<NodeCategoryInput>>>;
+  memberID?: InputMaybe<Scalars["ID"]>;
 };
 
 export type CreateNewEpicInput = {
@@ -1810,6 +1827,17 @@ export type EdenGpTreplyChatApiInput = {
 
 export type EdenGpTreplyChatApiOutput = {
   __typename?: "edenGPTreplyChatAPIOutput";
+  reply?: Maybe<Scalars["String"]>;
+};
+
+export type EdenGpTreplyChatApi_V2Input = {
+  conversation?: InputMaybe<Array<InputMaybe<MessageChat>>>;
+  message?: InputMaybe<Scalars["String"]>;
+  userID?: InputMaybe<Scalars["ID"]>;
+};
+
+export type EdenGpTreplyChatApi_V2Output = {
+  __typename?: "edenGPTreplyChatAPI_V2Output";
   reply?: Maybe<Scalars["String"]>;
 };
 
