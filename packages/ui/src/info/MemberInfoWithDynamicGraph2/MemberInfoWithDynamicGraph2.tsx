@@ -138,6 +138,8 @@ export const MemberInfoWithDynamicGraph2 = ({
         <div className="flex flex-col items-center justify-end sm:col-span-2">
           {/* <p className="border-b border-slate-200 text-center"> */}
           <p className="text-center">
+            <span className="text-sm text-slate-400">Total earned:</span>
+            <br />
             <span className="text-2xl">${member.totalIncome}</span>
           </p>
           {/* <p className="text-center text-sm text-slate-400">Eden lvl3</p> */}
