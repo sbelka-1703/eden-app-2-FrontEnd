@@ -1,7 +1,7 @@
 import { gql, useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
-import { Members } from "@eden/package-graphql/generated";
-import { TextLabel1 } from "@eden/package-ui";
+import { Members, NodesType } from "@eden/package-graphql/generated";
+import { Avatar, TextHeading2, TextLabel1 } from "@eden/package-ui";
 import {
   Dispatch,
   SetStateAction,
@@ -45,6 +45,7 @@ interface IEndorsementView1Props {
   chatMessages?: IChatMessages[];
   // eslint-disable-next-line no-unused-vars
   onChatMessagesChange: Dispatch<SetStateAction<IChatMessages[]>>;
+  endorsedSkills?: NodesType[];
 }
 
 export const EndorsementView1 = ({
@@ -54,6 +55,7 @@ export const EndorsementView1 = ({
   onRatingChange,
   chatMessages,
   onChatMessagesChange,
+  endorsedSkills,
 }: IEndorsementView1Props) => {
   const { currentUser } = useContext(UserContext);
 
@@ -119,7 +121,9 @@ export const EndorsementView1 = ({
         ...prev,
         {
           user: "01",
-          message: `Hey ${currentUser?.discordName}!  How was your experience working with ${member?.discordName}?`,
+          message: `Hey ${currentUser?.discordName}!  How do you feel ${
+            member?.discordName
+          } is with ${endorsedSkills && endorsedSkills[0].nodeData?.name}?`,
         },
       ]);
   }, [member, currentUser, chatMessages]);
@@ -131,17 +135,52 @@ export const EndorsementView1 = ({
   }, []);
 
   return (
-    <div className={`grid grid-cols-3 gap-4`}>
+    <div className={`grid h-full grid-cols-3 gap-4`}>
       <div className={`col-span-2`}>
-        <ChatBox
-          chatN={chatMessages}
-          messageLoading={loading}
-          handleSentMessage={handleSentMessage}
-        />
+        <TextHeading2>{`Chat with Eden AI:`}</TextHeading2>
+        <div className={`my-4 flex justify-center`}>
+          <div
+            className={`bg-soilYellow/60 flex items-center gap-2 rounded-full`}
+          >
+            <Avatar size={`sm`} src={member?.discordAvatar || ""} />
+            <div className={`py-1 pr-6 text-sm font-medium text-zinc-700`}>
+              <div>
+                <span className={`text-lg font-semibold text-zinc-700`}>
+                  {member?.discordName || ""}
+                </span>{" "}
+                invited you to endorse them for
+              </div>
+              <div>
+                their expertise in
+                {endorsedSkills?.map((node) => (
+                  <span key={node?.nodeData?._id} className={`px-1 font-bold`}>
+                    {node?.nodeData?.name}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className={`h-4/5`}>
+          <ChatBox
+            chatN={chatMessages}
+            messageLoading={loading}
+            handleSentMessage={handleSentMessage}
+          />
+        </div>
       </div>
-      <div className={`col-span-1`}>
+      <div className={`relative col-span-1 `}>
         <TextLabel1>Endorsing For:</TextLabel1>
-        <div></div>
+        <div className={`mb-6`}>
+          {endorsedSkills?.map((node) => (
+            <span
+              key={node?.nodeData?._id}
+              className={`px-1 text-lg font-bold text-zinc-800`}
+            >
+              {node?.nodeData?.name}
+            </span>
+          ))}
+        </div>
 
         <KeywordList
           label={`Complimentary Skills:`}
@@ -150,25 +189,29 @@ export const EndorsementView1 = ({
         />
         <div className={`my-4	flex items-center gap-2`}></div>
 
-        <div className={`my-4 text-center shadow-md`}>
-          <TextLabel1 className={`text-xs font-semibold text-neutral-800`}>
-            Would you want to work with @{member?.discordName} again?
-          </TextLabel1>
-          <StarRating rating={rating} onRatingChange={onRatingChange} />
-        </div>
-        <div className={`mt-12 flex justify-center`}>
-          {chatMessages && chatMessages?.length < 5 ? (
-            <button
-              type={`button`}
-              disabled
-              className={`rounded-full border-2 bg-[#D7D7FF]/10 py-1 px-4 font-semibold uppercase text-neutral-400`}
-            >
-              Endorse{" "}
-              <BsCoin className={`ml-2 inline-block h-4 w-4 text-yellow-500`} />
-            </button>
-          ) : (
-            <ReviewButton type={`button`} onClick={onNext} />
-          )}
+        <div className={`absolute inset-x-0 bottom-6`}>
+          <div className={`my-4 text-center shadow-md`}>
+            <TextLabel1 className={`text-xs font-semibold text-neutral-800`}>
+              Would you want to work with @{member?.discordName} again?
+            </TextLabel1>
+            <StarRating rating={rating} onRatingChange={onRatingChange} />
+          </div>
+          <div className={`mt-12 flex justify-center`}>
+            {chatMessages && chatMessages?.length < 5 ? (
+              <button
+                type={`button`}
+                disabled
+                className={`rounded-full border-2 bg-[#D7D7FF]/10 px-4 py-1 font-semibold uppercase text-neutral-400`}
+              >
+                Endorse{" "}
+                <BsCoin
+                  className={`ml-2 inline-block h-4 w-4 text-yellow-500`}
+                />
+              </button>
+            ) : (
+              <ReviewButton type={`button`} onClick={onNext} />
+            )}
+          </div>
         </div>
       </div>
     </div>
