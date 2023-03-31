@@ -265,12 +265,17 @@ export const MemberInfoWithDynamicGraph2 = ({
         <section className="grid grid-cols-12 gap-2">
           <Card className="col-span-6 mr-4 px-4 pt-4" border shadow>
             <div className="mb-2 flex w-full">
-              <div className="text-left">
+              <div className="flex flex-col">
                 <TextHeading3 className="text-md">General Vibe</TextHeading3>
-                <StarRating
-                  isReadOnly
-                  rating={member.endorseSummary?.averageStars!}
-                />
+                <div className="flex items-center text-left">
+                  <span className="mr-1">
+                    <StarRating
+                      isReadOnly
+                      rating={member.endorseSummary?.averageStars!}
+                    />
+                  </span>
+                  <span>{`(${member.endorseSummary?.numberEndorsement})`}</span>
+                </div>
               </div>
               <div className="ml-auto text-right">
                 <TextLabel1>Total Stake</TextLabel1>
