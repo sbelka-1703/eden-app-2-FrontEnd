@@ -187,11 +187,11 @@ export const MemberInfoWithDynamicGraph2 = ({
         )} */}
       </div>
 
-      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-6">
-        <div className="sm:col-span-4 sm:my-0">
+      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-12">
+        <div className="sm:col-span-7 sm:my-0">
           {!!member?.bio && <TextLabel1>🪪 Short bio</TextLabel1>}
           {!loading ? (
-            <p className="text-soilBody font-Inter whitespace-pre-wrap font-normal">
+            <p className="text-soilBody font-Inter mb-2 whitespace-pre-wrap font-normal">
               {member?.bio}
             </p>
           ) : (
@@ -202,17 +202,34 @@ export const MemberInfoWithDynamicGraph2 = ({
               </div>
             </div>
           )}
+          <div className="">
+            <p className="text-left">
+              <TextLabel1>🧙‍♂️ Wizard Skills</TextLabel1>
+            </p>
+            <NodeList
+              colorRGB={`235,225,255`}
+              nodes={member.endorseSummary?.mainNodes?.map(
+                (node) =>
+                  ({
+                    nodeData: {
+                      name: node?.node?.name,
+                    },
+                  } as NodesType)
+              )}
+            />
+          </div>
         </div>
-        <div className="flex flex-col items-center sm:col-span-2 sm:my-0">
-          <section className="mb-4">
+        <div className="col-span-2"></div>
+        <div className="flex flex-col items-center sm:col-span-3 sm:my-0">
+          <section className="border-soilGrey-200 mb-4 w-full rounded-xl border p-2 text-center">
             <p className="text-center">
               <TextLabel1>⚡️ Match</TextLabel1>
             </p>
-            <p className="text-[62px] font-bold leading-none text-[#cb10ff]">
+            <p className="text-center text-[62px] font-bold leading-none text-[#cb10ff]">
               {percentage}%
             </p>
           </section>
-          <section className="mb-4">
+          <section className="border-soilGrey-200 mb-4 w-full rounded-xl border p-2 text-center">
             <p className="text-center">
               <TextLabel1>💰 Hourly rate</TextLabel1>
             </p>
@@ -226,13 +243,13 @@ export const MemberInfoWithDynamicGraph2 = ({
               Base rate + tax
             </p>
           </section>
-          <section className="mb-4">
+          <section className="border-soilGrey-200 mb-4 w-full rounded-xl border p-2 text-center">
             <TextLabel1>❤️ Availability</TextLabel1>
             <p className="text-center font-bold text-slate-600">
               <span className="text-2xl">{member.hoursPerWeek}</span> hours/week
             </p>
           </section>
-          <section className="mb-4">
+          <section className="border-soilGrey-200 mb-4 w-full rounded-xl border p-2 text-center">
             <TextLabel1>🌍 Timezone</TextLabel1>
             <p className="text-center font-bold text-slate-600">
               {member.timeZone}
