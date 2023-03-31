@@ -268,7 +268,7 @@ export const MemberInfoWithDynamicGraph2 = ({
               <div className="flex flex-col">
                 <TextHeading3 className="text-md">General Vibe</TextHeading3>
                 <div className="flex items-center text-left">
-                  <span className="mr-1">
+                  <span className="mr-2">
                     <StarRating
                       isReadOnly
                       rating={member.endorseSummary?.averageStars!}
@@ -279,7 +279,9 @@ export const MemberInfoWithDynamicGraph2 = ({
               </div>
               <div className="ml-auto text-right">
                 <TextLabel1>Total Stake</TextLabel1>
-                <p>${member.endorseSummary?.totalStake}</p>
+                <p className="text-sm">
+                  {member.endorseSummary?.totalStake} $TRST
+                </p>
               </div>
             </div>
             <NodeList
@@ -327,7 +329,7 @@ export const MemberInfoWithDynamicGraph2 = ({
                   </div>
                   <div className="ml-auto text-right">
                     <TextLabel1>Stake</TextLabel1>
-                    <p>${endorsement?.stake}</p>
+                    <p className="text-sm">{endorsement?.stake} $TRST</p>
                   </div>
                 </div>
                 <NodeList

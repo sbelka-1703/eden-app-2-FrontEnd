@@ -40,9 +40,12 @@ export const StarRating = ({
           }}
         >
           {star < totalStars ? (
-            <BsStarFill key={star} className={`h-6 w-6 text-yellow-400`} />
+            <BsStarFill
+              key={star}
+              className={`-mr-1 h-5 w-5 text-yellow-400`}
+            />
           ) : (
-            <BsStar key={star} className={`h-6 w-6 text-yellow-400`} />
+            <BsStar key={star} className={`-mr-1 h-5 w-5 text-yellow-400`} />
           )}
         </button>
       ))}
