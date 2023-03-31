@@ -279,7 +279,7 @@ export const MemberInfoWithDynamicGraph2 = ({
               </div>
               <div className="ml-auto text-right">
                 <TextLabel1>Total Stake</TextLabel1>
-                <p>${member.endorseSummary?.totalStake}</p>
+                <p>{member.endorseSummary?.totalStake} TRST</p>
               </div>
             </div>
             <NodeList
@@ -327,7 +327,7 @@ export const MemberInfoWithDynamicGraph2 = ({
                   </div>
                   <div className="ml-auto text-right">
                     <TextLabel1>Stake</TextLabel1>
-                    <p>${endorsement?.stake}</p>
+                    <p>{endorsement?.stake} TRST</p>
                   </div>
                 </div>
                 <NodeList
