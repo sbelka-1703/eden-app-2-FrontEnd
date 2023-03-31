@@ -157,7 +157,7 @@ export const MemberInfoWithDynamicGraph2 = ({
         </div>
       </div>
       <div className="mb-8 sm:grid-cols-6">
-        <div className="my-4 flex flex-col items-start justify-center rounded-xl bg-cyan-50 p-4 pt-3 sm:col-span-4 sm:my-0">
+        <div className="relative my-4 flex flex-col items-start justify-center rounded-xl bg-cyan-50 p-4 pt-3 sm:col-span-4 sm:my-0">
           <p className="mb-2">
             <TextLabel1>
               🪄 Why {member.discordName} is Perfect for you? 🪄{" "}
@@ -165,7 +165,7 @@ export const MemberInfoWithDynamicGraph2 = ({
           </p>
           {!loadingGPTsummary ? (
             <>
-              <p className="text-soilBody font-Inter font-normal">
+              <p className="text-soilBody font-Inter mb-4 font-normal">
                 {/* {edenGPTsummary} */}
                 <HighlightText text={edenGPTsummary || ""} />
               </p>
@@ -182,6 +182,9 @@ export const MemberInfoWithDynamicGraph2 = ({
               </div>
             </>
           )}
+          <span className="absolute right-3 bottom-2 text-slate-600">
+            By Eden AI
+          </span>
         </div>
         {/* <div></div>
         {member?.links && member?.links.length > 0 && (
