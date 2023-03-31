@@ -6,12 +6,14 @@ interface IStarRatingProps {
   className?: string;
   // eslint-disable-next-line no-unused-vars
   onRatingChange?: (rating: number) => void;
+  isReadOnly?: boolean;
 }
 
 export const StarRating = ({
   rating,
   className,
   onRatingChange,
+  isReadOnly = false,
 }: IStarRatingProps) => {
   const [totalStars, setTotalStars] = useState(rating);
   const stars = [1, 2, 3, 4, 5];
@@ -30,17 +32,17 @@ export const StarRating = ({
     >
       {stars.map((star) => (
         <button
+          className={`${isReadOnly ? "cursor-auto" : ""}`}
           key={star}
           type={`button`}
-          onClick={() => handleOnChange(star + 1)}
+          onClick={() => {
+            if (!isReadOnly) handleOnChange(star + 1);
+          }}
         >
           {star < totalStars ? (
-            <BsStarFill
-              key={star}
-              className={`h-6 w-6 text-yellow-400 shadow`}
-            />
+            <BsStarFill key={star} className={`h-6 w-6 text-yellow-400`} />
           ) : (
-            <BsStar key={star} className={`h-6 w-6 text-yellow-400 shadow`} />
+            <BsStar key={star} className={`h-6 w-6 text-yellow-400`} />
           )}
         </button>
       ))}
