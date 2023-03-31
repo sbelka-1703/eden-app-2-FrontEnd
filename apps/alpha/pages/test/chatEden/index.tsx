@@ -76,26 +76,26 @@ const chatEden: NextPageWithLayout = () => {
     //   active: false,
     //   isNew: true,
     // },
-    "6416b6e1a57032640bd813aa": {
-      confidence: 9,
-      active: true,
-      isNew: true,
-    },
-    "6425213bfd005e8c789ceaca": {
-      confidence: 10,
-      active: true,
-      isNew: true,
-    },
-    "6425213cfd005e8c789ceacd": {
-      confidence: 10,
-      active: true,
-      isNew: true,
-    },
-    "6425213dfd005e8c789cead0": {
-      confidence: 10,
-      active: true,
-      isNew: false,
-    },
+    // "6416b6e1a57032640bd813aa": {
+    //   confidence: 9,
+    //   active: true,
+    //   isNew: true,
+    // },
+    // "6425213bfd005e8c789ceaca": {
+    //   confidence: 10,
+    //   active: true,
+    //   isNew: true,
+    // },
+    // "6425213cfd005e8c789ceacd": {
+    //   confidence: 10,
+    //   active: true,
+    //   isNew: true,
+    // },
+    // "6425213dfd005e8c789cead0": {
+    //   confidence: 10,
+    //   active: true,
+    //   isNew: false,
+    // },
   });
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -1071,7 +1071,7 @@ const ChatModal = ({
       >
         <div
           className={
-            "flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0"
+            "flex min-h-screen items-end justify-center px-4 pb-20 pt-4 text-center sm:block sm:p-0"
           }
         >
           <Transition.Child
@@ -1112,7 +1112,7 @@ const ChatModal = ({
               }
             >
               <div
-                className={"absolute top-0 right-0 hidden pt-4 pr-4 sm:block"}
+                className={"absolute right-0 top-0 hidden pr-4 pt-4 sm:block"}
               >
                 {closeOnEsc && (
                   <button
