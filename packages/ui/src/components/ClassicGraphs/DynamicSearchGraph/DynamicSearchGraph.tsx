@@ -416,9 +416,7 @@ export const DynamicSearchGraph = ({
       {refContainer && (
         <div
           // className="h-[380px] w-full"
-          className={`${
-            height == undefined ? "h-full" : `h-[${height}px]`
-          } w-full`}
+          className={`${!!height ? `h-[${height}px]` : "h-full"} w-full`}
           ref={refContainer as RefObject<HTMLDivElement>}
         >
           {data && data.nodes && data.nodes.length > 0 ? (
