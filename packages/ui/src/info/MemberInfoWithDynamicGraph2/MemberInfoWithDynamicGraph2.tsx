@@ -1,7 +1,13 @@
 import { gql, useQuery } from "@apollo/client";
-import { Maybe, Members, NodesType } from "@eden/package-graphql/generated";
+import {
+  EndorseNode,
+  Maybe,
+  Members,
+  NodesType,
+} from "@eden/package-graphql/generated";
 import {
   Avatar,
+  Badge,
   Card,
   // MemberGraph,
   DynamicSearchMemberGraph,
@@ -16,6 +22,7 @@ import {
 } from "@eden/package-ui";
 import { useState } from "react";
 
+import { trimParentheses } from "../../../utils/trim-parentheses";
 import { StarRating } from "../../flows/ReviewFlow/components";
 
 export interface IMemberInfoWithDynamicGraph2Props {
@@ -208,20 +215,21 @@ export const MemberInfoWithDynamicGraph2 = ({
             </div>
           )}
           <div className="">
-            <p className="text-left">
+            <p className="mb-2 text-left">
               <TextLabel1>🧙‍♂️ Wizard Skills</TextLabel1>
             </p>
-            <NodeList
-              colorRGB={`235,225,255`}
-              nodes={member.endorseSummary?.mainNodes?.map(
-                (node) =>
-                  ({
-                    nodeData: {
-                      name: node?.node?.name,
-                    },
-                  } as NodesType)
-              )}
-            />
+            {member.endorseSummary?.mainNodes!.map(
+              (node: EndorseNode | null, index: number) => (
+                <Badge
+                  key={index}
+                  text={trimParentheses(node?.node?.name || "")}
+                  colorRGB={"255,119,193"}
+                  className={`font-Inter text-xl text-white`}
+                  closeButton={false}
+                  cutText={99}
+                />
+              )
+            )}
           </div>
         </div>
         <div className="col-span-2"></div>
