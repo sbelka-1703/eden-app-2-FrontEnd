@@ -216,7 +216,7 @@ export const MemberInfoWithDynamicGraph2 = ({
             </p>
             <p className="text-center">
               <span className="text-2xl font-bold text-[#fcba03]">
-                ${percentage}
+                ${member.budget?.perHour}
               </span>{" "}
               per hour
             </p>
