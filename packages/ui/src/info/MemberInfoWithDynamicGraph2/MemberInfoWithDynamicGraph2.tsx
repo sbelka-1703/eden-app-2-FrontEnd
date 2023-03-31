@@ -257,7 +257,9 @@ export const MemberInfoWithDynamicGraph2 = ({
           <section className="border-soilGrey-200 mb-4 w-full rounded-xl border p-2 text-center">
             <TextLabel1>🌍 Timezone</TextLabel1>
             <p className="text-center font-bold text-slate-600">
-              {member.timeZone}
+              {`${member.timeZone}${
+                member.location ? " (" + member.location + ")" : ""
+              }`}
             </p>
           </section>
         </div>
