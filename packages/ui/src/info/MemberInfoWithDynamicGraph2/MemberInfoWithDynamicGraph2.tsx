@@ -135,6 +135,13 @@ export const MemberInfoWithDynamicGraph2 = ({
     },
   });
 
+  const _bio = member?.bio?.split("\n").reduce((acc, val) => {
+    if (val === "\n") return acc.splice(1);
+    return acc;
+  }, member?.bio?.split("\n"));
+
+  console.log(_bio);
+
   if (!member) return null;
 
   // console.log("member = ", member);
@@ -206,7 +213,7 @@ export const MemberInfoWithDynamicGraph2 = ({
           {!!member?.bio && <TextLabel1>🪪 Short bio</TextLabel1>}
           {!loading ? (
             <p className="text-soilBody font-Inter mb-2 whitespace-pre-wrap font-normal">
-              {member?.bio}
+              {_bio}
             </p>
           ) : (
             <div className="flex w-full animate-pulse space-x-4">
