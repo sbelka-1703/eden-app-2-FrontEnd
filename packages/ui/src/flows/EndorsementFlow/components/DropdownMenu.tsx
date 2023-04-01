@@ -51,7 +51,6 @@ export const DropdownMenu: React.FC<Props> = ({ options, onSelect }) => {
   };
 
   const handleSelect = (option: any) => {
-    console.log("option", option);
     onSelect(option);
   };
 

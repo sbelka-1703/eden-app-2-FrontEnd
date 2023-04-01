@@ -1,4 +1,5 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
+import { UserContext } from "@eden/package-context";
 import { Members } from "@eden/package-graphql/generated";
 import {
   Avatar,
@@ -7,17 +8,25 @@ import {
   TextHeading2,
   TextLabel2,
 } from "@eden/package-ui";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 
 // import { IChatMessages } from "./ReviewMemberContainer";
 type IChatMessages = any;
 
-const EDEN_GPT_REPLY = gql`
-  query ($fields: edenGPTreplyInput!) {
-    edenGPTreply(fields: $fields) {
+const EDEN_GPT_ENDORSE_CHAT_API = gql`
+  query ($fields: edenGPTEndorseChatAPIInput!) {
+    edenGPTEndorseChatAPI(fields: $fields) {
       reply
+    }
+  }
+`;
+
+const EDEN_ADD_ENDORSEMENT = gql`
+  mutation ($fields: addEndorsementInput) {
+    addEndorsement(fields: $fields) {
+      _id
     }
   }
 `;
@@ -36,6 +45,7 @@ interface IEndorsementView2Props {
   // eslint-disable-next-line no-unused-vars
   onRatingChange: (rating: number) => void;
   chatMessages?: IChatMessages[];
+  keywords?: any[];
 }
 
 export const EndorsementView2 = ({
@@ -45,72 +55,82 @@ export const EndorsementView2 = ({
   rating,
   onRatingChange,
   chatMessages,
+  keywords,
 }: IEndorsementView2Props) => {
+  const { currentUser } = useContext(UserContext);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [amountStake, setAmountStake] = useState(0);
-  // eslint-disable-next-line no-unused-vars
-  const { register, handleSubmit, reset, watch } = useForm<ReviewInputs>({
-    defaultValues: {
-      message: `Working with ${member?.discordName} is a pleasure.  They are a great team player and always willing to help out. I would recommend them to any team.  I look forward to working with them again in the future.`,
-    },
-  });
+
+  const { register, handleSubmit, reset, watch } = useForm<ReviewInputs>();
   const onSubmit: SubmitHandler<ReviewInputs> = (data) => {
     console.log("submit", data);
-    onNext();
+
+    addEndorsement({
+      variables: {
+        fields: {
+          userSendID: currentUser?._id,
+          userReceiveID: member?._id,
+          endorsementMessage: data.message,
+          stars: rating,
+          stake: amountStake,
+          endorseNodes: keywords?.map((obj: any) => {
+            return {
+              nodeID: obj.nodeID,
+            };
+          }),
+        },
+      },
+    });
   };
+
+  const [addEndorsement, {}] = useMutation(EDEN_ADD_ENDORSEMENT, {
+    onCompleted({ addEndorsement }) {
+      if (!addEndorsement) console.log("addEndorsement is null");
+      // console.log("addEndorsement", addEndorsement);
+      onNext();
+    },
+  });
 
   const watchMessage = watch(["message"]);
 
-  const handleCheckReview = () => {
-    if (!chatMessages) return;
-
-    // const message = chatMessages.map((chat) => chat.message).join(" ");
-
-    // join all the user messages together
-    const message = chatMessages
-      .filter((chat) => chat.user === "user")
-      .map((chat) => chat.message)
-      .join(" ");
-
-    // console.log("message", message);
-    const end = `/n/n === /n/nWith the information in the above, write a review statement for ${member?.discordName}`;
-
-    const messageReview = message + end;
-
-    console.log("messageReview", messageReview);
-
-    return messageReview;
+  const systemMessage = {
+    role: "system",
+    content:
+      "You are an endorser who has just had a conversation about the skills and expertise of an individual (the endorsee). Provide a brief and concise endorsement for the endorsee, focusing on their skills and qualities. Do not refer to the conversation or the information provided directly. This endorsement should be able to stand on its own and showcase the endorsee's expertise.",
   };
 
-  // eslint-disable-next-line no-unused-vars
-  const { refetch } = useQuery(EDEN_GPT_REPLY, {
-    variables: {
-      fields: {
-        message: handleCheckReview(),
-      },
-    },
-    skip: chatMessages?.length === 0 || !chatMessages,
-    onCompleted: (data: any) => {
-      console.log("EDEN_GPT_REPLY data ===>", data);
-      console.log("chatMessages", chatMessages);
-      // reset({
-      //   message: data.edenGPTreply.reply,
-      // });
-    },
+  const userFollowUpMessage = {
+    role: "user",
+    content: "Summarize the endorsement.",
+  };
+
+  const allMessages = chatMessages?.map((obj: IChatMessages) => {
+    if (obj.user === "01") {
+      return { role: "assistant", content: obj.message };
+    } else {
+      return { role: "user", content: obj.message };
+    }
   });
 
-  // useEffect(() => {
-  //   if (chatMessages) {
-  //     console.log("chatMessages", chatMessages);
-  //   }
-  // }, [chatMessages]);
+  allMessages?.push(systemMessage);
+  allMessages?.push(userFollowUpMessage);
 
-  // useEffect(() => {
-  //   if (dataReview) {
-  //     console.log("dataReview", dataReview);
-  //   }
-  //   [dataReview];
-  // });
+  // eslint-disable-next-line no-unused-vars
+  const { refetch } = useQuery(EDEN_GPT_ENDORSE_CHAT_API, {
+    variables: {
+      fields: {
+        conversation: allMessages,
+        userID: currentUser?._id,
+      },
+    },
+    skip: allMessages?.length === 0,
+    onCompleted: (data: any) => {
+      reset({
+        message: data.edenGPTEndorseChatAPI.reply,
+      });
+    },
+  });
 
   return (
     <>
@@ -205,7 +225,7 @@ export const EndorsementView2 = ({
               </TextLabel2>
             </div>
             <div className={`text-lg font-medium uppercase text-neutral-700`}>
-              Endorsement by Eden AI:
+              Endorsement by Eden AI:{" "}
             </div>
             <Card border className={`p-2`}>
               <textarea
@@ -220,10 +240,7 @@ export const EndorsementView2 = ({
               <div className={`text-lg font-medium uppercase text-neutral-700`}>
                 This is how your endorsement will look:
               </div>
-              {/* <TextLabel2>You are in edit mode</TextLabel2> */}
-              {/* <button type={`button`} onClick={() => refetch()}>
-              refetch
-            </button> */}
+
               <Card border className={`p-2`}>
                 <div className={`grid grid-cols-3`}>
                   <div className={`col-span-2`}>
