@@ -164,12 +164,12 @@ export const MemberInfoWithDynamicGraph2 = ({
           <UserWithDescription member={member} />
         </div>
         <div className="flex flex-col items-center justify-end sm:col-span-2">
-          <p className="border-b border-slate-200 text-center text-sm">
-            <span className="text-2xl">{member.completedOpportunities}</span>
+          <p className="text-center">
+            <span className="text-sm text-slate-400">Completed gigs:</span>
             <br />
-            completed opportunities
+            <span className="text-2xl">{member.completedOpportunities}</span>
           </p>
-          <p className="text-center text-sm text-slate-400">💎 Eden Native</p>
+          {/* <p className="text-center text-sm text-slate-400">💎 Eden Native</p> */}
         </div>
       </div>
       <div className="mb-8 sm:grid-cols-6">
