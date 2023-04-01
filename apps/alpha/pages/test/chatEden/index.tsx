@@ -39,10 +39,12 @@ import {
   // EDEN_GPT_REPLY_CHAT_API,
   EDEN_GPT_REPLY_CHAT_API_V2,
   EDEN_GPT_REPLY_MEMORY,
+  FIND_RELATED_NODE,
   MESSAGE_MAP_KG_V2,
   STORE_LONG_TERM_MEMORY,
 } from "../../../utils/data/GQLfuncitons";
 import type { NextPageWithLayout } from "../../_app";
+import MultiSelectPopup from "./components/MultiSelectPopup";
 
 interface NodeObj {
   [key: string]: {
@@ -98,6 +100,47 @@ const chatEden: NextPageWithLayout = () => {
     // },
   });
 
+  //  ------------- Popup Preparation ----------
+  const [isOpenPopup, setIsOpenPopup] = useState(false);
+  const [nodeSearchRelated, setnodeSearchRelated] = useState("");
+
+  const [optionsPopup, setOptionsPopup] = useState<any>([]);
+
+  // const optionsPopup = [
+  //   { value: "ID1", label: "React" },
+  //   { value: "ID2", label: "Javascript" },
+  //   { value: "ID3", label: "UX" },
+  //   { value: "ID4", label: "UI" },
+  // ];
+
+  const handleOpenPopup = (nodeID: any) => {
+    setIsOpenPopup(true);
+    setnodeSearchRelated(nodeID);
+  };
+
+  console.log("nodeSearchRelated = ", nodeSearchRelated);
+
+  const handleClosePopup = () => {
+    setIsOpenPopup(false);
+  };
+
+  const handleSelectPopup = (selectedOptionsPopup: Array<any>) => {
+    const nodeObjNew = { ...nodeObj };
+
+    selectedOptionsPopup.forEach((node) => {
+      nodeObjNew[node.value] = {
+        confidence: 10,
+        active: true,
+        isNew: true,
+      };
+    });
+
+    console.log("nodeObjNew = ", nodeObjNew);
+
+    setNodeObj(nodeObjNew);
+  };
+  //  ------------- Popup Preparation ----------
+
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [chatN, setChatN] = useState([
     {
@@ -116,6 +159,28 @@ const chatEden: NextPageWithLayout = () => {
     selectedOption,
     // setSelectedOption
   ] = useState<string | null>("option3");
+
+  const {} = useQuery(FIND_RELATED_NODE, {
+    variables: {
+      fields: {
+        _id: nodeSearchRelated,
+      },
+    },
+    skip: nodeSearchRelated == "",
+    onCompleted: (data) => {
+      // setDataMembersA(data.findNodes);
+      const optionPopup: any[] = [];
+
+      data.findNode?.relatedNodes?.forEach((node: any) => {
+        optionPopup.push({
+          value: node._id,
+          label: node.name,
+        });
+      });
+
+      setOptionsPopup(optionPopup);
+    },
+  });
 
   const { data: dataEdenGPTReply } = useQuery(EDEN_GPT_REPLY, {
     variables: {
@@ -524,6 +589,7 @@ const chatEden: NextPageWithLayout = () => {
                   // graphType={"KG_AI_2"}
                   graphType={"KG_AI_2_plusIndustry"}
                   // zoomGraph={1.1}
+                  setRelatedNodePopup={handleOpenPopup}
                 />
               </div>
             </div>
@@ -568,6 +634,12 @@ const chatEden: NextPageWithLayout = () => {
           </div>
         </div>
       </div>
+      <MultiSelectPopup
+        options={optionsPopup}
+        isOpen={isOpenPopup}
+        onClose={handleClosePopup}
+        onSelect={handleSelectPopup}
+      />
     </>
   );
 };

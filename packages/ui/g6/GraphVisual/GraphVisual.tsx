@@ -1,6 +1,7 @@
 import "./style.css";
 
 import G6 from "@antv/g6";
+// import insertCss from "insert-css";
 import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
 
@@ -11,7 +12,7 @@ import {
   focusCenterItem,
   handleCheckboxChange,
   linkDistance,
-  tooltip,
+  // tooltip,
   // updateNodes,
   updateNodesBackendSettings,
 } from "./settings/graphFunctions";
@@ -30,7 +31,77 @@ export interface IGraphVisualisation {
   disableZoom?: boolean;
   centerGraph?: boolean;
   zoomGraph?: number;
+  setRelatedNodePopup?: any;
 }
+
+const css = `
+  .g6-component-contextmenu {
+    position: absolute;
+    z-index: 2;
+    list-style-type: none;
+    background-color: #363b40;
+    border-radius: 6px;
+    font-size: 14px;
+    color: hsla(0,0%,100%,.85);
+    width: fit-content;
+    transition: opacity .2s;
+    text-align: center;
+    padding: 0px 20px 0px 20px;
+		box-shadow: 0 5px 18px 0 rgba(0, 0, 0, 0.6);
+		border: 0px;
+  }
+  .g6-component-contextmenu ul {
+		padding-left: 0px;
+		margin: 0;
+  }
+  .g6-component-contextmenu li {
+    cursor: pointer;
+    list-style-type: none;
+    list-style: none;
+    margin-left: 0;
+    line-height: 38px;
+  }
+  .g6-component-contextmenu li:hover {
+    color: #aaaaaa;
+	}
+`;
+
+const style = document.createElement("style");
+
+style.innerHTML = css;
+document.head.appendChild(style);
+
+// insertCss(`
+//   .g6-component-contextmenu {
+//     position: absolute;
+//     z-index: 2;
+//     list-style-type: none;
+//     background-color: #363b40;
+//     border-radius: 6px;
+//     font-size: 14px;
+//     color: hsla(0,0%,100%,.85);
+//     width: fit-content;
+//     transition: opacity .2s;
+//     text-align: center;
+//     padding: 0px 20px 0px 20px;
+// 		box-shadow: 0 5px 18px 0 rgba(0, 0, 0, 0.6);
+// 		border: 0px;
+//   }
+//   .g6-component-contextmenu ul {
+// 		padding-left: 0px;
+// 		margin: 0;
+//   }
+//   .g6-component-contextmenu li {
+//     cursor: pointer;
+//     list-style-type: none;
+//     list-style: none;
+//     margin-left: 0;
+//     line-height: 38px;
+//   }
+//   .g6-component-contextmenu li:hover {
+//     color: #aaaaaa;
+// 	}
+// `);
 
 const loadingNode: Graph = {
   nodes: [
@@ -76,8 +147,38 @@ export const GraphVisual = ({
   disableZoom,
   centerGraph,
   zoomGraph,
+  setRelatedNodePopup,
 }: IGraphVisualisation) => {
   const ref = React.useRef(null);
+
+  const contextMenu = new G6.Menu({
+    shouldBegin(evt: any) {
+      if (evt.target && evt.target.isCanvas && evt.target.isCanvas())
+        return true;
+      if (evt.item) return true;
+      return false;
+    },
+    getContent() {
+      return `<ul>
+              <li id='relatedNodes'>Related Nodes</li>
+              <li id='deleteNode'>Delete Node</li>
+            </ul>`;
+    },
+    handleMenuClick: (target: any, item: any) => {
+      const model = item && item.getModel();
+      const liIdStrs = target.id.split("-");
+
+      console.log("HEEEYYY", target, item, liIdStrs[0], model);
+
+      if (liIdStrs[0] == "relatedNodes") {
+        setRelatedNodePopup(model.id);
+      } else if (liIdStrs[0] == "deleteNode") {
+        console.log("change = ", "deleteNode");
+      }
+    },
+    offsetX: 16 + 10,
+    offsetY: 0,
+  });
 
   //  -------------- Graph Setup ----------------
   useEffect(() => {
@@ -126,7 +227,8 @@ export const GraphVisual = ({
             return edgeStrength(d);
           },
         },
-        plugins: [tooltip],
+        // plugins: [tooltip,contextMenu],
+        plugins: [contextMenu],
       });
 
       setGraph(graph);
