@@ -18,6 +18,19 @@ export const MATCH_NODES_MEMBERS_AI4 = gql`
         budget {
           perHour
         }
+        links {
+          name
+          url
+        }
+        previousProjects {
+          title
+          description
+          positionName
+          link
+          picture
+          startDate
+          endDate
+        }
         # endorsements {
         #   endorser {
         #     _id
@@ -68,10 +81,6 @@ export const MATCH_NODES_MEMBERS_AI4 = gql`
             name
             node
           }
-        }
-        links {
-          name
-          url
         }
       }
       matchPercentage {

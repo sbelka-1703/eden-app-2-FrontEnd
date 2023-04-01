@@ -1,7 +1,13 @@
 import { gql, useQuery } from "@apollo/client";
-import { Maybe, Members, NodesType } from "@eden/package-graphql/generated";
+import {
+  EndorseNode,
+  Maybe,
+  Members,
+  NodesType,
+} from "@eden/package-graphql/generated";
 import {
   Avatar,
+  Badge,
   Card,
   // MemberGraph,
   DynamicSearchMemberGraph,
@@ -16,6 +22,7 @@ import {
 } from "@eden/package-ui";
 import { useState } from "react";
 
+import { trimParentheses } from "../../../utils/trim-parentheses";
 import { StarRating } from "../../flows/ReviewFlow/components";
 
 export interface IMemberInfoWithDynamicGraph2Props {
@@ -128,6 +135,13 @@ export const MemberInfoWithDynamicGraph2 = ({
     },
   });
 
+  const _bio = member?.bio?.split("\n").reduce((acc, val) => {
+    if (val === "\n") return acc.splice(1);
+    return acc;
+  }, member?.bio?.split("\n"));
+
+  console.log(_bio);
+
   if (!member) return null;
 
   // console.log("member = ", member);
@@ -138,7 +152,11 @@ export const MemberInfoWithDynamicGraph2 = ({
         <div className="flex flex-col items-center justify-end sm:col-span-2">
           {/* <p className="border-b border-slate-200 text-center"> */}
           <p className="text-center">
-            <span className="text-2xl">${member.totalIncome}</span>
+            <span className="text-sm text-slate-400">Total earned:</span>
+            <br />
+            <span className="text-2xl font-bold text-[#fcba03]">
+              ${member.totalIncome}
+            </span>
           </p>
           {/* <p className="text-center text-sm text-slate-400">Eden lvl3</p> */}
         </div>
@@ -155,7 +173,7 @@ export const MemberInfoWithDynamicGraph2 = ({
         </div>
       </div>
       <div className="mb-8 sm:grid-cols-6">
-        <div className="my-4 flex flex-col items-start justify-center rounded-xl bg-cyan-50 p-4 pt-3 sm:col-span-4 sm:my-0">
+        <div className="relative my-4 flex flex-col items-start justify-center rounded-xl bg-cyan-50 p-4 pt-3 sm:col-span-4 sm:my-0">
           <p className="mb-2">
             <TextLabel1>
               🪄 Why {member.discordName} is Perfect for you? 🪄{" "}
@@ -163,7 +181,7 @@ export const MemberInfoWithDynamicGraph2 = ({
           </p>
           {!loadingGPTsummary ? (
             <>
-              <p className="text-soilBody font-Inter font-normal">
+              <p className="text-soilBody font-Inter mb-4 font-normal">
                 {/* {edenGPTsummary} */}
                 <HighlightText text={edenGPTsummary || ""} />
               </p>
@@ -180,6 +198,9 @@ export const MemberInfoWithDynamicGraph2 = ({
               </div>
             </>
           )}
+          <span className="absolute right-3 bottom-2 text-slate-600">
+            By Eden AI
+          </span>
         </div>
         {/* <div></div>
         {member?.links && member?.links.length > 0 && (
@@ -192,7 +213,7 @@ export const MemberInfoWithDynamicGraph2 = ({
           {!!member?.bio && <TextLabel1>🪪 Short bio</TextLabel1>}
           {!loading ? (
             <p className="text-soilBody font-Inter mb-2 whitespace-pre-wrap font-normal">
-              {member?.bio}
+              {_bio}
             </p>
           ) : (
             <div className="flex w-full animate-pulse space-x-4">
@@ -203,20 +224,21 @@ export const MemberInfoWithDynamicGraph2 = ({
             </div>
           )}
           <div className="">
-            <p className="text-left">
+            <p className="mb-2 text-left">
               <TextLabel1>🧙‍♂️ Wizard Skills</TextLabel1>
             </p>
-            <NodeList
-              colorRGB={`235,225,255`}
-              nodes={member.endorseSummary?.mainNodes?.map(
-                (node) =>
-                  ({
-                    nodeData: {
-                      name: node?.node?.name,
-                    },
-                  } as NodesType)
-              )}
-            />
+            {member.endorseSummary?.mainNodes!.map(
+              (node: EndorseNode | null, index: number) => (
+                <Badge
+                  key={index}
+                  text={trimParentheses(node?.node?.name || "")}
+                  colorRGB={"255,119,193"}
+                  className={`font-Inter text-xl text-white`}
+                  closeButton={false}
+                  cutText={99}
+                />
+              )
+            )}
           </div>
         </div>
         <div className="col-span-2"></div>
@@ -252,7 +274,9 @@ export const MemberInfoWithDynamicGraph2 = ({
           <section className="border-soilGrey-200 mb-4 w-full rounded-xl border p-2 text-center">
             <TextLabel1>🌍 Timezone</TextLabel1>
             <p className="text-center font-bold text-slate-600">
-              {member.timeZone}
+              {`${member.timeZone}${
+                member.location ? " (" + member.location + ")" : ""
+              }`}
             </p>
           </section>
         </div>
