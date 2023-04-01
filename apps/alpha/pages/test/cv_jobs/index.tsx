@@ -69,7 +69,7 @@ const CvJobs = () => {
         <li key={index}>
           {item.job}
           <ul>
-            <li>{jobList.description}</li>
+            <li>{"-" + item.description}</li>
           </ul>
         </li>
       ))
@@ -85,7 +85,7 @@ const CvJobs = () => {
       >
         <label>Resume(CV)</label>
         <label htmlFor="input" className="text-center text-sm">
-          Upload Recent Resume And Get Previous Job Sum,
+          Upload Recent Resume And Get Previous Job Sum
         </label>
         <input
           className="ml-60"
