@@ -67,7 +67,7 @@ const CvJobs = () => {
   const jobList = summary
     ? JSON.parse(summary).map((item: Jobs, index: number) => (
         <li key={index}>
-          {jobList.title}
+          {item.job}
           <ul>
             <li>{jobList.description}</li>
           </ul>
@@ -101,7 +101,7 @@ const CvJobs = () => {
         </button>
       </form>
       {summary ? (
-        <div className="mt-2 ml-2 w-full rounded-md border-2 border-black pl-6 pr-4 ">
+        <div className="mt-2 ml-2 w-fit rounded-md border-2 border-black pl-6 pr-4 ">
           <label htmlFor="ul" className="text-right text-lg font-bold">
             Jobs Summary:
           </label>
