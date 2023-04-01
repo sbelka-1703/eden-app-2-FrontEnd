@@ -31,7 +31,6 @@ const CREATE_ENDORSEMENT_LINK = gql`
 `;
 
 type EndorsementInputs = {
-  // node: Node;
   node: {
     value: string;
     label: string;
@@ -41,12 +40,10 @@ type EndorsementInputs = {
 
 export const EndorsementLinkFlow = ({}) => {
   const { currentUser } = useContext(UserContext);
-  const { register, handleSubmit, control, watch } = useForm<EndorsementInputs>(
-    {}
-  );
+  const { register, handleSubmit, control, watch, setValue } =
+    useForm<EndorsementInputs>({});
   const onSubmit: SubmitHandler<EndorsementInputs> = (data) => {
     // console.log("data", data);
-    // console.log(data.node.value);
     createEndorsementLink({
       variables: {
         fields: {
@@ -69,7 +66,6 @@ export const EndorsementLinkFlow = ({}) => {
   });
 
   const [showMessage, setShowMessage] = useState(false);
-  const [showButton, setShowButton] = useState(false);
 
   const { data: nodesData } = useQuery(FIND_NODES, {
     variables: {
@@ -79,15 +75,17 @@ export const EndorsementLinkFlow = ({}) => {
     },
   });
 
-  useEffect(() => {
-    const subscription = watch((data) => {
-      // console.log("WATCH ---- data", data);
-      if (data.node?.value) setShowMessage(true);
-      if (data.message !== "") setShowButton(true);
-    });
+  const nodesValue = watch("node");
 
-    return () => subscription.unsubscribe();
-  }, [watch]);
+  useEffect(() => {
+    if (nodesValue?.label) {
+      setShowMessage(true);
+      setValue(
+        "message",
+        `I'm asking you to endorse me on Eden for my skills in ${nodesValue?.label}`
+      );
+    }
+  }, [nodesValue?.label, setValue]);
 
   // console.log("nodesData", nodesData);
   let baseURL = "";
@@ -167,7 +165,7 @@ export const EndorsementLinkFlow = ({}) => {
                 </div>
               )}
               <div className={`flex space-x-4`}>
-                {showButton && (
+                {showMessage && (
                   <div className={`w-full`}>
                     <button
                       type={`submit`}

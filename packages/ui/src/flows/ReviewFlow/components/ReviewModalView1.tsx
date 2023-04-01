@@ -16,8 +16,8 @@ import { ChatBox, KeywordList, ReviewButton, StarRating } from "./";
 import { IChatMessages } from "./ReviewMemberContainer";
 
 const EDEN_GPT_ENDORSE_CHAT_API = gql`
-  query ($fields: edenGPTEndorseChatAPIInput!) {
-    edenGPTEndorseChatAPI(fields: $fields) {
+  query ($fields: edenGPTReviewChatAPIInput!) {
+    edenGPTReviewChatAPI(fields: $fields) {
       reply
     }
   }
@@ -86,10 +86,10 @@ export const ReviewModalView1 = ({
     },
     skip: messageUser == "",
     onCompleted: (data) => {
-      // console.log("dataEdenGPTEndorseChatAPI = ", data);
+      // console.log("edenGPTReviewChatAPI = ", data);
       onChatMessagesChange((prev) => [
         ...prev,
-        { user: "01", message: data.edenGPTEndorseChatAPI.reply },
+        { user: "01", message: data.edenGPTReviewChatAPI.reply },
       ]);
       setMessageUser("");
       setLoading(false);
@@ -227,7 +227,7 @@ export const ReviewModalView1 = ({
             <button
               type={`button`}
               disabled
-              className={`rounded-full border-2 bg-[#D7D7FF]/10 py-1 px-4 font-semibold uppercase text-neutral-400`}
+              className={`rounded-full border-2 bg-[#D7D7FF]/10 px-4 py-1 font-semibold uppercase text-neutral-400`}
             >
               Endorse{" "}
               <BsCoin className={`ml-2 inline-block h-4 w-4 text-yellow-500`} />
