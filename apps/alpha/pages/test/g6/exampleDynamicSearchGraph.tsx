@@ -16,8 +16,8 @@ const GraphVisualPage: NextPageWithLayout = () => {
   ];
 
   const [nodesIDt, setNodesIDt] = useState<any>([
-    "63eaefebdf71c82f61c177eb",
-    "63eaf018df71c82f61c178ac",
+    "6425213bfd005e8c789ceaca",
+    "6416b6e1a57032640bd813aa",
   ]);
   const [activeNodes, setActiveNodes] = useState<any>([false, false]);
 
@@ -75,7 +75,7 @@ const GraphVisualPage: NextPageWithLayout = () => {
       >
         <div>
           <button
-            className="rounded bg-blue-500 py-2 px-4 font-bold text-white shadow hover:bg-blue-700"
+            className="rounded bg-blue-500 px-4 py-2 font-bold text-white shadow hover:bg-blue-700"
             onClick={() => addNodes()}
           >
             Add Nodes
@@ -88,6 +88,7 @@ const GraphVisualPage: NextPageWithLayout = () => {
               nodesID={nodesIDt}
               activeNodes={activeNodes}
               setActivateNodeEvent={setActivateNodeEvent}
+              graphType={"KG_AI_2_plusIndustry"}
             />
           </div>
         </div>

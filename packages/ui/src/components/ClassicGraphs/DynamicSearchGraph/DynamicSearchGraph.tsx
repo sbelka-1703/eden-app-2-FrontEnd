@@ -51,6 +51,7 @@ export interface IDynamicSearchGraphProps {
   activeNodes?: Boolean[];
   isNewNodes?: Boolean[];
   setActivateNodeEvent?: any;
+  setRelatedNodePopup?: any;
   height?: string;
   graphType?: string;
   zoomGraph?: number;
@@ -73,6 +74,7 @@ export const DynamicSearchGraph = ({
   activeNodes,
   isNewNodes,
   setActivateNodeEvent,
+  setRelatedNodePopup,
   height,
   graphType,
   zoomGraph,
@@ -430,6 +432,7 @@ export const DynamicSearchGraph = ({
               setActivateNodeEvent={setActivateNodeEvent}
               centerGraph={centerGraph}
               zoomGraph={zoomGraph}
+              setRelatedNodePopup={setRelatedNodePopup}
             />
           ) : (
             <p>Dont have Graph Data Yet</p>
