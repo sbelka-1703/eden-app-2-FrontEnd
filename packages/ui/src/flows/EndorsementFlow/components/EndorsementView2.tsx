@@ -63,11 +63,13 @@ export const EndorsementView2 = ({
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [amountStake, setAmountStake] = useState(0);
+  const [sendingEndorsement, setSendingEndorsement] = useState(false);
 
   const { register, handleSubmit, reset, watch } = useForm<ReviewInputs>();
   const onSubmit: SubmitHandler<ReviewInputs> = (data) => {
     // console.log("submit", data);
     if (!currentUser) return;
+    setSendingEndorsement(true);
 
     const fields = {
       userSendID: currentUser?._id,
@@ -105,6 +107,7 @@ export const EndorsementView2 = ({
       if (!addEndorsement) console.log("addEndorsement is null");
       // console.log("addEndorsement", addEndorsement);
       onNext();
+      setSendingEndorsement(false);
     },
   });
 
@@ -334,9 +337,11 @@ export const EndorsementView2 = ({
               chat
             </button>
           </div>
-          <div className={`col-span-1 grid justify-items-end`}>
-            <ReviewButton type={`submit`} />
-          </div>
+          {!sendingEndorsement && (
+            <div className={`col-span-1 grid justify-items-end`}>
+              <ReviewButton type={`submit`} />
+            </div>
+          )}
         </div>
       </form>
     </>
