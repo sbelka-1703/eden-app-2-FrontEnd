@@ -4,17 +4,38 @@ import { Members, NodesType } from "@eden/package-graphql/generated";
 import {
   CandidateProfileCard,
   Card,
+  FillUserProfileContainer,
   GridItemNine,
+  GridItemSix,
   GridItemThree,
   GridLayout,
+  Modal,
+  ViewUserProfileContainer,
 } from "@eden/package-ui";
-import { useCallback, useContext, useState } from "react";
+import { STEPS } from "@eden/package-ui/utils";
+import { getFillProfilePercentage } from "@eden/package-ui/utils/fill-profile-percentage";
+import { useContext, useEffect, useState } from "react";
 
 import {
   EndorsementView1,
   EndorsementView2,
   EndorsementView3,
+  EndorsementView4,
 } from "./components";
+
+// eslint-disable-next-line no-unused-vars
+enum ENDORSEMENT_STEPS {
+  // eslint-disable-next-line no-unused-vars
+  CHAT = "CHAT",
+  // eslint-disable-next-line no-unused-vars
+  SUBMIT_ENDORSEMENT = "SUBMIT_ENDORSEMENT",
+  // eslint-disable-next-line no-unused-vars
+  SUCCESS = "SUCCESS",
+  // eslint-disable-next-line no-unused-vars
+  WARNING = "WARNING",
+  // eslint-disable-next-line no-unused-vars
+  FILL_PROFILE = "FILL_PROFILE",
+}
 
 const FIND_ENDORSEMENT_LINK = gql`
   query ($fields: findEndorsementLinkInput) {
@@ -42,7 +63,10 @@ const FIND_ENDORSEMENT_LINK = gql`
   }
 `;
 
-type IChatMessages = any;
+export interface IChatMessages {
+  user?: string;
+  message?: string;
+}
 
 export interface IEndorsementFlowProps {
   endorsementID?: string;
@@ -53,10 +77,11 @@ export const EndorsementFlow = ({ endorsementID }: IEndorsementFlowProps) => {
   const [memberSelected, setMemberSelected] = useState<Members>();
   const [currentRating, setCurrentRating] = useState<number>(0);
   const [chatMessages, setChatMessages] = useState<IChatMessages[]>([]);
+  const [keywords, setKeywords] = useState<any[]>([]);
 
   const [endorsedSkills, setEndorsedSkills] = useState<NodesType[]>([]);
 
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(ENDORSEMENT_STEPS.CHAT);
 
   useQuery(FIND_ENDORSEMENT_LINK, {
     variables: {
@@ -66,65 +91,131 @@ export const EndorsementFlow = ({ endorsementID }: IEndorsementFlowProps) => {
     },
     skip: !endorsementID,
     onCompleted: (data) => {
-      // console.log("FIND_ENDORSEMENT_LINK = ", data);
-      // console.log("MEMBER", data.findEndorsementLink[0].memberInfo);
       setMemberSelected(data.findEndorsementLink[0].memberInfo);
       setEndorsedSkills(data.findEndorsementLink[0].nodes);
-      // setLoading(false);
     },
   });
 
-  const handleNext = useCallback(() => {
-    if (step === 2) {
-      setStep(0);
-    } else setStep((prev) => prev + 1);
-  }, [step]);
+  // const handleNext = useCallback(() => {
+  //   if (step === 4) {
+  //     setStep(0);
+  //   } else setStep((prev) => prev + 1);
+  // }, [step]);
 
-  const handleBack = useCallback(() => {
-    if (step !== 0) setStep((prev) => prev - 1);
-  }, [step]);
+  // const handleBack = useCallback(() => {
+  //   if (step !== 0) setStep((prev) => prev - 1);
+  // }, [step]);
+
+  const [userState, setUserState] = useState<Members>();
+  const [profileStep, setProfileStep] = useState(STEPS.ROLE);
+  const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (currentUser) {
+      setUserState(currentUser);
+    }
+  }, [currentUser]);
 
   return (
     <GridLayout>
-      <GridItemThree>
-        <Card shadow className={"bg-white"}>
-          <CandidateProfileCard member={currentUser} />
-          <div className={`p-4 font-semibold uppercase text-neutral-800`}>
-            My Endorsements
-          </div>
-        </Card>
-      </GridItemThree>
-      <GridItemNine>
-        <Card
-          shadow
-          className={"scrollbar-hide h-85 overflow-scroll bg-white p-4"}
-        >
-          {step === 0 && (
-            <EndorsementView1
-              member={memberSelected}
-              onNext={handleNext}
-              rating={currentRating}
-              onRatingChange={setCurrentRating}
-              chatMessages={chatMessages}
-              onChatMessagesChange={setChatMessages}
-              endorsedSkills={endorsedSkills}
-            />
-          )}
-          {step === 1 && (
-            <EndorsementView2
-              member={memberSelected}
-              onNext={handleNext}
-              onBack={handleBack}
-              rating={currentRating}
-              onRatingChange={setCurrentRating}
-              chatMessages={chatMessages}
-            />
-          )}
-          {step === 2 && (
-            <EndorsementView3 member={memberSelected} onNext={handleNext} />
-          )}
-        </Card>
-      </GridItemNine>
+      {step !== ENDORSEMENT_STEPS.FILL_PROFILE && (
+        <>
+          <GridItemThree>
+            <Card shadow className={"bg-white"}>
+              <CandidateProfileCard member={currentUser} />
+              <div className={`p-4 font-semibold uppercase text-neutral-800`}>
+                New Invitation
+              </div>
+            </Card>
+          </GridItemThree>
+          <GridItemNine>
+            <Card
+              shadow
+              className={"scrollbar-hide h-85 overflow-scroll bg-white p-4"}
+            >
+              {/* CHAT */}
+              {step === ENDORSEMENT_STEPS.CHAT && (
+                <EndorsementView1
+                  member={memberSelected}
+                  onNext={() => setStep(ENDORSEMENT_STEPS.SUBMIT_ENDORSEMENT)}
+                  rating={currentRating}
+                  onRatingChange={setCurrentRating}
+                  chatMessages={chatMessages}
+                  onChatMessagesChange={setChatMessages}
+                  endorsedSkills={endorsedSkills}
+                  keywords={keywords}
+                  onKeywordsChange={setKeywords}
+                />
+              )}
+              {/* SUBMIT_ENDORSEMENT */}
+              {step === ENDORSEMENT_STEPS.SUBMIT_ENDORSEMENT && (
+                <EndorsementView2
+                  member={memberSelected}
+                  onWarning={() => setStep(ENDORSEMENT_STEPS.WARNING)}
+                  onNext={() => setStep(ENDORSEMENT_STEPS.SUCCESS)}
+                  onBack={() => setStep(ENDORSEMENT_STEPS.CHAT)}
+                  rating={currentRating}
+                  onRatingChange={setCurrentRating}
+                  chatMessages={chatMessages}
+                  keywords={keywords}
+                />
+              )}
+            </Card>
+          </GridItemNine>
+          <Modal
+            open={
+              step === ENDORSEMENT_STEPS.SUCCESS ||
+              step === ENDORSEMENT_STEPS.WARNING
+            }
+            onClose={() => setStep(ENDORSEMENT_STEPS.CHAT)}
+          >
+            {/* SUCCESS */}
+            {step === ENDORSEMENT_STEPS.SUCCESS && (
+              <EndorsementView3
+                member={memberSelected}
+                onNext={() => setStep(ENDORSEMENT_STEPS.CHAT)}
+              />
+            )}
+            {/* WARNING */}
+            {step === ENDORSEMENT_STEPS.WARNING && (
+              <EndorsementView4
+                member={memberSelected}
+                onNext={() => setStep(ENDORSEMENT_STEPS.FILL_PROFILE)}
+                onClose={() => setStep(ENDORSEMENT_STEPS.CHAT)}
+              />
+            )}
+          </Modal>
+        </>
+      )}
+
+      {/* FILL_PROFILE */}
+      {step === ENDORSEMENT_STEPS.FILL_PROFILE && (
+        <>
+          <GridItemSix>
+            <Card shadow className={"h-85 bg-white"}>
+              <FillUserProfileContainer
+                step={profileStep}
+                state={userState}
+                setState={setUserState}
+                setStep={setProfileStep}
+                setExperienceOpen={setExperienceOpen}
+                setView={() => setStep(ENDORSEMENT_STEPS.CHAT)}
+                percentage={userState ? getFillProfilePercentage(userState) : 0}
+              />
+            </Card>
+          </GridItemSix>
+          <GridItemSix>
+            <Card shadow className={"h-85 bg-white"}>
+              <ViewUserProfileContainer
+                step={profileStep}
+                user={userState}
+                experienceOpen={experienceOpen}
+                setExperienceOpen={setExperienceOpen}
+              />
+            </Card>
+          </GridItemSix>
+        </>
+      )}
     </GridLayout>
   );
 };
