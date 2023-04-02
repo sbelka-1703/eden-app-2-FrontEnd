@@ -243,14 +243,18 @@ export const MemberInfoWithDynamicGraph2 = ({
         </div>
         <div className="col-span-2"></div>
         <div className="flex flex-col items-center sm:col-span-3 sm:my-0">
-          <section className="border-soilGrey-200 mb-4 w-full rounded-xl border p-2 text-center">
-            <p className="text-center">
-              <TextLabel1>⚡️ Match</TextLabel1>
-            </p>
-            <p className="text-center text-[62px] font-bold leading-none text-[#cb10ff]">
-              {percentage}%
-            </p>
-          </section>
+          {member.bio &&
+            member.budget?.perHour !== undefined &&
+            member.budget?.perHour !== null && (
+              <section className="border-soilGrey-200 mb-4 w-full rounded-xl border p-2 text-center">
+                <p className="text-center">
+                  <TextLabel1>⚡️ Match</TextLabel1>
+                </p>
+                <p className="text-center text-[62px] font-bold leading-none text-[#cb10ff]">
+                  {percentage}%
+                </p>
+              </section>
+            )}
           <section className="border-soilGrey-200 mb-4 w-full rounded-xl border p-2 text-center">
             <p className="text-center">
               <TextLabel1>💰 Hourly rate</TextLabel1>
@@ -271,6 +275,12 @@ export const MemberInfoWithDynamicGraph2 = ({
               <span className="text-2xl">{member.hoursPerWeek}</span> hours/week
             </p>
           </section>
+          {/* <section className="border-soilGrey-200 mb-4 w-full rounded-xl border p-2 text-center">
+            <TextLabel1>💎 Experience</TextLabel1>
+            <p className="text-center font-bold text-slate-600">
+              <span className="text-xl">{member.expirienceLevel.total}</span>
+            </p>
+          </section> */}
           <section className="border-soilGrey-200 mb-4 w-full rounded-xl border p-2 text-center">
             <TextLabel1>🌍 Timezone</TextLabel1>
             <p className="text-center font-bold text-slate-600">
