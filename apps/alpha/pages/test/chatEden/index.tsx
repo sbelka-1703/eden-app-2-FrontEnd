@@ -729,8 +729,15 @@ const UserDiscoverCard = ({
           <div className={`relative flex flex-col items-center`}>
             <UserWithDescription
               member={member}
-              percentage={round(Number(matchPercentage?.totalPercentage), 0)}
+              percentage={
+                member.bio &&
+                member.budget?.perHour !== undefined &&
+                member.budget?.perHour !== null
+                  ? round(Number(matchPercentage?.totalPercentage), 0)
+                  : undefined
+              }
             />
+            {member.budget?.perHour?.toString()}
 
             {member?.links && (
               <div className="flex justify-center">
@@ -742,6 +749,21 @@ const UserDiscoverCard = ({
         <div className="absolute right-2 top-2">
           <Button onClick={() => setIsOpen(!isOpen)}>More</Button>
         </div>
+        {member.budget?.perHour && (
+          <div className="absolute left-2 top-2">
+            <section className="text-left">
+              {/* <p className="">
+                <TextLabel1>💰 Hourly rate</TextLabel1>
+              </p> */}
+              <p className="">
+                <span className="text-2xl font-bold text-[#fcba03]">
+                  ${member.budget?.perHour}
+                </span>{" "}
+                per hour
+              </p>
+            </section>
+          </div>
+        )}
       </div>
 
       <div className="flex">
