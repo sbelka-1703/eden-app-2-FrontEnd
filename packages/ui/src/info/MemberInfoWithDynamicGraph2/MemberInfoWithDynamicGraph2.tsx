@@ -328,50 +328,53 @@ export const MemberInfoWithDynamicGraph2 = ({
             </section>
           </Card> */}
           <div className="col-span-12 flex overflow-x-auto pl-4">
-            <Card
-              className="!border-accentColor mr-4 w-[320px] flex-none bg-green-50 px-4 pt-4"
-              border
-              shadow
-            >
-              <div className="mb-2 flex w-full">
-                <div className="flex flex-col">
-                  <TextHeading3 className="text-md !font-bold">
-                    General Vibe
-                  </TextHeading3>
-                  <div className="flex items-center text-left">
-                    <span className="mr-2">
-                      <StarRating
-                        isReadOnly
-                        rating={member.endorseSummary?.averageStars!}
-                      />
-                    </span>
-                    <span>{`(${member.endorseSummary?.numberEndorsement})`}</span>
+            {member.endorsementsReceive &&
+              member.endorsementsReceive.length > 1 && (
+                <Card
+                  className="!border-accentColor mr-4 w-[320px] flex-none bg-green-50 px-4 pt-4"
+                  border
+                  shadow
+                >
+                  <div className="mb-2 flex w-full">
+                    <div className="flex flex-col">
+                      <TextHeading3 className="text-md !font-bold">
+                        General Vibe
+                      </TextHeading3>
+                      <div className="flex items-center text-left">
+                        <span className="mr-2">
+                          <StarRating
+                            isReadOnly
+                            rating={member.endorseSummary?.averageStars!}
+                          />
+                        </span>
+                        <span>{`(${member.endorseSummary?.numberEndorsement})`}</span>
+                      </div>
+                    </div>
+                    <div className="ml-auto text-right">
+                      <TextLabel1>Total Stake</TextLabel1>
+                      <p className="text-sm">
+                        {member.endorseSummary?.totalStake} $TRST
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <div className="ml-auto text-right">
-                  <TextLabel1>Total Stake</TextLabel1>
-                  <p className="text-sm">
-                    {member.endorseSummary?.totalStake} $TRST
-                  </p>
-                </div>
-              </div>
-              <NodeList
-                colorRGB={`235,225,255`}
-                nodes={member.endorseSummary?.mainNodes?.map(
-                  (node) =>
-                    ({
-                      nodeData: {
-                        name: node?.node?.name,
-                      },
-                    } as NodesType)
-                )}
-              />
-              <section className={`mb-6`}>
-                <TextBody className="text-[13px]">
-                  {member.endorseSummary?.summary}
-                </TextBody>
-              </section>
-            </Card>
+                  <NodeList
+                    colorRGB={`235,225,255`}
+                    nodes={member.endorseSummary?.mainNodes?.map(
+                      (node) =>
+                        ({
+                          nodeData: {
+                            name: node?.node?.name,
+                          },
+                        } as NodesType)
+                    )}
+                  />
+                  <section className={`mb-6`}>
+                    <TextBody className="text-[13px]">
+                      {member.endorseSummary?.summary}
+                    </TextBody>
+                  </section>
+                </Card>
+              )}
             {member.endorsementsReceive?.map((endorsement, index) => (
               <Card
                 className="mr-4 w-[320px] flex-none px-4 pt-4"
