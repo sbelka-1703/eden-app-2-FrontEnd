@@ -14,7 +14,7 @@ import {
 } from "@eden/package-ui";
 import { STEPS } from "@eden/package-ui/utils";
 import { getFillProfilePercentage } from "@eden/package-ui/utils/fill-profile-percentage";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import {
   EndorsementView1,
@@ -22,6 +22,20 @@ import {
   EndorsementView3,
   EndorsementView4,
 } from "./components";
+
+// eslint-disable-next-line no-unused-vars
+enum ENDORSEMENT_STEPS {
+  // eslint-disable-next-line no-unused-vars
+  CHAT = "CHAT",
+  // eslint-disable-next-line no-unused-vars
+  SUBMIT_ENDORSEMENT = "SUBMIT_ENDORSEMENT",
+  // eslint-disable-next-line no-unused-vars
+  SUCCESS = "SUCCESS",
+  // eslint-disable-next-line no-unused-vars
+  WARNING = "WARNING",
+  // eslint-disable-next-line no-unused-vars
+  FILL_PROFILE = "FILL_PROFILE",
+}
 
 const FIND_ENDORSEMENT_LINK = gql`
   query ($fields: findEndorsementLinkInput) {
@@ -49,7 +63,10 @@ const FIND_ENDORSEMENT_LINK = gql`
   }
 `;
 
-type IChatMessages = any;
+export interface IChatMessages {
+  user?: string;
+  message?: string;
+}
 
 export interface IEndorsementFlowProps {
   endorsementID?: string;
@@ -64,7 +81,7 @@ export const EndorsementFlow = ({ endorsementID }: IEndorsementFlowProps) => {
 
   const [endorsedSkills, setEndorsedSkills] = useState<NodesType[]>([]);
 
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(ENDORSEMENT_STEPS.CHAT);
 
   useQuery(FIND_ENDORSEMENT_LINK, {
     variables: {
@@ -79,15 +96,15 @@ export const EndorsementFlow = ({ endorsementID }: IEndorsementFlowProps) => {
     },
   });
 
-  const handleNext = useCallback(() => {
-    if (step === 4) {
-      setStep(0);
-    } else setStep((prev) => prev + 1);
-  }, [step]);
+  // const handleNext = useCallback(() => {
+  //   if (step === 4) {
+  //     setStep(0);
+  //   } else setStep((prev) => prev + 1);
+  // }, [step]);
 
-  const handleBack = useCallback(() => {
-    if (step !== 0) setStep((prev) => prev - 1);
-  }, [step]);
+  // const handleBack = useCallback(() => {
+  //   if (step !== 0) setStep((prev) => prev - 1);
+  // }, [step]);
 
   const [userState, setUserState] = useState<Members>();
   const [profileStep, setProfileStep] = useState(STEPS.ROLE);
@@ -101,7 +118,7 @@ export const EndorsementFlow = ({ endorsementID }: IEndorsementFlowProps) => {
 
   return (
     <GridLayout>
-      {step !== 4 && (
+      {step !== ENDORSEMENT_STEPS.FILL_PROFILE && (
         <>
           <GridItemThree>
             <Card shadow className={"bg-white"}>
@@ -116,10 +133,11 @@ export const EndorsementFlow = ({ endorsementID }: IEndorsementFlowProps) => {
               shadow
               className={"scrollbar-hide h-85 overflow-scroll bg-white p-4"}
             >
-              {step === 0 && (
+              {/* CHAT */}
+              {step === ENDORSEMENT_STEPS.CHAT && (
                 <EndorsementView1
                   member={memberSelected}
-                  onNext={handleNext}
+                  onNext={() => setStep(ENDORSEMENT_STEPS.SUBMIT_ENDORSEMENT)}
                   rating={currentRating}
                   onRatingChange={setCurrentRating}
                   chatMessages={chatMessages}
@@ -129,11 +147,13 @@ export const EndorsementFlow = ({ endorsementID }: IEndorsementFlowProps) => {
                   onKeywordsChange={setKeywords}
                 />
               )}
-              {step === 1 && (
+              {/* SUBMIT_ENDORSEMENT */}
+              {step === ENDORSEMENT_STEPS.SUBMIT_ENDORSEMENT && (
                 <EndorsementView2
                   member={memberSelected}
-                  onNext={handleNext}
-                  onBack={handleBack}
+                  onWarning={() => setStep(ENDORSEMENT_STEPS.WARNING)}
+                  onNext={() => setStep(ENDORSEMENT_STEPS.SUCCESS)}
+                  onBack={() => setStep(ENDORSEMENT_STEPS.CHAT)}
                   rating={currentRating}
                   onRatingChange={setCurrentRating}
                   chatMessages={chatMessages}
@@ -142,10 +162,34 @@ export const EndorsementFlow = ({ endorsementID }: IEndorsementFlowProps) => {
               )}
             </Card>
           </GridItemNine>
+          <Modal
+            open={
+              step === ENDORSEMENT_STEPS.SUCCESS ||
+              step === ENDORSEMENT_STEPS.WARNING
+            }
+            onClose={() => setStep(ENDORSEMENT_STEPS.CHAT)}
+          >
+            {/* SUCCESS */}
+            {step === ENDORSEMENT_STEPS.SUCCESS && (
+              <EndorsementView3
+                member={memberSelected}
+                onNext={() => setStep(ENDORSEMENT_STEPS.CHAT)}
+              />
+            )}
+            {/* WARNING */}
+            {step === ENDORSEMENT_STEPS.WARNING && (
+              <EndorsementView4
+                member={memberSelected}
+                onNext={() => setStep(ENDORSEMENT_STEPS.FILL_PROFILE)}
+                onClose={() => setStep(ENDORSEMENT_STEPS.CHAT)}
+              />
+            )}
+          </Modal>
         </>
       )}
 
-      {step === 4 && (
+      {/* FILL_PROFILE */}
+      {step === ENDORSEMENT_STEPS.FILL_PROFILE && (
         <>
           <GridItemSix>
             <Card shadow className={"h-85 bg-white"}>
@@ -155,7 +199,7 @@ export const EndorsementFlow = ({ endorsementID }: IEndorsementFlowProps) => {
                 setState={setUserState}
                 setStep={setProfileStep}
                 setExperienceOpen={setExperienceOpen}
-                setView={() => setStep(0)}
+                setView={() => setStep(ENDORSEMENT_STEPS.CHAT)}
                 percentage={userState ? getFillProfilePercentage(userState) : 0}
               />
             </Card>
@@ -172,19 +216,6 @@ export const EndorsementFlow = ({ endorsementID }: IEndorsementFlowProps) => {
           </GridItemSix>
         </>
       )}
-
-      <Modal open={step === 2 || step === 3} onClose={() => setStep(0)}>
-        {step === 2 && (
-          <EndorsementView3 member={memberSelected} onNext={handleNext} />
-        )}
-        {step === 3 && (
-          <EndorsementView4
-            member={memberSelected}
-            onNext={handleNext}
-            onClose={() => setStep(0)}
-          />
-        )}
-      </Modal>
     </GridLayout>
   );
 };

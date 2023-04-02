@@ -12,9 +12,9 @@ import {
 } from "react";
 import { BsCoin } from "react-icons/bs";
 
+import { IChatMessages } from "../EndorsementFlow";
 import { ChatBox, KeywordList, ReviewButton, StarRating } from "./";
-// import { IChatMessages } from "./ReviewMemberContainer";
-type IChatMessages = any;
+// type IChatMessages = any;
 
 const EDEN_GPT_ENDORSE_CHAT_API = gql`
   query ($fields: edenGPTEndorseChatAPIInput!) {
