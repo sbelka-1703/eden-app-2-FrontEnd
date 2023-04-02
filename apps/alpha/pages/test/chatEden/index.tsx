@@ -589,6 +589,7 @@ const chatEden: NextPageWithLayout = () => {
                   // graphType={"KG_AI_2"}
                   graphType={"KG_AI_2_plusIndustry"}
                   // zoomGraph={1.1}
+                  setRelatedNodePopup={handleOpenPopup}
                 />
               </div>
             </div>
