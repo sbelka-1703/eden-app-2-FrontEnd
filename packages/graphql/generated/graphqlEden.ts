@@ -1489,11 +1489,21 @@ export type AttributesType = {
   Supporter?: Maybe<Scalars["Int"]>;
 };
 
+export type AvailabilityInput = {
+  maxHourPerWeek?: InputMaybe<Scalars["Int"]>;
+  minHourPerWeek?: InputMaybe<Scalars["Int"]>;
+};
+
 export type BudgetInput = {
   perHour?: InputMaybe<Scalars["String"]>;
   perMonth?: InputMaybe<Scalars["String"]>;
   token?: InputMaybe<Scalars["String"]>;
   totalBudget?: InputMaybe<Scalars["String"]>;
+};
+
+export type BudgetInputT = {
+  maxPerHour?: InputMaybe<Scalars["Float"]>;
+  minPerHour?: InputMaybe<Scalars["Float"]>;
 };
 
 export type BudgetMemberType = {
@@ -2332,6 +2342,9 @@ export type MatchNodesToMembersInput = {
 };
 
 export type MatchNodesToMembers_Ai4Input = {
+  availability?: InputMaybe<AvailabilityInput>;
+  budget?: InputMaybe<BudgetInputT>;
+  expirienceLevel?: InputMaybe<Scalars["Int"]>;
   limit?: InputMaybe<Scalars["Int"]>;
   nodesID?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   page?: InputMaybe<Scalars["Int"]>;

@@ -601,7 +601,7 @@ const chatEden: NextPageWithLayout = () => {
             </Card>
           </div>
         </div>
-        <div className="col-span-7 h-full flex-1 ">
+        <div className="col-span-7 h-full flex-1 overflow-y-scroll">
           {/* <GridLayout> */}
           {/* <GridItemNine> */}
           <Card className="scrollbar-hide h-full overflow-scroll rounded-none border-l bg-white p-4">
