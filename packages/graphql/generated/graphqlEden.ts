@@ -3,14 +3,12 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
 };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
-  {
-    [SubKey in K]?: Maybe<T[SubKey]>;
-  };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
-  {
-    [SubKey in K]: Maybe<T[SubKey]>;
-  };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -234,6 +232,7 @@ export type Members = {
   endorseSummary?: Maybe<EndorseSummaryType>;
   endorsementsReceive?: Maybe<Array<Maybe<Endorsement>>>;
   endorsementsSend?: Maybe<Array<Maybe<Endorsement>>>;
+  expirienceLevel?: Maybe<ExpirienceLevelType>;
   gardenUpdate?: Maybe<GardenUpdateType>;
   hoursPerWeek?: Maybe<Scalars["Float"]>;
   interest?: Maybe<Scalars["String"]>;
@@ -791,6 +790,7 @@ export type Query = {
   members_autocomplete?: Maybe<Array<Maybe<Members>>>;
   messageMapKG?: Maybe<MessageMapKgOutput>;
   messageMapKG_V2?: Maybe<MessageMapKg_V2Output>;
+  messageMapKG_V3?: Maybe<MessageMapKg_V3Output>;
   nodes_autocomplete?: Maybe<Array<Maybe<Node>>>;
   setAllMatch_v2?: Maybe<Scalars["Boolean"]>;
   skills?: Maybe<PaginatedSkills>;
@@ -1089,6 +1089,10 @@ export type QueryMessageMapKgArgs = {
 
 export type QueryMessageMapKg_V2Args = {
   fields?: InputMaybe<MessageMapKg_V2Input>;
+};
+
+export type QueryMessageMapKg_V3Args = {
+  fields?: InputMaybe<MessageMapKg_V3Input>;
 };
 
 export type QueryNodes_AutocompleteArgs = {
@@ -1966,6 +1970,12 @@ export type ErrorsInput = {
   errorType?: InputMaybe<ErrorTypeEnum>;
 };
 
+export type ExpirienceLevelType = {
+  __typename?: "expirienceLevelType";
+  total?: Maybe<Scalars["Int"]>;
+  years?: Maybe<Scalars["Int"]>;
+};
+
 export enum ExploreFeatureEnum {
   ExploreProjectsButton = "exploreProjectsButton",
   FindFriendButton = "findFriendButton",
@@ -2460,6 +2470,16 @@ export type MessageMapKg_V2Input = {
 
 export type MessageMapKg_V2Output = {
   __typename?: "messageMapKG_V2Output";
+  keywords?: Maybe<Array<Maybe<KeywordValue>>>;
+};
+
+export type MessageMapKg_V3Input = {
+  assistantMessage?: InputMaybe<Scalars["String"]>;
+  message?: InputMaybe<Scalars["String"]>;
+};
+
+export type MessageMapKg_V3Output = {
+  __typename?: "messageMapKG_V3Output";
   keywords?: Maybe<Array<Maybe<KeywordValue>>>;
 };
 
