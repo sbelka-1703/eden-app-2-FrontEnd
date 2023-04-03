@@ -2,13 +2,22 @@ import { gql, useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
 import { Members, Project } from "@eden/package-graphql/generated";
 import { Avatar, TextLabel1 } from "@eden/package-ui";
-import { useCallback, useContext, useEffect, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { BsCoin } from "react-icons/bs";
 
-import { ChatBox, EndorseButton, KeywordList, StarRating } from "./";
+import { ChatBox, KeywordList, ReviewButton, StarRating } from "./";
+import { IChatMessages } from "./ReviewMemberContainer";
 
 const EDEN_GPT_ENDORSE_CHAT_API = gql`
-  query ($fields: edenGPTEndorseChatAPIInput!) {
-    edenGPTEndorseChatAPI(fields: $fields) {
+  query ($fields: edenGPTReviewChatAPIInput!) {
+    edenGPTReviewChatAPI(fields: $fields) {
       reply
     }
   }
@@ -26,32 +35,30 @@ const MESSAGE_MAP_KG = gql`
   }
 `;
 
-type ChatMessages = {
-  user: string;
-  message: string;
-};
-
-interface IEndorsementModalView1Props {
+interface IReviewModalView1Props {
   member?: Members;
   project?: Project;
   onNext: () => void;
   rating: number;
   // eslint-disable-next-line no-unused-vars
   onRatingChange: (rating: number) => void;
+  chatMessages?: IChatMessages[];
+  // eslint-disable-next-line no-unused-vars
+  onChatMessagesChange: Dispatch<SetStateAction<IChatMessages[]>>;
 }
 
-export const EndorsementModalView1 = ({
+export const ReviewModalView1 = ({
   member,
   project,
   onNext,
   rating,
   onRatingChange,
-}: IEndorsementModalView1Props) => {
+  chatMessages,
+  onChatMessagesChange,
+}: IReviewModalView1Props) => {
   const { currentUser } = useContext(UserContext);
 
   const [messageUser, setMessageUser] = useState<string>("");
-  const [chatN, setChatN] = useState<ChatMessages[]>([]);
-  // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = useState<boolean>(false);
 
   const [kgNodes, setKgNodes] = useState<any[]>([]);
@@ -65,8 +72,8 @@ export const EndorsementModalView1 = ({
     variables: {
       fields: {
         message: messageUser,
-        conversation: chatN
-          .map((obj) => {
+        conversation: chatMessages
+          ?.map((obj: IChatMessages) => {
             if (obj.user === "01") {
               return { role: "assistant", content: obj.message };
             } else {
@@ -79,20 +86,15 @@ export const EndorsementModalView1 = ({
     },
     skip: messageUser == "",
     onCompleted: (data) => {
-      // console.log("dataEdenGPTEndorseChatAPI = ", data);
-      setChatN((prev) => [
+      // console.log("edenGPTReviewChatAPI = ", data);
+      onChatMessagesChange((prev) => [
         ...prev,
-        { user: "01", message: data.edenGPTEndorseChatAPI.reply },
+        { user: "01", message: data.edenGPTReviewChatAPI.reply },
       ]);
       setMessageUser("");
       setLoading(false);
     },
   });
-
-  // useEffect(() => {
-  //   if (dataEdenGPTEndorseChatAPI)
-  //     console.log("dataEdenGPTReplyChatAPI = ", dataEdenGPTEndorseChatAPI);
-  // }, [dataEdenGPTEndorseChatAPI]);
 
   useEffect(() => {
     if (kgNodes.length > 0) {
@@ -110,7 +112,7 @@ export const EndorsementModalView1 = ({
   const chatNToString = () => {
     let chatNString = "";
 
-    chatN.forEach((message) => {
+    chatMessages?.forEach((message) => {
       chatNString += message.message + " ";
     });
     // console.log("chatNString = ", chatNString);
@@ -123,7 +125,7 @@ export const EndorsementModalView1 = ({
         message: chatNToString(),
       },
     },
-    skip: chatN.length < 2,
+    skip: chatMessages && chatMessages.length < 2,
     onCompleted: (data) => {
       // console.log("dataMessageMapKG = ", data);
       setKgNodes(data.messageMapKG.keywords);
@@ -131,30 +133,30 @@ export const EndorsementModalView1 = ({
   });
 
   useEffect(() => {
-    if (member && project && currentUser && chatN.length === 0)
-      setChatN((prev) => [
+    if (member && project && currentUser && chatMessages?.length === 0)
+      onChatMessagesChange((prev) => [
         ...prev,
         {
           user: "01",
           message: `Hey ${currentUser?.discordName}!  How was your experience working with ${member?.discordName} on ${project?.title}?`,
         },
       ]);
-  }, [member, project, currentUser, chatN]);
-
-  // useEffect(() => {
-  //   console.log("chatN = ", chatN);
-  // }, [chatN]);
+  }, [member, project, currentUser, chatMessages]);
 
   const handleSentMessage = useCallback((message: string, user: string) => {
     setLoading(true);
-    setChatN((prev) => [...prev, { user, message }]);
+    onChatMessagesChange((prev) => [...prev, { user, message }]);
     setMessageUser(message);
   }, []);
 
   return (
     <div className={`grid grid-cols-3 gap-4`}>
       <div className={`col-span-2`}>
-        <ChatBox chatN={chatN} handleSentMessage={handleSentMessage} />
+        <ChatBox
+          chatN={chatMessages}
+          messageLoading={loading}
+          handleSentMessage={handleSentMessage}
+        />
       </div>
       <div className={`col-span-1`}>
         <div className={`text-lg font-medium uppercase text-neutral-700`}>
@@ -214,14 +216,25 @@ export const EndorsementModalView1 = ({
             setGeneralNodes((prev) => prev.filter((node) => node !== val));
           }}
         />
-        <div className={`my-4 text-center`}>
-          <TextLabel1 className={`text-xs text-neutral-600`}>
+        <div className={`my-4 text-center shadow-md`}>
+          <TextLabel1 className={`text-xs font-semibold text-neutral-800`}>
             Would you want to work with @{member?.discordName} again?
           </TextLabel1>
           <StarRating rating={rating} onRatingChange={onRatingChange} />
         </div>
-        <div className={`my-2 flex justify-center`}>
-          <EndorseButton type={`button`} onClick={onNext} />
+        <div className={`mt-12 flex justify-center`}>
+          {chatMessages && chatMessages?.length < 5 ? (
+            <button
+              type={`button`}
+              disabled
+              className={`rounded-full border-2 bg-[#D7D7FF]/10 px-4 py-1 font-semibold uppercase text-neutral-400`}
+            >
+              Endorse{" "}
+              <BsCoin className={`ml-2 inline-block h-4 w-4 text-yellow-500`} />
+            </button>
+          ) : (
+            <ReviewButton type={`button`} onClick={onNext} />
+          )}
         </div>
       </div>
     </div>

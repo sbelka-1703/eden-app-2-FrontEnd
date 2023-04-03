@@ -31,12 +31,10 @@ export const backendGraphToVisualGraph = (
       // // console.log(nodeIDsObj[edge.source], nodeIDsObj[edge.target]);
       if (
         nodeIDsObj &&
-        (nodeIDsObj[edge.source] == false || nodeIDsObj[edge.target] == false)
+        (nodeIDsObj[edge.source]?.active == false ||
+          nodeIDsObj[edge.target]?.active == false)
       ) {
         // this means that this node is not active
-
-        // // console.log("hide");
-        // // console.log("------ssssss------------");
 
         return {
           source: edge.source,
@@ -50,8 +48,6 @@ export const backendGraphToVisualGraph = (
         };
       } else {
         // // console.log("show", edge.style);
-
-        // // console.log("------ssssss------------");
 
         return {
           source: edge.source,
@@ -68,6 +64,7 @@ export const backendGraphToVisualGraph = (
     (node: {
       _id: any;
       name: any;
+      comboId: string;
       type: string;
       avatar: string;
       extraDistanceRation: Number;
@@ -76,21 +73,41 @@ export const backendGraphToVisualGraph = (
       let extraStyle = {};
 
       if (useAvatar == true && node.avatar != undefined) {
-        extraStyle = {
-          // ----------- Shwow Avatar User ---------
-          type: "image",
-          img: node.avatar,
-          clipCfg: {
-            show: true,
-            type: "circle",
-            r: 25,
-          },
-          style: {
-            height: 50,
-            width: 50,
-          },
-          // ----------- Shwow Avatar User ---------
-        };
+        // console.log("change = TT1", node.style);
+
+        if (node.type == "dynamicSearch") {
+          extraStyle = {
+            // type: "root",
+            // type: "customNode",
+            // size: [80, 60],
+            icon: {
+              /* whether show the icon, false by default */
+              show: true,
+              /* icon's img address, string type */
+              img: node.avatar,
+              /* icon's size, 20 * 20 by default: */
+              width: node.style.size - 20,
+              height: node.style.size - 20,
+            },
+          };
+        } else {
+          extraStyle = {
+            // ----------- Shwow Avatar User ---------
+            type: "image",
+            img: node.avatar,
+            // img: "https://picsum.photos/id/4/536/354",
+            clipCfg: {
+              show: true,
+              type: "circle",
+              r: 25,
+            },
+            style: {
+              height: 50,
+              width: 50,
+            },
+            // ----------- Shwow Avatar User ---------
+          };
+        }
       }
       if (useAvatar == false && node.avatar != undefined) {
         extraStyle = {
@@ -112,16 +129,16 @@ export const backendGraphToVisualGraph = (
         };
       }
 
-      if (nodeIDsObj && nodeIDsObj[node._id] == false) {
+      if (nodeIDsObj && nodeIDsObj[node._id]?.active == false) {
         // this means that this node is not active
         extraStyle = {
           ...extraStyle,
           activate: false,
           style: {
-            size: 48,
+            size: 58,
 
             fill: "#ECECEC",
-            stroke: "#A9A9A9",
+            stroke: "#8777A6",
           },
 
           type: "background-animate",
@@ -129,9 +146,25 @@ export const backendGraphToVisualGraph = (
         };
       }
 
+      if (nodeIDsObj && nodeIDsObj[node._id]?.isNew == true) {
+        extraStyle = {
+          ...extraStyle,
+          isNew: true,
+        };
+      }
+
+      // if (node._id == "640a738ec5d61b4bae0ee079" || node._id == "640a7381c5d61b4bae0ee065"){
+      //   extraStyle = {
+      //     ...extraStyle,
+      //     comboId: "combo1"
+      //   };
+
+      // }
+
       return {
         id: node._id,
         label: node.name,
+        comboId: node.comboId,
         nodeType: node.type,
         extraDistanceRation: node.extraDistanceRation,
         size: 50,
@@ -149,9 +182,38 @@ export const backendGraphToVisualGraph = (
     }
   );
 
+  let combosDataGraph;
+
+  if (dataGraphAPI.combos) {
+    combosDataGraph = dataGraphAPI.combos.map(
+      (combo: { id: any; label: any; style: any }) => {
+        return {
+          id: combo.id,
+          // label: combo.label,
+          label: "",
+          padding: 3,
+          style: combo.style,
+        };
+      }
+    );
+  } else {
+    combosDataGraph = [];
+  }
+
   // console.log("nodesDataGraph = ", nodesDataGraph);
   return {
     nodes: nodesDataGraph,
     edges: edgesDataGraph,
+    combos: combosDataGraph,
+    // combos: [
+    //   {
+    //     id: "combo1",
+    //     label: "Combo1",
+    //     // style:{
+    //     //   fill: '#f00',
+    //     //   stroke: '#f00',
+    //     // }
+    //   },
+    // ],
   };
 };

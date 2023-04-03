@@ -3,9 +3,9 @@ import { membersWorkedWithMock } from "@eden/package-mock";
 import { useEffect, useState } from "react";
 import { BsFillPatchCheckFill } from "react-icons/bs";
 
-import { EndorseMemberCard } from "./";
+import { ReviewMemberCard } from "./";
 
-interface IEndorsementModalView3Props {
+interface IReviewModalView3Props {
   member?: Members;
   project?: Project;
   onNext: () => void;
@@ -13,11 +13,11 @@ interface IEndorsementModalView3Props {
   handleSelectMember: (member: Members, project: Project) => void;
 }
 
-export const EndorsementModalView3 = ({
+export const ReviewModalView3 = ({
   member,
 
   handleSelectMember,
-}: IEndorsementModalView3Props) => {
+}: IReviewModalView3Props) => {
   const [newMemberWorkedWith, setNewMemberWorkedWith] = useState<any>();
 
   useEffect(() => {
@@ -44,7 +44,7 @@ export const EndorsementModalView3 = ({
               Tell Us about your experience with @
               {newMemberWorkedWith.member.discordName}
             </div>
-            <EndorseMemberCard
+            <ReviewMemberCard
               member={newMemberWorkedWith.member}
               project={newMemberWorkedWith.project}
               topSkills={newMemberWorkedWith.topSkills}

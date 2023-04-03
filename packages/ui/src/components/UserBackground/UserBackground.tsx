@@ -1,11 +1,11 @@
 import {
-  Endorsements,
+  // Endorsements,
   Maybe,
   PreviousProjectsType,
 } from "@eden/package-graphql/generated";
 import {
   Card,
-  EndorsementList,
+  // EndorsementList,
   // TextHeading3,
   TextLabel1,
 } from "@eden/package-ui";
@@ -13,14 +13,14 @@ import React from "react";
 
 export interface IUserBackgroundProps {
   background: Array<Maybe<PreviousProjectsType>>;
-  initialEndorsements: Array<Maybe<Endorsements>>;
+  // initialEndorsements: Array<Maybe<Endorsements>>;
   experienceOpen: number | null;
   setExperienceOpen: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
 export const UserBackground = ({
   background,
-  initialEndorsements,
+  // initialEndorsements,
   experienceOpen,
   setExperienceOpen,
 }: IUserBackgroundProps) => {
@@ -89,11 +89,13 @@ export const UserBackground = ({
           );
         })}
       </div>
-      {initialEndorsements && initialEndorsements.length > 0 && (
+      {/* MEMEBER.ENDORSEMENT NO LONGER EXISTS */}
+
+      {/* {initialEndorsements && initialEndorsements.length > 0 && (
         <div className="mt-3">
           <EndorsementList endorsements={initialEndorsements} />
         </div>
-      )}
+      )} */}
     </div>
   );
 };

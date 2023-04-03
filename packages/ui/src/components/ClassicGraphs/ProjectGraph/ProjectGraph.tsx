@@ -161,8 +161,8 @@ export const ProjectGraph = ({ projectId }: IProjectGraphProps) => {
   }, [dataGraphAPI]);
   // ----------- Update the Graph Visual ----------
 
-  console.log("data = ", data);
-  console.log("dataGraphAPI = ", dataGraphAPI);
+  // console.log("data = ", data);
+  // console.log("dataGraphAPI = ", dataGraphAPI);
 
   useEffect(() => {
     const getwidth = () => {

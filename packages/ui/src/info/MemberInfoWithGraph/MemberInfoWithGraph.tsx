@@ -48,7 +48,11 @@ export const MemberInfoWithGraph = ({
       <UserWithDescription member={member} percentage={percentage} />
 
       <div className="h-[280px] w-full">
-        <MemberGraph memberId={member._id!} disableZoom={true} />
+        <MemberGraph
+          memberId={member._id!}
+          disableZoom={true}
+          graphType={"KG_AI"}
+        />
       </div>
 
       <div className="mb-4 grid grid-cols-1 sm:grid-cols-5">
@@ -107,12 +111,13 @@ export const MemberInfoWithGraph = ({
           />
         </div>
       </div>
-      {((member?.previousProjects && member?.previousProjects.length) ||
-        (member?.endorsements && member?.endorsements.length > 0)) && (
+      {/* MEMEBER.ENDORSEMENT NO LONGER EXISTS */}
+
+      {member?.previousProjects && member?.previousProjects.length && (
         <div className={`my-4`}>
           <UserBackground
             background={member?.previousProjects || []}
-            initialEndorsements={member?.endorsements || []}
+            // initialEndorsements={member?.endorsements || []}
             setExperienceOpen={setExperienceOpen!}
             experienceOpen={experienceOpen!}
           />

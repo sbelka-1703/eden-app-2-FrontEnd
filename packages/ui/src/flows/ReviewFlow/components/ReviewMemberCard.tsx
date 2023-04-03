@@ -3,9 +3,9 @@ import { Avatar, Card, NodeList, TextBody, TextLabel2 } from "@eden/package-ui";
 import { useCallback } from "react";
 import { FaExternalLinkAlt } from "react-icons/fa";
 
-import { EndorseButton } from "./";
+import { ReviewButton } from "./";
 
-interface IEndorseMemberCardProps {
+interface IReviewMemberCardProps {
   member?: Members;
   project?: Project;
   topSkills?: NodesType[];
@@ -14,13 +14,13 @@ interface IEndorseMemberCardProps {
   onSelected: (member: Members, project: Project) => void;
 }
 
-export const EndorseMemberCard = ({
+export const ReviewMemberCard = ({
   member,
   project,
   topSkills,
   collaboration,
   onSelected,
-}: IEndorseMemberCardProps) => {
+}: IReviewMemberCardProps) => {
   const handleSelectMember = useCallback(() => {
     if (member && project) onSelected(member, project);
   }, [member, project, onSelected]);
@@ -103,7 +103,7 @@ export const EndorseMemberCard = ({
       <div
         className={`absolute inset-x-0 bottom-0 mb-2 mt-8 flex justify-center`}
       >
-        <EndorseButton type={`button`} onClick={handleSelectMember} />
+        <ReviewButton type={`button`} onClick={handleSelectMember} />
       </div>
     </Card>
   );

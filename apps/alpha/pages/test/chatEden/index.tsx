@@ -2,7 +2,7 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
 import {
-  FIND_MEMBER_INFO,
+  // FIND_MEMBER_INFO,
   MATCH_NODES_MEMBERS_AI4,
 } from "@eden/package-graphql";
 import {
@@ -13,7 +13,7 @@ import {
   RoleType,
 } from "@eden/package-graphql/generated";
 import {
-  AvatarList,
+  // AvatarList,
   Badge,
   Button,
   Card,
@@ -22,11 +22,12 @@ import {
   CommonServerAvatarList,
   DynamicSearchGraph,
   LongText,
-  MemberInfoWithDynamicGraph,
+  // MemberInfoWithDynamicGraph,
+  MemberInfoWithDynamicGraph2,
   SendMessageUserToUser,
   SocialMediaComp,
   TextHeading3,
-  TextLabel1,
+  // TextLabel1,
   UserInviteModal,
   UserWithDescription,
 } from "@eden/package-ui";
@@ -35,12 +36,23 @@ import React, { Fragment, useContext, useEffect, useState } from "react";
 
 import {
   EDEN_GPT_REPLY,
-  EDEN_GPT_REPLY_CHAT_API,
+  // EDEN_GPT_REPLY_CHAT_API,
+  EDEN_GPT_REPLY_CHAT_API_V2,
   EDEN_GPT_REPLY_MEMORY,
-  MESSAGE_MAP_KG,
+  FIND_RELATED_NODE,
+  MESSAGE_MAP_KG_V2,
   STORE_LONG_TERM_MEMORY,
 } from "../../../utils/data/GQLfuncitons";
 import type { NextPageWithLayout } from "../../_app";
+import MultiSelectPopup from "./components/MultiSelectPopup";
+
+interface NodeObj {
+  [key: string]: {
+    active: boolean;
+    confidence: number;
+    isNew: boolean;
+  };
+}
 
 const chatEden: NextPageWithLayout = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -55,34 +67,90 @@ const chatEden: NextPageWithLayout = () => {
   // console.log("currentUser = ", currentUser);
 
   // const [nodesID, setNodesID] = useState<string[]>([
-  //   "63eaf095df71c82f61c17a3c",
-  //   "63eaf031df71c82f61c178fc",
+  //   "63eaf157df71c82f61c17e06",
   // ]);
+  // const [nodesConfidence, setNodesConfidence] = useState<string[]>(["9"]);
+  // const [activeNodes, setActiveNodes] = useState<Boolean[]>([false]);
 
-  // console.log("nodesID = ", nodesID);
-  // const [nodesID, setNodesIDK] = useState<string[]>([
-  //   "63eaf095df71c82f61c17a3c",
-  //   "63eaf031df71c82f61c178fc",
-  // ]);
-  // const [activeNodes, setActiveNodes] = useState<Boolean[]>([false, false]);
+  const [nodeObj, setNodeObj] = useState<NodeObj>({
+    // "640a739dc5d61b4bae0ee091": { // SOS 🆘 -> problem with this node combination
+    //   confidence: 9,
+    //   active: false,
+    //   isNew: true,
+    // },
+    // "6416b6e1a57032640bd813aa": {
+    //   confidence: 9,
+    //   active: true,
+    //   isNew: true,
+    // },
+    // "6425213bfd005e8c789ceaca": {
+    //   confidence: 10,
+    //   active: true,
+    //   isNew: true,
+    // },
+    // "6425213cfd005e8c789ceacd": {
+    //   confidence: 10,
+    //   active: true,
+    //   isNew: true,
+    // },
+    // "6425213dfd005e8c789cead0": {
+    //   confidence: 10,
+    //   active: true,
+    //   isNew: false,
+    // },
+  });
 
-  const [nodesID, setNodesID] = useState<string[]>([]);
+  //  ------------- Popup Preparation ----------
+  const [isOpenPopup, setIsOpenPopup] = useState(false);
+  const [nodeSearchRelated, setnodeSearchRelated] = useState("");
 
-  // const [nodesID, setNodesIDK] = useState<string[]>([]);
-  const [nodesConfidence, setNodesConfidence] = useState<string[]>([]);
-  const [activeNodes, setActiveNodes] = useState<Boolean[]>([]);
+  const [optionsPopup, setOptionsPopup] = useState<any>([]);
 
-  // console.log("nodesID = ", nodesID);
+  // const optionsPopup = [
+  //   { value: "ID1", label: "React" },
+  //   { value: "ID2", label: "Javascript" },
+  //   { value: "ID3", label: "UX" },
+  //   { value: "ID4", label: "UI" },
+  // ];
 
-  // const [nodeNames]
+  const handleOpenPopup = (nodeID: any) => {
+    setIsOpenPopup(true);
+    setnodeSearchRelated(nodeID);
+  };
+
+  console.log("nodeSearchRelated = ", nodeSearchRelated);
+
+  const handleClosePopup = () => {
+    setIsOpenPopup(false);
+  };
+
+  const handleSelectPopup = (selectedOptionsPopup: Array<any>) => {
+    const nodeObjNew = { ...nodeObj };
+
+    selectedOptionsPopup.forEach((node) => {
+      nodeObjNew[node.value] = {
+        confidence: 10,
+        active: true,
+        isNew: true,
+      };
+    });
+
+    console.log("nodeObjNew = ", nodeObjNew);
+
+    setNodeObj(nodeObjNew);
+  };
+  //  ------------- Popup Preparation ----------
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [chatN, setChatN] = useState([
-    {
-      user: "01",
-      message: "Hey I am Eden AI, how can I help you?",
-    },
-  ]);
+  const [chatN, setChatN] = useState<
+    | [
+        {
+          user: string;
+          message: string;
+        }
+      ]
+    | []
+  >([] as [{ user: string; message: string }] | []);
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [chatNprepareGPT, setChatNprepareGPT] = useState<string>("");
@@ -94,6 +162,28 @@ const chatEden: NextPageWithLayout = () => {
     selectedOption,
     // setSelectedOption
   ] = useState<string | null>("option3");
+
+  const {} = useQuery(FIND_RELATED_NODE, {
+    variables: {
+      fields: {
+        _id: nodeSearchRelated,
+      },
+    },
+    skip: nodeSearchRelated == "",
+    onCompleted: (data) => {
+      // setDataMembersA(data.findNodes);
+      const optionPopup: any[] = [];
+
+      data.findNode?.relatedNodes?.forEach((node: any) => {
+        optionPopup.push({
+          value: node._id,
+          label: node.name,
+        });
+      });
+
+      setOptionsPopup(optionPopup);
+    },
+  });
 
   const { data: dataEdenGPTReply } = useQuery(EDEN_GPT_REPLY, {
     variables: {
@@ -115,26 +205,29 @@ const chatEden: NextPageWithLayout = () => {
     skip: messageUser == "" || selectedOption != "option2",
   });
 
-  const { data: dataEdenGPTReplyChatAPI } = useQuery(EDEN_GPT_REPLY_CHAT_API, {
-    variables: {
-      fields: {
-        message: messageUser,
-        conversation: chatN
-          .map((obj) => {
-            if (obj.user === "01") {
-              return { role: "assistant", content: obj.message };
-            } else {
-              return { role: "user", content: obj.message };
-            }
-          })
-          .slice(-6),
-        userID: currentUser?._id,
+  const { data: dataEdenGPTReplyChatAPI } = useQuery(
+    EDEN_GPT_REPLY_CHAT_API_V2,
+    {
+      variables: {
+        fields: {
+          message: messageUser,
+          conversation: chatN
+            .map((obj) => {
+              if (obj.user === "01") {
+                return { role: "assistant", content: obj.message };
+              } else {
+                return { role: "user", content: obj.message };
+              }
+            })
+            .slice(-6),
+          userID: currentUser?._id,
+        },
       },
-    },
-    skip: messageUser == "" || selectedOption != "option3",
-  });
+      skip: messageUser == "" || selectedOption != "option3",
+    }
+  );
 
-  const { data: dataMessageMapKG } = useQuery(MESSAGE_MAP_KG, {
+  const { data: dataMessageMapKGV2 } = useQuery(MESSAGE_MAP_KG_V2, {
     variables: {
       fields: {
         message: messageUser,
@@ -148,19 +241,25 @@ const chatEden: NextPageWithLayout = () => {
   const {} = useQuery(MATCH_NODES_MEMBERS_AI4, {
     variables: {
       fields: {
-        nodesID: nodesID.filter((node, index) => activeNodes[index]),
+        // nodesID: Object.keys(nodeObj),
+        nodesID: Object.keys(nodeObj).filter((key) => nodeObj[key].active),
+        // nodesID: nodesID.filter((node, index) => activeNodes[index]),
         weightModules: [
           {
-            type: "node_subExpertise",
-            weight: 80,
+            type: "node_Skill",
+            weight: 70,
           },
           {
-            type: "node_subTypeProject",
+            type: "node_Category",
             weight: 20,
           },
           {
+            type: "node_Group",
+            weight: 5,
+          },
+          {
             type: "node_total",
-            weight: 50,
+            weight: 5,
           },
           {
             type: "everything_else",
@@ -170,6 +269,8 @@ const chatEden: NextPageWithLayout = () => {
       },
     },
     // skip: !nodesID
+    skip: Object.keys(nodeObj).length == 0,
+
     onCompleted: (data) => {
       setDataMembersA(data.matchNodesToMembers_AI4);
     },
@@ -218,7 +319,7 @@ const chatEden: NextPageWithLayout = () => {
       let newMessage = "";
 
       if (selectedOption == "option3") {
-        newMessage = dataEdenGPTReplyChatAPI.edenGPTreplyChatAPI.reply;
+        newMessage = dataEdenGPTReplyChatAPI.edenGPTreplyChatAPI_V2.reply;
       } else if (selectedOption == "option2") {
         newMessage = dataEdenGPTReplyMemory.edenGPTreplyMemory.reply;
       } else if (selectedOption == "option1") {
@@ -228,7 +329,7 @@ const chatEden: NextPageWithLayout = () => {
         user: "01",
         message: newMessage,
       });
-      setChatN(chatT);
+      setChatN(chatT as [{ user: string; message: string }]);
 
       // from chatT that is an array of objects, translate it to a string
       let chatNprepareGPTP = "";
@@ -251,16 +352,23 @@ const chatEden: NextPageWithLayout = () => {
 
   // ---------------- update nodes ------------
   useEffect(() => {
-    if (dataMessageMapKG) {
-      const keywordsAI: any = [];
-      const newNodeID: any = [];
-      const newNodeConfidence: any = [];
+    if (dataMessageMapKGV2) {
+      // const newNodeID: any = [];
+      // const newNodeConfidence: any = [];
 
-      dataMessageMapKG?.messageMapKG?.keywords?.forEach((keyword: any) => {
+      const newNodeObj: any = [];
+
+      dataMessageMapKGV2?.messageMapKG_V2?.keywords?.forEach((keyword: any) => {
         if (keyword.nodeID) {
-          keywordsAI.push(keyword.keyword);
-          newNodeID.push(keyword.nodeID);
-          newNodeConfidence.push(keyword.confidence);
+          // newNodeID.push(keyword.nodeID);
+          // newNodeConfidence.push(keyword.confidence);
+
+          newNodeObj.push({
+            nodeID: keyword.nodeID,
+            active: true,
+            confidence: keyword.confidence,
+            isNew: true,
+          });
         }
       });
 
@@ -268,48 +376,100 @@ const chatEden: NextPageWithLayout = () => {
       // const newActiveNodes = [...activeNodes];
       // const newNodesConfidence = [...nodesConfidence]
 
-      const newNodesIDK = [];
-      const newActiveNodes = [];
-      const newNodesConfidence = [];
+      // const newNodesObjK: { nodeID: any; active: boolean,confidence: number }[] = []
+      const newNodesObjK: any = {};
+
+      // const newNodesIDK = [];
+      // const newActiveNodes = [];
+      // const newNodesConfidence = [];
 
       //  --------- only take the ones that are true or have high confidence ------------
-      for (let i = 0; i < nodesID.length; i++) {
-        const nodeN = nodesID[i];
-        const nodeActive = activeNodes[i];
-        const nodeConfidence = nodesConfidence[i];
+
+      // for (let i = 0; i < nodeObj.length; i++) {
+      for (const [key, value] of Object.entries(nodeObj)) {
+        const nodeActive = value.active;
+        const nodeConfidence = value.confidence;
 
         if (nodeActive) {
-          newNodesIDK.push(nodeN);
-          newActiveNodes.push(nodeActive);
-          newNodesConfidence.push(nodeConfidence);
+          // newNodesIDK.push(nodeN);
+          // newActiveNodes.push(nodeActive);
+          // newNodesConfidence.push(nodeConfidence);
+          // newNodesObjK.push({nodeID: nodeN, active: nodeActive, confidence: nodeConfidence})
+          newNodesObjK[key] = {
+            active: nodeActive,
+            confidence: nodeConfidence,
+          };
         } else {
-          if (parseInt(nodeConfidence) > 6) {
-            newNodesIDK.push(nodeN);
-            newActiveNodes.push(nodeActive);
-            newNodesConfidence.push(nodeConfidence);
+          if (Object.keys(nodeObj).length > 7) {
+            if (nodeConfidence > 5) {
+              // newNodesIDK.push(nodeN);
+              // newActiveNodes.push(nodeActive);
+              // newNodesConfidence.push(nodeConfidence);
+              // newNodesObjK.push({nodeID: nodeN, active: nodeActive, confidence: nodeConfidence})
+              newNodesObjK[key] = {
+                active: nodeActive,
+                confidence: nodeConfidence,
+              };
+            }
+          } else {
+            // newNodesIDK.push(nodeN);
+            // newActiveNodes.push(nodeActive);
+            // newNodesConfidence.push(nodeConfidence);
+            // newNodesObjK.push({nodeID: nodeN, active: nodeActive, confidence: nodeConfidence})
+            newNodesObjK[key] = {
+              active: nodeActive,
+              confidence: nodeConfidence,
+            };
           }
         }
       }
       //  --------- only take the ones that are true or have high confidence ------------
 
-      for (let i = 0; i < newNodeID.length; i++) {
-        if (!newNodesIDK.includes(newNodeID[i])) {
-          newNodesIDK.push(newNodeID[i]);
-          newNodesConfidence.push(newNodeConfidence[i]);
-          if (newNodeConfidence[i] > 6) {
-            newActiveNodes.push(true);
-          } else {
-            newActiveNodes.push(false);
+      for (let i = 0; i < newNodeObj.length; i++) {
+        // const isIdExists = newNodesObjK.some((obj:any ) => obj.nodeID === newNodeObj[i].nodeID);
+
+        if (!Object.keys(newNodesObjK).includes(newNodeObj[i].nodeID)) {
+          // if (!isIdExists) {
+          // newNodesObjK.push(newNodeObj[i].nodeID);
+          // newNodesConfidence.push(newNodeConfidence[i]);
+          let newActive = false;
+
+          if (newNodeObj[i].confidence > 6) {
+            newActive = true;
           }
+          // else {
+          //   newActiveNodes.push(false);
+          // }
+          // newNodesObjK.push({nodeID: newNodeObj[i].nodeID, active: newActive, confidence: newNodeObj[i].confidence})
+          newNodesObjK[newNodeObj[i].nodeID] = {
+            active: newActive,
+            confidence: newNodeObj[i].confidence,
+            isNew: true,
+          };
         }
       }
 
       // setNodesIDK(newNodesIDK);
-      setNodesID(newNodesIDK);
-      setActiveNodes(newActiveNodes);
-      setNodesConfidence(newNodesConfidence);
+      // setNodesID(newNodesIDK);
+      // setActiveNodes(newActiveNodes);
+      // setNodesConfidence(newNodesConfidence);
+
+      // ------- Array of objects to disctionary ------------
+      // const newNodesObjK2: any = {};
+
+      // for (let i = 0; i < newNodesObjK.length; i++) {
+      //   newNodesObjK2[newNodesObjK[i].nodeID] = {
+      //     active: newNodesObjK[i].active,
+      //     confidence: newNodesObjK[i].confidence,
+      //   };
+      // }
+
+      // console.log("CHANGE --- newNodesObjK = ", newNodesObjK);
+
+      setNodeObj(newNodesObjK);
+      // ------- Array of objects to disctionary ------------
     }
-  }, [dataMessageMapKG]);
+  }, [dataMessageMapKGV2]);
   // ---------------- update nodes ------------
 
   const handleSentMessage = (messageN: any, userN: any) => {
@@ -319,7 +479,7 @@ const chatEden: NextPageWithLayout = () => {
       user: userN,
       message: messageN,
     });
-    setChatN(chatT);
+    setChatN(chatT as [{ user: string; message: string }]);
 
     setNumMessageLongTermMem(numMessageLongTermMem + 1);
 
@@ -350,21 +510,33 @@ const chatEden: NextPageWithLayout = () => {
 
   const activateNode = (nodeID: string) => {
     // activate the node that was clicked
-    const matchingIndex = nodesID?.indexOf(nodeID);
+    // const matchingIndex = nodesID?.indexOf(nodeID);
 
-    if (matchingIndex != -1 && matchingIndex != undefined) {
-      const newActiveNodes = [...activeNodes];
+    // console.log("fuckOF = ");
 
-      newActiveNodes[matchingIndex] = !newActiveNodes[matchingIndex];
-      setActiveNodes(newActiveNodes);
+    if (nodeObj[nodeID]) {
+      nodeObj[nodeID].active = !nodeObj[nodeID].active;
+      setNodeObj(nodeObj);
     }
+
+    // if (matchingIndex != -1 && matchingIndex != undefined) {
+    //   const newActiveNodes = [...activeNodes];
+
+    //   newActiveNodes[matchingIndex] = !newActiveNodes[matchingIndex];
+    //   setActiveNodes(newActiveNodes);
+    // }
   };
   //  ------------- change activation nodes when click ----
 
+  // useEffect(() => {
+  //   console.log("CJAAAAANGE - nodeObj = ", nodeObj);
+  // }, [nodeObj]);
+
+  // console.log("activeNodes = ", activeNodes);
   return (
     <>
-      <div className="flex h-screen">
-        <div className="flex flex-1 flex-col">
+      <div className="mx-auto grid h-screen grid-cols-12 overflow-hidden bg-[#f3f3f3] ">
+        <div className="col-span-5 flex flex-1 flex-col pl-8 pr-4">
           {/* <button
             type="button"
             className={
@@ -388,11 +560,11 @@ const chatEden: NextPageWithLayout = () => {
             <div className="h-1 w-full bg-gray-300"></div>
           </div> */}
 
-          <div className="h-1/2">
+          <div className="h-[60vh]">
             <ChatSimple chatN={chatN} handleSentMessage={handleSentMessage} />
           </div>
-          <div className="h-1/2">
-            {nodesID?.length > 0 && dataMembersA?.length == 0 && (
+          <div className="h-[40vh] py-4">
+            {/* {nodesID?.length > 0 && dataMembersA?.length == 0 && (
               <div className="flex justify-center py-4">
                 <h1 className="h-16 rounded-lg bg-gray-200 px-6 py-2 text-center text-sm shadow-md sm:h-16 sm:text-lg">
                   <span className="block leading-tight">
@@ -403,47 +575,85 @@ const chatEden: NextPageWithLayout = () => {
                   </span>
                 </h1>
               </div>
-            )}
-            <div className={`flex h-screen w-full gap-4`}>
-              <div className="h-full w-full">
-                <DynamicSearchGraph
-                  nodesID={nodesID}
-                  activeNodes={activeNodes}
-                  setActivateNodeEvent={setActivateNodeEvent}
-                  height={"380"}
-                  graphType={"simple"}
-                />
-              </div>
-            </div>
+            )} */}
+            <Card border shadow className="h-full overflow-hidden bg-white">
+              <p className="pointer-events-none absolute top-2 left-0 w-full text-center leading-tight text-slate-600">
+                Click suggested bubbles
+                <br /> to connect them to your
+                <br /> search
+              </p>
+              <DynamicSearchGraph
+                nodesID={Object.keys(nodeObj)}
+                activeNodes={Object.values(nodeObj).map(
+                  (node: any) => node.active
+                )}
+                isNewNodes={Object.values(nodeObj).map(
+                  (node: any) => node.isNew
+                )}
+                setActivateNodeEvent={setActivateNodeEvent}
+                height={"380"}
+                // graphType={"simple"}
+                // graphType={"KG_AI_2"}
+                graphType={"KG_AI_2_plusIndustry"}
+                // zoomGraph={1.1}
+                setRelatedNodePopup={handleOpenPopup}
+              />
+            </Card>
           </div>
         </div>
-        <div className="h-full flex-1 ">
+        <div className="col-span-7 h-full flex-1 ">
           {/* <GridLayout> */}
           {/* <GridItemNine> */}
-          <Card
-            shadow
-            className="scrollbar-hide h-full overflow-scroll bg-white p-4"
-          >
-            <CardGrid>
-              {dataMembersA?.map(
-                (member: MatchMembersToSkillOutput, index: number) => (
-                  <UserDiscoverCard
-                    key={index}
-                    matchMember={member}
-                    // role={selectedRole}
-                    // project={dataProject?.findProject}
-                    invite
-                    phase={``}
-                    nodesID={nodesID}
-                  />
-                )
-              )}
-            </CardGrid>
+          <Card className="scrollbar-hide h-full overflow-scroll rounded-none border-l bg-white p-4">
+            {dataMembersA && dataMembersA.length > 0 ? (
+              <CardGrid>
+                {dataMembersA?.map(
+                  (member: MatchMembersToSkillOutput, index: number) => (
+                    <UserDiscoverCard
+                      key={index}
+                      matchMember={member}
+                      // role={selectedRole}
+                      // project={dataProject?.findProject}
+                      invite
+                      phase={``}
+                      nodesID={Object.keys(nodeObj).filter(
+                        (key) => nodeObj[key].active
+                      )}
+                      conversation={chatN
+                        .map((obj) => {
+                          if (obj.user === "01") {
+                            return { role: "assistant", content: obj.message };
+                          } else {
+                            return { role: "user", content: obj.message };
+                          }
+                        })
+                        .slice(-6)}
+                      // nodesID={Object.keys(nodeObj)}
+                    />
+                  )
+                )}
+              </CardGrid>
+            ) : (
+              <div className="flex h-full w-full items-center justify-center">
+                <p className="text-center">
+                  Your matches will come up here.
+                  <br />
+                  You can DM, favourite & shortlist them!
+                </p>
+              </div>
+            )}
           </Card>
           {/* </GridItemNine> */}
           {/* </GridLayout> */}
         </div>
       </div>
+      {/* </div> */}
+      <MultiSelectPopup
+        options={optionsPopup}
+        isOpen={isOpenPopup}
+        onClose={handleClosePopup}
+        onSelect={handleSelectPopup}
+      />
     </>
   );
 };
@@ -506,6 +716,7 @@ export interface IUserDiscoverCardProps {
   messageUser?: boolean;
   phase?: string;
   nodesID?: string[];
+  conversation?: any;
 }
 
 const UserDiscoverCard = ({
@@ -515,6 +726,7 @@ const UserDiscoverCard = ({
   invite,
   phase,
   nodesID,
+  conversation,
 }: IUserDiscoverCardProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const member = matchMember?.member;
@@ -530,7 +742,13 @@ const UserDiscoverCard = ({
           <div className={`relative flex flex-col items-center`}>
             <UserWithDescription
               member={member}
-              percentage={round(Number(matchPercentage?.totalPercentage), 0)}
+              percentage={
+                member.bio &&
+                member.budget?.perHour !== undefined &&
+                member.budget?.perHour !== null
+                  ? round(Number(matchPercentage?.totalPercentage), 0)
+                  : undefined
+              }
             />
 
             {member?.links && (
@@ -543,6 +761,21 @@ const UserDiscoverCard = ({
         <div className="absolute right-2 top-2">
           <Button onClick={() => setIsOpen(!isOpen)}>More</Button>
         </div>
+        {member.budget?.perHour && (
+          <div className="absolute left-2 top-2">
+            <section className="text-left">
+              {/* <p className="">
+                <TextLabel1>💰 Hourly rate</TextLabel1>
+              </p> */}
+              <p className="">
+                <span className="text-2xl font-bold text-[#fcba03]">
+                  ${member.budget?.perHour}
+                </span>{" "}
+                per hour
+              </p>
+            </section>
+          </div>
+        )}
       </div>
 
       <div className="flex">
@@ -578,7 +811,9 @@ const UserDiscoverCard = ({
         </div>
       )}
 
-      {member?.endorsements && member?.endorsements.length > 0 && (
+      {/* MEMEBER.ENDORSEMENT NO LONGER EXISTS */}
+
+      {/* {member?.endorsements && member?.endorsements.length > 0 && (
         <div className="mt-4">
           <TextLabel1>🎙 ENDORSEMENTS</TextLabel1>
           <div className={`flex`}>
@@ -598,7 +833,7 @@ const UserDiscoverCard = ({
             )}
           </div>
         </div>
-      )}
+      )} */}
 
       {/* {(item.lifetimeStakeTRST || item.totalTRST) && (
         <div className="-mx-2 mt-3 -mb-3 flex">
@@ -636,6 +871,7 @@ const UserDiscoverCard = ({
             nodesPercentage={nodesPercentage}
             nodesID={nodesID}
             onClose={() => setIsOpen(!isOpen)}
+            conversation={conversation}
           />
         </>
       )}
@@ -658,6 +894,7 @@ export interface IUserMessageModalProps {
   matchPercentage?: Maybe<MatchPercentage>;
   open?: boolean;
   nodesPercentage?: any;
+  conversation?: any;
   nodesID?: string[];
   onClose?: () => void;
 }
@@ -666,20 +903,20 @@ const UserMessageModal = ({
   member,
   matchPercentage,
   open,
-  nodesPercentage,
+  // conversation,
   nodesID,
   onClose,
 }: IUserMessageModalProps) => {
-  const { data: dataMemberInfo } = useQuery(FIND_MEMBER_INFO, {
-    variables: {
-      fields: {
-        _id: member?._id,
-      },
-    },
-    skip: !member?._id || !open,
-  });
+  // const { data: dataMemberInfo } = useQuery(FIND_MEMBER_INFO, {
+  //   variables: {
+  //     fields: {
+  //       _id: member?._id,
+  //     },
+  //   },
+  //   skip: !member?._id || !open,
+  // });
 
-  const findMember = dataMemberInfo?.findMember;
+  // const findMember = dataMemberInfo?.findMember;
   const [showMessage, setShowMessage] = useState(false);
 
   // const [changeTeamMemberPhaseProject, {}] = useMutation(SET_APPLY_TO_PROJECT, {
@@ -808,7 +1045,7 @@ const UserMessageModal = ({
   if (!member) return null;
   // if (!findMember) return null;
 
-  console.log("nodesID", nodesID);
+  // console.log("nodesID", nodesID);
 
   return (
     <ChatModal open={open} onClose={onClose}>
@@ -830,11 +1067,11 @@ const UserMessageModal = ({
           <div className={`col-span-2 flex justify-end`}></div>
           <div className={`col-span-1 h-8`}></div>
           <div className={`col-span-2`}>
-            {!showMessage && (
+            {/* {!showMessage && (
               <Button onClick={() => setShowMessage(!showMessage)}>
                 Connect with {member?.discordName}
               </Button>
-            )}
+            )} */}
             {showMessage && (
               <Button onClick={() => setShowMessage(!showMessage)}>
                 Cancel Message
@@ -868,14 +1105,28 @@ const UserMessageModal = ({
             //   percentage={matchPercentage?.totalPercentage || undefined}
             //   hasGraph
             // />
-            <MemberInfoWithDynamicGraph
-              member={findMember || member}
-              nodesID={nodesPercentage
-                .flatMap((obj: { conn_nodeIDs: any }) => obj.conn_nodeIDs)
-                .slice(0, 4)}
-              // nodesID={nodesPercentage.map((node: { node: { _id: any; }; }) => node.node._id)}
+            // <MemberInfoWithGraph
+            //   member={findMember || member}
+            //   // nodesID={nodesPercentage
+            //   //   .flatMap((obj: { conn_nodeIDs: any }) => obj.conn_nodeIDs)
+            //   //   .slice(0, 4)}
+            //   // nodesID={nodesPercentage.map((node: { node: { _id: any; }; }) => node.node._id)}
+            //   percentage={matchPercentage?.totalPercentage || undefined}
+            //   hasGraph
+            // />
+            <MemberInfoWithDynamicGraph2
+              member={member}
               percentage={matchPercentage?.totalPercentage || undefined}
-              hasGraph
+              nodesID={nodesID}
+              conversation={chatN
+                .map((obj) => {
+                  if (obj.user === "01") {
+                    return { role: "assistant", content: obj.message };
+                  } else {
+                    return { role: "user", content: obj.message };
+                  }
+                })
+                .slice(-6)}
             />
           )}
         </div>
@@ -927,7 +1178,7 @@ const ChatModal = ({
       >
         <div
           className={
-            "flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0"
+            "flex min-h-screen items-end justify-center px-4 pb-20 pt-4 text-center sm:block sm:p-0"
           }
         >
           <Transition.Child
@@ -968,7 +1219,7 @@ const ChatModal = ({
               }
             >
               <div
-                className={"absolute top-0 right-0 hidden pt-4 pr-4 sm:block"}
+                className={"absolute right-0 top-0 hidden pr-4 pt-4 sm:block"}
               >
                 {closeOnEsc && (
                   <button

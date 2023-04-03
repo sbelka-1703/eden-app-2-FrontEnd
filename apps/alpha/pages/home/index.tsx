@@ -1,4 +1,6 @@
+import { UserContext } from "@eden/package-context";
 import { AppUserSubmenuLayout, Card, MemberGraph, SEO } from "@eden/package-ui";
+import { useContext, useEffect, useState } from "react";
 
 import type { NextPageWithLayout } from "../_app";
 
@@ -47,10 +49,12 @@ const HomeHeroSection = ({
   const { currentUser } = useContext(UserContext);
   const [displayNav, setDisplayNav] = useState<INavItems[]>([]);
 
+  console.log("currentUser = ", currentUser);
+
   useEffect(() => {
     const navItems = [
       {
-        title: "Find Friends",
+        title: "Find Talent",
         href: "/discover",
         bgColor: "rgba(116, 250, 109, 0.3)",
         description:
@@ -59,7 +63,7 @@ const HomeHeroSection = ({
         style: "absolute left-8 top-24",
       },
       {
-        title: "Explore Projects",
+        title: "Find Opportunity",
         href: "/projects",
         bgColor: "rgba(155, 103, 255, 0.3)",
         description: "Find a project, and apply for it!",
@@ -85,7 +89,7 @@ const HomeHeroSection = ({
         style: "",
       },
       {
-        title: "Find Grants & Bounties",
+        title: "Launch Opportunity",
         href: "/grants",
         bgColor: "rgb(255,211,235)",
         description: "Find a grant and apply for it!",
@@ -105,34 +109,132 @@ const HomeHeroSection = ({
     profilePage,
   ]);
 
-  return (
-    <Card
-      shadow
-      className={`h-85 scrollbar-hide m-auto flex w-1/2 min-w-[720px] flex-col overflow-scroll bg-white py-8`}
-    >
-      <h1 className="text-center text-2xl">{`Now, let's get you connected to the graph!`}</h1>
-      <div className="flex h-full w-full items-center">
-        {currentUser?._id && <MemberGraph memberId={currentUser?._id!} />}
-      </div>
-      {displayNav.map((item, index: number) => (
-        <button
-          key={index}
-          onClick={() => router.push(`${item?.href}`)}
-          style={{ backgroundColor: item.bgColor }}
-          className={`rounded-xl shadow-md hover:shadow-sm ${item.style}`}
-        >
-          <Card className={`px-6`}>
-            <div
-              className={`font-Inter text-center text-xl font-medium md:text-3xl`}
-            >
-              {item.title}
+  console.log("hello");
 
-              <div className="ml-8 flex flex-col justify-between"></div>
-            </div>
-          </Card>
-        </button>
-      ))}
-    </Card>
+  // <MemberGraph memberId={"250828754665716323"} graphType={"KG_AI"} />
+
+  return (
+    // <div className="flex h-screen w-screen items-center justify-center bg-gray-100 py-24 px-36">
+    //   <Card
+    //     shadow
+    //     className="scrollbar-hide m-0 flex h-full w-full flex-col items-center justify-center overflow-scroll bg-white p-8"
+    //   >
+    //     <h1 className="mb-8 text-center text-2xl">
+    //       {`Now, let's get you connected to the graph!`}
+    //     </h1>
+    //     <div className="flex h-full w-full items-center">
+    //       {/* {currentUser?._id && <MemberGraph memberId={currentUser?._id!} />} */}
+    //       <MemberGraph memberId={"250828754665716323"} graphType={"KG_AI"} />
+    //     </div>
+    //     {displayNav.map((item, index: number) => (
+    //       // eslint-disable-next-line react/jsx-key
+    //       <div className="flex justify-center p-14">
+    //         <button
+    //           key={index}
+    //           onClick={() => router.push(`${item?.href}`)}
+    //           style={{ backgroundColor: item.bgColor }}
+    //           className={`rounded-full p-4 shadow-md hover:shadow-sm ${item.style} mx-4`}
+    //         >
+    //           <Card className="px-8 py-4">
+    //             <div className="font-Inter text-center text-xl font-medium md:text-3xl">
+    //               {item.title}
+    //               <div className="ml-8 flex flex-col justify-between"></div>
+    //             </div>
+    //           </Card>
+    //         </button>
+    //       </div>
+    //     ))}
+    //   </Card>
+    // </div>
+
+    <div className="flex h-screen w-screen items-center justify-center bg-gray-100 py-24 px-56">
+      <Card
+        shadow
+        // className="h-auto max-w-6xl max-h-[90%] scrollbar-hide m-0 flex flex-col items-center justify-center overflow-scroll bg-white p-8 shadow-lg"
+        className="scrollbar-hide m-0 flex h-full w-full flex-col items-center justify-center overflow-scroll bg-white p-8"
+      >
+        <h1 className="mb-8 text-center text-2xl">
+          {`Now, let's get you connected to the graph!`}
+        </h1>
+        <div className="flex h-full w-full items-center">
+          {/* {currentUser?._id && (
+            <MemberGraph memberId={currentUser?._id!} graphType={"KG_AI2"} />
+          )} */}
+          <MemberGraph memberId={"723655233626971206"} graphType={"KG_AI2"} />
+        </div>
+        {displayNav.map((item, index: number) => (
+          <button
+            key={index}
+            onClick={() => router.push(`${item?.href}`)}
+            style={{ backgroundColor: item.bgColor }}
+            className={`rounded-full p-4 shadow-md hover:shadow-sm ${item.style}`}
+          >
+            <Card className="px-8 py-4">
+              <div className="font-Inter text-center text-xl font-medium md:text-3xl">
+                {item.title}
+                <div className="ml-8 flex flex-col justify-between"></div>
+              </div>
+            </Card>
+          </button>
+        ))}
+      </Card>
+    </div>
+    // <Card
+    //   shadow
+    //   className="scrollbar-hide m-0 flex h-screen w-screen flex-col items-center justify-center overflow-scroll bg-white p-8"
+    // >
+    //   <h1 className="mb-8 text-center text-2xl">
+    //     {`Now, let's get you connected to the graph!`}
+    //   </h1>
+    //   <div className="flex h-full w-full items-center">
+    //     {currentUser?._id && (
+    //       <MemberGraph memberId={"250828754665716323"} graphType={"KG_AI"} />
+    //     )}
+    //   </div>
+    //   {displayNav.map((item, index: number) => (
+    //     <button
+    //       key={index}
+    //       onClick={() => router.push(`${item?.href}`)}
+    //       style={{ backgroundColor: item.bgColor }}
+    //       className={`rounded-full p-4 shadow-md hover:shadow-sm ${item.style}`}
+    //     >
+    //       <Card className="px-8 py-4">
+    //         <div className="font-Inter text-center text-xl font-medium md:text-3xl">
+    //           {item.title}
+    //           <div className="ml-8 flex flex-col justify-between"></div>
+    //         </div>
+    //       </Card>
+    //     </button>
+    //   ))}
+    // </Card>
+
+    // <Card
+    //   shadow
+    //   className={`h-85 scrollbar-hide m-auto flex w-1/2 min-w-[720px] flex-col overflow-scroll bg-white py-8`}
+    // >
+    //   <h1 className="text-center text-2xl">{`Now, let's get you connected to the graph!`}</h1>
+    //   <div className="flex h-full w-full items-center">
+    //     {currentUser?._id && <MemberGraph memberId={currentUser?._id!} />}
+    //   </div>
+    //   {displayNav.map((item, index: number) => (
+    //     <button
+    //       key={index}
+    //       onClick={() => router.push(`${item?.href}`)}
+    //       style={{ backgroundColor: item.bgColor }}
+    //       className={`rounded-xl shadow-md hover:shadow-sm ${item.style}`}
+    //     >
+    //       <Card className={`px-6`}>
+    //         <div
+    //           className={`font-Inter text-center text-xl font-medium md:text-3xl`}
+    //         >
+    //           {item.title}
+
+    //           <div className="ml-8 flex flex-col justify-between"></div>
+    //         </div>
+    //       </Card>
+    //     </button>
+    //   ))}
+    // </Card>
   );
 };
 
@@ -142,11 +244,10 @@ HomePage.getLayout = (page) => (
 
 export default HomePage;
 
-import { UserContext } from "@eden/package-context";
 import { IncomingMessage, ServerResponse } from "http";
 import { useRouter } from "next/router";
 import { getSession } from "next-auth/react";
-import { useContext, useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 
 export async function getServerSideProps(ctx: {
   req: IncomingMessage;

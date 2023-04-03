@@ -1,9 +1,9 @@
 import { BsCoin } from "react-icons/bs";
 
-interface IEndorseButtonProps
+interface IReviewButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
-export const EndorseButton = ({ ...props }: IEndorseButtonProps) => {
+export const ReviewButton = ({ ...props }: IReviewButtonProps) => {
   return (
     <button
       {...props}

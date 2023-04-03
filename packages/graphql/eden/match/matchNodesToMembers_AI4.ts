@@ -10,12 +10,69 @@ export const MATCH_NODES_MEMBERS_AI4 = gql`
         discriminator
         bio
         serverID
-        endorsements {
-          endorser {
-            _id
-            discordAvatar
+        timeZone
+        hoursPerWeek
+        location
+        totalIncome
+        completedOpportunities
+        budget {
+          perHour
+        }
+        links {
+          name
+          url
+        }
+        expirienceLevel {
+          total
+          years
+        }
+        previousProjects {
+          title
+          description
+          positionName
+          link
+          picture
+          startDate
+          endDate
+        }
+        # endorsements {
+        #   endorser {
+        #     _id
+        #     discordAvatar
+        #     discordName
+        #     discriminator
+        #   }
+        # }
+        endorsementsReceive {
+          _id
+          userSend {
             discordName
-            discriminator
+            discordAvatar
+          }
+          stars
+          stake
+          endorsementMessage
+          nodes {
+            node {
+              name
+            }
+          }
+        }
+        endorseSummary {
+          summary
+          mainNodes {
+            node {
+              _id
+              name
+            }
+            confidence
+          }
+          averageStars
+          averageStake
+          totalStake
+          numberEndorsement
+          endorsers {
+            discordName
           }
         }
         memberRole {
@@ -28,10 +85,6 @@ export const MATCH_NODES_MEMBERS_AI4 = gql`
             name
             node
           }
-        }
-        links {
-          name
-          url
         }
       }
       matchPercentage {

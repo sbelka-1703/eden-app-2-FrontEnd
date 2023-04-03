@@ -3,7 +3,7 @@ import { faker } from "@faker-js/faker";
 
 import { memberBio } from "../data";
 import {
-  getEndorsementsTypeMockArray,
+  // getEndorsementsTypeMockArray,
   getLinkTypeMock,
   getNodesTypeMockArray,
   getPreviousProjectsTypeMockArray,
@@ -50,9 +50,11 @@ export const getMember = (): Members => ({
   nodes: getNodesTypeMockArray(
     faker.datatype.number({ min: 2, max: 24, precision: 1 })
   ),
-  endorsements: getEndorsementsTypeMockArray(
-    faker.datatype.number({ min: 2, max: 20, precision: 1 })
-  ),
+  //  MEMEBER.ENDORSEMENT NO LONGER EXISTS
+
+  // endorsements: getEndorsementsTypeMockArray(
+  //   faker.datatype.number({ min: 2, max: 20, precision: 1 })
+  // ),
   timeZone: faker.address.timeZone(),
 });
 
@@ -80,9 +82,11 @@ export const getMemberLite = (): Members => ({
   nodes: getNodesTypeMockArray(
     faker.datatype.number({ min: 2, max: 24, precision: 1 })
   ),
-  endorsements: getEndorsementsTypeMockArray(
-    faker.datatype.number({ min: 2, max: 6, precision: 1 })
-  ),
+  //  MEMEBER.ENDORSEMENT NO LONGER EXISTS
+
+  // endorsements: getEndorsementsTypeMockArray(
+  //   faker.datatype.number({ min: 2, max: 6, precision: 1 })
+  // ),
   timeZone: faker.address.timeZone(),
 });
 

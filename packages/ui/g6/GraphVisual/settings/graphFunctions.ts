@@ -66,7 +66,7 @@ export function afterDrawG6(cfg: any, group: any) {
     {
       duration: 3000,
       easing: "easeCubic",
-      delay: 0,
+      delay: 300,
       repeat: true, // repeat
     }
   ); // no delay
@@ -79,7 +79,7 @@ export function afterDrawG6(cfg: any, group: any) {
     {
       duration: 3000,
       easing: "easeCubic",
-      delay: 1000,
+      delay: 900,
       repeat: true, // repeat
     }
   ); // 1s delay
@@ -92,7 +92,7 @@ export function afterDrawG6(cfg: any, group: any) {
     {
       duration: 3000,
       easing: "easeCubic",
-      delay: 2000,
+      delay: 1400,
       repeat: true, // repeat
     }
   ); // 3s delay
@@ -268,6 +268,10 @@ export const prepareLabelOfNode = (
     const fontSizeNew = (fontSize + parsDiff).toFixed();
 
     flagUpdate = true;
+
+    if (node?.isNew == true) {
+      res2 = `(NEW) \n\n\n ${res2} \n\n\n`;
+    }
     updateObj = {
       label: res2,
       size: sizeNew,
@@ -299,16 +303,34 @@ export const prepareLabelOfNode = (
 
     const fontSizeNew = (fontSize + parsDiff).toFixed();
 
-    updateObj = {
-      size: sizeNew,
-      labelCfg: {
-        style: {
-          fontSize: fontSizeNew,
+    if (node?.isNew == true) {
+      const res2T = `(NEW) \n\n\n\n ${words} \n\n\n\n`;
+
+      updateObj = {
+        label: res2T,
+        size: sizeNew,
+        labelCfg: {
+          style: {
+            fontSize: fontSizeNew,
+          },
         },
-      },
-    };
+      };
+    } else {
+      updateObj = {
+        size: sizeNew,
+        labelCfg: {
+          style: {
+            fontSize: fontSizeNew,
+          },
+        },
+      };
+    }
     // console.log("node,fontSizeNew --2--= ", node.label, fontSizeNew, words);
   }
+
+  // console.log("node TTTTT= " , node)
+
+  // console.log("updateObj = " , updateObj)
 
   if (flagUpdate == true) {
     graph.updateItem(node.id, {
@@ -587,7 +609,8 @@ export const tooltip = new G6.Tooltip({
     const model = e.item.getModel();
 
     if (model.propertise && model.propertise.name != undefined) {
-      outDiv.innerHTML = `name：${model.propertise.name}<br/>type：${model.nodeType}`;
+      // outDiv.innerHTML = `name：${model.propertise.name}<br/>type：${model.nodeType}`;
+      outDiv.innerHTML = `name：${model.propertise.name}`;
 
       return outDiv;
     } else {
@@ -595,3 +618,374 @@ export const tooltip = new G6.Tooltip({
     }
   },
 });
+
+export function focusCenterItem(graph: any) {
+  // -------------- focus on Center Item -------------
+  let xCenter = 0;
+  let yCenter = 0;
+
+  let num = 0;
+
+  const nodes = graph.cfg.nodes;
+
+  if (!graph.cfg.nodes) return {};
+
+  nodes.forEach((node: any) => {
+    const xNow = node?._cfg?.bboxCache?.x;
+    const yNow = node?._cfg?.bboxCache?.y;
+
+    if (xNow && yNow) {
+      xCenter += xNow;
+      yCenter += yNow;
+      num += 1;
+    }
+  });
+
+  if (!xCenter) return {};
+  if (!yCenter) return {};
+
+  xCenter = xCenter / num;
+  yCenter = yCenter / num;
+
+  // console.log("xCenter = ", xCenter);
+  // console.log("yCenter = ", yCenter);
+
+  // find the node that is closer to center
+  let xMin = 10000;
+  let nodeID = "";
+
+  nodes.forEach((node: any) => {
+    const xNow = node?._cfg?.bboxCache?.x;
+    const yNow = node?._cfg?.bboxCache?.y;
+
+    const distanceX = Math.abs(xNow - xCenter);
+    const distanceY = Math.abs(yNow - yCenter);
+
+    const distanceAll = Math.sqrt(
+      distanceX * distanceX + distanceY * distanceY
+    );
+
+    if (distanceAll < xMin) {
+      xMin = distanceAll;
+      nodeID = node._cfg.id;
+    }
+  });
+
+  console.log("nodeID = ", nodeID);
+  graph.focusItem(nodeID, true, {
+    duration: 200,
+  });
+  // -------------- focus on Center Item -------------
+}
+
+// ---------------------------- Zoom in and center Node Research ----------------
+
+// export function testGraph(graph: any) {
+
+// const randomNum = Math.random() * 1 + 0.2;
+
+// const zoomNow = graph.getZoom();
+
+// let zoomNew;
+
+// if (zoomNow < 1) {
+//   zoomNew = 2 - zoomNow;
+// } else {
+//   zoomNew = 1 / zoomNow;
+// }
+// console.log("zoomNow = ", zoomNow);
+// console.log("zoomNew = ", zoomNew);
+
+// console.log("randomNum = ", randomNum);
+
+// graph.zoom(0.5, { x: 100, y: 100 }, true, {
+//   duration: 100,
+// });
+// console.log("zoomGraph = ", zoomGraph);
+
+// let xMin = 10000;
+// let xMax = 0;
+
+// let yMin = 1000;
+// let yMax = 0;
+
+// graph.cfg.nodes.forEach((node) => {
+//   const xNow = node._cfg.bboxCache.x;
+//   const yNow = node._cfg.bboxCache.y;
+
+//   if (xNow < xMin) xMin = xNow;
+
+//   if (xNow > xMax) xMax = xNow;
+
+//   if (yNow < yMin) yMin = yNow;
+
+//   if (yNow > yMax) yMax = yNow;
+// });
+
+// // -------------- focus on Center Item -------------
+// let xCenter = 0
+// let yCenter = 0
+
+// let num = 0
+
+// graph.cfg.nodes.forEach((node: any) => {
+//   const xNow = node._cfg.bboxCache.x;
+//   const yNow = node._cfg.bboxCache.y;
+
+//   xCenter += xNow
+//   yCenter += yNow
+
+//   num += 1
+// });
+
+// xCenter = xCenter / num
+// yCenter = yCenter / num
+
+// console.log("xCenter = ", xCenter);
+// console.log("yCenter = ", yCenter);
+
+// // find the node that is closer to center
+// let xMin = 10000;
+// let nodeID = "";
+
+// graph.cfg.nodes.forEach((node: any) => {
+
+//   const xNow = node._cfg.bboxCache.x;
+//   const yNow = node._cfg.bboxCache.y;
+
+//   const distanceX = Math.abs(xNow - xCenter);
+//   const distanceY = Math.abs(yNow - yCenter);
+
+//   const distanceAll = Math.sqrt(distanceX * distanceX + distanceY * distanceY)
+
+//   if (distanceAll < xMin) {
+//     xMin = distanceAll;
+//     nodeID = node._cfg.id;
+//   }
+// });
+
+// console.log("nodeID = ", nodeID);
+// graph.focusItem(nodeID);
+// // -------------- focus on Center Item -------------
+
+// console.log("xMax,xMin,yMin,yMax = ", xMax, xMin, yMin, yMax);
+
+// console.log("graph = ", graph);
+// console.log("graph = ", graph.cfg);
+// console.log("graph = ", graph.cfg.layoutController);
+// console.log("graph = ", graph.cfg.layoutController.layoutCfg);
+// console.log("graph = ", graph.cfg.layoutController.layoutCfg.center);
+// graph.zoom(0.5, true, {
+//   duration: 100,
+// });
+
+// graph.zoom(zoomGraph, { x: 0, y: 300 }, true, {
+//   duration: 200,
+// });
+// graph.zoom(0.5, { x: 250, y: 250 }, true, {
+//   duration: 200,
+// });
+
+// graph.moveTo(250, 250, true, {
+//   duration: 100,
+// });
+
+// graph.fitView(2);
+// graph.fitCenter();
+
+// setTimeout(function () {
+//   console.log(
+//     "graph MOOOVE= ",
+//     graph.cfg.layoutController.layoutCfg.center
+//   );
+//   const graphCenterX = graph.cfg.layoutController.layoutCfg.center[0];
+//   const graphCenterY = graph.cfg.layoutController.layoutCfg.center[1];
+
+//   let widthU = width.toString();
+
+//   widthU = parseInt(widthU / 2);
+
+//   const heightU = parseInt(parseInt(height) / 2);
+
+//   console.log("widthU,heightU = ", widthU, heightU);
+
+//   const moveX = widthU - graphCenterX;
+//   const moveY = heightU - graphCenterY;
+
+//   console.log("moveX,moveY = ", moveX, moveY);
+
+//   graph.translate(moveX, moveY, true, {
+//     duration: 200,
+//   });
+// }, 600);
+
+// setTimeout(function () {
+//   console.log(
+//     "graph MOOOVE= ",
+//     graph.cfg.layoutController.layoutCfg.center
+//   );
+//   const graphCenterX = graph.cfg.layoutController.layoutCfg.center[0];
+//   const graphCenterY = graph.cfg.layoutController.layoutCfg.center[1];
+
+//   let widthU = width.toString();
+
+//   widthU = parseInt(widthU / 2);
+
+//   const heightU = parseInt(parseInt(height) / 2);
+
+//   console.log("widthU,heightU = ", widthU, heightU);
+
+//   const moveX = widthU - graphCenterX;
+//   const moveY = heightU - graphCenterY;
+
+//   console.log("moveX,moveY = ", moveX, moveY);
+
+//   graph.translate(moveX, moveY, true, {
+//     duration: 200,
+//   });
+//   // graph.moveTo(250, 250, true, {
+//   //   duration: 200,
+//   // });
+// }, 100);
+
+// console.log("graph.getWidth() = ", graph.get("canvas"));
+// console.log("graph.group() = ", graph.get("group"));
+// console.log("graph.autoPaint() = ", graph.get("autoPaint"));
+
+// setTimeout(function () {
+//   console.log(
+//     "graph ZOOM= ",
+//     graph.cfg.layoutController.layoutCfg.center
+//   );
+//   // graph.zoom(1 / zoomNow, { x: graphCenterX, y: graphCenterY }, true, {
+//   //   duration: 200,
+//   // });
+//   const widthU = parseInt(parseInt(width) / 2);
+
+//   const heightU = parseInt(parseInt(height) / 2);
+
+//   // graph.zoom(1 / zoomNow, { x: widthU, y: heightU }, true, {
+//   //   duration: 200,
+//   // });
+//   graph.zoomTo(1, { x: 250, y: 250 }, true, {
+//     duration: 200,
+//   });
+// }, 600);
+
+// await graph.zoom(0.5, { x: graphCenterX, y: graphCenterY }, true, {
+//   duration: 200,
+// });
+
+// graph.fitView(2);
+// // graph.fitView([250, 250, 250, 250]);
+// graph.fitView([10, 10, 250, 10]);
+// // graph.fitView(-20, { onlyOutOfViewPort: true, direction: "y" });
+
+// console.log("graph.getZoom() = ", graph.getZoom());
+
+// await graph.zoom(23.5, { x: graphCenterX, y: graphCenterY }, true, {
+//   duration: 200,
+// });
+
+// console.log("graph.getZoom() = ", graph.getZoom());
+
+// graph.fitCenter();
+// graph.focusItem("961730944170090516");
+// graph.fitCenter();
+// graph.translate(100, 100, true, {
+//   duration: 100,
+// });
+
+// if a node is inactive you can activate it
+// if (e.item._cfg?.model?.activate == false) {
+// setActivateNodeEvent(nodeConnectID);
+// }
+
+// focusCenterItem(graph)
+
+// graph.zoom(1.3,
+//   // { x: 250, y: 250 },
+//   true, {
+//     duration: 200,
+// });
+// }
+// ---------------------------- Zoom in and center Node Research ----------------
+
+// ---------------------------- Create New Design of Node from scratch ----------------
+// / root node
+// G6.registerNode("root", {
+//   draw: (cfg, group) => {
+//     const size = [80, 30];
+//     const keyShape = group.addShape("rect", {
+//       attrs: {
+//         width: size[0],
+//         height: size[1],
+//         x: -size[0] / 2,
+//         y: -size[1] / 2,
+//         fill: "rgb(19, 33, 92)",
+//         radius: 5,
+//       },
+//       draggable: true,
+//       name: "root-keyshape",
+//     });
+
+//     group.addShape("text", {
+//       attrs: {
+//         text: `${cfg.ratio}%`,
+//         fill: "rgba(255, 255, 255, 0.85)",
+//         fontSize: 6,
+//         x: 10 - size[0] / 2,
+//         y: 3,
+//       },
+//       draggable: true,
+//       name: "ratio-shape",
+//     });
+//     group.addShape("text", {
+//       attrs: {
+//         text: `${cfg.label}`,
+//         fill: "rgba(120, 120, 120, 0.85)",
+//         fontSize: 9,
+//         x: -6,
+//         y: 0,
+//       },
+//       draggable: true,
+//       name: "label-shape",
+//     });
+//     group.addShape("line", {
+//       attrs: {
+//         x1: -6,
+//         x2: 35,
+//         y1: 2,
+//         y2: 2,
+//         stroke: "rgba(255, 255, 255, 0.85)",
+//         lineWidth: 0.5,
+//       },
+//       draggable: true,
+//       name: "divider-shape",
+//     });
+//     group.addShape("text", {
+//       attrs: {
+//         text: `${cfg.subLabel}`,
+//         fill: "rgba(255, 255, 255, 0.65)",
+//         fontSize: 6,
+//         x: -6,
+//         y: 10,
+//       },
+//       draggable: true,
+//       name: "sublabel-shape",
+//     });
+//     group.addShape("circle", {
+//       attrs: {
+//         x: 30,
+//         y: 10,
+//         r: 10,
+//         fill: "blue",
+//       },
+//       // In G6 3.3 and later versions, the name must be specified, which can be any string, but must be unique in the same custom element type
+//       name: "circle-shape",
+//     });
+
+//     return keyShape;
+//   },
+// });
+// ---------------------------- Create New Design of Node from scratch ----------------

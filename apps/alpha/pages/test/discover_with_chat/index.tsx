@@ -23,7 +23,7 @@ import {
 } from "@eden/package-graphql/generated";
 import {
   AppUserSubmenuLayout,
-  AvatarList,
+  // AvatarList,
   Badge,
   Button,
   Card,
@@ -42,7 +42,7 @@ import {
   SocialMediaComp,
   SubmenuSelector,
   TextHeading3,
-  TextLabel1,
+  // TextLabel1,
   UserInviteModal,
   UserWithDescription,
   WarningCard,
@@ -360,7 +360,9 @@ const UserDiscoverCard = ({
         </div>
       )}
 
-      {member?.endorsements && member?.endorsements.length > 0 && (
+      {/* MEMEBER.ENDORSEMENT NO LONGER EXISTS */}
+
+      {/* {member?.endorsements && member?.endorsements.length > 0 && (
         <div className="mt-4">
           <TextLabel1>🎙 ENDORSEMENTS</TextLabel1>
           <div className={`flex`}>
@@ -380,7 +382,7 @@ const UserDiscoverCard = ({
             )}
           </div>
         </div>
-      )}
+      )} */}
 
       {/* {(item.lifetimeStakeTRST || item.totalTRST) && (
         <div className="-mx-2 mt-3 -mb-3 flex">
