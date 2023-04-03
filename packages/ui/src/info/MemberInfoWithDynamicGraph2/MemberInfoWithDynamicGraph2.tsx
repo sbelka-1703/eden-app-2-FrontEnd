@@ -275,12 +275,16 @@ export const MemberInfoWithDynamicGraph2 = ({
               <span className="text-2xl">{member.hoursPerWeek}</span> hours/week
             </p>
           </section>
-          {/* <section className="border-soilGrey-200 mb-4 w-full rounded-xl border p-2 text-center">
+          <section className="border-soilGrey-200 mb-4 w-full rounded-xl border p-2 text-center">
             <TextLabel1>💎 Experience</TextLabel1>
             <p className="text-center font-bold text-slate-600">
-              <span className="text-xl">{member.expirienceLevel.total}</span>
+              <span className="text-xl">
+                {member.expirienceLevel?.total === 3 && "Junior"}
+                {member.expirienceLevel?.total === 6 && "Mid"}
+                {member.expirienceLevel?.total === 9 && "Senior"}
+              </span>
             </p>
-          </section> */}
+          </section>
           <section className="border-soilGrey-200 mb-4 w-full rounded-xl border p-2 text-center">
             <TextLabel1>🌍 Timezone</TextLabel1>
             <p className="text-center font-bold text-slate-600">
