@@ -143,10 +143,10 @@ const chatEden: NextPageWithLayout = () => {
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [chatN, setChatN] = useState([
-    {
-      user: "01",
-      message: "Hey I am Eden AI, how can I help you?",
-    },
+    // {
+    //   user: "01",
+    //   message: "Hey I am Eden AI, how can I help you?",
+    // },
   ]);
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
