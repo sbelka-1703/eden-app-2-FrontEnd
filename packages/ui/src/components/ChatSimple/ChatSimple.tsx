@@ -2,6 +2,10 @@
 import "./styles.css";
 
 import { useEffect, useRef, useState } from "react";
+import { CiLocationArrow1 } from "react-icons/ci";
+import { HiPencil } from "react-icons/hi";
+
+import { Card } from "../..";
 
 export interface IChatSimple {
   chatN?: any;
@@ -41,69 +45,88 @@ export const ChatSimple = ({ chatN, handleSentMessage }: IChatSimple) => {
   return (
     <>
       <div className="flex h-full flex-col justify-between">
-        <div
-          ref={componentRef}
-          // className="h-full overflow-y-auto bg-white p-4"
-          className="scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch flex flex-col space-y-4 overflow-y-auto p-3"
-        >
-          {/* <div className="p:2 flex h-screen flex-1 flex-col justify-between sm:p-6"> */}
-          {/* <p className="text-lg font-bold">Message Title</p> */}
-          <div className="my-4">
-            {chatN.map((chat: any, index: any) => (
-              <div className="chat-message p-2" key={index}>
-                <div
-                  className={classNames(
-                    chat.user == "01" ? "" : "justify-end",
-                    "flex items-end"
-                  )}
-                >
-                  <div
-                    className={classNames(
-                      chat.user == "01" ? "order-2" : "order-1",
-                      "mx-2 flex max-w-xs flex-col items-start space-y-2 text-xs"
-                    )}
-                  >
+        <div className="h-[calc(100%-38px)] py-4">
+          <Card border shadow className="h-full overflow-scroll bg-white">
+            <div
+              ref={componentRef}
+              // className="h-full overflow-y-auto bg-white p-4"
+              className="scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch flex flex-col space-y-4 p-3"
+            >
+              {/* <div className="p:2 flex h-screen flex-1 flex-col justify-between sm:p-6"> */}
+              {/* <p className="text-lg font-bold">Message Title</p> */}
+              <div className="my-4">
+                {chatN.map((chat: any, index: any) => (
+                  <div className="chat-message p-2" key={index}>
                     <div
-                      key={index}
                       className={classNames(
-                        chat.user == "01" ? "order-2" : "order-1",
-                        "mx-2 flex max-w-xs flex-col items-start space-y-2 text-xs"
+                        chat.user == "01" ? "" : "justify-end",
+                        "flex items-start"
                       )}
                     >
-                      <div key={index}>
-                        <span
-                          // className="inline-block rounded-lg rounded-bl-none bg-gray-300 px-4 py-2 text-gray-600"
+                      <div
+                        className={classNames(
+                          chat.user == "01" ? "order-2" : "order-1",
+                          "mx-2 flex max-w-xs flex-col items-start space-y-2 text-xs"
+                        )}
+                      >
+                        <div
+                          key={index}
                           className={classNames(
-                            chat.user == "01"
-                              ? "bg-gray-300 text-gray-600"
-                              : "bg-blue-600 text-white",
-                            "inline-block rounded-lg rounded-bl-none  px-4 py-2 "
+                            chat.user == "01" ? "order-2" : "order-1",
+                            "mx-2 flex max-w-xs flex-col items-start space-y-2 text-xs"
                           )}
                         >
-                          {chat.message}
-                        </span>
+                          <div key={index}>
+                            <span
+                              // className="inline-block rounded-lg rounded-bl-none bg-gray-300 px-4 py-2 text-gray-600"
+                              className={classNames(
+                                chat.user == "01"
+                                  ? "rounded-tl-none border border-[#D1E4EE] bg-[#EDF2F7]"
+                                  : "rounded-tr-none border border-[#BDECF6] bg-[#D9F5FD]",
+                                "inline-block rounded-lg px-4 py-2 "
+                              )}
+                            >
+                              {chat.message}
+                            </span>
+                          </div>
+                        </div>
                       </div>
+                      <img
+                        src={Users[chat.user].img}
+                        alt="My profile"
+                        className="order-1 h-6 w-6 rounded-full"
+                      />
                     </div>
                   </div>
-                  <img
-                    src={Users[chat.user].img}
-                    alt="My profile"
-                    className="order-1 h-6 w-6 rounded-full"
-                  />
-                </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
+          </Card>
         </div>
-        <div className="flex items-center justify-between p-4">
+        <Card
+          border
+          shadow
+          className="flex h-[38px] items-center justify-between bg-white px-3"
+        >
+          <HiPencil className="mr-2 h-[30px] w-[30px]" />
           <input
             type="text"
-            className="mr-4 w-full rounded border border-gray-400 py-2 px-4"
+            className="mr-2 w-full bg-transparent py-2 px-4"
             placeholder="Type your message here..."
             value={inputMessage}
             onChange={(e) => setInputMessage(e.target.value)}
           />
-          <button
+          <div
+            className="flex h-[38px] w-[38px] cursor-pointer items-center justify-center"
+            onClick={() => {
+              handleSentMessage(inputMessage, "02");
+
+              setInputMessage("");
+            }}
+          >
+            <CiLocationArrow1 className="h-[24px] w-[24px] rotate-45" />
+          </div>
+          {/* <button
             className="rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
             onClick={() => {
               handleSentMessage(inputMessage, "02");
@@ -112,8 +135,8 @@ export const ChatSimple = ({ chatN, handleSentMessage }: IChatSimple) => {
             }}
           >
             Send
-          </button>
-        </div>
+          </button> */}
+        </Card>
       </div>
     </>
   );
