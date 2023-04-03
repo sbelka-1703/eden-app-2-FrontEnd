@@ -142,12 +142,15 @@ const chatEden: NextPageWithLayout = () => {
   //  ------------- Popup Preparation ----------
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [chatN, setChatN] = useState([
-    // {
-    //   user: "01",
-    //   message: "Hey I am Eden AI, how can I help you?",
-    // },
-  ]);
+  const [chatN, setChatN] = useState<
+    | [
+        {
+          user: string;
+          message: string;
+        }
+      ]
+    | []
+  >([] as [{ user: string; message: string }] | []);
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [chatNprepareGPT, setChatNprepareGPT] = useState<string>("");
@@ -326,7 +329,7 @@ const chatEden: NextPageWithLayout = () => {
         user: "01",
         message: newMessage,
       });
-      setChatN(chatT);
+      setChatN(chatT as [{ user: string; message: string }]);
 
       // from chatT that is an array of objects, translate it to a string
       let chatNprepareGPTP = "";
@@ -476,7 +479,7 @@ const chatEden: NextPageWithLayout = () => {
       user: userN,
       message: messageN,
     });
-    setChatN(chatT);
+    setChatN(chatT as [{ user: string; message: string }]);
 
     setNumMessageLongTermMem(numMessageLongTermMem + 1);
 
