@@ -737,7 +737,6 @@ const UserDiscoverCard = ({
                   : undefined
               }
             />
-            {member.budget?.perHour?.toString()}
 
             {member?.links && (
               <div className="flex justify-center">
