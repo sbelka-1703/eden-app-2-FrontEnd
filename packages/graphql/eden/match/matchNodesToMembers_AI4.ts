@@ -97,6 +97,13 @@ export const MATCH_NODES_MEMBERS_AI4 = gql`
         }
         totalPercentage
         conn_nodeIDs
+        mostRelevantMemberNodes {
+          node {
+            _id
+            name
+          }
+          score
+        }
       }
     }
   }
