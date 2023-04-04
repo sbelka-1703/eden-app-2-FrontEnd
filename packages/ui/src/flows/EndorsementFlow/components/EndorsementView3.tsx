@@ -1,5 +1,4 @@
-import { useQuery } from "@apollo/client";
-import { FIND_NODES } from "@eden/package-graphql";
+import { gql, useQuery } from "@apollo/client";
 import { Members } from "@eden/package-graphql/generated";
 import { Button, TextInputLabel } from "@eden/package-ui";
 import { useEffect, useState } from "react";
@@ -7,6 +6,16 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { BsFillPatchCheckFill } from "react-icons/bs";
 
 import { DropdownMenu } from "./";
+
+const FIND_NODES = gql`
+  query ($fields: findNodesInput) {
+    findNodes(fields: $fields) {
+      _id
+      name
+      node
+    }
+  }
+`;
 
 type EndorsementInputs = {
   node: {
@@ -50,13 +59,16 @@ export const EndorsementView3 = ({
     },
   });
 
+  const baseMessage = (skill: string) =>
+    `I'm updating my professional profile and would love your endorsement on Eden for my proficiency in ${skill}. Your support means a lot, Thanks!`;
+
   useEffect(() => {
     const subscription = watch((data) => {
       // console.log("WATCH ---- data", data);
       if (data.node?.value) {
         setShowMessage(true);
         reset({
-          message: `I'm asking you to endorse me on Eden for my skills in ${data.node.label}`,
+          message: baseMessage(data.node.label || ""),
         });
       }
       if (data.message !== "") setShowButton(true);

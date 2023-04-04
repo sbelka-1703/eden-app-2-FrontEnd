@@ -1,6 +1,5 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
-import { FIND_NODES } from "@eden/package-graphql";
 import {
   CandidateProfileCard,
   Card,
@@ -26,6 +25,16 @@ const CREATE_ENDORSEMENT_LINK = gql`
   mutation ($fields: createEndorsementLinkInput) {
     createEndorsementLink(fields: $fields) {
       _id
+    }
+  }
+`;
+
+const FIND_NODES = gql`
+  query ($fields: findNodesInput) {
+    findNodes(fields: $fields) {
+      _id
+      name
+      node
     }
   }
 `;
@@ -77,27 +86,27 @@ export const EndorsementLinkFlow = ({}) => {
 
   const nodesValue = watch("node");
 
+  const baseMessage = (skill: string) =>
+    `I'm updating my professional profile and would love your endorsement on Eden for my proficiency in ${skill}. Your support means a lot, Thanks!`;
+
   useEffect(() => {
     if (nodesValue?.label) {
       setShowMessage(true);
-      setValue(
-        "message",
-        `I'm asking you to endorse me on Eden for my skills in ${nodesValue?.label}`
-      );
+      setValue("message", baseMessage(nodesValue?.label));
     }
   }, [nodesValue?.label, setValue]);
 
   // console.log("nodesData", nodesData);
   let baseURL = "";
-  // if localhost set base url to localhost
 
+  // if localhost set base url to localhost
   if (process.env.NODE_ENV === "development") {
     baseURL = "http://localhost:3000";
   } else baseURL = `https://eden-alpha-develop.vercel.app`;
 
   const url = `${baseURL}/test/flow/endorsement/${inviteID}`;
 
-  const text = `I'm asking you to endorse me on Eden. ${url}`;
+  const text = baseMessage(nodesValue?.label) + `        ${url}`;
 
   const twitterShareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
     text
@@ -167,7 +176,7 @@ export const EndorsementLinkFlow = ({}) => {
                   >{`Add a Message:`}</TextInputLabel>
                   <textarea
                     id={`message`}
-                    className={`input-primary`}
+                    className={`input-primary font-medium text-neutral-900`}
                     required
                     rows={8}
                     {...register(`message`)}
