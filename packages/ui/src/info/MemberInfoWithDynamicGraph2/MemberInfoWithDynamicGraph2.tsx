@@ -151,9 +151,7 @@ export const MemberInfoWithDynamicGraph2 = ({
           <p className="text-center">
             <span className="text-sm text-slate-400">Total earned:</span>
             <br />
-            <span className="text-2xl font-bold text-[#fcba03]">
-              ${member.totalIncome}
-            </span>
+            <span className="-ml-1 text-2xl">${member.totalIncome}</span>
           </p>
           {/* <p className="text-center text-sm text-slate-400">Eden lvl3</p> */}
         </div>
