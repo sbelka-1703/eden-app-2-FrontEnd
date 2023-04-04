@@ -426,6 +426,11 @@ const UserDiscoverCard = ({
   useEffect(() => {
     if (nodesPercentage?.length == 0 || nodesPercentage == undefined) return;
 
+    interface RelevantMemberObj {
+      [key: string]: boolean;
+    }
+    const mostRelevantMemberObj: RelevantMemberObj = {};
+
     const mostRelevantMemberNodes = [];
 
     for (let i = 0; i < nodesPercentage?.length; i++) {
@@ -438,10 +443,30 @@ const UserDiscoverCard = ({
         node?.mostRelevantMemberNodes != undefined &&
         node?.mostRelevantMemberNodes?.length > 0
       ) {
-        mostRelevantMemberNode = node?.mostRelevantMemberNodes[0];
+        let i = 0;
+        let relNode;
+
+        while (
+          mostRelevantMemberNode == null &&
+          i < node?.mostRelevantMemberNodes.length
+        ) {
+          relNode = node?.mostRelevantMemberNodes[i];
+
+          if (
+            relNode?.node?._id != undefined &&
+            !mostRelevantMemberObj[relNode?.node?._id]
+          ) {
+            mostRelevantMemberNode = relNode;
+            mostRelevantMemberObj[relNode?.node?._id] = true;
+          } else {
+            i++;
+          }
+        }
+
+        if (mostRelevantMemberNode == null) continue;
       }
 
-      let colorT = "bg-purple-200";
+      let colorT = "bg-purple-100";
 
       if (
         mostRelevantMemberNode?.score != null &&
@@ -453,6 +478,8 @@ const UserDiscoverCard = ({
           colorT = "bg-purple-400";
         } else if (mostRelevantMemberNode?.score > 13) {
           colorT = "bg-purple-300";
+        } else if (mostRelevantMemberNode?.score > 5) {
+          colorT = "bg-purple-200";
         }
       }
 
@@ -519,11 +546,11 @@ const UserDiscoverCard = ({
           {nodesPercentage && (
             <div>
               <p className="font-Inter mb-1 text-sm font-bold text-zinc-500">
-                🪄 Releavant skills
+                🪄 Relevant skills
               </p>
               <div>
                 {relatedNodesMemberToMatch
-                  .slice(0, 6)
+                  .slice(0, 4)
                   .map((info: any, index: number) => (
                     <Badge
                       text={info?.MemberRelevantnode?.name || ""}
@@ -532,7 +559,7 @@ const UserDiscoverCard = ({
                       // className={`px-2 py-1 text-white rounded ${getBackgroundColorClass(info.score)}`}
                       // className={`px-2 py-1 text-white rounded bg-purple-400`}
                       className={`rounded px-1 py-1 text-xs text-white ${info.color}`}
-                      cutText={14}
+                      cutText={10}
                     />
                   ))}
                 {/* {nodesPercentage.slice(0, 6).map((node, index) => (
