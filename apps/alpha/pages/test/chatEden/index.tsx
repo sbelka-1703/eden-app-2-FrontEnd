@@ -40,7 +40,8 @@ import {
   EDEN_GPT_REPLY_CHAT_API_V2,
   EDEN_GPT_REPLY_MEMORY,
   FIND_RELATED_NODE,
-  MESSAGE_MAP_KG_V2,
+  // MESSAGE_MAP_KG_V2,
+  MESSAGE_MAP_KG_V3,
   STORE_LONG_TERM_MEMORY,
 } from "../../../utils/data/GQLfuncitons";
 import type { NextPageWithLayout } from "../../_app";
@@ -224,13 +225,17 @@ const chatEden: NextPageWithLayout = () => {
     }
   );
 
-  const { data: dataMessageMapKGV2 } = useQuery(MESSAGE_MAP_KG_V2, {
+  const { data: dataMessageMapKGV3 } = useQuery(MESSAGE_MAP_KG_V3, {
     variables: {
       fields: {
         message: messageUser,
+        assistantMessage: chatN[chatN.length - 2]?.message,
       },
     },
-    skip: messageUser == "",
+    skip:
+      messageUser == "" ||
+      chatN.length < 2 ||
+      chatN[chatN.length - 2]?.user == "01",
   });
 
   const [dataMembersA, setDataMembersA] = useState<any>(null);
@@ -349,13 +354,13 @@ const chatEden: NextPageWithLayout = () => {
 
   // ---------------- update nodes ------------
   useEffect(() => {
-    if (dataMessageMapKGV2) {
+    if (dataMessageMapKGV3) {
       // const newNodeID: any = [];
       // const newNodeConfidence: any = [];
 
       const newNodeObj: any = [];
 
-      dataMessageMapKGV2?.messageMapKG_V2?.keywords?.forEach((keyword: any) => {
+      dataMessageMapKGV3?.messageMapKG_V3?.keywords?.forEach((keyword: any) => {
         if (keyword.nodeID) {
           // newNodeID.push(keyword.nodeID);
           // newNodeConfidence.push(keyword.confidence);
@@ -466,7 +471,7 @@ const chatEden: NextPageWithLayout = () => {
       setNodeObj(newNodesObjK);
       // ------- Array of objects to disctionary ------------
     }
-  }, [dataMessageMapKGV2]);
+  }, [dataMessageMapKGV3]);
   // ---------------- update nodes ------------
 
   const handleSentMessage = (messageN: any, userN: any) => {
@@ -532,48 +537,48 @@ const chatEden: NextPageWithLayout = () => {
   // console.log("activeNodes = ", activeNodes);
   return (
     <>
-      <div className="flex h-screen w-full bg-[#f5f5f5] py-2">
-        <div className="mx-auto grid h-full w-full max-w-5xl grid-cols-12 gap-4">
-          <div className="col-span-4 flex flex-1 flex-col overflow-y-hidden">
-            {/* <button
-            type="button"
-            className={
-              "rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none"
-            }
-            onClick={() => {
-              handleStoreLongTermMemory();
-              setNumMessageLongTermMem(0);
-            }}
-          >
-            {" "}
-            Save Memory{" "}
-          </button>
-          <div>
-            <ButtonGroup
-              selectedOption={selectedOption}
-              handleButtonClick={handleButtonClick}
-            />
-          </div>
-          <div className="w-full py-2">
-            <div className="h-1 w-full bg-gray-300"></div>
-          </div> */}
+      <div className="flex h-screen">
+        <div className="flex flex-1 flex-col">
+          {/* <button
+          type="button"
+          className={
+            "rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none"
+          }
+          onClick={() => {
+            handleStoreLongTermMemory();
+            setNumMessageLongTermMem(0);
+          }}
+        >
+          {" "}
+          Save Memory{" "}
+        </button>
+        <div>
+          <ButtonGroup
+            selectedOption={selectedOption}
+            handleButtonClick={handleButtonClick}
+          />
+        </div>
+        <div className="w-full py-2">
+          <div className="h-1 w-full bg-gray-300"></div>
+        </div> */}
 
-            <Card shadow className="h-[66vh] w-full bg-white">
-              <ChatSimple chatN={chatN} handleSentMessage={handleSentMessage} />
-            </Card>
-            <div className="-mb-2 h-1/3 w-full">
-              {/* {nodesID?.length > 0 && dataMembersA?.length == 0 && (
-              <div className="flex justify-center py-4">
-                <h1 className="h-16 rounded-lg bg-gray-200 px-6 py-2 text-center text-sm shadow-md sm:h-16 sm:text-lg">
-                  <span className="block leading-tight">
-                    Click Grey Bubbles to{" "}
-                  </span>
-                  <span className="block leading-tight">
-                    Connect them to your search
-                  </span>
-                </h1>
-              </div>
-            )} */}
+          <div className="h-1/2">
+            <ChatSimple chatN={chatN} handleSentMessage={handleSentMessage} />
+          </div>
+          <div className="h-1/2">
+            {/* {nodesID?.length > 0 && dataMembersA?.length == 0 && (
+            <div className="flex justify-center py-4">
+              <h1 className="h-16 rounded-lg bg-gray-200 px-6 py-2 text-center text-sm shadow-md sm:h-16 sm:text-lg">
+                <span className="block leading-tight">
+                  Click Grey Bubbles to{" "}
+                </span>
+                <span className="block leading-tight">
+                  Connect them to your search
+                </span>
+              </h1>
+            </div>
+          )} */}
+            <div className={`flex h-screen w-full gap-4`}>
               <div className="h-full w-full">
                 <DynamicSearchGraph
                   nodesID={Object.keys(nodeObj)}
@@ -584,7 +589,8 @@ const chatEden: NextPageWithLayout = () => {
                     (node: any) => node.isNew
                   )}
                   setActivateNodeEvent={setActivateNodeEvent}
-                  height={"280"}
+                  height={"380"}
+                  disableZoom={true}
                   // graphType={"simple"}
                   // graphType={"KG_AI_2"}
                   graphType={"KG_AI_2_plusIndustry"}
@@ -594,44 +600,44 @@ const chatEden: NextPageWithLayout = () => {
               </div>
             </div>
           </div>
-          <div className="col-span-8 -mt-2 h-screen flex-1 py-2">
-            {/* <GridLayout> */}
-            {/* <GridItemNine> */}
-            <Card
-              shadow
-              className="scrollbar-hide h-full overflow-scroll bg-white p-4"
-            >
-              <CardGrid>
-                {dataMembersA?.map(
-                  (member: MatchMembersToSkillOutput, index: number) => (
-                    <UserDiscoverCard
-                      key={index}
-                      matchMember={member}
-                      // role={selectedRole}
-                      // project={dataProject?.findProject}
-                      invite
-                      phase={``}
-                      nodesID={Object.keys(nodeObj).filter(
-                        (key) => nodeObj[key].active
-                      )}
-                      conversation={chatN
-                        .map((obj) => {
-                          if (obj.user === "01") {
-                            return { role: "assistant", content: obj.message };
-                          } else {
-                            return { role: "user", content: obj.message };
-                          }
-                        })
-                        .slice(-6)}
-                      // nodesID={Object.keys(nodeObj)}
-                    />
-                  )
-                )}
-              </CardGrid>
-            </Card>
-            {/* </GridItemNine> */}
-            {/* </GridLayout> */}
-          </div>
+        </div>
+        <div className="h-full flex-1 ">
+          {/* <GridLayout> */}
+          {/* <GridItemNine> */}
+          <Card
+            shadow
+            className="scrollbar-hide h-full overflow-scroll bg-white p-4"
+          >
+            <CardGrid>
+              {dataMembersA?.map(
+                (member: MatchMembersToSkillOutput, index: number) => (
+                  <UserDiscoverCard
+                    key={index}
+                    matchMember={member}
+                    // role={selectedRole}
+                    // project={dataProject?.findProject}
+                    invite
+                    phase={``}
+                    nodesID={Object.keys(nodeObj).filter(
+                      (key) => nodeObj[key].active
+                    )}
+                    conversation={chatN
+                      .map((obj) => {
+                        if (obj.user === "01") {
+                          return { role: "assistant", content: obj.message };
+                        } else {
+                          return { role: "user", content: obj.message };
+                        }
+                      })
+                      .slice(-6)}
+                    // nodesID={Object.keys(nodeObj)}
+                  />
+                )
+              )}
+            </CardGrid>
+          </Card>
+          {/* </GridItemNine> */}
+          {/* </GridLayout> */}
         </div>
       </div>
       <MultiSelectPopup
