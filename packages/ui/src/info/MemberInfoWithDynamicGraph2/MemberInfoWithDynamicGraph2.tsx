@@ -1,10 +1,5 @@
 import { gql, useQuery } from "@apollo/client";
-import {
-  EndorseNode,
-  Maybe,
-  Members,
-  NodesType,
-} from "@eden/package-graphql/generated";
+import { Maybe, Members, NodesType } from "@eden/package-graphql/generated";
 import {
   Avatar,
   Badge,
@@ -22,7 +17,7 @@ import {
 } from "@eden/package-ui";
 import { useState } from "react";
 
-import { trimParentheses } from "../../../utils/trim-parentheses";
+// import { trimParentheses } from "../../../utils/trim-parentheses";
 import { StarRating } from "../../flows/ReviewFlow/components";
 
 export interface IMemberInfoWithDynamicGraph2Props {
@@ -32,6 +27,7 @@ export interface IMemberInfoWithDynamicGraph2Props {
   hasGraph?: boolean;
   nodesID?: any;
   conversation?: any;
+  relatedNodesMemberToMatch?: any;
 }
 
 const EDEN_GPT_SUMMARY_PROFILE = gql`
@@ -103,6 +99,7 @@ export const MemberInfoWithDynamicGraph2 = ({
   loading = false,
   nodesID,
   conversation,
+  relatedNodesMemberToMatch,
 }: IMemberInfoWithDynamicGraph2Props) => {
   const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -198,7 +195,7 @@ export const MemberInfoWithDynamicGraph2 = ({
               </div>
             </>
           )}
-          <span className="absolute right-3 bottom-2 text-slate-600">
+          <span className="absolute bottom-2 right-3 text-slate-600">
             By Eden AI
           </span>
         </div>
@@ -225,9 +222,22 @@ export const MemberInfoWithDynamicGraph2 = ({
           )}
           <div className="">
             <p className="mb-2 text-left">
-              <TextLabel1>🧙‍♂️ Wizard Skills</TextLabel1>
+              <TextLabel1>🧙‍♂️ Relevant Skills</TextLabel1>
             </p>
-            {member.endorseSummary?.mainNodes!.map(
+            {relatedNodesMemberToMatch
+              .slice(0, 6)
+              .map((info: any, index: number) => (
+                <Badge
+                  text={info?.MemberRelevantnode?.name || ""}
+                  key={index}
+                  // className={`bg-soilPurple/20 py-px text-xs`}
+                  // className={`px-2 py-1 text-white rounded ${getBackgroundColorClass(info.score)}`}
+                  // className={`px-2 py-1 text-white rounded bg-purple-400`}
+                  className={`rounded px-1 py-1 text-xs text-white ${info.color}`}
+                  cutText={14}
+                />
+              ))}
+            {/* {member.endorseSummary?.mainNodes!.map(
               (node: EndorseNode | null, index: number) => (
                 <Badge
                   key={index}
@@ -238,7 +248,7 @@ export const MemberInfoWithDynamicGraph2 = ({
                   cutText={99}
                 />
               )
-            )}
+            )} */}
           </div>
         </div>
         <div className="col-span-2"></div>

@@ -55,6 +55,7 @@ export interface IDynamicSearchGraphProps {
   height?: string;
   graphType?: string;
   zoomGraph?: number;
+  disableZoom?: boolean;
 }
 
 function arraysAreEqual(arr1: any, arr2: any) {
@@ -78,6 +79,7 @@ export const DynamicSearchGraph = ({
   height,
   graphType,
   zoomGraph,
+  disableZoom,
 }: IDynamicSearchGraphProps) => {
   const refContainer = useRef<HTMLDivElement>();
 
@@ -432,6 +434,7 @@ export const DynamicSearchGraph = ({
               setActivateNodeEvent={setActivateNodeEvent}
               centerGraph={centerGraph}
               zoomGraph={zoomGraph}
+              disableZoom={disableZoom}
               setRelatedNodePopup={setRelatedNodePopup}
             />
           ) : (

@@ -29,6 +29,15 @@ export type Ai = {
   serverID?: Maybe<Scalars["String"]>;
 };
 
+export type CVtoJobsInput = {
+  cvString?: InputMaybe<Scalars["String"]>;
+};
+
+export type CVtoJobsOutput = {
+  __typename?: "CVtoJobsOutput";
+  result?: Maybe<Scalars["String"]>;
+};
+
 export type CVtoSummaryInput = {
   cvString?: InputMaybe<Scalars["String"]>;
 };
@@ -112,6 +121,15 @@ export type Endorsement = {
   stars?: Maybe<Scalars["Int"]>;
   userReceive?: Maybe<Members>;
   userSend?: Maybe<Members>;
+};
+
+export type EndorsementLink = {
+  __typename?: "EndorsementLink";
+  _id?: Maybe<Scalars["ID"]>;
+  createdAt?: Maybe<Scalars["Date"]>;
+  memberInfo?: Maybe<Members>;
+  message?: Maybe<Scalars["String"]>;
+  nodes?: Maybe<Array<Maybe<NodesType>>>;
 };
 
 export type Epic = {
@@ -268,6 +286,7 @@ export type MembersSmallType = {
 
 export type Mutation = {
   __typename?: "Mutation";
+  CVtoJobs?: Maybe<CVtoJobsOutput>;
   CVtoSummary?: Maybe<CVtoSummaryOutput>;
   addEndorsement?: Maybe<Endorsement>;
   addFavoriteProject?: Maybe<Members>;
@@ -285,6 +304,7 @@ export type Mutation = {
   applyGrant?: Maybe<GrantTemplate>;
   approveTweet?: Maybe<Project>;
   changeTeamMember_Phase_Project?: Maybe<Project>;
+  createEndorsementLink?: Maybe<EndorsementLink>;
   createError?: Maybe<ErrorLog>;
   createFakeEndorsement?: Maybe<Endorsement>;
   createFakeUser?: Maybe<Members>;
@@ -333,6 +353,10 @@ export type Mutation = {
   updateServer?: Maybe<ServerTemplate>;
   uploadUserDataGPT?: Maybe<Members>;
   useAI_OnMessage?: Maybe<UseAi_OnMessageOutput>;
+};
+
+export type MutationCVtoJobsArgs = {
+  fields?: InputMaybe<CVtoJobsInput>;
 };
 
 export type MutationCVtoSummaryArgs = {
@@ -401,6 +425,10 @@ export type MutationApproveTweetArgs = {
 
 export type MutationChangeTeamMember_Phase_ProjectArgs = {
   fields: ChangeTeamMember_Phase_ProjectInput;
+};
+
+export type MutationCreateEndorsementLinkArgs = {
+  fields?: InputMaybe<CreateEndorsementLinkInput>;
 };
 
 export type MutationCreateErrorArgs = {
@@ -720,6 +748,7 @@ export type Query = {
   dynamicSearchToMemberGraphV2?: Maybe<Graph>;
   dynamicSearchToProjectGraph?: Maybe<Graph>;
   edenGPTEndorseChatAPI?: Maybe<EdenGptEndorseChatApiOutput>;
+  edenGPTReviewChatAPI?: Maybe<EdenGptReviewChatApiOutput>;
   edenGPTreply?: Maybe<EdenGpTreplyOutput>;
   edenGPTreplyChatAPI?: Maybe<EdenGpTreplyChatApiOutput>;
   edenGPTreplyChatAPI_V2?: Maybe<EdenGpTreplyChatApi_V2Output>;
@@ -731,6 +760,7 @@ export type Query = {
     Array<Maybe<FindAllProjectsTeamsAnouncmentsOutput>>
   >;
   findChat?: Maybe<Chats>;
+  findEndorsementLink?: Maybe<Array<Maybe<EndorsementLink>>>;
   findEpic?: Maybe<Array<Maybe<Epic>>>;
   findGarden?: Maybe<Array<Maybe<FindGardenOutput>>>;
   findGrants?: Maybe<Array<Maybe<GrantTemplate>>>;
@@ -839,6 +869,10 @@ export type QueryEdenGptEndorseChatApiArgs = {
   fields?: InputMaybe<EdenGptEndorseChatApiInput>;
 };
 
+export type QueryEdenGptReviewChatApiArgs = {
+  fields?: InputMaybe<EdenGptReviewChatApiInput>;
+};
+
 export type QueryEdenGpTreplyArgs = {
   fields?: InputMaybe<EdenGpTreplyInput>;
 };
@@ -873,6 +907,10 @@ export type QueryFindAllProjectsTeamsAnouncmentsArgs = {
 
 export type QueryFindChatArgs = {
   fields?: InputMaybe<FindChatInput>;
+};
+
+export type QueryFindEndorsementLinkArgs = {
+  fields?: InputMaybe<FindEndorsementLinkInput>;
 };
 
 export type QueryFindEpicArgs = {
@@ -1576,6 +1614,11 @@ export type CreateApprovedSkillInput = {
   name?: InputMaybe<Scalars["String"]>;
 };
 
+export type CreateEndorsementLinkInput = {
+  message?: InputMaybe<Scalars["String"]>;
+  nodesID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+};
+
 export type CreateErrorInput = {
   code?: InputMaybe<Scalars["String"]>;
   component?: InputMaybe<Scalars["String"]>;
@@ -1833,6 +1876,17 @@ export type EdenGptEndorseChatApiOutput = {
   reply?: Maybe<Scalars["String"]>;
 };
 
+export type EdenGptReviewChatApiInput = {
+  conversation?: InputMaybe<Array<InputMaybe<MessageChat>>>;
+  message?: InputMaybe<Scalars["String"]>;
+  userID?: InputMaybe<Scalars["ID"]>;
+};
+
+export type EdenGptReviewChatApiOutput = {
+  __typename?: "edenGPTReviewChatAPIOutput";
+  reply?: Maybe<Scalars["String"]>;
+};
+
 export type EdenGpTreplyChatApiInput = {
   conversation?: InputMaybe<Array<InputMaybe<MessageChat>>>;
   message?: InputMaybe<Scalars["String"]>;
@@ -2010,6 +2064,11 @@ export type FindAllProjectsTeamsAnouncmentsOutput = {
 export type FindChatInput = {
   _id?: InputMaybe<Scalars["ID"]>;
   threadID?: InputMaybe<Scalars["ID"]>;
+};
+
+export type FindEndorsementLinkInput = {
+  _id?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  serverID?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
 };
 
 export type FindEndorsementsInput = {
@@ -2507,6 +2566,12 @@ export type MessageToGptOutput = {
   message?: Maybe<Scalars["String"]>;
 };
 
+export type MostRelevantMemberNodeType = {
+  __typename?: "mostRelevantMemberNodeType";
+  node?: Maybe<Node>;
+  score?: Maybe<Scalars["Float"]>;
+};
+
 export type NetworkInput = {
   endorcment?: InputMaybe<Array<InputMaybe<EndorcmentInput>>>;
   memberID?: InputMaybe<Scalars["ID"]>;
@@ -2546,6 +2611,7 @@ export type NodesId_LevelInput = {
 export type NodesPercentageType = {
   __typename?: "nodesPercentageType";
   conn_nodeIDs?: Maybe<Array<Maybe<Scalars["ID"]>>>;
+  mostRelevantMemberNodes?: Maybe<Array<Maybe<MostRelevantMemberNodeType>>>;
   node?: Maybe<Node>;
   totalPercentage?: Maybe<Scalars["Float"]>;
 };
