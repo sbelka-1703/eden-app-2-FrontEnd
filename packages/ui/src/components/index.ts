@@ -6,6 +6,7 @@ export * from "./ClassicGraphs";
 export * from "./DescriptionGPT";
 export * from "./DiscoverTalent";
 export * from "./DragDrop";
+export * from "./EdenAiChat";
 export * from "./FillSocialLinks";
 export * from "./LifetimeTRST";
 export * from "./LoginButton";
