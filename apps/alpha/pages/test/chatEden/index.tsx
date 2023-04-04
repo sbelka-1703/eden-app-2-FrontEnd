@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { gql, useMutation, useQuery } from "@apollo/client";
-import { UserContext } from "@eden/package-context";
+import { useQuery } from "@apollo/client";
 import {
   // FIND_MEMBER_INFO,
   MATCH_NODES_MEMBERS_AI4,
@@ -13,14 +12,16 @@ import {
   RoleType,
 } from "@eden/package-graphql/generated";
 import {
+  AI_REPLY_SERVICES,
   // AvatarList,
   Badge,
   Button,
   Card,
   CardGrid,
-  ChatSimple,
+  ChatMessage,
   CommonServerAvatarList,
   DynamicSearchGraph,
+  EdenAiChat,
   LongText,
   // MemberInfoWithDynamicGraph,
   MemberInfoWithDynamicGraph2,
@@ -32,18 +33,9 @@ import {
   UserWithDescription,
 } from "@eden/package-ui";
 // import dynamic from "next/dynamic";
-import React, { Fragment, useContext, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 
-import {
-  EDEN_GPT_REPLY,
-  // EDEN_GPT_REPLY_CHAT_API,
-  EDEN_GPT_REPLY_CHAT_API_V2,
-  EDEN_GPT_REPLY_MEMORY,
-  FIND_RELATED_NODE,
-  MESSAGE_MAP_KG_V2,
-  // MESSAGE_MAP_KG_V3,
-  STORE_LONG_TERM_MEMORY,
-} from "../../../utils/data/GQLfuncitons";
+import { FIND_RELATED_NODE } from "../../../utils/data/GQLfuncitons";
 import type { NextPageWithLayout } from "../../_app";
 import MultiSelectPopup from "./components/MultiSelectPopup";
 
@@ -56,23 +48,6 @@ interface NodeObj {
 }
 
 const chatEden: NextPageWithLayout = () => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [messageUser, setMessageUser] = useState<string>("");
-
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [edenAIsentMessage, setEdenAIsentMessage] = useState<boolean>(false);
-
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { currentUser } = useContext(UserContext);
-
-  // console.log("currentUser = ", currentUser);
-
-  // const [nodesID, setNodesID] = useState<string[]>([
-  //   "63eaf157df71c82f61c17e06",
-  // ]);
-  // const [nodesConfidence, setNodesConfidence] = useState<string[]>(["9"]);
-  // const [activeNodes, setActiveNodes] = useState<Boolean[]>([false]);
-
   const [nodeObj, setNodeObj] = useState<NodeObj>({
     // "640a739dc5d61b4bae0ee091": {
     //   // SOS 🆘 -> problem with this node combination
@@ -112,6 +87,7 @@ const chatEden: NextPageWithLayout = () => {
   const [nodeSearchRelated, setnodeSearchRelated] = useState("");
 
   const [optionsPopup, setOptionsPopup] = useState<any>([]);
+  const [extraNodes, setExtraNodes] = useState<any>([]);
 
   // const optionsPopup = [
   //   { value: "ID1", label: "React" },
@@ -132,43 +108,11 @@ const chatEden: NextPageWithLayout = () => {
   };
 
   const handleSelectPopup = (selectedOptionsPopup: Array<any>) => {
-    const nodeObjNew = { ...nodeObj };
-
-    selectedOptionsPopup.forEach((node) => {
-      nodeObjNew[node.value] = {
-        confidence: 10,
-        active: true,
-        isNew: true,
-      };
-    });
-
-    console.log("nodeObjNew = ", nodeObjNew);
-
-    setNodeObj(nodeObjNew);
+    setExtraNodes(selectedOptionsPopup);
   };
   //  ------------- Popup Preparation ----------
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [chatN, setChatN] = useState<
-    | [
-        {
-          user: string;
-          message: string;
-        }
-      ]
-    | []
-  >([] as [{ user: string; message: string }] | []);
-
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [chatNprepareGPT, setChatNprepareGPT] = useState<string>("");
-
-  // console.log("nodesID = " , nodesID)
-  // console.log("nodesConfidence = " , nodesConfidence)
-
-  const [
-    selectedOption,
-    // setSelectedOption
-  ] = useState<string | null>("option3");
+  const [chatN, setChatN] = useState<ChatMessage>([]);
 
   const {} = useQuery(FIND_RELATED_NODE, {
     variables: {
@@ -190,61 +134,6 @@ const chatEden: NextPageWithLayout = () => {
 
       setOptionsPopup(optionPopup);
     },
-  });
-
-  const { data: dataEdenGPTReply } = useQuery(EDEN_GPT_REPLY, {
-    variables: {
-      fields: {
-        message: messageUser,
-      },
-    },
-    skip: messageUser == "" || selectedOption != "option1",
-  });
-
-  const { data: dataEdenGPTReplyMemory } = useQuery(EDEN_GPT_REPLY_MEMORY, {
-    variables: {
-      fields: {
-        message: messageUser,
-        memorySort: chatNprepareGPT,
-        userID: currentUser?._id,
-      },
-    },
-    skip: messageUser == "" || selectedOption != "option2",
-  });
-
-  const { data: dataEdenGPTReplyChatAPI } = useQuery(
-    EDEN_GPT_REPLY_CHAT_API_V2,
-    {
-      variables: {
-        fields: {
-          message: messageUser,
-          conversation: chatN
-            .map((obj) => {
-              if (obj.user === "01") {
-                return { role: "assistant", content: obj.message };
-              } else {
-                return { role: "user", content: obj.message };
-              }
-            })
-            .slice(-6),
-          userID: currentUser?._id,
-        },
-      },
-      skip: messageUser == "" || selectedOption != "option3",
-    }
-  );
-
-  const { data: dataMessageMapKGV2 } = useQuery(MESSAGE_MAP_KG_V2, {
-    variables: {
-      fields: {
-        message: messageUser,
-        // assistantMessage: chatN[chatN.length - 2]?.message,
-      },
-    },
-    skip:
-      messageUser == "" ||
-      chatN.length < 2 ||
-      chatN[chatN.length - 2]?.user == "01",
   });
 
   const [dataMembersA, setDataMembersA] = useState<any>(null);
@@ -288,228 +177,6 @@ const chatEden: NextPageWithLayout = () => {
   });
 
   console.log("dataMembersA = ", dataMembersA);
-
-  // console.log("dataMembers = ", dataMembers);
-
-  const [numMessageLongTermMem, setNumMessageLongTermMem] = useState<any>(0);
-
-  const [storeLongTermMemory, {}] = useMutation(STORE_LONG_TERM_MEMORY, {
-    // onCompleted({ storeLongTermMemory }) {
-    //   // // if (!storeLongTermMemory) console.log("deleteError is null");
-    //   // // //   console.log("deleteError", deleteError);
-    //   // refetchErrors();
-    //   // console.log("you just saved memory with sumary = ", storeLongTermMemory);
-    // },
-  });
-
-  const handleStoreLongTermMemory = () => {
-    storeLongTermMemory({
-      variables: {
-        fields: {
-          messages: chatN
-            .map((obj) => {
-              if (obj.user === "01") {
-                return { ...obj, name: "Eden: ", user: undefined };
-              } else {
-                return { ...obj, name: "User: ", user: undefined };
-              }
-            })
-            .slice(-6),
-          userID: currentUser?._id,
-        },
-      },
-    });
-  };
-
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  useEffect(() => {
-    if (
-      (dataEdenGPTReply || dataEdenGPTReplyMemory || dataEdenGPTReplyChatAPI) &&
-      edenAIsentMessage == true
-    ) {
-      const chatT = [...chatN];
-
-      let newMessage = "";
-
-      if (selectedOption == "option3") {
-        newMessage = dataEdenGPTReplyChatAPI.edenGPTreplyChatAPI_V2.reply;
-      } else if (selectedOption == "option2") {
-        newMessage = dataEdenGPTReplyMemory.edenGPTreplyMemory.reply;
-      } else if (selectedOption == "option1") {
-        newMessage = dataEdenGPTReply.edenGPTreply.reply;
-      }
-      chatT.push({
-        user: "01",
-        message: newMessage,
-      });
-      setChatN(chatT as [{ user: string; message: string }]);
-
-      // from chatT that is an array of objects, translate it to a string
-      let chatNprepareGPTP = "";
-
-      for (let i = 0; i < chatT.length; i++) {
-        // // console.log("chatNprepareGPTP = " , i,chatT[i].message)
-
-        if (chatT[i].user == "01")
-          chatNprepareGPTP += "Eden AI: " + chatT[i].message + "\n";
-        else chatNprepareGPTP += "User: " + chatT[i].message + "\n";
-      }
-
-      // // console.log("chatNprepareGPTP = FINAL -- " , chatNprepareGPTP)
-
-      setChatNprepareGPT(chatNprepareGPTP);
-
-      setEdenAIsentMessage(false);
-    }
-  }, [dataEdenGPTReply, dataEdenGPTReplyMemory, dataEdenGPTReplyChatAPI]);
-
-  // ---------------- update nodes ------------
-  useEffect(() => {
-    if (dataMessageMapKGV2) {
-      // const newNodeID: any = [];
-      // const newNodeConfidence: any = [];
-
-      const newNodeObj: any = [];
-
-      dataMessageMapKGV2?.messageMapKG_V2?.keywords?.forEach((keyword: any) => {
-        if (keyword.nodeID) {
-          // newNodeID.push(keyword.nodeID);
-          // newNodeConfidence.push(keyword.confidence);
-
-          newNodeObj.push({
-            nodeID: keyword.nodeID,
-            active: true,
-            confidence: keyword.confidence,
-            isNew: true,
-          });
-        }
-      });
-
-      // const newNodesIDK = [...nodesID];
-      // const newActiveNodes = [...activeNodes];
-      // const newNodesConfidence = [...nodesConfidence]
-
-      // const newNodesObjK: { nodeID: any; active: boolean,confidence: number }[] = []
-      const newNodesObjK: any = {};
-
-      // const newNodesIDK = [];
-      // const newActiveNodes = [];
-      // const newNodesConfidence = [];
-
-      //  --------- only take the ones that are true or have high confidence ------------
-
-      // for (let i = 0; i < nodeObj.length; i++) {
-      for (const [key, value] of Object.entries(nodeObj)) {
-        const nodeActive = value.active;
-        const nodeConfidence = value.confidence;
-
-        if (nodeActive) {
-          // newNodesIDK.push(nodeN);
-          // newActiveNodes.push(nodeActive);
-          // newNodesConfidence.push(nodeConfidence);
-          // newNodesObjK.push({nodeID: nodeN, active: nodeActive, confidence: nodeConfidence})
-          newNodesObjK[key] = {
-            active: nodeActive,
-            confidence: nodeConfidence,
-          };
-        } else {
-          if (Object.keys(nodeObj).length > 7) {
-            if (nodeConfidence > 5) {
-              // newNodesIDK.push(nodeN);
-              // newActiveNodes.push(nodeActive);
-              // newNodesConfidence.push(nodeConfidence);
-              // newNodesObjK.push({nodeID: nodeN, active: nodeActive, confidence: nodeConfidence})
-              newNodesObjK[key] = {
-                active: nodeActive,
-                confidence: nodeConfidence,
-              };
-            }
-          } else {
-            // newNodesIDK.push(nodeN);
-            // newActiveNodes.push(nodeActive);
-            // newNodesConfidence.push(nodeConfidence);
-            // newNodesObjK.push({nodeID: nodeN, active: nodeActive, confidence: nodeConfidence})
-            newNodesObjK[key] = {
-              active: nodeActive,
-              confidence: nodeConfidence,
-            };
-          }
-        }
-      }
-      //  --------- only take the ones that are true or have high confidence ------------
-
-      for (let i = 0; i < newNodeObj.length; i++) {
-        // const isIdExists = newNodesObjK.some((obj:any ) => obj.nodeID === newNodeObj[i].nodeID);
-
-        if (!Object.keys(newNodesObjK).includes(newNodeObj[i].nodeID)) {
-          // if (!isIdExists) {
-          // newNodesObjK.push(newNodeObj[i].nodeID);
-          // newNodesConfidence.push(newNodeConfidence[i]);
-          let newActive = false;
-
-          if (newNodeObj[i].confidence > 6) {
-            newActive = true;
-          }
-          // else {
-          //   newActiveNodes.push(false);
-          // }
-          // newNodesObjK.push({nodeID: newNodeObj[i].nodeID, active: newActive, confidence: newNodeObj[i].confidence})
-          newNodesObjK[newNodeObj[i].nodeID] = {
-            active: newActive,
-            confidence: newNodeObj[i].confidence,
-            isNew: true,
-          };
-        }
-      }
-
-      // setNodesIDK(newNodesIDK);
-      // setNodesID(newNodesIDK);
-      // setActiveNodes(newActiveNodes);
-      // setNodesConfidence(newNodesConfidence);
-
-      // ------- Array of objects to disctionary ------------
-      // const newNodesObjK2: any = {};
-
-      // for (let i = 0; i < newNodesObjK.length; i++) {
-      //   newNodesObjK2[newNodesObjK[i].nodeID] = {
-      //     active: newNodesObjK[i].active,
-      //     confidence: newNodesObjK[i].confidence,
-      //   };
-      // }
-
-      // console.log("CHANGE --- newNodesObjK = ", newNodesObjK);
-
-      setNodeObj(newNodesObjK);
-      // ------- Array of objects to disctionary ------------
-    }
-  }, [dataMessageMapKGV2]);
-  // ---------------- update nodes ------------
-
-  const handleSentMessage = (messageN: any, userN: any) => {
-    const chatT = [...chatN];
-
-    chatT.push({
-      user: userN,
-      message: messageN,
-    });
-    setChatN(chatT as [{ user: string; message: string }]);
-
-    setNumMessageLongTermMem(numMessageLongTermMem + 1);
-
-    if (numMessageLongTermMem > 3) {
-      handleStoreLongTermMemory();
-      setNumMessageLongTermMem(0);
-    }
-
-    // console.log("messageN ==------- ", messageN);
-
-    setMessageUser(messageN);
-
-    setEdenAIsentMessage(true);
-
-    // // console.log("handleSentMessage = ", chatT);
-  };
-
   //  ------------- change activation nodes when click ----
   const [activateNodeEvent, setActivateNodeEvent] = useState<any>(null);
 
@@ -574,7 +241,18 @@ const chatEden: NextPageWithLayout = () => {
           </div> */}
 
           <div className="h-[60vh]">
-            <ChatSimple chatN={chatN} handleSentMessage={handleSentMessage} />
+            <EdenAiChat
+              aiReplyService={AI_REPLY_SERVICES.EDEN_GPT_REPLY_CHAT_API_V2}
+              extraNodes={extraNodes}
+              handleChangeNodes={(_nodeObj: any) => {
+                // console.log("handleChangeNodes:", nodeObj);
+                setNodeObj(_nodeObj);
+              }}
+              handleChangeChat={(_chat: any) => {
+                // console.log("handleChangeChat:", _chat);
+                setChatN(_chat);
+              }}
+            />
           </div>
           <div className="h-[40vh] py-4">
             {/* {nodesID?.length > 0 && dataMembersA?.length == 0 && (
@@ -635,7 +313,7 @@ const chatEden: NextPageWithLayout = () => {
                         (key) => nodeObj[key].active
                       )}
                       conversation={chatN
-                        .map((obj) => {
+                        .map((obj: any) => {
                           if (obj.user === "01") {
                             return { role: "assistant", content: obj.message };
                           } else {
@@ -714,14 +392,6 @@ export async function getServerSideProps(ctx: {
     props: {},
   };
 }
-
-const EDEN_GPT_PROFILES = gql`
-  query EdenGPTsearchProfiles($fields: edenGPTsearchProfilesInput) {
-    edenGPTsearchProfiles(fields: $fields) {
-      reply
-    }
-  }
-`;
 
 export interface IUserDiscoverCardProps {
   matchMember?: Maybe<MatchMembersToSkillOutput>;
@@ -1040,30 +710,6 @@ const UserMessageModal = ({
       message: `In the profile I only have only basic info, you can now dig deeper with me ✌️`,
     },
   ]);
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [messageUser, setMessageUser] = useState<string>("");
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [edenAIsentMessage, setEdenAIsentMessage] = useState<boolean>(false);
-
-  const handleSentMessage = (messageN: any, userN: any) => {
-    const chatT = [...chatN];
-
-    chatT.push({
-      user: userN,
-      message: messageN,
-    });
-    setChatN(chatT);
-
-    // console.log("messageN ==------- ", messageN);
-
-    setMessageUser(messageN);
-
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-
-    setEdenAIsentMessage(true);
-
-    // // console.log("handleSentMessage = ", chatT);
-  };
 
   // const mergeUniqueKeywords = (arr1: any, arr2: any) => {
   //   const uniqueKeywords = new Set([...arr1, ...arr2]);
@@ -1109,40 +755,6 @@ const UserMessageModal = ({
   //   return mergeUniqueKNew;
   // };
 
-  const { data: dataEdenGPTReply } = useQuery(EDEN_GPT_PROFILES, {
-    variables: {
-      fields: {
-        message: messageUser,
-        profileIDs: [member?._id],
-      },
-    },
-    skip: messageUser == "",
-  });
-
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  useEffect(() => {
-    if (dataEdenGPTReply && edenAIsentMessage == true) {
-      const chatT = [...chatN];
-
-      chatT.push({
-        user: "01",
-        message: dataEdenGPTReply.edenGPTsearchProfiles.reply,
-      });
-      setChatN(chatT);
-
-      setEdenAIsentMessage(false);
-
-      // if the dataEdenGPTReply.edenGPTreply.keywords are new then add them to keywordsDiscussion
-
-      // const keywordsAI = dataEdenGPTReply.edenGPTsearchProfiles.keywords;
-
-      // const newKeywords = mergeUniqueKeywords(keywordsDiscussion, keywordsAI);
-
-      // if (keywordsAI.length > 0) {
-      //   setKeywordsDiscussion(newKeywords);
-      // }
-    }
-  }, [dataEdenGPTReply]);
   if (!member) return null;
   // if (!findMember) return null;
 
@@ -1160,7 +772,18 @@ const UserMessageModal = ({
             e.stopPropagation();
           }}
         >
-          <ChatSimple chatN={chatN} handleSentMessage={handleSentMessage} />
+          <EdenAiChat
+            aiReplyService={AI_REPLY_SERVICES.EDEN_GPT_REPLY_CHAT_API_V2}
+            extraNodes={[]}
+            // handleChangeNodes={(_nodeObj: any) => {
+            //   // console.log("handleChangeNodes:", nodeObj);
+            //   setNodeObj(_nodeObj);
+            // }}
+            handleChangeChat={(_chat: any) => {
+              // console.log("handleChangeChat:", _chat);
+              setChatN(_chat);
+            }}
+          />
         </div>
       )}
       <div className={`h-8/10 scrollbar-hide w-full overflow-scroll`}>
