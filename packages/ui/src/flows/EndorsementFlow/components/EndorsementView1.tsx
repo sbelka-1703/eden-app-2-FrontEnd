@@ -1,6 +1,10 @@
 import { gql, useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
-import { Members, NodesType } from "@eden/package-graphql/generated";
+import {
+  KeywordValue,
+  Members,
+  NodesType,
+} from "@eden/package-graphql/generated";
 import { Avatar, TextHeading2, TextLabel1 } from "@eden/package-ui";
 import {
   Dispatch,
@@ -14,7 +18,6 @@ import { BsCoin } from "react-icons/bs";
 
 import { IChatMessages } from "../EndorsementFlow";
 import { ChatBox, KeywordList, ReviewButton, StarRating } from "./";
-// type IChatMessages = any;
 
 const EDEN_GPT_ENDORSE_CHAT_API = gql`
   query ($fields: edenGPTEndorseChatAPIInput!) {
@@ -58,15 +61,13 @@ export const EndorsementView1 = ({
   chatMessages,
   onChatMessagesChange,
   endorsedSkills,
-  // keywords,
+  keywords,
   onKeywordsChange,
 }: IEndorsementView1Props) => {
   const { currentUser } = useContext(UserContext);
 
   const [messageUser, setMessageUser] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-
-  const [kgNodes, setKgNodes] = useState<any[]>([]);
 
   useQuery(EDEN_GPT_ENDORSE_CHAT_API, {
     variables: {
@@ -84,7 +85,7 @@ export const EndorsementView1 = ({
     },
     skip: messageUser == "",
     onCompleted: (data) => {
-      console.log("dataEdenGPTEndorseChatAPI = ", data);
+      // console.log("dataEdenGPTEndorseChatAPI = ", data);
       onChatMessagesChange((prev) => [
         ...prev,
         { user: "01", message: data.edenGPTEndorseChatAPI.reply },
@@ -112,10 +113,15 @@ export const EndorsementView1 = ({
     },
     skip: chatMessages && chatMessages.length < 2,
     onCompleted: (data) => {
-      console.log("dataMessageMapKG = ", data);
-      setKgNodes(data.messageMapKG.keywords);
-      onKeywordsChange &&
-        onKeywordsChange((prev) => [...prev, ...data.messageMapKG.keywords]);
+      // check if the keywords are already in the list
+      const newKeywords = data.messageMapKG.keywords.filter(
+        (keyword: KeywordValue) => {
+          return !keywords?.some((k) => k.keyword === keyword.keyword);
+        }
+      );
+
+      // console.log("NEW KEYWORDS = ", newKeywords);
+      onKeywordsChange && onKeywordsChange((prev) => [...prev, ...newKeywords]);
     },
   });
 
@@ -187,7 +193,7 @@ export const EndorsementView1 = ({
 
           <KeywordList
             label={`Complimentary Skills:`}
-            nodes={kgNodes}
+            nodes={keywords}
             colorRGB={`235,225,255`}
           />
 

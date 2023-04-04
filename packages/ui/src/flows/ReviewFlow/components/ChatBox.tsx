@@ -100,9 +100,15 @@ export const ChatBox = ({
                 <Avatar isProject size={`xs`} />
               </div>
               <span
-                className={`text-slate-700" ml-2 -mt-2 inline-block rounded-lg rounded-bl-none border bg-slate-200 px-4 py-2 font-medium shadow`}
+                className={`text-slate-700" -mt-2 ml-2 inline-block rounded-lg rounded-bl-none border bg-slate-200 px-4 py-2 font-medium shadow`}
               >
-                ...
+                <div
+                  className={`translate-y-0" mt-4 flex transform-gpu items-end space-x-2 transition-transform duration-300`}
+                >
+                  <div className="h-1 w-1 animate-bounce rounded-full bg-neutral-600"></div>
+                  <div className="h-1 w-1 animate-bounce rounded-full bg-neutral-600 delay-75"></div>
+                  <div className="h-1 w-1 animate-bounce rounded-full bg-neutral-600 delay-150"></div>
+                </div>
               </span>
             </div>
           )}

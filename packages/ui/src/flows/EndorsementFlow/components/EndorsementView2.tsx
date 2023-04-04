@@ -144,7 +144,7 @@ export const EndorsementView2 = ({
     },
     skip: allMessages?.length === 0,
     onCompleted: (data: any) => {
-      console.log("DATA ===> ", data);
+      // console.log("DATA ===> ", data);
 
       // the response might be an appologize message from the API
       // TODO: handle this case

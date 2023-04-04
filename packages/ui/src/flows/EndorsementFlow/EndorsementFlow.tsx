@@ -96,16 +96,6 @@ export const EndorsementFlow = ({ endorsementID }: IEndorsementFlowProps) => {
     },
   });
 
-  // const handleNext = useCallback(() => {
-  //   if (step === 4) {
-  //     setStep(0);
-  //   } else setStep((prev) => prev + 1);
-  // }, [step]);
-
-  // const handleBack = useCallback(() => {
-  //   if (step !== 0) setStep((prev) => prev - 1);
-  // }, [step]);
-
   const [userState, setUserState] = useState<Members>();
   const [profileStep, setProfileStep] = useState(STEPS.ROLE);
   const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
