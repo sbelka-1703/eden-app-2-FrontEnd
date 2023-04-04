@@ -761,21 +761,6 @@ const UserDiscoverCard = ({
         <div className="absolute right-2 top-2">
           <Button onClick={() => setIsOpen(!isOpen)}>More</Button>
         </div>
-        {member.budget?.perHour && (
-          <div className="absolute left-2 top-2">
-            <section className="text-left">
-              {/* <p className="">
-                <TextLabel1>💰 Hourly rate</TextLabel1>
-              </p> */}
-              <p className="">
-                <span className="text-2xl font-bold text-[#fcba03]">
-                  ${member.budget?.perHour}
-                </span>{" "}
-                per hour
-              </p>
-            </section>
-          </div>
-        )}
       </div>
 
       <div className="flex">
@@ -785,31 +770,63 @@ const UserDiscoverCard = ({
           className={`text-darkGreen font-Inter my-2 text-sm`}
         />
       </div>
+      <div className="grid grid-cols-6">
+        <div className="col-span-3">
+          {member?.serverID && (
+            <CommonServerAvatarList
+              label={`common servers`}
+              size={`xs`}
+              serverID={member?.serverID as string[]}
+            />
+          )}
 
-      {member?.serverID && (
-        <CommonServerAvatarList
-          label={`common servers`}
-          size={`xs`}
-          serverID={member?.serverID as string[]}
-        />
-      )}
-
-      {nodesPercentage && (
-        <div>
-          <p className="font-Inter mb-1 text-sm font-bold text-zinc-500">
-            🛠 Top skills
-          </p>
-          <div>
-            {nodesPercentage.slice(0, 6).map((node, index) => (
-              <Badge
-                text={node?.node?.name || ""}
-                key={index}
-                className={`bg-soilPurple/20 py-px text-xs`}
-              />
-            ))}
-          </div>
+          {nodesPercentage && (
+            <div>
+              <p className="font-Inter mb-1 text-sm font-bold text-zinc-500">
+                🛠 Top skills
+              </p>
+              <div>
+                {nodesPercentage.slice(0, 6).map((node, index) => (
+                  <Badge
+                    text={node?.node?.name || ""}
+                    key={index}
+                    className={`bg-soilPurple/20 py-px text-xs`}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
         </div>
-      )}
+        <div className="col-span-3">
+          <section className="text-right">
+            {member.expirienceLevel?.total && (
+              <p className="font-bold text-slate-600">
+                <span className="text-xl">
+                  {member.expirienceLevel?.total === 3 && "Junior"}
+                  {member.expirienceLevel?.total === 6 && "Mid"}
+                  {member.expirienceLevel?.total === 9 && "Senior"}
+                </span>
+              </p>
+            )}
+            {member.budget?.perHour && (
+              <p className="">
+                <span className="text-2xl font-bold text-[#fcba03]">
+                  ${member.budget?.perHour}
+                </span>{" "}
+                per hour
+              </p>
+            )}
+            {member.hoursPerWeek && (
+              <p className="">
+                <span className="text-2xl font-bold text-slate-600">
+                  {member.hoursPerWeek}
+                </span>{" "}
+                hours/week
+              </p>
+            )}
+          </section>
+        </div>
+      </div>
 
       {/* MEMEBER.ENDORSEMENT NO LONGER EXISTS */}
 
