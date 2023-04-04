@@ -40,7 +40,8 @@ import {
   EDEN_GPT_REPLY_CHAT_API_V2,
   EDEN_GPT_REPLY_MEMORY,
   FIND_RELATED_NODE,
-  MESSAGE_MAP_KG_V2,
+  // MESSAGE_MAP_KG_V2,
+  MESSAGE_MAP_KG_V3,
   STORE_LONG_TERM_MEMORY,
 } from "../../../utils/data/GQLfuncitons";
 import type { NextPageWithLayout } from "../../_app";
@@ -73,21 +74,27 @@ const chatEden: NextPageWithLayout = () => {
   // const [activeNodes, setActiveNodes] = useState<Boolean[]>([false]);
 
   const [nodeObj, setNodeObj] = useState<NodeObj>({
-    // "640a739dc5d61b4bae0ee091": { // SOS 🆘 -> problem with this node combination
-    //   confidence: 9,
-    //   active: false,
-    //   isNew: true,
-    // },
-    // "6416b6e1a57032640bd813aa": {
-    //   confidence: 9,
-    //   active: true,
-    //   isNew: true,
-    // },
-    // "6425213bfd005e8c789ceaca": {
-    //   confidence: 10,
-    //   active: true,
-    //   isNew: true,
-    // },
+    "640a739dc5d61b4bae0ee091": {
+      // SOS 🆘 -> problem with this node combination
+      confidence: 9,
+      active: false,
+      isNew: true,
+    },
+    "6416b6e1a57032640bd813aa": {
+      confidence: 9,
+      active: true,
+      isNew: true,
+    },
+    "6416adcc48d9ba5ceefb67cc": {
+      confidence: 9,
+      active: true,
+      isNew: true,
+    },
+    "6425213bfd005e8c789ceaca": {
+      confidence: 10,
+      active: true,
+      isNew: true,
+    },
     // "6425213cfd005e8c789ceacd": {
     //   confidence: 10,
     //   active: true,
@@ -227,13 +234,17 @@ const chatEden: NextPageWithLayout = () => {
     }
   );
 
-  const { data: dataMessageMapKGV2 } = useQuery(MESSAGE_MAP_KG_V2, {
+  const { data: dataMessageMapKGV3 } = useQuery(MESSAGE_MAP_KG_V3, {
     variables: {
       fields: {
         message: messageUser,
+        assistantMessage: chatN[chatN.length - 2]?.message,
       },
     },
-    skip: messageUser == "",
+    skip:
+      messageUser == "" ||
+      chatN.length < 2 ||
+      chatN[chatN.length - 2]?.user == "01",
   });
 
   const [dataMembersA, setDataMembersA] = useState<any>(null);
@@ -275,6 +286,8 @@ const chatEden: NextPageWithLayout = () => {
       setDataMembersA(data.matchNodesToMembers_AI4);
     },
   });
+
+  console.log("dataMembersA = ", dataMembersA);
 
   // console.log("dataMembers = ", dataMembers);
 
@@ -352,13 +365,13 @@ const chatEden: NextPageWithLayout = () => {
 
   // ---------------- update nodes ------------
   useEffect(() => {
-    if (dataMessageMapKGV2) {
+    if (dataMessageMapKGV3) {
       // const newNodeID: any = [];
       // const newNodeConfidence: any = [];
 
       const newNodeObj: any = [];
 
-      dataMessageMapKGV2?.messageMapKG_V2?.keywords?.forEach((keyword: any) => {
+      dataMessageMapKGV3?.messageMapKG_V3?.keywords?.forEach((keyword: any) => {
         if (keyword.nodeID) {
           // newNodeID.push(keyword.nodeID);
           // newNodeConfidence.push(keyword.confidence);
@@ -469,7 +482,7 @@ const chatEden: NextPageWithLayout = () => {
       setNodeObj(newNodesObjK);
       // ------- Array of objects to disctionary ------------
     }
-  }, [dataMessageMapKGV2]);
+  }, [dataMessageMapKGV3]);
   // ---------------- update nodes ------------
 
   const handleSentMessage = (messageN: any, userN: any) => {
@@ -577,7 +590,7 @@ const chatEden: NextPageWithLayout = () => {
               </div>
             )} */}
             <Card border shadow className="h-full overflow-hidden bg-white">
-              <p className="pointer-events-none absolute top-2 left-0 w-full text-center leading-tight text-slate-600">
+              <p className="pointer-events-none absolute left-0 top-2 w-full text-center leading-tight text-slate-600">
                 Click suggested bubbles
                 <br /> to connect them to your
                 <br /> search
@@ -597,6 +610,7 @@ const chatEden: NextPageWithLayout = () => {
                 graphType={"KG_AI_2_plusIndustry"}
                 // zoomGraph={1.1}
                 setRelatedNodePopup={handleOpenPopup}
+                disableZoom={true}
               />
             </Card>
           </div>
@@ -612,6 +626,7 @@ const chatEden: NextPageWithLayout = () => {
                     <UserDiscoverCard
                       key={index}
                       matchMember={member}
+                      // nodesPercentage={dataMembersA}
                       // role={selectedRole}
                       // project={dataProject?.findProject}
                       invite
@@ -733,6 +748,57 @@ const UserDiscoverCard = ({
   const matchPercentage = matchMember?.matchPercentage;
   const nodesPercentage = matchMember?.nodesPercentage;
 
+  console.log("nodesPercentage = ", nodesPercentage);
+
+  const [relatedNodesMemberToMatch, setRelatedNodesMemberToMatch] =
+    useState<any>([]);
+
+  useEffect(() => {
+    if (nodesPercentage?.length == 0 || nodesPercentage == undefined) return;
+
+    const mostRelevantMemberNodes = [];
+
+    for (let i = 0; i < nodesPercentage?.length; i++) {
+      const node = nodesPercentage[i];
+
+      // Take only the first mostRelevantMemberNodes, which has the heighers probability, later I can be more creative
+      let mostRelevantMemberNode = null;
+
+      if (
+        node?.mostRelevantMemberNodes != undefined &&
+        node?.mostRelevantMemberNodes?.length > 0
+      ) {
+        mostRelevantMemberNode = node?.mostRelevantMemberNodes[0];
+      }
+
+      let colorT = "bg-purple-200";
+
+      if (
+        mostRelevantMemberNode?.score != null &&
+        mostRelevantMemberNode?.score != undefined
+      ) {
+        if (mostRelevantMemberNode?.score > 60) {
+          colorT = "bg-purple-500";
+        } else if (mostRelevantMemberNode?.score > 30) {
+          colorT = "bg-purple-400";
+        } else if (mostRelevantMemberNode?.score > 13) {
+          colorT = "bg-purple-300";
+        }
+      }
+
+      mostRelevantMemberNodes.push({
+        searchNode: node?.node,
+        MemberRelevantnode: mostRelevantMemberNode?.node,
+        score: mostRelevantMemberNode?.score,
+        color: colorT,
+      });
+    }
+
+    setRelatedNodesMemberToMatch(mostRelevantMemberNodes);
+  }, [nodesPercentage]);
+
+  console.log("relatedNodesMemberToMatch = ", relatedNodesMemberToMatch);
+
   if (!member) return null;
 
   return (
@@ -797,16 +863,29 @@ const UserDiscoverCard = ({
       {nodesPercentage && (
         <div>
           <p className="font-Inter mb-1 text-sm font-bold text-zinc-500">
-            🛠 Top skills
+            🪄 Releavant skills
           </p>
           <div>
-            {nodesPercentage.slice(0, 6).map((node, index) => (
+            {relatedNodesMemberToMatch
+              .slice(0, 6)
+              .map((info: any, index: number) => (
+                <Badge
+                  text={info?.MemberRelevantnode?.name || ""}
+                  key={index}
+                  // className={`bg-soilPurple/20 py-px text-xs`}
+                  // className={`px-2 py-1 text-white rounded ${getBackgroundColorClass(info.score)}`}
+                  // className={`px-2 py-1 text-white rounded bg-purple-400`}
+                  className={`rounded px-1 py-1 text-xs text-white ${info.color}`}
+                  cutText={14}
+                />
+              ))}
+            {/* {nodesPercentage.slice(0, 6).map((node, index) => (
               <Badge
                 text={node?.node?.name || ""}
                 key={index}
                 className={`bg-soilPurple/20 py-px text-xs`}
               />
-            ))}
+            ))} */}
           </div>
         </div>
       )}
@@ -872,6 +951,7 @@ const UserDiscoverCard = ({
             nodesID={nodesID}
             onClose={() => setIsOpen(!isOpen)}
             conversation={conversation}
+            relatedNodesMemberToMatch={relatedNodesMemberToMatch}
           />
         </>
       )}
@@ -895,6 +975,7 @@ export interface IUserMessageModalProps {
   open?: boolean;
   nodesPercentage?: any;
   conversation?: any;
+  relatedNodesMemberToMatch?: any;
   nodesID?: string[];
   onClose?: () => void;
 }
@@ -904,6 +985,7 @@ const UserMessageModal = ({
   matchPercentage,
   open,
   // conversation,
+  relatedNodesMemberToMatch,
   nodesID,
   onClose,
 }: IUserMessageModalProps) => {
@@ -918,6 +1000,8 @@ const UserMessageModal = ({
 
   // const findMember = dataMemberInfo?.findMember;
   const [showMessage, setShowMessage] = useState(false);
+
+  console.log("member = xixix", member);
 
   // const [changeTeamMemberPhaseProject, {}] = useMutation(SET_APPLY_TO_PROJECT, {
   //   onCompleted: () => {
@@ -1118,6 +1202,7 @@ const UserMessageModal = ({
               member={member}
               percentage={matchPercentage?.totalPercentage || undefined}
               nodesID={nodesID}
+              relatedNodesMemberToMatch={relatedNodesMemberToMatch}
               conversation={chatN
                 .map((obj) => {
                   if (obj.user === "01") {

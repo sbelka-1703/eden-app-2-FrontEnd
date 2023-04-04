@@ -133,7 +133,7 @@ export const ChatSimple = ({ chatN, handleSentMessage }: IChatSimple) => {
           <HiPencil className="mr-2 h-[30px] w-[30px]" />
           <input
             type="text"
-            className="mr-2 w-full bg-transparent py-2 px-4"
+            className="mr-2 w-full bg-transparent px-4 py-2"
             placeholder="Type your message here..."
             value={inputMessage}
             onChange={(e) => setInputMessage(e.target.value)}
