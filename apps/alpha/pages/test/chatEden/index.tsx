@@ -74,27 +74,27 @@ const chatEden: NextPageWithLayout = () => {
   // const [activeNodes, setActiveNodes] = useState<Boolean[]>([false]);
 
   const [nodeObj, setNodeObj] = useState<NodeObj>({
-    "640a739dc5d61b4bae0ee091": {
-      // SOS 🆘 -> problem with this node combination
-      confidence: 9,
-      active: false,
-      isNew: true,
-    },
-    "6416b6e1a57032640bd813aa": {
-      confidence: 9,
-      active: true,
-      isNew: true,
-    },
-    "6416adcc48d9ba5ceefb67cc": {
-      confidence: 9,
-      active: true,
-      isNew: true,
-    },
-    "6425213bfd005e8c789ceaca": {
-      confidence: 10,
-      active: true,
-      isNew: true,
-    },
+    // "640a739dc5d61b4bae0ee091": {
+    //   // SOS 🆘 -> problem with this node combination
+    //   confidence: 9,
+    //   active: false,
+    //   isNew: true,
+    // },
+    // "6416b6e1a57032640bd813aa": {
+    //   confidence: 9,
+    //   active: true,
+    //   isNew: true,
+    // },
+    // "6416adcc48d9ba5ceefb67cc": {
+    //   confidence: 9,
+    //   active: true,
+    //   isNew: true,
+    // },
+    // "6425213bfd005e8c789ceaca": {
+    //   confidence: 10,
+    //   active: true,
+    //   isNew: true,
+    // },
     // "6425213cfd005e8c789ceacd": {
     //   confidence: 10,
     //   active: true,
