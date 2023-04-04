@@ -85,7 +85,7 @@ export const EndorsementView3 = ({
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className={`m-auto mt-8 max-w-xl`}>
+        <div className={`m-auto mt-8 h-96 max-w-xl`}>
           <div className={`my-8`}>
             <TextInputLabel>{`What do you want to be endorsed for?`}</TextInputLabel>
             <div className={`my-4`}>
@@ -101,6 +101,16 @@ export const EndorsementView3 = ({
               />
             </div>
           </div>
+          {!nodesData?.findNodes && (
+            <div className={`my-8`}>
+              <div className={`text-center font-medium`}>
+                <div className={`text-neutral-700`}>Loading Skills...</div>
+                <div className={`text-neutral-700`}>
+                  This may take a few seconds.
+                </div>
+              </div>
+            </div>
+          )}
 
           {showMessage && (
             <div className={`my-8`}>

@@ -143,12 +143,15 @@ const chatEden: NextPageWithLayout = () => {
   //  ------------- Popup Preparation ----------
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [chatN, setChatN] = useState([
-    {
-      user: "01",
-      message: "Hey I am Eden AI, how can I help you?",
-    },
-  ]);
+  const [chatN, setChatN] = useState<
+    | [
+        {
+          user: string;
+          message: string;
+        }
+      ]
+    | []
+  >([] as [{ user: string; message: string }] | []);
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [chatNprepareGPT, setChatNprepareGPT] = useState<string>("");
@@ -331,7 +334,7 @@ const chatEden: NextPageWithLayout = () => {
         user: "01",
         message: newMessage,
       });
-      setChatN(chatT);
+      setChatN(chatT as [{ user: string; message: string }]);
 
       // from chatT that is an array of objects, translate it to a string
       let chatNprepareGPTP = "";
@@ -481,7 +484,7 @@ const chatEden: NextPageWithLayout = () => {
       user: userN,
       message: messageN,
     });
-    setChatN(chatT);
+    setChatN(chatT as [{ user: string; message: string }]);
 
     setNumMessageLongTermMem(numMessageLongTermMem + 1);
 
@@ -537,109 +540,119 @@ const chatEden: NextPageWithLayout = () => {
   // console.log("activeNodes = ", activeNodes);
   return (
     <>
-      <div className="flex h-screen">
-        <div className="flex flex-1 flex-col">
+      <div className="mx-auto grid h-screen grid-cols-12 overflow-hidden bg-[#f3f3f3] ">
+        <div className="col-span-5 flex flex-1 flex-col pl-8 pr-4">
           {/* <button
-          type="button"
-          className={
-            "rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none"
-          }
-          onClick={() => {
-            handleStoreLongTermMemory();
-            setNumMessageLongTermMem(0);
-          }}
-        >
-          {" "}
-          Save Memory{" "}
-        </button>
-        <div>
-          <ButtonGroup
-            selectedOption={selectedOption}
-            handleButtonClick={handleButtonClick}
-          />
-        </div>
-        <div className="w-full py-2">
-          <div className="h-1 w-full bg-gray-300"></div>
-        </div> */}
+            type="button"
+            className={
+              "rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none"
+            }
+            onClick={() => {
+              handleStoreLongTermMemory();
+              setNumMessageLongTermMem(0);
+            }}
+          >
+            {" "}
+            Save Memory{" "}
+          </button>
+          <div>
+            <ButtonGroup
+              selectedOption={selectedOption}
+              handleButtonClick={handleButtonClick}
+            />
+          </div>
+          <div className="w-full py-2">
+            <div className="h-1 w-full bg-gray-300"></div>
+          </div> */}
 
-          <div className="h-1/2">
+          <div className="h-[60vh]">
             <ChatSimple chatN={chatN} handleSentMessage={handleSentMessage} />
           </div>
-          <div className="h-1/2">
+          <div className="h-[40vh] py-4">
             {/* {nodesID?.length > 0 && dataMembersA?.length == 0 && (
-            <div className="flex justify-center py-4">
-              <h1 className="h-16 rounded-lg bg-gray-200 px-6 py-2 text-center text-sm shadow-md sm:h-16 sm:text-lg">
-                <span className="block leading-tight">
-                  Click Grey Bubbles to{" "}
-                </span>
-                <span className="block leading-tight">
-                  Connect them to your search
-                </span>
-              </h1>
-            </div>
-          )} */}
-            <div className={`flex h-screen w-full gap-4`}>
-              <div className="h-full w-full">
-                <DynamicSearchGraph
-                  nodesID={Object.keys(nodeObj)}
-                  activeNodes={Object.values(nodeObj).map(
-                    (node: any) => node.active
-                  )}
-                  isNewNodes={Object.values(nodeObj).map(
-                    (node: any) => node.isNew
-                  )}
-                  setActivateNodeEvent={setActivateNodeEvent}
-                  height={"380"}
-                  disableZoom={true}
-                  // graphType={"simple"}
-                  // graphType={"KG_AI_2"}
-                  graphType={"KG_AI_2_plusIndustry"}
-                  // zoomGraph={1.1}
-                  setRelatedNodePopup={handleOpenPopup}
-                />
+              <div className="flex justify-center py-4">
+                <h1 className="h-16 rounded-lg bg-gray-200 px-6 py-2 text-center text-sm shadow-md sm:h-16 sm:text-lg">
+                  <span className="block leading-tight">
+                    Click Grey Bubbles to{" "}
+                  </span>
+                  <span className="block leading-tight">
+                    Connect them to your search
+                  </span>
+                </h1>
               </div>
-            </div>
+            )} */}
+            <Card border shadow className="h-full overflow-hidden bg-white">
+              <p className="pointer-events-none absolute left-0 top-2 w-full text-center leading-tight text-slate-600">
+                Click suggested bubbles
+                <br /> to connect them to your
+                <br /> search
+              </p>
+              <DynamicSearchGraph
+                nodesID={Object.keys(nodeObj)}
+                activeNodes={Object.values(nodeObj).map(
+                  (node: any) => node.active
+                )}
+                isNewNodes={Object.values(nodeObj).map(
+                  (node: any) => node.isNew
+                )}
+                setActivateNodeEvent={setActivateNodeEvent}
+                height={"380"}
+                // graphType={"simple"}
+                // graphType={"KG_AI_2"}
+                graphType={"KG_AI_2_plusIndustry"}
+                // zoomGraph={1.1}
+                setRelatedNodePopup={handleOpenPopup}
+              />
+            </Card>
           </div>
         </div>
-        <div className="h-full flex-1 ">
+        <div className="col-span-7 h-full flex-1 ">
           {/* <GridLayout> */}
           {/* <GridItemNine> */}
-          <Card
-            shadow
-            className="scrollbar-hide h-full overflow-scroll bg-white p-4"
-          >
-            <CardGrid>
-              {dataMembersA?.map(
-                (member: MatchMembersToSkillOutput, index: number) => (
-                  <UserDiscoverCard
-                    key={index}
-                    matchMember={member}
-                    // role={selectedRole}
-                    // project={dataProject?.findProject}
-                    invite
-                    phase={``}
-                    nodesID={Object.keys(nodeObj).filter(
-                      (key) => nodeObj[key].active
-                    )}
-                    conversation={chatN
-                      .map((obj) => {
-                        if (obj.user === "01") {
-                          return { role: "assistant", content: obj.message };
-                        } else {
-                          return { role: "user", content: obj.message };
-                        }
-                      })
-                      .slice(-6)}
-                    // nodesID={Object.keys(nodeObj)}
-                  />
-                )
-              )}
-            </CardGrid>
+          <Card className="scrollbar-hide h-full overflow-scroll rounded-none border-l bg-white p-4">
+            {dataMembersA && dataMembersA.length > 0 ? (
+              <CardGrid>
+                {dataMembersA?.map(
+                  (member: MatchMembersToSkillOutput, index: number) => (
+                    <UserDiscoverCard
+                      key={index}
+                      matchMember={member}
+                      // role={selectedRole}
+                      // project={dataProject?.findProject}
+                      invite
+                      phase={``}
+                      nodesID={Object.keys(nodeObj).filter(
+                        (key) => nodeObj[key].active
+                      )}
+                      conversation={chatN
+                        .map((obj) => {
+                          if (obj.user === "01") {
+                            return { role: "assistant", content: obj.message };
+                          } else {
+                            return { role: "user", content: obj.message };
+                          }
+                        })
+                        .slice(-6)}
+                      // nodesID={Object.keys(nodeObj)}
+                    />
+                  )
+                )}
+              </CardGrid>
+            ) : (
+              <div className="flex h-full w-full items-center justify-center">
+                <p className="text-center">
+                  Your matches will come up here.
+                  <br />
+                  You can DM, favourite & shortlist them!
+                </p>
+              </div>
+            )}
           </Card>
           {/* </GridItemNine> */}
           {/* </GridLayout> */}
         </div>
       </div>
+      {/* </div> */}
       <MultiSelectPopup
         options={optionsPopup}
         isOpen={isOpenPopup}
@@ -734,7 +747,13 @@ const UserDiscoverCard = ({
           <div className={`relative flex flex-col items-center`}>
             <UserWithDescription
               member={member}
-              percentage={round(Number(matchPercentage?.totalPercentage), 0)}
+              percentage={
+                member.bio &&
+                member.budget?.perHour !== undefined &&
+                member.budget?.perHour !== null
+                  ? round(Number(matchPercentage?.totalPercentage), 0)
+                  : undefined
+              }
             />
 
             {member?.links && (
@@ -747,6 +766,21 @@ const UserDiscoverCard = ({
         <div className="absolute right-2 top-2">
           <Button onClick={() => setIsOpen(!isOpen)}>More</Button>
         </div>
+        {member.budget?.perHour && (
+          <div className="absolute left-2 top-2">
+            <section className="text-left">
+              {/* <p className="">
+                <TextLabel1>💰 Hourly rate</TextLabel1>
+              </p> */}
+              <p className="">
+                <span className="text-2xl font-bold text-[#fcba03]">
+                  ${member.budget?.perHour}
+                </span>{" "}
+                per hour
+              </p>
+            </section>
+          </div>
+        )}
       </div>
 
       <div className="flex">

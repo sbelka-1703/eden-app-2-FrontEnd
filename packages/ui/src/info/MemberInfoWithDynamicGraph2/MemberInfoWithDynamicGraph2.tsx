@@ -164,12 +164,12 @@ export const MemberInfoWithDynamicGraph2 = ({
           <UserWithDescription member={member} />
         </div>
         <div className="flex flex-col items-center justify-end sm:col-span-2">
-          <p className="border-b border-slate-200 text-center text-sm">
-            <span className="text-2xl">{member.completedOpportunities}</span>
+          <p className="text-center">
+            <span className="text-sm text-slate-400">Completed gigs:</span>
             <br />
-            completed opportunities
+            <span className="text-2xl">{member.completedOpportunities}</span>
           </p>
-          <p className="text-center text-sm text-slate-400">💎 Eden Native</p>
+          {/* <p className="text-center text-sm text-slate-400">💎 Eden Native</p> */}
         </div>
       </div>
       <div className="mb-8 sm:grid-cols-6">
@@ -198,7 +198,7 @@ export const MemberInfoWithDynamicGraph2 = ({
               </div>
             </>
           )}
-          <span className="absolute right-3 bottom-2 text-slate-600">
+          <span className="absolute bottom-2 right-3 text-slate-600">
             By Eden AI
           </span>
         </div>
@@ -243,14 +243,18 @@ export const MemberInfoWithDynamicGraph2 = ({
         </div>
         <div className="col-span-2"></div>
         <div className="flex flex-col items-center sm:col-span-3 sm:my-0">
-          <section className="border-soilGrey-200 mb-4 w-full rounded-xl border p-2 text-center">
-            <p className="text-center">
-              <TextLabel1>⚡️ Match</TextLabel1>
-            </p>
-            <p className="text-center text-[62px] font-bold leading-none text-[#cb10ff]">
-              {percentage}%
-            </p>
-          </section>
+          {member.bio &&
+            member.budget?.perHour !== undefined &&
+            member.budget?.perHour !== null && (
+              <section className="border-soilGrey-200 mb-4 w-full rounded-xl border p-2 text-center">
+                <p className="text-center">
+                  <TextLabel1>⚡️ Match</TextLabel1>
+                </p>
+                <p className="text-center text-[62px] font-bold leading-none text-[#cb10ff]">
+                  {percentage}%
+                </p>
+              </section>
+            )}
           <section className="border-soilGrey-200 mb-4 w-full rounded-xl border p-2 text-center">
             <p className="text-center">
               <TextLabel1>💰 Hourly rate</TextLabel1>
@@ -269,6 +273,16 @@ export const MemberInfoWithDynamicGraph2 = ({
             <TextLabel1>❤️ Availability</TextLabel1>
             <p className="text-center font-bold text-slate-600">
               <span className="text-2xl">{member.hoursPerWeek}</span> hours/week
+            </p>
+          </section>
+          <section className="border-soilGrey-200 mb-4 w-full rounded-xl border p-2 text-center">
+            <TextLabel1>💎 Experience</TextLabel1>
+            <p className="text-center font-bold text-slate-600">
+              <span className="text-xl">
+                {member.expirienceLevel?.total === 3 && "Junior"}
+                {member.expirienceLevel?.total === 6 && "Mid"}
+                {member.expirienceLevel?.total === 9 && "Senior"}
+              </span>
             </p>
           </section>
           <section className="border-soilGrey-200 mb-4 w-full rounded-xl border p-2 text-center">
@@ -328,50 +342,53 @@ export const MemberInfoWithDynamicGraph2 = ({
             </section>
           </Card> */}
           <div className="col-span-12 flex overflow-x-auto pl-4">
-            <Card
-              className="!border-accentColor mr-4 w-[320px] flex-none bg-green-50 px-4 pt-4"
-              border
-              shadow
-            >
-              <div className="mb-2 flex w-full">
-                <div className="flex flex-col">
-                  <TextHeading3 className="text-md !font-bold">
-                    General Vibe
-                  </TextHeading3>
-                  <div className="flex items-center text-left">
-                    <span className="mr-2">
-                      <StarRating
-                        isReadOnly
-                        rating={member.endorseSummary?.averageStars!}
-                      />
-                    </span>
-                    <span>{`(${member.endorseSummary?.numberEndorsement})`}</span>
+            {member.endorsementsReceive &&
+              member.endorsementsReceive.length > 1 && (
+                <Card
+                  className="!border-accentColor mr-4 w-[320px] flex-none bg-green-50 px-4 pt-4"
+                  border
+                  shadow
+                >
+                  <div className="mb-2 flex w-full">
+                    <div className="flex flex-col">
+                      <TextHeading3 className="text-md !font-bold">
+                        General Vibe
+                      </TextHeading3>
+                      <div className="flex items-center text-left">
+                        <span className="mr-2">
+                          <StarRating
+                            isReadOnly
+                            rating={member.endorseSummary?.averageStars!}
+                          />
+                        </span>
+                        <span>{`(${member.endorseSummary?.numberEndorsement})`}</span>
+                      </div>
+                    </div>
+                    <div className="ml-auto text-right">
+                      <TextLabel1>Total Stake</TextLabel1>
+                      <p className="text-sm">
+                        {member.endorseSummary?.totalStake} $TRST
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <div className="ml-auto text-right">
-                  <TextLabel1>Total Stake</TextLabel1>
-                  <p className="text-sm">
-                    {member.endorseSummary?.totalStake} $TRST
-                  </p>
-                </div>
-              </div>
-              <NodeList
-                colorRGB={`235,225,255`}
-                nodes={member.endorseSummary?.mainNodes?.map(
-                  (node) =>
-                    ({
-                      nodeData: {
-                        name: node?.node?.name,
-                      },
-                    } as NodesType)
-                )}
-              />
-              <section className={`mb-6`}>
-                <TextBody className="text-[13px]">
-                  {member.endorseSummary?.summary}
-                </TextBody>
-              </section>
-            </Card>
+                  <NodeList
+                    colorRGB={`235,225,255`}
+                    nodes={member.endorseSummary?.mainNodes?.map(
+                      (node) =>
+                        ({
+                          nodeData: {
+                            name: node?.node?.name,
+                          },
+                        } as NodesType)
+                    )}
+                  />
+                  <section className={`mb-6`}>
+                    <TextBody className="text-[13px]">
+                      {member.endorseSummary?.summary}
+                    </TextBody>
+                  </section>
+                </Card>
+              )}
             {member.endorsementsReceive?.map((endorsement, index) => (
               <Card
                 className="mr-4 w-[320px] flex-none px-4 pt-4"

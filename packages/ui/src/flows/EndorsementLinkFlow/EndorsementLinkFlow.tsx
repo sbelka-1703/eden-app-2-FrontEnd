@@ -149,6 +149,16 @@ export const EndorsementLinkFlow = ({}) => {
                   />
                 </div>
               </div>
+              {!nodesData?.findNodes && (
+                <div className={`my-8`}>
+                  <div className={`text-center font-medium`}>
+                    <div className={`text-neutral-700`}>Loading Skills...</div>
+                    <div className={`text-neutral-700`}>
+                      This may take a few seconds.
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {showMessage && (
                 <div className={`my-8`}>

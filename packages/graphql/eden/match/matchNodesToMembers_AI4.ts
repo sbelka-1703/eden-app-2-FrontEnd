@@ -22,6 +22,10 @@ export const MATCH_NODES_MEMBERS_AI4 = gql`
           name
           url
         }
+        expirienceLevel {
+          total
+          years
+        }
         previousProjects {
           title
           description
