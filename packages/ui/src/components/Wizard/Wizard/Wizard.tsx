@@ -45,7 +45,7 @@ export const Wizard = ({ children, showStepsHeader = false }: IWizardProps) => {
           steps={children.map((_step) => _step.props.label)}
         />
       )}
-      <div className="w-full">{children}</div>
+      <div className="w-full">{children[step]}</div>
       <div className="absolute bottom-0 left-0 flex w-full p-4">
         {!isPrevDisabled() && (
           <Button
