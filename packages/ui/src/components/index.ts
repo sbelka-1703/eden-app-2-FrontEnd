@@ -28,4 +28,5 @@ export * from "./SocialMediaInput";
 export * from "./SubNodesExpandable";
 export * from "./UserBackground";
 export * from "./UserWithDescription";
+export * from "./Wizard";
 export * from "./WorkingHours";
