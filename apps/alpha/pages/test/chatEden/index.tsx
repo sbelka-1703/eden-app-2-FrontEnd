@@ -242,7 +242,7 @@ const chatEden: NextPageWithLayout = () => {
 
           <div className="h-[60vh]">
             <EdenAiChat
-              aiReplyService={AI_REPLY_SERVICES.EDEN_GPT_REPLY_CHAT_API_V2}
+              aiReplyService={AI_REPLY_SERVICES.EDEN_GPT_REPLY}
               extraNodes={extraNodes}
               handleChangeNodes={(_nodeObj: any) => {
                 // console.log("handleChangeNodes:", nodeObj);
@@ -800,7 +800,7 @@ const UserMessageModal = ({
           }}
         >
           <EdenAiChat
-            aiReplyService={AI_REPLY_SERVICES.EDEN_GPT_REPLY_CHAT_API_V2}
+            aiReplyService={AI_REPLY_SERVICES.EDEN_GPT_REPLY}
             extraNodes={[]}
             // handleChangeNodes={(_nodeObj: any) => {
             //   // console.log("handleChangeNodes:", nodeObj);
