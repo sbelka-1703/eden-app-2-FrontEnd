@@ -97,6 +97,7 @@ export async function getServerSideProps(ctx: {
 
 // STUFF TO BRONG INTO ANOTHER FILE
 
+// eslint-disable-next-line no-unused-vars
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
 const rangeNumbers: number[] = [];
@@ -109,11 +110,12 @@ export interface ICreateProfileContainerProps {}
 
 export const CreateProrfileContainer = ({}: ICreateProfileContainerProps) => {
   const { currentUser } = useContext(UserContext);
-
-  const { register, handleSubmit, watch, control, setValue, getValues } =
-    useForm<Members>({
+  // eslint-disable-next-line no-unused-vars
+  const { register, handleSubmit, watch, control, setValue } = useForm<Members>(
+    {
       defaultValues: { ...currentUser },
-    });
+    }
+  );
 
   useEffect(() => {
     const subscription = watch((data) => {
@@ -248,8 +250,10 @@ export const CreateProrfileContainer = ({}: ICreateProfileContainerProps) => {
                       className="font-Inter text-soilBody focus:border-accentColor focus:ring-soilGreen-500 mr-2 block flex w-full w-20 resize-none rounded-md border border-zinc-400/50 py-1 px-2 text-base focus:outline-transparent focus:ring focus:ring-opacity-50"
                       required
                       onChange={(e) => {
+                        const _val = { total: +e.target.value };
+
                         setValue("expirienceLevel", {
-                          total: Number(e.target.value),
+                          total: _val,
                         });
                       }}
                     >
