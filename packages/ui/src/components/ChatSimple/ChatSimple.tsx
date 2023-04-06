@@ -76,7 +76,7 @@ export const ChatSimple = ({ chatN, handleSentMessage }: IChatSimple) => {
                               chat.user == "01"
                                 ? "rounded-tl-none border border-[#D1E4EE] bg-[#EDF2F7]"
                                 : "rounded-tr-none border border-[#BDECF6] bg-[#D9F5FD]",
-                              "inline-block rounded-lg px-4 py-2 "
+                              "inline-block whitespace-pre-wrap rounded-lg px-4 py-2"
                             )}
                           >
                             {chat.message}
