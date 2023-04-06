@@ -5,5 +5,5 @@ export interface IWizardStepProps {
 
 // eslint-disable-next-line no-unused-vars
 export const WizardStep = ({ children, label }: IWizardStepProps) => {
-  return <section className="">{children}</section>;
+  return <section className="h-full">{children}</section>;
 };

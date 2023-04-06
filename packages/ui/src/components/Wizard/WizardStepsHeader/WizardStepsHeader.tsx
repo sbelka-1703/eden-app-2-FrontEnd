@@ -22,7 +22,7 @@ export const WizardStepsHeader = ({
   }, [currentStep]);
 
   return (
-    <div className="scrollbar-hide flex overflow-x-scroll p-4">
+    <div className="scrollbar-hide absolute top-0 left-0 z-30 flex w-full overflow-x-scroll p-4">
       {steps.map((step, index) => (
         <div
           id={`wizard-header-${index}`}

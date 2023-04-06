@@ -37,16 +37,37 @@ export const Wizard = ({ children, showStepsHeader = false }: IWizardProps) => {
     if (!isNextDisabled()) setStep(step + 1);
   };
 
+  function classNames(...classes: string[]) {
+    return classes.filter(Boolean).join(" ");
+  }
+
   return (
-    <div className="">
+    <div className="h-full">
       {showStepsHeader && (
         <WizardStepsHeader
           currentStep={step}
           steps={children.map((_step) => _step.props.label)}
         />
       )}
-      <div className="w-full">{children[step]}</div>
-      <div className="absolute bottom-0 left-0 flex w-full p-4">
+      <div
+        className={classNames(
+          showStepsHeader ? "pt-20" : "",
+          "h-full w-full pb-20"
+        )}
+      >
+        {children.map((item, index) => (
+          <div
+            className={classNames(
+              step === index ? "visible" : "hidden",
+              "h-full"
+            )}
+            key={index}
+          >
+            {item}
+          </div>
+        ))}
+      </div>
+      <div className="absolute bottom-0 left-0 flex w-full bg-white p-4">
         {!isPrevDisabled() && (
           <Button
             className="mr-auto"
