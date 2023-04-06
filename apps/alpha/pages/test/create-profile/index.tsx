@@ -8,22 +8,26 @@ import {
   FillSocialLinks,
   GridItemSix,
   GridLayout,
+  MemberInfoWithDynamicGraph2,
   SalaryRangeChart,
   UserExperienceCard,
-  ViewUserProfileContainer,
   Wizard,
   WizardStep,
 } from "@eden/package-ui";
-import { STEPS } from "@eden/package-ui/utils";
-import { useContext, useEffect, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 const ProfilePage: NextPageWithLayout = () => {
   const { currentUser } = useContext(UserContext);
   // const [view, setView] = useState<"grants" | "profile">("grants");
 
   const [userState, setUserState] = useState<Members>();
-  const [step] = useState(STEPS.ROLE);
-  const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
+  // const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
 
   useEffect(() => {
     if (currentUser) {
@@ -38,26 +42,18 @@ const ProfilePage: NextPageWithLayout = () => {
       <GridLayout>
         <GridItemSix>
           <Card className={"h-85 bg-white shadow"}>
-            {/* <FillUserProfileContainer
-              step={step}
-              state={userState}
-              setState={setUserState}
-              setStep ={setStep}
-              setExperienceOpen={setExperienceOpen}
-              setView={setView}
-              percentage={getFillProfilePercentage(currentUser)}
-            />
-          */}
-            <CreateProrfileContainer />
+            <CreateProrfileContainer setUserState={setUserState} />
           </Card>
         </GridItemSix>
         <GridItemSix>
-          <Card className={"h-85 bg-white shadow"}>
-            <ViewUserProfileContainer
-              step={step}
-              user={userState}
-              experienceOpen={experienceOpen}
-              setExperienceOpen={setExperienceOpen}
+          <Card
+            className={
+              "h-85 scrollbar-hide overflow-scroll bg-white p-4 shadow"
+            }
+          >
+            <MemberInfoWithDynamicGraph2
+              // step={step}
+              member={userState}
             />
           </Card>
         </GridItemSix>
@@ -100,26 +96,32 @@ export async function getServerSideProps(ctx: {
 // eslint-disable-next-line no-unused-vars
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
+import { locations } from "../../../utils/data/locations";
+
 const rangeNumbers: number[] = [];
 
 for (let i = 0; i < 500; i++) {
   rangeNumbers.push(Math.floor(Math.random() * 80) + 1);
 }
 
-export interface ICreateProfileContainerProps {}
+export interface ICreateProfileContainerProps {
+  setUserState: Dispatch<SetStateAction<Members | undefined>>;
+}
 
-export const CreateProrfileContainer = ({}: ICreateProfileContainerProps) => {
+export const CreateProrfileContainer = ({
+  setUserState,
+}: ICreateProfileContainerProps) => {
   const { currentUser } = useContext(UserContext);
   // eslint-disable-next-line no-unused-vars
-  const { register, handleSubmit, watch, control, setValue } = useForm<Members>(
-    {
+  const { register, handleSubmit, watch, control, setValue, getValues } =
+    useForm<Members>({
       defaultValues: { ...currentUser },
-    }
-  );
+    });
 
   useEffect(() => {
     const subscription = watch((data) => {
       console.log("WATCH ---- data", data);
+      if (data) setUserState(data as Members);
     });
 
     return () => subscription.unsubscribe();
@@ -171,7 +173,7 @@ export const CreateProrfileContainer = ({}: ICreateProfileContainerProps) => {
           </div>
         </WizardStep>
         <WizardStep label="Details">
-          <div className="px-4">
+          <div className="h-full overflow-scroll px-4">
             <section className="mb-4">
               {/* TODO plz remove next hardcoded line after testing */}
               <p className="mb-2 bg-lime-50">
@@ -212,11 +214,37 @@ export const CreateProrfileContainer = ({}: ICreateProfileContainerProps) => {
             <section className="mb-4 inline-block w-1/2">
               {/* TODO plz remove next hardcoded line after testing */}
               <p className="mb-2">What is your location?</p>
-              <input
-                id="location"
-                className="font-Inter text-soilBody focus:border-accentColor focus:ring-soilGreen-500 block flex w-full resize-none rounded-md border border-zinc-400/50 py-1 px-2 text-base focus:outline-transparent focus:ring focus:ring-opacity-50"
-                required
-                {...register("location")}
+              <Controller
+                name={"location"}
+                control={control}
+                render={() => (
+                  <select
+                    id="location"
+                    className="font-Inter text-soilBody focus:border-accentColor focus:ring-soilGreen-500 block flex w-full resize-none rounded-md border border-zinc-400/50 py-1 px-2 text-base focus:outline-transparent focus:ring focus:ring-opacity-50"
+                    required
+                    onChange={(e) => {
+                      const _gmt = e.target.value.split(" ")[0].slice(1, -1);
+
+                      const _location = e.target.value
+                        .split(" ")
+                        .splice(1)
+                        .join(" ");
+
+                      setValue("timeZone", _gmt);
+                      setValue("location", _location);
+                    }}
+                  >
+                    <option selected disabled>
+                      Select a location...
+                    </option>
+                    {locations.map((loc, index) => (
+                      <option
+                        value={`(${loc.gmt}) ${loc.location}`}
+                        key={index}
+                      >{`(${loc.gmt}) ${loc.location}`}</option>
+                    ))}
+                  </select>
+                )}
               />
             </section>
             <section className="mb-4 inline-block w-1/2">
@@ -232,7 +260,7 @@ export const CreateProrfileContainer = ({}: ICreateProfileContainerProps) => {
                   // // id="hoursPerWeek"
                   className="font-Inter text-soilBody focus:border-accentColor focus:ring-soilGreen-500 mr-2 block flex w-20 resize-none rounded-md border border-zinc-400/50 py-1 px-2 text-base focus:outline-transparent focus:ring focus:ring-opacity-50"
                   // required
-                  // {...register("hoursPerWeek")}
+                  {...register("expirienceLevel.years")}
                 />
                 <span>years</span>
               </div>
@@ -250,7 +278,10 @@ export const CreateProrfileContainer = ({}: ICreateProfileContainerProps) => {
                       className="font-Inter text-soilBody focus:border-accentColor focus:ring-soilGreen-500 mr-2 block flex w-full w-20 resize-none rounded-md border border-zinc-400/50 py-1 px-2 text-base focus:outline-transparent focus:ring focus:ring-opacity-50"
                       required
                       onChange={(e) => {
-                        const _val = { total: +e.target.value };
+                        const _val = {
+                          ...getValues("expirienceLevel"),
+                          total: +e.target.value,
+                        };
 
                         setValue("expirienceLevel", _val);
                       }}
