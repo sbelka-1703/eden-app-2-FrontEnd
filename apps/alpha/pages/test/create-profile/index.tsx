@@ -133,7 +133,7 @@ export const CreateProrfileContainer = ({
         <WizardStep label="AI chat">
           <div className="h-full px-4">
             <EdenAiChat
-              aiReplyService={AI_REPLY_SERVICES.EDEN_GPT_REPLY_CHAT_API_V2}
+              aiReplyService={AI_REPLY_SERVICES.EDEN_GPT_REPLY}
               handleChangeNodes={(_nodeObj: any) => {
                 console.log("handleChangeNodes:", _nodeObj);
               }}
