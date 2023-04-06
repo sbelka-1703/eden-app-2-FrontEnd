@@ -252,9 +252,7 @@ export const CreateProrfileContainer = ({}: ICreateProfileContainerProps) => {
                       onChange={(e) => {
                         const _val = { total: +e.target.value };
 
-                        setValue("expirienceLevel", {
-                          total: _val,
-                        });
+                        setValue("expirienceLevel", _val);
                       }}
                     >
                       <option selected disabled hidden>
