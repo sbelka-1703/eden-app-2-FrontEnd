@@ -47,6 +47,12 @@ interface NodeObj {
   };
 }
 
+interface Task {
+  taskType: string;
+  percentageCompleted: number;
+  taskTypeID: string;
+}
+
 const chatEden: NextPageWithLayout = () => {
   const [nodeObj, setNodeObj] = useState<NodeObj>({
     // "640a739dc5d61b4bae0ee091": {
@@ -81,6 +87,34 @@ const chatEden: NextPageWithLayout = () => {
     //   isNew: false,
     // },
   });
+
+  const [executedTasks, setExecutedTasks] = useState<Task[]>([
+    {
+      taskType: "Find Skill",
+      percentageCompleted: 0,
+      taskTypeID: "skill_task",
+    },
+    {
+      taskType: "Find Industry",
+      percentageCompleted: 10,
+      taskTypeID: "insudtry_task",
+    },
+    {
+      taskType: "Find Experience level",
+      percentageCompleted: 0,
+      taskTypeID: "experience_task",
+    },
+    {
+      taskType: "Find Salary level",
+      percentageCompleted: 0,
+      taskTypeID: "salary_task",
+    },
+    {
+      taskType: "Find Availability",
+      percentageCompleted: 0,
+      taskTypeID: "availability_task",
+    },
+  ]);
 
   //  ------------- Popup Preparation ----------
   const [isOpenPopup, setIsOpenPopup] = useState(false);
@@ -242,7 +276,7 @@ const chatEden: NextPageWithLayout = () => {
 
           <div className="h-[60vh]">
             <EdenAiChat
-              aiReplyService={AI_REPLY_SERVICES.EDEN_GPT_REPLY_CHAT_API_V2}
+              aiReplyService={AI_REPLY_SERVICES.EDEN_GPT_REPLY_CHAT_API_V3}
               extraNodes={extraNodes}
               handleChangeNodes={(_nodeObj: any) => {
                 // console.log("handleChangeNodes:", nodeObj);
@@ -252,6 +286,8 @@ const chatEden: NextPageWithLayout = () => {
                 // console.log("handleChangeChat:", _chat);
                 setChatN(_chat);
               }}
+              executedTasks={executedTasks}
+              setExecutedTasks={setExecutedTasks}
             />
           </div>
           <div className="h-[40vh] py-4">
@@ -535,13 +571,13 @@ const UserDiscoverCard = ({
       </div>
       <div className="grid grid-cols-6">
         <div className="col-span-3">
-          {member?.serverID && (
+          {/* {member?.serverID && (
             <CommonServerAvatarList
               label={`common servers`}
               size={`xs`}
               serverID={member?.serverID as string[]}
             />
-          )}
+          )} */}
 
           {nodesPercentage && (
             <div>
