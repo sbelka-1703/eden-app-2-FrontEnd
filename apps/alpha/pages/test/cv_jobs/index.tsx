@@ -13,6 +13,7 @@ export const CV_TO_JOBS = gql`
     }
   }
 `;
+
 const CvJobs = () => {
   const [file, setFile] = useState<File | null>(null);
   const [summary, setSummary] = useState<string | null>(null);
@@ -24,6 +25,13 @@ const CvJobs = () => {
       setSummary(CVtoJobs.result);
     },
   });
+
+  function sumTwoSmallestNumbers(numbers) {
+    numbers.sort((a, b) => {
+      b - a;
+    });
+    return numbers[0] + numbers[1];
+  }
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
