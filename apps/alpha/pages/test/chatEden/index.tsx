@@ -19,7 +19,7 @@ import {
   Card,
   CardGrid,
   ChatMessage,
-  CommonServerAvatarList,
+  // CommonServerAvatarList,
   DynamicSearchGraph,
   EdenAiChat,
   LongText,
@@ -45,12 +45,6 @@ interface NodeObj {
     confidence: number;
     isNew: boolean;
   };
-}
-
-interface Task {
-  taskType: string;
-  percentageCompleted: number;
-  taskTypeID: string;
 }
 
 const chatEden: NextPageWithLayout = () => {
@@ -87,34 +81,6 @@ const chatEden: NextPageWithLayout = () => {
     //   isNew: false,
     // },
   });
-
-  const [executedTasks, setExecutedTasks] = useState<Task[]>([
-    {
-      taskType: "Find Skill",
-      percentageCompleted: 0,
-      taskTypeID: "skill_task",
-    },
-    {
-      taskType: "Find Industry",
-      percentageCompleted: 10,
-      taskTypeID: "insudtry_task",
-    },
-    {
-      taskType: "Find Experience level",
-      percentageCompleted: 0,
-      taskTypeID: "experience_task",
-    },
-    {
-      taskType: "Find Salary level",
-      percentageCompleted: 0,
-      taskTypeID: "salary_task",
-    },
-    {
-      taskType: "Find Availability",
-      percentageCompleted: 0,
-      taskTypeID: "availability_task",
-    },
-  ]);
 
   //  ------------- Popup Preparation ----------
   const [isOpenPopup, setIsOpenPopup] = useState(false);
@@ -277,6 +243,7 @@ const chatEden: NextPageWithLayout = () => {
           <div className="h-[60vh]">
             <EdenAiChat
               aiReplyService={AI_REPLY_SERVICES.EDEN_GPT_REPLY_CHAT_API_V3}
+              // aiReplyService={AI_REPLY_SERVICES.EDEN_GPT_REPLY}
               extraNodes={extraNodes}
               handleChangeNodes={(_nodeObj: any) => {
                 // console.log("handleChangeNodes:", nodeObj);
@@ -286,8 +253,6 @@ const chatEden: NextPageWithLayout = () => {
                 // console.log("handleChangeChat:", _chat);
                 setChatN(_chat);
               }}
-              executedTasks={executedTasks}
-              setExecutedTasks={setExecutedTasks}
             />
           </div>
           <div className="h-[40vh] py-4">
@@ -836,7 +801,7 @@ const UserMessageModal = ({
           }}
         >
           <EdenAiChat
-            aiReplyService={AI_REPLY_SERVICES.EDEN_GPT_REPLY_CHAT_API_V2}
+            aiReplyService={AI_REPLY_SERVICES.EDEN_GPT_REPLY}
             extraNodes={[]}
             // handleChangeNodes={(_nodeObj: any) => {
             //   // console.log("handleChangeNodes:", nodeObj);

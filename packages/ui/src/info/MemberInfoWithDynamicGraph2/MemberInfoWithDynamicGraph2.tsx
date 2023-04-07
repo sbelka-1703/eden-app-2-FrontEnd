@@ -168,35 +168,37 @@ export const MemberInfoWithDynamicGraph2 = ({
         </div>
       </div>
       <div className="mb-8 sm:grid-cols-6">
-        <div className="relative my-4 flex flex-col items-start justify-center rounded-xl bg-cyan-50 p-4 pt-3 sm:col-span-4 sm:my-0">
-          <p className="mb-2">
-            <TextLabel1>
-              🪄 Why {member.discordName} is Perfect for you? 🪄{" "}
-            </TextLabel1>
-          </p>
-          {!loadingGPTsummary ? (
-            <>
-              <p className="text-soilBody font-Inter mb-4 font-normal">
-                {/* {edenGPTsummary} */}
-                <HighlightText text={edenGPTsummary || ""} />
-              </p>
-            </>
-          ) : (
-            <>
-              <div className="flex w-full animate-pulse space-x-4">
-                <div className="flex-1 space-y-2 py-1">
-                  <div className="h-3 rounded bg-slate-200"></div>
-                  <div className="h-3 rounded bg-slate-200"></div>
-                  <div className="h-3 rounded bg-slate-200"></div>
-                  <div className="h-3 rounded bg-slate-200"></div>
+        {conversation && (
+          <div className="relative my-4 flex flex-col items-start justify-center rounded-xl bg-cyan-50 p-4 pt-3 sm:col-span-4 sm:my-0">
+            <p className="mb-2">
+              <TextLabel1>
+                🪄 Why {member.discordName} is Perfect for you? 🪄{" "}
+              </TextLabel1>
+            </p>
+            {!loadingGPTsummary ? (
+              <>
+                <p className="text-soilBody font-Inter mb-4 font-normal">
+                  {/* {edenGPTsummary} */}
+                  <HighlightText text={edenGPTsummary || ""} />
+                </p>
+              </>
+            ) : (
+              <>
+                <div className="flex w-full animate-pulse space-x-4">
+                  <div className="flex-1 space-y-2 py-1">
+                    <div className="h-3 rounded bg-slate-200"></div>
+                    <div className="h-3 rounded bg-slate-200"></div>
+                    <div className="h-3 rounded bg-slate-200"></div>
+                    <div className="h-3 rounded bg-slate-200"></div>
+                  </div>
                 </div>
-              </div>
-            </>
-          )}
-          <span className="absolute bottom-2 right-3 text-slate-600">
-            By Eden AI
-          </span>
-        </div>
+              </>
+            )}
+            <span className="absolute bottom-2 right-3 text-slate-600">
+              By Eden AI
+            </span>
+          </div>
+        )}
         {/* <div></div>
         {member?.links && member?.links.length > 0 && (
           <SocialMediaComp links={member?.links} />
@@ -222,19 +224,20 @@ export const MemberInfoWithDynamicGraph2 = ({
             <p className="mb-2 text-left">
               <TextLabel1>🧙‍♂️ Relevant Skills</TextLabel1>
             </p>
-            {relatedNodesMemberToMatch
-              .slice(0, 6)
-              .map((info: any, index: number) => (
-                <Badge
-                  text={info?.MemberRelevantnode?.name || ""}
-                  key={index}
-                  // className={`bg-soilPurple/20 py-px text-xs`}
-                  // className={`px-2 py-1 text-white rounded ${getBackgroundColorClass(info.score)}`}
-                  // className={`px-2 py-1 text-white rounded bg-purple-400`}
-                  className={`rounded px-1 py-1 text-xs text-white ${info.color}`}
-                  cutText={14}
-                />
-              ))}
+            {relatedNodesMemberToMatch &&
+              relatedNodesMemberToMatch
+                .slice(0, 6)
+                .map((info: any, index: number) => (
+                  <Badge
+                    text={info?.MemberRelevantnode?.name || ""}
+                    key={index}
+                    // className={`bg-soilPurple/20 py-px text-xs`}
+                    // className={`px-2 py-1 text-white rounded ${getBackgroundColorClass(info.score)}`}
+                    // className={`px-2 py-1 text-white rounded bg-purple-400`}
+                    className={`rounded px-1 py-1 text-xs text-white ${info.color}`}
+                    cutText={14}
+                  />
+                ))}
             {/* {member.endorseSummary?.mainNodes!.map(
               (node: EndorseNode | null, index: number) => (
                 <Badge

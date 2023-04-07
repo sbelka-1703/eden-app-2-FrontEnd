@@ -45,7 +45,7 @@ export const ViewUserProfileContainer = ({
       <div className={`h-75 scrollbar-hide w-full overflow-scroll p-2`}>
         <div
           className={`mb-4 flex w-full justify-center ${
-            step !== STEPS.ROLE ? "blur-sm" : ""
+            step && step !== STEPS.ROLE ? "blur-sm" : ""
           }`}
         >
           <UserWithDescription member={user} />
@@ -53,7 +53,7 @@ export const ViewUserProfileContainer = ({
         <div className="mb-4 grid grid-cols-1 sm:grid-cols-5">
           <div
             className={`my-4 flex flex-col items-start justify-center sm:col-span-3 sm:my-0 ${
-              step !== STEPS.BIO ? "blur-sm" : ""
+              step && step !== STEPS.BIO ? "blur-sm" : ""
             }`}
           >
             <TextLabel1>🪪 Short bio</TextLabel1>
@@ -62,12 +62,18 @@ export const ViewUserProfileContainer = ({
             </p>
           </div>
           <div></div>
-          <div className={`pl-14 ${step !== STEPS.SOCIALS ? "blur-sm" : ""}`}>
+          <div
+            className={`pl-14 ${
+              step && step !== STEPS.SOCIALS ? "blur-sm" : ""
+            }`}
+          >
             <SocialMediaComp size={`sm`} links={user?.links} />
           </div>
         </div>
         {selectedPreferences && (
-          <div className={`mb-4  ${step !== STEPS.ROLE ? "blur-sm" : ""}`}>
+          <div
+            className={`mb-4  ${step && step !== STEPS.ROLE ? "blur-sm" : ""}`}
+          >
             <TextLabel1>🔎 PREFERENCES</TextLabel1>
 
             <div>
@@ -89,7 +95,9 @@ export const ViewUserProfileContainer = ({
         <div className={`grid grid-cols-1 gap-4 md:grid-cols-2`}>
           <div
             className={`flex flex-col ${
-              step !== STEPS.EXPERTISE && step !== STEPS.BIO ? "blur-sm" : ""
+              step && step !== STEPS.EXPERTISE && step !== STEPS.BIO
+                ? "blur-sm"
+                : ""
             }`}
           >
             <NodeList
@@ -100,7 +108,7 @@ export const ViewUserProfileContainer = ({
           </div>
           <div
             className={`flex flex-col ${
-              step !== STEPS.PREFERRED_PROJECTS ? "blur-sm" : ""
+              step && step !== STEPS.PREFERRED_PROJECTS ? "blur-sm" : ""
             }`}
           >
             <NodeList
@@ -112,7 +120,9 @@ export const ViewUserProfileContainer = ({
         </div>
         <div
           className={`my-4 ${
-            step !== STEPS.EXP && step !== STEPS.EXP_DETAIL ? "blur-sm" : ""
+            step && step !== STEPS.EXP && step !== STEPS.EXP_DETAIL
+              ? "blur-sm"
+              : ""
           }`}
         >
           {user?.previousProjects && (
