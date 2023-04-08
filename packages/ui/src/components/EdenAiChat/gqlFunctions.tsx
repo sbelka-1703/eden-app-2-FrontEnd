@@ -46,6 +46,20 @@ export const EDEN_GPT_REPLY_CHAT_API_V2 = gql`
   }
 `;
 
+export const EDEN_GPT_REPLY_CHAT_API_V3 = gql`
+  query ($fields: edenGPTreplyChatAPI_V3Input!) {
+    edenGPTreplyChatAPI_V3(fields: $fields) {
+      reply
+      executedTasks {
+        taskType
+        percentageCompleted
+        taskTypeID
+      }
+      executeTaskType
+    }
+  }
+`;
+
 export const MESSAGE_MAP_KG = gql`
   query ($fields: messageMapKGInput!) {
     messageMapKG(fields: $fields) {
@@ -84,6 +98,29 @@ export const MESSAGE_MAP_KG_V2 = gql`
 export const MESSAGE_MAP_KG_V3 = gql`
   query ($fields: messageMapKG_V3Input!) {
     messageMapKG_V3(fields: $fields) {
+      keywords {
+        keyword
+        confidence
+        nodeID
+        node {
+          _id
+          name
+          node
+          categoryNodes {
+            name
+          }
+          groupNodes {
+            name
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const MESSAGE_MAP_KG_V4 = gql`
+  query ($fields: messageMapKG_V4Input!) {
+    messageMapKG_V4(fields: $fields) {
       keywords {
         keyword
         confidence
