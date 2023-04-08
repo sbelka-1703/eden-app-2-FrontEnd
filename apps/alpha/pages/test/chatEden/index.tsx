@@ -38,7 +38,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { FIND_RELATED_NODE } from "../../../utils/data/GQLfuncitons";
 import type { NextPageWithLayout } from "../../_app";
 import MultiSelectPopup from "./components/MultiSelectPopup";
-import { SalaryPopup } from "./components/SalaryPopup";
+import SalaryPopup from "./components/SalaryPopup";
 
 interface NodeObj {
   [key: string]: {

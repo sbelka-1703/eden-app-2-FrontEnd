@@ -19,7 +19,7 @@ interface SalaryPopupProps {
   }) => void;
 }
 
-export const SalaryPopup: React.FC<SalaryPopupProps> = ({
+const SalaryPopup: React.FC<SalaryPopupProps> = ({
   mode,
   minSalary: initialMinSalary,
   maxSalary: initialMaxSalary,
@@ -182,3 +182,5 @@ export const SalaryPopup: React.FC<SalaryPopupProps> = ({
     </div>
   );
 };
+
+export default SalaryPopup;
