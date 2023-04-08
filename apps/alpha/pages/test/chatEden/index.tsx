@@ -48,6 +48,22 @@ interface NodeObj {
   };
 }
 
+type Budget = {
+  minPerHour: number;
+  maxPerHour: number;
+};
+
+type Availability = {
+  minHourPerWeek: number;
+  maxHourPerWeek: number;
+};
+
+type FilterStateType = {
+  budget: Budget;
+  availability: Availability;
+  expirienceLevel: number;
+};
+
 const chatEden: NextPageWithLayout = () => {
   const [nodeObj, setNodeObj] = useState<NodeObj>({
     // "640a739dc5d61b4bae0ee091": {
@@ -142,7 +158,6 @@ const chatEden: NextPageWithLayout = () => {
   const {} = useQuery(MATCH_NODES_MEMBERS_AI4, {
     variables: {
       fields: {
-        // nodesID: Object.keys(nodeObj),
         nodesID: Object.keys(nodeObj).filter((key) => nodeObj[key].active),
         // nodesID: nodesID.filter((node, index) => activeNodes[index]),
         weightModules: [
@@ -160,12 +175,44 @@ const chatEden: NextPageWithLayout = () => {
           },
           {
             type: "node_total",
+            weight: 80,
+          },
+          {
+            type: "budget_total",
+            weight: 10,
+          },
+          {
+            type: "availability_total",
             weight: 5,
           },
           {
-            type: "everything_else",
+            type: "expirience_total",
+            weight: 5,
+          },
+          {
+            type: "everythingElse_total",
             weight: 50,
           },
+          // {
+          //   type: "node_Skill",
+          //   weight: 70,
+          // },
+          // {
+          //   type: "node_Category",
+          //   weight: 20,
+          // },
+          // {
+          //   type: "node_Group",
+          //   weight: 5,
+          // },
+          // {
+          //   type: "node_total",
+          //   weight: 5,
+          // },
+          // {
+          //   type: "everything_else",
+          //   weight: 50,
+          // },
         ],
       },
     },
@@ -210,16 +257,6 @@ const chatEden: NextPageWithLayout = () => {
   //  ------------- change activation nodes when click ----
 
   // ------------ Salary Popup ------------
-  // const [showPopupSalary, setShowPopupSalary] = useState<boolean>(false);
-  // const [salaryRange, setSalaryRange] = useState<{ min: number; max: number }>({
-  //   min: 0,
-  //   max: 0,
-  // });
-
-  // const handleDone = (minSalary: number, maxSalary: number) => {
-  //   setSalaryRange({ min: minSalary, max: maxSalary });
-  //   setShowPopupSalary(false);
-  // };
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const [popupData, setPopupData] = useState<{
     minSalary?: number;
