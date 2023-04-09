@@ -153,6 +153,18 @@ const chatEden: NextPageWithLayout = () => {
     },
   });
 
+  const [filterState, setFilterState] = useState<FilterStateType>({
+    budget: {
+      minPerHour: -1,
+      maxPerHour: -1,
+    },
+    availability: {
+      minHourPerWeek: -1,
+      maxHourPerWeek: -1,
+    },
+    expirienceLevel: -1,
+  });
+
   const [dataMembersA, setDataMembersA] = useState<any>(null);
 
   const {} = useQuery(MATCH_NODES_MEMBERS_AI4, {
@@ -160,6 +172,7 @@ const chatEden: NextPageWithLayout = () => {
       fields: {
         nodesID: Object.keys(nodeObj).filter((key) => nodeObj[key].active),
         // nodesID: nodesID.filter((node, index) => activeNodes[index]),
+        ...filterState,
         weightModules: [
           {
             type: "node_Skill",
@@ -175,19 +188,19 @@ const chatEden: NextPageWithLayout = () => {
           },
           {
             type: "node_total",
-            weight: 80,
+            weight: 50,
           },
           {
             type: "budget_total",
-            weight: 10,
+            weight: 80,
           },
           {
             type: "availability_total",
-            weight: 5,
+            weight: 85,
           },
           {
             type: "expirience_total",
-            weight: 5,
+            weight: 85,
           },
           {
             type: "everythingElse_total",
@@ -273,6 +286,12 @@ const chatEden: NextPageWithLayout = () => {
   const [sentMessageToEdenAIobj, setSentMessageToEdenAIobj] =
     useState<MessageObject>({ message: "", sentMessage: false });
 
+  const experienceToNumberMap: Record<string, number> = {
+    Junior: 3,
+    Mid: 6,
+    Senior: 9,
+  };
+
   const handleDone = (data: {
     minSalary?: number;
     maxSalary?: number;
@@ -283,6 +302,23 @@ const chatEden: NextPageWithLayout = () => {
   }) => {
     setPopupData(data);
     setShowPopup(false);
+
+    const filterState = {
+      budget: {
+        minPerHour: data?.minSalary ? data.minSalary : -1,
+        maxPerHour: data?.maxSalary ? data.maxSalary : -1,
+      },
+      availability: {
+        minHourPerWeek: data?.minHours ? data.minHours : -1,
+        maxHourPerWeek: data?.maxHours ? data.maxHours : -1,
+      },
+      expirienceLevel: -1,
+    };
+
+    if (data?.level) {
+      filterState["expirienceLevel"] = experienceToNumberMap[data.level];
+    }
+    setFilterState(filterState);
 
     console.log("sentMessageToEdenAI = ", data.sentMessageToEdenAI);
 
