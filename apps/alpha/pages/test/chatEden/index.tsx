@@ -48,6 +48,22 @@ interface NodeObj {
   };
 }
 
+type Budget = {
+  minPerHour: number;
+  maxPerHour: number;
+};
+
+type Availability = {
+  minHourPerWeek: number;
+  maxHourPerWeek: number;
+};
+
+type FilterStateType = {
+  budget: Budget;
+  availability: Availability;
+  expirienceLevel: number;
+};
+
 const chatEden: NextPageWithLayout = () => {
   const [nodeObj, setNodeObj] = useState<NodeObj>({
     // "640a739dc5d61b4bae0ee091": {
@@ -137,14 +153,26 @@ const chatEden: NextPageWithLayout = () => {
     },
   });
 
+  const [filterState, setFilterState] = useState<FilterStateType>({
+    budget: {
+      minPerHour: -1,
+      maxPerHour: -1,
+    },
+    availability: {
+      minHourPerWeek: -1,
+      maxHourPerWeek: -1,
+    },
+    expirienceLevel: -1,
+  });
+
   const [dataMembersA, setDataMembersA] = useState<any>(null);
 
   const {} = useQuery(MATCH_NODES_MEMBERS_AI4, {
     variables: {
       fields: {
-        // nodesID: Object.keys(nodeObj),
         nodesID: Object.keys(nodeObj).filter((key) => nodeObj[key].active),
         // nodesID: nodesID.filter((node, index) => activeNodes[index]),
+        ...filterState,
         weightModules: [
           {
             type: "node_Skill",
@@ -160,12 +188,44 @@ const chatEden: NextPageWithLayout = () => {
           },
           {
             type: "node_total",
-            weight: 5,
-          },
-          {
-            type: "everything_else",
             weight: 50,
           },
+          {
+            type: "budget_total",
+            weight: 80,
+          },
+          {
+            type: "availability_total",
+            weight: 85,
+          },
+          {
+            type: "expirience_total",
+            weight: 85,
+          },
+          {
+            type: "everythingElse_total",
+            weight: 50,
+          },
+          // {
+          //   type: "node_Skill",
+          //   weight: 70,
+          // },
+          // {
+          //   type: "node_Category",
+          //   weight: 20,
+          // },
+          // {
+          //   type: "node_Group",
+          //   weight: 5,
+          // },
+          // {
+          //   type: "node_total",
+          //   weight: 5,
+          // },
+          // {
+          //   type: "everything_else",
+          //   weight: 50,
+          // },
         ],
       },
     },
@@ -210,16 +270,6 @@ const chatEden: NextPageWithLayout = () => {
   //  ------------- change activation nodes when click ----
 
   // ------------ Salary Popup ------------
-  // const [showPopupSalary, setShowPopupSalary] = useState<boolean>(false);
-  // const [salaryRange, setSalaryRange] = useState<{ min: number; max: number }>({
-  //   min: 0,
-  //   max: 0,
-  // });
-
-  // const handleDone = (minSalary: number, maxSalary: number) => {
-  //   setSalaryRange({ min: minSalary, max: maxSalary });
-  //   setShowPopupSalary(false);
-  // };
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const [popupData, setPopupData] = useState<{
     minSalary?: number;
@@ -236,6 +286,12 @@ const chatEden: NextPageWithLayout = () => {
   const [sentMessageToEdenAIobj, setSentMessageToEdenAIobj] =
     useState<MessageObject>({ message: "", sentMessage: false });
 
+  const experienceToNumberMap: Record<string, number> = {
+    Junior: 3,
+    Mid: 6,
+    Senior: 9,
+  };
+
   const handleDone = (data: {
     minSalary?: number;
     maxSalary?: number;
@@ -246,6 +302,23 @@ const chatEden: NextPageWithLayout = () => {
   }) => {
     setPopupData(data);
     setShowPopup(false);
+
+    const filterState = {
+      budget: {
+        minPerHour: data?.minSalary ? data.minSalary : -1,
+        maxPerHour: data?.maxSalary ? data.maxSalary : -1,
+      },
+      availability: {
+        minHourPerWeek: data?.minHours ? data.minHours : -1,
+        maxHourPerWeek: data?.maxHours ? data.maxHours : -1,
+      },
+      expirienceLevel: -1,
+    };
+
+    if (data?.level) {
+      filterState["expirienceLevel"] = experienceToNumberMap[data.level];
+    }
+    setFilterState(filterState);
 
     console.log("sentMessageToEdenAI = ", data.sentMessageToEdenAI);
 
