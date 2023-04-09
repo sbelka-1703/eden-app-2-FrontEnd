@@ -38,6 +38,14 @@ export const FIND_RELATED_NODE = gql`
   }
 `;
 
+export const EDEN_GPT_CREATE_PROFILE_EXPIRIENCE_CHAT = gql`
+  query ($fields: edenGPTCreateProfileExpirienceChatAPIInput!) {
+    edenGPTCreateProfileExpirienceChatAPI(fields: $fields) {
+      reply
+    }
+  }
+`;
+
 export const EDEN_GPT_REPLY_CHAT_API_V2 = gql`
   query ($fields: edenGPTreplyChatAPI_V2Input!) {
     edenGPTreplyChatAPI_V2(fields: $fields) {

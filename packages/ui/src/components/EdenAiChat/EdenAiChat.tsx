@@ -5,6 +5,7 @@ import { ChatSimple } from "@eden/package-ui";
 import React, { useContext, useEffect, useState } from "react";
 
 import {
+  EDEN_GPT_CREATE_PROFILE_EXPIRIENCE_CHAT,
   EDEN_GPT_REPLY,
   // EDEN_GPT_REPLY_CHAT_API,
   EDEN_GPT_REPLY_CHAT_API_V2,
@@ -33,6 +34,7 @@ interface Task {
 interface MessageObject {
   message: string;
   sentMessage: boolean;
+  user?: string;
 }
 
 export enum AI_REPLY_SERVICES {
@@ -44,6 +46,8 @@ export enum AI_REPLY_SERVICES {
   EDEN_GPT_REPLY_CHAT_API_V2 = "EDEN_GPT_REPLY_CHAT_API_V2",
   // eslint-disable-next-line no-unused-vars
   EDEN_GPT_REPLY_CHAT_API_V3 = "EDEN_GPT_REPLY_CHAT_API_V3",
+  // eslint-disable-next-line no-unused-vars
+  EDEN_GPT_CREATE_PROFILE_EXPIRIENCE_CHAT = "EDEN_GPT_CREATE_PROFILE_EXPIRIENCE_CHAT",
 }
 export type ChatMessage = Array<{ user: string; message: string }>;
 
@@ -51,6 +55,10 @@ export interface IEdenAiChatProps {
   aiReplyService: AI_REPLY_SERVICES;
   extraNodes?: Array<any>;
   sentMessageToEdenAIobj?: MessageObject;
+  clearConversation?: Boolean;
+  expirienceTypeID?: string;
+  // eslint-disable-next-line no-unused-vars
+  setClearConversation?: (show: boolean) => void;
   // eslint-disable-next-line no-unused-vars
   handleChangeNodes?: (nodes: NodeObj) => void;
   // eslint-disable-next-line no-unused-vars
@@ -68,6 +76,9 @@ export const EdenAiChat = ({
   aiReplyService,
   extraNodes, // extra nodes to add to the query
   sentMessageToEdenAIobj,
+  clearConversation,
+  expirienceTypeID,
+  setClearConversation,
   handleChangeNodes,
   handleChangeChat,
   setShowPopupSalary,
@@ -162,6 +173,30 @@ export const EdenAiChat = ({
     }
   );
 
+  const { data: dataEdenGPTCreateProfileExpirience } = useQuery(
+    EDEN_GPT_CREATE_PROFILE_EXPIRIENCE_CHAT,
+    {
+      variables: {
+        fields: {
+          message: messageUser,
+          conversation: chatN.map((obj) => {
+            if (obj.user === "01") {
+              return { role: "assistant", content: obj.message };
+            } else {
+              return { role: "user", content: obj.message };
+            }
+          }),
+          expirienceTypeID: expirienceTypeID,
+        },
+      },
+      skip:
+        messageUser == "" ||
+        aiReplyService !=
+          AI_REPLY_SERVICES.EDEN_GPT_CREATE_PROFILE_EXPIRIENCE_CHAT ||
+        chatN[chatN.length - 1]?.user == "01",
+    }
+  );
+
   const { data: dataEdenGPTReplyChatAPIV3 } = useQuery(
     EDEN_GPT_REPLY_CHAT_API_V3,
     {
@@ -193,9 +228,9 @@ export const EdenAiChat = ({
   );
   // ------------------------------------------
 
-  console.log("chatN = ", messageUser, " --- ", chatN);
+  // console.log("chatN = ", messageUser, " --- ", chatN);
 
-  console.log("executedTasks = ", executedTasks);
+  // console.log("executedTasks = ", executedTasks);
 
   // -------------- AI GPT NODES --------------
   const { data: dataMessageMapKGV4 } = useQuery(MESSAGE_MAP_KG_V4, {
@@ -296,13 +331,25 @@ export const EdenAiChat = ({
   }, [extraNodes]);
   // -----------------------------------------
 
+  useEffect(() => {
+    if (clearConversation == true) {
+      if (setClearConversation) setClearConversation(false);
+
+      setChatN([]);
+      console.log("deleting staff = ", chatN);
+    }
+  }, [clearConversation]);
+
+  // console.log("setup chatN = " , chatN)
+
   // ---------- When GPT Reply, Store all convo messages and GPT friendly formated messages ------------
   useEffect(() => {
     if (
       (dataEdenGPTReply ||
         dataEdenGPTReplyMemory ||
         dataEdenGPTReplyChatAPI ||
-        dataEdenGPTReplyChatAPIV3) &&
+        dataEdenGPTReplyChatAPIV3 ||
+        dataEdenGPTCreateProfileExpirience) &&
       edenAIsentMessage == true
     ) {
       const chatT: ChatMessage = [...chatN];
@@ -317,10 +364,12 @@ export const EdenAiChat = ({
       //   newMessage = dataEdenGPTReply.edenGPTreply.reply;
       // }
       const reply =
-        dataEdenGPTReplyChatAPI?.edenGPTreplyChatAPI_V2.reply ||
-        dataEdenGPTReplyMemory?.edenGPTreplyMemory.reply ||
-        dataEdenGPTReply?.edenGPTreply.reply ||
-        dataEdenGPTReplyChatAPIV3?.edenGPTreplyChatAPI_V3.reply;
+        dataEdenGPTReplyChatAPI?.edenGPTreplyChatAPI_V2?.reply ||
+        dataEdenGPTReplyMemory?.edenGPTreplyMemory?.reply ||
+        dataEdenGPTReply?.edenGPTreply?.reply ||
+        dataEdenGPTReplyChatAPIV3?.edenGPTreplyChatAPI_V3?.reply ||
+        dataEdenGPTCreateProfileExpirience
+          ?.edenGPTCreateProfileExpirienceChatAPI?.reply;
 
       if (
         dataEdenGPTReplyChatAPIV3 &&
@@ -373,11 +422,13 @@ export const EdenAiChat = ({
       setChatNprepareGPT(chatNprepareGPTP);
       setEdenAIsentMessage(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     dataEdenGPTReply,
     dataEdenGPTReplyMemory,
     dataEdenGPTReplyChatAPI,
     dataEdenGPTReplyChatAPIV3,
+    dataEdenGPTCreateProfileExpirience,
   ]);
   // -----------------------------------------
 
@@ -441,7 +492,14 @@ export const EdenAiChat = ({
       setSentMessageToEdenAIobj &&
       sentMessageToEdenAIobj?.sentMessage == true
     ) {
-      handleSentMessage(sentMessageToEdenAIobj?.message, "02");
+      if (sentMessageToEdenAIobj?.user != "") {
+        handleSentMessage(
+          sentMessageToEdenAIobj?.message,
+          sentMessageToEdenAIobj?.user
+        );
+      } else {
+        handleSentMessage(sentMessageToEdenAIobj?.message, "02");
+      }
       setSentMessageToEdenAIobj("", false);
     }
   }, [sentMessageToEdenAIobj]);
