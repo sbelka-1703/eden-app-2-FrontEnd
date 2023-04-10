@@ -1,14 +1,13 @@
-import { AppUserLayout, AppUserSubmenuLayout, SEO } from "@eden/package-ui";
+import { AppUserLayout, SEO } from "@eden/package-ui";
 import React, { useState } from "react";
-import { BsArrowRight } from "react-icons/bs";
-import { FaDiscord } from "react-icons/fa";
-import { NextPageWithLayout } from "../../_app";
-import { GiTwoCoins, GiCash, GiCloudRing } from "react-icons/gi";
-import { SlOptionsVertical } from "react-icons/sl";
-import { RxNotionLogo, RxClock } from "react-icons/rx";
-import { BsDiscord, BsCloudFill } from "react-icons/bs";
+import { BsArrowRight, BsCloudFill, BsDiscord } from "react-icons/bs";
+import { FaDiscord, FaLeaf } from "react-icons/fa";
 import { FcCalendar } from "react-icons/fc";
-import { FaLeaf } from "react-icons/fa";
+import { GiCash, GiCloudRing, GiTwoCoins } from "react-icons/gi";
+import { RxClock, RxNotionLogo } from "react-icons/rx";
+import { SlOptionsVertical } from "react-icons/sl";
+
+import { NextPageWithLayout } from "../../_app";
 
 const EdenDm: NextPageWithLayout = () => {
   const [activeButton, setActiveButton] = useState(1);
@@ -59,18 +58,18 @@ const EdenDm: NextPageWithLayout = () => {
               <div className="flex h-2 w-2 items-center justify-center rounded-full bg-black"></div>
             </div>
 
-            <div className="mt-4 mb-5 flex flex-col items-center justify-center gap-3 text-center text-[15px]">
-              <div className="w-fit cursor-pointer rounded-2xl  bg-[#f7ffde] py-3 px-4 font-bold text-black">
-                LET'S STAY IN TOUCH !
+            <div className="mb-5 mt-4 flex flex-col items-center justify-center gap-3 text-center text-[15px]">
+              <div className="w-fit cursor-pointer rounded-2xl  bg-[#f7ffde] px-4 py-3 font-bold text-black">
+                {`LET'S STAY IN TOUCH !`}
               </div>
               <div className=" font-semibold">
-                EDEN WILL REACH OUT TO YOU WITH DMs & <br /> APPLICATIONS,
-                PLEASE ALWAYS TAKE AN ACTION :)
+                {`EDEN WILL REACH OUT TO YOU WITH DMs & <br /> APPLICATIONS,
+                PLEASE ALWAYS TAKE AN ACTION :)`}
               </div>
-              <div className="font-semibold ">LET'S TEST EDEN :</div>
+              <div className="font-semibold ">{`LET'S TEST EDEN :`}</div>
               <div className="relative flex flex-col items-center gap-3 rounded-lg border-2 border-gray-300 p-2 text-center font-semibold">
                 <span
-                  className={`absolute top-2 left-2 rounded-full bg-blue-600 p-1 text-left`}
+                  className={`absolute left-2 top-2 rounded-full bg-blue-600 p-1 text-left`}
                 >
                   <FaDiscord size={`1em`} color={`#ffffff`} />
                 </span>
@@ -78,7 +77,7 @@ const EdenDm: NextPageWithLayout = () => {
                   <img src="/logo192.png" width="30%" />
                   <span>@EDEN</span>
                 </>
-                <button className=" rounded-3xl bg-pink-300 py-2 px-4 hover:bg-pink-500 ">
+                <button className=" rounded-3xl bg-pink-300 px-4 py-2 hover:bg-pink-500 ">
                   SEND A DM
                 </button>
               </div>
@@ -118,7 +117,7 @@ const EdenDm: NextPageWithLayout = () => {
                 <input type="checkbox" /> REVIEW YOUR OPPORTUNITY
                 <BsArrowRight fontSize="20px" />
               </div>
-              <button className="border-2 border-[#e4fea3] bg-gray-100 py-2 px-3 text-sm hover:bg-white">
+              <button className="border-2 border-[#e4fea3] bg-gray-100 px-3 py-2 text-sm hover:bg-white">
                 LAUNCH TO EDEN NETWORK
               </button>
             </div>
@@ -181,7 +180,7 @@ const EdenDm: NextPageWithLayout = () => {
                   DESCRIPTION
                 </div>
                 <div className="text-sm  font-semibold">
-                  WE'RE LOOKING TO FILL A DESIGN LEAD ROLE FOR OUR PROJELE
+                  {`WE'RE LOOKING TO FILL A DESIGN LEAD ROLE FOR OUR PROJELE
                   GRAVITON. WE NEED A STRONG LEADER, WHO WILL BE ABLE TO MANAGE
                   THE TEAM OF 3 PEOPLE. WE'RE & MONTH INTO THE PROCESS & NEED TO
                   DEVELOP DESIGN SYSTEM AS WELL AS ADD SOME ORGANISATION TO THE
@@ -190,7 +189,7 @@ const EdenDm: NextPageWithLayout = () => {
                   THIS PERSON WILL BE A POINT OF CONTACT BETWEEN DESIGN TEAM &
                   FRONTEND TEAM, SO COMMUNICATION SKILLS & GENERAL UNDERSTANDING
                   OF TECH LAYER IS A REQUIREMENT. WE NEED TO LAUNCH AN HUP IN
-                  Q3, so I ESTIMATE ABOUT 4-6 MONTH OF WORK.
+                  Q3, so I ESTIMATE ABOUT 4-6 MONTH OF WORK.`}
                 </div>
               </div>
               <div className="w-full basis-[5%]"></div>
