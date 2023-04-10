@@ -1,6 +1,10 @@
 import { gql, useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
-import { Members, NodesType } from "@eden/package-graphql/generated";
+import {
+  KeywordValue,
+  Members,
+  NodesType,
+} from "@eden/package-graphql/generated";
 import {
   CandidateProfileCard,
   Card,
@@ -24,7 +28,7 @@ import {
 } from "./components";
 
 // eslint-disable-next-line no-unused-vars
-enum ENDORSEMENT_STEPS {
+export enum ENDORSEMENT_STEPS {
   // eslint-disable-next-line no-unused-vars
   CHAT = "CHAT",
   // eslint-disable-next-line no-unused-vars
@@ -77,11 +81,13 @@ export const EndorsementFlow = ({ endorsementID }: IEndorsementFlowProps) => {
   const [memberSelected, setMemberSelected] = useState<Members>();
   const [currentRating, setCurrentRating] = useState<number>(0);
   const [chatMessages, setChatMessages] = useState<IChatMessages[]>([]);
-  const [keywords, setKeywords] = useState<any[]>([]);
+  const [keywords, setKeywords] = useState<KeywordValue[]>([]);
 
   const [endorsedSkills, setEndorsedSkills] = useState<NodesType[]>([]);
 
   const [step, setStep] = useState(ENDORSEMENT_STEPS.CHAT);
+
+  const [error, setError] = useState<boolean | null>(null);
 
   useQuery(FIND_ENDORSEMENT_LINK, {
     variables: {
@@ -93,6 +99,9 @@ export const EndorsementFlow = ({ endorsementID }: IEndorsementFlowProps) => {
     onCompleted: (data) => {
       setMemberSelected(data.findEndorsementLink[0].memberInfo);
       setEndorsedSkills(data.findEndorsementLink[0].nodes);
+    },
+    onError: () => {
+      setError(true);
     },
   });
 
@@ -123,32 +132,45 @@ export const EndorsementFlow = ({ endorsementID }: IEndorsementFlowProps) => {
               shadow
               className={"scrollbar-hide h-85 overflow-scroll bg-white p-4"}
             >
-              {/* CHAT */}
-              {step === ENDORSEMENT_STEPS.CHAT && (
-                <EndorsementView1
-                  member={memberSelected}
-                  onNext={() => setStep(ENDORSEMENT_STEPS.SUBMIT_ENDORSEMENT)}
-                  rating={currentRating}
-                  onRatingChange={setCurrentRating}
-                  chatMessages={chatMessages}
-                  onChatMessagesChange={setChatMessages}
-                  endorsedSkills={endorsedSkills}
-                  keywords={keywords}
-                  onKeywordsChange={setKeywords}
-                />
-              )}
-              {/* SUBMIT_ENDORSEMENT */}
-              {step === ENDORSEMENT_STEPS.SUBMIT_ENDORSEMENT && (
-                <EndorsementView2
-                  member={memberSelected}
-                  onWarning={() => setStep(ENDORSEMENT_STEPS.WARNING)}
-                  onNext={() => setStep(ENDORSEMENT_STEPS.SUCCESS)}
-                  onBack={() => setStep(ENDORSEMENT_STEPS.CHAT)}
-                  rating={currentRating}
-                  onRatingChange={setCurrentRating}
-                  chatMessages={chatMessages}
-                  keywords={keywords}
-                />
+              {error ? (
+                <div
+                  className={`grid h-full place-content-center text-center text-2xl font-semibold text-zinc-700`}
+                >
+                  <div>Sorry, No Endorsement Link Found</div>
+                  <div>Please Check the Link</div>
+                </div>
+              ) : (
+                <>
+                  {/* CHAT */}
+                  {step === ENDORSEMENT_STEPS.CHAT && (
+                    <EndorsementView1
+                      member={memberSelected}
+                      onNext={() =>
+                        setStep(ENDORSEMENT_STEPS.SUBMIT_ENDORSEMENT)
+                      }
+                      rating={currentRating}
+                      onRatingChange={setCurrentRating}
+                      chatMessages={chatMessages}
+                      onChatMessagesChange={setChatMessages}
+                      endorsedSkills={endorsedSkills}
+                      keywords={keywords}
+                      onKeywordsChange={setKeywords}
+                    />
+                  )}
+                  {/* SUBMIT_ENDORSEMENT */}
+                  {step === ENDORSEMENT_STEPS.SUBMIT_ENDORSEMENT && (
+                    <EndorsementView2
+                      member={memberSelected}
+                      onWarning={() => setStep(ENDORSEMENT_STEPS.WARNING)}
+                      onNext={() => setStep(ENDORSEMENT_STEPS.SUCCESS)}
+                      onBack={() => setStep(ENDORSEMENT_STEPS.CHAT)}
+                      rating={currentRating}
+                      onRatingChange={setCurrentRating}
+                      chatMessages={chatMessages}
+                      keywords={keywords}
+                    />
+                  )}
+                </>
               )}
             </Card>
           </GridItemNine>
