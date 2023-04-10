@@ -1,8 +1,10 @@
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
-import { Members } from "@eden/package-graphql/generated";
+import { Members, Mutation } from "@eden/package-graphql/generated";
 import {
   AI_REPLY_SERVICES,
   AppUserSubmenuLayout,
+  Button,
   Card,
   EdenAiChat,
   FillSocialLinks,
@@ -42,7 +44,10 @@ const ProfilePage: NextPageWithLayout = () => {
       <GridLayout>
         <GridItemSix>
           <Card className={"h-85 bg-white shadow"}>
-            <CreateProrfileContainer setUserState={setUserState} />
+            <CreateProrfileContainer
+              setUserState={setUserState}
+              userState={userState}
+            />
           </Card>
         </GridItemSix>
         <GridItemSix>
@@ -94,7 +99,8 @@ export async function getServerSideProps(ctx: {
 // STUFF TO BRONG INTO ANOTHER FILE
 
 // eslint-disable-next-line no-unused-vars
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { UPDATE_MEMBER } from "@eden/package-graphql";
+import { Controller, useForm } from "react-hook-form";
 
 import { locations } from "../../../utils/data/locations";
 
@@ -106,17 +112,35 @@ for (let i = 0; i < 500; i++) {
 
 export interface ICreateProfileContainerProps {
   setUserState: Dispatch<SetStateAction<Members | undefined>>;
+  userState?: Members | undefined;
 }
+
+// const FIND_NODES = gql`
+//   query ($fields: findNodesInput) {
+//     findNodes(fields: $fields) {
+//       _id
+//       name
+//       subNodes {
+//         _id
+//         name
+//       }
+//     }
+//   }
+// `;
 
 export const CreateProrfileContainer = ({
   setUserState,
+  userState,
 }: ICreateProfileContainerProps) => {
   const { currentUser } = useContext(UserContext);
   // eslint-disable-next-line no-unused-vars
-  const { register, handleSubmit, watch, control, setValue, getValues } =
-    useForm<Members>({
-      defaultValues: { ...currentUser },
-    });
+  const [submitting, setSubmitting] = useState(false);
+
+  const { register, watch, control, setValue, getValues } = useForm<Members>({
+    defaultValues: { ...currentUser },
+  });
+
+  // const [nodes, setNodes] = useState<Array<string>>([]);
 
   useEffect(() => {
     const subscription = watch((data) => {
@@ -127,6 +151,61 @@ export const CreateProrfileContainer = ({
     return () => subscription.unsubscribe();
   }, [watch]);
 
+  const handleSubmit = () => {
+    const fields = {
+      bio: userState?.bio,
+      links: userState?.links?.map((item: any) => ({
+        url: item?.url,
+        name: item?.name,
+      })),
+      hoursPerWeek: Number(userState?.hoursPerWeek || 0),
+      previousProjects: userState?.previousProjects?.map((item: any) => ({
+        description: item.description,
+        endDate: item.endDate,
+        startDate: item.startDate,
+        title: item.title,
+      })),
+    };
+
+    updateMember({
+      variables: {
+        fields: fields,
+      },
+    });
+  };
+
+  // eslint-disable-next-line no-unused-vars
+  const [updateMember] = useMutation(UPDATE_MEMBER, {
+    onCompleted({ updateMember }: Mutation) {
+      if (!updateMember) console.log("updateMember is null");
+      console.log("updateMember", updateMember);
+    },
+    onError: () => {
+      setSubmitting(false);
+    },
+  });
+
+  // updateMember({
+  //   variables: {
+  //     fields: fields,
+  //   },
+  // });
+
+  // eslint-disable-next-line no-unused-vars
+  // const { data: dataNodes } = useQuery(FIND_NODES, {
+  //   variables: {
+  //     fields: {
+  //       _id: nodes,
+  //       node: "expertise",
+  //     },
+  //   },
+  //   skip: nodes.length === 0,
+  //   onCompleted: (val) => {
+  //     debugger;
+  //     setValue("nodes", val);
+  //   },
+  // });
+
   return (
     <div className="scrollbar-hide h-full overflow-scroll">
       <Wizard showStepsHeader>
@@ -136,6 +215,7 @@ export const CreateProrfileContainer = ({
               aiReplyService={AI_REPLY_SERVICES.EDEN_GPT_REPLY}
               handleChangeNodes={(_nodeObj: any) => {
                 console.log("handleChangeNodes:", _nodeObj);
+                // setNodes(Object.keys(_nodeObj));
               }}
               handleChangeChat={(_chat: any) => {
                 console.log("handleChangeChat:", _chat);
@@ -145,14 +225,40 @@ export const CreateProrfileContainer = ({
         </WizardStep>
         <WizardStep label="step 1">
           <div className="px-4">
-            <p className="mb-2">Please write a short bio!</p>
-            <textarea
-              id="bio"
-              className="font-Inter text-soilBody focus:border-accentColor focus:ring-soilGreen-500 block flex w-full resize-none rounded-md border border-zinc-400/50 py-1 py-1 px-2 px-2 text-base focus:outline-transparent focus:ring focus:ring-opacity-50"
-              rows={8}
-              required
-              {...register("bio")}
-            />
+            <section className="mb-4">
+              <p className="mb-2">Please write a short bio!</p>
+              <textarea
+                id="bio"
+                defaultValue={currentUser?.bio || ""}
+                className="font-Inter text-soilBody focus:border-accentColor focus:ring-soilGreen-500 block flex w-full resize-none rounded-md border border-zinc-400/50 py-1 py-1 px-2 px-2 text-base focus:outline-transparent focus:ring focus:ring-opacity-50"
+                rows={8}
+                required
+                {...register("bio")}
+              />
+            </section>
+            <section className="mb-4">
+              <p className="mb-2">Edit your skills</p>
+              {/* <DynamicSearchGraph
+                nodesID={Object.keys(nodeObj)}
+                activeNodes={Object.values(nodeObj).map(
+                  (node: any) => node.active
+                )}
+                isNewNodes={Object.values(nodeObj).map(
+                  (node: any) => node.isNew
+                )}
+                setActivateNodeEvent={setActivateNodeEvent}
+                height={"380"}
+                // graphType={"simple"}
+                // graphType={"KG_AI_2"}
+                graphType={"KG_AI_2_plusIndustry"}
+                // zoomGraph={1.1}
+                setRelatedNodePopup={handleOpenPopup}
+                disableZoom={true}
+              /> */}
+            </section>
+            <section className="mb-4">
+              <p className="mb-2">Edit your relevant skills</p>
+            </section>
           </div>
         </WizardStep>
         <WizardStep label="Background">
@@ -318,6 +424,11 @@ export const CreateProrfileContainer = ({
                 )}
               />
             </div>
+          </section>
+        </WizardStep>
+        <WizardStep label="Submit">
+          <section className="mb-4 p-4">
+            <Button onClick={handleSubmit}>Submit</Button>
           </section>
         </WizardStep>
       </Wizard>
