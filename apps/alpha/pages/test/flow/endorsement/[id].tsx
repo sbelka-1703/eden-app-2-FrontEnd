@@ -7,7 +7,7 @@ const EndorsementPage: NextPageWithLayout = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  console.log("endorsement page ID ===>", id);
+  // console.log("endorsement page ID ===>", id);
 
   return (
     <>
