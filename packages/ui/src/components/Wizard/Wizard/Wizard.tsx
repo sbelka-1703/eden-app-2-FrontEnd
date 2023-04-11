@@ -67,7 +67,7 @@ export const Wizard = ({ children, showStepsHeader = false }: IWizardProps) => {
           </div>
         ))}
       </div>
-      <div className="absolute bottom-0 left-0 flex w-full bg-white p-4">
+      <div className="absolute bottom-0 left-0 flex w-full rounded-b-2xl bg-white p-4">
         {!isPrevDisabled() && (
           <Button
             className="mr-auto"

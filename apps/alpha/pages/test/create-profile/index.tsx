@@ -1,6 +1,11 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
-import { Members, Mutation } from "@eden/package-graphql/generated";
+import {
+  Maybe,
+  Members,
+  Mutation,
+  RoleTemplate,
+} from "@eden/package-graphql/generated";
 import {
   AI_REPLY_SERVICES,
   AppUserSubmenuLayout,
@@ -11,6 +16,7 @@ import {
   GridItemSix,
   GridLayout,
   MemberInfoWithDynamicGraph2,
+  RoleSelector,
   SalaryRangeChart,
   UserExperienceCard,
   Wizard,
@@ -99,7 +105,7 @@ export async function getServerSideProps(ctx: {
 // STUFF TO BRONG INTO ANOTHER FILE
 
 // eslint-disable-next-line no-unused-vars
-import { UPDATE_MEMBER } from "@eden/package-graphql";
+import { FIND_ROLE_TEMPLATES, UPDATE_MEMBER } from "@eden/package-graphql";
 import { Controller, useForm } from "react-hook-form";
 
 import { locations } from "../../../utils/data/locations";
@@ -142,6 +148,12 @@ export const CreateProrfileContainer = ({
 
   // const [nodes, setNodes] = useState<Array<string>>([]);
 
+  const { data: dataRoles } = useQuery(FIND_ROLE_TEMPLATES, {
+    variables: {
+      fields: {},
+    },
+  });
+
   useEffect(() => {
     const subscription = watch((data) => {
       console.log("WATCH ---- data", data);
@@ -152,7 +164,7 @@ export const CreateProrfileContainer = ({
   }, [watch]);
 
   const handleSubmit = () => {
-    const fields = {
+    const fields: Members = {
       bio: userState?.bio,
       links: userState?.links?.map((item: any) => ({
         url: item?.url,
@@ -168,7 +180,19 @@ export const CreateProrfileContainer = ({
       })),
     };
 
+    if (userState?.memberRole) fields.memberRole = userState?.memberRole._id;
     // if (userState?.location) fields.location = userState?.location;
+    if (userState?.timeZone) fields.timeZone = userState?.timeZone;
+    // if (userState?.expirienceLevel?.total)
+    //   fields.expirienceLevel = {
+    //     ...fields.expirienceLevel,
+    //     total: userState?.expirienceLevel?.total,
+    //   };
+    // if (userState?.expirienceLevel?.years)
+    //   fields.expirienceLevel = {
+    //     ...fields.expirienceLevel,
+    //     years: userState?.expirienceLevel?.years,
+    //   };
 
     updateMember({
       variables: {
@@ -266,6 +290,26 @@ export const CreateProrfileContainer = ({
         </WizardStep>
         <WizardStep label="Background">
           <div className="px-4">
+            <section className="mb-4">
+              <p>{`What's your main role?`}</p>
+              <Controller
+                name={"budget.perHour"}
+                control={control}
+                render={() => (
+                  <RoleSelector
+                    value={userState?.memberRole?.title || ""}
+                    roles={
+                      dataRoles?.findRoleTemplates as Maybe<
+                        Array<Maybe<RoleTemplate>>
+                      >
+                    }
+                    onSelect={(val) => {
+                      setValue("memberRole", val);
+                    }}
+                  />
+                )}
+              />
+            </section>
             <Controller
               name={"previousProjects"}
               control={control}
@@ -328,6 +372,7 @@ export const CreateProrfileContainer = ({
                 control={control}
                 render={() => (
                   <select
+                    defaultValue={`(${userState?.timeZone}) ${userState?.location}`}
                     id="location"
                     className="font-Inter text-soilBody focus:border-accentColor focus:ring-soilGreen-500 block flex w-full resize-none rounded-md border border-zinc-400/50 px-2 py-1 text-base focus:outline-transparent focus:ring focus:ring-opacity-50"
                     required

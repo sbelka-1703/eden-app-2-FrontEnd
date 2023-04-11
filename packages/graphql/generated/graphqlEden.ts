@@ -250,6 +250,7 @@ export type Members = {
   endorseSummary?: Maybe<EndorseSummaryType>;
   endorsementsReceive?: Maybe<Array<Maybe<Endorsement>>>;
   endorsementsSend?: Maybe<Array<Maybe<Endorsement>>>;
+  endorsementsSendStats?: Maybe<EndorsementsSendStatsType>;
   expirienceLevel?: Maybe<ExpirienceLevelType>;
   gardenUpdate?: Maybe<GardenUpdateType>;
   hoursPerWeek?: Maybe<Scalars["Float"]>;
@@ -303,10 +304,12 @@ export type Mutation = {
   addReview?: Maybe<Review>;
   applyGrant?: Maybe<GrantTemplate>;
   approveTweet?: Maybe<Project>;
+  calculateReputation?: Maybe<Members>;
   changeTeamMember_Phase_Project?: Maybe<Project>;
   createEndorsementLink?: Maybe<EndorsementLink>;
   createError?: Maybe<ErrorLog>;
   createFakeEndorsement?: Maybe<Endorsement>;
+  createFakeReview?: Maybe<Review>;
   createFakeUser?: Maybe<Members>;
   createNewEpic?: Maybe<Epic>;
   createNewRole?: Maybe<Role>;
@@ -316,6 +319,8 @@ export type Mutation = {
   createProject?: Maybe<Project>;
   createProjectUpdate?: Maybe<ProjectUpdate>;
   createRoom?: Maybe<Rooms>;
+  cvMapKG?: Maybe<CvMapKgOutput>;
+  deleteAllEndorsements?: Maybe<Scalars["Boolean"]>;
   deleteError?: Maybe<ErrorLog>;
   deleteMember?: Maybe<Members>;
   deleteNodesFromMember?: Maybe<Members>;
@@ -423,6 +428,10 @@ export type MutationApproveTweetArgs = {
   fields: ApproveTweetInput;
 };
 
+export type MutationCalculateReputationArgs = {
+  fields?: InputMaybe<CalculateReputationInput>;
+};
+
 export type MutationChangeTeamMember_Phase_ProjectArgs = {
   fields: ChangeTeamMember_Phase_ProjectInput;
 };
@@ -437,6 +446,10 @@ export type MutationCreateErrorArgs = {
 
 export type MutationCreateFakeEndorsementArgs = {
   fields?: InputMaybe<CreateFakeEndorsementInput>;
+};
+
+export type MutationCreateFakeReviewArgs = {
+  fields?: InputMaybe<CreateFakeReviewInput>;
 };
 
 export type MutationCreateFakeUserArgs = {
@@ -473,6 +486,14 @@ export type MutationCreateProjectUpdateArgs = {
 
 export type MutationCreateRoomArgs = {
   fields: CreateRoomInput;
+};
+
+export type MutationCvMapKgArgs = {
+  fields?: InputMaybe<CvMapKgInput>;
+};
+
+export type MutationDeleteAllEndorsementsArgs = {
+  fields?: InputMaybe<DeleteAllEndorsementsInput>;
 };
 
 export type MutationDeleteErrorArgs = {
@@ -747,11 +768,13 @@ export type Query = {
   dynamicSearchToMemberGraphGPT?: Maybe<Graph>;
   dynamicSearchToMemberGraphV2?: Maybe<Graph>;
   dynamicSearchToProjectGraph?: Maybe<Graph>;
+  edenGPTCreateProfileExpirienceChatAPI?: Maybe<EdenGptCreateProfileExpirienceChatApiOutput>;
   edenGPTEndorseChatAPI?: Maybe<EdenGptEndorseChatApiOutput>;
   edenGPTReviewChatAPI?: Maybe<EdenGptReviewChatApiOutput>;
   edenGPTreply?: Maybe<EdenGpTreplyOutput>;
   edenGPTreplyChatAPI?: Maybe<EdenGpTreplyChatApiOutput>;
   edenGPTreplyChatAPI_V2?: Maybe<EdenGpTreplyChatApi_V2Output>;
+  edenGPTreplyChatAPI_V3?: Maybe<EdenGpTreplyChatApi_V3Output>;
   edenGPTreplyMemory?: Maybe<EdenGpTreplyMemoryOutput>;
   edenGPTsearchProfiles?: Maybe<EdenGpTsearchProfilesOutput>;
   edenGPTsummaryProfile?: Maybe<EdenGpTsummaryProfileOutput>;
@@ -821,6 +844,7 @@ export type Query = {
   messageMapKG?: Maybe<MessageMapKgOutput>;
   messageMapKG_V2?: Maybe<MessageMapKg_V2Output>;
   messageMapKG_V3?: Maybe<MessageMapKg_V3Output>;
+  messageMapKG_V4?: Maybe<MessageMapKg_V4Output>;
   nodes_autocomplete?: Maybe<Array<Maybe<Node>>>;
   setAllMatch_v2?: Maybe<Scalars["Boolean"]>;
   skills?: Maybe<PaginatedSkills>;
@@ -865,6 +889,10 @@ export type QueryDynamicSearchToProjectGraphArgs = {
   fields?: InputMaybe<DynamicSearchToProjectGraphInput>;
 };
 
+export type QueryEdenGptCreateProfileExpirienceChatApiArgs = {
+  fields?: InputMaybe<EdenGptCreateProfileExpirienceChatApiInput>;
+};
+
 export type QueryEdenGptEndorseChatApiArgs = {
   fields?: InputMaybe<EdenGptEndorseChatApiInput>;
 };
@@ -883,6 +911,10 @@ export type QueryEdenGpTreplyChatApiArgs = {
 
 export type QueryEdenGpTreplyChatApi_V2Args = {
   fields?: InputMaybe<EdenGpTreplyChatApi_V2Input>;
+};
+
+export type QueryEdenGpTreplyChatApi_V3Args = {
+  fields?: InputMaybe<EdenGpTreplyChatApi_V3Input>;
 };
 
 export type QueryEdenGpTreplyMemoryArgs = {
@@ -1133,6 +1165,10 @@ export type QueryMessageMapKg_V3Args = {
   fields?: InputMaybe<MessageMapKg_V3Input>;
 };
 
+export type QueryMessageMapKg_V4Args = {
+  fields?: InputMaybe<MessageMapKg_V4Input>;
+};
+
 export type QueryNodes_AutocompleteArgs = {
   fields?: InputMaybe<Nodes_AutocompleteInput>;
 };
@@ -1172,6 +1208,7 @@ export type ResultCount2 = {
 
 export type Review = {
   __typename?: "Review";
+  _id?: Maybe<Scalars["ID"]>;
   arweaveTransactionID?: Maybe<Scalars["String"]>;
   createdAt?: Maybe<Scalars["Date"]>;
   discussion?: Maybe<Array<Maybe<DiscussionMessage>>>;
@@ -1466,6 +1503,7 @@ export type AddProjectRoleInput = {
 export type AddReviewInput = {
   discussion?: InputMaybe<Array<InputMaybe<DiscussionMessageInput>>>;
   income?: InputMaybe<Scalars["Float"]>;
+  payEndorsers?: InputMaybe<Scalars["Boolean"]>;
   reviewMessage?: InputMaybe<Scalars["String"]>;
   reviewNodes?: InputMaybe<Array<InputMaybe<EndorseNodeInput>>>;
   stars?: InputMaybe<Scalars["Int"]>;
@@ -1560,6 +1598,10 @@ export type BudgetType = {
   totalBudget?: Maybe<Scalars["String"]>;
 };
 
+export type CalculateReputationInput = {
+  userID?: InputMaybe<Scalars["ID"]>;
+};
+
 export type ChangeTeamMember_Phase_ProjectInput = {
   memberID?: InputMaybe<Scalars["ID"]>;
   phase?: InputMaybe<PhaseType>;
@@ -1632,6 +1674,11 @@ export type CreateErrorInput = {
 };
 
 export type CreateFakeEndorsementInput = {
+  userReceiveID?: InputMaybe<Scalars["ID"]>;
+  userSendID?: InputMaybe<Scalars["ID"]>;
+};
+
+export type CreateFakeReviewInput = {
   userReceiveID?: InputMaybe<Scalars["ID"]>;
   userSendID?: InputMaybe<Scalars["ID"]>;
 };
@@ -1766,6 +1813,15 @@ export type CreateSkillsInput = {
   state?: InputMaybe<ApprovedSkillEnum>;
 };
 
+export type CvMapKgInput = {
+  message?: InputMaybe<Scalars["String"]>;
+};
+
+export type CvMapKgOutput = {
+  __typename?: "cvMapKGOutput";
+  keywords?: Maybe<Array<Maybe<KeywordValue>>>;
+};
+
 export type DatesInput = {
   complition?: InputMaybe<Scalars["String"]>;
   kickOff?: InputMaybe<Scalars["String"]>;
@@ -1775,6 +1831,10 @@ export type DatesType = {
   __typename?: "datesType";
   complition?: Maybe<Scalars["String"]>;
   kickOff?: Maybe<Scalars["String"]>;
+};
+
+export type DeleteAllEndorsementsInput = {
+  deleteAll?: InputMaybe<Scalars["Boolean"]>;
 };
 
 export type DeleteErrorInput = {
@@ -1865,6 +1925,17 @@ export type DynamicSearchToProjectGraphInput = {
   showAvatar?: InputMaybe<Scalars["Boolean"]>;
 };
 
+export type EdenGptCreateProfileExpirienceChatApiInput = {
+  conversation?: InputMaybe<Array<InputMaybe<MessageChat>>>;
+  expirienceTypeID?: InputMaybe<ExpirienceTypeIdEnum>;
+  message?: InputMaybe<Scalars["String"]>;
+};
+
+export type EdenGptCreateProfileExpirienceChatApiOutput = {
+  __typename?: "edenGPTCreateProfileExpirienceChatAPIOutput";
+  reply?: Maybe<Scalars["String"]>;
+};
+
 export type EdenGptEndorseChatApiInput = {
   conversation?: InputMaybe<Array<InputMaybe<MessageChat>>>;
   message?: InputMaybe<Scalars["String"]>;
@@ -1906,6 +1977,21 @@ export type EdenGpTreplyChatApi_V2Input = {
 
 export type EdenGpTreplyChatApi_V2Output = {
   __typename?: "edenGPTreplyChatAPI_V2Output";
+  reply?: Maybe<Scalars["String"]>;
+};
+
+export type EdenGpTreplyChatApi_V3Input = {
+  conversation?: InputMaybe<Array<InputMaybe<MessageChat>>>;
+  executedTasks?: InputMaybe<Array<InputMaybe<ExecutedActionInput>>>;
+  message?: InputMaybe<Scalars["String"]>;
+  previusTaskDoneID?: InputMaybe<Scalars["String"]>;
+  userID?: InputMaybe<Scalars["ID"]>;
+};
+
+export type EdenGpTreplyChatApi_V3Output = {
+  __typename?: "edenGPTreplyChatAPI_V3Output";
+  executeTaskType?: Maybe<Scalars["String"]>;
+  executedTasks?: Maybe<Array<Maybe<ExecutedActionType>>>;
   reply?: Maybe<Scalars["String"]>;
 };
 
@@ -2018,6 +2104,13 @@ export type Endorsements = {
   stars?: Maybe<Scalars["Int"]>;
 };
 
+export type EndorsementsSendStatsType = {
+  __typename?: "endorsementsSendStatsType";
+  reputation?: Maybe<Scalars["Float"]>;
+  totalReward?: Maybe<Scalars["Float"]>;
+  unclaimedReward?: Maybe<Scalars["Float"]>;
+};
+
 export type EnterRoomInput = {
   memberID?: InputMaybe<Scalars["ID"]>;
   roomID?: InputMaybe<Scalars["ID"]>;
@@ -2034,11 +2127,31 @@ export type ErrorsInput = {
   errorType?: InputMaybe<ErrorTypeEnum>;
 };
 
+export type ExecutedActionInput = {
+  percentageCompleted?: InputMaybe<Scalars["Int"]>;
+  taskType?: InputMaybe<Scalars["String"]>;
+  taskTypeID?: InputMaybe<Scalars["String"]>;
+};
+
+export type ExecutedActionType = {
+  __typename?: "executedActionType";
+  percentageCompleted?: Maybe<Scalars["Int"]>;
+  taskType?: Maybe<Scalars["String"]>;
+  taskTypeID?: Maybe<Scalars["String"]>;
+};
+
 export type ExpirienceLevelType = {
   __typename?: "expirienceLevelType";
   total?: Maybe<Scalars["Int"]>;
   years?: Maybe<Scalars["Int"]>;
 };
+
+export enum ExpirienceTypeIdEnum {
+  Background = "BACKGROUND",
+  CareerGoalsAspirations = "CAREER_GOALS_ASPIRATIONS",
+  SkillsExpirience = "SKILLS_EXPIRIENCE",
+  WorkPreferences = "WORK_PREFERENCES",
+}
 
 export enum ExploreFeatureEnum {
   ExploreProjectsButton = "exploreProjectsButton",
@@ -2552,6 +2665,16 @@ export type MessageMapKg_V3Input = {
 
 export type MessageMapKg_V3Output = {
   __typename?: "messageMapKG_V3Output";
+  keywords?: Maybe<Array<Maybe<KeywordValue>>>;
+};
+
+export type MessageMapKg_V4Input = {
+  assistantMessage?: InputMaybe<Scalars["String"]>;
+  message?: InputMaybe<Scalars["String"]>;
+};
+
+export type MessageMapKg_V4Output = {
+  __typename?: "messageMapKG_V4Output";
   keywords?: Maybe<Array<Maybe<KeywordValue>>>;
 };
 
