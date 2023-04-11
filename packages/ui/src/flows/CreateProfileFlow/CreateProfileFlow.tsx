@@ -205,7 +205,7 @@ export const CreateProfileFlow = ({
           </div>
         </WizardStep>
         <WizardStep label="Background">
-          <div className="px-4">
+          <div className="scrollbar-hide h-full overflow-scroll px-4">
             <section className="mb-4">
               <p>{`What's your main role?`}</p>
               <Controller
@@ -242,7 +242,7 @@ export const CreateProfileFlow = ({
           </div>
         </WizardStep>
         <WizardStep label="Details">
-          <div className="h-full overflow-scroll px-4">
+          <div className="scrollbar-hide h-full overflow-scroll px-4">
             <section className="mb-4">
               {/* TODO plz remove next hardcoded line after testing */}
               <p className="mb-2 bg-lime-50">
