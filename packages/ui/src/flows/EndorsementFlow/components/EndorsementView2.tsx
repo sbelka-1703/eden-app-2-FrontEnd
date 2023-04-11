@@ -13,7 +13,7 @@ import { useContext, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 
-import { ENDORSEMENT_STEPS, IChatMessages } from "../EndorsementFlow";
+import { IChatMessages } from "../EndorsementFlow";
 
 const EDEN_GPT_ENDORSE_CHAT_API = gql`
   query ($fields: edenGPTEndorseChatAPIInput!) {
@@ -64,6 +64,7 @@ export const EndorsementView2 = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [amountStake, setAmountStake] = useState(0);
   const [sendingEndorsement, setSendingEndorsement] = useState(false);
+  const [profileComplete, setProfileComplete] = useState(false);
 
   const { register, handleSubmit, reset, watch } = useForm<ReviewInputs>();
   const onSubmit: SubmitHandler<ReviewInputs> = (data) => {
@@ -98,6 +99,7 @@ export const EndorsementView2 = ({
         },
       });
     } else {
+      setProfileComplete(true);
       addEndorsement({
         variables: {
           fields,
@@ -110,7 +112,7 @@ export const EndorsementView2 = ({
     onCompleted({ addEndorsement }) {
       if (!addEndorsement) console.log("addEndorsement is null");
       // console.log("addEndorsement", addEndorsement);
-      if (!ENDORSEMENT_STEPS.WARNING) onNext();
+      if (profileComplete) onNext();
       setSendingEndorsement(false);
     },
   });
