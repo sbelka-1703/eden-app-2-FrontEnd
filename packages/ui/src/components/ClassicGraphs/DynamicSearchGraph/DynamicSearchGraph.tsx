@@ -83,6 +83,8 @@ export const DynamicSearchGraph = ({
 }: IDynamicSearchGraphProps) => {
   const refContainer = useRef<HTMLDivElement>();
 
+  console.log("nodesID = ", nodesID);
+
   // useEffect(() => {
   //   console.log("CJAAAAANGE - nodesID = ", nodesID);
   // }, [nodesID]);

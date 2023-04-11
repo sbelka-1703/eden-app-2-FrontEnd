@@ -13,7 +13,7 @@ import { useContext, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 
-import { IChatMessages } from "../EndorsementFlow";
+import { ENDORSEMENT_STEPS, IChatMessages } from "../EndorsementFlow";
 
 const EDEN_GPT_ENDORSE_CHAT_API = gql`
   query ($fields: edenGPTEndorseChatAPIInput!) {
@@ -92,7 +92,11 @@ export const EndorsementView2 = ({
 
     if (percent < 50) {
       onWarning();
-      return;
+      addEndorsement({
+        variables: {
+          fields,
+        },
+      });
     } else {
       addEndorsement({
         variables: {
@@ -106,7 +110,7 @@ export const EndorsementView2 = ({
     onCompleted({ addEndorsement }) {
       if (!addEndorsement) console.log("addEndorsement is null");
       // console.log("addEndorsement", addEndorsement);
-      onNext();
+      if (!ENDORSEMENT_STEPS.WARNING) onNext();
       setSendingEndorsement(false);
     },
   });
@@ -299,7 +303,7 @@ export const EndorsementView2 = ({
                         </div>
                       </div>
                     </div>
-                    <div className={`my-2`}>
+                    <div className={`my-1`}>
                       {amountStake !== 0 && (
                         <span
                           className={`bg-soilYellow/60 rounded-full px-2 py-1 font-medium uppercase text-neutral-700`}
@@ -308,11 +312,11 @@ export const EndorsementView2 = ({
                         </span>
                       )}
                     </div>
-                    <div
-                      className={`input-primary scrollbar-hide h-32 overflow-scroll`}
+                    {/* <div
+                      className={`input-primary scrollbar-hide h-28 overflow-scroll`}
                     >
                       {watchMessage}
-                    </div>
+                    </div> */}
                   </div>
                   <div className={`col-span-1`}>
                     <StarRating
@@ -320,6 +324,11 @@ export const EndorsementView2 = ({
                       onRatingChange={onRatingChange}
                     />
                   </div>
+                </div>
+                <div
+                  className={`input-primary scrollbar-hide h-24 overflow-scroll`}
+                >
+                  {watchMessage}
                 </div>
               </Card>
             </div>
