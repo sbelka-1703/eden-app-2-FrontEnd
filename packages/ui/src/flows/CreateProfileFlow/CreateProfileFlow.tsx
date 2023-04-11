@@ -20,13 +20,7 @@ import { Controller, useForm } from "react-hook-form";
 import { locations } from "../../../utils/locations";
 import { UserExperienceCard } from "../../cards";
 import { SalaryRangeChart } from "../../charts";
-import {
-  AI_REPLY_SERVICES,
-  EdenAiChat,
-  FillSocialLinks,
-  Wizard,
-  WizardStep,
-} from "../../components";
+import { FillSocialLinks, Wizard, WizardStep } from "../../components";
 import { Button } from "../../elements";
 import { RoleSelector } from "../../selectors";
 import { ExperienceCreateProfileChat } from "./ExperienceCreateProfileChat";
