@@ -24,6 +24,7 @@ ChartJS.register(
 const options: ChartOptions<"bar"> = {
   responsive: true,
   maintainAspectRatio: true,
+  animation: false,
   plugins: {
     legend: {
       display: false,
