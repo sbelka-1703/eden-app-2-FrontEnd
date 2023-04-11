@@ -49,10 +49,11 @@ export const Wizard = ({ children, showStepsHeader = false }: IWizardProps) => {
           steps={children.map((_step) => _step.props.label)}
         />
       )}
+      {showStepsHeader && <div className="pt-20"></div>}
       <div
         className={classNames(
-          showStepsHeader ? "pt-20" : "",
-          "h-full w-full pb-20"
+          showStepsHeader ? "h-[calc(100%-10rem)]" : "h-[calc(100%-5rem)]",
+          "w-full"
         )}
       >
         {children.map((item, index) => (
@@ -67,6 +68,7 @@ export const Wizard = ({ children, showStepsHeader = false }: IWizardProps) => {
           </div>
         ))}
       </div>
+      <div className="pt-20"></div>
       <div className="absolute bottom-0 left-0 flex w-full rounded-b-2xl bg-white p-4">
         {!isPrevDisabled() && (
           <Button
