@@ -159,6 +159,7 @@ export const CreateProrfileContainer = ({
         name: item?.name,
       })),
       hoursPerWeek: Number(userState?.hoursPerWeek || 0),
+
       previousProjects: userState?.previousProjects?.map((item: any) => ({
         description: item.description,
         endDate: item.endDate,
@@ -166,6 +167,8 @@ export const CreateProrfileContainer = ({
         title: item.title,
       })),
     };
+
+    // if (userState?.location) fields.location = userState?.location;
 
     updateMember({
       variables: {
@@ -310,7 +313,7 @@ export const CreateProrfileContainer = ({
                   min={0}
                   max={40}
                   id="hoursPerWeek"
-                  className="font-Inter text-soilBody focus:border-accentColor focus:ring-soilGreen-500 mr-2 block flex w-20 resize-none rounded-md border border-zinc-400/50 py-1 px-2 text-base focus:outline-transparent focus:ring focus:ring-opacity-50"
+                  className="font-Inter text-soilBody focus:border-accentColor focus:ring-soilGreen-500 mr-2 block flex w-20 resize-none rounded-md border border-zinc-400/50 px-2 py-1 text-base focus:outline-transparent focus:ring focus:ring-opacity-50"
                   required
                   {...register("hoursPerWeek")}
                 />
@@ -326,7 +329,7 @@ export const CreateProrfileContainer = ({
                 render={() => (
                   <select
                     id="location"
-                    className="font-Inter text-soilBody focus:border-accentColor focus:ring-soilGreen-500 block flex w-full resize-none rounded-md border border-zinc-400/50 py-1 px-2 text-base focus:outline-transparent focus:ring focus:ring-opacity-50"
+                    className="font-Inter text-soilBody focus:border-accentColor focus:ring-soilGreen-500 block flex w-full resize-none rounded-md border border-zinc-400/50 px-2 py-1 text-base focus:outline-transparent focus:ring focus:ring-opacity-50"
                     required
                     onChange={(e) => {
                       const _gmt = e.target.value.split(" ")[0].slice(1, -1);
@@ -364,7 +367,7 @@ export const CreateProrfileContainer = ({
                   // min={0}
                   // max={40}
                   // // id="hoursPerWeek"
-                  className="font-Inter text-soilBody focus:border-accentColor focus:ring-soilGreen-500 mr-2 block flex w-20 resize-none rounded-md border border-zinc-400/50 py-1 px-2 text-base focus:outline-transparent focus:ring focus:ring-opacity-50"
+                  className="font-Inter text-soilBody focus:border-accentColor focus:ring-soilGreen-500 mr-2 block flex w-20 resize-none rounded-md border border-zinc-400/50 px-2 py-1 text-base focus:outline-transparent focus:ring focus:ring-opacity-50"
                   // required
                   {...register("expirienceLevel.years")}
                 />
@@ -381,7 +384,7 @@ export const CreateProrfileContainer = ({
                   render={() => (
                     <select
                       id="expirienceLevel"
-                      className="font-Inter text-soilBody focus:border-accentColor focus:ring-soilGreen-500 mr-2 block flex w-full w-20 resize-none rounded-md border border-zinc-400/50 py-1 px-2 text-base focus:outline-transparent focus:ring focus:ring-opacity-50"
+                      className="font-Inter text-soilBody focus:border-accentColor focus:ring-soilGreen-500 mr-2 block flex w-20 w-full resize-none rounded-md border border-zinc-400/50 px-2 py-1 text-base focus:outline-transparent focus:ring focus:ring-opacity-50"
                       required
                       onChange={(e) => {
                         const _val = {
@@ -424,11 +427,13 @@ export const CreateProrfileContainer = ({
                 )}
               />
             </div>
-          </section>
-        </WizardStep>
-        <WizardStep label="Submit">
-          <section className="mb-4 p-4">
-            <Button onClick={handleSubmit}>Submit</Button>
+            <Button
+              variant="primary"
+              className="absolute right-4 bottom-4 z-20"
+              onClick={handleSubmit}
+            >
+              Submit
+            </Button>
           </section>
         </WizardStep>
       </Wizard>

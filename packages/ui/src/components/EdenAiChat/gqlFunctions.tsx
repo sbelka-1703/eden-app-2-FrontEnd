@@ -38,10 +38,32 @@ export const FIND_RELATED_NODE = gql`
   }
 `;
 
+export const EDEN_GPT_CREATE_PROFILE_EXPIRIENCE_CHAT = gql`
+  query ($fields: edenGPTCreateProfileExpirienceChatAPIInput!) {
+    edenGPTCreateProfileExpirienceChatAPI(fields: $fields) {
+      reply
+    }
+  }
+`;
+
 export const EDEN_GPT_REPLY_CHAT_API_V2 = gql`
   query ($fields: edenGPTreplyChatAPI_V2Input!) {
     edenGPTreplyChatAPI_V2(fields: $fields) {
       reply
+    }
+  }
+`;
+
+export const EDEN_GPT_REPLY_CHAT_API_V3 = gql`
+  query ($fields: edenGPTreplyChatAPI_V3Input!) {
+    edenGPTreplyChatAPI_V3(fields: $fields) {
+      reply
+      executedTasks {
+        taskType
+        percentageCompleted
+        taskTypeID
+      }
+      executeTaskType
     }
   }
 `;
@@ -84,6 +106,29 @@ export const MESSAGE_MAP_KG_V2 = gql`
 export const MESSAGE_MAP_KG_V3 = gql`
   query ($fields: messageMapKG_V3Input!) {
     messageMapKG_V3(fields: $fields) {
+      keywords {
+        keyword
+        confidence
+        nodeID
+        node {
+          _id
+          name
+          node
+          categoryNodes {
+            name
+          }
+          groupNodes {
+            name
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const MESSAGE_MAP_KG_V4 = gql`
+  query ($fields: messageMapKG_V4Input!) {
+    messageMapKG_V4(fields: $fields) {
       keywords {
         keyword
         confidence

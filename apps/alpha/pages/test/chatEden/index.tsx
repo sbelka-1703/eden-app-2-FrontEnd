@@ -19,7 +19,7 @@ import {
   Card,
   CardGrid,
   ChatMessage,
-  CommonServerAvatarList,
+  // CommonServerAvatarList,
   DynamicSearchGraph,
   EdenAiChat,
   LongText,
@@ -38,6 +38,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { FIND_RELATED_NODE } from "../../../utils/data/GQLfuncitons";
 import type { NextPageWithLayout } from "../../_app";
 import MultiSelectPopup from "./components/MultiSelectPopup";
+import SalaryPopup from "./components/SalaryPopup";
 
 interface NodeObj {
   [key: string]: {
@@ -46,6 +47,22 @@ interface NodeObj {
     isNew: boolean;
   };
 }
+
+type Budget = {
+  minPerHour: number;
+  maxPerHour: number;
+};
+
+type Availability = {
+  minHourPerWeek: number;
+  maxHourPerWeek: number;
+};
+
+type FilterStateType = {
+  budget: Budget;
+  availability: Availability;
+  expirienceLevel: number;
+};
 
 const chatEden: NextPageWithLayout = () => {
   const [nodeObj, setNodeObj] = useState<NodeObj>({
@@ -136,14 +153,26 @@ const chatEden: NextPageWithLayout = () => {
     },
   });
 
+  const [filterState, setFilterState] = useState<FilterStateType>({
+    budget: {
+      minPerHour: -1,
+      maxPerHour: -1,
+    },
+    availability: {
+      minHourPerWeek: -1,
+      maxHourPerWeek: -1,
+    },
+    expirienceLevel: -1,
+  });
+
   const [dataMembersA, setDataMembersA] = useState<any>(null);
 
   const {} = useQuery(MATCH_NODES_MEMBERS_AI4, {
     variables: {
       fields: {
-        // nodesID: Object.keys(nodeObj),
         nodesID: Object.keys(nodeObj).filter((key) => nodeObj[key].active),
         // nodesID: nodesID.filter((node, index) => activeNodes[index]),
+        ...filterState,
         weightModules: [
           {
             type: "node_Skill",
@@ -159,12 +188,44 @@ const chatEden: NextPageWithLayout = () => {
           },
           {
             type: "node_total",
-            weight: 5,
-          },
-          {
-            type: "everything_else",
             weight: 50,
           },
+          {
+            type: "budget_total",
+            weight: 80,
+          },
+          {
+            type: "availability_total",
+            weight: 85,
+          },
+          {
+            type: "expirience_total",
+            weight: 85,
+          },
+          {
+            type: "everythingElse_total",
+            weight: 50,
+          },
+          // {
+          //   type: "node_Skill",
+          //   weight: 70,
+          // },
+          // {
+          //   type: "node_Category",
+          //   weight: 20,
+          // },
+          // {
+          //   type: "node_Group",
+          //   weight: 5,
+          // },
+          // {
+          //   type: "node_total",
+          //   weight: 5,
+          // },
+          // {
+          //   type: "everything_else",
+          //   weight: 50,
+          // },
         ],
       },
     },
@@ -208,11 +269,74 @@ const chatEden: NextPageWithLayout = () => {
   };
   //  ------------- change activation nodes when click ----
 
-  // useEffect(() => {
-  //   console.log("CJAAAAANGE - nodeObj = ", nodeObj);
-  // }, [nodeObj]);
+  // ------------ Salary Popup ------------
+  const [showPopup, setShowPopup] = useState<boolean>(false);
+  const [popupData, setPopupData] = useState<{
+    minSalary?: number;
+    maxSalary?: number;
+    level?: string;
+    minHours?: number;
+    maxHours?: number;
+  }>({ minSalary: 0, maxSalary: 0, level: "", minHours: 0, maxHours: 0 });
 
-  // console.log("activeNodes = ", activeNodes);
+  interface MessageObject {
+    message: string;
+    sentMessage: boolean;
+  }
+  const [sentMessageToEdenAIobj, setSentMessageToEdenAIobj] =
+    useState<MessageObject>({ message: "", sentMessage: false });
+
+  const experienceToNumberMap: Record<string, number> = {
+    Junior: 3,
+    Mid: 6,
+    Senior: 9,
+  };
+
+  const handleDone = (data: {
+    minSalary?: number;
+    maxSalary?: number;
+    level?: string;
+    minHours?: number;
+    maxHours?: number;
+    sentMessageToEdenAI?: string;
+  }) => {
+    setPopupData(data);
+    setShowPopup(false);
+
+    const filterState = {
+      budget: {
+        minPerHour: data?.minSalary ? data.minSalary : -1,
+        maxPerHour: data?.maxSalary ? data.maxSalary : -1,
+      },
+      availability: {
+        minHourPerWeek: data?.minHours ? data.minHours : -1,
+        maxHourPerWeek: data?.maxHours ? data.maxHours : -1,
+      },
+      expirienceLevel: -1,
+    };
+
+    if (data?.level) {
+      filterState["expirienceLevel"] = experienceToNumberMap[data.level];
+    }
+    setFilterState(filterState);
+
+    console.log("sentMessageToEdenAI = ", data.sentMessageToEdenAI);
+
+    if (data.sentMessageToEdenAI) {
+      setSentMessageToEdenAIobj({
+        message: data.sentMessageToEdenAI,
+        sentMessage: true,
+      });
+    }
+  };
+
+  const [mode, setMode] = useState<"salary" | "level" | "availability">(
+    "salary"
+  );
+
+  // const mode: 'salary' | 'level' = 'level';
+  // ------------ Salary Popup ------------
+
   return (
     <>
       <div className="mx-auto grid h-screen grid-cols-12 overflow-hidden bg-[#f3f3f3] ">
@@ -240,9 +364,79 @@ const chatEden: NextPageWithLayout = () => {
             <div className="h-1 w-full bg-gray-300"></div>
           </div> */}
 
+          {
+            <div className="flex justify-center">
+              <h1 className="text-xs text-gray-400">
+                {`Salary min: ${popupData.minSalary} `}
+                {`Salary max: ${popupData.maxSalary}`}
+                {`level: ${popupData.level}`}
+                {`Availability min: ${popupData.minHours} `}
+                {`Availability min: ${popupData.maxHours} `}
+              </h1>
+            </div>
+          }
+
+          {/* button that show the popul, really small  */}
+          <div className="flex justify-center">
+            <button
+              type="button"
+              className={
+                "rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none"
+              }
+              onClick={() => {
+                setShowPopup(true);
+                setMode("salary");
+              }}
+            >
+              {" "}
+              Salary Popup{" "}
+            </button>
+            <button
+              type="button"
+              className={
+                "rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none"
+              }
+              onClick={() => {
+                setShowPopup(true);
+                setMode("level");
+              }}
+            >
+              {" "}
+              level Popup{" "}
+            </button>
+            <button
+              type="button"
+              className={
+                "rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none"
+              }
+              onClick={() => {
+                setShowPopup(true);
+                setMode("availability");
+              }}
+            >
+              {" "}
+              Availability Popup{" "}
+            </button>
+          </div>
+
+          {/* {showPopupSalary && <SalaryPopup onDone={handleDone} />} */}
+          {/* {showPopup && <SalaryPopup mode={mode} onDone={handleDone} />} */}
+          {showPopup && (
+            <SalaryPopup
+              mode={mode}
+              minSalary={popupData.minSalary}
+              maxSalary={popupData.maxSalary}
+              level={popupData.level}
+              minHours={popupData.minHours}
+              maxHours={popupData.maxHours}
+              onDone={handleDone}
+            />
+          )}
+
           <div className="h-[60vh]">
             <EdenAiChat
-              aiReplyService={AI_REPLY_SERVICES.EDEN_GPT_REPLY}
+              aiReplyService={AI_REPLY_SERVICES.EDEN_GPT_REPLY_CHAT_API_V3}
+              // aiReplyService={AI_REPLY_SERVICES.EDEN_GPT_REPLY}
               extraNodes={extraNodes}
               handleChangeNodes={(_nodeObj: any) => {
                 // console.log("handleChangeNodes:", nodeObj);
@@ -252,6 +446,10 @@ const chatEden: NextPageWithLayout = () => {
                 // console.log("handleChangeChat:", _chat);
                 setChatN(_chat);
               }}
+              setShowPopupSalary={setShowPopup}
+              setMode={setMode}
+              sentMessageToEdenAIobj={sentMessageToEdenAIobj}
+              setSentMessageToEdenAIobj={setSentMessageToEdenAIobj}
             />
           </div>
           <div className="h-[40vh] py-4">
@@ -535,13 +733,13 @@ const UserDiscoverCard = ({
       </div>
       <div className="grid grid-cols-6">
         <div className="col-span-3">
-          {member?.serverID && (
+          {/* {member?.serverID && (
             <CommonServerAvatarList
               label={`common servers`}
               size={`xs`}
               serverID={member?.serverID as string[]}
             />
-          )}
+          )} */}
 
           {nodesPercentage && (
             <div>
