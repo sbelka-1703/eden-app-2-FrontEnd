@@ -151,7 +151,7 @@ export const MemberInfoWithDynamicGraph2 = ({
           <p className="text-center">
             <span className="text-sm text-slate-400">Total earned:</span>
             <br />
-            <span className="-ml-1 text-2xl">${member.totalIncome}</span>
+            <span className="-ml-1 text-2xl">${member.totalIncome || 0}</span>
           </p>
           {/* <p className="text-center text-sm text-slate-400">Eden lvl3</p> */}
         </div>
@@ -162,7 +162,9 @@ export const MemberInfoWithDynamicGraph2 = ({
           <p className="text-center">
             <span className="text-sm text-slate-400">Completed gigs:</span>
             <br />
-            <span className="text-2xl">{member.completedOpportunities}</span>
+            <span className="text-2xl">
+              {member.completedOpportunities || 0}
+            </span>
           </p>
           {/* <p className="text-center text-sm text-slate-400">💎 Eden Native</p> */}
         </div>
