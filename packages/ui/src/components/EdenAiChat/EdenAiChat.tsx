@@ -5,7 +5,7 @@ import { ChatSimple } from "@eden/package-ui";
 import React, { useContext, useEffect, useState } from "react";
 
 import {
-  EDEN_GPT_CREATE_PROFILE_EXPIRIENCE_CHAT,
+  EDEN_GPT_CREATE_PROFILE_EXPERIENCE_CHAT,
   EDEN_GPT_REPLY,
   // EDEN_GPT_REPLY_CHAT_API,
   EDEN_GPT_REPLY_CHAT_API_V2,
@@ -47,7 +47,7 @@ export enum AI_REPLY_SERVICES {
   // eslint-disable-next-line no-unused-vars
   EDEN_GPT_REPLY_CHAT_API_V3 = "EDEN_GPT_REPLY_CHAT_API_V3",
   // eslint-disable-next-line no-unused-vars
-  EDEN_GPT_CREATE_PROFILE_EXPIRIENCE_CHAT = "EDEN_GPT_CREATE_PROFILE_EXPIRIENCE_CHAT",
+  EDEN_GPT_CREATE_PROFILE_EXPERIENCE_CHAT = "EDEN_GPT_CREATE_PROFILE_EXPERIENCE_CHAT",
 }
 export type ChatMessage = Array<{ user: string; message: string }>;
 
@@ -174,7 +174,7 @@ export const EdenAiChat = ({
   );
 
   const { data: dataEdenGPTCreateProfileExperience } = useQuery(
-    EDEN_GPT_CREATE_PROFILE_EXPIRIENCE_CHAT,
+    EDEN_GPT_CREATE_PROFILE_EXPERIENCE_CHAT,
     {
       variables: {
         fields: {
@@ -192,7 +192,7 @@ export const EdenAiChat = ({
       skip:
         messageUser == "" ||
         aiReplyService !=
-          AI_REPLY_SERVICES.EDEN_GPT_CREATE_PROFILE_EXPIRIENCE_CHAT ||
+          AI_REPLY_SERVICES.EDEN_GPT_CREATE_PROFILE_EXPERIENCE_CHAT ||
         chatN[chatN.length - 1]?.user == "01",
     }
   );

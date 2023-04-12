@@ -14,7 +14,7 @@ const cardsDataInit = [
     time: 3,
     completed: false,
     firstMessage: "Can you tell me about your skills and experiences",
-    experienceTypeID: "SKILLS_EXPIRIENCE",
+    experienceTypeID: "SKILLS_EXPERIENCE",
   },
   {
     title: "Personal Background",
@@ -183,7 +183,7 @@ export const ExperienceCreateProfileChat: React.FC<
               <EdenAiChat
                 //   aiReplyService={AI_REPLY_SERVICES.EDEN_GPT_REPLY_CHAT_API_V3}
                 aiReplyService={
-                  AI_REPLY_SERVICES.EDEN_GPT_CREATE_PROFILE_EXPIRIENCE_CHAT
+                  AI_REPLY_SERVICES.EDEN_GPT_CREATE_PROFILE_EXPERIENCE_CHAT
                 }
                 experienceTypeID={experienceTypeID}
                 //   extraNodes={extraNodes}

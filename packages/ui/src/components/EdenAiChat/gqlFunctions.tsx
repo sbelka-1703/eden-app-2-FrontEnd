@@ -38,7 +38,7 @@ export const FIND_RELATED_NODE = gql`
   }
 `;
 
-export const EDEN_GPT_CREATE_PROFILE_EXPIRIENCE_CHAT = gql`
+export const EDEN_GPT_CREATE_PROFILE_EXPERIENCE_CHAT = gql`
   query ($fields: edenGPTCreateProfileExperienceChatAPIInput!) {
     edenGPTCreateProfileExperienceChatAPI(fields: $fields) {
       reply
