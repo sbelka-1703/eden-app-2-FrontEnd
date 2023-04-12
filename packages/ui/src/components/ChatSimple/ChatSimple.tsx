@@ -42,6 +42,14 @@ export const ChatSimple = ({ chatN, handleSentMessage }: IChatSimple) => {
 
   // console.log("chatN = ", chatN);
 
+  useEffect(() => {
+    const lastMessage = document.querySelector(`.chat-message:last-child`);
+
+    if (lastMessage) {
+      lastMessage.scrollIntoView({ behavior: "smooth", inline: "end" });
+    }
+  }, [chatN]);
+
   return (
     <>
       <div className="flex h-full flex-col justify-between">
