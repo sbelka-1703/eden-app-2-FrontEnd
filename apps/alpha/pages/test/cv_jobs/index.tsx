@@ -15,13 +15,13 @@ export const CV_TO_JOBS = gql`
 `;
 const CvJobs = () => {
   const [file, setFile] = useState<File | null>(null);
-  const [summary, setSummary] = useState<string | null>(null);
+  const [jobSummary, setJobSummary] = useState<string | null>(null);
 
   const [CVtoJobs] = useMutation(CV_TO_JOBS, {
     onCompleted({ CVtoJobs }) {
-      console.log("CVtoSummary", CVtoJobs);
-      console.log("CVtoSummary.result", CVtoJobs.result);
-      setSummary(CVtoJobs.result);
+      console.log("CVtoJobSummary", CVtoJobs);
+      console.log("CVtoJobSummary.result", CVtoJobs.result);
+      setJobSummary(CVtoJobs.result);
     },
   });
 
@@ -64,8 +64,8 @@ const CvJobs = () => {
     reader.readAsDataURL(file);
   };
 
-  const jobList = summary
-    ? JSON.parse(summary).map((item: Jobs, index: number) => (
+  const jobList = jobSummary
+    ? JSON.parse(jobSummary).map((item: Jobs, index: number) => (
         <li key={index}>
           {item.job}
           <ul>
@@ -75,7 +75,7 @@ const CvJobs = () => {
       ))
     : [];
 
-  console.log("summaryList", jobList);
+  console.log("jobSummaryList", jobList);
 
   return (
     <div className="w-5/12 ">
@@ -100,10 +100,10 @@ const CvJobs = () => {
           Upload Resume
         </button>
       </form>
-      {summary ? (
-        <div className="mt-2 ml-2 w-fit rounded-md border-2 border-black pl-6 pr-4 ">
+      {jobSummary ? (
+        <div className="ml-2 mt-2 w-fit rounded-md border-2 border-black pl-6 pr-4 ">
           <label htmlFor="ul" className="text-right text-lg font-bold">
-            Jobs Summary:
+            Jobs jobSummary:
           </label>
           <ul className="list-outside list-disc space-y-[3px] ">{jobList}</ul>
         </div>
