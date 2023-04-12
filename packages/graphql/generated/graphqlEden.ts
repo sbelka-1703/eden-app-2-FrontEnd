@@ -251,7 +251,7 @@ export type Members = {
   endorsementsReceive?: Maybe<Array<Maybe<Endorsement>>>;
   endorsementsSend?: Maybe<Array<Maybe<Endorsement>>>;
   endorsementsSendStats?: Maybe<EndorsementsSendStatsType>;
-  expirienceLevel?: Maybe<ExpirienceLevelType>;
+  experienceLevel?: Maybe<ExperienceLevelType>;
   gardenUpdate?: Maybe<GardenUpdateType>;
   hoursPerWeek?: Maybe<Scalars["Float"]>;
   interest?: Maybe<Scalars["String"]>;
@@ -768,7 +768,7 @@ export type Query = {
   dynamicSearchToMemberGraphGPT?: Maybe<Graph>;
   dynamicSearchToMemberGraphV2?: Maybe<Graph>;
   dynamicSearchToProjectGraph?: Maybe<Graph>;
-  edenGPTCreateProfileExpirienceChatAPI?: Maybe<EdenGptCreateProfileExpirienceChatApiOutput>;
+  edenGPTCreateProfileExperienceChatAPI?: Maybe<EdenGptCreateProfileExperienceChatApiOutput>;
   edenGPTEndorseChatAPI?: Maybe<EdenGptEndorseChatApiOutput>;
   edenGPTReviewChatAPI?: Maybe<EdenGptReviewChatApiOutput>;
   edenGPTreply?: Maybe<EdenGpTreplyOutput>;
@@ -889,8 +889,8 @@ export type QueryDynamicSearchToProjectGraphArgs = {
   fields?: InputMaybe<DynamicSearchToProjectGraphInput>;
 };
 
-export type QueryEdenGptCreateProfileExpirienceChatApiArgs = {
-  fields?: InputMaybe<EdenGptCreateProfileExpirienceChatApiInput>;
+export type QueryEdenGptCreateProfileExperienceChatApiArgs = {
+  fields?: InputMaybe<EdenGptCreateProfileExperienceChatApiInput>;
 };
 
 export type QueryEdenGptEndorseChatApiArgs = {
@@ -1925,14 +1925,14 @@ export type DynamicSearchToProjectGraphInput = {
   showAvatar?: InputMaybe<Scalars["Boolean"]>;
 };
 
-export type EdenGptCreateProfileExpirienceChatApiInput = {
+export type EdenGptCreateProfileExperienceChatApiInput = {
   conversation?: InputMaybe<Array<InputMaybe<MessageChat>>>;
-  expirienceTypeID?: InputMaybe<ExpirienceTypeIdEnum>;
+  experienceTypeID?: InputMaybe<ExperienceTypeIdEnum>;
   message?: InputMaybe<Scalars["String"]>;
 };
 
-export type EdenGptCreateProfileExpirienceChatApiOutput = {
-  __typename?: "edenGPTCreateProfileExpirienceChatAPIOutput";
+export type EdenGptCreateProfileExperienceChatApiOutput = {
+  __typename?: "edenGPTCreateProfileExperienceChatAPIOutput";
   reply?: Maybe<Scalars["String"]>;
 };
 
@@ -2140,16 +2140,16 @@ export type ExecutedActionType = {
   taskTypeID?: Maybe<Scalars["String"]>;
 };
 
-export type ExpirienceLevelType = {
-  __typename?: "expirienceLevelType";
+export type ExperienceLevelType = {
+  __typename?: "experienceLevelType";
   total?: Maybe<Scalars["Int"]>;
   years?: Maybe<Scalars["Int"]>;
 };
 
-export enum ExpirienceTypeIdEnum {
+export enum ExperienceTypeIdEnum {
   Background = "BACKGROUND",
   CareerGoalsAspirations = "CAREER_GOALS_ASPIRATIONS",
-  SkillsExpirience = "SKILLS_EXPIRIENCE",
+  SkillsExperience = "SKILLS_EXPERIENCE",
   WorkPreferences = "WORK_PREFERENCES",
 }
 
@@ -2516,7 +2516,7 @@ export type MatchNodesToMembersInput = {
 export type MatchNodesToMembers_Ai4Input = {
   availability?: InputMaybe<AvailabilityInput>;
   budget?: InputMaybe<BudgetInputT>;
-  expirienceLevel?: InputMaybe<Scalars["Int"]>;
+  experienceLevel?: InputMaybe<Scalars["Int"]>;
   limit?: InputMaybe<Scalars["Int"]>;
   nodesID?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
   page?: InputMaybe<Scalars["Int"]>;

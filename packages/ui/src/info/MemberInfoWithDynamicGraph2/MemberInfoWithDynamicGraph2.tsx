@@ -290,9 +290,9 @@ export const MemberInfoWithDynamicGraph2 = ({
             <TextLabel1>💎 Experience</TextLabel1>
             <p className="text-center font-bold text-slate-600">
               <span className="text-xl">
-                {member.expirienceLevel?.total === 3 && "Junior"}
-                {member.expirienceLevel?.total === 6 && "Mid"}
-                {member.expirienceLevel?.total === 9 && "Senior"}
+                {member.experienceLevel?.total === 3 && "Junior"}
+                {member.experienceLevel?.total === 6 && "Mid"}
+                {member.experienceLevel?.total === 9 && "Senior"}
               </span>
             </p>
           </section>
