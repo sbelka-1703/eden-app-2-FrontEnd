@@ -56,6 +56,7 @@ const chatN: any = [
 
 describe("ChatSimple", () => {
   it("renders without throwing", () => {
+    Element.prototype.scrollIntoView = jest.fn();
     const { container } = render(<ChatSimple chatN={chatN} />);
 
     expect(container).toBeInTheDocument();

@@ -82,16 +82,18 @@ export const CreateProfileFlow = ({
         name: item?.name,
       })),
       hoursPerWeek: Number(userState?.hoursPerWeek || 0),
-
-      previousProjects: userState?.previousProjects?.map((item: any) => ({
-        description: item.description,
-        endDate: item.endDate,
-        startDate: item.startDate,
-        title: item.title,
-      })),
     };
 
     if (userState?.memberRole) fields.memberRole = userState?.memberRole._id;
+    if (userState?.previousProjects)
+      fields.previousProjects = userState?.previousProjects?.map(
+        (item: any) => ({
+          description: item.description,
+          endDate: item.endDate,
+          startDate: item.startDate,
+          title: item.title,
+        })
+      );
     // if (userState?.location) fields.location = userState?.location;
     if (userState?.timeZone) fields.timeZone = userState?.timeZone;
     // if (userState?.experienceLevel?.total)
@@ -164,7 +166,7 @@ export const CreateProfileFlow = ({
             />
           </div>
         </WizardStep>
-        <WizardStep label="step 1">
+        <WizardStep label="Bio">
           <div className="px-4">
             <section className="mb-4">
               <p className="mb-2">Please write a short bio!</p>
@@ -198,9 +200,9 @@ export const CreateProfileFlow = ({
                 </div>
               )}
             </section>
-            <section className="mb-4">
+            {/* <section className="mb-4">
               <p className="mb-2">Edit your relevant skills</p>
-            </section>
+            </section> */}
           </div>
         </WizardStep>
         <WizardStep label="Background">
@@ -230,7 +232,7 @@ export const CreateProfileFlow = ({
               control={control}
               render={() => (
                 <UserExperienceCard
-                  // background={getValues("previousProjects")}
+                  background={userState?.previousProjects || []}
                   handleChange={(val) => setValue("previousProjects", val)}
                   // handleChangeOpenExperience={(val) => {
                   //   // if (setExperienceOpen) setExperienceOpen(val);
