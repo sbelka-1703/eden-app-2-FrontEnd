@@ -43,7 +43,6 @@ export const ChatSimple = ({ chatN, handleSentMessage }: IChatSimple) => {
   // console.log("chatN = ", chatN);
 
   useEffect(() => {
-    if (!window) return;
     const lastMessage = document.querySelector(`.chat-message:last-child`);
 
     if (lastMessage) {
