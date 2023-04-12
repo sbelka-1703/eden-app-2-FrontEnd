@@ -1,6 +1,10 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
-import { FIND_ROLE_TEMPLATES, UPDATE_MEMBER } from "@eden/package-graphql";
+import {
+  FIND_NODES,
+  FIND_ROLE_TEMPLATES,
+  UPDATE_MEMBER,
+} from "@eden/package-graphql";
 import {
   Maybe,
   Members,
@@ -20,7 +24,12 @@ import { Controller, useForm } from "react-hook-form";
 import { locations } from "../../../utils/locations";
 import { UserExperienceCard } from "../../cards";
 import { SalaryRangeChart } from "../../charts";
-import { FillSocialLinks, Wizard, WizardStep } from "../../components";
+import {
+  DynamicSearchMemberGraph,
+  FillSocialLinks,
+  Wizard,
+  WizardStep,
+} from "../../components";
 import { Button } from "../../elements";
 import { RoleSelector } from "../../selectors";
 import { ExperienceCreateProfileChat } from "./ExperienceCreateProfileChat";
@@ -36,19 +45,6 @@ export interface ICreateProfileFlowProps {
   userState?: Members | undefined;
 }
 
-// const FIND_NODES = gql`
-//   query ($fields: findNodesInput) {
-//     findNodes(fields: $fields) {
-//       _id
-//       name
-//       subNodes {
-//         _id
-//         name
-//       }
-//     }
-//   }
-// `;
-
 export const CreateProfileFlow = ({
   setUserState,
   userState,
@@ -61,7 +57,7 @@ export const CreateProfileFlow = ({
     defaultValues: { ...currentUser },
   });
 
-  // const [nodes, setNodes] = useState<Array<string>>([]);
+  const [nodesIDs, setNodesIDs] = useState<Array<string>>([]);
 
   const { data: dataRoles } = useQuery(FIND_ROLE_TEMPLATES, {
     variables: {
@@ -134,19 +130,17 @@ export const CreateProfileFlow = ({
   // });
 
   // eslint-disable-next-line no-unused-vars
-  // const { data: dataNodes } = useQuery(FIND_NODES, {
-  //   variables: {
-  //     fields: {
-  //       _id: nodes,
-  //       node: "expertise",
-  //     },
-  //   },
-  //   skip: nodes.length === 0,
-  //   onCompleted: (val) => {
-  //     debugger;
-  //     setValue("nodes", val);
-  //   },
-  // });
+  const { data: dataNodes } = useQuery(FIND_NODES, {
+    variables: {
+      fields: {
+        _id: nodesIDs,
+      },
+    },
+    skip: !nodesIDs || nodesIDs.length === 0,
+    onCompleted: (data) => {
+      setValue("nodes", data.findNodes);
+    },
+  });
 
   return (
     <div className="scrollbar-hide h-full overflow-scroll">
@@ -163,7 +157,11 @@ export const CreateProfileFlow = ({
                 console.log("handleChangeChat:", _chat);
               }}
             /> */}
-            <ExperienceCreateProfileChat />
+            <ExperienceCreateProfileChat
+              handleChangeNodes={(val) => {
+                setNodesIDs(Object.keys(val));
+              }}
+            />
           </div>
         </WizardStep>
         <WizardStep label="step 1">
@@ -181,23 +179,24 @@ export const CreateProfileFlow = ({
             </section>
             <section className="mb-4">
               <p className="mb-2">Edit your skills</p>
-              {/* <DynamicSearchGraph
-                nodesID={Object.keys(nodeObj)}
-                activeNodes={Object.values(nodeObj).map(
-                  (node: any) => node.active
-                )}
-                isNewNodes={Object.values(nodeObj).map(
-                  (node: any) => node.isNew
-                )}
-                setActivateNodeEvent={setActivateNodeEvent}
-                height={"380"}
-                // graphType={"simple"}
-                // graphType={"KG_AI_2"}
-                graphType={"KG_AI_2_plusIndustry"}
-                // zoomGraph={1.1}
-                setRelatedNodePopup={handleOpenPopup}
-                disableZoom={true}
-              /> */}
+              {userState?._id && (
+                <div className="mt-3 h-[360px] w-full">
+                  <DynamicSearchMemberGraph
+                    memberID={userState._id}
+                    nodesID={
+                      userState.nodes && userState.nodes.length
+                        ? userState.nodes?.map(
+                            (_node) => _node?.nodeData?._id as string
+                          )
+                        : []
+                    }
+                    disableZoom={true}
+                    graphType={"KG_AI2"}
+                    // graphType={"KG_AI"}
+                    // zoomGraph={1.1}
+                  />
+                </div>
+              )}
             </section>
             <section className="mb-4">
               <p className="mb-2">Edit your relevant skills</p>

@@ -56,7 +56,7 @@ export const Wizard = ({ children, showStepsHeader = false }: IWizardProps) => {
           "w-full"
         )}
       >
-        {children.map((item, index) => (
+        {/* {children.map((item, index) => (
           <div
             className={classNames(
               step === index ? "visible" : "hidden",
@@ -66,7 +66,8 @@ export const Wizard = ({ children, showStepsHeader = false }: IWizardProps) => {
           >
             {item}
           </div>
-        ))}
+        ))} */}
+        {children[step]}
       </div>
       <div className="pt-20"></div>
       <div className="absolute bottom-0 left-0 flex w-full rounded-b-2xl bg-white p-4">
