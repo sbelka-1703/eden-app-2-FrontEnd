@@ -3,12 +3,12 @@ import React, { useEffect, useState } from "react";
 
 const cardsDataInit = [
   {
-    title: "Skill & Expirience",
+    title: "Skill & Experience",
     trust: 30,
     time: 3,
     completed: false,
-    firstMessage: "Can you tell me about your skills and expiriences",
-    expirienceTypeID: "SKILLS_EXPIRIENCE",
+    firstMessage: "Can you tell me about your skills and experiences",
+    experienceTypeID: "SKILLS_EXPIRIENCE",
   },
   {
     title: "Personal Background",
@@ -16,7 +16,7 @@ const cardsDataInit = [
     time: 4,
     completed: false,
     firstMessage: "Can you tell me about your Background",
-    expirienceTypeID: "BACKGROUND",
+    experienceTypeID: "BACKGROUND",
   },
   {
     title: "Career Goals",
@@ -24,7 +24,7 @@ const cardsDataInit = [
     time: 2,
     completed: false,
     firstMessage: "Can you tell me about your Career Goals",
-    expirienceTypeID: "CAREER_GOALS_ASPIRATIONS",
+    experienceTypeID: "CAREER_GOALS_ASPIRATIONS",
   },
   {
     title: "Work Preferences",
@@ -32,7 +32,7 @@ const cardsDataInit = [
     time: 2,
     completed: false,
     firstMessage: "Can you tell me about your Work preferences",
-    expirienceTypeID: "WORK_PREFERENCES",
+    experienceTypeID: "WORK_PREFERENCES",
   },
 ];
 
@@ -42,10 +42,10 @@ interface cardsDataType {
   time: number;
   completed: boolean;
   firstMessage: string;
-  expirienceTypeID: string;
+  experienceTypeID: string;
 }
 
-const ExpirienceCreateProfileChat: React.FC = () => {
+const ExperienceCreateProfileChat: React.FC = () => {
   interface MessageObject {
     message: string;
     sentMessage: boolean;
@@ -56,7 +56,7 @@ const ExpirienceCreateProfileChat: React.FC = () => {
 
   const [clearConversation, setClearConversation] = useState<boolean>(false);
 
-  const [expirienceTypeID, setExpirienceTypeID] = useState<string>("");
+  const [experienceTypeID, setExperienceTypeID] = useState<string>("");
 
   const [isDoneAvailable, setIsDoneAvailable] = useState(false);
 
@@ -147,7 +147,7 @@ const ExpirienceCreateProfileChat: React.FC = () => {
                       });
                     }, 1200);
                     setClearConversation(true);
-                    setExpirienceTypeID(card.expirienceTypeID);
+                    setExperienceTypeID(card.experienceTypeID);
                     setActiveCard(idx);
                   }}
                 >
@@ -166,7 +166,7 @@ const ExpirienceCreateProfileChat: React.FC = () => {
               aiReplyService={
                 AI_REPLY_SERVICES.EDEN_GPT_CREATE_PROFILE_EXPIRIENCE_CHAT
               }
-              expirienceTypeID={expirienceTypeID}
+              experienceTypeID={experienceTypeID}
               //   extraNodes={extraNodes}
               //   handleChangeNodes={(_nodeObj: any) => {
               //     // console.log("handleChangeNodes:", nodeObj);
@@ -202,4 +202,4 @@ const ExpirienceCreateProfileChat: React.FC = () => {
   );
 };
 
-export default ExpirienceCreateProfileChat;
+export default ExperienceCreateProfileChat;

@@ -61,7 +61,7 @@ type Availability = {
 type FilterStateType = {
   budget: Budget;
   availability: Availability;
-  expirienceLevel: number;
+  experienceLevel: number;
 };
 
 const chatEden: NextPageWithLayout = () => {
@@ -162,7 +162,7 @@ const chatEden: NextPageWithLayout = () => {
       minHourPerWeek: -1,
       maxHourPerWeek: -1,
     },
-    expirienceLevel: -1,
+    experienceLevel: -1,
   });
 
   const [dataMembersA, setDataMembersA] = useState<any>(null);
@@ -199,7 +199,7 @@ const chatEden: NextPageWithLayout = () => {
             weight: 85,
           },
           {
-            type: "expirience_total",
+            type: "experience_total",
             weight: 85,
           },
           {
@@ -312,11 +312,11 @@ const chatEden: NextPageWithLayout = () => {
         minHourPerWeek: data?.minHours ? data.minHours : -1,
         maxHourPerWeek: data?.maxHours ? data.maxHours : -1,
       },
-      expirienceLevel: -1,
+      experienceLevel: -1,
     };
 
     if (data?.level) {
-      filterState["expirienceLevel"] = experienceToNumberMap[data.level];
+      filterState["experienceLevel"] = experienceToNumberMap[data.level];
     }
     setFilterState(filterState);
 
@@ -773,12 +773,12 @@ const UserDiscoverCard = ({
         </div>
         <div className="col-span-3">
           <section className="text-right">
-            {member.expirienceLevel?.total && (
+            {member.experienceLevel?.total && (
               <p className="font-bold text-slate-600">
                 <span className="text-xl">
-                  {member.expirienceLevel?.total === 3 && "Junior"}
-                  {member.expirienceLevel?.total === 6 && "Mid"}
-                  {member.expirienceLevel?.total === 9 && "Senior"}
+                  {member.experienceLevel?.total === 3 && "Junior"}
+                  {member.experienceLevel?.total === 6 && "Mid"}
+                  {member.experienceLevel?.total === 9 && "Senior"}
                 </span>
               </p>
             )}

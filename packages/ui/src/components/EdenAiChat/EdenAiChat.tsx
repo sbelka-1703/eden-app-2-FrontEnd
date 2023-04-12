@@ -56,7 +56,7 @@ export interface IEdenAiChatProps {
   extraNodes?: Array<any>;
   sentMessageToEdenAIobj?: MessageObject;
   clearConversation?: Boolean;
-  expirienceTypeID?: string;
+  experienceTypeID?: string;
   // eslint-disable-next-line no-unused-vars
   setClearConversation?: (show: boolean) => void;
   // eslint-disable-next-line no-unused-vars
@@ -77,7 +77,7 @@ export const EdenAiChat = ({
   extraNodes, // extra nodes to add to the query
   sentMessageToEdenAIobj,
   clearConversation,
-  expirienceTypeID,
+  experienceTypeID,
   setClearConversation,
   handleChangeNodes,
   handleChangeChat,
@@ -173,7 +173,7 @@ export const EdenAiChat = ({
     }
   );
 
-  const { data: dataEdenGPTCreateProfileExpirience } = useQuery(
+  const { data: dataEdenGPTCreateProfileExperience } = useQuery(
     EDEN_GPT_CREATE_PROFILE_EXPIRIENCE_CHAT,
     {
       variables: {
@@ -186,7 +186,7 @@ export const EdenAiChat = ({
               return { role: "user", content: obj.message };
             }
           }),
-          expirienceTypeID: expirienceTypeID,
+          experienceTypeID: experienceTypeID,
         },
       },
       skip:
@@ -349,7 +349,7 @@ export const EdenAiChat = ({
         dataEdenGPTReplyMemory ||
         dataEdenGPTReplyChatAPI ||
         dataEdenGPTReplyChatAPIV3 ||
-        dataEdenGPTCreateProfileExpirience) &&
+        dataEdenGPTCreateProfileExperience) &&
       edenAIsentMessage == true
     ) {
       const chatT: ChatMessage = [...chatN];
@@ -368,8 +368,8 @@ export const EdenAiChat = ({
         dataEdenGPTReplyMemory?.edenGPTreplyMemory?.reply ||
         dataEdenGPTReply?.edenGPTreply?.reply ||
         dataEdenGPTReplyChatAPIV3?.edenGPTreplyChatAPI_V3?.reply ||
-        dataEdenGPTCreateProfileExpirience
-          ?.edenGPTCreateProfileExpirienceChatAPI?.reply;
+        dataEdenGPTCreateProfileExperience
+          ?.edenGPTCreateProfileExperienceChatAPI?.reply;
 
       if (
         dataEdenGPTReplyChatAPIV3 &&
@@ -428,7 +428,7 @@ export const EdenAiChat = ({
     dataEdenGPTReplyMemory,
     dataEdenGPTReplyChatAPI,
     dataEdenGPTReplyChatAPIV3,
-    dataEdenGPTCreateProfileExpirience,
+    dataEdenGPTCreateProfileExperience,
   ]);
   // -----------------------------------------
 
