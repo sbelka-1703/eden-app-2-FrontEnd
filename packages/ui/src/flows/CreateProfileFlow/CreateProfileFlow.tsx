@@ -94,15 +94,15 @@ export const CreateProfileFlow = ({
     if (userState?.memberRole) fields.memberRole = userState?.memberRole._id;
     // if (userState?.location) fields.location = userState?.location;
     if (userState?.timeZone) fields.timeZone = userState?.timeZone;
-    // if (userState?.expirienceLevel?.total)
-    //   fields.expirienceLevel = {
-    //     ...fields.expirienceLevel,
-    //     total: userState?.expirienceLevel?.total,
+    // if (userState?.experienceLevel?.total)
+    //   fields.experienceLevel = {
+    //     ...fields.experienceLevel,
+    //     total: userState?.experienceLevel?.total,
     //   };
-    // if (userState?.expirienceLevel?.years)
-    //   fields.expirienceLevel = {
-    //     ...fields.expirienceLevel,
-    //     years: userState?.expirienceLevel?.years,
+    // if (userState?.experienceLevel?.years)
+    //   fields.experienceLevel = {
+    //     ...fields.experienceLevel,
+    //     years: userState?.experienceLevel?.years,
     //   };
 
     updateMember({
@@ -171,7 +171,7 @@ export const CreateProfileFlow = ({
               <textarea
                 id="bio"
                 defaultValue={currentUser?.bio || ""}
-                className="font-Inter text-soilBody focus:border-accentColor focus:ring-soilGreen-500 block flex w-full resize-none rounded-md border border-zinc-400/50 py-1 py-1 px-2 px-2 text-base focus:outline-transparent focus:ring focus:ring-opacity-50"
+                className="font-Inter text-soilBody focus:border-accentColor focus:ring-soilGreen-500 block flex w-full resize-none rounded-md border border-zinc-400/50 px-2 px-2 py-1 py-1 text-base focus:outline-transparent focus:ring focus:ring-opacity-50"
                 rows={8}
                 required
                 {...register("bio")}
@@ -329,7 +329,7 @@ export const CreateProfileFlow = ({
                   // // id="hoursPerWeek"
                   className="font-Inter text-soilBody focus:border-accentColor focus:ring-soilGreen-500 mr-2 block flex w-20 resize-none rounded-md border border-zinc-400/50 px-2 py-1 text-base focus:outline-transparent focus:ring focus:ring-opacity-50"
                   // required
-                  {...register("expirienceLevel.years")}
+                  {...register("experienceLevel.years")}
                 />
                 <span>years</span>
               </div>
@@ -339,20 +339,20 @@ export const CreateProfileFlow = ({
               <p className="mb-2">What is you experience level?</p>
               <div className="flex items-center">
                 <Controller
-                  name={"expirienceLevel"}
+                  name={"experienceLevel"}
                   control={control}
                   render={() => (
                     <select
-                      id="expirienceLevel"
+                      id="experienceLevel"
                       className="font-Inter text-soilBody focus:border-accentColor focus:ring-soilGreen-500 mr-2 block flex w-20 w-full resize-none rounded-md border border-zinc-400/50 px-2 py-1 text-base focus:outline-transparent focus:ring focus:ring-opacity-50"
                       required
                       onChange={(e) => {
                         const _val = {
-                          ...getValues("expirienceLevel"),
+                          ...getValues("experienceLevel"),
                           total: +e.target.value,
                         };
 
-                        setValue("expirienceLevel", _val);
+                        setValue("experienceLevel", _val);
                       }}
                     >
                       <option selected disabled hidden>
@@ -389,7 +389,7 @@ export const CreateProfileFlow = ({
             </div>
             <Button
               variant="primary"
-              className="absolute right-4 bottom-4 z-20"
+              className="absolute bottom-4 right-4 z-20"
               onClick={handleSubmit}
             >
               Submit

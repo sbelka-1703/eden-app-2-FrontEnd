@@ -9,12 +9,12 @@ import { HiBadgeCheck } from "react-icons/hi";
 
 const cardsDataInit = [
   {
-    title: "Skill & Expirience",
+    title: "Skill & Experience",
     trust: 30,
     time: 3,
     completed: false,
-    firstMessage: "Can you tell me about your skills and expiriences",
-    expirienceTypeID: "SKILLS_EXPIRIENCE",
+    firstMessage: "Can you tell me about your skills and experiences",
+    experienceTypeID: "SKILLS_EXPERIENCE",
   },
   {
     title: "Personal Background",
@@ -22,7 +22,7 @@ const cardsDataInit = [
     time: 4,
     completed: false,
     firstMessage: "Can you tell me about your Background",
-    expirienceTypeID: "BACKGROUND",
+    experienceTypeID: "BACKGROUND",
   },
   {
     title: "Career Goals",
@@ -30,7 +30,7 @@ const cardsDataInit = [
     time: 2,
     completed: false,
     firstMessage: "Can you tell me about your Career Goals",
-    expirienceTypeID: "CAREER_GOALS_ASPIRATIONS",
+    experienceTypeID: "CAREER_GOALS_ASPIRATIONS",
   },
   {
     title: "Work Preferences",
@@ -38,7 +38,7 @@ const cardsDataInit = [
     time: 2,
     completed: false,
     firstMessage: "Can you tell me about your Work preferences",
-    expirienceTypeID: "WORK_PREFERENCES",
+    experienceTypeID: "WORK_PREFERENCES",
   },
 ];
 
@@ -48,7 +48,7 @@ interface cardsDataType {
   time: number;
   completed: boolean;
   firstMessage: string;
-  expirienceTypeID: string;
+  experienceTypeID: string;
 }
 
 interface MessageObject {
@@ -72,7 +72,7 @@ export const ExperienceCreateProfileChat: React.FC<
 
   const [clearConversation, setClearConversation] = useState<boolean>(false);
 
-  const [expirienceTypeID, setExpirienceTypeID] = useState<string>("");
+  const [experienceTypeID, setExperienceTypeID] = useState<string>("");
 
   const [isDoneAvailable, setIsDoneAvailable] = useState(false);
 
@@ -147,7 +147,7 @@ export const ExperienceCreateProfileChat: React.FC<
                   <p className="mb-1 text-sm">Time: {card.time} min</p>
                 </div>
                 <Button
-                  className="absolute right-2 bottom-2 rounded-md bg-opacity-90 !px-4 !py-px text-xs"
+                  className="absolute bottom-2 right-2 rounded-md bg-opacity-90 !px-4 !py-px text-xs"
                   // onClick={() => {
                   //     // setSentMessageToEdenAIobj({
                   //     //     message: card.firstMessage,
@@ -167,7 +167,7 @@ export const ExperienceCreateProfileChat: React.FC<
                       });
                     }, 1200);
                     setClearConversation(true);
-                    setExpirienceTypeID(card.expirienceTypeID);
+                    setExperienceTypeID(card.experienceTypeID);
                     setActiveCard(idx);
                   }}
                 >
@@ -178,14 +178,14 @@ export const ExperienceCreateProfileChat: React.FC<
           ))}
         </div>
         <div className="relative z-20 col-span-9 flex h-full flex-col items-center justify-center text-lg">
-          <div className="absolute left-0 -top-14 h-[calc(100%+2rem)] w-full pl-4">
+          <div className="absolute -top-14 left-0 h-[calc(100%+2rem)] w-full pl-4">
             {activeCard != null && (
               <EdenAiChat
                 //   aiReplyService={AI_REPLY_SERVICES.EDEN_GPT_REPLY_CHAT_API_V3}
                 aiReplyService={
-                  AI_REPLY_SERVICES.EDEN_GPT_CREATE_PROFILE_EXPIRIENCE_CHAT
+                  AI_REPLY_SERVICES.EDEN_GPT_CREATE_PROFILE_EXPERIENCE_CHAT
                 }
-                expirienceTypeID={expirienceTypeID}
+                experienceTypeID={experienceTypeID}
                 //   extraNodes={extraNodes}
                 handleChangeNodes={(_nodeObj: any) => {
                   console.log("handleChangeNodes:", _nodeObj);
