@@ -166,7 +166,7 @@ export const CreateProfileFlow = ({
             />
           </div>
         </WizardStep>
-        <WizardStep label="step 1">
+        <WizardStep label="Bio">
           <div className="px-4">
             <section className="mb-4">
               <p className="mb-2">Please write a short bio!</p>
