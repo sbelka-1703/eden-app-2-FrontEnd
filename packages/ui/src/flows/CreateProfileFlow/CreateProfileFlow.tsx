@@ -198,9 +198,9 @@ export const CreateProfileFlow = ({
                 </div>
               )}
             </section>
-            <section className="mb-4">
+            {/* <section className="mb-4">
               <p className="mb-2">Edit your relevant skills</p>
-            </section>
+            </section> */}
           </div>
         </WizardStep>
         <WizardStep label="Background">
