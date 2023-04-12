@@ -38,7 +38,7 @@ export const CV_TO_NODES = gql`
     }
   }
 `;
-const WholisticCvGPT = () => {
+const HolisticCvGPT = () => {
   const [file, setFile] = useState<File | null>(null);
   const [summary, setSummary] = useState<string | null>(null);
   const [jobSummary, setJobSummary] = useState<string | null>(null);
@@ -193,4 +193,4 @@ const WholisticCvGPT = () => {
   );
 };
 
-export default WholisticCvGPT;
+export default HolisticCvGPT;
