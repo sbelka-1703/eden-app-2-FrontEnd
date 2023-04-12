@@ -51,12 +51,22 @@ interface cardsDataType {
   expirienceTypeID: string;
 }
 
-export const ExperienceCreateProfileChat: React.FC = () => {
-  interface MessageObject {
-    message: string;
-    sentMessage: boolean;
-    user?: string;
-  }
+interface MessageObject {
+  message: string;
+  sentMessage: boolean;
+  user?: string;
+}
+
+interface IExperienceCreateProfileChatProps {
+  // eslint-disable-next-line no-unused-vars
+  handleChangeNodes?: (val: any) => void;
+  // eslint-disable-next-line no-unused-vars
+  handleChangeChat?: (val: any) => void;
+}
+
+export const ExperienceCreateProfileChat: React.FC<
+  IExperienceCreateProfileChatProps
+> = ({ handleChangeNodes, handleChangeChat }) => {
   const [sentMessageToEdenAIobj, setSentMessageToEdenAIobj] =
     useState<MessageObject>({ message: "", sentMessage: false, user: "" });
 
@@ -177,13 +187,15 @@ export const ExperienceCreateProfileChat: React.FC = () => {
                 }
                 expirienceTypeID={expirienceTypeID}
                 //   extraNodes={extraNodes}
-                //   handleChangeNodes={(_nodeObj: any) => {
-                //     // console.log("handleChangeNodes:", nodeObj);
-                //     setNodeObj(_nodeObj);
-                //   }}
+                handleChangeNodes={(_nodeObj: any) => {
+                  console.log("handleChangeNodes:", _nodeObj);
+                  // setNodeObj(_nodeObj);
+                  if (handleChangeNodes) handleChangeNodes(_nodeObj);
+                }}
                 handleChangeChat={(_chat: any) => {
                   // console.log("handleChangeChat:", _chat);
                   setChatN(_chat);
+                  if (handleChangeChat) handleChangeChat(_chat);
                 }}
                 //   setShowPopupSalary={setShowPopup}
                 //   setMode={setMode}

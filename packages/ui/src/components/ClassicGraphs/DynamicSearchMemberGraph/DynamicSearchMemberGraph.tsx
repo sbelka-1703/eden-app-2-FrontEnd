@@ -84,7 +84,7 @@ const DYNAMIC_SEARCH_TO_MEMBER_GRAPH_GPT = gql`
 `;
 
 export interface IDynamicSearchMemberGraphProps {
-  nodesID: [string];
+  nodesID: string[];
   memberID: string;
   disableZoom?: boolean;
   graphType?: string;
