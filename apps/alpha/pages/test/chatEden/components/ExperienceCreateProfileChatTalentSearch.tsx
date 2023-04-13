@@ -4,7 +4,7 @@ import {
   ChatMessage,
   EdenAiChat,
 } from "@eden/package-ui";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { HiBadgeCheck } from "react-icons/hi";
 
 const cardsDataInit = [
@@ -63,7 +63,7 @@ interface IExperienceCreateProfileChatTalentSearchProps {
   handleChangeChat?: (val: any) => void;
 }
 
-export const ExperienceCreateProfileChatTalentSearch: React.FC<
+const ExperienceCreateProfileChatTalentSearch: React.FC<
   IExperienceCreateProfileChatTalentSearchProps
 > = ({ handleChangeNodes, handleChangeChat }) => {
   const [sentMessageToEdenAIobj, setSentMessageToEdenAIobj] =
@@ -90,7 +90,7 @@ export const ExperienceCreateProfileChatTalentSearch: React.FC<
 
   const [experienceTypeID, setExperienceTypeID] = useState<string>("");
 
-  const [isDoneAvailable, setIsDoneAvailable] = useState(false);
+  // const [isDoneAvailable, setIsDoneAvailable] = useState(false);
 
   const initialState = cardsDataInit.reduce((acc, curr) => {
     return {
@@ -105,9 +105,10 @@ export const ExperienceCreateProfileChatTalentSearch: React.FC<
 
   const [activeCard, setActiveCard] = useState<number | null>(null);
 
-  const [cardsData, setCardsData] = useState<cardsDataType[]>(cardsDataInit);
+  const [cardsData] = useState<cardsDataType[]>(cardsDataInit);
+  // const [cardsData, setCardsData] = useState<cardsDataType[]>(cardsDataInit);
 
-  const [totalTrustPoints, setTotalTrustPoints] = useState(0);
+  // const [totalTrustPoints, setTotalTrustPoints] = useState(0);
 
   console.log("activeCard = ", activeCard);
 
@@ -117,24 +118,24 @@ export const ExperienceCreateProfileChatTalentSearch: React.FC<
   //   }
   // }, [chatN]);
 
-  function handleDoneClick() {
-    setIsDoneAvailable(false);
-    setActiveCard(null);
-    setClearConversation(true);
+  // function handleDoneClick() {
+  //   setIsDoneAvailable(false);
+  //   setActiveCard(null);
+  //   setClearConversation(true);
 
-    // update only the cardData that were clicked
-    const newCardsData = cardsData.map((card: cardsDataType, index: number) => {
-      if (index === activeCard) {
-        setTotalTrustPoints(totalTrustPoints + card.trust);
-        return { ...card, completed: true };
-      }
-      return card;
-    });
+  //   // update only the cardData that were clicked
+  //   const newCardsData = cardsData.map((card: cardsDataType, index: number) => {
+  //     if (index === activeCard) {
+  //       setTotalTrustPoints(totalTrustPoints + card.trust);
+  //       return { ...card, completed: true };
+  //     }
+  //     return card;
+  //   });
 
-    setCardsData(newCardsData);
-  }
+  //   setCardsData(newCardsData);
+  // }
 
-  console.log("chatN = ", chatN);
+  // console.log("chatN = ", chatN);
 
   return (
     <div className="h-full w-full">
@@ -264,3 +265,5 @@ export const ExperienceCreateProfileChatTalentSearch: React.FC<
     </div>
   );
 };
+
+export default ExperienceCreateProfileChatTalentSearch;

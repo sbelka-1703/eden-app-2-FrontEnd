@@ -37,9 +37,9 @@ import React, { Fragment, useEffect, useState } from "react";
 
 import { FIND_RELATED_NODE } from "../../../utils/data/GQLfuncitons";
 import type { NextPageWithLayout } from "../../_app";
+import ExperienceCreateProfileChatTalentSearch from "./components/ExperienceCreateProfileChatTalentSearch";
 import MultiSelectPopup from "./components/MultiSelectPopup";
 import SalaryPopup from "./components/SalaryPopup";
-import { ExperienceCreateProfileChatTalentSearch } from "./ExperienceCreateProfileChatTalentSearch";
 
 interface NodeObj {
   [key: string]: {
@@ -105,7 +105,9 @@ const chatEden: NextPageWithLayout = () => {
   const [nodeSearchRelated, setnodeSearchRelated] = useState("");
 
   const [optionsPopup, setOptionsPopup] = useState<any>([]);
-  const [extraNodes, setExtraNodes] = useState<any>([]);
+
+  const [setExtraNodes] = useState<any>([]);
+  // const [extraNodes, setExtraNodes] = useState<any>([]);
 
   // const optionsPopup = [
   //   { value: "ID1", label: "React" },
@@ -130,7 +132,8 @@ const chatEden: NextPageWithLayout = () => {
   };
   //  ------------- Popup Preparation ----------
 
-  const [chatN, setChatN] = useState<ChatMessage>([]);
+  const [chatN] = useState<ChatMessage>([]);
+  // const [chatN, setChatN] = useState<ChatMessage>([]);
 
   const {} = useQuery(FIND_RELATED_NODE, {
     variables: {
@@ -280,12 +283,12 @@ const chatEden: NextPageWithLayout = () => {
     maxHours?: number;
   }>({ minSalary: 0, maxSalary: 0, level: "", minHours: 0, maxHours: 0 });
 
-  interface MessageObject {
-    message: string;
-    sentMessage: boolean;
-  }
-  const [sentMessageToEdenAIobj, setSentMessageToEdenAIobj] =
-    useState<MessageObject>({ message: "", sentMessage: false });
+  // interface MessageObject {
+  //   message: string;
+  //   sentMessage: boolean;
+  // }
+  // const [sentMessageToEdenAIobj, setSentMessageToEdenAIobj] =
+  //   useState<MessageObject>({ message: "", sentMessage: false });
 
   const experienceToNumberMap: Record<string, number> = {
     Junior: 3,
@@ -323,12 +326,12 @@ const chatEden: NextPageWithLayout = () => {
 
     console.log("sentMessageToEdenAI = ", data.sentMessageToEdenAI);
 
-    if (data.sentMessageToEdenAI) {
-      setSentMessageToEdenAIobj({
-        message: data.sentMessageToEdenAI,
-        sentMessage: true,
-      });
-    }
+    // if (data.sentMessageToEdenAI) {
+    //   setSentMessageToEdenAIobj({
+    //     message: data.sentMessageToEdenAI,
+    //     sentMessage: true,
+    //   });
+    // }
   };
 
   const [mode, setMode] = useState<"salary" | "level" | "availability">(
