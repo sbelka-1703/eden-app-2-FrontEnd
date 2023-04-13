@@ -5,6 +5,7 @@ import { ChatSimple } from "@eden/package-ui";
 import React, { useContext, useEffect, useState } from "react";
 
 import {
+  EDEN_AI_TAL_SEARCH_EXPIRIENCE,
   EDEN_GPT_CREATE_PROFILE_EXPERIENCE_CHAT,
   EDEN_GPT_REPLY,
   // EDEN_GPT_REPLY_CHAT_API,
@@ -48,6 +49,8 @@ export enum AI_REPLY_SERVICES {
   EDEN_GPT_REPLY_CHAT_API_V3 = "EDEN_GPT_REPLY_CHAT_API_V3",
   // eslint-disable-next-line no-unused-vars
   EDEN_GPT_CREATE_PROFILE_EXPERIENCE_CHAT = "EDEN_GPT_CREATE_PROFILE_EXPERIENCE_CHAT",
+  // eslint-disable-next-line no-unused-vars
+  EDEN_AI_TAL_SEARCH_EXPIRIENCE = "EDEN_AI_TAL_SEARCH_EXPIRIENCE",
 }
 export type ChatMessage = Array<{ user: string; message: string }>;
 
@@ -55,6 +58,7 @@ export interface IEdenAiChatProps {
   aiReplyService: AI_REPLY_SERVICES;
   extraNodes?: Array<any>;
   sentMessageToEdenAIobj?: MessageObject;
+  changeChatN?: ChatMessage;
   clearConversation?: Boolean;
   experienceTypeID?: string;
   // eslint-disable-next-line no-unused-vars
@@ -69,7 +73,8 @@ export interface IEdenAiChatProps {
   setMode?: (val: "salary" | "level" | "availability") => void;
   // eslint-disable-next-line no-unused-vars
   setSentMessageToEdenAIobj?: (message: any, sentMessage: any) => void;
-  // setSentMessageToEdenAIobj?: (val: MessageObject) => void;
+  // eslint-disable-next-line no-unused-vars
+  setChangeChatN?: (messageArr: any) => void;
 }
 
 export const EdenAiChat = ({
@@ -78,12 +83,14 @@ export const EdenAiChat = ({
   sentMessageToEdenAIobj,
   clearConversation,
   experienceTypeID,
+  changeChatN,
   setClearConversation,
   handleChangeNodes,
   handleChangeChat,
   setShowPopupSalary,
   setMode,
   setSentMessageToEdenAIobj,
+  setChangeChatN,
 }: IEdenAiChatProps) => {
   const { currentUser } = useContext(UserContext);
 
@@ -194,6 +201,30 @@ export const EdenAiChat = ({
         aiReplyService !=
           AI_REPLY_SERVICES.EDEN_GPT_CREATE_PROFILE_EXPERIENCE_CHAT ||
         chatN[chatN.length - 1]?.user == "01",
+    }
+  );
+
+  const { data: dataEdenAITalSearchExpirience } = useQuery(
+    EDEN_AI_TAL_SEARCH_EXPIRIENCE,
+    {
+      variables: {
+        fields: {
+          message: messageUser,
+          conversation: chatN.map((obj) => {
+            if (obj.user === "01") {
+              return { role: "assistant", content: obj.message };
+            } else {
+              return { role: "user", content: obj.message };
+            }
+          }),
+          experienceTypeID: experienceTypeID,
+        },
+      },
+      skip:
+        messageUser == "" ||
+        aiReplyService != AI_REPLY_SERVICES.EDEN_AI_TAL_SEARCH_EXPIRIENCE ||
+        chatN[chatN.length - 1]?.user == "01" ||
+        chatN.length == 0,
     }
   );
 
@@ -349,7 +380,8 @@ export const EdenAiChat = ({
         dataEdenGPTReplyMemory ||
         dataEdenGPTReplyChatAPI ||
         dataEdenGPTReplyChatAPIV3 ||
-        dataEdenGPTCreateProfileExperience) &&
+        dataEdenGPTCreateProfileExperience ||
+        dataEdenAITalSearchExpirience) &&
       edenAIsentMessage == true
     ) {
       const chatT: ChatMessage = [...chatN];
@@ -369,7 +401,8 @@ export const EdenAiChat = ({
         dataEdenGPTReply?.edenGPTreply?.reply ||
         dataEdenGPTReplyChatAPIV3?.edenGPTreplyChatAPI_V3?.reply ||
         dataEdenGPTCreateProfileExperience
-          ?.edenGPTCreateProfileExperienceChatAPI?.reply;
+          ?.edenGPTCreateProfileExperienceChatAPI?.reply ||
+        dataEdenAITalSearchExpirience?.edenAITalSearchExpirience?.reply;
 
       if (
         dataEdenGPTReplyChatAPIV3 &&
@@ -429,6 +462,7 @@ export const EdenAiChat = ({
     dataEdenGPTReplyChatAPI,
     dataEdenGPTReplyChatAPIV3,
     dataEdenGPTCreateProfileExperience,
+    dataEdenAITalSearchExpirience,
   ]);
   // -----------------------------------------
 
@@ -503,6 +537,15 @@ export const EdenAiChat = ({
       setSentMessageToEdenAIobj("", false);
     }
   }, [sentMessageToEdenAIobj]);
+  // --------- sent Message to Eden AI ---------------
+
+  // --------- sent Message to Eden AI ---------------
+  useEffect(() => {
+    if (setChangeChatN && changeChatN && changeChatN.length > 0) {
+      setChatN(changeChatN);
+      setChangeChatN([]);
+    }
+  }, [changeChatN]);
   // --------- sent Message to Eden AI ---------------
 
   // ------------ Change on chat event --------------
