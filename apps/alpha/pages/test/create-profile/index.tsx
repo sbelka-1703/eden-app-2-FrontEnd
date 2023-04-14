@@ -45,6 +45,7 @@ const ProfilePage: NextPageWithLayout = () => {
             <MemberInfoWithDynamicGraph2
               // step={step}
               member={userState}
+              nodesID={userState?.nodes?.map((node) => node?.nodeData?._id)}
             />
           </Card>
         </GridItemSix>
