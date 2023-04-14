@@ -11,12 +11,13 @@ import {
 import { useContext, useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import {
-  FaDiscord,
+  // FaDiscord,
   // FaGithub,
   // FaLinkedin,
   FaTelegram,
   FaTwitter,
 } from "react-icons/fa";
+import { HiOutlineMail, HiOutlineMailOpen } from "react-icons/hi";
 import { toast } from "react-toastify";
 
 import { DropdownMenu } from "./components/DropdownMenu";
@@ -89,6 +90,9 @@ export const EndorsementLinkFlow = ({}) => {
   const baseMessage = (skill: string) =>
     `I'm updating my professional profile and would love your endorsement on Eden for my proficiency in ${skill}. Your support means a lot, Thanks!`;
 
+  const baseTwitterMessage = (skill: string) =>
+    `I'm updating my professional profile and would love your endorsement on @joinedenxyz for my proficiency in ${skill}. Your support means a lot, Thanks!`;
+
   useEffect(() => {
     if (nodesValue?.label) {
       setShowMessage(true);
@@ -108,8 +112,10 @@ export const EndorsementLinkFlow = ({}) => {
 
   const text = baseMessage(nodesValue?.label) + `        ${url}`;
 
+  const twitterText = baseTwitterMessage(nodesValue?.label) + `        ${url}`;
+
   const twitterShareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-    text
+    twitterText
   )}`;
 
   const telegramShareUrl = `https://t.me/share/url?url=${encodeURIComponent(
@@ -142,95 +148,98 @@ export const EndorsementLinkFlow = ({}) => {
             >
               Ask Anyone to Endorse You
             </div>
-            <div className={`m-auto mt-8 max-w-xl`}>
-              <div className={`my-8`}>
-                <TextInputLabel>{`What do you want to be endorsed for?`}</TextInputLabel>
-                <div className={`my-4`}>
-                  <Controller
-                    control={control}
-                    name={`node`}
-                    render={({ field: { onChange } }) => (
-                      <DropdownMenu
-                        options={nodesData?.findNodes || []}
-                        onSelect={onChange}
-                      />
-                    )}
-                  />
-                </div>
-              </div>
-              {!nodesData?.findNodes && (
+            <div className={`gap-4 sm:grid sm:grid-cols-3`}>
+              <div className={`sm:col-span-2`}>
                 <div className={`my-8`}>
-                  <div className={`text-center font-medium`}>
-                    <div className={`text-neutral-700`}>Loading Skills...</div>
-                    <div className={`text-neutral-700`}>
-                      This may take a few seconds.
-                    </div>
+                  <TextInputLabel>{`What do you want to be endorsed for?`}</TextInputLabel>
+                  <div className={`my-4`}>
+                    <Controller
+                      control={control}
+                      name={`node`}
+                      render={({ field: { onChange } }) => (
+                        <DropdownMenu
+                          options={nodesData?.findNodes || []}
+                          onSelect={onChange}
+                        />
+                      )}
+                    />
                   </div>
                 </div>
-              )}
-
-              {showMessage && (
-                <div className={`my-8`}>
-                  <TextInputLabel
-                    htmlFor={`message`}
-                  >{`Add a Message:`}</TextInputLabel>
-                  <textarea
-                    id={`message`}
-                    className={`input-primary font-medium text-neutral-900`}
-                    required
-                    rows={8}
-                    {...register(`message`)}
-                  />
-                </div>
-              )}
-              <div className={`flex space-x-4`}>
-                {showMessage && (
-                  <div className={`w-full`}>
-                    <button
-                      type={`submit`}
-                      className={`rounded-full border-2 bg-[#D7D7FF] px-4 py-1 font-semibold uppercase text-neutral-700 hover:shadow-sm hover:shadow-indigo-300`}
-                    >
-                      Generate A Link
-                    </button>
+                {!nodesData?.findNodes && (
+                  <div className={`my-8`}>
+                    <div className={`text-center font-medium`}>
+                      <div className={`text-neutral-700`}>
+                        Loading Skills...
+                      </div>
+                      <div className={`text-neutral-700`}>
+                        This may take a few seconds.
+                      </div>
+                    </div>
                   </div>
                 )}
-                {inviteID && (
-                  <>
-                    <div
-                      className={`w-full truncate rounded-lg border border-zinc-400 px-2 py-1 font-medium text-zinc-700`}
-                    >
-                      {url}
-                    </div>
-                    <div>
+
+                {showMessage && (
+                  <div className={`my-8`}>
+                    <TextInputLabel
+                      htmlFor={`message`}
+                    >{`Add a Message:`}</TextInputLabel>
+                    <textarea
+                      id={`message`}
+                      className={`input-primary font-medium text-neutral-900`}
+                      required
+                      rows={8}
+                      {...register(`message`)}
+                    />
+                  </div>
+                )}
+                <div className={`flex space-x-4`}>
+                  {showMessage && (
+                    <div className={`w-full`}>
                       <button
-                        type={`button`}
+                        type={`submit`}
                         className={`rounded-full border-2 bg-[#D7D7FF] px-4 py-1 font-semibold uppercase text-neutral-700 hover:shadow-sm hover:shadow-indigo-300`}
-                        onClick={handleCopyToClipboard}
                       >
-                        Copy
+                        Generate A Link
                       </button>
                     </div>
-                  </>
-                )}
-              </div>
-              {inviteID && (
-                <div className={`my-6 grid grid-cols-2`}>
-                  <div></div>
-                  <div className={`flex space-x-6`}>
-                    <a
-                      href={twitterShareUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className=""
-                      title="Share on Twitter"
-                    >
-                      <FaTwitter
-                        size="1.5rem"
-                        color="#1DA1F2"
-                        className={`my-auto`}
-                      />
-                    </a>
-                    <a
+                  )}
+                  {inviteID && (
+                    <>
+                      <div
+                        className={`w-full truncate rounded-lg border border-zinc-400 px-2 py-1 font-medium text-zinc-700`}
+                      >
+                        {url}
+                      </div>
+                      <div>
+                        <button
+                          type={`button`}
+                          className={`rounded-full border-2 bg-[#D7D7FF] px-4 py-1 font-semibold uppercase text-neutral-700 hover:shadow-sm hover:shadow-indigo-300`}
+                          onClick={handleCopyToClipboard}
+                        >
+                          Copy
+                        </button>
+                      </div>
+                    </>
+                  )}
+                </div>
+                {inviteID && (
+                  <div className={`my-6 grid grid-cols-2`}>
+                    <div></div>
+                    <div className={`flex space-x-6`}>
+                      <a
+                        href={twitterShareUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className=""
+                        title="Share on Twitter"
+                      >
+                        <FaTwitter
+                          size="1.5rem"
+                          color="#1DA1F2"
+                          className={`my-auto`}
+                        />
+                      </a>
+                      {/* <a
                       href={twitterShareUrl}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -242,23 +251,116 @@ export const EndorsementLinkFlow = ({}) => {
                         color="#7289da"
                         className={`my-auto`}
                       />
-                    </a>
-                    <a
-                      href={telegramShareUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className=""
-                      title="Share on Telegram"
-                    >
-                      <FaTelegram
-                        size="1.5rem"
-                        color="#0088cc"
-                        className={`my-auto`}
-                      />
-                    </a>
+                    </a> */}
+                      <a
+                        href={telegramShareUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className=""
+                        title="Share on Telegram"
+                      >
+                        <FaTelegram
+                          size="1.5rem"
+                          color="#0088cc"
+                          className={`my-auto`}
+                        />
+                      </a>
+                    </div>
+                  </div>
+                )}
+              </div>
+              <div className={`mt-4 h-full border-l sm:col-span-1`}>
+                <div className={`flex w-full justify-center`}>
+                  <span
+                    className={`bg-soilYellow/60 rounded-full px-4 py-1 text-xl font-semibold uppercase text-zinc-700`}
+                  >
+                    My Stats
+                  </span>
+                </div>
+                <div
+                  className={`my-2 grid grid-cols-2 text-center text-base font-semibold uppercase`}
+                >
+                  <div className={`grid-cols-1`}>
+                    <div className={`flex justify-center text-zinc-400`}>
+                      Total Income:
+                    </div>
+                    <div className={`flex justify-center text-zinc-800`}>
+                      ${currentUser?.totalIncome || 0}
+                    </div>
+                  </div>
+                  <div className={`grid-cols-1`}>
+                    <div className={`flex justify-center text-zinc-400`}>
+                      My Trust Level:
+                    </div>
+                    <div className={`flex justify-center text-zinc-800`}>
+                      Legendary 🔥
+                    </div>
                   </div>
                 </div>
-              )}
+                <div
+                  className={`my-2 grid grid-cols-2 text-center text-base font-semibold uppercase`}
+                >
+                  <div className={`grid-cols-1`}>
+                    <div className={`flex justify-center text-zinc-400`}>
+                      Endorsements:
+                    </div>
+                    <div className={`flex justify-center gap-4 text-zinc-800`}>
+                      <span className={`flex`}>
+                        <HiOutlineMail
+                          className={`my-auto mr-1 h-4 text-zinc-400`}
+                        />{" "}
+                        {currentUser?.endorsementsReceive?.length || 0}
+                      </span>
+                      <span className={`flex`}>
+                        <HiOutlineMailOpen
+                          className={`my-auto mr-1 h-4 text-zinc-400`}
+                        />{" "}
+                        {currentUser?.endorsementsSend?.length || 0}
+                      </span>
+                    </div>
+                  </div>
+                  <div className={`grid-cols-1`}>
+                    <div className={`flex justify-center text-zinc-400`}>
+                      Reputation Score:
+                    </div>
+                    <div className={`text-soilGreen-900 flex justify-center`}>
+                      {currentUser?.endorsementsSendStats?.reputation || 0}%
+                    </div>
+                  </div>
+                </div>
+                <div className={`my-4 flex w-full justify-center`}>
+                  <span
+                    className={`bg-soilGreen-600/20 rounded-full px-4 py-1 text-base font-semibold uppercase text-zinc-400`}
+                  >
+                    <div>
+                      Risk:
+                      <span className={`text-soilGreen-900 pl-2`}>15% Low</span>
+                    </div>
+                    <div>
+                      Reward:
+                      <span className={`pl-2 text-yellow-500`}>
+                        ~${currentUser?.endorsementsSendStats?.totalReward || 0}
+                      </span>
+                    </div>
+                  </span>
+                </div>
+                <div className={`flex w-full justify-center`}>
+                  <span
+                    className={`bg-soilYellow/60 rounded-full px-4 py-1 text-lg font-semibold uppercase text-zinc-700`}
+                  >
+                    Eden Endorsement
+                  </span>
+                </div>
+                <div
+                  className={`my-2 pl-4 font-medium uppercase text-zinc-700`}
+                >
+                  <li>More Endorsements = More Opportunities</li>
+                  <li>
+                    If You Perform Well Your Endorsers Will Recieve a Reward $$
+                  </li>
+                  <li>5% For The Reward Pool Will Come From Your Employer</li>
+                </div>
+              </div>
             </div>
           </form>
         </Card>

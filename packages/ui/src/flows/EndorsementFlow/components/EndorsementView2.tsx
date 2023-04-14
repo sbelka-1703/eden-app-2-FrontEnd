@@ -1,4 +1,4 @@
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
 import { Members } from "@eden/package-graphql/generated";
 import {
@@ -8,7 +8,6 @@ import {
   TextHeading2,
   TextLabel2,
 } from "@eden/package-ui";
-import { getFillProfilePercentage } from "@eden/package-ui/utils/fill-profile-percentage";
 import { useContext, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlineArrowLeft } from "react-icons/ai";
@@ -23,14 +22,6 @@ const EDEN_GPT_ENDORSE_CHAT_API = gql`
   }
 `;
 
-const EDEN_ADD_ENDORSEMENT = gql`
-  mutation ($fields: addEndorsementInput) {
-    addEndorsement(fields: $fields) {
-      _id
-    }
-  }
-`;
-
 type ReviewInputs = {
   message: string;
 };
@@ -41,81 +32,47 @@ interface IEndorsementView2Props {
   member?: Members;
   onNext: () => void;
   onBack: () => void;
-  onWarning: () => void;
+  // onWarning: () => void;
   rating: number;
   // eslint-disable-next-line no-unused-vars
   onRatingChange: (rating: number) => void;
   chatMessages?: IChatMessages[];
-  keywords?: any[];
+  amountStake: number;
+  // eslint-disable-next-line no-unused-vars
+  onAmountStakeChange: (amount: number) => void;
+  endorsementMessage: string;
+  // eslint-disable-next-line no-unused-vars
+  onEndorsementMessageChange: (message: string) => void;
 }
 
 export const EndorsementView2 = ({
   member,
   onNext,
   onBack,
-  onWarning,
+  // onWarning,
   rating,
   onRatingChange,
   chatMessages,
-  keywords,
+  amountStake,
+  onAmountStakeChange,
+  endorsementMessage,
+  onEndorsementMessageChange,
 }: IEndorsementView2Props) => {
   const { currentUser } = useContext(UserContext);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [amountStake, setAmountStake] = useState(0);
-  const [sendingEndorsement, setSendingEndorsement] = useState(false);
-  const [profileComplete, setProfileComplete] = useState(false);
 
-  const { register, handleSubmit, reset, watch } = useForm<ReviewInputs>();
+  const { register, handleSubmit, reset, watch } = useForm<ReviewInputs>({
+    defaultValues: {
+      message: endorsementMessage,
+    },
+  });
   const onSubmit: SubmitHandler<ReviewInputs> = (data) => {
     // console.log("submit", data);
     if (!currentUser) return;
-    setSendingEndorsement(true);
-
-    const fields = {
-      userSendID: currentUser?._id,
-      userReceiveID: member?._id,
-      endorsementMessage: data.message,
-      stars: rating - 1,
-      stake: amountStake,
-      endorseNodes: keywords?.map((obj: any) => {
-        return {
-          nodeID: obj.nodeID,
-        };
-      }),
-    };
-
-    // console.log("fields", fields);
-
-    const percent = getFillProfilePercentage(currentUser);
-
-    // console.log("percent", percent);
-
-    if (percent < 50) {
-      onWarning();
-      addEndorsement({
-        variables: {
-          fields,
-        },
-      });
-    } else {
-      setProfileComplete(true);
-      addEndorsement({
-        variables: {
-          fields,
-        },
-      });
-    }
+    onEndorsementMessageChange(data.message);
+    onNext();
   };
-
-  const [addEndorsement, {}] = useMutation(EDEN_ADD_ENDORSEMENT, {
-    onCompleted({ addEndorsement }) {
-      if (!addEndorsement) console.log("addEndorsement is null");
-      // console.log("addEndorsement", addEndorsement);
-      if (profileComplete) onNext();
-      setSendingEndorsement(false);
-    },
-  });
 
   const watchMessage = watch(["message"]);
 
@@ -183,7 +140,7 @@ export const EndorsementView2 = ({
               className={`input-primary`}
               placeholder={`Enter amount`}
               value={amountStake}
-              onChange={(e) => setAmountStake(Number(e.target.value))}
+              onChange={(e) => onAmountStakeChange(Number(e.target.value))}
             />
             <button
               type={`button`}
@@ -210,7 +167,7 @@ export const EndorsementView2 = ({
                 <button
                   type={`button`}
                   className={`bg-soilYellow/60 hover:bg-soilYellow mx-auto h-16 w-16 rounded-full font-medium text-neutral-700`}
-                  onClick={() => setAmountStake(25)}
+                  onClick={() => onAmountStakeChange(25)}
                 >
                   <div className={`text-lg`}>25</div>
                   <div className={`text-xs`}>USDC</div>
@@ -223,7 +180,7 @@ export const EndorsementView2 = ({
                 <button
                   type={`button`}
                   className={`bg-soilYellow/60 hover:bg-soilYellow mx-auto h-16 w-16 rounded-full font-medium text-neutral-700`}
-                  onClick={() => setAmountStake(100)}
+                  onClick={() => onAmountStakeChange(100)}
                 >
                   <div className={`text-lg`}>100</div>
                   <div className={`text-xs`}>USDC</div>
@@ -236,7 +193,7 @@ export const EndorsementView2 = ({
                 <button
                   type={`button`}
                   className={`bg-soilYellow/60 hover:bg-soilYellow mx-auto h-16 w-16 rounded-full font-medium text-neutral-700`}
-                  onClick={() => setAmountStake(250)}
+                  onClick={() => onAmountStakeChange(250)}
                 >
                   <div className={`text-lg`}>250</div>
                   <div className={`text-xs`}>USDC</div>
@@ -348,11 +305,9 @@ export const EndorsementView2 = ({
               chat
             </button>
           </div>
-          {!sendingEndorsement && (
-            <div className={`col-span-1 grid justify-items-end`}>
-              <ReviewButton type={`submit`} />
-            </div>
-          )}
+          <div className={`col-span-1 grid justify-items-end`}>
+            <ReviewButton type={`submit`} />
+          </div>
         </div>
       </form>
     </>
