@@ -7,21 +7,6 @@ export const FIND_MEMBER_FULL = gql`
       discordAvatar
       discordName
       bio
-      content {
-        interest
-        mostProud
-        showCaseAbility
-      }
-      attributes {
-        Coordinator
-        Director
-        Helper
-        Inspirer
-        Motivator
-        Observer
-        Reformer
-        Supporter
-      }
       archiveProjects
       discriminator
       hoursPerWeek
@@ -99,6 +84,14 @@ export const FIND_MEMBER_FULL = gql`
       #   endorsementMessage
       #   arweaveTransactionID
       # }
+      totalIncome
+      endorsementsSendStats {
+        reputation
+        totalReward
+      }
+      endorsementsSend {
+        _id
+      }
       endorsementsReceive {
         _id
         userSend {

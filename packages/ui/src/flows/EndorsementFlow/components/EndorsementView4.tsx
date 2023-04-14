@@ -39,7 +39,23 @@ export const EndorsementView4 = ({
           className={`text-center font-medium uppercase text-zinc-600`}
         >{`we'll save this endorsement as a draft`}</div>
       </div>
-      <div className={`my-6 flex w-full justify-center`}>
+      <div className={`flex w-full justify-center`}>
+        <span
+          className={`bg-soilYellow/50 flex flex-col rounded-full p-4 text-center text-lg font-semibold text-zinc-800`}
+        >
+          <span>Potential</span>
+          <span>Reward</span>
+          <span>
+            $<span className={`text-3xl text-yellow-500`}>55</span>
+          </span>
+        </span>
+      </div>
+
+      <div className={`my-2 flex w-full justify-between`}>
+        <Button type={`button`} onClick={onClose} className={`uppercase`}>
+          {`exit & lose`}
+          <span className={`ml-4 text-yellow-500`}>$55</span>
+        </Button>
         <button
           type={`button`}
           onClick={onNext}
@@ -47,11 +63,6 @@ export const EndorsementView4 = ({
         >
           create a profile
         </button>
-      </div>
-      <div className={`my-2 flex w-full justify-center`}>
-        <Button type={`button`} onClick={onClose} className={`uppercase`}>
-          {`don't endorse & exit`}
-        </Button>
       </div>
     </div>
   );
