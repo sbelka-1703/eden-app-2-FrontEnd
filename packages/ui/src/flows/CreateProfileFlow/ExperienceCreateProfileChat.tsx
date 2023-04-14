@@ -144,7 +144,7 @@ export const ExperienceCreateProfileChat: React.FC<
                 <h2 className="mb-2">{card.title}</h2>
                 <div>
                   <p className="text-sm">TRUST Points: {card.trust}</p>
-                  <p className="mb-1 text-sm">Time: {card.time} min</p>
+                  <p className="mb-1 text-sm">⏳ {card.time} min</p>
                 </div>
                 <Button
                   className="absolute bottom-2 right-2 rounded-md bg-opacity-90 !px-4 !py-px text-xs"

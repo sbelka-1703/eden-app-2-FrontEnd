@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
 import {
   FIND_NODES,
@@ -61,6 +61,7 @@ export const CreateProfileFlow = ({
   });
 
   const [nodesIDs, setNodesIDs] = useState<Array<string>>([]);
+  const [completeChat, setCompleteChat] = useState<Array<any>>([]);
 
   const { data: dataRoles } = useQuery(FIND_ROLE_TEMPLATES, {
     variables: {
@@ -148,6 +149,30 @@ export const CreateProfileFlow = ({
     },
   });
 
+  const CONVERSATION_SUMMARY_GPT = gql`
+    query ConversationToSummaryGPT($fields: conversationToSummaryGPTInput) {
+      conversationToSummaryGPT(fields: $fields) {
+        reply
+      }
+    }
+  `;
+
+  useQuery(CONVERSATION_SUMMARY_GPT, {
+    variables: {
+      fields: {
+        conversation: completeChat.map((item) => ({
+          role: item.user === "01" ? "assistant" : "user",
+          content: item.message,
+        })),
+      },
+    },
+    skip: !completeChat || completeChat.length == 0,
+    onCompleted: (data) => {
+      console.log("SUMMARY->", data);
+      setValue("bio", data.conversationToSummaryGPT.reply);
+    },
+  });
+
   return (
     <div className="scrollbar-hide h-full overflow-scroll">
       <Wizard showStepsHeader>
@@ -166,6 +191,10 @@ export const CreateProfileFlow = ({
             <ExperienceCreateProfileChat
               handleChangeNodes={(val) => {
                 setNodesIDs(Object.keys(val));
+              }}
+              handleChangeChat={(val) => {
+                if (val && val.length)
+                  setCompleteChat([...completeChat, val[val.length - 1]]);
               }}
             />
           </div>
