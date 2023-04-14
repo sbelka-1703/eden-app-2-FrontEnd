@@ -311,6 +311,7 @@ export type Mutation = {
   createFakeEndorsement?: Maybe<Endorsement>;
   createFakeReview?: Maybe<Review>;
   createFakeUser?: Maybe<Members>;
+  createMultipleFakeEndorsementAndReview?: Maybe<Scalars["Boolean"]>;
   createNewEpic?: Maybe<Epic>;
   createNewRole?: Maybe<Role>;
   createNewTeam?: Maybe<Team>;
@@ -454,6 +455,10 @@ export type MutationCreateFakeReviewArgs = {
 
 export type MutationCreateFakeUserArgs = {
   fields?: InputMaybe<CreateFakeUserInput>;
+};
+
+export type MutationCreateMultipleFakeEndorsementAndReviewArgs = {
+  fields?: InputMaybe<CreateMultipleFakeEndorsementAndReviewInput>;
 };
 
 export type MutationCreateNewEpicArgs = {
@@ -762,12 +767,14 @@ export type Query = {
   activeMembersStats?: Maybe<Array<Maybe<ResultCount>>>;
   activeUsersQueryStats?: Maybe<Array<Maybe<ResultCount2>>>;
   adminFindAllSkillsEveryState?: Maybe<Array<Maybe<Skills>>>;
+  conversationToSummaryGPT?: Maybe<ConversationToSummaryGptOutput>;
   dynamicSearchGraph?: Maybe<Graph>;
   dynamicSearchToMemberCategoryGroup?: Maybe<Graph>;
   dynamicSearchToMemberGraph?: Maybe<Graph>;
   dynamicSearchToMemberGraphGPT?: Maybe<Graph>;
   dynamicSearchToMemberGraphV2?: Maybe<Graph>;
   dynamicSearchToProjectGraph?: Maybe<Graph>;
+  edenAITalSearchExpirience?: Maybe<EdenAiTalSearchExpirienceOutput>;
   edenGPTCreateProfileExperienceChatAPI?: Maybe<EdenGptCreateProfileExperienceChatApiOutput>;
   edenGPTEndorseChatAPI?: Maybe<EdenGptEndorseChatApiOutput>;
   edenGPTReviewChatAPI?: Maybe<EdenGptReviewChatApiOutput>;
@@ -865,6 +872,10 @@ export type QueryAdminFindAllSkillsEveryStateArgs = {
   fields?: InputMaybe<FindSkillsInput>;
 };
 
+export type QueryConversationToSummaryGptArgs = {
+  fields?: InputMaybe<ConversationToSummaryGptInput>;
+};
+
 export type QueryDynamicSearchGraphArgs = {
   fields?: InputMaybe<DynamicSearchGraphInput>;
 };
@@ -887,6 +898,10 @@ export type QueryDynamicSearchToMemberGraphV2Args = {
 
 export type QueryDynamicSearchToProjectGraphArgs = {
   fields?: InputMaybe<DynamicSearchToProjectGraphInput>;
+};
+
+export type QueryEdenAiTalSearchExpirienceArgs = {
+  fields?: InputMaybe<EdenAiTalSearchExpirienceInput>;
 };
 
 export type QueryEdenGptCreateProfileExperienceChatApiArgs = {
@@ -1652,6 +1667,16 @@ export type ContentType = {
   showCaseAbility?: Maybe<Scalars["String"]>;
 };
 
+export type ConversationToSummaryGptInput = {
+  conversation?: InputMaybe<Array<InputMaybe<MessageChat>>>;
+  memberID?: InputMaybe<Scalars["ID"]>;
+};
+
+export type ConversationToSummaryGptOutput = {
+  __typename?: "conversationToSummaryGPTOutput";
+  reply?: Maybe<Scalars["String"]>;
+};
+
 export type CreateApprovedSkillInput = {
   name?: InputMaybe<Scalars["String"]>;
 };
@@ -1679,6 +1704,7 @@ export type CreateFakeEndorsementInput = {
 };
 
 export type CreateFakeReviewInput = {
+  payEndorsers?: InputMaybe<Scalars["Boolean"]>;
   userReceiveID?: InputMaybe<Scalars["ID"]>;
   userSendID?: InputMaybe<Scalars["ID"]>;
 };
@@ -1687,6 +1713,13 @@ export type CreateFakeUserInput = {
   expertise?: InputMaybe<Array<InputMaybe<NodeCategoryInput>>>;
   interests?: InputMaybe<Array<InputMaybe<NodeCategoryInput>>>;
   memberID?: InputMaybe<Scalars["ID"]>;
+};
+
+export type CreateMultipleFakeEndorsementAndReviewInput = {
+  numEnrosements?: InputMaybe<Scalars["Int"]>;
+  numReviews?: InputMaybe<Scalars["Int"]>;
+  numUserEndorse?: InputMaybe<Scalars["Int"]>;
+  numUserReview?: InputMaybe<Scalars["Int"]>;
 };
 
 export type CreateNewEpicInput = {
@@ -1925,6 +1958,17 @@ export type DynamicSearchToProjectGraphInput = {
   showAvatar?: InputMaybe<Scalars["Boolean"]>;
 };
 
+export type EdenAiTalSearchExpirienceInput = {
+  conversation?: InputMaybe<Array<InputMaybe<MessageChat>>>;
+  experienceTypeID?: InputMaybe<ExperienceTalSearchTypeIdEnum>;
+  message?: InputMaybe<Scalars["String"]>;
+};
+
+export type EdenAiTalSearchExpirienceOutput = {
+  __typename?: "edenAITalSearchExpirienceOutput";
+  reply?: Maybe<Scalars["String"]>;
+};
+
 export type EdenGptCreateProfileExperienceChatApiInput = {
   conversation?: InputMaybe<Array<InputMaybe<MessageChat>>>;
   experienceTypeID?: InputMaybe<ExperienceTypeIdEnum>;
@@ -2027,7 +2071,6 @@ export type EdenGpTsearchProfilesOutput = {
 
 export type EdenGpTsummaryProfileInput = {
   conversation?: InputMaybe<Array<InputMaybe<MessageChat>>>;
-  memberID?: InputMaybe<Scalars["ID"]>;
 };
 
 export type EdenGpTsummaryProfileOutput = {
@@ -2145,6 +2188,12 @@ export type ExperienceLevelType = {
   total?: Maybe<Scalars["Int"]>;
   years?: Maybe<Scalars["Int"]>;
 };
+
+export enum ExperienceTalSearchTypeIdEnum {
+  CultureFit = "CULTURE_FIT",
+  Industries = "INDUSTRIES",
+  SkillsExperience = "SKILLS_EXPERIENCE",
+}
 
 export enum ExperienceTypeIdEnum {
   Background = "BACKGROUND",
@@ -3211,9 +3260,11 @@ export type UpdateMemberInput = {
   discordAvatar?: InputMaybe<Scalars["String"]>;
   discordName?: InputMaybe<Scalars["String"]>;
   discriminator?: InputMaybe<Scalars["String"]>;
+  experienceLevel?: InputMaybe<Scalars["Int"]>;
   hoursPerWeek?: InputMaybe<Scalars["Float"]>;
   interest?: InputMaybe<Scalars["String"]>;
   links?: InputMaybe<Array<InputMaybe<LinkInput>>>;
+  location?: InputMaybe<Scalars["String"]>;
   memberRole?: InputMaybe<Scalars["ID"]>;
   onbording?: InputMaybe<OnboardingInput>;
   previousProjects?: InputMaybe<Array<InputMaybe<PreviousProjectsInput>>>;

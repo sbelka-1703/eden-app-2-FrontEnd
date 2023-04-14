@@ -32,15 +32,15 @@ export const WizardStepsHeader = ({
           <div
             className={classNames(
               currentStep === index
-                ? "border-accentColor border-2 bg-lime-100"
-                : "bg-lime-50",
+                ? " bg-[#DEFEFF]"
+                : "bg-[#70B2B4] text-slate-600",
               "rounded-xl px-4 py-1"
             )}
           >
             <span className="whitespace-nowrap">{step}</span>
           </div>
           {index < steps.length - 1 && (
-            <div className="h-0 w-[20px] border-b"></div>
+            <div className="h-0 w-[15px] border-b-2 border-slate-500"></div>
           )}
         </div>
       ))}

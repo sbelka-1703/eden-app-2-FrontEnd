@@ -34,10 +34,13 @@ import { Button } from "../../elements";
 import { RoleSelector } from "../../selectors";
 import { ExperienceCreateProfileChat } from "./ExperienceCreateProfileChat";
 
-const rangeNumbers: number[] = [];
+const rangeNumbers: number[] = [0, 0, 0, 0, 0, 0, 0, 0];
 
 for (let i = 0; i < 500; i++) {
-  rangeNumbers.push(Math.floor(Math.random() * 80) + 1);
+  // rangeNumbers.push(Math.floor(Math.random() * 200) + 1);
+  rangeNumbers.push(
+    100 + Math.round(Math.random() * 100) * (Math.random() > 0.5 ? 1 : -1)
+  );
 }
 
 export interface ICreateProfileFlowProps {
@@ -81,9 +84,10 @@ export const CreateProfileFlow = ({
         url: item?.url,
         name: item?.name,
       })),
-      hoursPerWeek: Number(userState?.hoursPerWeek || 0),
     };
 
+    if (userState?.hoursPerWeek)
+      fields.hoursPerWeek = Number(userState?.hoursPerWeek || 0);
     if (userState?.memberRole) fields.memberRole = userState?.memberRole._id;
     if (userState?.previousProjects)
       fields.previousProjects = userState?.previousProjects?.map(
@@ -94,7 +98,7 @@ export const CreateProfileFlow = ({
           title: item.title,
         })
       );
-    // if (userState?.location) fields.location = userState?.location;
+    if (userState?.location) fields.location = userState?.location;
     if (userState?.timeZone) fields.timeZone = userState?.timeZone;
     // if (userState?.experienceLevel?.total)
     //   fields.experienceLevel = {
@@ -258,7 +262,10 @@ export const CreateProfileFlow = ({
                     <SalaryRangeChart
                       data={rangeNumbers}
                       onChange={(val) => {
-                        setValue("budget.perHour", val.values[1]);
+                        setValue(
+                          "budget.perHour",
+                          (val.values[0] + val.values[1]) / 2
+                        );
                       }}
                     />
                   )}
