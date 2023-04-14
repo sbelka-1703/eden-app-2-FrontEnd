@@ -10,12 +10,24 @@ const EndorsementPage: NextPageWithLayout = () => {
 
   // console.log("endorsement page ID ===>", id);
 
+  const [renderScript, setRenderScript] = useState(false);
+
+  useEffect(() => {
+    if (
+      typeof window !== "undefined" &&
+      window.location.hostname !== "localhost"
+    ) {
+      setRenderScript(true);
+    }
+  }, []);
+
   return (
     <>
       <Head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
+        {renderScript && (
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
               (function(h,o,t,j,a,r){
                   h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
                   h._hjSettings={hjid:3442218,hjsv:6};
@@ -25,8 +37,9 @@ const EndorsementPage: NextPageWithLayout = () => {
                   a.appendChild(r);
               })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
             `,
-          }}
-        />
+            }}
+          />
+        )}
       </Head>
       <SEO />
       <EndorsementFlow endorsementID={id as string} />
@@ -42,6 +55,7 @@ export default EndorsementPage;
 
 import { IncomingMessage, ServerResponse } from "http";
 import { getSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 
 export async function getServerSideProps(ctx: {
   req: IncomingMessage;

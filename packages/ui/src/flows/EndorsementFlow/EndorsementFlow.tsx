@@ -25,6 +25,7 @@ import {
   EndorsementView2,
   EndorsementView3,
   EndorsementView4,
+  EndorsementView5,
 } from "./components";
 
 // eslint-disable-next-line no-unused-vars
@@ -33,6 +34,8 @@ export enum ENDORSEMENT_STEPS {
   CHAT = "CHAT",
   // eslint-disable-next-line no-unused-vars
   SUBMIT_ENDORSEMENT = "SUBMIT_ENDORSEMENT",
+  // eslint-disable-next-line no-unused-vars
+  CONFIRM = "CONFIRM",
   // eslint-disable-next-line no-unused-vars
   SUCCESS = "SUCCESS",
   // eslint-disable-next-line no-unused-vars
@@ -53,6 +56,17 @@ const FIND_ENDORSEMENT_LINK = gql`
         memberRole {
           _id
           title
+        }
+        totalIncome
+        endorsementsSendStats {
+          reputation
+          totalReward
+        }
+        endorsementsSend {
+          _id
+        }
+        endorsementsReceive {
+          _id
         }
       }
       message
@@ -108,6 +122,8 @@ export const EndorsementFlow = ({ endorsementID }: IEndorsementFlowProps) => {
   const [userState, setUserState] = useState<Members>();
   const [profileStep, setProfileStep] = useState(STEPS.ROLE);
   const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
+  const [amountStake, setAmountStake] = useState(0);
+  const [endorsementMessage, setEndorsementMessage] = useState("");
 
   useEffect(() => {
     if (currentUser) {
@@ -161,13 +177,17 @@ export const EndorsementFlow = ({ endorsementID }: IEndorsementFlowProps) => {
                   {step === ENDORSEMENT_STEPS.SUBMIT_ENDORSEMENT && (
                     <EndorsementView2
                       member={memberSelected}
-                      onWarning={() => setStep(ENDORSEMENT_STEPS.WARNING)}
-                      onNext={() => setStep(ENDORSEMENT_STEPS.SUCCESS)}
+                      // onWarning={() => setStep(ENDORSEMENT_STEPS.WARNING)}
+                      onNext={() => setStep(ENDORSEMENT_STEPS.CONFIRM)}
                       onBack={() => setStep(ENDORSEMENT_STEPS.CHAT)}
                       rating={currentRating}
                       onRatingChange={setCurrentRating}
                       chatMessages={chatMessages}
-                      keywords={keywords}
+                      // keywords={keywords}
+                      amountStake={amountStake}
+                      onAmountStakeChange={setAmountStake}
+                      endorsementMessage={endorsementMessage}
+                      onEndorsementMessageChange={setEndorsementMessage}
                     />
                   )}
                 </>
@@ -176,11 +196,26 @@ export const EndorsementFlow = ({ endorsementID }: IEndorsementFlowProps) => {
           </GridItemNine>
           <Modal
             open={
+              step === ENDORSEMENT_STEPS.CONFIRM ||
               step === ENDORSEMENT_STEPS.SUCCESS ||
               step === ENDORSEMENT_STEPS.WARNING
             }
             onClose={() => setStep(ENDORSEMENT_STEPS.CHAT)}
           >
+            {/* CONFIRM */}
+            {step === ENDORSEMENT_STEPS.CONFIRM && (
+              <EndorsementView5
+                member={memberSelected}
+                onWarning={() => setStep(ENDORSEMENT_STEPS.WARNING)}
+                onNext={() => setStep(ENDORSEMENT_STEPS.SUCCESS)}
+                onCancel={() => setStep(ENDORSEMENT_STEPS.CHAT)}
+                rating={currentRating}
+                endorsedSkills={endorsedSkills}
+                keywords={keywords}
+                amountStake={amountStake}
+                endorsementMessage={endorsementMessage}
+              />
+            )}
             {/* SUCCESS */}
             {step === ENDORSEMENT_STEPS.SUCCESS && (
               <EndorsementView3

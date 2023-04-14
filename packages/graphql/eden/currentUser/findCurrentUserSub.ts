@@ -8,11 +8,6 @@ export const FIND_CURRENTUSER_SUB = gql`
       discordName
       serverID
       bio
-      content {
-        interest
-        mostProud
-        showCaseAbility
-      }
       discriminator
       hoursPerWeek
       interest
@@ -116,6 +111,14 @@ export const FIND_CURRENTUSER_SUB = gql`
       #   endorsementMessage
       #   arweaveTransactionID
       # }
+      totalIncome
+      endorsementsSendStats {
+        reputation
+        totalReward
+      }
+      endorsementsSend {
+        _id
+      }
       endorsementsReceive {
         _id
         userSend {
