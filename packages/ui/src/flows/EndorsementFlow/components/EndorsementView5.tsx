@@ -122,7 +122,7 @@ export const EndorsementView5 = ({
             className={`bg-soilBlue/40 hover:bg-soilBlue/60 flex justify-center space-x-4 rounded-full py-1 uppercase`}
           >
             <div className={`my-auto font-semibold text-zinc-800 sm:text-lg`}>
-              Endorse
+              Potential Reward
             </div>
             <div className={`text-center`}>
               <div className={`text-xs text-zinc-500`}>Risk</div>
@@ -147,7 +147,7 @@ export const EndorsementView5 = ({
             className={`flex justify-center space-x-4 rounded-full bg-zinc-300/40 py-1 uppercase hover:bg-zinc-300/60`}
           >
             <div className={`my-auto font-semibold text-zinc-800 sm:text-lg`}>
-              Reject
+              Reputation Risk
             </div>
             <div className={`text-center`}>
               <div className={`text-xs text-zinc-500`}>Risk</div>
