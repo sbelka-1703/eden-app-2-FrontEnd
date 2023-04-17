@@ -103,10 +103,14 @@ export const CreateProfileFlow = ({
     if (userState?.location) fields.location = userState?.location;
     if (userState?.timeZone) fields.timeZone = userState?.timeZone;
     // if (userState?.experienceLevel?.total)
-    //   fields.experienceLevel = {
-    //     ...fields.experienceLevel,
-    //     total: userState?.experienceLevel?.total,
-    //   };
+    //   fields.experienceLevel = fields.experienceLevel
+    //     ? {
+    //         ...fields.experienceLevel,
+    //         total: userState?.experienceLevel?.total,
+    //       }
+    //     : {
+    //         total: userState?.experienceLevel?.total,
+    //       };
     // if (userState?.experienceLevel?.years)
     //   fields.experienceLevel = {
     //     ...fields.experienceLevel,

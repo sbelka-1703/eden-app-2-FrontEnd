@@ -12,6 +12,7 @@ export const FIND_MEMBER = gql`
       hoursPerWeek
       interest
       timeZone
+      location
       projects {
         champion
         favorite
@@ -20,6 +21,9 @@ export const FIND_MEMBER = gql`
           description
           title
         }
+      }
+      budget {
+        perHour
       }
       links {
         name
@@ -83,6 +87,10 @@ export const FIND_MEMBER = gql`
         endorsers {
           discordName
         }
+      }
+      experienceLevel {
+        total
+        years
       }
       preferences {
         findCoFounder {

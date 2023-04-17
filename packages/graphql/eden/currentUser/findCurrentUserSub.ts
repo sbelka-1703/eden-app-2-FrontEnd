@@ -19,6 +19,14 @@ export const FIND_CURRENTUSER_SUB = gql`
           node
         }
       }
+      location
+      budget {
+        perHour
+      }
+      experienceLevel {
+        total
+        years
+      }
       previousProjects {
         title
         description
