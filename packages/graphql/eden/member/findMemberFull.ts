@@ -12,6 +12,14 @@ export const FIND_MEMBER_FULL = gql`
       hoursPerWeek
       interest
       timeZone
+      location
+      budget {
+        perHour
+      }
+      experienceLevel {
+        total
+        years
+      }
       projects {
         champion
         phase

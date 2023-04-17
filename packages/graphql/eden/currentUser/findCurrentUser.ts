@@ -12,6 +12,14 @@ export const FIND_CURRENTUSER = gql`
       hoursPerWeek
       interest
       timeZone
+      location
+      budget {
+        perHour
+      }
+      experienceLevel {
+        total
+        years
+      }
       nodes {
         nodeData {
           aboveNodes {
