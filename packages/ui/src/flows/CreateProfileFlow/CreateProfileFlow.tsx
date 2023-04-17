@@ -25,7 +25,8 @@ import { locations } from "../../../utils/locations";
 import { UserExperienceCard } from "../../cards";
 import { SalaryRangeChart } from "../../charts";
 import {
-  DynamicSearchMemberGraph,
+  DynamicSearchGraph,
+  // DynamicSearchMemberGraph,
   FillSocialLinks,
   Wizard,
   WizardStep,
@@ -216,8 +217,8 @@ export const CreateProfileFlow = ({
               <p className="mb-2">Edit your skills</p>
               {userState?._id && (
                 <div className="mt-3 h-[360px] w-full">
-                  <DynamicSearchMemberGraph
-                    memberID={userState._id}
+                  {/* <DynamicSearchMemberGraph
+                    // memberID={userState._id}
                     nodesID={
                       userState.nodes && userState.nodes.length
                         ? userState.nodes?.map(
@@ -229,6 +230,29 @@ export const CreateProfileFlow = ({
                     graphType={"KG_AI2"}
                     // graphType={"KG_AI"}
                     // zoomGraph={1.1}
+                  /> */}
+                  <DynamicSearchGraph
+                    nodesID={
+                      userState.nodes && userState.nodes.length
+                        ? userState.nodes?.map(
+                            (_node) => _node?.nodeData?._id as string
+                          )
+                        : []
+                    }
+                    // activeNodes={Object.values(nodeObj).map(
+                    //   (node: any) => node.active
+                    // )}
+                    // isNewNodes={Object.values(nodeObj).map(
+                    //   (node: any) => node.isNew
+                    // )}
+                    // setActivateNodeEvent={setActivateNodeEvent}
+                    height={"200"}
+                    // // graphType={"simple"}
+                    // // graphType={"KG_AI_2"}
+                    graphType={"KG_AI_2_plusIndustry"}
+                    // // zoomGraph={1.1}
+                    // setRelatedNodePopup={handleOpenPopup}
+                    disableZoom={true}
                   />
                 </div>
               )}
