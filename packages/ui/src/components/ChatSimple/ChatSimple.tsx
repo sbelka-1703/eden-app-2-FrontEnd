@@ -1,7 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import "./styles.css";
 
-import { useEffect, useRef, useState } from "react";
+import { UserContext } from "@eden/package-context";
+import { useContext, useEffect, useRef, useState } from "react";
 import { CiLocationArrow1 } from "react-icons/ci";
 import { HiPencil } from "react-icons/hi";
 
@@ -17,6 +18,8 @@ function classNames(...classes: string[]) {
 }
 
 export const ChatSimple = ({ chatN, handleSentMessage }: IChatSimple) => {
+  const { currentUser } = useContext(UserContext);
+
   const componentRef = useRef<any>(null);
   const Users: any = {
     "01": {
@@ -24,8 +27,8 @@ export const ChatSimple = ({ chatN, handleSentMessage }: IChatSimple) => {
       img: "https://pbs.twimg.com/profile_images/1595723986524045312/fqOO4ZI__400x400.jpg",
     },
     "02": {
-      name: "USer",
-      img: "https://cdn.discordapp.com/avatars/961730944170090516/e5844ca759a74e995027a0e50c5cb1bf.png",
+      name: "User",
+      img: currentUser?.discordAvatar,
     },
   };
 
