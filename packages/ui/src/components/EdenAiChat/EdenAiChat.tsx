@@ -268,9 +268,10 @@ export const EdenAiChat = ({
     variables: {
       fields: {
         message: messageUser,
-        assistantMessage:
-          chatN.length > 3 ? chatN[chatN.length - 3]?.message : "",
+        // assistantMessage:
+        // chatN.length > 3 ? chatN[chatN.length - 3]?.message : "",
         // assistantMessage: chatN[chatN.length - 2]?.message,
+        assistantMessage: chatN[chatN.length - 3]?.message,
       },
     },
     skip:
