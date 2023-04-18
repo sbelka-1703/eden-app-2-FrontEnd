@@ -19,7 +19,8 @@ export const AppDeviceLayout = ({}: IAppDeviceLayoutProps) => {
           </p>
           <p className="mb-2 text-center">
             Mobile site is
-            <br /> under construction
+            <br /> under construction.
+            <br /> Use your laptop.
           </p>
           <MdMobileOff className="text-2xl" />
         </section>

@@ -74,6 +74,17 @@ export type Combo = {
   style?: Maybe<StyleNodeOut>;
 };
 
+export type Conversation = {
+  __typename?: "Conversation";
+  _id?: Maybe<Scalars["ID"]>;
+  convKey?: Maybe<Scalars["String"]>;
+  conversation?: Maybe<Array<Maybe<ConversationType>>>;
+  summary?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  summaryReady?: Maybe<Scalars["Boolean"]>;
+  updatedAt?: Maybe<Scalars["Date"]>;
+  userID?: Maybe<Scalars["String"]>;
+};
+
 export type DateType = {
   __typename?: "DateType";
   day?: Maybe<Scalars["Int"]>;
@@ -345,6 +356,8 @@ export type Mutation = {
   storeLongTermMemory?: Maybe<StoreLongTermMemoryOutput>;
   updateChatReply?: Maybe<Chats>;
   updateChatResult?: Maybe<Chats>;
+  updateConvSummaries?: Maybe<Array<Maybe<Conversation>>>;
+  updateConversation?: Maybe<Conversation>;
   updateGrant?: Maybe<GrantTemplate>;
   updateMember?: Maybe<Members>;
   updateMemberInRoom?: Maybe<Members>;
@@ -593,6 +606,14 @@ export type MutationUpdateChatResultArgs = {
   fields?: InputMaybe<UpdateChatResultInput>;
 };
 
+export type MutationUpdateConvSummariesArgs = {
+  fields?: InputMaybe<UpdateConvSummariesInput>;
+};
+
+export type MutationUpdateConversationArgs = {
+  fields?: InputMaybe<UpdateConversationInput>;
+};
+
 export type MutationUpdateGrantArgs = {
   fields?: InputMaybe<UpdateGrantInput>;
 };
@@ -790,6 +811,8 @@ export type Query = {
     Array<Maybe<FindAllProjectsTeamsAnouncmentsOutput>>
   >;
   findChat?: Maybe<Chats>;
+  findConversation?: Maybe<Conversation>;
+  findConversations?: Maybe<Array<Maybe<Conversation>>>;
   findEndorsementLink?: Maybe<Array<Maybe<EndorsementLink>>>;
   findEpic?: Maybe<Array<Maybe<Epic>>>;
   findGarden?: Maybe<Array<Maybe<FindGardenOutput>>>;
@@ -954,6 +977,14 @@ export type QueryFindAllProjectsTeamsAnouncmentsArgs = {
 
 export type QueryFindChatArgs = {
   fields?: InputMaybe<FindChatInput>;
+};
+
+export type QueryFindConversationArgs = {
+  fields?: InputMaybe<FindConversationInput>;
+};
+
+export type QueryFindConversationsArgs = {
+  fields?: InputMaybe<FindConversationsInput>;
 };
 
 export type QueryFindEndorsementLinkArgs = {
@@ -1667,6 +1698,11 @@ export type ContentType = {
   showCaseAbility?: Maybe<Scalars["String"]>;
 };
 
+export type ConversationInput = {
+  content?: InputMaybe<Scalars["String"]>;
+  role?: InputMaybe<Scalars["String"]>;
+};
+
 export type ConversationToSummaryGptInput = {
   conversation?: InputMaybe<Array<InputMaybe<MessageChat>>>;
   memberID?: InputMaybe<Scalars["ID"]>;
@@ -1675,6 +1711,12 @@ export type ConversationToSummaryGptInput = {
 export type ConversationToSummaryGptOutput = {
   __typename?: "conversationToSummaryGPTOutput";
   reply?: Maybe<Scalars["String"]>;
+};
+
+export type ConversationType = {
+  __typename?: "conversationType";
+  content?: Maybe<Scalars["String"]>;
+  role?: Maybe<Scalars["String"]>;
 };
 
 export type CreateApprovedSkillInput = {
@@ -2183,6 +2225,11 @@ export type ExecutedActionType = {
   taskTypeID?: Maybe<Scalars["String"]>;
 };
 
+export type ExperienceLevelInput = {
+  total?: InputMaybe<Scalars["Int"]>;
+  years?: InputMaybe<Scalars["Int"]>;
+};
+
 export type ExperienceLevelType = {
   __typename?: "experienceLevelType";
   total?: Maybe<Scalars["Int"]>;
@@ -2226,6 +2273,17 @@ export type FindAllProjectsTeamsAnouncmentsOutput = {
 export type FindChatInput = {
   _id?: InputMaybe<Scalars["ID"]>;
   threadID?: InputMaybe<Scalars["ID"]>;
+};
+
+export type FindConversationInput = {
+  _id?: InputMaybe<Scalars["ID"]>;
+};
+
+export type FindConversationsInput = {
+  _id?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+  convKey?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  summaryReady?: InputMaybe<Scalars["Boolean"]>;
+  userID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type FindEndorsementLinkInput = {
@@ -3217,6 +3275,16 @@ export type UpdateChatResultInput = {
   threadID?: InputMaybe<Scalars["ID"]>;
 };
 
+export type UpdateConvSummariesInput = {
+  _id?: InputMaybe<Scalars["ID"]>;
+  convKey?: InputMaybe<Scalars["String"]>;
+};
+
+export type UpdateConversationInput = {
+  conversation?: InputMaybe<Array<InputMaybe<ConversationInput>>>;
+  userID?: InputMaybe<Scalars["String"]>;
+};
+
 export type UpdateGrantInput = {
   _id?: InputMaybe<Scalars["ID"]>;
   amount?: InputMaybe<Scalars["String"]>;
@@ -3260,7 +3328,7 @@ export type UpdateMemberInput = {
   discordAvatar?: InputMaybe<Scalars["String"]>;
   discordName?: InputMaybe<Scalars["String"]>;
   discriminator?: InputMaybe<Scalars["String"]>;
-  experienceLevel?: InputMaybe<Scalars["Int"]>;
+  experienceLevel?: InputMaybe<ExperienceLevelInput>;
   hoursPerWeek?: InputMaybe<Scalars["Float"]>;
   interest?: InputMaybe<Scalars["String"]>;
   links?: InputMaybe<Array<InputMaybe<LinkInput>>>;
