@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 
 export interface IWizardStepsHeaderProps {
   steps: Array<string>;
   currentStep: number;
+  setStep: Dispatch<SetStateAction<number>>;
 }
 
 function classNames(...classes: string[]) {
@@ -12,6 +13,7 @@ function classNames(...classes: string[]) {
 export const WizardStepsHeader = ({
   steps,
   currentStep,
+  setStep,
 }: IWizardStepsHeaderProps) => {
   useEffect(() => {
     const activeStep = document.querySelector(`#wizard-header-${currentStep}`);
@@ -33,9 +35,12 @@ export const WizardStepsHeader = ({
             className={classNames(
               currentStep === index
                 ? " bg-[#DEFEFF]"
-                : "bg-[#70B2B4] text-slate-600",
+                : "cursor-pointer bg-[#70B2B4] text-slate-600",
               "rounded-xl px-4 py-1"
             )}
+            onClick={() => {
+              if (currentStep != index) setStep(index);
+            }}
           >
             <span className="whitespace-nowrap">{step}</span>
           </div>

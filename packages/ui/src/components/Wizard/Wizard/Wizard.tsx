@@ -47,6 +47,7 @@ export const Wizard = ({ children, showStepsHeader = false }: IWizardProps) => {
         <WizardStepsHeader
           currentStep={step}
           steps={children.map((_step) => _step.props.label)}
+          setStep={setStep}
         />
       )}
       {showStepsHeader && <div className="pt-20"></div>}
