@@ -208,7 +208,7 @@ export const MemberInfoWithDynamicGraph2 = ({
       </div>
 
       <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-12">
-        <div className="sm:col-span-7 sm:my-0">
+        <div className="sm:col-span-8 sm:my-0">
           {!!member?.bio && <TextLabel1>🪪 Short bio</TextLabel1>}
           {!loading ? (
             <p className="text-soilBody font-Inter mb-2 whitespace-pre-wrap font-normal">
@@ -222,25 +222,27 @@ export const MemberInfoWithDynamicGraph2 = ({
               </div>
             </div>
           )}
-          <div className="">
-            <p className="mb-2 text-left">
-              <TextLabel1>🧙‍♂️ Relevant Skills</TextLabel1>
-            </p>
-            {relatedNodesMemberToMatch &&
-              relatedNodesMemberToMatch
-                .slice(0, 6)
-                .map((info: any, index: number) => (
-                  <Badge
-                    text={info?.MemberRelevantnode?.name || ""}
-                    key={index}
-                    // className={`bg-soilPurple/20 py-px text-xs`}
-                    // className={`px-2 py-1 text-white rounded ${getBackgroundColorClass(info.score)}`}
-                    // className={`px-2 py-1 text-white rounded bg-purple-400`}
-                    className={`rounded px-1 py-1 text-xs text-white ${info.color}`}
-                    cutText={14}
-                  />
-                ))}
-            {/* {member.endorseSummary?.mainNodes!.map(
+          {relatedNodesMemberToMatch &&
+            relatedNodesMemberToMatch.length > 0 && (
+              <div className="">
+                <p className="mb-2 text-left">
+                  <TextLabel1>🧙‍♂️ Relevant Skills</TextLabel1>
+                </p>
+                {relatedNodesMemberToMatch &&
+                  relatedNodesMemberToMatch
+                    .slice(0, 6)
+                    .map((info: any, index: number) => (
+                      <Badge
+                        text={info?.MemberRelevantnode?.name || ""}
+                        key={index}
+                        // className={`bg-soilPurple/20 py-px text-xs`}
+                        // className={`px-2 py-1 text-white rounded ${getBackgroundColorClass(info.score)}`}
+                        // className={`px-2 py-1 text-white rounded bg-purple-400`}
+                        className={`rounded px-1 py-1 text-xs text-white ${info.color}`}
+                        cutText={14}
+                      />
+                    ))}
+                {/* {member.endorseSummary?.mainNodes!.map(
               (node: EndorseNode | null, index: number) => (
                 <Badge
                   key={index}
@@ -252,9 +254,10 @@ export const MemberInfoWithDynamicGraph2 = ({
                 />
               )
             )} */}
-          </div>
+              </div>
+            )}
         </div>
-        <div className="col-span-2"></div>
+        <div className="col-span-1"></div>
         <div className="flex flex-col items-center sm:col-span-3 sm:my-0">
           {percentage !== undefined && (
             <section className="border-soilGrey-200 mb-4 w-full rounded-xl border p-2 text-center">
