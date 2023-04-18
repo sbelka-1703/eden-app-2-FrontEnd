@@ -12,6 +12,7 @@ import {
   RoleTemplate,
   UpdateMemberInput,
 } from "@eden/package-graphql/generated";
+import { useRouter } from "next/router";
 import {
   Dispatch,
   SetStateAction,
@@ -31,7 +32,7 @@ import {
   Wizard,
   WizardStep,
 } from "../../components";
-import { Button } from "../../elements";
+import { Button, Loading } from "../../elements";
 import { RoleSelector } from "../../selectors";
 import { ExperienceCreateProfileChat } from "./ExperienceCreateProfileChat";
 
@@ -54,6 +55,7 @@ export const CreateProfileFlow = ({
   userState,
 }: ICreateProfileFlowProps) => {
   const { currentUser } = useContext(UserContext);
+  const router = useRouter();
   // eslint-disable-next-line no-unused-vars
   const [submitting, setSubmitting] = useState(false);
 
@@ -80,6 +82,7 @@ export const CreateProfileFlow = ({
   }, [watch]);
 
   const handleSubmit = () => {
+    setSubmitting(true);
     const fields: UpdateMemberInput = {
       bio: userState?.bio,
       links: userState?.links?.map((item: any) => ({
@@ -124,11 +127,11 @@ export const CreateProfileFlow = ({
     });
   };
 
-  // eslint-disable-next-line no-unused-vars
   const [updateMember] = useMutation(UPDATE_MEMBER, {
     onCompleted({ updateMember }: Mutation) {
       if (!updateMember) console.log("updateMember is null");
       console.log("updateMember", updateMember);
+      router.push("/profile?endorseFlag=true");
     },
     onError: () => {
       setSubmitting(false);
@@ -171,19 +174,23 @@ export const CreateProfileFlow = ({
         })),
       },
     },
-    skip: !completeChat || completeChat.length == 0,
+    skip:
+      !completeChat ||
+      completeChat.length == 0 ||
+      completeChat[completeChat.length - 1].user === "01",
     onCompleted: (data) => {
-      console.log("SUMMARY->", data);
+      // console.log("SUMMARY->", data);
       setValue("bio", data.conversationToSummaryGPT.reply);
     },
   });
 
   return (
     <div className="scrollbar-hide h-full overflow-scroll">
-      <Wizard showStepsHeader>
-        <WizardStep label="AI chat">
-          <div className="h-full px-4">
-            {/* <EdenAiChat
+      {!submitting ? (
+        <Wizard showStepsHeader>
+          <WizardStep label="AI chat">
+            <div className="h-full px-4">
+              {/* <EdenAiChat
               aiReplyService={AI_REPLY_SERVICES.EDEN_GPT_REPLY}
               handleChangeNodes={(_nodeObj: any) => {
                 console.log("handleChangeNodes:", _nodeObj);
@@ -193,35 +200,35 @@ export const CreateProfileFlow = ({
                 console.log("handleChangeChat:", _chat);
               }}
             /> */}
-            <ExperienceCreateProfileChat
-              handleChangeNodes={(val) => {
-                setNodesIDs(Object.keys(val));
-              }}
-              handleChangeChat={(val) => {
-                if (val && val.length)
-                  setCompleteChat([...completeChat, val[val.length - 1]]);
-              }}
-            />
-          </div>
-        </WizardStep>
-        <WizardStep label="Bio">
-          <div className="px-4">
-            <section className="mb-4">
-              <p className="mb-2">Please write a short bio!</p>
-              <textarea
-                id="bio"
-                defaultValue={currentUser?.bio || ""}
-                className="font-Inter text-soilBody focus:border-accentColor focus:ring-soilGreen-500 block flex w-full resize-none rounded-md border border-zinc-400/50 px-2 px-2 py-1 py-1 text-base focus:outline-transparent focus:ring focus:ring-opacity-50"
-                rows={8}
-                required
-                {...register("bio")}
+              <ExperienceCreateProfileChat
+                handleChangeNodes={(val) => {
+                  setNodesIDs(Object.keys(val));
+                }}
+                handleChangeChat={(val) => {
+                  if (val && val.length)
+                    setCompleteChat([...completeChat, val[val.length - 1]]);
+                }}
               />
-            </section>
-            <section className="mb-4">
-              <p className="mb-2">Edit your skills</p>
-              {userState?._id && (
-                <div className="mt-3 h-[360px] w-full">
-                  {/* <DynamicSearchMemberGraph
+            </div>
+          </WizardStep>
+          <WizardStep label="Bio">
+            <div className="px-4">
+              <section className="mb-4">
+                <p className="mb-2">Please write a short bio!</p>
+                <textarea
+                  id="bio"
+                  defaultValue={currentUser?.bio || ""}
+                  className="font-Inter text-soilBody focus:border-accentColor focus:ring-soilGreen-500 block flex w-full resize-none rounded-md border border-zinc-400/50 px-2 px-2 py-1 py-1 text-base focus:outline-transparent focus:ring focus:ring-opacity-50"
+                  rows={8}
+                  required
+                  {...register("bio")}
+                />
+              </section>
+              <section className="mb-4">
+                <p className="mb-2">Edit your skills</p>
+                {userState?._id && (
+                  <div className="mt-3 h-[360px] w-full">
+                    {/* <DynamicSearchMemberGraph
                     // memberID={userState._id}
                     nodesID={
                       userState.nodes && userState.nodes.length
@@ -235,234 +242,239 @@ export const CreateProfileFlow = ({
                     // graphType={"KG_AI"}
                     // zoomGraph={1.1}
                   /> */}
-                  <DynamicSearchGraph
-                    nodesID={
-                      userState.nodes && userState.nodes.length
-                        ? userState.nodes?.map(
-                            (_node) => _node?.nodeData?._id as string
-                          )
-                        : []
-                    }
-                    // activeNodes={Object.values(nodeObj).map(
-                    //   (node: any) => node.active
-                    // )}
-                    // isNewNodes={Object.values(nodeObj).map(
-                    //   (node: any) => node.isNew
-                    // )}
-                    // setActivateNodeEvent={setActivateNodeEvent}
-                    height={"200"}
-                    // // graphType={"simple"}
-                    // // graphType={"KG_AI_2"}
-                    graphType={"KG_AI_2_plusIndustry"}
-                    // // zoomGraph={1.1}
-                    // setRelatedNodePopup={handleOpenPopup}
-                    disableZoom={true}
-                  />
-                </div>
-              )}
-            </section>
-            {/* <section className="mb-4">
+                    <DynamicSearchGraph
+                      nodesID={
+                        userState.nodes && userState.nodes.length
+                          ? userState.nodes?.map(
+                              (_node) => _node?.nodeData?._id as string
+                            )
+                          : []
+                      }
+                      // activeNodes={Object.values(nodeObj).map(
+                      //   (node: any) => node.active
+                      // )}
+                      // isNewNodes={Object.values(nodeObj).map(
+                      //   (node: any) => node.isNew
+                      // )}
+                      // setActivateNodeEvent={setActivateNodeEvent}
+                      height={"200"}
+                      // // graphType={"simple"}
+                      // // graphType={"KG_AI_2"}
+                      graphType={"KG_AI_2_plusIndustry"}
+                      // // zoomGraph={1.1}
+                      // setRelatedNodePopup={handleOpenPopup}
+                      disableZoom={true}
+                    />
+                  </div>
+                )}
+              </section>
+              {/* <section className="mb-4">
               <p className="mb-2">Edit your relevant skills</p>
             </section> */}
-          </div>
-        </WizardStep>
-        <WizardStep label="Background">
-          <div className="scrollbar-hide h-full overflow-scroll px-4">
-            <section className="mb-4">
-              <p>{`What's your main role?`}</p>
-              <Controller
-                name={"budget.perHour"}
-                control={control}
-                render={() => (
-                  <RoleSelector
-                    value={userState?.memberRole?.title || ""}
-                    roles={
-                      dataRoles?.findRoleTemplates as Maybe<
-                        Array<Maybe<RoleTemplate>>
-                      >
-                    }
-                    onSelect={(val) => {
-                      setValue("memberRole", val);
-                    }}
-                  />
-                )}
-              />
-            </section>
-            <Controller
-              name={"previousProjects"}
-              control={control}
-              render={() => (
-                <UserExperienceCard
-                  background={userState?.previousProjects || []}
-                  handleChange={(val) => setValue("previousProjects", val)}
-                  // handleChangeOpenExperience={(val) => {
-                  //   // if (setExperienceOpen) setExperienceOpen(val);
-                  // }}
-                />
-              )}
-            />
-          </div>
-        </WizardStep>
-        <WizardStep label="Details">
-          <div className="scrollbar-hide h-full overflow-scroll px-4">
-            <section className="mb-4">
-              {/* TODO plz remove next hardcoded line after testing */}
-              <p className="mb-2 bg-lime-50">
-                People with your skillset typically charge $75-$95 per hour
-              </p>
-              <p className="mb-2">What is your desired hourly rate?</p>
-              <div className="mx-auto w-2/3">
+            </div>
+          </WizardStep>
+          <WizardStep label="Background">
+            <div className="scrollbar-hide h-full overflow-scroll px-4">
+              <section className="mb-4">
+                <p>{`What's your main role?`}</p>
                 <Controller
                   name={"budget.perHour"}
                   control={control}
                   render={() => (
-                    <SalaryRangeChart
-                      data={rangeNumbers}
-                      onChange={(val) => {
-                        setValue(
-                          "budget.perHour",
-                          (val.values[0] + val.values[1]) / 2
-                        );
+                    <RoleSelector
+                      value={userState?.memberRole?.title || ""}
+                      roles={
+                        dataRoles?.findRoleTemplates as Maybe<
+                          Array<Maybe<RoleTemplate>>
+                        >
+                      }
+                      onSelect={(val) => {
+                        setValue("memberRole", val);
+                      }}
+                    />
+                  )}
+                />
+              </section>
+              <Controller
+                name={"previousProjects"}
+                control={control}
+                render={() => (
+                  <UserExperienceCard
+                    background={userState?.previousProjects || []}
+                    handleChange={(val) => setValue("previousProjects", val)}
+                    // handleChangeOpenExperience={(val) => {
+                    //   // if (setExperienceOpen) setExperienceOpen(val);
+                    // }}
+                  />
+                )}
+              />
+            </div>
+          </WizardStep>
+          <WizardStep label="Details">
+            <div className="scrollbar-hide h-full overflow-scroll px-4">
+              <section className="mb-4">
+                {/* TODO plz remove next hardcoded line after testing */}
+                <p className="mb-2 bg-lime-50">
+                  People with your skillset typically charge $75-$95 per hour
+                </p>
+                <p className="mb-2">What is your desired hourly rate?</p>
+                <div className="mx-auto w-2/3">
+                  <Controller
+                    name={"budget.perHour"}
+                    control={control}
+                    render={() => (
+                      <SalaryRangeChart
+                        data={rangeNumbers}
+                        onChange={(val) => {
+                          setValue(
+                            "budget.perHour",
+                            (val.values[0] + val.values[1]) / 2
+                          );
+                        }}
+                      />
+                    )}
+                  />
+                </div>
+              </section>
+              <section className="mb-4 inline-block w-1/2">
+                {/* TODO plz remove next hardcoded line after testing */}
+                <p className="mb-2">Share your availability</p>
+                <div className="flex items-center">
+                  <input
+                    type="number"
+                    min={0}
+                    max={40}
+                    id="hoursPerWeek"
+                    className="font-Inter text-soilBody focus:border-accentColor focus:ring-soilGreen-500 mr-2 block flex w-20 resize-none rounded-md border border-zinc-400/50 px-2 py-1 text-base focus:outline-transparent focus:ring focus:ring-opacity-50"
+                    required
+                    {...register("hoursPerWeek")}
+                  />
+                  <span>hours/week</span>
+                </div>
+              </section>
+              <section className="mb-4 inline-block w-1/2">
+                {/* TODO plz remove next hardcoded line after testing */}
+                <p className="mb-2">What is your location?</p>
+                <Controller
+                  name={"location"}
+                  control={control}
+                  render={() => (
+                    <select
+                      defaultValue={`(${userState?.timeZone}) ${userState?.location}`}
+                      id="location"
+                      className="font-Inter text-soilBody focus:border-accentColor focus:ring-soilGreen-500 block flex w-full resize-none rounded-md border border-zinc-400/50 px-2 py-1 text-base focus:outline-transparent focus:ring focus:ring-opacity-50"
+                      required
+                      onChange={(e) => {
+                        const _gmt = e.target.value.split(" ")[0].slice(1, -1);
+
+                        const _location = e.target.value
+                          .split(" ")
+                          .splice(1)
+                          .join(" ");
+
+                        setValue("timeZone", _gmt);
+                        setValue("location", _location);
+                      }}
+                    >
+                      <option selected disabled>
+                        Select a location...
+                      </option>
+                      {locations.map((loc, index) => (
+                        <option
+                          value={`(${loc.gmt}) ${loc.location}`}
+                          key={index}
+                        >{`(${loc.gmt}) ${loc.location}`}</option>
+                      ))}
+                    </select>
+                  )}
+                />
+              </section>
+              <section className="mb-4 inline-block w-1/2">
+                {/* TODO plz remove next hardcoded line after testing */}
+                <p className="mb-2">
+                  How many years of experience do you have in total?
+                </p>
+                <div className="flex items-center">
+                  <input
+                    type="number"
+                    // min={0}
+                    // max={40}
+                    // // id="hoursPerWeek"
+                    className="font-Inter text-soilBody focus:border-accentColor focus:ring-soilGreen-500 mr-2 block flex w-20 resize-none rounded-md border border-zinc-400/50 px-2 py-1 text-base focus:outline-transparent focus:ring focus:ring-opacity-50"
+                    // required
+                    {...register("experienceLevel.years")}
+                  />
+                  <span>years</span>
+                </div>
+              </section>
+              <section className="mb-4 inline-block w-1/2">
+                {/* TODO plz remove next hardcoded line after testing */}
+                <p className="mb-2">What is you experience level?</p>
+                <div className="flex items-center">
+                  <Controller
+                    name={"experienceLevel"}
+                    control={control}
+                    render={() => (
+                      <select
+                        id="experienceLevel"
+                        className="font-Inter text-soilBody focus:border-accentColor focus:ring-soilGreen-500 mr-2 block flex w-20 w-full resize-none rounded-md border border-zinc-400/50 px-2 py-1 text-base focus:outline-transparent focus:ring focus:ring-opacity-50"
+                        required
+                        onChange={(e) => {
+                          const _val = {
+                            ...getValues("experienceLevel"),
+                            total: +e.target.value,
+                          };
+
+                          setValue("experienceLevel", _val);
+                        }}
+                      >
+                        <option selected disabled hidden>
+                          Select one...
+                        </option>
+                        <option value={3}>Junior</option>
+                        <option value={6}>Mid-level</option>
+                        <option value={9}>Senior</option>
+                      </select>
+                    )}
+                  />
+                </div>
+              </section>
+            </div>
+          </WizardStep>
+          <WizardStep label="Socials">
+            <section className="mb-4 p-4">
+              <p className="mb-2">Socials</p>
+              <div className="w-2/3">
+                <Controller
+                  name={"links"}
+                  control={control}
+                  render={() => (
+                    <FillSocialLinks
+                      links={currentUser?.links || []}
+                      onChange={(val: any) => {
+                        if (val) {
+                          setValue("links", val);
+                        }
                       }}
                     />
                   )}
                 />
               </div>
+              <Button
+                variant="primary"
+                className="absolute bottom-4 right-4 z-20"
+                onClick={handleSubmit}
+              >
+                Submit
+              </Button>
             </section>
-            <section className="mb-4 inline-block w-1/2">
-              {/* TODO plz remove next hardcoded line after testing */}
-              <p className="mb-2">Share your availability</p>
-              <div className="flex items-center">
-                <input
-                  type="number"
-                  min={0}
-                  max={40}
-                  id="hoursPerWeek"
-                  className="font-Inter text-soilBody focus:border-accentColor focus:ring-soilGreen-500 mr-2 block flex w-20 resize-none rounded-md border border-zinc-400/50 px-2 py-1 text-base focus:outline-transparent focus:ring focus:ring-opacity-50"
-                  required
-                  {...register("hoursPerWeek")}
-                />
-                <span>hours/week</span>
-              </div>
-            </section>
-            <section className="mb-4 inline-block w-1/2">
-              {/* TODO plz remove next hardcoded line after testing */}
-              <p className="mb-2">What is your location?</p>
-              <Controller
-                name={"location"}
-                control={control}
-                render={() => (
-                  <select
-                    defaultValue={`(${userState?.timeZone}) ${userState?.location}`}
-                    id="location"
-                    className="font-Inter text-soilBody focus:border-accentColor focus:ring-soilGreen-500 block flex w-full resize-none rounded-md border border-zinc-400/50 px-2 py-1 text-base focus:outline-transparent focus:ring focus:ring-opacity-50"
-                    required
-                    onChange={(e) => {
-                      const _gmt = e.target.value.split(" ")[0].slice(1, -1);
-
-                      const _location = e.target.value
-                        .split(" ")
-                        .splice(1)
-                        .join(" ");
-
-                      setValue("timeZone", _gmt);
-                      setValue("location", _location);
-                    }}
-                  >
-                    <option selected disabled>
-                      Select a location...
-                    </option>
-                    {locations.map((loc, index) => (
-                      <option
-                        value={`(${loc.gmt}) ${loc.location}`}
-                        key={index}
-                      >{`(${loc.gmt}) ${loc.location}`}</option>
-                    ))}
-                  </select>
-                )}
-              />
-            </section>
-            <section className="mb-4 inline-block w-1/2">
-              {/* TODO plz remove next hardcoded line after testing */}
-              <p className="mb-2">
-                How many years of experience do you have in total?
-              </p>
-              <div className="flex items-center">
-                <input
-                  type="number"
-                  // min={0}
-                  // max={40}
-                  // // id="hoursPerWeek"
-                  className="font-Inter text-soilBody focus:border-accentColor focus:ring-soilGreen-500 mr-2 block flex w-20 resize-none rounded-md border border-zinc-400/50 px-2 py-1 text-base focus:outline-transparent focus:ring focus:ring-opacity-50"
-                  // required
-                  {...register("experienceLevel.years")}
-                />
-                <span>years</span>
-              </div>
-            </section>
-            <section className="mb-4 inline-block w-1/2">
-              {/* TODO plz remove next hardcoded line after testing */}
-              <p className="mb-2">What is you experience level?</p>
-              <div className="flex items-center">
-                <Controller
-                  name={"experienceLevel"}
-                  control={control}
-                  render={() => (
-                    <select
-                      id="experienceLevel"
-                      className="font-Inter text-soilBody focus:border-accentColor focus:ring-soilGreen-500 mr-2 block flex w-20 w-full resize-none rounded-md border border-zinc-400/50 px-2 py-1 text-base focus:outline-transparent focus:ring focus:ring-opacity-50"
-                      required
-                      onChange={(e) => {
-                        const _val = {
-                          ...getValues("experienceLevel"),
-                          total: +e.target.value,
-                        };
-
-                        setValue("experienceLevel", _val);
-                      }}
-                    >
-                      <option selected disabled hidden>
-                        Select one...
-                      </option>
-                      <option value={3}>Junior</option>
-                      <option value={6}>Mid-level</option>
-                      <option value={9}>Senior</option>
-                    </select>
-                  )}
-                />
-              </div>
-            </section>
-          </div>
-        </WizardStep>
-        <WizardStep label="Socials">
-          <section className="mb-4 p-4">
-            <p className="mb-2">Socials</p>
-            <div className="w-2/3">
-              <Controller
-                name={"links"}
-                control={control}
-                render={() => (
-                  <FillSocialLinks
-                    links={currentUser?.links || []}
-                    onChange={(val: any) => {
-                      if (val) {
-                        setValue("links", val);
-                      }
-                    }}
-                  />
-                )}
-              />
-            </div>
-            <Button
-              variant="primary"
-              className="absolute bottom-4 right-4 z-20"
-              onClick={handleSubmit}
-            >
-              Submit
-            </Button>
-          </section>
-        </WizardStep>
-      </Wizard>
+          </WizardStep>
+        </Wizard>
+      ) : (
+        <div className="flex h-full items-center">
+          <Loading title="Submitting" />
+        </div>
+      )}
     </div>
   );
 };

@@ -207,8 +207,8 @@ export const MemberInfoWithDynamicGraph2 = ({
         )} */}
       </div>
 
-      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-12">
-        <div className="sm:col-span-7 sm:my-0">
+      <div className="mb-8 grid grid-cols-1 gap-2 sm:grid-cols-12">
+        <div className="sm:col-span-8 sm:my-0">
           {!!member?.bio && <TextLabel1>🪪 Short bio</TextLabel1>}
           {!loading ? (
             <p className="text-soilBody font-Inter mb-2 whitespace-pre-wrap font-normal">
@@ -222,25 +222,27 @@ export const MemberInfoWithDynamicGraph2 = ({
               </div>
             </div>
           )}
-          <div className="">
-            <p className="mb-2 text-left">
-              <TextLabel1>🧙‍♂️ Relevant Skills</TextLabel1>
-            </p>
-            {relatedNodesMemberToMatch &&
-              relatedNodesMemberToMatch
-                .slice(0, 6)
-                .map((info: any, index: number) => (
-                  <Badge
-                    text={info?.MemberRelevantnode?.name || ""}
-                    key={index}
-                    // className={`bg-soilPurple/20 py-px text-xs`}
-                    // className={`px-2 py-1 text-white rounded ${getBackgroundColorClass(info.score)}`}
-                    // className={`px-2 py-1 text-white rounded bg-purple-400`}
-                    className={`rounded px-1 py-1 text-xs text-white ${info.color}`}
-                    cutText={14}
-                  />
-                ))}
-            {/* {member.endorseSummary?.mainNodes!.map(
+          {relatedNodesMemberToMatch &&
+            relatedNodesMemberToMatch.length > 0 && (
+              <div className="">
+                <p className="mb-2 text-left">
+                  <TextLabel1>🧙‍♂️ Relevant Skills</TextLabel1>
+                </p>
+                {relatedNodesMemberToMatch &&
+                  relatedNodesMemberToMatch
+                    .slice(0, 6)
+                    .map((info: any, index: number) => (
+                      <Badge
+                        text={info?.MemberRelevantnode?.name || ""}
+                        key={index}
+                        // className={`bg-soilPurple/20 py-px text-xs`}
+                        // className={`px-2 py-1 text-white rounded ${getBackgroundColorClass(info.score)}`}
+                        // className={`px-2 py-1 text-white rounded bg-purple-400`}
+                        className={`rounded px-1 py-1 text-xs text-white ${info.color}`}
+                        cutText={14}
+                      />
+                    ))}
+                {/* {member.endorseSummary?.mainNodes!.map(
               (node: EndorseNode | null, index: number) => (
                 <Badge
                   key={index}
@@ -252,9 +254,10 @@ export const MemberInfoWithDynamicGraph2 = ({
                 />
               )
             )} */}
-          </div>
+              </div>
+            )}
         </div>
-        <div className="col-span-2"></div>
+        <div className="col-span-1"></div>
         <div className="flex flex-col items-center sm:col-span-3 sm:my-0">
           {percentage !== undefined && (
             <section className="border-soilGrey-200 mb-4 w-full rounded-xl border p-2 text-center">
@@ -266,10 +269,8 @@ export const MemberInfoWithDynamicGraph2 = ({
               </p>
             </section>
           )}
-          <section className="border-soilGrey-200 mb-4 w-full rounded-xl border p-2 text-center">
-            <p className="text-center">
-              <TextLabel1>💰 Hourly rate</TextLabel1>
-            </p>
+          <section className="border-soilGrey-200 mb-2 w-full rounded-xl border p-2 text-center">
+            <TextLabel1 className="text-xs">💰 Hourly rate</TextLabel1>
             <p className="text-center">
               <span className="text-2xl font-bold text-[#fcba03]">
                 ${member.budget?.perHour}
@@ -280,14 +281,14 @@ export const MemberInfoWithDynamicGraph2 = ({
               Base rate + tax
             </p>
           </section>
-          <section className="border-soilGrey-200 mb-4 w-full rounded-xl border p-2 text-center">
-            <TextLabel1>❤️ Availability</TextLabel1>
+          <section className="border-soilGrey-200 mb-2 w-full rounded-xl border p-2 text-center">
+            <TextLabel1 className="text-xs">❤️ Availability</TextLabel1>
             <p className="text-center font-bold text-slate-600">
               <span className="text-2xl">{member.hoursPerWeek}</span> hours/week
             </p>
           </section>
-          <section className="border-soilGrey-200 mb-4 w-full rounded-xl border p-2 text-center">
-            <TextLabel1>💎 Experience</TextLabel1>
+          <section className="border-soilGrey-200 mb-2 w-full rounded-xl border p-2 text-center">
+            <TextLabel1 className="text-xs">💎 Experience</TextLabel1>
             <p className="text-center font-bold text-slate-600">
               <span className="text-xl">
                 {member.experienceLevel?.total === 3 && "Junior"}
@@ -296,8 +297,8 @@ export const MemberInfoWithDynamicGraph2 = ({
               </span>
             </p>
           </section>
-          <section className="border-soilGrey-200 mb-4 w-full rounded-xl border p-2 text-center">
-            <TextLabel1>🌍 Timezone</TextLabel1>
+          <section className="border-soilGrey-200 mb-2 w-full rounded-xl border p-2 text-center">
+            <TextLabel1 className="text-xs">🌍 Timezone</TextLabel1>
             <p className="text-center font-bold text-slate-600">
               {`${member.timeZone}${
                 member.location ? " (" + member.location + ")" : ""
@@ -459,9 +460,7 @@ export const MemberInfoWithDynamicGraph2 = ({
         </section>
       </section>
 
-      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-6">
-        {/* MEMEBER.ENDORSEMENT NO LONGER EXISTS */}
-
+      <div className="mb-8 grid grid-cols-1 gap-2 sm:grid-cols-6">
         <div className="sm:col-span-4 sm:my-0">
           {member?.previousProjects && member?.previousProjects.length && (
             <UserBackground

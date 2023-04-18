@@ -29,7 +29,7 @@ const ProfilePage: NextPageWithLayout = () => {
     <AppUserSubmenuLayout showSubmenu={false}>
       <GridLayout>
         <GridItemSix>
-          <Card className={"h-85 bg-white shadow"}>
+          <Card className={"h-[88vh] bg-white shadow"}>
             <CreateProfileFlow
               setUserState={setUserState}
               userState={userState}
@@ -39,7 +39,7 @@ const ProfilePage: NextPageWithLayout = () => {
         <GridItemSix>
           <Card
             className={
-              "h-85 scrollbar-hide overflow-scroll bg-white p-4 shadow"
+              "scrollbar-hide h-[88vh] overflow-scroll bg-white p-4 shadow"
             }
           >
             <MemberInfoWithDynamicGraph2

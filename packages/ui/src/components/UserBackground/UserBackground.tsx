@@ -32,6 +32,7 @@ export const UserBackground = ({
           const empty =
             !item?.description && !item?.startDate && !item?.endDate;
 
+          if (!item?.title) return null;
           return (
             <div key={index} className="my-4">
               <div className="mb-2 flex items-center">
@@ -48,7 +49,7 @@ export const UserBackground = ({
                 >
                   {!empty && index === experienceOpen ? "▼" : "▶"}
                 </span>
-                <div className="scrollbar-hide flex h-8 max-w-[66%] items-center overflow-x-scroll whitespace-nowrap !rounded-full border-0 bg-[#DEFEFF] px-4 outline-0">
+                <div className="scrollbar-hide flex h-8 max-w-[80%] items-center overflow-x-scroll whitespace-nowrap !rounded-full border-0 bg-[#DEFEFF] px-4 outline-0">
                   {item?.title}
                 </div>
                 {index < 2 && <span className="ml-3 text-xl">⭐️</span>}

@@ -36,7 +36,7 @@ const ProfilePage = ({ member, error }: { member: Members; error: string }) => {
                   {/* <MemberInfoWithGraph member={member} hasGraph /> */}
                   <MemberInfoWithDynamicGraph2
                     member={member}
-                    percentage={82}
+                    // percentage={82}
                   />
                 </div>
               ) : (
