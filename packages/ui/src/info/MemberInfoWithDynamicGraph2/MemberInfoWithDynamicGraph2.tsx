@@ -100,6 +100,7 @@ export const MemberInfoWithDynamicGraph2 = ({
   nodesID,
   conversation,
   relatedNodesMemberToMatch,
+  hasGraph = true,
 }: IMemberInfoWithDynamicGraph2Props) => {
   const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -479,16 +480,18 @@ export const MemberInfoWithDynamicGraph2 = ({
         </div>
       </div>
 
-      <div className="mt-3 h-[360px] w-full">
-        <DynamicSearchMemberGraph
-          memberID={member._id!}
-          nodesID={nodesID}
-          disableZoom={true}
-          graphType={"KG_AI2"}
-          // graphType={"KG_AI"}
-          // zoomGraph={1.1}
-        />
-      </div>
+      {hasGraph && (
+        <div className="mt-3 h-[360px] w-full">
+          <DynamicSearchMemberGraph
+            memberID={member._id!}
+            nodesID={nodesID}
+            disableZoom={true}
+            graphType={"KG_AI2"}
+            // graphType={"KG_AI"}
+            // zoomGraph={1.1}
+          />
+        </div>
+      )}
     </div>
   );
 };

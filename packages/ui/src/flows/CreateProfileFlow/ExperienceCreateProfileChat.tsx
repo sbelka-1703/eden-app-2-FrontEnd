@@ -179,7 +179,7 @@ export const ExperienceCreateProfileChat: React.FC<
         </div>
         <div className="relative z-20 col-span-9 flex h-full flex-col items-center justify-center text-lg">
           <div className="absolute -top-14 left-0 h-[calc(100%+2rem)] w-full pl-4">
-            {activeCard != null && (
+            {activeCard != null ? (
               <EdenAiChat
                 //   aiReplyService={AI_REPLY_SERVICES.EDEN_GPT_REPLY_CHAT_API_V3}
                 aiReplyService={
@@ -204,6 +204,12 @@ export const ExperienceCreateProfileChat: React.FC<
                 clearConversation={clearConversation}
                 setClearConversation={setClearConversation}
               />
+            ) : (
+              <div className="flex h-full w-full items-center justify-center">
+                <p className="text-slate-400">
+                  Click on start to begin a conversation with Eden AI
+                </p>
+              </div>
             )}
           </div>
           {activeCard != null && (
