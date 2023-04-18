@@ -12,6 +12,7 @@ import {
   RoleTemplate,
   UpdateMemberInput,
 } from "@eden/package-graphql/generated";
+import { useRouter } from "next/router";
 import {
   Dispatch,
   SetStateAction,
@@ -54,6 +55,7 @@ export const CreateProfileFlow = ({
   userState,
 }: ICreateProfileFlowProps) => {
   const { currentUser } = useContext(UserContext);
+  const router = useRouter();
   // eslint-disable-next-line no-unused-vars
   const [submitting, setSubmitting] = useState(false);
 
@@ -129,7 +131,7 @@ export const CreateProfileFlow = ({
     onCompleted({ updateMember }: Mutation) {
       if (!updateMember) console.log("updateMember is null");
       console.log("updateMember", updateMember);
-      setSubmitting(false);
+      router.push("/profile?endorseFlag=true");
     },
     onError: () => {
       setSubmitting(false);

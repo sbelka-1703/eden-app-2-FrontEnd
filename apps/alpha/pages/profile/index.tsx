@@ -1,6 +1,7 @@
 import { UserContext } from "@eden/package-context";
 import {
   AppUserSubmenuLayout,
+  Button,
   Card,
   GridItemSix,
   GridItemThree,
@@ -8,6 +9,7 @@ import {
   MemberInfoWithDynamicGraph2,
   SEO,
 } from "@eden/package-ui";
+import { useRouter } from "next/router";
 import { useContext } from "react";
 
 import type { NextPageWithLayout } from "../_app";
@@ -39,6 +41,10 @@ const ProfilePage: NextPageWithLayout = () => {
   //     setUserState(currentUser);
   //   }
   // }, [currentUser]);
+  const router = useRouter();
+  const { endorseFlag } = router.query;
+
+  console.log(typeof endorseFlag);
 
   if (!currentUser) return null;
 
@@ -73,7 +79,27 @@ const ProfilePage: NextPageWithLayout = () => {
                 />
               </Card>
             </GridItemSix> */}
-          <GridItemThree> </GridItemThree>
+          <GridItemThree>
+            {endorseFlag === "true" && (
+              <Card shadow className={"shadow-accentColor bg-white p-4 py-6"}>
+                <p className="mb-4 font-bold">
+                  Jumpstart your reputation in Eden!
+                </p>
+                <p className="mb-8">
+                  Invite friends & colleagues to endorse your skills.
+                </p>
+                <Button
+                  className="mx-auto"
+                  variant="primary"
+                  onClick={() => {
+                    router.push("/test/flow/endorsement-link");
+                  }}
+                >
+                  <span className="!font-bold">Get endorsed</span>
+                </Button>
+              </Card>
+            )}
+          </GridItemThree>
           <GridItemSix>
             <Card
               shadow
