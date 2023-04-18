@@ -14,8 +14,11 @@ export const AppDeviceLayout = ({}: IAppDeviceLayoutProps) => {
     <>
       {isMobile && (
         <section className="fixed top-0 left-0 z-50 flex h-screen w-screen flex-col items-center justify-center bg-white">
+          <p className="text-darkGreen -ml-2 mb-4 text-2xl font-bold">
+            🌱 Eden.
+          </p>
           <p className="mb-2 text-center">
-            Mobile app is
+            Mobile site is
             <br /> under construction
           </p>
           <MdMobileOff className="text-2xl" />
