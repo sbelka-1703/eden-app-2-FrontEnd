@@ -15,6 +15,8 @@ export interface RangeChartProps {
     update: number[];
     values: number[];
   }) => void;
+  minDefaultValue?: number;
+  maxDefaultValue?: number;
 }
 
 export const RangeChart = ({
@@ -24,6 +26,8 @@ export const RangeChart = ({
   maxCaption,
   leftCaption,
   rightCaption,
+  minDefaultValue,
+  maxDefaultValue,
 }: RangeChartProps) => {
   const [rangesData, setRangesData] = useState<{
     domain: number[];
@@ -32,7 +36,11 @@ export const RangeChart = ({
   }>({
     domain: [],
     update: [],
-    values: [],
+    values:
+      (minDefaultValue || minDefaultValue === 0) &&
+      (maxDefaultValue || maxDefaultValue === 0)
+        ? [minDefaultValue, maxDefaultValue]
+        : [],
   });
 
   const handleMinRange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -81,7 +89,11 @@ export const RangeChart = ({
     setRangesData({
       domain: range,
       update: range,
-      values: range,
+      values:
+        (minDefaultValue || minDefaultValue === 0) &&
+        (maxDefaultValue || maxDefaultValue === 0)
+          ? [minDefaultValue, maxDefaultValue]
+          : range,
     });
   }, [data]);
 

@@ -5,7 +5,7 @@ export type TextFieldProps = {
   name?: string;
   label?: string;
   value?: string | number;
-  defaultValue?: string;
+  defaultValue?: string | number;
   required?: boolean;
   radius?: "default" | "rounded" | "pill" | "pill-shadow";
   // eslint-disable-next-line no-unused-vars
