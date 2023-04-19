@@ -989,7 +989,7 @@ const UserMessageModal = ({
     <ChatModal open={open} onClose={onClose}>
       {open && (
         <div
-          className="h-8/10 fixed -right-[340px] bottom-0 z-50 w-[300px] rounded-lg bg-white"
+          className="h-8/10 fixed -right-[340px] bottom-0 z-50 w-[300px] rounded-lg"
           onClick={(e) => {
             // console.log("this event :)");
 
