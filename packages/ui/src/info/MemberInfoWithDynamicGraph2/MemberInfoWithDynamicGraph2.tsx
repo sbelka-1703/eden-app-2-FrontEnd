@@ -463,7 +463,7 @@ export const MemberInfoWithDynamicGraph2 = ({
 
       <div className="mb-8 grid grid-cols-1 gap-2 sm:grid-cols-6">
         <div className="sm:col-span-4 sm:my-0">
-          {member?.previousProjects && member?.previousProjects.length && (
+          {member?.previousProjects && member?.previousProjects.length > 0 && (
             <UserBackground
               background={member?.previousProjects || []}
               setExperienceOpen={setExperienceOpen!}

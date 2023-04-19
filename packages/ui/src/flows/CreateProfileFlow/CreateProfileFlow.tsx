@@ -38,6 +38,30 @@ import { Button, Loading } from "../../elements";
 import { RoleSelector } from "../../selectors";
 import { ExperienceCreateProfileChat } from "./ExperienceCreateProfileChat";
 
+const ADD_NODES = gql`
+  mutation AddNodesToMember($fields: addNodesToMemberInput!) {
+    addNodesToMember(fields: $fields) {
+      _id
+      discordName
+      nodes {
+        nodeData {
+          _id
+          name
+          node
+        }
+      }
+    }
+  }
+`;
+
+const CONVERSATION_SUMMARY_GPT = gql`
+  query ConversationToSummaryGPT($fields: conversationToSummaryGPTInput) {
+    conversationToSummaryGPT(fields: $fields) {
+      reply
+    }
+  }
+`;
+
 const rangeNumbers: number[] = [0, 0, 0, 0, 0, 0, 0, 0];
 
 for (let i = 0; i < 500; i++) {
@@ -136,19 +160,37 @@ export const CreateProfileFlow = ({
   const [updateMember] = useMutation(UPDATE_MEMBER, {
     onCompleted({ updateMember }: Mutation) {
       if (!updateMember) console.log("updateMember is null");
-      console.log("updateMember", updateMember);
-      router.push("/profile?endorseFlag=true");
+      // console.log("updateMember", updateMember);
+      addNodes({
+        variables: {
+          fields: {
+            memberID: userState?._id,
+            nodesID: userState?.nodes?.map((_node) => _node?.nodeData?._id),
+          },
+        },
+        onCompleted() {
+          router.push("/profile?endorseFlag=true");
+        },
+        onError: () => {
+          setSubmitting(false);
+        },
+      });
     },
     onError: () => {
       setSubmitting(false);
     },
   });
 
-  // updateMember({
-  //   variables: {
-  //     fields: fields,
-  //   },
-  // });
+  const [addNodes] = useMutation(ADD_NODES, {
+    onCompleted({ addNodesToMember }: Mutation) {
+      if (!addNodesToMember) console.log("addNodesToMember is null");
+      // console.log("updateMember", addNodesToMember);
+      // setSubmitting(false);
+    },
+    onError() {
+      console.log("error");
+    },
+  });
 
   // eslint-disable-next-line no-unused-vars
   const { data: dataNodes } = useQuery(FIND_NODES, {
@@ -175,14 +217,6 @@ export const CreateProfileFlow = ({
       setValue("nodes", _nodes);
     },
   });
-
-  const CONVERSATION_SUMMARY_GPT = gql`
-    query ConversationToSummaryGPT($fields: conversationToSummaryGPTInput) {
-      conversationToSummaryGPT(fields: $fields) {
-        reply
-      }
-    }
-  `;
 
   useQuery(CONVERSATION_SUMMARY_GPT, {
     variables: {
