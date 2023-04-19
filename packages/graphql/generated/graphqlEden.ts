@@ -79,7 +79,7 @@ export type Conversation = {
   _id?: Maybe<Scalars["ID"]>;
   convKey?: Maybe<Scalars["String"]>;
   conversation?: Maybe<Array<Maybe<ConversationType>>>;
-  summary?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  summary?: Maybe<Array<Maybe<SummaryType>>>;
   summaryReady?: Maybe<Scalars["Boolean"]>;
   updatedAt?: Maybe<Scalars["Date"]>;
   userID?: Maybe<Scalars["String"]>;
@@ -366,6 +366,7 @@ export type Mutation = {
   updateNodesToGrant?: Maybe<GrantTemplate>;
   updateNodesToMember?: Maybe<Members>;
   updateNodesToMemberInRoom?: Maybe<Members>;
+  updateNodesToMemberMultiTypeNode?: Maybe<Members>;
   updateNodesToProjectRole?: Maybe<Project>;
   updateProject?: Maybe<Project>;
   updateRoleTemplate?: Maybe<RoleTemplate>;
@@ -644,6 +645,10 @@ export type MutationUpdateNodesToMemberArgs = {
 
 export type MutationUpdateNodesToMemberInRoomArgs = {
   fields?: InputMaybe<UpdateNodesToMemberInRoomInput>;
+};
+
+export type MutationUpdateNodesToMemberMultiTypeNodeArgs = {
+  fields: UpdateNodesToMemberMultiTypeNodeInput;
 };
 
 export type MutationUpdateNodesToProjectRoleArgs = {
@@ -1626,6 +1631,13 @@ export type BudgetInput = {
 export type BudgetInputT = {
   maxPerHour?: InputMaybe<Scalars["Float"]>;
   minPerHour?: InputMaybe<Scalars["Float"]>;
+};
+
+export type BudgetInputTk = {
+  perHour?: InputMaybe<Scalars["Float"]>;
+  perMonth?: InputMaybe<Scalars["Float"]>;
+  token?: InputMaybe<Scalars["String"]>;
+  totalBudget?: InputMaybe<Scalars["Float"]>;
 };
 
 export type BudgetMemberType = {
@@ -3198,6 +3210,12 @@ export type StyleEdgeIn = {
   strength?: InputMaybe<Scalars["Float"]>;
 };
 
+export type SummaryType = {
+  __typename?: "summaryType";
+  content?: Maybe<Scalars["String"]>;
+  pineConeID?: Maybe<Scalars["String"]>;
+};
+
 export type TeamInput = {
   memberID?: InputMaybe<Scalars["String"]>;
   phase?: InputMaybe<PhaseType>;
@@ -3324,6 +3342,7 @@ export type UpdateMemberInRoomInput = {
 export type UpdateMemberInput = {
   _id?: InputMaybe<Scalars["ID"]>;
   bio?: InputMaybe<Scalars["String"]>;
+  budget?: InputMaybe<BudgetInputTk>;
   content?: InputMaybe<ContentInput>;
   discordAvatar?: InputMaybe<Scalars["String"]>;
   discordName?: InputMaybe<Scalars["String"]>;
@@ -3373,6 +3392,11 @@ export type UpdateNodesToMemberInput = {
   nodeType?: InputMaybe<Scalars["String"]>;
   nodesID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
   nodesID_level?: InputMaybe<Array<InputMaybe<NodesId_LevelInput>>>;
+};
+
+export type UpdateNodesToMemberMultiTypeNodeInput = {
+  nodeType?: InputMaybe<Scalars["String"]>;
+  nodesID?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
 };
 
 export type UpdateNodesToProjectRoleInput = {

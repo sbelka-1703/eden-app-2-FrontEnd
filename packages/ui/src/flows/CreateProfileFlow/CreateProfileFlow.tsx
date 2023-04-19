@@ -117,6 +117,8 @@ export const CreateProfileFlow = ({
       })),
     };
 
+    if (userState?.budget?.perHour)
+      fields.budget = { perHour: Number(userState?.budget?.perHour || 0) };
     if (userState?.hoursPerWeek)
       fields.hoursPerWeek = Number(userState?.hoursPerWeek || 0);
     if (userState?.memberRole) fields.memberRole = userState?.memberRole._id;
@@ -384,6 +386,14 @@ export const CreateProfileFlow = ({
                             (val.values[0] + val.values[1]) / 2
                           );
                         }}
+                        minDefaultValue={Math.max(
+                          userState?.budget?.perHour! - 10,
+                          0
+                        )}
+                        maxDefaultValue={Math.min(
+                          userState?.budget?.perHour! + 10,
+                          200
+                        )}
                       />
                     )}
                   />
