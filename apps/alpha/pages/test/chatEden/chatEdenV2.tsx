@@ -1101,7 +1101,7 @@ const ChatModal = ({
     <Transition show={isOpen} as={Fragment}>
       <Dialog
         as="div"
-        className={"fixed inset-0 z-10 overflow-y-auto"}
+        className={"fixed inset-0 z-50 overflow-y-auto"}
         onClose={() => {
           if (onClose) {
             onCloseModal();
@@ -1149,7 +1149,7 @@ const ChatModal = ({
           >
             <div
               className={
-                "relative z-30 inline-block rounded-lg bg-white p-2 text-left align-bottom shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-3xl sm:p-6 sm:align-middle"
+                "relative z-50 inline-block rounded-lg bg-white p-2 text-left align-bottom shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-3xl sm:p-6 sm:align-middle"
               }
             >
               <div
