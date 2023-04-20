@@ -357,6 +357,7 @@ export const CreateProfileFlow = ({
                     control={control}
                     render={() => (
                       <SalaryRangeChart
+                        showTitle={false}
                         data={rangeNumbers}
                         onChange={(val) => {
                           setValue(
