@@ -12,7 +12,10 @@ export const UserWithDescription = ({
 }: IUserWithDescriptionProps) => {
   if (!member) return null;
   return (
-    <div className={`desc font-Inter flex-col content-center text-center`}>
+    <div
+      className={`desc font-Inter flex-col content-center text-center`}
+      id="user-with-description"
+    >
       <div className={`flex w-full justify-center`}>
         <MatchAvatar
           src={member?.discordAvatar as string}

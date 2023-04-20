@@ -74,11 +74,14 @@ for (let i = 0; i < 500; i++) {
 export interface ICreateProfileFlowProps {
   setUserState: Dispatch<SetStateAction<Members | undefined>>;
   userState?: Members | undefined;
+  // eslint-disable-next-line no-unused-vars
+  handleStepChange?: (val: any) => void;
 }
 
 export const CreateProfileFlow = ({
   setUserState,
   userState,
+  handleStepChange,
 }: ICreateProfileFlowProps) => {
   const { currentUser } = useContext(UserContext);
   const router = useRouter();
@@ -242,7 +245,7 @@ export const CreateProfileFlow = ({
   return (
     <div className="scrollbar-hide h-full overflow-scroll">
       {!submitting ? (
-        <Wizard showStepsHeader>
+        <Wizard showStepsHeader onStepChange={handleStepChange}>
           <WizardStep label="AI chat">
             <div className="h-full px-4">
               {/* <EdenAiChat

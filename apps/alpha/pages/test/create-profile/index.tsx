@@ -25,9 +25,9 @@ const ProfilePage: NextPageWithLayout = () => {
     }
   }, [currentUser]);
 
-  useEffect(() => {
-    if (userState?.nodes) setStepView(0);
-  }, [userState?.nodes]);
+  // useEffect(() => {
+  //   if (userState?.nodes) setStepView(0);
+  // }, [userState?.nodes]);
 
   useEffect(() => {
     if (stepView === 0) {
@@ -37,7 +37,16 @@ const ProfilePage: NextPageWithLayout = () => {
 
       graphWrapper?.scrollIntoView({ behavior: "smooth", inline: "end" });
     }
+    if (stepView === 3) {
+      const graphWrapper = document.querySelector(`#user-with-description`);
+
+      graphWrapper?.scrollIntoView({ behavior: "smooth", inline: "end" });
+    }
   }, [stepView]);
+
+  const handleStepChange = (val: any) => {
+    setStepView(val);
+  };
 
   if (!currentUser) return null;
 
@@ -49,6 +58,7 @@ const ProfilePage: NextPageWithLayout = () => {
             <CreateProfileFlow
               setUserState={setUserState}
               userState={userState}
+              handleStepChange={handleStepChange}
             />
           </Card>
         </GridItemSix>
