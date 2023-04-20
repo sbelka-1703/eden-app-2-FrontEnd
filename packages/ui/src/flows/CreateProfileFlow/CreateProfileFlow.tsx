@@ -28,7 +28,7 @@ import { locations } from "../../../utils/locations";
 import { UserExperienceCard } from "../../cards";
 import { SalaryRangeChart } from "../../charts";
 import {
-  DynamicSearchGraph,
+  // DynamicSearchGraph,
   // DynamicSearchMemberGraph,
   FillSocialLinks,
   Wizard,
@@ -74,11 +74,14 @@ for (let i = 0; i < 500; i++) {
 export interface ICreateProfileFlowProps {
   setUserState: Dispatch<SetStateAction<Members | undefined>>;
   userState?: Members | undefined;
+  // eslint-disable-next-line no-unused-vars
+  handleStepChange?: (val: any) => void;
 }
 
 export const CreateProfileFlow = ({
   setUserState,
   userState,
+  handleStepChange,
 }: ICreateProfileFlowProps) => {
   const { currentUser } = useContext(UserContext);
   const router = useRouter();
@@ -242,7 +245,7 @@ export const CreateProfileFlow = ({
   return (
     <div className="scrollbar-hide h-full overflow-scroll">
       {!submitting ? (
-        <Wizard showStepsHeader>
+        <Wizard showStepsHeader onStepChange={handleStepChange}>
           <WizardStep label="AI chat">
             <div className="h-full px-4">
               {/* <EdenAiChat
@@ -269,68 +272,6 @@ export const CreateProfileFlow = ({
           <WizardStep label="Bio">
             <div className="px-4">
               <section className="mb-4">
-                <p className="mb-2">Please write a short bio!</p>
-                <textarea
-                  id="bio"
-                  defaultValue={currentUser?.bio || ""}
-                  className="font-Inter text-soilBody focus:border-accentColor focus:ring-soilGreen-500 block flex w-full resize-none rounded-md border border-zinc-400/50 px-2 px-2 py-1 py-1 text-base focus:outline-transparent focus:ring focus:ring-opacity-50"
-                  rows={8}
-                  required
-                  {...register("bio")}
-                />
-              </section>
-              <section className="mb-4">
-                <p className="mb-2">Edit your skills</p>
-                {userState?._id && (
-                  <div className="mt-3 h-[360px] w-full">
-                    {/* <DynamicSearchMemberGraph
-                    // memberID={userState._id}
-                    nodesID={
-                      userState.nodes && userState.nodes.length
-                        ? userState.nodes?.map(
-                            (_node) => _node?.nodeData?._id as string
-                          )
-                        : []
-                    }
-                    disableZoom={true}
-                    graphType={"KG_AI2"}
-                    // graphType={"KG_AI"}
-                    // zoomGraph={1.1}
-                  /> */}
-                    <DynamicSearchGraph
-                      nodesID={
-                        userState.nodes && userState.nodes.length
-                          ? userState.nodes?.map(
-                              (_node) => _node?.nodeData?._id as string
-                            )
-                          : []
-                      }
-                      // activeNodes={Object.values(nodeObj).map(
-                      //   (node: any) => node.active
-                      // )}
-                      // isNewNodes={Object.values(nodeObj).map(
-                      //   (node: any) => node.isNew
-                      // )}
-                      // setActivateNodeEvent={setActivateNodeEvent}
-                      height={"200"}
-                      // // graphType={"simple"}
-                      // // graphType={"KG_AI_2"}
-                      graphType={"KG_AI_2_plusIndustry"}
-                      // // zoomGraph={1.1}
-                      // setRelatedNodePopup={handleOpenPopup}
-                      disableZoom={true}
-                    />
-                  </div>
-                )}
-              </section>
-              {/* <section className="mb-4">
-              <p className="mb-2">Edit your relevant skills</p>
-            </section> */}
-            </div>
-          </WizardStep>
-          <WizardStep label="Background">
-            <div className="scrollbar-hide h-full overflow-scroll px-4">
-              <section className="mb-4">
                 <p>{`What's your main role?`}</p>
                 <Controller
                   name={"budget.perHour"}
@@ -350,6 +291,43 @@ export const CreateProfileFlow = ({
                   )}
                 />
               </section>
+              <section className="mb-4">
+                <p className="mb-2">Please write a short bio!</p>
+                <textarea
+                  id="bio"
+                  defaultValue={currentUser?.bio || ""}
+                  className="font-Inter text-soilBody focus:border-accentColor focus:ring-soilGreen-500 block flex w-full resize-none rounded-md border border-zinc-400/50 px-2 px-2 py-1 py-1 text-base focus:outline-transparent focus:ring focus:ring-opacity-50"
+                  rows={8}
+                  required
+                  {...register("bio")}
+                />
+              </section>
+              {/* <section className="mb-4">
+                <p className="mb-2">Edit your skills</p>
+                {userState?._id && (
+                  <div className="mt-3 h-[360px] w-full">
+                    <DynamicSearchGraph
+                      nodesID={
+                        userState.nodes && userState.nodes.length
+                          ? userState.nodes?.map(
+                              (_node) => _node?.nodeData?._id as string
+                            )
+                          : []
+                      }
+                      height={"200"}
+                      graphType={"KG_AI_2_plusIndustry"}
+                      disableZoom={true}
+                    />
+                  </div>
+                )}
+              </section> */}
+              {/* <section className="mb-4">
+              <p className="mb-2">Edit your relevant skills</p>
+            </section> */}
+            </div>
+          </WizardStep>
+          <WizardStep label="Background">
+            <div className="scrollbar-hide h-full overflow-scroll px-4">
               <Controller
                 name={"previousProjects"}
                 control={control}
@@ -379,6 +357,7 @@ export const CreateProfileFlow = ({
                     control={control}
                     render={() => (
                       <SalaryRangeChart
+                        showTitle={false}
                         data={rangeNumbers}
                         onChange={(val) => {
                           setValue(

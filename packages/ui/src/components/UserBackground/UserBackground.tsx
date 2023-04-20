@@ -34,7 +34,7 @@ export const UserBackground = ({
 
           if (!item?.title) return null;
           return (
-            <div key={index} className="my-4">
+            <div key={index} className="my-4" id="user-background">
               <div className="mb-2 flex items-center">
                 <span
                   className={`mr-3 ${

@@ -1,5 +1,5 @@
 import { Button } from "@eden/package-ui";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { IWizardStepProps } from "../WizardStep";
 import { WizardStepsHeader } from "../WizardStepsHeader";
@@ -7,9 +7,15 @@ import { WizardStepsHeader } from "../WizardStepsHeader";
 export interface IWizardProps {
   children: Array<React.ReactElement<IWizardStepProps>>;
   showStepsHeader?: boolean;
+  // eslint-disable-next-line no-unused-vars
+  onStepChange?: (val: any) => void;
 }
 
-export const Wizard = ({ children, showStepsHeader = false }: IWizardProps) => {
+export const Wizard = ({
+  children,
+  showStepsHeader = false,
+  onStepChange,
+}: IWizardProps) => {
   const [step, setStep] = useState<number>(0);
 
   // console.log(children);
@@ -40,6 +46,10 @@ export const Wizard = ({ children, showStepsHeader = false }: IWizardProps) => {
   function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(" ");
   }
+
+  useEffect(() => {
+    if (onStepChange) onStepChange(step);
+  }, [step]);
 
   return (
     <div className="h-full">
