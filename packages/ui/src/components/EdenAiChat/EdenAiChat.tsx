@@ -191,6 +191,7 @@ export const EdenAiChat = ({
             }
           }),
           experienceTypeID: experienceTypeID,
+          userID: currentUser?._id,
         },
       },
       skip:
