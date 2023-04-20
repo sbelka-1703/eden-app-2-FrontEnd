@@ -28,7 +28,7 @@ import { locations } from "../../../utils/locations";
 import { UserExperienceCard } from "../../cards";
 import { SalaryRangeChart } from "../../charts";
 import {
-  DynamicSearchGraph,
+  // DynamicSearchGraph,
   // DynamicSearchMemberGraph,
   FillSocialLinks,
   Wizard,
