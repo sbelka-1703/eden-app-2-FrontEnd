@@ -30,18 +30,23 @@ const ProfilePage: NextPageWithLayout = () => {
   // }, [userState?.nodes]);
 
   useEffect(() => {
+    let graphWrapper;
+
     if (stepView === 0) {
-      const graphWrapper = document.querySelector(
-        `#dynamic-search-graph-preview`
-      );
-
-      graphWrapper?.scrollIntoView({ behavior: "smooth", inline: "end" });
+      graphWrapper = document.querySelector(`#dynamic-search-graph-preview`);
     }
-    if (stepView === 3) {
-      const graphWrapper = document.querySelector(`#user-with-description`);
-
-      graphWrapper?.scrollIntoView({ behavior: "smooth", inline: "end" });
+    if (stepView === 1 || stepView === 3) {
+      graphWrapper = document.querySelector(`#user-with-description`);
     }
+    if (stepView === 2) {
+      graphWrapper = document.querySelector(`#user-background`);
+    }
+    if (stepView === 4) {
+      graphWrapper = document.querySelector(`#socials`);
+    }
+
+    if (graphWrapper)
+      graphWrapper?.scrollIntoView({ behavior: "smooth", inline: "end" });
   }, [stepView]);
 
   const handleStepChange = (val: any) => {

@@ -272,6 +272,26 @@ export const CreateProfileFlow = ({
           <WizardStep label="Bio">
             <div className="px-4">
               <section className="mb-4">
+                <p>{`What's your main role?`}</p>
+                <Controller
+                  name={"budget.perHour"}
+                  control={control}
+                  render={() => (
+                    <RoleSelector
+                      value={userState?.memberRole?.title || ""}
+                      roles={
+                        dataRoles?.findRoleTemplates as Maybe<
+                          Array<Maybe<RoleTemplate>>
+                        >
+                      }
+                      onSelect={(val) => {
+                        setValue("memberRole", val);
+                      }}
+                    />
+                  )}
+                />
+              </section>
+              <section className="mb-4">
                 <p className="mb-2">Please write a short bio!</p>
                 <textarea
                   id="bio"
@@ -308,26 +328,6 @@ export const CreateProfileFlow = ({
           </WizardStep>
           <WizardStep label="Background">
             <div className="scrollbar-hide h-full overflow-scroll px-4">
-              <section className="mb-4">
-                <p>{`What's your main role?`}</p>
-                <Controller
-                  name={"budget.perHour"}
-                  control={control}
-                  render={() => (
-                    <RoleSelector
-                      value={userState?.memberRole?.title || ""}
-                      roles={
-                        dataRoles?.findRoleTemplates as Maybe<
-                          Array<Maybe<RoleTemplate>>
-                        >
-                      }
-                      onSelect={(val) => {
-                        setValue("memberRole", val);
-                      }}
-                    />
-                  )}
-                />
-              </section>
               <Controller
                 name={"previousProjects"}
                 control={control}
