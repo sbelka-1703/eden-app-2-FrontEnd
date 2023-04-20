@@ -54,8 +54,6 @@ const ExperienceCreateProfileChat: React.FC = () => {
   const [sentMessageToEdenAIobj, setSentMessageToEdenAIobj] =
     useState<MessageObject>({ message: "", sentMessage: false, user: "" });
 
-  const [clearConversation, setClearConversation] = useState<boolean>(false);
-
   const [experienceTypeID, setExperienceTypeID] = useState<string>("");
 
   const [isDoneAvailable, setIsDoneAvailable] = useState(false);
@@ -79,7 +77,6 @@ const ExperienceCreateProfileChat: React.FC = () => {
   function handleDoneClick() {
     setIsDoneAvailable(false);
     setActiveCard(-1);
-    setClearConversation(true);
 
     // update only the cardData that were clicked
     const newCardsData = cardsData.map((card: cardsDataType, index: number) => {
@@ -146,7 +143,6 @@ const ExperienceCreateProfileChat: React.FC = () => {
                         user: "01",
                       });
                     }, 1200);
-                    setClearConversation(true);
                     setExperienceTypeID(card.experienceTypeID);
                     setActiveCard(idx);
                   }}
@@ -162,6 +158,7 @@ const ExperienceCreateProfileChat: React.FC = () => {
         <div className="h-[60vh]">
           {activeCard != -1 && (
             <EdenAiChat
+              key={experienceTypeID}
               //   aiReplyService={AI_REPLY_SERVICES.EDEN_GPT_REPLY_CHAT_API_V3}
               aiReplyService={
                 AI_REPLY_SERVICES.EDEN_GPT_CREATE_PROFILE_EXPERIENCE_CHAT
@@ -180,8 +177,7 @@ const ExperienceCreateProfileChat: React.FC = () => {
               //   setMode={setMode}
               sentMessageToEdenAIobj={sentMessageToEdenAIobj}
               setSentMessageToEdenAIobj={setSentMessageToEdenAIobj}
-              clearConversation={clearConversation}
-              setClearConversation={setClearConversation}
+              placeholder={""}
             />
           )}
         </div>

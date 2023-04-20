@@ -70,8 +70,6 @@ export const ExperienceCreateProfileChat: React.FC<
   const [sentMessageToEdenAIobj, setSentMessageToEdenAIobj] =
     useState<MessageObject>({ message: "", sentMessage: false, user: "" });
 
-  const [clearConversation, setClearConversation] = useState<boolean>(false);
-
   const [experienceTypeID, setExperienceTypeID] = useState<string>("");
 
   const [isDoneAvailable, setIsDoneAvailable] = useState(false);
@@ -95,7 +93,6 @@ export const ExperienceCreateProfileChat: React.FC<
   function handleDoneClick() {
     setIsDoneAvailable(false);
     setActiveCard(null);
-    setClearConversation(true);
 
     // update only the cardData that were clicked
     const newCardsData = cardsData.map((card: cardsDataType, index: number) => {
@@ -159,16 +156,13 @@ export const ExperienceCreateProfileChat: React.FC<
                   // }}
                   variant="primary"
                   onClick={() => {
-                    setTimeout(() => {
-                      setSentMessageToEdenAIobj({
-                        message: card.firstMessage,
-                        sentMessage: true,
-                        user: "01",
-                      });
-                    }, 1200);
-                    setClearConversation(true);
                     setExperienceTypeID(card.experienceTypeID);
                     setActiveCard(idx);
+                    setSentMessageToEdenAIobj({
+                      message: card.firstMessage,
+                      sentMessage: true,
+                      user: "01",
+                    });
                   }}
                 >
                   Start
@@ -181,6 +175,7 @@ export const ExperienceCreateProfileChat: React.FC<
           <div className="absolute -top-14 left-0 h-[calc(100%+2rem)] w-full pl-4">
             {activeCard != null ? (
               <EdenAiChat
+                key={experienceTypeID}
                 //   aiReplyService={AI_REPLY_SERVICES.EDEN_GPT_REPLY_CHAT_API_V3}
                 aiReplyService={
                   AI_REPLY_SERVICES.EDEN_GPT_CREATE_PROFILE_EXPERIENCE_CHAT
@@ -201,8 +196,6 @@ export const ExperienceCreateProfileChat: React.FC<
                 //   setMode={setMode}
                 sentMessageToEdenAIobj={sentMessageToEdenAIobj}
                 setSentMessageToEdenAIobj={setSentMessageToEdenAIobj}
-                clearConversation={clearConversation}
-                setClearConversation={setClearConversation}
               />
             ) : (
               <div className="flex h-full w-full items-center justify-center">

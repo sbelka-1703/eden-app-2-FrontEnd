@@ -982,6 +982,11 @@ const UserMessageModal = ({
           }}
         >
           <EdenAiChat
+            placeholder={
+              <div className="p-4">
+                <p>Do you have any questions about {member.discordName}?</p>
+              </div>
+            }
             aiReplyService={AI_REPLY_SERVICES.EDEN_GPT_REPLY}
             extraNodes={[]}
             // handleChangeNodes={(_nodeObj: any) => {

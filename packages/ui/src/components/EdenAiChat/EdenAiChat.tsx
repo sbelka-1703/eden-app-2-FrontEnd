@@ -59,10 +59,7 @@ export interface IEdenAiChatProps {
   extraNodes?: Array<any>;
   sentMessageToEdenAIobj?: MessageObject;
   changeChatN?: ChatMessage;
-  clearConversation?: Boolean;
   experienceTypeID?: string;
-  // eslint-disable-next-line no-unused-vars
-  setClearConversation?: (show: boolean) => void;
   // eslint-disable-next-line no-unused-vars
   handleChangeNodes?: (nodes: NodeObj) => void;
   // eslint-disable-next-line no-unused-vars
@@ -75,22 +72,22 @@ export interface IEdenAiChatProps {
   setSentMessageToEdenAIobj?: (message: any, sentMessage: any) => void;
   // eslint-disable-next-line no-unused-vars
   setChangeChatN?: (messageArr: any) => void;
+  placeholder?: any;
 }
 
 export const EdenAiChat = ({
   aiReplyService,
   extraNodes, // extra nodes to add to the query
   sentMessageToEdenAIobj,
-  clearConversation,
   experienceTypeID,
   changeChatN,
-  setClearConversation,
   handleChangeNodes,
   handleChangeChat,
   setShowPopupSalary,
   setMode,
   setSentMessageToEdenAIobj,
   setChangeChatN,
+  placeholder = "",
 }: IEdenAiChatProps) => {
   const { currentUser } = useContext(UserContext);
 
@@ -363,17 +360,6 @@ export const EdenAiChat = ({
   }, [extraNodes]);
   // -----------------------------------------
 
-  useEffect(() => {
-    if (clearConversation == true) {
-      if (setClearConversation) setClearConversation(false);
-
-      setChatN([]);
-      console.log("deleting staff = ", chatN);
-    }
-  }, [clearConversation]);
-
-  // console.log("setup chatN = " , chatN)
-
   // ---------- When GPT Reply, Store all convo messages and GPT friendly formated messages ------------
   useEffect(() => {
     if (
@@ -528,10 +514,12 @@ export const EdenAiChat = ({
       sentMessageToEdenAIobj?.sentMessage == true
     ) {
       if (sentMessageToEdenAIobj?.user != "") {
-        handleSentMessage(
-          sentMessageToEdenAIobj?.message,
-          sentMessageToEdenAIobj?.user
-        );
+        setTimeout(() => {
+          handleSentMessage(
+            sentMessageToEdenAIobj?.message,
+            sentMessageToEdenAIobj?.user
+          );
+        }, 700);
       } else {
         handleSentMessage(sentMessageToEdenAIobj?.message, "02");
       }
@@ -559,5 +547,11 @@ export const EdenAiChat = ({
     if (handleChangeNodes) handleChangeNodes(nodeObj);
   }, [nodeObj]);
 
-  return <ChatSimple chatN={chatN} handleSentMessage={handleSentMessage} />;
+  return (
+    <ChatSimple
+      chatN={chatN}
+      handleSentMessage={handleSentMessage}
+      placeholder={placeholder}
+    />
+  );
 };
