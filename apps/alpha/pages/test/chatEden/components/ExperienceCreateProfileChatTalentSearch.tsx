@@ -86,7 +86,7 @@ const ExperienceCreateProfileChatTalentSearch: React.FC<
   // const [sentMessageToEdenAIobj, setSentMessageToEdenAIobj] =
   //   useState<MessageObject>({ message: "stsdf", sentMessage: true, user: "01" });
 
-  const [clearConversation, setClearConversation] = useState<boolean>(false);
+  // const [clearConversation, setClearConversation] = useState<boolean>(false);
 
   const [experienceTypeID, setExperienceTypeID] = useState<string>("");
 
@@ -202,7 +202,7 @@ const ExperienceCreateProfileChatTalentSearch: React.FC<
                       }
                       setChangeChatN(chatN[card.experienceTypeID]);
                     }, 1200);
-                    setClearConversation(true);
+                    // setClearConversation(true);
                     setExperienceTypeID(card.experienceTypeID);
                     setActiveCard(idx);
                   }}
@@ -217,6 +217,7 @@ const ExperienceCreateProfileChatTalentSearch: React.FC<
           <div className="absolute -top-14 left-0 h-[calc(100%+2rem)] w-full pl-4">
             {activeCard != null && (
               <EdenAiChat
+                key={experienceTypeID}
                 //   aiReplyService={AI_REPLY_SERVICES.EDEN_GPT_REPLY_CHAT_API_V3}
                 aiReplyService={AI_REPLY_SERVICES.EDEN_AI_TAL_SEARCH_EXPIRIENCE}
                 experienceTypeID={experienceTypeID}
@@ -242,8 +243,8 @@ const ExperienceCreateProfileChatTalentSearch: React.FC<
                 //   setMode={setMode}
                 sentMessageToEdenAIobj={sentMessageToEdenAIobj}
                 setSentMessageToEdenAIobj={setSentMessageToEdenAIobj}
-                clearConversation={clearConversation}
-                setClearConversation={setClearConversation}
+                // clearConversation={clearConversation}
+                // setClearConversation={setClearConversation}
                 changeChatN={changeChatN}
                 setChangeChatN={setChangeChatN}
               />
