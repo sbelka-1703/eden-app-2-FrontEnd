@@ -2027,6 +2027,7 @@ export type EdenGptCreateProfileExperienceChatApiInput = {
   conversation?: InputMaybe<Array<InputMaybe<MessageChat>>>;
   experienceTypeID?: InputMaybe<ExperienceTypeIdEnum>;
   message?: InputMaybe<Scalars["String"]>;
+  userID?: InputMaybe<Scalars["ID"]>;
 };
 
 export type EdenGptCreateProfileExperienceChatApiOutput = {
