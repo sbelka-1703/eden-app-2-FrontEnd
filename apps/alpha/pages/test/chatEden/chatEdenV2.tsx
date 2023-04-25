@@ -13,6 +13,7 @@ import {
 } from "@eden/package-graphql/generated";
 import {
   AI_REPLY_SERVICES,
+  AppUserSubmenuLayout,
   // AvatarList,
   Badge,
   Button,
@@ -22,6 +23,8 @@ import {
   // CommonServerAvatarList,
   DynamicSearchGraph,
   EdenAiChat,
+  GridItemSix,
+  GridLayout,
   LongText,
   // MemberInfoWithDynamicGraph,
   MemberInfoWithDynamicGraph2,
@@ -342,11 +345,12 @@ const chatEden: NextPageWithLayout = () => {
   // ------------ Salary Popup ------------
 
   return (
-    <>
-      <div className="mx-auto grid h-screen grid-cols-12 overflow-hidden bg-[#f3f3f3] ">
-        <div className="col-span-6 flex flex-1 flex-col pl-8 pr-4">
-          <div className="h-[60vh]">
-            {/* <EdenAiChat
+    <AppUserSubmenuLayout showSubmenu={false}>
+      <GridLayout>
+        <GridItemSix>
+          <div className="h-[88vh] w-full">
+            <div className="relative h-[60%]">
+              {/* <EdenAiChat
               aiReplyService={AI_REPLY_SERVICES.EDEN_GPT_REPLY_CHAT_API_V3}
               // aiReplyService={AI_REPLY_SERVICES.EDEN_GPT_REPLY}
               extraNodes={extraNodes}
@@ -363,81 +367,77 @@ const chatEden: NextPageWithLayout = () => {
               sentMessageToEdenAIobj={sentMessageToEdenAIobj}
               setSentMessageToEdenAIobj={setSentMessageToEdenAIobj}
             /> */}
-            <ExperienceCreateProfileChatTalentSearch
-              handleChangeNodes={(val) => {
-                console.log("val = ", val);
-                setNodeObj({ ...val });
-                // setNodesIDs(Object.keys(val));
-              }}
-            />
-          </div>
-          {
-            <div className="flex justify-center">
-              <h1 className="text-xs text-gray-400">
-                {`Salary min: ${popupData.minSalary} `}
-                {`Salary max: ${popupData.maxSalary}`}
-                {`level: ${popupData.level}`}
-                {`Availability min: ${popupData.minHours} `}
-                {`Availability min: ${popupData.maxHours} `}
-              </h1>
+              <ExperienceCreateProfileChatTalentSearch
+                handleChangeNodes={(val) => {
+                  console.log("val = ", val);
+                  setNodeObj({ ...val });
+                  // setNodesIDs(Object.keys(val));
+                }}
+              />
+              <div className="absolute left-0 bottom-5 flex justify-center">
+                <button
+                  type="button"
+                  className={
+                    "hover:border-accentColor mr-2 h-8 w-8 rounded-full border bg-white text-gray-400 hover:text-gray-500 focus:outline-none"
+                  }
+                  onClick={() => {
+                    setShowPopup(true);
+                    setMode("salary");
+                  }}
+                >
+                  💰
+                </button>
+                <button
+                  type="button"
+                  className={
+                    "hover:border-accentColor mr-2 h-8 w-8 rounded-full border bg-white text-gray-400 hover:text-gray-500 focus:outline-none"
+                  }
+                  onClick={() => {
+                    setShowPopup(true);
+                    setMode("level");
+                  }}
+                >
+                  🧑‍🚀
+                </button>
+                <button
+                  type="button"
+                  className={
+                    "hover:border-accentColor mr-2 h-8 w-8 rounded-full border bg-white text-gray-400 hover:text-gray-500 focus:outline-none"
+                  }
+                  onClick={() => {
+                    setShowPopup(true);
+                    setMode("availability");
+                  }}
+                >
+                  ⏳
+                </button>
+              </div>
             </div>
-          }
+            {
+              <div className="absolute bottom-8 left-8 z-10 flex justify-center">
+                <ul className="text-xs text-gray-400">
+                  <li>{`Salary min: ${popupData.minSalary} `}</li>
+                  <li>{`Salary max: ${popupData.maxSalary}`}</li>
+                  <li>{`level: ${popupData.level}`}</li>
+                  <li>{`Availability min: ${popupData.minHours} `}</li>
+                  <li>{`Availability min: ${popupData.maxHours} `}</li>
+                </ul>
+              </div>
+            }
 
-          <div className="flex justify-center">
-            <button
-              type="button"
-              className={
-                "rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none"
-              }
-              onClick={() => {
-                setShowPopup(true);
-                setMode("salary");
-              }}
-            >
-              {" "}
-              Salary Popup{" "}
-            </button>
-            <button
-              type="button"
-              className={
-                "rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none"
-              }
-              onClick={() => {
-                setShowPopup(true);
-                setMode("level");
-              }}
-            >
-              {" "}
-              level Popup{" "}
-            </button>
-            <button
-              type="button"
-              className={
-                "rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none"
-              }
-              onClick={() => {
-                setShowPopup(true);
-                setMode("availability");
-              }}
-            >
-              {" "}
-              Availability Popup{" "}
-            </button>
-          </div>
-
-          {showPopup && (
-            <SalaryPopup
-              mode={mode}
-              minSalary={popupData.minSalary}
-              maxSalary={popupData.maxSalary}
-              level={popupData.level}
-              minHours={popupData.minHours}
-              maxHours={popupData.maxHours}
-              onDone={handleDone}
-            />
-          )}
-          <div className="h-[40vh] py-4">
-            {/* {nodesID?.length > 0 && dataMembersA?.length == 0 && (
+            {showPopup && (
+              <SalaryPopup
+                mode={mode}
+                minSalary={popupData.minSalary}
+                maxSalary={popupData.maxSalary}
+                level={popupData.level}
+                minHours={popupData.minHours}
+                maxHours={popupData.maxHours}
+                onDone={handleDone}
+              />
+            )}
+            <div className="h-[40%] py-4">
+              {/* {nodesID?.length > 0 && dataMembersA?.length == 0 && (
               <div className="flex justify-center py-4">
                 <h1 className="h-16 rounded-lg bg-gray-200 px-6 py-2 text-center text-sm shadow-md sm:h-16 sm:text-lg">
                   <span className="block leading-tight">
@@ -449,36 +449,37 @@ const chatEden: NextPageWithLayout = () => {
                 </h1>
               </div>
             )} */}
-            <Card border shadow className="h-full overflow-hidden bg-white">
-              <p className="pointer-events-none absolute left-0 top-2 w-full text-center leading-tight text-slate-600">
-                Click suggested bubbles
-                <br /> to connect them to your
-                <br /> search
-              </p>
-              <DynamicSearchGraph
-                nodesID={Object.keys(nodeObj)}
-                activeNodes={Object.values(nodeObj).map(
-                  (node: any) => node.active
-                )}
-                isNewNodes={Object.values(nodeObj).map(
-                  (node: any) => node.isNew
-                )}
-                setActivateNodeEvent={setActivateNodeEvent}
-                height={"380"}
-                // graphType={"simple"}
-                // graphType={"KG_AI_2"}
-                graphType={"KG_AI_2_plusIndustry"}
-                // zoomGraph={1.1}
-                setRelatedNodePopup={handleOpenPopup}
-                disableZoom={true}
-              />
-            </Card>
+              <Card border shadow className="h-full overflow-hidden bg-white">
+                <p className="pointer-events-none absolute left-0 top-2 w-full text-center leading-tight text-slate-600">
+                  Click suggested bubbles
+                  <br /> to connect them to your
+                  <br /> search
+                </p>
+                <DynamicSearchGraph
+                  nodesID={Object.keys(nodeObj)}
+                  activeNodes={Object.values(nodeObj).map(
+                    (node: any) => node.active
+                  )}
+                  isNewNodes={Object.values(nodeObj).map(
+                    (node: any) => node.isNew
+                  )}
+                  setActivateNodeEvent={setActivateNodeEvent}
+                  height={"380"}
+                  // graphType={"simple"}
+                  // graphType={"KG_AI_2"}
+                  graphType={"KG_AI_2_plusIndustry"}
+                  // zoomGraph={1.1}
+                  setRelatedNodePopup={handleOpenPopup}
+                  disableZoom={true}
+                />
+              </Card>
+            </div>
           </div>
-        </div>
-        <div className="col-span-6 h-full flex-1 overflow-y-scroll">
+        </GridItemSix>
+        <GridItemSix>
           {/* <GridLayout> */}
           {/* <GridItemNine> */}
-          <Card className="scrollbar-hide h-full overflow-scroll rounded-none border-l bg-white p-4">
+          <Card className="scrollbar-hide -mt-4 h-[calc(100%+2rem)] w-[calc(50vw-0.5rem)] overflow-scroll rounded-none border-l bg-white p-4">
             {dataMembersA && dataMembersA.length > 0 ? (
               <CardGrid>
                 {dataMembersA?.map(
@@ -497,7 +498,10 @@ const chatEden: NextPageWithLayout = () => {
                       conversation={chatN
                         .map((obj: any) => {
                           if (obj.user === "01") {
-                            return { role: "assistant", content: obj.message };
+                            return {
+                              role: "assistant",
+                              content: obj.message,
+                            };
                           } else {
                             return { role: "user", content: obj.message };
                           }
@@ -520,8 +524,13 @@ const chatEden: NextPageWithLayout = () => {
           </Card>
           {/* </GridItemNine> */}
           {/* </GridLayout> */}
-        </div>
-      </div>
+        </GridItemSix>
+      </GridLayout>
+      {/* <div className="relative mx-auto grid h-screen grid-cols-12 overflow-hidden bg-[#f3f3f3] "> */}
+      {/* <div className="col-span-6 flex flex-1 flex-col pl-8 pr-4"> */}
+
+      {/* </div> */}
+
       {/* </div> */}
       <MultiSelectPopup
         options={optionsPopup}
@@ -529,7 +538,7 @@ const chatEden: NextPageWithLayout = () => {
         onClose={handleClosePopup}
         onSelect={handleSelectPopup}
       />
-    </>
+    </AppUserSubmenuLayout>
   );
 };
 
