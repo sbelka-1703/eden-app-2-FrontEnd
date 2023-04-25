@@ -139,7 +139,7 @@ const ExperienceCreateProfileChatTalentSearch: React.FC<
 
   return (
     <div className="h-full w-full">
-      <div className="pt-16"></div>
+      <div className="pt-10"></div>
       <section className="grid h-[calc(100%-5rem)] w-full grid-cols-12">
         <div className="scrollbar-hide col-span-3 flex h-full flex-col overflow-scroll">
           {cardsData.map((card: cardsDataType, idx: number) => (
@@ -154,7 +154,7 @@ const ExperienceCreateProfileChatTalentSearch: React.FC<
                       }
                     : {}
                 }
-                className="relative flex h-full flex-col rounded-lg border bg-white bg-opacity-60 p-2 text-gray-800"
+                className="relative flex h-16 flex-col rounded-lg border bg-white bg-opacity-60 p-2 text-gray-800"
               >
                 {card.completed && (
                   <HiBadgeCheck
@@ -163,7 +163,7 @@ const ExperienceCreateProfileChatTalentSearch: React.FC<
                     color="rgba(0, 255, 0, 1)"
                   />
                 )}
-                <h2 className="mb-2">{card.title}</h2>
+                <h2 className="mb-1">{card.title}</h2>
                 <div>
                   <p className="mb-1 text-sm">Time: {card.time} min</p>
                   <br />
@@ -214,7 +214,7 @@ const ExperienceCreateProfileChatTalentSearch: React.FC<
           ))}
         </div>
         <div className="relative z-20 col-span-9 flex h-full flex-col items-center justify-center text-lg">
-          <div className="absolute -top-14 left-0 h-[calc(100%+2rem)] w-full pl-4">
+          <div className="absolute -top-14 left-0 h-[calc(100%+5rem)] w-full pl-4">
             {activeCard != null && (
               <EdenAiChat
                 key={experienceTypeID}
