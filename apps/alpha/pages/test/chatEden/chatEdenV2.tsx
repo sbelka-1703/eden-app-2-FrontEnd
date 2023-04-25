@@ -374,7 +374,8 @@ const chatEden: NextPageWithLayout = () => {
                   // setNodesIDs(Object.keys(val));
                 }}
               />
-              <div className="absolute left-0 bottom-5 flex justify-center">
+              <div className="absolute left-0 bottom-5 pl-3">
+                <p className="ml-1 mb-1 text-xs text-slate-400">filters:</p>
                 <button
                   type="button"
                   className={
@@ -436,7 +437,7 @@ const chatEden: NextPageWithLayout = () => {
                 onDone={handleDone}
               />
             )}
-            <div className="h-[40%] py-4">
+            <div className="h-[40%]">
               {/* {nodesID?.length > 0 && dataMembersA?.length == 0 && (
               <div className="flex justify-center py-4">
                 <h1 className="h-16 rounded-lg bg-gray-200 px-6 py-2 text-center text-sm shadow-md sm:h-16 sm:text-lg">
