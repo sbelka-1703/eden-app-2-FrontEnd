@@ -466,11 +466,11 @@ const chatEden: NextPageWithLayout = () => {
               </div>
             )} */}
             <Card border shadow className="h-full overflow-hidden bg-white">
-              <p className="pointer-events-none absolute left-0 top-2 w-full text-center leading-tight text-slate-600">
+              {/* <p className="pointer-events-none absolute left-0 top-2 w-full text-center leading-tight text-slate-600">
                 Click suggested bubbles
                 <br /> to connect them to your
                 <br /> search
-              </p>
+              </p> */}
               <DynamicSearchGraph
                 nodesID={Object.keys(nodeObj)}
                 activeNodes={Object.values(nodeObj).map(

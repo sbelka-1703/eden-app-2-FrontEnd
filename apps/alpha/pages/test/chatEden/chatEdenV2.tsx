@@ -414,8 +414,8 @@ const chatEden: NextPageWithLayout = () => {
                 </button>
               </div>
             </div>
-            {
-              <div className="absolute bottom-8 left-8 z-10 flex justify-center">
+
+            {/* <div className="absolute bottom-8 left-8 z-10 flex justify-center">
                 <ul className="text-xs text-gray-400">
                   <li>{`Salary min: ${popupData.minSalary} `}</li>
                   <li>{`Salary max: ${popupData.maxSalary}`}</li>
@@ -423,8 +423,7 @@ const chatEden: NextPageWithLayout = () => {
                   <li>{`Availability min: ${popupData.minHours} `}</li>
                   <li>{`Availability min: ${popupData.maxHours} `}</li>
                 </ul>
-              </div>
-            }
+              </div> */}
 
             {showPopup && (
               <SalaryPopup
@@ -451,11 +450,11 @@ const chatEden: NextPageWithLayout = () => {
               </div>
             )} */}
               <Card border shadow className="h-full overflow-hidden bg-white">
-                <p className="pointer-events-none absolute left-0 top-2 w-full text-center leading-tight text-slate-600">
+                {/* <p className="pointer-events-none absolute left-0 top-2 w-full text-center leading-tight text-slate-600">
                   Click suggested bubbles
                   <br /> to connect them to your
                   <br /> search
-                </p>
+                </p> */}
                 <DynamicSearchGraph
                   nodesID={Object.keys(nodeObj)}
                   activeNodes={Object.values(nodeObj).map(
