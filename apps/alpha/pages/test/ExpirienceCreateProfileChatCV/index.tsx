@@ -99,7 +99,8 @@ const ExperienceCreateProfileChat: React.FC = () => {
 
   const [CVtoMemory] = useMutation(CV_TO_MEMORY, {
     onCompleted({ CVtoMemory }) {
-      console.log("CVtoMemory.success==== ", CVtoMemory.success);
+      // console.log("CVtoMemory.success==== ", CVtoMemory.success);
+      setIsLoading(false);
     },
   });
 
@@ -131,9 +132,9 @@ const ExperienceCreateProfileChat: React.FC = () => {
       if (response.ok) {
         const { text } = await response.json();
 
-        // CVtoMemory({ variables: { fields: { message: text, userID: currentUser?._id } } });
-
-        console.log("currentUser?._id", currentUser?._id);
+        CVtoMemory({
+          variables: { fields: { message: text, userID: currentUser?._id } },
+        });
 
         // CVtoJobs({ variables: { fields: { cvString: text } } });
 
@@ -262,7 +263,7 @@ const ExperienceCreateProfileChat: React.FC = () => {
               key={experienceTypeID}
               //   aiReplyService={AI_REPLY_SERVICES.EDEN_GPT_REPLY_CHAT_API_V3}
               aiReplyService={
-                AI_REPLY_SERVICES.EDEN_GPT_CREATE_PROFILE_EXPERIENCE_CHAT
+                AI_REPLY_SERVICES.EDEN_GPT_CREATE_PROFILE_EXPERIENCE_CV_CHAT
               }
               experienceTypeID={experienceTypeID}
               //   extraNodes={extraNodes}

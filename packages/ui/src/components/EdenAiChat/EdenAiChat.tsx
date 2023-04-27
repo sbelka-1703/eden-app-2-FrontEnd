@@ -7,6 +7,7 @@ import React, { useContext, useEffect, useState } from "react";
 import {
   EDEN_AI_TAL_SEARCH_EXPIRIENCE,
   EDEN_GPT_CREATE_PROFILE_EXPERIENCE_CHAT,
+  EDEN_GPT_CREATE_PROFILE_EXPERIENCE_CV_CHAT,
   EDEN_GPT_REPLY,
   // EDEN_GPT_REPLY_CHAT_API,
   EDEN_GPT_REPLY_CHAT_API_V2,
@@ -49,6 +50,8 @@ export enum AI_REPLY_SERVICES {
   EDEN_GPT_REPLY_CHAT_API_V3 = "EDEN_GPT_REPLY_CHAT_API_V3",
   // eslint-disable-next-line no-unused-vars
   EDEN_GPT_CREATE_PROFILE_EXPERIENCE_CHAT = "EDEN_GPT_CREATE_PROFILE_EXPERIENCE_CHAT",
+  // eslint-disable-next-line no-unused-vars
+  EDEN_GPT_CREATE_PROFILE_EXPERIENCE_CV_CHAT = "EDEN_GPT_CREATE_PROFILE_EXPERIENCE_CV_CHAT",
   // eslint-disable-next-line no-unused-vars
   EDEN_AI_TAL_SEARCH_EXPIRIENCE = "EDEN_AI_TAL_SEARCH_EXPIRIENCE",
 }
@@ -198,6 +201,31 @@ export const EdenAiChat = ({
         messageUser == "" ||
         aiReplyService !=
           AI_REPLY_SERVICES.EDEN_GPT_CREATE_PROFILE_EXPERIENCE_CHAT ||
+        chatN[chatN.length - 1]?.user == "01",
+    }
+  );
+
+  const { data: dataCreateProfileExperienceWithChatCVMemory } = useQuery(
+    EDEN_GPT_CREATE_PROFILE_EXPERIENCE_CV_CHAT,
+    {
+      variables: {
+        fields: {
+          message: messageUser,
+          conversation: chatN.map((obj) => {
+            if (obj.user === "01") {
+              return { role: "assistant", content: obj.message };
+            } else {
+              return { role: "user", content: obj.message };
+            }
+          }),
+          experienceTypeID: experienceTypeID,
+          userID: currentUser?._id,
+        },
+      },
+      skip:
+        messageUser == "" ||
+        aiReplyService !=
+          AI_REPLY_SERVICES.EDEN_GPT_CREATE_PROFILE_EXPERIENCE_CV_CHAT ||
         chatN[chatN.length - 1]?.user == "01",
     }
   );
@@ -390,6 +418,8 @@ export const EdenAiChat = ({
         dataEdenGPTReplyChatAPIV3?.edenGPTreplyChatAPI_V3?.reply ||
         dataEdenGPTCreateProfileExperience
           ?.edenGPTCreateProfileExperienceChatAPI?.reply ||
+        dataCreateProfileExperienceWithChatCVMemory
+          ?.CreateProfileExperienceWithChatCVMemory?.reply ||
         dataEdenAITalSearchExpirience?.edenAITalSearchExpirience?.reply;
 
       if (
@@ -450,6 +480,7 @@ export const EdenAiChat = ({
     dataEdenGPTReplyChatAPI,
     dataEdenGPTReplyChatAPIV3,
     dataEdenGPTCreateProfileExperience,
+    dataCreateProfileExperienceWithChatCVMemory,
     dataEdenAITalSearchExpirience,
   ]);
   // -----------------------------------------
