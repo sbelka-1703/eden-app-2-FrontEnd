@@ -170,7 +170,7 @@ const ExperienceCreateProfileChat: React.FC = () => {
               //     setNodeObj(_nodeObj);
               //   }}
               handleChangeChat={(_chat: any) => {
-                // console.log("handleChangeChat:", _chat);
+                console.log("handleChangeChat:", _chat);
                 setChatN(_chat);
               }}
               //   setShowPopupSalary={setShowPopup}

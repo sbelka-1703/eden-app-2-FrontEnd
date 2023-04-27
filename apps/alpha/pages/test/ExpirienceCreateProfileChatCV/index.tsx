@@ -99,7 +99,7 @@ const ExperienceCreateProfileChat: React.FC = () => {
 
   const [CVtoMemory] = useMutation(CV_TO_MEMORY, {
     onCompleted({ CVtoMemory }) {
-      // console.log("CVtoMemory.success==== ", CVtoMemory.success);
+      console.log("CVtoMemory.success==== ", CVtoMemory);
       setIsLoading(false);
     },
   });
@@ -272,7 +272,7 @@ const ExperienceCreateProfileChat: React.FC = () => {
               //     setNodeObj(_nodeObj);
               //   }}
               handleChangeChat={(_chat: any) => {
-                // console.log("handleChangeChat:", _chat);
+                console.log("handleChangeChat:", _chat);
                 setChatN(_chat);
               }}
               //   setShowPopupSalary={setShowPopup}

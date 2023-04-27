@@ -397,6 +397,7 @@ export const EdenAiChat = ({
         dataEdenGPTReplyChatAPI ||
         dataEdenGPTReplyChatAPIV3 ||
         dataEdenGPTCreateProfileExperience ||
+        dataCreateProfileExperienceWithChatCVMemory ||
         dataEdenAITalSearchExpirience) &&
       edenAIsentMessage == true
     ) {
@@ -419,7 +420,7 @@ export const EdenAiChat = ({
         dataEdenGPTCreateProfileExperience
           ?.edenGPTCreateProfileExperienceChatAPI?.reply ||
         dataCreateProfileExperienceWithChatCVMemory
-          ?.CreateProfileExperienceWithChatCVMemory?.reply ||
+          ?.createProfileExperienceWithChatCVMemory?.reply ||
         dataEdenAITalSearchExpirience?.edenAITalSearchExpirience?.reply;
 
       if (
@@ -580,10 +581,12 @@ export const EdenAiChat = ({
   }, [nodeObj]);
 
   return (
-    <ChatSimple
-      chatN={chatN}
-      handleSentMessage={handleSentMessage}
-      placeholder={placeholder}
-    />
+    <>
+      <ChatSimple
+        chatN={chatN}
+        handleSentMessage={handleSentMessage}
+        placeholder={placeholder}
+      />
+    </>
   );
 };
