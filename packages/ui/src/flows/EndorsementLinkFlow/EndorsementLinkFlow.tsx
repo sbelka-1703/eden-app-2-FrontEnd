@@ -146,12 +146,12 @@ export const EndorsementLinkFlow = ({}) => {
             <div
               className={`text-center text-2xl font-medium uppercase text-neutral-700`}
             >
-              Ask Anyone to Endorse You
+              {`Generate an Endorsement Link & Invite Anyone to Endorse You`}
             </div>
             <div className={`gap-4 sm:grid sm:grid-cols-3`}>
               <div className={`sm:col-span-2`}>
                 <div className={`my-8`}>
-                  <TextInputLabel>{`What do you want to be endorsed for?`}</TextInputLabel>
+                  <TextInputLabel>{`What skill would you like to be endorsed for?`}</TextInputLabel>
                   <div className={`my-4`}>
                     <Controller
                       control={control}
@@ -182,7 +182,7 @@ export const EndorsementLinkFlow = ({}) => {
                   <div className={`my-8`}>
                     <TextInputLabel
                       htmlFor={`message`}
-                    >{`Add a Message:`}</TextInputLabel>
+                    >{`Copy & Paste this Message for your Endorser:`}</TextInputLabel>
                     <textarea
                       id={`message`}
                       className={`input-primary font-medium text-neutral-900`}
@@ -290,7 +290,7 @@ export const EndorsementLinkFlow = ({}) => {
                   </div>
                   <div className={`grid-cols-1`}>
                     <div className={`flex justify-center text-zinc-400`}>
-                      My Trust Level:
+                      Credibility Level:
                     </div>
                     <div className={`flex justify-center text-zinc-800`}>
                       Legendary 🔥
@@ -348,17 +348,24 @@ export const EndorsementLinkFlow = ({}) => {
                   <span
                     className={`bg-soilYellow/60 rounded-full px-4 py-1 text-lg font-semibold uppercase text-zinc-700`}
                   >
-                    Eden Endorsement
+                    Endorsements in Eden
                   </span>
                 </div>
                 <div
-                  className={`my-2 pl-4 font-medium uppercase text-zinc-700`}
+                  className={`my-2 space-y-4 pl-4 text-sm font-medium uppercase text-zinc-700`}
                 >
-                  <li>More Endorsements = More Opportunities</li>
                   <li>
-                    If You Perform Well Your Endorsers Will Recieve a Reward $$
+                    It matters who endorses you - people with more credibility
+                    around the skill you want to be endorsed for means more
+                    credibility around that skill for you (if you want to be
+                    endorsed for ML its better to ask a senior ML engineer than
+                    your mom)
                   </li>
-                  <li>5% For The Reward Pool Will Come From Your Employer</li>
+                  <li>
+                    Endorsers will receive a % of your future revenue - you can
+                    set this % - the less you %, the less attractive your
+                    profile will be - unless you are a high-earner of course
+                  </li>
                 </div>
               </div>
             </div>

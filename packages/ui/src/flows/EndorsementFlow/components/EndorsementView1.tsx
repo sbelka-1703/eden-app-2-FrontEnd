@@ -17,7 +17,8 @@ import {
 import { BsCoin } from "react-icons/bs";
 
 import { IChatMessages } from "../EndorsementFlow";
-import { ChatBox, KeywordList, ReviewButton, StarRating } from "./";
+// import { ChatBox, KeywordList, ReviewButton, StarRating } from "./";
+import { ChatBox, KeywordList, ReviewButton } from "./";
 
 const EDEN_GPT_ENDORSE_CHAT_API = gql`
   query ($fields: edenGPTEndorseChatAPIInput!) {
@@ -56,8 +57,8 @@ interface IEndorsementView1Props {
 export const EndorsementView1 = ({
   member,
   onNext,
-  rating,
-  onRatingChange,
+  // rating,
+  // onRatingChange,
   chatMessages,
   onChatMessagesChange,
   endorsedSkills,
@@ -198,12 +199,12 @@ export const EndorsementView1 = ({
           />
 
           <div className={`absolute inset-x-0 bottom-6`}>
-            <div className={`my-4 text-center shadow-md`}>
+            {/* <div className={`my-4 text-center shadow-md`}>
               <TextLabel1 className={`text-xs font-semibold text-neutral-800`}>
                 Would you want to work with @{member?.discordName} again?
               </TextLabel1>
               <StarRating rating={rating} onRatingChange={onRatingChange} />
-            </div>
+            </div> */}
             <div className={`mt-12 flex justify-center`}>
               {chatMessages && chatMessages?.length < 4 ? (
                 <button
