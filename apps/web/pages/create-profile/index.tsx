@@ -9,6 +9,7 @@ import {
   GridLayout,
   MemberInfoWithDynamicGraph2,
 } from "@eden/package-ui";
+import Head from "next/head";
 import { useContext, useEffect, useState } from "react";
 
 const ProfilePage: NextPageWithLayout = () => {
@@ -56,60 +57,78 @@ const ProfilePage: NextPageWithLayout = () => {
   if (!currentUser) return null;
 
   return (
-    <AppUserSubmenuLayout showSubmenu={false}>
-      <GridLayout>
-        <GridItemSix>
-          <Card className={"h-[88vh] bg-white shadow"}>
-            <CreateProfileFlow
-              setUserState={setUserState}
-              userState={userState}
-              handleStepChange={handleStepChange}
-            />
-          </Card>
-        </GridItemSix>
-        <GridItemSix>
-          <Card
-            className={
-              "scrollbar-hide h-[88vh] overflow-scroll bg-white p-4 shadow"
-            }
-          >
-            <MemberInfoWithDynamicGraph2
-              // step={step}
-              member={userState}
-              nodesID={userState?.nodes?.map((node) => node?.nodeData?._id)}
-              hasGraph={false}
-            />
-            {userState && (
-              <div id="dynamic-search-graph-preview">
-                <DynamicSearchGraph
-                  nodesID={
-                    userState.nodes && userState.nodes.length
-                      ? userState.nodes?.map(
-                          (_node) => _node?.nodeData?._id as string
-                        )
-                      : []
-                  }
-                  // activeNodes={Object.values(nodeObj).map(
-                  //   (node: any) => node.active
-                  // )}
-                  // isNewNodes={Object.values(nodeObj).map(
-                  //   (node: any) => node.isNew
-                  // )}
-                  // setActivateNodeEvent={setActivateNodeEvent}
-                  height={"380"}
-                  // // graphType={"simple"}
-                  // // graphType={"KG_AI_2"}
-                  graphType={"KG_AI_2_plusIndustry"}
-                  // // zoomGraph={1.1}
-                  // setRelatedNodePopup={handleOpenPopup}
-                  disableZoom={true}
-                />
-              </div>
-            )}
-          </Card>
-        </GridItemSix>
-      </GridLayout>
-    </AppUserSubmenuLayout>
+    <>
+      <Head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function(h,o,t,j,a,r){
+                  h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+                  h._hjSettings={hjid:3442218,hjsv:6};
+                  a=o.getElementsByTagName('head')[0];
+                  r=o.createElement('script');r.async=1;
+                  r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+                  a.appendChild(r);
+              })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+            `,
+          }}
+        />
+      </Head>
+      <AppUserSubmenuLayout showSubmenu={false}>
+        <GridLayout>
+          <GridItemSix>
+            <Card className={"h-[88vh] bg-white shadow"}>
+              <CreateProfileFlow
+                setUserState={setUserState}
+                userState={userState}
+                handleStepChange={handleStepChange}
+              />
+            </Card>
+          </GridItemSix>
+          <GridItemSix>
+            <Card
+              className={
+                "scrollbar-hide h-[88vh] overflow-scroll bg-white p-4 shadow"
+              }
+            >
+              <MemberInfoWithDynamicGraph2
+                // step={step}
+                member={userState}
+                nodesID={userState?.nodes?.map((node) => node?.nodeData?._id)}
+                hasGraph={false}
+              />
+              {userState && (
+                <div id="dynamic-search-graph-preview">
+                  <DynamicSearchGraph
+                    nodesID={
+                      userState.nodes && userState.nodes.length
+                        ? userState.nodes?.map(
+                            (_node) => _node?.nodeData?._id as string
+                          )
+                        : []
+                    }
+                    // activeNodes={Object.values(nodeObj).map(
+                    //   (node: any) => node.active
+                    // )}
+                    // isNewNodes={Object.values(nodeObj).map(
+                    //   (node: any) => node.isNew
+                    // )}
+                    // setActivateNodeEvent={setActivateNodeEvent}
+                    height={"380"}
+                    // // graphType={"simple"}
+                    // // graphType={"KG_AI_2"}
+                    graphType={"KG_AI_2_plusIndustry"}
+                    // // zoomGraph={1.1}
+                    // setRelatedNodePopup={handleOpenPopup}
+                    disableZoom={true}
+                  />
+                </div>
+              )}
+            </Card>
+          </GridItemSix>
+        </GridLayout>
+      </AppUserSubmenuLayout>
+    </>
   );
 };
 
