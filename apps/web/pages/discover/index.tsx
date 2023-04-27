@@ -35,6 +35,7 @@ import {
   UserInviteModal,
   UserWithDescription,
 } from "@eden/package-ui";
+import Head from "next/head";
 // import dynamic from "next/dynamic";
 import React, { Fragment, useEffect, useState } from "react";
 
@@ -356,12 +357,29 @@ const chatEden: NextPageWithLayout = () => {
   // ------------ Salary Popup ------------
 
   return (
-    <AppUserSubmenuLayout showSubmenu={false}>
-      <GridLayout>
-        <GridItemSix>
-          <div className="h-[88vh] w-full">
-            <div className="relative h-[60%]">
-              {/* <EdenAiChat
+    <>
+      <Head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function(h,o,t,j,a,r){
+                  h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+                  h._hjSettings={hjid:3442218,hjsv:6};
+                  a=o.getElementsByTagName('head')[0];
+                  r=o.createElement('script');r.async=1;
+                  r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+                  a.appendChild(r);
+              })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+            `,
+          }}
+        />
+      </Head>
+      <AppUserSubmenuLayout showSubmenu={false}>
+        <GridLayout>
+          <GridItemSix>
+            <div className="h-[88vh] w-full">
+              <div className="relative h-[60%]">
+                {/* <EdenAiChat
               aiReplyService={AI_REPLY_SERVICES.EDEN_GPT_REPLY_CHAT_API_V3}
               // aiReplyService={AI_REPLY_SERVICES.EDEN_GPT_REPLY}
               extraNodes={extraNodes}
@@ -378,55 +396,55 @@ const chatEden: NextPageWithLayout = () => {
               sentMessageToEdenAIobj={sentMessageToEdenAIobj}
               setSentMessageToEdenAIobj={setSentMessageToEdenAIobj}
             /> */}
-              <ExperienceCreateProfileChatTalentSearch
-                handleChangeNodes={(val) => {
-                  console.log("val = ", val);
-                  setNodeObj({ ...val });
-                  // setNodesIDs(Object.keys(val));
-                }}
-              />
-              <div className="absolute left-0 bottom-5 pl-3">
-                <p className="ml-1 mb-1 text-xs text-slate-400">filters:</p>
-                <button
-                  type="button"
-                  className={
-                    "hover:border-accentColor mr-2 h-8 w-8 rounded-full border bg-white text-gray-400 hover:text-gray-500 focus:outline-none"
-                  }
-                  onClick={() => {
-                    setShowPopup(true);
-                    setMode("salary");
+                <ExperienceCreateProfileChatTalentSearch
+                  handleChangeNodes={(val) => {
+                    console.log("val = ", val);
+                    setNodeObj({ ...val });
+                    // setNodesIDs(Object.keys(val));
                   }}
-                >
-                  💰
-                </button>
-                <button
-                  type="button"
-                  className={
-                    "hover:border-accentColor mr-2 h-8 w-8 rounded-full border bg-white text-gray-400 hover:text-gray-500 focus:outline-none"
-                  }
-                  onClick={() => {
-                    setShowPopup(true);
-                    setMode("level");
-                  }}
-                >
-                  🧑‍🚀
-                </button>
-                <button
-                  type="button"
-                  className={
-                    "hover:border-accentColor mr-2 h-8 w-8 rounded-full border bg-white text-gray-400 hover:text-gray-500 focus:outline-none"
-                  }
-                  onClick={() => {
-                    setShowPopup(true);
-                    setMode("availability");
-                  }}
-                >
-                  ⏳
-                </button>
+                />
+                <div className="absolute bottom-5 left-0 pl-3">
+                  <p className="mb-1 ml-1 text-xs text-slate-400">filters:</p>
+                  <button
+                    type="button"
+                    className={
+                      "hover:border-accentColor mr-2 h-8 w-8 rounded-full border bg-white text-gray-400 hover:text-gray-500 focus:outline-none"
+                    }
+                    onClick={() => {
+                      setShowPopup(true);
+                      setMode("salary");
+                    }}
+                  >
+                    💰
+                  </button>
+                  <button
+                    type="button"
+                    className={
+                      "hover:border-accentColor mr-2 h-8 w-8 rounded-full border bg-white text-gray-400 hover:text-gray-500 focus:outline-none"
+                    }
+                    onClick={() => {
+                      setShowPopup(true);
+                      setMode("level");
+                    }}
+                  >
+                    🧑‍🚀
+                  </button>
+                  <button
+                    type="button"
+                    className={
+                      "hover:border-accentColor mr-2 h-8 w-8 rounded-full border bg-white text-gray-400 hover:text-gray-500 focus:outline-none"
+                    }
+                    onClick={() => {
+                      setShowPopup(true);
+                      setMode("availability");
+                    }}
+                  >
+                    ⏳
+                  </button>
+                </div>
               </div>
-            </div>
 
-            {/* <div className="absolute bottom-8 left-8 z-10 flex justify-center">
+              {/* <div className="absolute bottom-8 left-8 z-10 flex justify-center">
               <ul className="text-xs text-gray-400">
                 <li>{`Salary min: ${popupData.minSalary} `}</li>
                 <li>{`Salary max: ${popupData.maxSalary}`}</li>
@@ -436,19 +454,19 @@ const chatEden: NextPageWithLayout = () => {
               </ul>
             </div> */}
 
-            {showPopup && (
-              <SalaryPopup
-                mode={mode}
-                minSalary={popupData.minSalary}
-                maxSalary={popupData.maxSalary}
-                level={popupData.level}
-                minHours={popupData.minHours}
-                maxHours={popupData.maxHours}
-                onDone={handleDone}
-              />
-            )}
-            <div className="h-[40%]">
-              {/* {nodesID?.length > 0 && dataMembersA?.length == 0 && (
+              {showPopup && (
+                <SalaryPopup
+                  mode={mode}
+                  minSalary={popupData.minSalary}
+                  maxSalary={popupData.maxSalary}
+                  level={popupData.level}
+                  minHours={popupData.minHours}
+                  maxHours={popupData.maxHours}
+                  onDone={handleDone}
+                />
+              )}
+              <div className="h-[40%]">
+                {/* {nodesID?.length > 0 && dataMembersA?.length == 0 && (
               <div className="flex justify-center py-4">
                 <h1 className="h-16 rounded-lg bg-gray-200 px-6 py-2 text-center text-sm shadow-md sm:h-16 sm:text-lg">
                   <span className="block leading-tight">
@@ -460,96 +478,97 @@ const chatEden: NextPageWithLayout = () => {
                 </h1>
               </div>
             )} */}
-              <Card border shadow className="h-full overflow-hidden bg-white">
-                {/* <p className="pointer-events-none absolute left-0 top-2 w-full text-center leading-tight text-slate-600">
+                <Card border shadow className="h-full overflow-hidden bg-white">
+                  {/* <p className="pointer-events-none absolute left-0 top-2 w-full text-center leading-tight text-slate-600">
                   Click suggested bubbles
                   <br /> to connect them to your
                   <br /> search
                 </p> */}
-                <DynamicSearchGraph
-                  nodesID={Object.keys(nodeObj)}
-                  activeNodes={Object.values(nodeObj).map(
-                    (node: any) => node.active
-                  )}
-                  isNewNodes={Object.values(nodeObj).map(
-                    (node: any) => node.isNew
-                  )}
-                  setActivateNodeEvent={setActivateNodeEvent}
-                  height={"380"}
-                  // graphType={"simple"}
-                  // graphType={"KG_AI_2"}
-                  graphType={"KG_AI_2_plusIndustry"}
-                  // zoomGraph={1.1}
-                  setRelatedNodePopup={handleOpenPopup}
-                  disableZoom={true}
-                />
-              </Card>
-            </div>
-          </div>
-        </GridItemSix>
-        <GridItemSix>
-          {/* <GridLayout> */}
-          {/* <GridItemNine> */}
-          <Card className="scrollbar-hide -mt-4 h-[calc(100%+2rem)] w-[calc(50vw-0.5rem)] overflow-scroll rounded-none border-l bg-white p-4">
-            {dataMembersA && dataMembersA.length > 0 ? (
-              <CardGrid>
-                {dataMembersA?.map(
-                  (member: MatchMembersToSkillOutput, index: number) => (
-                    <UserDiscoverCard
-                      key={index}
-                      matchMember={member}
-                      // nodesPercentage={dataMembersA}
-                      // role={selectedRole}
-                      // project={dataProject?.findProject}
-                      invite
-                      phase={``}
-                      nodesID={Object.keys(nodeObj).filter(
-                        (key) => nodeObj[key].active
-                      )}
-                      conversation={chatN
-                        .map((obj: any) => {
-                          if (obj.user === "01") {
-                            return {
-                              role: "assistant",
-                              content: obj.message,
-                            };
-                          } else {
-                            return { role: "user", content: obj.message };
-                          }
-                        })
-                        .slice(-6)}
-                      // nodesID={Object.keys(nodeObj)}
-                    />
-                  )
-                )}
-              </CardGrid>
-            ) : (
-              <div className="flex h-full w-full items-center justify-center">
-                <p className="text-center">
-                  Your matches will come up here.
-                  <br />
-                  You can DM, favourite & shortlist them!
-                </p>
+                  <DynamicSearchGraph
+                    nodesID={Object.keys(nodeObj)}
+                    activeNodes={Object.values(nodeObj).map(
+                      (node: any) => node.active
+                    )}
+                    isNewNodes={Object.values(nodeObj).map(
+                      (node: any) => node.isNew
+                    )}
+                    setActivateNodeEvent={setActivateNodeEvent}
+                    height={"380"}
+                    // graphType={"simple"}
+                    // graphType={"KG_AI_2"}
+                    graphType={"KG_AI_2_plusIndustry"}
+                    // zoomGraph={1.1}
+                    setRelatedNodePopup={handleOpenPopup}
+                    disableZoom={true}
+                  />
+                </Card>
               </div>
-            )}
-          </Card>
-          {/* </GridItemNine> */}
-          {/* </GridLayout> */}
-        </GridItemSix>
-      </GridLayout>
-      {/* <div className="relative mx-auto grid h-screen grid-cols-12 overflow-hidden bg-[#f3f3f3] "> */}
-      {/* <div className="col-span-6 flex flex-1 flex-col pl-8 pr-4"> */}
+            </div>
+          </GridItemSix>
+          <GridItemSix>
+            {/* <GridLayout> */}
+            {/* <GridItemNine> */}
+            <Card className="scrollbar-hide -mt-4 h-[calc(100%+2rem)] w-[calc(50vw-0.5rem)] overflow-scroll rounded-none border-l bg-white p-4">
+              {dataMembersA && dataMembersA.length > 0 ? (
+                <CardGrid>
+                  {dataMembersA?.map(
+                    (member: MatchMembersToSkillOutput, index: number) => (
+                      <UserDiscoverCard
+                        key={index}
+                        matchMember={member}
+                        // nodesPercentage={dataMembersA}
+                        // role={selectedRole}
+                        // project={dataProject?.findProject}
+                        invite
+                        phase={``}
+                        nodesID={Object.keys(nodeObj).filter(
+                          (key) => nodeObj[key].active
+                        )}
+                        conversation={chatN
+                          .map((obj: any) => {
+                            if (obj.user === "01") {
+                              return {
+                                role: "assistant",
+                                content: obj.message,
+                              };
+                            } else {
+                              return { role: "user", content: obj.message };
+                            }
+                          })
+                          .slice(-6)}
+                        // nodesID={Object.keys(nodeObj)}
+                      />
+                    )
+                  )}
+                </CardGrid>
+              ) : (
+                <div className="flex h-full w-full items-center justify-center">
+                  <p className="text-center">
+                    Your matches will come up here.
+                    <br />
+                    You can DM, favourite & shortlist them!
+                  </p>
+                </div>
+              )}
+            </Card>
+            {/* </GridItemNine> */}
+            {/* </GridLayout> */}
+          </GridItemSix>
+        </GridLayout>
+        {/* <div className="relative mx-auto grid h-screen grid-cols-12 overflow-hidden bg-[#f3f3f3] "> */}
+        {/* <div className="col-span-6 flex flex-1 flex-col pl-8 pr-4"> */}
 
-      {/* </div> */}
+        {/* </div> */}
 
-      {/* </div> */}
-      <MultiSelectPopup
-        options={optionsPopup}
-        isOpen={isOpenPopup}
-        onClose={handleClosePopup}
-        onSelect={handleSelectPopup}
-      />
-    </AppUserSubmenuLayout>
+        {/* </div> */}
+        <MultiSelectPopup
+          options={optionsPopup}
+          isOpen={isOpenPopup}
+          onClose={handleClosePopup}
+          onSelect={handleSelectPopup}
+        />
+      </AppUserSubmenuLayout>
+    </>
   );
 };
 
