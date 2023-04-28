@@ -8,6 +8,7 @@ export * from "./DiscoverTalent";
 export * from "./DragDrop";
 export * from "./EdenAiChat";
 export * from "./FillSocialLinks";
+export * from "./InterviewEdenAI";
 export * from "./LifetimeTRST";
 export * from "./LoginButton";
 export * from "./NodesExpandable";
