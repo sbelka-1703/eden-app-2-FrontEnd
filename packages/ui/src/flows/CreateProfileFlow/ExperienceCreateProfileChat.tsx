@@ -110,7 +110,7 @@ export const ExperienceCreateProfileChat: React.FC<
     <div className="h-full w-full">
       <div className="absolute left-0 top-16 w-full bg-white px-4">
         <h2 className="mb-4 text-2xl">
-          Help Eden with some questions to know you better
+          First, chat with Eden AI to enhance your profile information
         </h2>
         {/* <p className="mb-2">TRUST Points: {totalTrustPoints}</p> */}
       </div>
