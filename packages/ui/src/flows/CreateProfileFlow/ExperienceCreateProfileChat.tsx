@@ -10,7 +10,7 @@ import { HiBadgeCheck } from "react-icons/hi";
 const cardsDataInit = [
   {
     title: "Skill & Experience",
-    trust: 30,
+    // trust: 30,
     time: 3,
     completed: false,
     firstMessage: "Can you tell me about your skills and experiences",
@@ -18,7 +18,7 @@ const cardsDataInit = [
   },
   {
     title: "Personal Background",
-    trust: 30,
+    // trust: 30,
     time: 4,
     completed: false,
     firstMessage: "Can you tell me about your Background",
@@ -26,7 +26,7 @@ const cardsDataInit = [
   },
   {
     title: "Career Goals",
-    trust: 25,
+    // trust: 25,
     time: 2,
     completed: false,
     firstMessage: "Can you tell me about your Career Goals",
@@ -34,7 +34,7 @@ const cardsDataInit = [
   },
   {
     title: "Work Preferences",
-    trust: 35,
+    // trust: 35,
     time: 2,
     completed: false,
     firstMessage: "Can you tell me about your Work preferences",
@@ -44,7 +44,7 @@ const cardsDataInit = [
 
 interface cardsDataType {
   title: string;
-  trust: number;
+  // trust: number;
   time: number;
   completed: boolean;
   firstMessage: string;
@@ -80,7 +80,7 @@ export const ExperienceCreateProfileChat: React.FC<
 
   const [cardsData, setCardsData] = useState<cardsDataType[]>(cardsDataInit);
 
-  const [totalTrustPoints, setTotalTrustPoints] = useState(0);
+  // const [totalTrustPoints, setTotalTrustPoints] = useState(0);
 
   console.log("activeCard = ", activeCard);
 
@@ -97,7 +97,7 @@ export const ExperienceCreateProfileChat: React.FC<
     // update only the cardData that were clicked
     const newCardsData = cardsData.map((card: cardsDataType, index: number) => {
       if (index === activeCard) {
-        setTotalTrustPoints(totalTrustPoints + card.trust);
+        // setTotalTrustPoints(totalTrustPoints + card.trust);
         return { ...card, completed: true };
       }
       return card;
@@ -112,7 +112,7 @@ export const ExperienceCreateProfileChat: React.FC<
         <h2 className="mb-4 text-2xl">
           Help Eden with some questions to know you better
         </h2>
-        <p className="mb-2">TRUST Points: {totalTrustPoints}</p>
+        {/* <p className="mb-2">TRUST Points: {totalTrustPoints}</p> */}
       </div>
       <div className="pt-20"></div>
       <section className="grid h-[calc(100%-5rem)] w-full grid-cols-12">
@@ -140,7 +140,7 @@ export const ExperienceCreateProfileChat: React.FC<
                 )}
                 <h2 className="mb-2">{card.title}</h2>
                 <div>
-                  <p className="text-sm">TRUST Points: {card.trust}</p>
+                  {/* <p className="text-sm">TRUST Points: {card.trust}</p> */}
                   <p className="mb-1 text-sm">⏳ {card.time} min</p>
                 </div>
                 <Button
