@@ -34,8 +34,8 @@ import {
 } from "@eden/package-ui";
 import { useContext, useState } from "react";
 
+import welcome from "../../../public/welcome.png";
 import type { NextPageWithLayout } from "../../_app";
-import welcome from "../../public/welcome.png";
 
 const DiscoverPage: NextPageWithLayout = () => {
   const router = useRouter();
