@@ -152,6 +152,13 @@ export const ChatSimple = ({
             placeholder="Type your message here..."
             value={inputMessage}
             onChange={(e) => setInputMessage(e.target.value)}
+            onKeyDown={(e) => {
+              if (inputMessage.length > 0 && e.code == "Enter") {
+                handleSentMessage(inputMessage, "02");
+
+                setInputMessage("");
+              }
+            }}
           />
           <div
             className="flex h-[38px] w-[38px] cursor-pointer items-center justify-center"
