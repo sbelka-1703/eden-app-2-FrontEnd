@@ -9,6 +9,7 @@ export * from "./DragDrop";
 export * from "./EdenAiChat";
 export * from "./ExperienceCreateProfileChatTalentSearch";
 export * from "./FillSocialLinks";
+export * from "./InterviewEdenAI";
 export * from "./LifetimeTRST";
 export * from "./LoginButton";
 export * from "./MultiSelectPopup";
