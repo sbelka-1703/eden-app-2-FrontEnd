@@ -54,48 +54,48 @@ const HomeHeroSection = ({
   useEffect(() => {
     const navItems = [
       {
+        title: "My profile",
+        href: "/profile",
+        bgColor: "rgba(255, 242, 104, 0.3)",
+        description:
+          "Finish your profile to get discovered by people in your community!",
+        display: profilePage,
+        style: "absolute left-8 top-24",
+      },
+      {
         title: "Find Talent",
         href: "/discover",
         bgColor: "rgba(116, 250, 109, 0.3)",
         description:
           "Find Members of Eden to collaborate, create projects, and apply for grants!",
         display: usersPage,
-        style: "absolute left-8 top-24",
-      },
-      {
-        title: "Find Opportunity",
-        href: "/projects",
-        bgColor: "rgba(155, 103, 255, 0.3)",
-        description: "Find a project, and apply for it!",
-        display: projectsPage,
-        style: "absolute left-8 bottom-8",
-      },
-      {
-        title: "Add Skills",
-        href: "/profile",
-        bgColor: "rgba(255, 242, 104, 0.3)",
-        description:
-          "Finish your profile to get discovered by people in your community!",
-        display: profilePage,
         style: "absolute right-8 top-24",
       },
-      {
-        title: "Launch new Project",
-        href: "/create-project",
-        bgColor: "rgba(116, 250, 109, 0.3)",
-        description:
-          "Become a Champion of your own adventure! + gather a team of your dreams :)",
-        display: launchPage,
-        style: "",
-      },
-      {
-        title: "Launch Opportunity",
-        href: "/grants",
-        bgColor: "rgb(255,211,235)",
-        description: "Find a grant and apply for it!",
-        display: grantsPage,
-        style: "absolute right-8 bottom-8",
-      },
+      // {
+      //   title: "Find Opportunity",
+      //   href: "/projects",
+      //   bgColor: "rgba(155, 103, 255, 0.3)",
+      //   description: "Find a project, and apply for it!",
+      //   display: projectsPage,
+      //   style: "absolute left-8 bottom-8",
+      // },
+      // {
+      //   title: "Launch new Project",
+      //   href: "/create-project",
+      //   bgColor: "rgba(116, 250, 109, 0.3)",
+      //   description:
+      //     "Become a Champion of your own adventure! + gather a team of your dreams :)",
+      //   display: launchPage,
+      //   style: "",
+      // },
+      // {
+      //   title: "Launch Opportunity",
+      //   href: "/grants",
+      //   bgColor: "rgb(255,211,235)",
+      //   description: "Find a grant and apply for it!",
+      //   display: grantsPage,
+      //   style: "absolute right-8 bottom-8",
+      // },
     ];
     const showNavItems = navItems.filter((item) => item.display);
 
