@@ -22,7 +22,7 @@ import {
   Button,
   Card,
   CardGrid,
-  DiscoverModalContainer,
+  DiscoverModalSkillSelectorContainer,
   GridItemNine,
   GridItemThree,
   GridLayout,
@@ -184,7 +184,7 @@ const DiscoverPage: NextPageWithLayout = () => {
         </GridItemNine>
       </GridLayout>
       {!dataProject?.findProject?._id && (
-        <DiscoverModalContainer
+        <DiscoverModalSkillSelectorContainer
           image={welcome.src}
           setArrayOfNodes={(val) => {
             setNodesID(val);

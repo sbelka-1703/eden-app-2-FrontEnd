@@ -118,7 +118,7 @@ export default ProfilePage;
 import { IncomingMessage, ServerResponse } from "http";
 import { getSession } from "next-auth/react";
 
-import { NextPageWithLayout } from "../../_app";
+import { NextPageWithLayout } from "../_app";
 
 export async function getServerSideProps(ctx: {
   req: IncomingMessage;
