@@ -9,29 +9,29 @@ import { FaDiscord } from "react-icons/fa";
 
 const menuItems = [
   {
-    name: "🏠   Home",
+    name: "🏠  Home",
     href: "/home",
   },
   {
-    name: "🛠   Edit my profile",
+    name: "🧑‍🚀  My profile",
     href: "/profile",
   },
-  {
-    name: "⭐️  Find a project",
-    href: "/projects",
-  },
-  {
-    name: "🎯  Active applications",
-    href: "/applications",
-  },
-  {
-    name: "🚀  Launch A Project",
-    href: "/create-project",
-  },
-  {
-    name: "🏆  Champion Projects",
-    href: "/champion-board",
-  },
+  // {
+  //   name: "⭐️  Find a project",
+  //   href: "/projects",
+  // },
+  // {
+  //   name: "🎯  Active applications",
+  //   href: "/applications",
+  // },
+  // {
+  //   name: "🚀  Launch A Project",
+  //   href: "/create-project",
+  // },
+  // {
+  //   name: "🏆  Champion Projects",
+  //   href: "/champion-board",
+  // },
 ];
 
 export interface ILoginButtonProps {

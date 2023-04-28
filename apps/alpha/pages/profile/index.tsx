@@ -111,6 +111,15 @@ const ProfilePage: NextPageWithLayout = () => {
                   experienceOpen={experienceOpen}
                   setExperienceOpen={setExperienceOpen}
                 /> */}
+              <Button
+                variant="default"
+                className="absolute right-4 top-4"
+                onClick={() => {
+                  router.push("/create-profile");
+                }}
+              >
+                Edit Profile
+              </Button>
               <MemberInfoWithDynamicGraph2
                 // step={step}
                 member={currentUser}
