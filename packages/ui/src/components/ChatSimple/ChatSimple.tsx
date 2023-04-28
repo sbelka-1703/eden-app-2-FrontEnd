@@ -95,7 +95,7 @@ export const ChatSimple = ({
             <div
               ref={componentRef}
               // className="h-full overflow-y-auto bg-white p-4"
-              className="scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch flex flex-col space-y-4 p-3"
+              className="scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-hide scrolling-touch flex flex-col space-y-4 p-3"
             >
               {/* <div className="p:2 flex h-screen flex-1 flex-col justify-between sm:p-6"> */}
               {/* <p className="text-lg font-bold">Message Title</p> */}
