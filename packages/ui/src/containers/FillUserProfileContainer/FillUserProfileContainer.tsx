@@ -12,7 +12,7 @@ import {
   RoleTemplate,
 } from "@eden/package-graphql/generated";
 import {
-  BatteryStepper,
+  // BatteryStepper,
   Button,
   Card,
   FillSocialLinks,
@@ -79,6 +79,9 @@ export const FillUserProfileContainer = ({
       if (!updateNodesToMember) console.log("updateNodesToMember is null");
       // console.log("updateNodesToMember", updateNodesToMember);
     },
+    onError: () => {
+      setSubmitting(false);
+    },
   });
 
   const [addPreferences, {}] = useMutation(ADD_PREFERENCES_TO_MEMBER, {
@@ -86,6 +89,9 @@ export const FillUserProfileContainer = ({
       if (!addPreferencesToMember)
         console.log("addPreferencesToMember is null");
       // console.log("addPreferencesToMember", addPreferencesToMember);
+    },
+    onError: () => {
+      setSubmitting(false);
     },
   });
 
@@ -100,10 +106,8 @@ export const FillUserProfileContainer = ({
             nodesID: state?.nodes
               ?.filter((node) => node?.nodeData?.node === "sub_expertise")
               .map((node) => node?.nodeData?._id),
-            memberID: currentUser?._id,
           },
         },
-        context: { serviceName: "soilservice" },
       });
     },
     onError: () => {
@@ -115,7 +119,6 @@ export const FillUserProfileContainer = ({
     variables: {
       fields: {},
     },
-    context: { serviceName: "soilservice" },
   });
 
   const handleSetRole = (value: RoleTemplate) => {
@@ -135,7 +138,7 @@ export const FillUserProfileContainer = ({
   const handleSetBackground = (value: any[]) => {
     setState({
       ...state,
-      previusProjects: value,
+      previousProjects: value,
     });
   };
 
@@ -164,7 +167,7 @@ export const FillUserProfileContainer = ({
         name: item?.name,
       })),
       memberRole: state?.memberRole?._id || undefined,
-      previusProjects: state?.previusProjects?.map((item: any) => ({
+      previousProjects: state?.previousProjects?.map((item: any) => ({
         description: item.description,
         endDate: item.endDate,
         startDate: item.startDate,
@@ -180,7 +183,6 @@ export const FillUserProfileContainer = ({
       variables: {
         fields: fields,
       },
-      context: { serviceName: "soilservice" },
     });
   };
 
@@ -199,7 +201,6 @@ export const FillUserProfileContainer = ({
       variables: {
         fields: fields,
       },
-      context: { serviceName: "soilservice" },
     });
   };
 
@@ -233,7 +234,7 @@ export const FillUserProfileContainer = ({
   return (
     <Card className="bg-white p-4">
       <div className="scrollbar-hide h-8/10 overflow-scroll">
-        <section className="mb-4 grid grid-cols-4 gap-2">
+        <section className="mb-12 grid grid-cols-4 gap-2">
           <div className="col-span-3">
             <h2 className="mb-2 text-lg font-medium">
               {`Hello & Welcome! Let’s complete your profile step by step 🚀`}
@@ -243,9 +244,9 @@ export const FillUserProfileContainer = ({
                 other members your profile should be at least 50% complete.`}
             </p>
           </div>
-          <div className="col-span-1">
+          {/* <div className="col-span-1">
             <BatteryStepper showPercentage batteryPercentage={percentage} />
-          </div>
+          </div> */}
         </section>
         {!currentUser && (
           <div className="h-80">
@@ -331,7 +332,7 @@ export const FillUserProfileContainer = ({
                   onChange={(e) => {
                     handleSetBio(e.target.value);
                   }}
-                  value={state?.bio as string}
+                  value={(state?.bio as string) || ""}
                 />
               </>
             )}
@@ -365,7 +366,7 @@ export const FillUserProfileContainer = ({
             )}
             {step === STEPS.EXP && (
               <UserExperienceCard
-                background={state?.previusProjects}
+                background={state?.previousProjects}
                 handleChange={(val) => handleSetBackground(val)}
                 handleChangeOpenExperience={(val) => {
                   if (setExperienceOpen) setExperienceOpen(val);
@@ -378,7 +379,7 @@ export const FillUserProfileContainer = ({
           <section className="relative flex pb-4">
             {step === STEPS.EXP &&
               percentage < 50 &&
-              !state?.previusProjects?.some((bg: any) => !!bg.title) && (
+              !state?.previousProjects?.some((bg: any) => !!bg.title) && (
                 <section className="absolute right-0 -top-6">
                   <span className="text-red-400">{`fill minimum 50% and 1 background`}</span>
                 </section>
@@ -424,8 +425,8 @@ export const FillUserProfileContainer = ({
                     handleSubmitPreferences();
                   }
                   if (step === STEPS.BIO && setStep) {
-                    if (!state?.bio || state?.bio?.length < 50) {
-                      toast.error("Bio should be at least 50 characters");
+                    if (!state?.bio || state?.bio?.length < 30) {
+                      toast.error("Bio should be at least 30 characters");
                       return;
                     }
                     if (state?.nodes?.length === 0) {
@@ -450,7 +451,7 @@ export const FillUserProfileContainer = ({
                 className={`ml-auto disabled:border-slate-300 disabled:bg-slate-300 disabled:text-slate-200`}
                 disabled={
                   percentage < 50 &&
-                  !state?.previusProjects?.some((bg: any) => !!bg.title)
+                  !state?.previousProjects?.some((bg: any) => !!bg.title)
                 }
                 onClick={() => {
                   handleSubmitForm();

@@ -35,9 +35,9 @@ import { useContext, useEffect, useState } from "react";
 import welcome from "../../public/welcome.png";
 import type { NextPageWithLayout } from "../_app";
 
-const ADD_NODES = gql`
-  mutation ($fields: addNodesToMemberInput!) {
-    addNodesToMember(fields: $fields) {
+const UPDATE_NODES = gql`
+  mutation ($fields: updateNodesToMemberInput!) {
+    updateNodesToMember(fields: $fields) {
       _id
     }
   }
@@ -68,20 +68,19 @@ const ProjectsPage: NextPageWithLayout = () => {
         },
       },
       skip: !nodesID || !selectedServerID,
-      context: { serviceName: "soilservice" },
     }
   );
 
   // if (dataProjects) console.log("dataProjects", dataProjects);
 
-  const [addNodes] = useMutation(ADD_NODES, {
-    onCompleted({ addNodesToMember }: Mutation) {
-      if (!addNodesToMember) console.log("addNodesToMember is null");
-      // console.log("updateMember", addNodesToMember);
+  const [updateNodes] = useMutation(UPDATE_NODES, {
+    onCompleted({ updateNodesToMember }: Mutation) {
+      if (!updateNodesToMember) console.log("updateNodesToMember is null");
+      // console.log("updateMember", updateNodesToMember);
       // setSubmitting(false);
     },
-    onError(error) {
-      console.log("error", error);
+    onError() {
+      console.log("error");
     },
   });
 
@@ -112,16 +111,15 @@ const ProjectsPage: NextPageWithLayout = () => {
 
   const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
 
-  const handleAddNodes = (val: string[]) => {
+  const handleUpdateNodes = (val: string[], type: string) => {
     if (!currentUser || val.length === 0) return;
-    addNodes({
+    updateNodes({
       variables: {
         fields: {
-          memberID: currentUser?._id,
+          nodeType: type,
           nodesID: val,
         },
       },
-      context: { serviceName: "soilservice" },
     });
   };
 
@@ -200,9 +198,9 @@ const ProjectsPage: NextPageWithLayout = () => {
       </GridLayout>
       <ProjectsModalContainer
         image={welcome.src}
-        setArrayOfNodes={(val) => {
+        setArrayOfNodes={(val, type) => {
           // console.log("array of nodes val", val);
-          handleAddNodes(val as string[]);
+          handleUpdateNodes(val as string[], type);
         }}
         percentage={getFillProfilePercentage(currentUser)}
       />
@@ -227,7 +225,7 @@ export async function getServerSideProps(ctx: {
 }) {
   const session = await getSession(ctx);
 
-  if (!session) {
+  if (!session || session.error === "RefreshAccessTokenError") {
     return {
       redirect: {
         destination: `/login`,

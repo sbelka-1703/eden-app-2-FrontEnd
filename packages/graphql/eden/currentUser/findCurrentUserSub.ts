@@ -8,11 +8,6 @@ export const FIND_CURRENTUSER_SUB = gql`
       discordName
       serverID
       bio
-      content {
-        interest
-        mostProud
-        showCaseAbility
-      }
       discriminator
       hoursPerWeek
       interest
@@ -24,7 +19,15 @@ export const FIND_CURRENTUSER_SUB = gql`
           node
         }
       }
-      previusProjects {
+      location
+      budget {
+        perHour
+      }
+      experienceLevel {
+        total
+        years
+      }
+      previousProjects {
         title
         description
         startDate
@@ -106,15 +109,49 @@ export const FIND_CURRENTUSER_SUB = gql`
         title
         description
       }
-      endorsements {
-        endorser {
-          _id
+      # endorsements {
+      #   endorser {
+      #     _id
+      #     discordName
+      #     discordAvatar
+      #     discriminator
+      #   }
+      #   endorsementMessage
+      #   arweaveTransactionID
+      # }
+      totalIncome
+      endorsementsSendStats {
+        reputation
+        totalReward
+      }
+      endorsementsSend {
+        _id
+      }
+      endorsementsReceive {
+        _id
+        userSend {
           discordName
-          discordAvatar
-          discriminator
         }
+        stars
+        stake
         endorsementMessage
-        arweaveTransactionID
+      }
+      endorseSummary {
+        summary
+        mainNodes {
+          node {
+            _id
+            name
+          }
+          confidence
+        }
+        averageStars
+        averageStake
+        totalStake
+        numberEndorsement
+        endorsers {
+          discordName
+        }
       }
       preferences {
         findCoFounder {

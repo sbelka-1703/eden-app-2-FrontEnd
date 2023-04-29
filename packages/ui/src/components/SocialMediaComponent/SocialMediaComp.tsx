@@ -74,7 +74,7 @@ export const SocialMediaComp = ({
 
   // console.log("links", links);
   return (
-    <div>
+    <div id="socials">
       {title && <TextLabel1>{title}</TextLabel1>}
       <div className={`flex flex-wrap`}>
         {twitterUrl && (

@@ -24,20 +24,46 @@ export const FIND_MEMBER_INFO = gql`
           node
         }
       }
-      previusProjects {
+      previousProjects {
         title
         description
         startDate
         endDate
       }
-      endorsements {
-        arweaveTransactionID
-        endorsementMessage
-        endorser {
-          _id
-          discordAvatar
+      # endorsements {
+      #   arweaveTransactionID
+      #   endorsementMessage
+      #   endorser {
+      #     _id
+      #     discordAvatar
+      #     discordName
+      #     discriminator
+      #   }
+      # }
+      endorsementsReceive {
+        _id
+        userSend {
           discordName
-          discriminator
+        }
+        stars
+        stake
+        endorsementMessage
+      }
+      endorseSummary {
+        summary
+        mainNodes {
+          node {
+            _id
+            name
+          }
+          confidence
+        }
+        averageStars
+        averageStake
+        totalStake
+        numberEndorsement
+        endorsers {
+          discordName
         }
       }
       preferences {

@@ -7,10 +7,9 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "turbo run dev --filter=web... --parallel",
+    "dev": "turbo run dev --filter=@eden/app-alpha... --parallel",
     "dev:alpha": "turbo run dev --filter=@eden/app-alpha... --parallel",
-    "dev:nodes": "turbo run dev --filter=@eden/app-nodes... --parallel",
-    "dev:grants": "turbo run dev --filter=@eden/app-grants... --parallel",
+    "dev:prod": "turbo run dev --filter=web... --parallel",
     "storybook": "yarn workspace storybook storybook",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{js,ts,tsx,md}\"",
@@ -26,7 +25,7 @@
     "build:storybook": "turbo run build:storybook --filter=storybook...",
     "build-storybook": "yarn workspace storybook build-storybook",
     "prepare": "husky install",
-    "codegen:eden": "turbo run codegen:eden"
+    "codegen": "turbo run codegen"
   },
   "devDependencies": {
     "@eden/package-config": "*",
@@ -34,7 +33,7 @@
     "lint-staged": ">=10",
     "prettier": "^2.8.3",
     "prettier-plugin-tailwindcss": "^0.1.13",
-    "turbo": "^1.7.2"
+    "turbo": "^1.9.1"
   },
   "engines": {
     "npm": ">=7.0.0",

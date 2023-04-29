@@ -131,6 +131,7 @@ export const SendMessageToUser = ({
       channelId: selectedServer.channel?.forumID!,
       threadName: `Project Interest -- ${project?.title}`,
       ThreadAutoArchiveDuration: ThreadAutoArchiveDuration.OneDay,
+      enableButton: true,
     });
 
     try {
@@ -153,7 +154,6 @@ export const SendMessageToUser = ({
             phase: "invited",
           },
         },
-        context: { serviceName: "soilservice" },
       });
 
       if (currentUser?._id !== member?._id)
@@ -163,12 +163,10 @@ export const SendMessageToUser = ({
               message: message,
               projectID: project?._id!,
               receiverID: member?._id!,
-              senderID: currentUser?._id!,
               serverID: selectedServer?._id!,
               threadID: threadId,
             },
           },
-          context: { serviceName: "soilservice" },
         });
     } catch (error) {
       // console.log(error);

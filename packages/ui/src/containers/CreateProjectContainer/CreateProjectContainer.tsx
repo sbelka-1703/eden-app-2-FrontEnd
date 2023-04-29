@@ -1,11 +1,5 @@
 import { gql, useMutation } from "@apollo/client";
-import {
-  Maybe,
-  Mutation,
-  Project,
-  RoleType,
-} from "@eden/package-graphql/generated";
-import { project } from "@eden/package-mock";
+import { Mutation, Project } from "@eden/package-graphql/generated";
 import {
   Card,
   CreateProjectViewAddRole,
@@ -86,9 +80,6 @@ export const CreateProjectContainer = ({
         );
       else {
         refetchProject && refetchProject();
-        router.push(`/champion-board/recruit/${updateNodesToProjectRole?._id}`);
-        setView && setView("main");
-        setStep(PROJECT_STEPS.START);
         setSubmitting(false);
       }
     },
@@ -99,26 +90,30 @@ export const CreateProjectContainer = ({
   });
 
   const [createProject, {}] = useMutation(CREATE_PROJECT, {
-    onCompleted({ createProject }: Mutation) {
+    onCompleted: async ({ createProject }: Mutation) => {
       if (!createProject) console.log("createProject is null");
       // console.log("createProject", createProject);
-      createProject?.role?.forEach((_role: Maybe<RoleType>, index: number) => {
-        addNodes({
+
+      for (let i = 0; i < createProject?.role?.length!; i++) {
+        await addNodes({
           variables: {
             fields: {
               nodesID:
-                state?.role && state?.role[index]?.nodes
-                  ? state?.role[index]?.nodes!.map(
-                      (_node) => _node?.nodeData?._id
-                    )
+                state?.role && state?.role[i]?.nodes
+                  ? state?.role[i]?.nodes!.map((_node) => _node?.nodeData?._id)
                   : [],
-              projectRoleID: _role?._id,
+              projectRoleID: createProject?.role && createProject?.role[i]!._id,
               nodeType: `sub_expertise`,
             },
           },
-          context: { serviceName: "soilservice" },
         });
-      });
+
+        if (createProject?.role && i >= createProject?.role?.length - 1) {
+          router.push(`/champion-board/recruit/${createProject?._id}`);
+          setView && setView("main");
+          setStep(PROJECT_STEPS.START);
+        }
+      }
     },
     onError(error) {
       setSubmitting(false);
@@ -127,34 +122,31 @@ export const CreateProjectContainer = ({
   });
 
   const [updateProject, {}] = useMutation(UPDATE_PROJECT, {
-    onCompleted({ updateProject }: Mutation) {
+    onCompleted: async ({ updateProject }: Mutation) => {
       if (!updateProject) console.log("updateProject is null");
 
       // console.log("updateProject", updateProject);
       // console.log("state", state);
-      updateProject?.role?.forEach((_role: Maybe<RoleType>, index: number) => {
-        // console.log(
-        //   "nodes",
-        //   state?.role && state?.role[index]?.nodes
-        //     ? state?.role[index]?.nodes!.map((_node) => _node?.nodeData?._id)
-        //     : []
-        // );
-        addNodes({
+      for (let i = 0; i < updateProject?.role?.length!; i++) {
+        await addNodes({
           variables: {
             fields: {
               nodesID:
-                state?.role && state?.role[index]?.nodes
-                  ? state?.role[index]?.nodes?.map(
-                      (_node) => _node?.nodeData?._id
-                    )
+                state?.role && state?.role[i]?.nodes
+                  ? state?.role[i]?.nodes!.map((_node) => _node?.nodeData?._id)
                   : [],
-              projectRoleID: _role?._id,
+              projectRoleID: updateProject?.role && updateProject?.role[i]!._id,
               nodeType: `sub_expertise`,
             },
           },
-          context: { serviceName: "soilservice" },
         });
-      });
+
+        if (updateProject?.role && i >= updateProject?.role?.length - 1) {
+          router.push(`/champion-board/recruit/${updateProject?._id}`);
+          setView && setView("main");
+          setStep(PROJECT_STEPS.START);
+        }
+      }
     },
     onError(error) {
       setSubmitting(false);
@@ -190,7 +182,6 @@ export const CreateProjectContainer = ({
             serverID: state?.serverID,
           },
         },
-        context: { serviceName: "soilservice" },
       });
     } else {
       createProject({
@@ -214,7 +205,6 @@ export const CreateProjectContainer = ({
             serverID: state?.serverID,
           },
         },
-        context: { serviceName: "soilservice" },
       });
     }
   };
@@ -224,7 +214,7 @@ export const CreateProjectContainer = ({
       case PROJECT_STEPS.START:
         return (
           <CreateProjectViewStart
-            battery={getFillProjectPercentage(project)}
+            battery={getFillProjectPercentage(state || {})}
             onNext={() => setStep(PROJECT_STEPS.DESCRIPTION)}
             setProject={setState}
             project={state}
@@ -234,7 +224,7 @@ export const CreateProjectContainer = ({
       case PROJECT_STEPS.DESCRIPTION:
         return (
           <CreateProjectViewDescription
-            battery={getFillProjectPercentage(project)}
+            battery={getFillProjectPercentage(state || {})}
             onNext={() => setStep(PROJECT_STEPS.ADD_ROLE)}
             onBack={() => setStep(PROJECT_STEPS.START)}
             setProject={setState}
@@ -244,7 +234,7 @@ export const CreateProjectContainer = ({
       case PROJECT_STEPS.ADD_ROLE:
         return (
           <CreateProjectViewAddRole
-            battery={getFillProjectPercentage(project)}
+            battery={getFillProjectPercentage(state || {})}
             onBack={() => setStep(PROJECT_STEPS.DESCRIPTION)}
             project={state}
             setProject={setState}

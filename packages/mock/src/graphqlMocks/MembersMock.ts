@@ -3,10 +3,10 @@ import { faker } from "@faker-js/faker";
 
 import { memberBio } from "../data";
 import {
-  getEndorsementsTypeMockArray,
+  // getEndorsementsTypeMockArray,
   getLinkTypeMock,
   getNodesTypeMockArray,
-  getPreviusProjectsTypeMockArray,
+  getPreviousProjectsTypeMockArray,
   getProjectMemberTypeMockArray,
   getRoleTemplateTypeMock,
   getSkillTypeMemberMockArray,
@@ -38,7 +38,7 @@ export const getMember = (): Members => ({
   interest: faker.lorem.paragraph(),
   links: getLinkTypeMock,
   memberRole: getRoleTemplateTypeMock(),
-  previusProjects: getPreviusProjectsTypeMockArray(3),
+  previousProjects: getPreviousProjectsTypeMockArray(3),
   projects: getProjectMemberTypeMockArray(14),
   serverID: Array.from(
     { length: faker.datatype.number({ min: 2, max: 8, precision: 1 }) },
@@ -50,9 +50,11 @@ export const getMember = (): Members => ({
   nodes: getNodesTypeMockArray(
     faker.datatype.number({ min: 2, max: 24, precision: 1 })
   ),
-  endorsements: getEndorsementsTypeMockArray(
-    faker.datatype.number({ min: 2, max: 20, precision: 1 })
-  ),
+  //  MEMEBER.ENDORSEMENT NO LONGER EXISTS
+
+  // endorsements: getEndorsementsTypeMockArray(
+  //   faker.datatype.number({ min: 2, max: 20, precision: 1 })
+  // ),
   timeZone: faker.address.timeZone(),
 });
 
@@ -69,7 +71,7 @@ export const getMemberLite = (): Members => ({
   interest: faker.lorem.paragraph(),
   links: getLinkTypeMock,
   memberRole: getRoleTemplateTypeMock(),
-  previusProjects: getPreviusProjectsTypeMockArray(3),
+  previousProjects: getPreviousProjectsTypeMockArray(3),
   projects: getProjectMemberTypeMockArray(
     faker.datatype.number({ min: 2, max: 5, precision: 1 })
   ),
@@ -80,9 +82,11 @@ export const getMemberLite = (): Members => ({
   nodes: getNodesTypeMockArray(
     faker.datatype.number({ min: 2, max: 24, precision: 1 })
   ),
-  endorsements: getEndorsementsTypeMockArray(
-    faker.datatype.number({ min: 2, max: 6, precision: 1 })
-  ),
+  //  MEMEBER.ENDORSEMENT NO LONGER EXISTS
+
+  // endorsements: getEndorsementsTypeMockArray(
+  //   faker.datatype.number({ min: 2, max: 6, precision: 1 })
+  // ),
   timeZone: faker.address.timeZone(),
 });
 

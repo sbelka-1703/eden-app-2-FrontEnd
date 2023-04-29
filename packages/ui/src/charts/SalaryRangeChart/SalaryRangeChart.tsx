@@ -8,19 +8,32 @@ export interface SalaryRangeChartProps {
     update: number[];
     values: number[];
   }) => void;
+  minDefaultValue?: number;
+  maxDefaultValue?: number;
+  showTitle?: boolean;
 }
 
-export const SalaryRangeChart = ({ data, onChange }: SalaryRangeChartProps) => {
+export const SalaryRangeChart = ({
+  data,
+  onChange,
+  minDefaultValue,
+  maxDefaultValue,
+  showTitle = true,
+}: SalaryRangeChartProps) => {
   return (
     <div>
-      <TextHeading3 className="mb-3 text-center">
-        Hourly salary range
-      </TextHeading3>
+      {showTitle && (
+        <TextHeading3 className="mb-3 text-center">
+          Hourly salary range
+        </TextHeading3>
+      )}
       <RangeChart
         data={data}
         onChange={onChange}
         minCaption="min salary"
         maxCaption="max salary"
+        minDefaultValue={minDefaultValue}
+        maxDefaultValue={maxDefaultValue}
       />
     </div>
   );

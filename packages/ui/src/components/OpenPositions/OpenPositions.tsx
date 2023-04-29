@@ -138,7 +138,7 @@ const PositionExpanded = ({
   return (
     <>
       <Modal open={showModal} onClose={() => setShowModal(false)}>
-        <div className={`my-6 h-6/10`}>
+        <div className={`h-6/10 my-6`}>
           <SendMessageToChampion
             project={project}
             role={activeItem?.projectRole}
@@ -193,7 +193,7 @@ const PositionExpanded = ({
                 </div>
               </div>
             </div>
-            <div className="flex flex-row gap-2 md:gap-8 mt-4">
+            <div className="mt-4 flex flex-row gap-2 md:gap-8">
               {activeItem?.matchPercentage &&
               activeItem?.matchPercentage > 0 ? (
                 <div className="text-soilPurple font-poppins mr-3 text-3xl font-bold">

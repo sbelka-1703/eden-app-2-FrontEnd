@@ -12,6 +12,7 @@ export const FIND_MEMBER = gql`
       hoursPerWeek
       interest
       timeZone
+      location
       projects {
         champion
         favorite
@@ -20,6 +21,9 @@ export const FIND_MEMBER = gql`
           description
           title
         }
+      }
+      budget {
+        perHour
       }
       links {
         name
@@ -41,21 +45,52 @@ export const FIND_MEMBER = gql`
           node
         }
       }
-      previusProjects {
+      previousProjects {
         title
         description
         startDate
         endDate
       }
-      endorsements {
-        endorser {
-          _id
+      # endorsements {
+      #   endorser {
+      #     _id
+      #     discordName
+      #     discordAvatar
+      #     discriminator
+      #   }
+      #   endorsementMessage
+      #   arweaveTransactionID
+      # }
+      endorsementsReceive {
+        _id
+        userSend {
           discordName
           discordAvatar
-          discriminator
         }
+        stars
+        stake
         endorsementMessage
-        arweaveTransactionID
+      }
+      endorseSummary {
+        summary
+        mainNodes {
+          node {
+            _id
+            name
+          }
+          confidence
+        }
+        averageStars
+        averageStake
+        totalStake
+        numberEndorsement
+        endorsers {
+          discordName
+        }
+      }
+      experienceLevel {
+        total
+        years
       }
       preferences {
         findCoFounder {

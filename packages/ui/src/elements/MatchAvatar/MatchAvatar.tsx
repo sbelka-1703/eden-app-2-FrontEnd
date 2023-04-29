@@ -30,7 +30,7 @@ export const MatchAvatar = ({
     <div className="relative w-20">
       <Avatar src={src} size={size} />
       <div className={`${percentageCls}`}>
-        {percentage !== 0 && (
+        {percentage !== 0 && !!percentage && (
           <p className="font-poppins font-semibold text-[#9B67FF]">
             {typeof percentage === "number"
               ? Math.round(percentage)

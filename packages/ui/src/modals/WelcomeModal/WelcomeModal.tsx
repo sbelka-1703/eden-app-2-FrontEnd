@@ -7,21 +7,23 @@ export interface IWelcomeModalProps {
   canProjectsSee?: boolean;
   openModal: boolean;
   onNext: () => void;
+  text?: string;
 }
 
 export const WelcomeModal = ({
   image,
   openModal,
   onNext,
+  text = "projects",
 }: IWelcomeModalProps) => {
   return (
     <Modal open={openModal} closeOnEsc={false}>
       <div className={`mb-4`}>
         <TextHeading3 className={``}>
-          Welcome to Eden! I’ll find the right opportunities for YOU 💫
+          Welcome to Eden! I’ll find the right {text} for YOU 💫
         </TextHeading3>
         <TextBody className={`text-zinc-500`}>
-          I’ll ask you questions and my AI will find the best projects for you!
+          I’ll ask you questions and my AI will find the best {text} for you!
         </TextBody>
       </div>
       <div className={`flex w-full justify-center`}>

@@ -47,9 +47,9 @@ export const MemberInfo = ({
 
       <div className="mb-4 grid grid-cols-1 sm:grid-cols-5">
         <div className="my-4 flex flex-col items-start justify-center sm:col-span-3 sm:my-0">
-          <TextLabel1>🪪 Short bio</TextLabel1>
+          {!!member?.bio && <TextLabel1>🪪 Short bio</TextLabel1>}
           {!loading ? (
-            <p className="text-soilBody font-Inter font-normal">
+            <p className="text-soilBody font-Inter whitespace-pre-wrap font-normal">
               {member?.bio}
             </p>
           ) : (
@@ -62,7 +62,9 @@ export const MemberInfo = ({
           )}
         </div>
         <div></div>
-        <SocialMediaComp links={member?.links} />
+        {member?.links && member?.links.length > 0 && (
+          <SocialMediaComp links={member?.links} />
+        )}
       </div>
       {selectedPreferences && (
         <div className="mb-4">
@@ -99,14 +101,18 @@ export const MemberInfo = ({
           />
         </div>
       </div>
-      <div className={`my-4`}>
-        <UserBackground
-          background={member?.previusProjects || []}
-          initialEndorsements={member?.endorsements || []}
-          setExperienceOpen={setExperienceOpen!}
-          experienceOpen={experienceOpen!}
-        />
-      </div>
+      {/* MEMEBER.ENDORSEMENT NO LONGER EXISTS */}
+
+      {member?.previousProjects && member?.previousProjects.length && (
+        <div className={`my-4`}>
+          <UserBackground
+            background={member?.previousProjects || []}
+            // initialEndorsements={member?.endorsements || []}
+            setExperienceOpen={setExperienceOpen!}
+            experienceOpen={experienceOpen!}
+          />
+        </div>
+      )}
     </div>
   );
 };

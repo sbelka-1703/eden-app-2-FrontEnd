@@ -13,6 +13,7 @@ import {
 } from "@eden/package-graphql/generated";
 import {
   AppUserSubmenuLayout,
+  Button,
   Card,
   CardGrid,
   FillUserProfileContainer,
@@ -35,9 +36,9 @@ import { useContext, useEffect, useState } from "react";
 import welcome from "../../public/welcome.png";
 import type { NextPageWithLayout } from "../_app";
 
-const ADD_NODES = gql`
-  mutation ($fields: addNodesToMemberInput!) {
-    addNodesToMember(fields: $fields) {
+const UPDATE_NODES = gql`
+  mutation ($fields: updateNodesToMemberInput!) {
+    updateNodesToMember(fields: $fields) {
       _id
     }
   }
@@ -68,20 +69,19 @@ const ProjectsPage: NextPageWithLayout = () => {
         },
       },
       skip: !nodesID || !selectedServerID,
-      context: { serviceName: "soilservice" },
     }
   );
 
   // if (dataProjects) console.log("dataProjects", dataProjects);
 
-  const [addNodes] = useMutation(ADD_NODES, {
-    onCompleted({ addNodesToMember }: Mutation) {
-      if (!addNodesToMember) console.log("addNodesToMember is null");
-      // console.log("updateMember", addNodesToMember);
+  const [updateNodes] = useMutation(UPDATE_NODES, {
+    onCompleted({ updateNodesToMember }: Mutation) {
+      if (!updateNodesToMember) console.log("updateNodesToMember is null");
+      // console.log("updateMember", updateNodesToMember);
       // setSubmitting(false);
     },
-    onError(error) {
-      console.log("error", error);
+    onError() {
+      console.log("error");
     },
   });
 
@@ -112,16 +112,15 @@ const ProjectsPage: NextPageWithLayout = () => {
 
   const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
 
-  const handleAddNodes = (val: string[]) => {
+  const handleUpdateNodes = (val: string[], type: string) => {
     if (!currentUser || val.length === 0) return;
-    addNodes({
+    updateNodes({
       variables: {
         fields: {
-          memberID: currentUser?._id,
+          nodeType: type,
           nodesID: val,
         },
       },
-      context: { serviceName: "soilservice" },
     });
   };
 
@@ -137,6 +136,25 @@ const ProjectsPage: NextPageWithLayout = () => {
               <Card className={`lg:h-85 flex flex-col gap-2`}>
                 <Card shadow className={"bg-white p-6"}>
                   <SubmenuSelector title={`Good Morning,`} />
+                </Card>
+
+                <Card
+                  shadow
+                  className="my-4 flex h-20 w-full flex-grow justify-center bg-white py-6 font-semibold"
+                >
+                  <div className={``}>
+                    <Button
+                      variant="primary"
+                      radius="default"
+                      size="md"
+                      onClick={() => {
+                        setOpenModal(ProjectsModal.START_WELCOME);
+                        setStartWelcome(true);
+                      }}
+                    >
+                      Update search parameters
+                    </Button>
+                  </div>
                 </Card>
                 {currentUser && getFillProfilePercentage(currentUser) < 50 && (
                   <WarningCard
@@ -200,9 +218,9 @@ const ProjectsPage: NextPageWithLayout = () => {
       </GridLayout>
       <ProjectsModalContainer
         image={welcome.src}
-        setArrayOfNodes={(val) => {
+        setArrayOfNodes={(val, type) => {
           // console.log("array of nodes val", val);
-          handleAddNodes(val as string[]);
+          handleUpdateNodes(val as string[], type);
         }}
         percentage={getFillProfilePercentage(currentUser)}
       />

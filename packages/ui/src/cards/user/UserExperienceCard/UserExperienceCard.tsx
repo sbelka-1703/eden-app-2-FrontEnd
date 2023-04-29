@@ -1,4 +1,4 @@
-import { Maybe, PreviusProjectsType } from "@eden/package-graphql/generated";
+import { Maybe, PreviousProjectsType } from "@eden/package-graphql/generated";
 import { Calendar, TextArea, TextField, TextHeading3 } from "@eden/package-ui";
 import { PlusCircleIcon } from "@heroicons/react/outline";
 import { useEffect, useState } from "react";
@@ -12,7 +12,7 @@ const INITIAL_DATA = {
 };
 
 export interface IUserExperienceCardProps {
-  background?: Maybe<Maybe<PreviusProjectsType>[]>;
+  background?: Maybe<Maybe<PreviousProjectsType>[]>;
   // eslint-disable-next-line no-unused-vars
   handleSubmit?: (val: any) => void;
   // eslint-disable-next-line no-unused-vars
@@ -77,12 +77,14 @@ export const UserExperienceCard = ({
           defaultValue={experiences[index]}
         />
       ))}
-      <PlusCircleIcon
-        width={34}
-        height={34}
-        className="cursor-pointer text-slate-600"
-        onClick={handleAddExperience}
-      />
+      <div className="flex justify-center">
+        <PlusCircleIcon
+          width={34}
+          height={34}
+          className="cursor-pointer text-slate-600  hover:text-slate-400"
+          onClick={handleAddExperience}
+        />
+      </div>
     </div>
   );
 };
@@ -94,7 +96,7 @@ const ExperienceForm = ({
   handleChange,
   relevant = false,
 }: {
-  defaultValue?: Maybe<PreviusProjectsType>;
+  defaultValue?: Maybe<PreviousProjectsType>;
   open?: boolean;
   // eslint-disable-next-line no-unused-vars
   handleOpen?: (open: boolean) => void;
@@ -102,7 +104,7 @@ const ExperienceForm = ({
   handleChange?: (val: any) => void;
   relevant?: boolean;
 }) => {
-  const [val, setVal] = useState<PreviusProjectsType>({
+  const [val, setVal] = useState<PreviousProjectsType>({
     title: defaultValue?.title,
     description: defaultValue?.description,
     startDate: defaultValue?.startDate,
@@ -180,7 +182,7 @@ const ExperienceForm = ({
               name="description"
               placeholder="Start typing here..."
               onChange={(e) => setVal({ ...val, description: e.target.value })}
-              value={defaultValue?.description || ""}
+              defaultValue={defaultValue?.description || ""}
             />
           </div>
 

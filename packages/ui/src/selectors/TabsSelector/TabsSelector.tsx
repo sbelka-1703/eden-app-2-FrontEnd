@@ -95,7 +95,7 @@ export const TabsSelector = ({
               </button>
             )}
             <button
-              className={`relative h-full w-full rounded-t-xl border-t px-3 pt-0 text-center text-sm font-medium uppercase md:text-lg ${
+              className={`scrollbar-hide relative h-full w-full overflow-y-scroll rounded-t-xl border-t px-3 pt-0 text-center text-sm font-medium uppercase !leading-5 md:text-lg ${
                 !index ? "border-l" : ""
               } ${
                 currentTab == index
@@ -110,7 +110,7 @@ export const TabsSelector = ({
             >
               <span className={`flex justify-center`}>
                 {tab}
-                <span className={`pl-3 my-auto`}>
+                <span className={`my-auto pl-3`}>
                   <NumberCircle value={tabNumber ? tabNumber[index] : 0} />
                 </span>
               </span>

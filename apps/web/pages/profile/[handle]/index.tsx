@@ -7,7 +7,8 @@ import {
   GridItemTwo,
   GridLayout,
   Loading,
-  MemberInfo,
+  // MemberInfo,
+  MemberInfoWithDynamicGraph2,
   Missing404Section,
   SEOProfile,
 } from "@eden/package-ui";
@@ -32,7 +33,12 @@ const ProfilePage = ({ member, error }: { member: Members; error: string }) => {
             >
               {member ? (
                 <div className={`p-4 md:p-8`}>
-                  <MemberInfo member={member} />
+                  {/* <MemberInfo member={member} /> */}
+                  <MemberInfoWithDynamicGraph2
+                    // step={step}
+                    member={member}
+                    nodesID={member?.nodes?.map((node) => node?.nodeData?._id)}
+                  />
                 </div>
               ) : (
                 <Loading title={`Searching...`} />

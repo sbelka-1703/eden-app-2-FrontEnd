@@ -10,16 +10,16 @@ export const MATCH_NODES_MEMBERS = gql`
         discriminator
         bio
         serverID
-        endorsements {
-          # arweaveTransactionID
-          # endorsementMessage
-          endorser {
-            _id
-            discordAvatar
-            discordName
-            discriminator
-          }
-        }
+        # endorsements {
+        #   # arweaveTransactionID
+        #   # endorsementMessage
+        #   endorser {
+        #     _id
+        #     discordAvatar
+        #     discordName
+        #     discriminator
+        #   }
+        # }
         memberRole {
           _id
           title

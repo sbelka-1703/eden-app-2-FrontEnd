@@ -5,7 +5,7 @@ import {
   RoleType,
 } from "@eden/package-graphql/generated";
 import {
-  AvatarList,
+  // AvatarList,
   Badge,
   Button,
   Card,
@@ -13,7 +13,7 @@ import {
   LongText,
   // MemberModal,
   SocialMediaComp,
-  TextLabel1,
+  // TextLabel1,
   UserInviteModal,
   UserMessageModal,
   UserWithDescription,
@@ -47,8 +47,7 @@ export const UserDiscoverCard = ({
 
   return (
     <Card border>
-      <div className={`flex justify-between`}>
-        <div></div>
+      <div className={`flex justify-center`}>
         <div>
           <div className={`relative flex flex-col items-center`}>
             <UserWithDescription
@@ -62,7 +61,7 @@ export const UserDiscoverCard = ({
             )}
           </div>
         </div>
-        <div>
+        <div className="absolute right-2 top-2">
           <Button onClick={() => setIsOpen(!isOpen)}>More</Button>
         </div>
       </div>
@@ -99,8 +98,9 @@ export const UserDiscoverCard = ({
           </div>
         </div>
       )}
+      {/* MEMEBER.ENDORSEMENT NO LONGER EXISTS */}
 
-      {member?.endorsements && member?.endorsements.length > 0 && (
+      {/* {member?.endorsements && member?.endorsements.length > 0 && (
         <div className="mt-4">
           <TextLabel1>🎙 ENDORSEMENTS</TextLabel1>
           <div className={`flex`}>
@@ -120,7 +120,7 @@ export const UserDiscoverCard = ({
             )}
           </div>
         </div>
-      )}
+      )} */}
 
       {/* {(item.lifetimeStakeTRST || item.totalTRST) && (
         <div className="-mx-2 mt-3 -mb-3 flex">

@@ -11,7 +11,6 @@ import {
   gql,
 } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
-import { RetryLink } from "@apollo/client/link/retry";
 import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 import { createClient } from "graphql-ws";
 import { getMainDefinition } from "@apollo/client/utilities";
@@ -74,29 +73,6 @@ const edenLink = new ApolloLink((operation, forward) => {
   );
 });
 
-// Extra API endpoint
-// const EXTRA_API_URL = process.env.NEXT_PUBLIC_GRAPHQL_NODE_URL;
-const httpLinkExtra = new HttpLink({ uri: EDEN_API_URL, fetch });
-
-// const NEXT_PUBLIC_GRAPHQL_NODE_URL
-
-const extraLink = new ApolloLink((operation, forward) => {
-  // Use the setContext method to set the HTTP headers.
-  operation.setContext({
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-    },
-  });
-  // Call the next link in the middleware chain.
-  return forward(operation);
-});
-
-const directionalLink = new RetryLink().split(
-  (operation) => operation.getContext().serviceName === "soilservice",
-  edenLink.concat(httpLinkEden),
-  extraLink.concat(httpLinkExtra)
-);
-
 const CREATE_ERROR = gql`
   mutation ($fields: createErrorInput!) {
     createError(fields: $fields) {
@@ -158,9 +134,9 @@ const splitLink =
           );
         },
         wsLink,
-        directionalLink
+        edenLink.concat(httpLinkEden)
       )
-    : directionalLink;
+    : edenLink.concat(httpLinkEden);
 
 export const apolloClient = new ApolloClient({
   ssrMode: typeof window === "undefined",

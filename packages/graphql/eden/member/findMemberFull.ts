@@ -7,26 +7,19 @@ export const FIND_MEMBER_FULL = gql`
       discordAvatar
       discordName
       bio
-      content {
-        interest
-        mostProud
-        showCaseAbility
-      }
-      attributes {
-        Coordinator
-        Director
-        Helper
-        Inspirer
-        Motivator
-        Observer
-        Reformer
-        Supporter
-      }
       archiveProjects
       discriminator
       hoursPerWeek
       interest
       timeZone
+      location
+      budget {
+        perHour
+      }
+      experienceLevel {
+        total
+        years
+      }
       projects {
         champion
         phase
@@ -89,15 +82,49 @@ export const FIND_MEMBER_FULL = gql`
           _id
         }
       }
-      endorsements {
-        endorser {
-          _id
+      # endorsements {
+      #   endorser {
+      #     _id
+      #     discordName
+      #     discordAvatar
+      #     discriminator
+      #   }
+      #   endorsementMessage
+      #   arweaveTransactionID
+      # }
+      totalIncome
+      endorsementsSendStats {
+        reputation
+        totalReward
+      }
+      endorsementsSend {
+        _id
+      }
+      endorsementsReceive {
+        _id
+        userSend {
           discordName
-          discordAvatar
-          discriminator
         }
+        stars
+        stake
         endorsementMessage
-        arweaveTransactionID
+      }
+      endorseSummary {
+        summary
+        mainNodes {
+          node {
+            _id
+            name
+          }
+          confidence
+        }
+        averageStars
+        averageStake
+        totalStake
+        numberEndorsement
+        endorsers {
+          discordName
+        }
       }
     }
   }

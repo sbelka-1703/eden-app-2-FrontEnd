@@ -44,7 +44,6 @@ export const UserMessageModal = ({
       },
     },
     skip: !member?._id || !open,
-    context: { serviceName: "soilservice" },
   });
 
   const findMember = dataMemberInfo?.findMember;

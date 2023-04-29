@@ -1,26 +1,26 @@
 import {
-  Endorsements,
+  // Endorsements,
   Maybe,
-  PreviusProjectsType,
+  PreviousProjectsType,
 } from "@eden/package-graphql/generated";
 import {
   Card,
-  EndorsementList,
+  // EndorsementList,
   // TextHeading3,
   TextLabel1,
 } from "@eden/package-ui";
 import React from "react";
 
 export interface IUserBackgroundProps {
-  background: Array<Maybe<PreviusProjectsType>>;
-  initialEndorsements: Array<Maybe<Endorsements>>;
+  background: Array<Maybe<PreviousProjectsType>>;
+  // initialEndorsements: Array<Maybe<Endorsements>>;
   experienceOpen: number | null;
   setExperienceOpen: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
 export const UserBackground = ({
   background,
-  initialEndorsements,
+  // initialEndorsements,
   experienceOpen,
   setExperienceOpen,
 }: IUserBackgroundProps) => {
@@ -32,8 +32,9 @@ export const UserBackground = ({
           const empty =
             !item?.description && !item?.startDate && !item?.endDate;
 
+          if (!item?.title) return null;
           return (
-            <div key={index} className="my-4">
+            <div key={index} className="my-4" id="user-background">
               <div className="mb-2 flex items-center">
                 <span
                   className={`mr-3 ${
@@ -48,7 +49,7 @@ export const UserBackground = ({
                 >
                   {!empty && index === experienceOpen ? "▼" : "▶"}
                 </span>
-                <div className="min-w-30 flex h-8 w-1/2 items-center !rounded-full border-0 bg-cyan-200 px-4 outline-0">
+                <div className="scrollbar-hide flex h-8 max-w-[80%] items-center overflow-x-scroll whitespace-nowrap !rounded-full border-0 bg-[#DEFEFF] px-4 outline-0">
                   {item?.title}
                 </div>
                 {index < 2 && <span className="ml-3 text-xl">⭐️</span>}
@@ -57,7 +58,7 @@ export const UserBackground = ({
                 <Card border className="grid grid-cols-2 py-4 px-6">
                   <div className="col-span-1">
                     <TextLabel1>Description</TextLabel1>
-                    <p>{item?.description}</p>
+                    <p className="whitespace-pre-wrap">{item?.description}</p>
                   </div>
                   <div className="col-span-1">
                     <TextLabel1>Timeline</TextLabel1>
@@ -89,11 +90,13 @@ export const UserBackground = ({
           );
         })}
       </div>
-      {initialEndorsements && (
+      {/* MEMEBER.ENDORSEMENT NO LONGER EXISTS */}
+
+      {/* {initialEndorsements && initialEndorsements.length > 0 && (
         <div className="mt-3">
           <EndorsementList endorsements={initialEndorsements} />
         </div>
-      )}
+      )} */}
     </div>
   );
 };

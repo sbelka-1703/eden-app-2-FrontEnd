@@ -2,9 +2,11 @@ import { LoginButton } from "@eden/package-ui";
 import { Dialog, Transition } from "@headlessui/react";
 import Link from "next/link";
 import { Fragment, useState } from "react";
+import { FaMoneyBillWaveAlt } from "react-icons/fa";
 import {
   MdClose,
   MdOutlineError,
+  MdOutlineGraphicEq,
   MdOutlineHome,
   MdOutlineSensorDoor,
 } from "react-icons/md";
@@ -12,9 +14,21 @@ import {
 const navigation = [
   { name: "Dashboard", href: "/admin", icon: MdOutlineHome, current: true },
   {
+    name: "My reports",
+    href: "/admin/reports",
+    icon: MdOutlineGraphicEq,
+    current: false,
+  },
+  {
     name: "Party Rooms",
     href: "/admin/party-rooms",
     icon: MdOutlineSensorDoor,
+    current: false,
+  },
+  {
+    name: "Grants",
+    href: "/admin/grants",
+    icon: FaMoneyBillWaveAlt,
     current: false,
   },
   {

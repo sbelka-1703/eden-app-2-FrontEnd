@@ -24,7 +24,7 @@ import { toast } from "react-toastify";
 
 import type { NextPageWithLayout } from "../_app";
 
-const ChatPage: NextPageWithLayout = (session) => {
+const ChatPage: NextPageWithLayout = () => {
   const [selectedMember, setSelectedMember] = useState<Members>();
   const { data: dataMembers } = useQuery(FIND_MEMBERS, {
     variables: {
@@ -32,7 +32,6 @@ const ChatPage: NextPageWithLayout = (session) => {
         _id: null,
       },
     },
-    context: { serviceName: "soilservice" },
   });
 
   const [search, setSearch] = useState("");
@@ -44,7 +43,6 @@ const ChatPage: NextPageWithLayout = (session) => {
       },
     },
     skip: !search || search === "",
-    context: { serviceName: "soilservice" },
   });
 
   const searchMember = dataSearchMember?.findMember;
@@ -150,7 +148,7 @@ const ChatPage: NextPageWithLayout = (session) => {
                 threadName = `Project Talents Discussion -- ${member.discordName}`;
               }
               const { threadId } = await createThread({
-                message: `<@${member?._id}> <@${currentUser?._id}>`,
+                message: `<@${currentUser?._id}> <@${member?._id}>`,
                 tagName: "User Introduction",
                 embedMessage: message,
                 senderAvatarURL: currentUser?.discordAvatar!,
@@ -158,6 +156,7 @@ const ChatPage: NextPageWithLayout = (session) => {
                 channelId: "1042112005466767481",
                 threadName: `User Introduction`,
                 ThreadAutoArchiveDuration: ThreadAutoArchiveDuration.OneDay,
+                enableButton: true,
               });
 
               if (currentUser?._id !== member?._id)
@@ -167,7 +166,6 @@ const ChatPage: NextPageWithLayout = (session) => {
                       message: message,
                       projectID: "62f685952dc2d40004d395c7",
                       receiverID: member?._id!,
-                      senderID: currentUser?._id!,
                       serverID: "996558082098339953",
                       threadID: threadId,
                     },

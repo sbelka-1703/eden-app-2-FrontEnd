@@ -125,7 +125,7 @@ export const SendMessageToChampion = ({
     setSendingMessage(true);
 
     const { threadId } = await createThread({
-      message: `<@${project?.champion?._id}> <@${currentUser?._id}>`,
+      message: `<@${currentUser?._id}> <@${project?.champion?._id}>`,
       tagName: "Project Application",
       embedMessage: embededMessage,
       senderAvatarURL: currentUser?.discordAvatar!,
@@ -133,6 +133,7 @@ export const SendMessageToChampion = ({
       channelId: selectedServer.channel?.forumID!,
       threadName: `Project Application -- ${project?.title}`,
       ThreadAutoArchiveDuration: ThreadAutoArchiveDuration.OneDay,
+      enableButton: true,
     });
 
     try {
@@ -149,12 +150,10 @@ export const SendMessageToChampion = ({
               message: message,
               projectID: project?._id!,
               receiverID: project?.champion?._id!,
-              senderID: currentUser?._id!,
               serverID: selectedServer?._id!,
               threadID: threadId,
             },
           },
-          context: { serviceName: "soilservice" },
         });
     } catch (error) {
       console.log(error);
@@ -170,7 +169,6 @@ export const SendMessageToChampion = ({
               phase: "engaged",
             },
           },
-          context: { serviceName: "soilservice" },
         });
       } else {
         toast.error("Something went wrong");
