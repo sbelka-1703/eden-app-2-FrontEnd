@@ -99,11 +99,10 @@ const HomeHeroSection = ({}: IHomeHeroSectionProps) => {
                     className="text-[#6A5ACD] underline hover:text-[#8579d4]"
                   >
                     Discord community
-                    <div className="ml-2 inline-block h-8 w-8 rounded-lg bg-[#6A5ACD] hover:bg-[#8579d4]">
-                      <div className="flex h-full w-full items-center justify-center">
-                        <BsDiscord color="white" size={22} />
-                      </div>
-                    </div>
+                    <SiDiscord
+                      className="ml-2 inline hover:text-[#8579d4]"
+                      size={22}
+                    />
                   </Link>
                 </p>
               </div>
@@ -162,8 +161,8 @@ import { IncomingMessage, ServerResponse } from "http";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { getSession } from "next-auth/react";
-import { BsDiscord } from "react-icons/bs";
 import { FiArrowRight } from "react-icons/fi";
+import { SiDiscord } from "react-icons/si";
 // import { useEffect, useState } from "react";
 
 export async function getServerSideProps(ctx: {
