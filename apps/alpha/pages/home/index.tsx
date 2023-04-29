@@ -75,6 +75,9 @@ const HomeHeroSection = ({}: IHomeHeroSectionProps) => {
             className=" mb-2 w-full bg-white px-8 py-6"
           >
             <section className="grid grid-cols-6">
+              <div className="col-span-2 -ml-8 flex items-center justify-center">
+                <Image src={"eden-logo.svg"} alt="" width={124} height={124} />
+              </div>
               <div className="col-span-4">
                 <h3 className="font-medium">
                   Forget about recruitment interviews!
@@ -103,10 +106,6 @@ const HomeHeroSection = ({}: IHomeHeroSectionProps) => {
                     </div>
                   </Link>
                 </p>
-              </div>
-
-              <div className="col-span-2 flex items-center justify-center">
-                <Image src={"eden-logo.svg"} alt="" width={114} height={114} />
               </div>
             </section>
           </Card>
