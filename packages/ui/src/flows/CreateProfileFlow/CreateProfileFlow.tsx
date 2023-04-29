@@ -174,6 +174,12 @@ export const CreateProfileFlow = ({
           },
         },
         onCompleted() {
+          if (
+            router.query.from &&
+            router.query.from?.includes("/endorsement/")
+          ) {
+            router.push(router.query.from.toLocaleString());
+          }
           router.push("/profile?endorseFlag=true");
         },
         onError: () => {
