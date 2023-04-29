@@ -18,6 +18,7 @@ import {
 } from "@eden/package-ui";
 import { STEPS } from "@eden/package-ui/utils";
 import { getFillProfilePercentage } from "@eden/package-ui/utils/fill-profile-percentage";
+import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 
 import {
@@ -91,6 +92,7 @@ export interface IEndorsementFlowProps {
 }
 
 export const EndorsementFlow = ({ endorsementID }: IEndorsementFlowProps) => {
+  const router = useRouter();
   const { currentUser } = useContext(UserContext);
   const [memberSelected, setMemberSelected] = useState<Members>();
   const [currentRating, setCurrentRating] = useState<number>(0);
@@ -227,7 +229,10 @@ export const EndorsementFlow = ({ endorsementID }: IEndorsementFlowProps) => {
             {step === ENDORSEMENT_STEPS.WARNING && (
               <EndorsementView4
                 member={memberSelected}
-                onNext={() => setStep(ENDORSEMENT_STEPS.FILL_PROFILE)}
+                // onNext={() => setStep(ENDORSEMENT_STEPS.FILL_PROFILE)}
+                onNext={() => {
+                  router.push(`/create-profile?from=${router.asPath}`);
+                }}
                 onClose={() => setStep(ENDORSEMENT_STEPS.CHAT)}
               />
             )}
