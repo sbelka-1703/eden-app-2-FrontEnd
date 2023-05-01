@@ -1,4 +1,5 @@
 import { useQuery } from "@apollo/client";
+import { Maybe } from "@eden/package-graphql/generated";
 import { ChatSimple } from "@eden/package-ui";
 // import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
@@ -11,6 +12,11 @@ interface NodeObj {
     confidence: number;
     isNew: boolean;
   };
+}
+interface Question {
+  _id: number;
+  content: string;
+  bestAnswer: string;
 }
 
 // interface Task {
@@ -37,6 +43,8 @@ export interface IInterviewEdenAIProps {
   sentMessageToEdenAIobj?: MessageObject;
   changeChatN?: ChatMessage;
   experienceTypeID?: string;
+  questions?: Question[];
+  userID?: Maybe<string> | undefined;
   // eslint-disable-next-line no-unused-vars
   handleChangeNodes?: (nodes: NodeObj) => void;
   // eslint-disable-next-line no-unused-vars
@@ -49,6 +57,8 @@ export interface IInterviewEdenAIProps {
   setSentMessageToEdenAIobj?: (message: any, sentMessage: any) => void;
   // eslint-disable-next-line no-unused-vars
   setChangeChatN?: (messageArr: any) => void;
+  // eslint-disable-next-line no-unused-vars
+  setQuestions?: (questions: Question[]) => void;
   placeholder?: any;
 }
 
@@ -58,12 +68,15 @@ export const InterviewEdenAI = ({
   sentMessageToEdenAIobj,
   // experienceTypeID,
   changeChatN,
+  questions,
+  userID,
   handleChangeNodes,
   handleChangeChat,
   // setShowPopupSalary,
   // setMode,
   setSentMessageToEdenAIobj,
   setChangeChatN,
+  setQuestions,
   placeholder = "",
 }: IInterviewEdenAIProps) => {
   // const { currentUser } = useContext(UserContext);
@@ -111,17 +124,17 @@ export const InterviewEdenAI = ({
   //   },
   // ]);
 
-  const [unansweredQuestions, setUnansweredQuestions] = useState<String[]>([
-    "What's your previous experience in this field?",
-    "What are your strengths and weaknesses?",
-    "Can you give an example of handling a difficult situation at work?",
-    "How do you stay updated with industry trends and developments?",
-    "What are your salary expectations for this role?",
-    "Can you tell us about a project or achievement you're proud of?",
-    "Can you describe your ideal work environment?",
-  ]);
+  // const [setUnansweredQuestions] = useState<String[]>([
+  //   "What's your previous experience in this field?",
+  //   "What are your strengths and weaknesses?",
+  //   "Can you give an example of handling a difficult situation at work?",
+  //   "How do you stay updated with industry trends and developments?",
+  //   "What are your salary expectations for this role?",
+  //   "Can you tell us about a project or achievement you're proud of?",
+  //   "Can you describe your ideal work environment?",
+  // ]);
 
-  const [questionAskingNow, setQuestionAskingNow] = useState<string>("");
+  // const [setQuestionAskingNow] = useState<string>("");
 
   const [timesAsked, setTimesAsked] = useState<number>(0);
 
@@ -138,16 +151,28 @@ export const InterviewEdenAI = ({
           // }),
         }),
         // }).slice(-(timesAsked + 1)*2),
-        questionAskingNow: questionAskingNow,
-        unansweredQuestions: unansweredQuestions,
+        // questionAskingNow: questionAskingNow,
+        // unansweredQuestions: unansweredQuestions,
         timesAsked: timesAsked,
+        userID: userID,
+        unansweredQuestionsArr: questions?.map((question) => {
+          return {
+            questionID: question._id,
+            questionContent: question.content,
+          };
+        }),
       },
     },
     skip:
       chatN.length == 0 ||
       aiReplyService != AI_INTERVIEW_SERVICES.INTERVIEW_EDEN_AI ||
-      chatN[chatN.length - 1]?.user == "01",
+      chatN[chatN.length - 1]?.user == "01" ||
+      userID == "" ||
+      questions?.length == 0 ||
+      questions == undefined,
   });
+
+  console.log("questions 2 = ", questions);
 
   // ---------- When GPT Reply, Store all convo messages and GPT friendly formated messages ------------
   useEffect(() => {
@@ -164,15 +189,33 @@ export const InterviewEdenAI = ({
       //   newMessage = dataInterviewEdenAI.interviewEdenAI.reply;
       // }
       const reply = dataInterviewEdenAI?.interviewEdenAI?.reply;
-      const unansweredQuestions =
-        dataInterviewEdenAI?.interviewEdenAI?.unansweredQuestions;
-      const questionAskingNow =
-        dataInterviewEdenAI?.interviewEdenAI?.questionAskingNow;
+      // const unansweredQuestions =
+      //   dataInterviewEdenAI?.interviewEdenAI?.unansweredQuestions;
+      // const questionAskingNow =
+      //   dataInterviewEdenAI?.interviewEdenAI?.questionAskingNow;
       const timesAsked = dataInterviewEdenAI?.interviewEdenAI?.timesAsked;
 
-      setQuestionAskingNow(questionAskingNow);
+      let questionsT: Question[] = [];
 
-      setUnansweredQuestions(unansweredQuestions);
+      questionsT =
+        dataInterviewEdenAI?.interviewEdenAI?.unansweredQuestionsArr.map(
+          (question: any) => {
+            return {
+              _id: question.questionID,
+              content: question.questionContent,
+            };
+          }
+        );
+
+      // setQuestionAskingNow(questionAskingNow);
+
+      // setUnansweredQuestions(unansweredQuestions);
+
+      console.log("questionsT = ", questionsT);
+
+      if (setQuestions != undefined && questionsT != undefined) {
+        setQuestions(questionsT);
+      }
 
       setTimesAsked(timesAsked);
 
@@ -191,6 +234,8 @@ export const InterviewEdenAI = ({
           chatNprepareGPTP += "Eden AI: " + chatT[i].message + "\n";
         else chatNprepareGPTP += "User: " + chatT[i].message + "\n";
       }
+
+      console.log("chatNprepareGPTP = ", chatNprepareGPTP);
 
       // setChatNprepareGPT(chatNprepareGPTP);
       setEdenAIsentMessage(false);

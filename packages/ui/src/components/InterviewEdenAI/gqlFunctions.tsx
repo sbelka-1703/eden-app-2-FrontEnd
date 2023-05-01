@@ -5,7 +5,10 @@ export const INTERVIEW_EDEN_AI = gql`
     interviewEdenAI(fields: $fields) {
       reply
       questionAskingNow
-      unansweredQuestions
+      unansweredQuestionsArr {
+        questionContent
+        questionID
+      }
       timesAsked
     }
   }
