@@ -33,5 +33,7 @@ jobs:
         run: yarn build:storybook
       - name: Build alpha
         run: yarn build:nodes
+      - name: Build saas
+        run: yarn build:saas
       - name: Build web
         run: yarn build
