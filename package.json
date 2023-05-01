@@ -8,6 +8,7 @@
   ],
   "scripts": {
     "dev": "turbo run dev --filter=@eden/app-alpha... --parallel",
+    "dev:saas": "turbo run dev --filter=@eden/app-saas... --parallel",
     "dev:alpha": "turbo run dev --filter=@eden/app-alpha... --parallel",
     "dev:prod": "turbo run dev --filter=web... --parallel",
     "storybook": "yarn workspace storybook storybook",
@@ -20,6 +21,7 @@
     "clean": "turbo run clean && rm -rf node_modules",
     "clean-windows": "turbo run clean-windows && rd /s /q node_modules",
     "build": "turbo run build --filter=web...",
+    "build:saas": "turbo run build --filter=@eden/app-saas...",
     "build:alpha": "turbo run build --filter=@eden/app-alpha...",
     "build:nodes": "turbo run build --filter=@eden/app-nodes...",
     "build:storybook": "turbo run build:storybook --filter=storybook...",
