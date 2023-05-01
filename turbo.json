@@ -5,6 +5,10 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**", ".next/**"]
     },
+    "build:saas": {
+      "dependsOn": ["^build:saas"],
+      "outputs": ["dist/**", ".next/**"]
+    },
     "build:alpha": {
       "dependsOn": ["^build:alpha"],
       "outputs": ["dist/**", ".next/**"]
@@ -26,6 +30,9 @@
       "outputs": []
     },
     "dev": {
+      "cache": false
+    },
+    "dev:saas": {
       "cache": false
     },
     "dev:alpha": {
