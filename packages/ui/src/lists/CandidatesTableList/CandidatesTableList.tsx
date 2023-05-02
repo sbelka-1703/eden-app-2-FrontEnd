@@ -82,10 +82,10 @@ export const CandidatesTableList: React.FC<CandidatesTableListProps> = ({
                   <Loading />
                 </td>
               </tr>
-            ) : !!candidatesList.length ? (
+            ) : Boolean(candidatesList) ? (
               candidatesList.map((user, idx) => (
                 <tr
-                  key={`${user._id}}`}
+                  key={`${user._id}`}
                   onClick={() => handleObjectDataSelection(user)}
                   className="cursor-pointer hover:bg-gray-300 focus:outline-none focus:ring focus:ring-gray-300 active:bg-gray-300"
                 >
@@ -108,9 +108,9 @@ export const CandidatesTableList: React.FC<CandidatesTableListProps> = ({
                   </ColumnStyled>
                   <ColumnStyled>
                     {user.background
-                      ? user.background.map((experience) => (
+                      ? user.background.map((experience, idx) => (
                           <Badge
-                            key={experience}
+                            key={`${experience}${idx}`}
                             colorRGB="224,192,245"
                             text={experience}
                             cutText={17}

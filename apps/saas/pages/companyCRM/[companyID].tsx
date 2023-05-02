@@ -1,6 +1,7 @@
 import { gql, useQuery } from "@apollo/client";
 import {
   AppUserLayout,
+  Avatar,
   CandidatesTableList,
   LeftToggleMenu,
   SEO,
@@ -53,60 +54,115 @@ const FIND_COMPANY = gql`
   }
 `;
 
-type ResponseDataType = {
-  findCompany: {
-    _id: number;
-    name: string;
-    candidates: {
-      overallScore: number;
-      user: {
-        _id: number;
-        discordName: string;
-        discordAvatar: string;
-        hoursPerWeek: number;
-        budget: {
-          perHour: number;
-        };
-        memberRole: {
-          _id: number;
-          title: string;
-        };
-        nodes: {
-          nodeData: {
-            _id: number;
-            name: string;
-            node: string;
-          };
-        }[];
-        previousProjects: {
-          title: string;
-          positionName: string;
-        }[];
-      };
-    }[];
-    questionsToAsk: {
-      bestAnswer: string;
-      question: {
-        _id: number;
-        content: string;
-      };
-    }[];
-  };
-};
+export interface CandidatesResponseData {
+  data: Data;
+}
 
-type Candidate = {
-  _id: number;
+export interface Data {
+  findCompany: FindCompany;
+}
+
+export interface FindCompany {
+  _id: string;
   name: string;
-  avatar: string;
-  score: number;
-  role?: string;
-  background?: any[];
-  level?: string;
-  usdcHour?: number;
-  responseRate?: number;
-};
+  candidates: Candidate[];
+  questionsToAsk: QuestionsToAsk[];
+  __typename: string;
+}
 
-type Question = {
+export interface Candidate {
+  overallScore: number | null;
+  user: IUser;
+  __typename: string;
+}
+
+export interface IUser {
+  _id: string;
+  discordName: string;
+  discordAvatar: string;
+  memberRole: MemberRole | null;
+  budget: Budget;
+  nodes: NodeElement[];
+  previousProjects: PreviousProject[];
+  __typename: string;
+}
+
+export interface Budget {
+  perHour: number | null;
+  __typename: string;
+}
+
+export interface MemberRole {
+  _id: string;
+  title: string;
+  __typename: string;
+}
+
+export interface NodeElement {
+  nodeData: NodeData;
+  __typename: NodeTypename;
+}
+
+export enum NodeTypename {
+  // eslint-disable-next-line no-unused-vars
+  NodesType = "nodesType",
+}
+
+// eslint-disable-next-line no-unused-vars
+enum NodeEnum {
+  // eslint-disable-next-line no-unused-vars
+  Category = "Category",
+  // eslint-disable-next-line no-unused-vars
+  Sector = "Sector",
+  // eslint-disable-next-line no-unused-vars
+  Skill = "Skill",
+  // eslint-disable-next-line no-unused-vars
+  SubSector = "SubSector",
+}
+
+export interface NodeData {
+  _id: string;
+  name: string;
+  node: NodeEnum;
+  __typename: NodeDataTypename;
+}
+
+export enum NodeDataTypename {
+  // eslint-disable-next-line no-unused-vars
+  Node = "Node",
+}
+
+export interface PreviousProject {
+  title: string;
+  positionName: null;
+  __typename: string;
+}
+
+export interface QuestionsToAsk {
+  bestAnswer: null | string;
+  question: Question;
+  __typename: string;
+}
+
+export interface Question {
+  _id: string;
+  content: string;
+  __typename: string;
+}
+
+// type Candidate = {
+//   _id: number;
+//   name: string;
+//   avatar: string;
+//   score: number;
+//   role?: string;
+//   background?: any[];
+//   level?: string;
+//   usdcHour?: number;
+//   responseRate?: number;
+// };
+
+type QuestionType = {
   _id: number;
   content: string;
   bestAnswer: string;
@@ -130,6 +186,18 @@ type Question = {
 //   // Add more users as needed
 // ];
 
+type CandidateType = {
+  _id: number;
+  name: string;
+  avatar: string;
+  score: number;
+  role?: string;
+  background?: any[];
+  level?: string;
+  usdcHour?: number;
+  responseRate?: number;
+};
+
 const CompanyCRM: NextPageWithLayout = () => {
   // interface MessageObject {
   //   message: string;
@@ -141,12 +209,14 @@ const CompanyCRM: NextPageWithLayout = () => {
 
   // const [companyID] = useState<String>("644a5949e1ba07a9e9e3842c");
 
-  const [candidates, setCandidates] = useState<Candidate[]>([]); // DEV: type and name to <Candidate[]> ??
-  const [questions, setQuestions] = useState<Question[]>([]);
+  const [candidates, setCandidates] = useState<CandidateType[]>([]); // DEV: type and name to <Candidate[]> ??
+  const [questions, setQuestions] = useState<QuestionType[]>([]);
   const [notificationOpen, setNotificationOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<CandidateType | null>(null);
+  const [trainModalOpen, setTrainModalOpen] = useState(false);
 
   const {
-    data: findCompanyData,
+    // data: findCompanyData,
     loading: findCompanyIsLoading,
     // error: findCompanyError,
   } = useQuery(FIND_COMPANY, {
@@ -155,30 +225,30 @@ const CompanyCRM: NextPageWithLayout = () => {
         _id: companyID,
       },
     },
-    skip: Boolean(companyID), // DEV: Simplified the comparisson to be boolean . before was: companyID == "" || companyID == null,  (note the "==" at least is on purpose)
+    skip: !Boolean(companyID), // DEV: Simplified the comparisson to be boolean . before was: companyID == "" || companyID == null,  (note the "==" at least is on purpose)
     ssr: false,
-    onCompleted: (data: ResponseDataType) => {
+    onCompleted: (data: any) => {
       // console.log("createRoom completed", data);
       setCandidates(
-        data.findCompany.candidates.map((candidate) => {
+        data.findCompany.candidates.map((candidate: Candidate) => {
           return {
-            _id: candidate.user._id,
+            _id: parseInt(candidate.user._id),
             name: candidate.user.discordName,
             avatar: candidate.user.discordAvatar,
-            score: candidate.overallScore,
+            score: candidate.overallScore, //
             usdcHour: candidate.user.budget.perHour,
             background: candidate.user.previousProjects?.map(
-              (project) => project.title
+              (project: any) => project.title
             ),
-            role: candidate.user.memberRole.title,
-            // level: candidate.user...,
-            // responseRate: candidate.user.chat....
+            role: candidate.user.memberRole?.title,
+            level: "Junior", // candidate.user...,
+            responseRate: 15, // candidate.user.chat....
           };
         })
       );
 
       setQuestions(
-        data.findCompany.questionsToAsk.map((question) => {
+        data.findCompany.questionsToAsk.map((question: QuestionsToAsk) => {
           return {
             _id: question.question._id,
             content: question.question.content,
@@ -189,18 +259,13 @@ const CompanyCRM: NextPageWithLayout = () => {
     },
   });
 
-  console.log("findCompanyData = ", findCompanyData);
+  // console.log(!Boolean(companyID), {
+  // findCompanyData,
+  // findCompanyIsLoading,
+  // findCompanyError,
+  // });
 
-  console.log("companyID = ", companyID);
-
-  console.log("questions = ", questions);
-
-  // console.log({ findCompanyError });
-
-  const [selectedUser, setSelectedUser] = useState<Candidate | null>(null);
-  const [trainModalOpen, setTrainModalOpen] = useState(false);
-
-  const handleRowClick = (user: Candidate) => {
+  const handleRowClick = (user: CandidateType) => {
     setSelectedUser(user);
   };
 
@@ -269,8 +334,8 @@ const CompanyCRM: NextPageWithLayout = () => {
                 <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                   <div className="sm:flex sm:items-start">
                     <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-gray-100 sm:mx-0 sm:h-10 sm:w-10">
-                      <img
-                        className="h-10 w-10 rounded-full"
+                      <Avatar
+                        size="xs"
                         src={selectedUser.avatar}
                         alt={selectedUser.name}
                       />
