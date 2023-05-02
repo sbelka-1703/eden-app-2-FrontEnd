@@ -10,6 +10,7 @@ export * from "./EdenAiChat";
 export * from "./ExperienceCreateProfileChatTalentSearch";
 export * from "./FillSocialLinks";
 export * from "./InterviewEdenAI";
+export * from "./LeftToggleMenu";
 export * from "./LifetimeTRST";
 export * from "./LoginButton";
 export * from "./MultiSelectPopup";
