@@ -82,7 +82,7 @@ export const CandidatesTableList: React.FC<CandidatesTableListProps> = ({
                   <Loading />
                 </td>
               </tr>
-            ) : !!candidatesList.length ? (
+            ) : Boolean(candidatesList) ? (
               candidatesList.map((user, idx) => (
                 <tr
                   key={`${user._id}}`}
