@@ -1,5 +1,6 @@
 export * from "./AvatarList";
 export * from "./AvatarMemberList";
+export * from "./CandidatesTableList";
 export * from "./CommonServerAvatarList";
 export * from "./CommonServerAvatarListTest";
 export * from "./EndorsementList";
