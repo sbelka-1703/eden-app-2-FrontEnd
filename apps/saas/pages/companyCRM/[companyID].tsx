@@ -1,11 +1,13 @@
 import { gql, useQuery } from "@apollo/client";
+import { AppUserLayout, CandidatesTableList, SEO } from "@eden/package-ui";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 
+import { NextPageWithLayout } from "../_app";
 import TrainQuestionsEdenAI from "./components/TrainQuestionsEdenAI";
 
 const FIND_COMPANY = gql`
-  query ($fields: findCompanyInput) {
+  query ($fields: findCompanyInput!) {
     findCompany(fields: $fields) {
       _id
       name
@@ -15,6 +17,24 @@ const FIND_COMPANY = gql`
           _id
           discordName
           discordAvatar
+          memberRole {
+            _id
+            title
+          }
+          budget {
+            perHour
+          }
+          nodes {
+            nodeData {
+              _id
+              name
+              node
+            }
+          }
+          previousProjects {
+            title
+            positionName
+          }
         }
       }
       questionsToAsk {
@@ -28,11 +48,57 @@ const FIND_COMPANY = gql`
   }
 `;
 
-type User = {
+type ResponseDataType = {
+  findCompany: {
+    _id: number;
+    name: string;
+    candidates: {
+      overallScore: number;
+      user: {
+        _id: number;
+        discordName: string;
+        discordAvatar: string;
+        hoursPerWeek: number;
+        budget: {
+          perHour: number;
+        };
+        memberRole: {
+          _id: number;
+          title: string;
+        };
+        nodes: {
+          nodeData: {
+            _id: number;
+            name: string;
+            node: string;
+          };
+        }[];
+        previousProjects: {
+          title: string;
+          positionName: string;
+        }[];
+      };
+    }[];
+    questionsToAsk: {
+      bestAnswer: string;
+      question: {
+        _id: number;
+        content: string;
+      };
+    }[];
+  };
+};
+
+type Candidate = {
   _id: number;
   name: string;
   avatar: string;
   score: number;
+  role?: string;
+  background?: any[];
+  level?: string;
+  usdcHour?: number;
+  responseRate?: number;
 };
 
 type Question = {
@@ -59,44 +125,55 @@ type Question = {
 //   // Add more users as needed
 // ];
 
-const CompanyCRM: React.FC = () => {
+const CompanyCRM: NextPageWithLayout = () => {
   // interface MessageObject {
   //   message: string;
   //   sentMessage: boolean;
   //   user?: string;
   // }
 
-  const router = useRouter();
-  const { companyID } = router.query;
+  const { companyID } = useRouter().query;
 
   // const [companyID] = useState<String>("644a5949e1ba07a9e9e3842c");
 
-  const [users, setUsers] = useState<User[]>([]);
+  const [candidates, setCandidates] = useState<Candidate[]>([]); // DEV: type and name to <Candidate[]> ??
   const [questions, setQuestions] = useState<Question[]>([]);
   const [notificationOpen, setNotificationOpen] = useState(false);
 
-  const { data: dataCompany } = useQuery(FIND_COMPANY, {
+  const {
+    data: findCompanyData,
+    loading: findCompanyIsLoading,
+    // error: findCompanyError,
+  } = useQuery(FIND_COMPANY, {
     variables: {
       fields: {
         _id: companyID,
       },
     },
-    skip: companyID == "" || companyID == null,
-    onCompleted: (data) => {
+    skip: Boolean(companyID), // DEV: Simplified the comparisson to be boolean . before was: companyID == "" || companyID == null,  (note the "==" at least is on purpose)
+    ssr: false,
+    onCompleted: (data: ResponseDataType) => {
       // console.log("createRoom completed", data);
-      setUsers(
-        data.findCompany.candidates.map((candidate: any) => {
+      setCandidates(
+        data.findCompany.candidates.map((candidate) => {
           return {
             _id: candidate.user._id,
             name: candidate.user.discordName,
             avatar: candidate.user.discordAvatar,
             score: candidate.overallScore,
+            usdcHour: candidate.user.budget.perHour,
+            background: candidate.user.previousProjects?.map(
+              (project) => project.title
+            ),
+            role: candidate.user.memberRole.title,
+            // level: candidate.user...,
+            // responseRate: candidate.user.chat....
           };
         })
       );
 
       setQuestions(
-        data.findCompany.questionsToAsk.map((question: any) => {
+        data.findCompany.questionsToAsk.map((question) => {
           return {
             _id: question.question._id,
             content: question.question.content,
@@ -107,16 +184,18 @@ const CompanyCRM: React.FC = () => {
     },
   });
 
-  console.log("dataCompany = ", dataCompany);
+  console.log("findCompanyData = ", findCompanyData);
 
   console.log("companyID = ", companyID);
 
   console.log("questions = ", questions);
 
-  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  // console.log({ findCompanyError });
+
+  const [selectedUser, setSelectedUser] = useState<Candidate | null>(null);
   const [trainModalOpen, setTrainModalOpen] = useState(false);
 
-  const handleRowClick = (user: User) => {
+  const handleRowClick = (user: Candidate) => {
     setSelectedUser(user);
   };
 
@@ -140,124 +219,112 @@ const CompanyCRM: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto">
-      <div className="mb-4 flex justify-between">
-        <h1 className="text-3xl font-bold leading-tight text-gray-900">
-          Users
-        </h1>
+    <>
+      <SEO />
+      <div className="container mx-auto w-full p-8">
+        <div className="mb-4 flex justify-between">
+          <h1 className="text-3xl font-bold leading-tight text-gray-900">
+            Users
+          </h1>
+          <button
+            className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+            onClick={handleCopyLink}
+          >
+            Link Candidates Copy
+          </button>
+        </div>
+        <CandidatesTableList
+          candidatesList={candidates}
+          fetchIsLoading={findCompanyIsLoading}
+          setRowObjectData={handleRowClick}
+        />
+
         <button
-          className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-          onClick={handleCopyLink}
+          className="mt-4 rounded bg-blue-500 px-2 py-1 text-white hover:bg-blue-600"
+          onClick={handleTrainButtonClick}
         >
-          Link Candidates Copy
+          Train EdenAI
         </button>
-      </div>
-      <table className="w-full text-left">
-        <thead>
-          <tr>
-            <th className="px-4 py-2">ID</th>
-            <th className="px-4 py-2">Name</th>
-            <th className="px-4 py-2">Score</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.length > 0 &&
-            users.map((user) => (
-              <tr
-                key={user._id}
-                className="cursor-pointer hover:bg-gray-100"
-                onClick={() => handleRowClick(user)}
+        {selectedUser ? (
+          <div className="fixed inset-0 z-10 overflow-y-auto">
+            <div className="flex min-h-screen items-end justify-center px-4 pb-20 pt-4 text-center sm:block sm:p-0">
+              <div
+                className="fixed inset-0 transition-opacity"
+                aria-hidden="true"
+                onClick={() => setSelectedUser(null)}
               >
-                <td className="border px-4 py-2">{user._id}</td>
-                <td className="border px-4 py-2">{user.name}</td>
-                <td className="border px-4 py-2">{user.score}</td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
-      <button
-        className="mt-4 rounded bg-blue-500 px-2 py-1 text-white hover:bg-blue-600"
-        onClick={handleTrainButtonClick}
-      >
-        Train EdenAI
-      </button>
-      {selectedUser && (
-        <div className="fixed inset-0 z-10 overflow-y-auto">
-          <div className="flex min-h-screen items-end justify-center px-4 pb-20 pt-4 text-center sm:block sm:p-0">
-            <div
-              className="fixed inset-0 transition-opacity"
-              aria-hidden="true"
-              onClick={() => setSelectedUser(null)}
-            >
-              <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
-            </div>
-            <span
-              className="hidden sm:inline-block sm:h-screen sm:align-middle"
-              aria-hidden="true"
-            ></span>
-            <div className="inline-block transform overflow-hidden rounded-lg bg-white text-left align-bottom shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:align-middle">
-              <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-                <div className="sm:flex sm:items-start">
-                  <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-gray-100 sm:mx-0 sm:h-10 sm:w-10">
-                    <img
-                      className="h-10 w-10 rounded-full"
-                      src={selectedUser.avatar}
-                      alt={selectedUser.name}
-                    />
-                  </div>
-                  <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                    <h3 className="text-lg    font-medium leading-6 text-gray-900">
-                      {selectedUser.name}
-                    </h3>
-                    <div className="mt-2">
-                      <p className="text-sm text-gray-500">
-                        Score: {selectedUser.score}
-                      </p>
+                <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+              </div>
+              <span
+                className="hidden sm:inline-block sm:h-screen sm:align-middle"
+                aria-hidden="true"
+              ></span>
+              <div className="inline-block transform overflow-hidden rounded-lg bg-white text-left align-bottom shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:align-middle">
+                <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                  <div className="sm:flex sm:items-start">
+                    <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-gray-100 sm:mx-0 sm:h-10 sm:w-10">
+                      <img
+                        className="h-10 w-10 rounded-full"
+                        src={selectedUser.avatar}
+                        alt={selectedUser.name}
+                      />
+                    </div>
+                    <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                      <h3 className="text-lg    font-medium leading-6 text-gray-900">
+                        {selectedUser.name}
+                      </h3>
+                      <div className="mt-2">
+                        <p className="text-sm text-gray-500">
+                          Score: {selectedUser.score}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                <button
-                  type="button"
-                  className="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
-                  onClick={() => setSelectedUser(null)}
-                >
-                  Close
-                </button>
+                <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                  <button
+                    type="button"
+                    className="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
+                    onClick={() => setSelectedUser(null)}
+                  >
+                    Close
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
-      {trainModalOpen && (
-        <div className="fixed inset-0 z-10 overflow-y-auto">
-          <div className="flex min-h-screen items-center justify-center px-4">
-            <div
-              className="fixed inset-0 transition-opacity"
-              aria-hidden="true"
-              onClick={handleCloseTrainModal}
-            >
-              <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
-            </div>
-            <div className="transform overflow-hidden rounded-lg bg-white shadow-xl transition-all sm:w-full sm:max-w-lg">
-              <TrainQuestionsEdenAI
-                questions={questions}
-                companyID={companyID}
-                setQuestions={setQuestions}
-                setTrainModalOpen={setTrainModalOpen}
-              />
+        ) : null}
+        {trainModalOpen ? (
+          <div className="fixed inset-0 z-10 overflow-y-auto">
+            <div className="flex min-h-screen items-center justify-center px-4">
+              <div
+                className="fixed inset-0 transition-opacity"
+                aria-hidden="true"
+                onClick={handleCloseTrainModal}
+              >
+                <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+              </div>
+              <div className="transform overflow-hidden rounded-lg bg-white shadow-xl transition-all sm:w-full sm:max-w-lg">
+                <TrainQuestionsEdenAI
+                  questions={questions}
+                  companyID={companyID}
+                  setQuestions={setQuestions}
+                  setTrainModalOpen={setTrainModalOpen}
+                />
+              </div>
             </div>
           </div>
-        </div>
-      )}
-      {notificationOpen && (
-        <div className="fixed bottom-0 right-0 mb-4 mr-4 rounded-lg bg-green-500 px-4 py-2 text-white">
-          Link copied!
-        </div>
-      )}
-    </div>
+        ) : null}
+        {notificationOpen ? (
+          <div className="fixed bottom-0 right-0 mb-4 mr-4 rounded-lg bg-green-500 px-4 py-2 text-white">
+            Link copied!
+          </div>
+        ) : null}
+      </div>
+    </>
   );
 };
+
+CompanyCRM.getLayout = (page) => <AppUserLayout>{page}</AppUserLayout>;
 
 export default CompanyCRM;

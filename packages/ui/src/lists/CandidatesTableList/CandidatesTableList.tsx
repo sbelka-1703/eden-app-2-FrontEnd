@@ -3,68 +3,52 @@ import {
   Badge,
   GridItemTwelve,
   GridLayout,
-  //   NodeList,
+  Loading,
 } from "@eden/package-ui";
 import clsx from "clsx";
-import { ReactNode } from "react";
+import { ComponentPropsWithoutRef, FC, ReactNode } from "react";
 
-import type { CandidatesResponseData } from "./types";
+import type { Candidate } from "./types";
 
-const ColumnStyled = ({
-  extraCssClass,
-  children,
-  textColor = "text-gray-900",
-}: {
+interface InputGroupProps extends ComponentPropsWithoutRef<"td"> {
   extraCssClass?: string;
   textColor?: string;
   children: string | ReactNode;
+}
+
+const ColumnStyled: FC<InputGroupProps> = ({
+  extraCssClass,
+  children,
+  textColor = "text-gray-900",
+  ...otherProps
 }) => (
   <td
     className={clsx(
-      "text-md border bg-white  px-4 py-3 text-center",
+      "text-md border  px-4 py-3 text-center",
       textColor,
       extraCssClass
     )}
+    {...otherProps}
   >
     {children}
   </td>
 );
 
-function random(mn: number, mx: number) {
-  return Math.random() * (mx - mn) + mn;
-}
+type CandidatesTableListProps = {
+  candidatesList: Candidate[];
+  fetchIsLoading: boolean;
+  // eslint-disable-next-line no-unused-vars
+  setRowObjectData?: (user: Candidate) => void;
+};
 
-export const CandidatesTableList = ({
+export const CandidatesTableList: React.FC<CandidatesTableListProps> = ({
   candidatesList,
-}: {
-  candidatesList: CandidatesResponseData;
+  fetchIsLoading,
+  setRowObjectData,
 }) => {
-  const candidatesListFormatted =
-    candidatesList.data.findCompany.candidates.map((candidate) => {
-      return {
-        avatar: candidate.user.discordAvatar,
-        name: candidate.user.discordName,
-        role: [
-          "Project Manager",
-          "Frontend Developer",
-          "Backend Developer",
-          "Scrum Master",
-          "Blockchain Developer",
-        ][Math.floor(random(0, 5))],
-        match: candidate.overallScore,
-        background: ["Ex-Meta", "Bankless", "Finance & Trading"], // candidate.user.nodes,
-        level: ["Junior", "Mid level", "Senior"][Math.floor(random(0, 3))],
-        usdcHour: [90, 50, 40, 35, 30, 45, 80][Math.floor(random(0, 7))],
-        responseRate: [
-          "< 3 hours",
-          "1 day",
-          "< 12 hours",
-          "< 2 days",
-          "< 1 hour",
-          "1 day",
-        ][Math.floor(random(0, 6))],
-      };
-    });
+  const handleObjectDataSelection = (user: Candidate) => {
+    setRowObjectData && setRowObjectData(user);
+  };
 
   return (
     <GridLayout>
@@ -72,6 +56,7 @@ export const CandidatesTableList = ({
         <table className="text-md w-full border-collapse border-2 border-black">
           <thead className="text-gray-500">
             <tr>
+              <th className="border border-black py-4">#</th>
               <th colSpan={2} className="border border-black py-4">
                 Name
               </th>
@@ -91,33 +76,39 @@ export const CandidatesTableList = ({
             </tr>
           </thead>
           <tbody>
-            {candidatesListFormatted.map(
-              ({
-                avatar,
-                name,
-                role,
-                match,
-                background,
-                level,
-                usdcHour,
-                responseRate,
-              }) => (
-                <tr key={`${name}${match}`}>
+            {fetchIsLoading ? (
+              <tr>
+                <td colSpan={8} className="content-center py-4">
+                  <Loading />
+                </td>
+              </tr>
+            ) : !!candidatesList.length ? (
+              candidatesList.map((user, idx) => (
+                <tr
+                  key={`${user._id}}`}
+                  onClick={() => handleObjectDataSelection(user)}
+                  className="cursor-pointer hover:bg-gray-300 focus:outline-none focus:ring focus:ring-gray-300 active:bg-gray-300"
+                >
                   <ColumnStyled extraCssClass="border-r-0">
+                    {idx + 1}
+                  </ColumnStyled>
+                  <ColumnStyled extraCssClass="border-r-0 pr-0">
                     <Avatar
                       size="xs"
-                      src={avatar}
-                      alt={`${name.trim()}-avatar`}
+                      src={user.avatar}
+                      alt={`${user.name.trim()}-avatar`}
                     />
                   </ColumnStyled>
-                  <ColumnStyled extraCssClass="border-l-0">{name}</ColumnStyled>
-                  <ColumnStyled>{role}</ColumnStyled>
+                  <ColumnStyled extraCssClass="border-l-0 pl-0">
+                    {user.name}
+                  </ColumnStyled>
+                  <ColumnStyled>{user.role ? user.role : null}</ColumnStyled>
                   <ColumnStyled textColor="text-fuchsia-600">
-                    {match} %
+                    {user.score ? `${user.score} %` : null}
                   </ColumnStyled>
                   <ColumnStyled>
-                    {background
-                      ? background.map((experience) => (
+                    {user.background
+                      ? user.background.map((experience) => (
                           <Badge
                             key={experience}
                             colorRGB="224,192,245"
@@ -126,15 +117,34 @@ export const CandidatesTableList = ({
                           />
                         ))
                       : null}
-                    {/* <NodeList colorRGB="224,192,245" nodes={background} /> */}
                   </ColumnStyled>
                   <ColumnStyled>
-                    <Badge colorRGB="153,255,204" text={level} cutText={9} />
+                    {user.level ? (
+                      <Badge
+                        colorRGB="153,255,204"
+                        text={user.level}
+                        cutText={9}
+                      />
+                    ) : null}
                   </ColumnStyled>
-                  <ColumnStyled>{usdcHour}</ColumnStyled>
-                  <ColumnStyled>{responseRate}</ColumnStyled>
+                  <ColumnStyled>
+                    {user.usdcHour ? user.usdcHour : null}
+                  </ColumnStyled>
+                  <ColumnStyled>
+                    {user.responseRate ? user.responseRate : null}
+                  </ColumnStyled>
                 </tr>
-              )
+              ))
+            ) : (
+              <tr>
+                <ColumnStyled
+                  extraCssClass="content-center py-4"
+                  textColor="black"
+                  colSpan={8}
+                >
+                  No candidates found
+                </ColumnStyled>
+              </tr>
             )}
           </tbody>
         </table>

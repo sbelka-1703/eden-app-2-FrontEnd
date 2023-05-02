@@ -1,5 +1,37 @@
-import { CandidatesResponseData } from "./types";
+export interface CandidatesResponseData {
+  data: Data;
+}
 
+export interface Data {
+  findCompany: FindCompany;
+}
+
+export interface FindCompany {
+  _id: string;
+  candidates: Candidate[];
+}
+
+export interface Candidate {
+  user: User;
+  overallScore: number;
+  summaryQuestions: any[];
+}
+
+export interface User {
+  _id: string;
+  discordName: string;
+  discordAvatar: string;
+  hoursPerWeek: number | null;
+  nodes: Node[];
+}
+
+export interface Node {
+  nodeData: NodeData;
+}
+
+export interface NodeData {
+  name: string;
+}
 export const candidatesListExample: CandidatesResponseData = {
   data: {
     findCompany: {
@@ -147,3 +179,28 @@ export const candidatesListExample: CandidatesResponseData = {
     },
   },
 };
+
+function random(mn: number, mx: number) {
+  return Math.random() * (mx - mn) + mn;
+}
+
+export const candidatesListFormatted =
+  candidatesListExample.data.findCompany.candidates.map((candidate) => {
+    return {
+      _id: Number(candidate.user?._id!),
+      avatar: candidate.user?.discordAvatar,
+      name: candidate.user?.discordName,
+      role: [
+        "Project Manager",
+        "Frontend Developer",
+        "Backend Developer",
+        "Scrum Master",
+        "Blockchain Developer",
+      ][Math.floor(random(0, 5))],
+      score: candidate.overallScore,
+      background: ["Ex-Meta", "Bankless", "Finance & Trading"],
+      level: ["Junior", "Mid level", "Senior"][Math.floor(random(0, 3))],
+      usdcHour: [90, 50, 40, 35, 30, 45, 80][Math.floor(random(0, 7))],
+      responseRate: [3, 24, 10, 40, 0.5, 24][Math.floor(random(0, 6))],
+    };
+  });

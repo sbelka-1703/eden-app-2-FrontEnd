@@ -1,7 +1,7 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { CandidatesTableList } from "./CandidatesTableList";
-import { candidatesListExample } from "./constants";
+import { candidatesListFormatted } from "./constants";
 
 export default {
   title: "Lists/CandidatesTableList",
@@ -14,7 +14,19 @@ const Template: ComponentStory<typeof CandidatesTableList> = (args) => (
 );
 
 export const Default = Template.bind({});
-
 Default.args = {
-  candidatesList: candidatesListExample,
+  candidatesList: candidatesListFormatted,
+  fetchIsLoading: false,
+};
+
+export const Loading = Template.bind({});
+Loading.args = {
+  candidatesList: [],
+  fetchIsLoading: true,
+};
+
+export const NoResults = Template.bind({});
+NoResults.args = {
+  candidatesList: [],
+  fetchIsLoading: false,
 };
