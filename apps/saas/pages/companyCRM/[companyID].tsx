@@ -1,5 +1,10 @@
 import { gql, useQuery } from "@apollo/client";
-import { AppUserLayout, CandidatesTableList, SEO } from "@eden/package-ui";
+import {
+  AppUserLayout,
+  CandidatesTableList,
+  LeftToggleMenu,
+  SEO,
+} from "@eden/package-ui";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 
@@ -222,6 +227,7 @@ const CompanyCRM: NextPageWithLayout = () => {
     <>
       <SEO />
       <div className="container mx-auto w-full p-8">
+        <LeftToggleMenu></LeftToggleMenu>
         <div className="mb-4 flex justify-between">
           <h1 className="text-3xl font-bold leading-tight text-gray-900">
             Users
