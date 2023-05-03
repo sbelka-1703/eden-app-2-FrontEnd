@@ -62,13 +62,13 @@ const TrainQuestionsEdenAI = ({
 
   const handleQuestionAdd = () => {
     if (newQuestion.trim() !== "") {
-      const newId = questions.length + 1;
+      // const newId = questions.length + 1;
 
       console.log("newQuestion = ", newQuestion);
 
       setQuestions([
         ...questions,
-        { _id: newId, content: newQuestion, bestAnswer: "" },
+        { _id: -1, content: newQuestion, bestAnswer: "" },
       ]);
       setNewQuestion("");
     }
@@ -80,11 +80,18 @@ const TrainQuestionsEdenAI = ({
         fields: {
           companyID: companyID,
           questionsToAsk: questions.map((question) => {
-            return {
-              questionID: question._id,
-              bestAnswer: question.bestAnswer,
-              questionContent: question.content,
-            };
+            if (question._id === -1) {
+              return {
+                questionContent: question.content,
+                bestAnswer: question.bestAnswer,
+              };
+            } else {
+              return {
+                questionID: question._id,
+                bestAnswer: question.bestAnswer,
+                questionContent: question.content,
+              };
+            }
           }),
         },
       },

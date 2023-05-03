@@ -1,4 +1,4 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
 import {
   AI_INTERVIEW_SERVICES,
@@ -6,7 +6,7 @@ import {
   InterviewEdenAI,
 } from "@eden/package-ui";
 import { useRouter } from "next/router";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 const FIND_COMPANY = gql`
   query ($fields: findCompanyInput) {
@@ -24,22 +24,22 @@ const FIND_COMPANY = gql`
   }
 `;
 
-// const ADD_CANDIDATE_TO_COMPANY = gql`
-//   query ($fields: addCandidatesCompanyInput) {
-//     addCandidatesCompany(fields: $fields) {
-//       _id
-//       name
-//       candidates {
-//         user {
-//           _id
-//           discordName
-//           discordAvatar
-//         }
-//         overallScore
-//       }
-//     }
-//   }
-// `;
+const ADD_CANDIDATE_TO_COMPANY = gql`
+  mutation ($fields: addCandidatesCompanyInput) {
+    addCandidatesCompany(fields: $fields) {
+      _id
+      name
+      candidates {
+        user {
+          _id
+          discordName
+          discordAvatar
+        }
+        overallScore
+      }
+    }
+  }
+`;
 
 // interface cardsDataType {
 //   title: string;
@@ -96,22 +96,38 @@ const InterviewEdenAIpage: React.FC = () => {
     },
   });
 
-  // const {} = useMutation(ADD_CANDIDATE_TO_COMPANY, {
-  //   variables: {
-  //     fields: {
-  //       _id: companyID,
-  //       candidates: [
-  //         {
-  //           userID: "908392557258604544",
-  //         },
-  //       ],
-  //     },
-  //   },
-  //   skip: companyID == "" || companyID == null || currentUser?._id != "",
-  //   onCompleted: (data) => {
-  //     console.log("data = ", data);
-  //   },
-  // });
+  const [addCandidateToCompany] = useMutation(ADD_CANDIDATE_TO_COMPANY, {
+    onCompleted: (data) => {
+      console.log("data = ", data);
+      setAddCandidateFlag(true);
+    },
+  });
+
+  const [addCandidateFlag, setAddCandidateFlag] = useState<boolean>(false);
+
+  useEffect(() => {
+    console.log("addCandidateFlag = ", addCandidateFlag);
+    console.log("companyID = ", companyID);
+    console.log("currentUser?._id  = ", currentUser?._id);
+    if (
+      addCandidateFlag == false &&
+      currentUser?._id != undefined &&
+      companyID != undefined
+    ) {
+      addCandidateToCompany({
+        variables: {
+          fields: {
+            companyID: companyID,
+            candidates: [
+              {
+                userID: currentUser?._id,
+              },
+            ],
+          },
+        },
+      });
+    }
+  }, [companyID, currentUser?._id]);
 
   console.log("companyID = ", companyID);
 
