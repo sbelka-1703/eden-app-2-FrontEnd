@@ -95,15 +95,26 @@ const CompanyCRM: React.FC = () => {
         })
       );
 
-      setQuestions(
-        data.findCompany.questionsToAsk.map((question: any) => {
-          return {
+      const questionPrep: Question[] = [];
+
+      data.findCompany.questionsToAsk.map((question: any) => {
+        console.log("question = ", question);
+        if (question.question == null) {
+        } else {
+          questionPrep.push({
             _id: question.question._id,
             content: question.question.content,
             bestAnswer: question.bestAnswer,
-          };
-        })
-      );
+          });
+        }
+        // return {
+        //   _id: question.question._id,
+        //   content: question.question.content,
+        //   bestAnswer: question.bestAnswer,
+        // };
+      });
+
+      setQuestions(questionPrep);
     },
   });
 
