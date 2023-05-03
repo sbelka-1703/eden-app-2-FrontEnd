@@ -212,7 +212,7 @@ export const MemberInfoWithDynamicGraph2 = ({
         <div className="sm:col-span-8 sm:my-0">
           {!!member?.bio && <TextLabel1>🪪 Short bio</TextLabel1>}
           {!loading ? (
-            <p className="text-soilBody font-Inter mb-2 whitespace-pre-wrap font-normal">
+            <p className="text-soilBody font-Inter mb-8 whitespace-pre-wrap font-normal">
               {_bio}
             </p>
           ) : (
@@ -257,9 +257,24 @@ export const MemberInfoWithDynamicGraph2 = ({
             )} */}
               </div>
             )}
+          <div className="sm:col-span-4 sm:my-0">
+            {member?.previousProjects &&
+              member?.previousProjects.length > 0 && (
+                <UserBackground
+                  background={member?.previousProjects || []}
+                  setExperienceOpen={setExperienceOpen!}
+                  experienceOpen={experienceOpen!}
+                />
+              )}
+          </div>
         </div>
         <div className="col-span-1"></div>
         <div className="flex flex-col items-center sm:col-span-3 sm:my-0">
+          {member?.links && member?.links.length > 0 && (
+            <section className="mb-4 text-center">
+              <SocialMediaComp title="" links={member?.links} />
+            </section>
+          )}
           {percentage !== undefined && (
             <section className="border-soilGrey-200 mb-4 w-full rounded-xl border p-2 text-center">
               <p className="text-center">
@@ -461,7 +476,7 @@ export const MemberInfoWithDynamicGraph2 = ({
         </section>
       </section>
 
-      <div className="mb-8 grid grid-cols-1 gap-2 sm:grid-cols-6">
+      {/* <div className="mb-8 grid grid-cols-1 gap-2 sm:grid-cols-6">
         <div className="sm:col-span-4 sm:my-0">
           {member?.previousProjects && member?.previousProjects.length > 0 && (
             <UserBackground
@@ -478,7 +493,7 @@ export const MemberInfoWithDynamicGraph2 = ({
             )}
           </section>
         </div>
-      </div>
+      </div> */}
 
       {hasGraph && (
         <div className="mt-3 h-[360px] w-full">

@@ -1,0 +1,43 @@
+{
+  "name": "@eden/app-saas",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "clean": "rm -rf node_modules && rm -rf .next",
+    "clean-windows": "rd /s /q node_modules && rd /s /q .next"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.7.5",
+    "@eden/package-context": "*",
+    "@eden/package-graphql": "*",
+    "@eden/package-ui": "*",
+    "@vercel/og": "^0.0.27",
+    "axios": "^1.1.3",
+    "discord-api-types": "^0.37.17",
+    "graphql": "^16.6.0",
+    "next": "^13.1.5",
+    "next-auth": "^4.18.10",
+    "next-axiom": "^0.16.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.6.0",
+    "react-toastify": "^9.1.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.19.3",
+    "@eden/package-config": "*",
+    "@eden/package-tsconfig": "*",
+    "@types/node": "^18.11.9",
+    "@types/react": "^18.0.25",
+    "autoprefixer": "^10.4.12",
+    "eslint": "^8.24.0",
+    "postcss": "^8.4.16",
+    "tailwind-scrollbar-hide": "^1.1.7",
+    "tailwindcss": "^3.1.7",
+    "typescript": "^4.8.4"
+  }
+}

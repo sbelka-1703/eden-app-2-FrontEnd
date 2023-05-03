@@ -94,7 +94,7 @@ const ExperienceCreateProfileChat: React.FC = () => {
     <div className="flex h-screen w-full">
       <div className="flex h-full w-1/2 flex-col space-y-4 p-4">
         <h1 className="mb-4 text-3xl font-bold">
-          Help Eden with some questions to know you better
+          First, chat with Eden AI to enhance your profile information
         </h1>
         <div className="mb-4 flex items-center justify-between">
           <span className="text-xl">TRUST Points: {totalTrustPoints}</span>
@@ -170,7 +170,7 @@ const ExperienceCreateProfileChat: React.FC = () => {
               //     setNodeObj(_nodeObj);
               //   }}
               handleChangeChat={(_chat: any) => {
-                // console.log("handleChangeChat:", _chat);
+                console.log("handleChangeChat:", _chat);
                 setChatN(_chat);
               }}
               //   setShowPopupSalary={setShowPopup}

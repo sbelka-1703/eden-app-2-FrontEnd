@@ -26,7 +26,8 @@ type ReviewInputs = {
   message: string;
 };
 
-import { ReviewButton, StarRating } from "./";
+// import { ReviewButton, StarRating } from "./";
+import { ReviewButton } from "./";
 
 interface IEndorsementView2Props {
   member?: Members;
@@ -50,8 +51,8 @@ export const EndorsementView2 = ({
   onNext,
   onBack,
   // onWarning,
-  rating,
-  onRatingChange,
+  // rating,
+  // onRatingChange,
   chatMessages,
   amountStake,
   onAmountStakeChange,
@@ -61,6 +62,7 @@ export const EndorsementView2 = ({
   const { currentUser } = useContext(UserContext);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const { register, handleSubmit, reset, watch } = useForm<ReviewInputs>({
     defaultValues: {
@@ -118,6 +120,7 @@ export const EndorsementView2 = ({
       reset({
         message: quotedText,
       });
+      setIsLoading(false);
     },
   });
 
@@ -154,7 +157,7 @@ export const EndorsementView2 = ({
       </Modal>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={`grid h-full grid-cols-3`}>
-          <div className={`col-span-2`}>
+          <div className={`col-span-3`}>
             <div className={`text-lg font-medium uppercase text-neutral-700`}>
               {`Staking + Review:`}
             </div>
@@ -162,7 +165,7 @@ export const EndorsementView2 = ({
               {`Do you want to stake money on @${member?.discordName}'s success?`}
             </div>
 
-            <div className={`flex justify-between`}>
+            <div className={`flex justify-between px-8`}>
               <div className={`flex flex-col text-center`}>
                 <button
                   type={`button`}
@@ -212,6 +215,19 @@ export const EndorsementView2 = ({
                   <div className={`text-xs`}>USDC</div>
                 </button>
               </div>
+              <div className={`flex flex-col text-center`}>
+                <button
+                  type={`button`}
+                  className={`bg-soilYellow/60 hover:bg-soilYellow mx-auto h-16 w-16 rounded-full font-medium text-neutral-700`}
+                  onClick={() => onAmountStakeChange(0)}
+                >
+                  <div className={`text-base`}>No</div>
+                  <div className={`text-base`}>Stake</div>
+                </button>
+                {/* <span className={`text-xs text-neutral-700`}>
+                  ~USDC 140-670 RETURN
+                </span> */}
+              </div>
             </div>
           </div>
           <div></div>
@@ -228,14 +244,22 @@ export const EndorsementView2 = ({
             <div className={`text-lg font-medium uppercase text-neutral-700`}>
               Endorsement by Eden AI:{" "}
             </div>
-            <Card border className={`p-2`}>
-              <textarea
-                id={`project-description`}
-                className={`input-primary border-none`}
-                rows={4}
-                required
-                {...register("message")}
-              />
+            <Card border className={`w-full p-2`}>
+              {isLoading ? (
+                <div
+                  className={`flex h-24 w-full px-16 py-8 text-center text-neutral-700`}
+                >
+                  Generating Endorsement...
+                </div>
+              ) : (
+                <textarea
+                  id={`project-description`}
+                  className={`input-primary border-none`}
+                  rows={4}
+                  required
+                  {...register("message")}
+                />
+              )}
             </Card>
             <div className={`my-4`}>
               <div className={`text-lg font-medium uppercase text-neutral-700`}>
@@ -278,10 +302,10 @@ export const EndorsementView2 = ({
                     </div> */}
                   </div>
                   <div className={`col-span-1`}>
-                    <StarRating
+                    {/* <StarRating
                       rating={rating}
                       onRatingChange={onRatingChange}
-                    />
+                    /> */}
                   </div>
                 </div>
                 <div

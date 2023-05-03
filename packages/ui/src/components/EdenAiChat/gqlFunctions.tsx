@@ -46,6 +46,14 @@ export const EDEN_GPT_CREATE_PROFILE_EXPERIENCE_CHAT = gql`
   }
 `;
 
+export const EDEN_GPT_CREATE_PROFILE_EXPERIENCE_CV_CHAT = gql`
+  query ($fields: createProfileExperienceWithChatCVMemoryInput!) {
+    createProfileExperienceWithChatCVMemory(fields: $fields) {
+      reply
+    }
+  }
+`;
+
 export const EDEN_AI_TAL_SEARCH_EXPIRIENCE = gql`
   query ($fields: edenAITalSearchExpirienceInput!) {
     edenAITalSearchExpirience(fields: $fields) {
