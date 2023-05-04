@@ -1,11 +1,14 @@
 import { gql, useQuery } from "@apollo/client";
-import { CandidateType } from "@eden/package-graphql/generated/graphqlEden";
-import { AppUserLayout, Button, CandidatesTableList } from "@eden/package-ui";
+import {
+  AppUserLayout,
+  Button,
+  CandidatesTableList,
+  TrainQuestionsEdenAI,
+} from "@eden/package-ui";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 
 import { NextPageWithLayout } from "../_app";
-import TrainQuestionsEdenAI from "./components/TrainQuestionsEdenAI";
 
 const FIND_COMPANY = gql`
   query ($fields: findCompanyInput!) {
@@ -69,16 +72,18 @@ export interface Data {
 export interface FindCompany {
   _id: string;
   name: string;
-  candidates: CandidateType[];
+  candidates: ICandidate[];
   questionsToAsk: QuestionsToAsk[];
   __typename: string;
 }
 
-// export interface Candidate {
-//   overallScore: number | null;
-//   user: IUser;
-//   __typename: string;
-// }
+export interface ICandidate {
+  overallScore: number | null;
+  user: IUser;
+  __typename: string;
+  summaryQuestions: summaryQuestionType[];
+  readyToDisplay: boolean;
+}
 
 export interface IUser {
   _id: string;
@@ -138,7 +143,7 @@ export enum NodeDataTypename {
 
 export interface PreviousProject {
   title: string;
-  positionName: null;
+  positionName: string | null;
   __typename: string;
 }
 
@@ -154,72 +159,25 @@ export interface Question {
   __typename: string;
 }
 
-// type Candidate = {
-//   _id: number;
-//   name: string;
-//   avatar: string;
-//   score: number;
-//   role?: string;
-//   background?: any[];
-//   level?: string;
-//   usdcHour?: number;
-//   responseRate?: number;
-// };
-
 type QuestionType = {
   _id: number;
   content: string;
   bestAnswer: string;
 };
 
-// type Users = User[];
-
-// const users: Users = [
-//   {
-//     id: 1,
-//     name: "John Doe",
-//     email: "johndoe@example.com",
-//     avatar: "https://randomuser.me/api/portraits/men/1.jpg",
-//   },
-//   {
-//     id: 2,
-//     name: "Jane Doe",
-//     email: "janedoe@example.com",
-//     avatar: "https://randomuser.me/api/portraits/women/2.jpg",
-//   },
-//   // Add more users as needed
-// ];
-
-// type CandidateType = {
-//   _id: number;
-//   name: string;
-//   avatar: string;
-//   score: number;
-//   role?: string;
-//   background?: any[];
-//   level?: string;
-//   usdcHour?: number;
-//   responseRate?: number;
-//   reason: string;
-//   summaryQuestions: summaryQuestionType[];
-// };
-// type Users = User[];
-
-// const users: Users = [
-//   {
-//     id: 1,
-//     name: "John Doe",
-//     email: "johndoe@example.com",
-//     avatar: "https://randomuser.me/api/portraits/men/1.jpg",
-//   },
-//   {
-//     id: 2,
-//     name: "Jane Doe",
-//     email: "janedoe@example.com",
-//     avatar: "https://randomuser.me/api/portraits/women/2.jpg",
-//   },
-//   // Add more users as needed
-// ];
+type CandidateLocalType = {
+  _id: number;
+  name: string;
+  avatar: string;
+  score: number;
+  role?: string;
+  background?: any[];
+  level?: string;
+  usdcHour?: number;
+  responseRate?: number;
+  reason: string;
+  summaryQuestions: summaryQuestionType[];
+};
 
 const CompanyCRM: NextPageWithLayout = () => {
   // interface MessageObject {
@@ -231,11 +189,13 @@ const CompanyCRM: NextPageWithLayout = () => {
   const router = useRouter();
   const { companyID } = router.query;
 
-  // const [companyID] = useState<String>("644a5949e1ba07a9e9e3842c");
-  const [candidates, setCandidates] = useState<CandidateType[]>([]); // DEV: type and name to <Candidate[]> ??
-  // const [users, setUsers] = useState<User[]>([]);
+  const [candidates, setCandidates] = useState<CandidateLocalType[]>([]);
   const [questions, setQuestions] = useState<QuestionType[]>([]);
   const [notificationOpen, setNotificationOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<CandidateLocalType | null>(
+    null
+  );
+  const [trainModalOpen, setTrainModalOpen] = useState(false);
 
   const {
     // data: findCompanyData,
@@ -247,30 +207,30 @@ const CompanyCRM: NextPageWithLayout = () => {
         _id: companyID,
       },
     },
-    skip: !Boolean(companyID), // DEV: Simplified the comparisson to be boolean . before was: companyID == "" || companyID == null,  (note the "==" at least is on purpose)
+    skip: !Boolean(companyID),
     ssr: false,
     onCompleted: (data: any) => {
-      setCandidates(data.findCompany.candidates);
+      // setCandidates(data.findCompany.candidates);
 
-      // setCandidates(
-      //   data.findCompany.candidates.map((candidate: CandidateType) => {
-      //     return {
-      //       _id: parseInt(candidate.user!._id!),
-      //       name: candidate.user!.discordName,
-      //       avatar: candidate.user!.discordAvatar,
-      //       score: candidate.overallScore, //
-      //       usdcHour: candidate.user!.budget!.perHour,
-      //       background: candidate.user!.previousProjects?.map(
-      //         (project: any) => project.title
-      //       ),
-      //       role: candidate.user!.memberRole?.title,
-      //       level: "Junior", // candidate.user...,
-      //       responseRate: 15, // candidate.user.chat....
-      //       // reason: candidate.summaryQuestions,
-      //       summaryQuestions: candidate.summaryQuestions,
-      //     };
-      //   })
-      // );
+      setCandidates(
+        data.findCompany.candidates.map((candidate: ICandidate) => {
+          return {
+            _id: parseInt(candidate.user!._id!),
+            name: candidate.user!.discordName,
+            avatar: candidate.user!.discordAvatar,
+            score: candidate.overallScore, //
+            usdcHour: candidate.user!.budget!.perHour,
+            background: candidate.user!.previousProjects?.map(
+              (project: any) => project.title
+            ),
+            role: candidate.user!.memberRole?.title,
+            level: "Junior", // candidate.user...,
+            responseRate: 15, // candidate.user.chat....
+            // reason: candidate.summaryQuestions,
+            summaryQuestions: candidate.summaryQuestions,
+          };
+        })
+      );
 
       const questionPrep: QuestionType[] = [];
 
@@ -295,10 +255,7 @@ const CompanyCRM: NextPageWithLayout = () => {
     },
   });
 
-  const [selectedUser, setSelectedUser] = useState<CandidateType | null>(null);
-  const [trainModalOpen, setTrainModalOpen] = useState(false);
-
-  const handleRowClick = (user: CandidateType) => {
+  const handleRowClick = (user: CandidateLocalType) => {
     setSelectedUser(user);
   };
 
@@ -354,13 +311,13 @@ const CompanyCRM: NextPageWithLayout = () => {
       >
         Train AI
       </Button>
-      {selectedUser && (
+      {selectedUser ? (
         <SelectedUser
           selectedUser={selectedUser}
           setSelectedUser={setSelectedUser}
         />
-      )}
-      {trainModalOpen && (
+      ) : null}
+      {trainModalOpen ? (
         <div className="fixed inset-0 z-10 overflow-y-auto">
           <div className="flex min-h-screen items-center justify-center px-4">
             <div
@@ -380,12 +337,12 @@ const CompanyCRM: NextPageWithLayout = () => {
             </div>
           </div>
         </div>
-      )}
-      {notificationOpen && (
+      ) : null}
+      {notificationOpen ? (
         <div className="fixed bottom-0 right-0 mb-4 mr-4 rounded-lg bg-green-500 px-4 py-2 text-white">
           Link copied!
         </div>
-      )}
+      ) : null}
     </div>
   );
 };
@@ -394,18 +351,20 @@ CompanyCRM.getLayout = (page: any) => <AppUserLayout>{page}</AppUserLayout>;
 
 export default CompanyCRM;
 
-// type summaryQuestionType = {
-//   questionID: number;
-//   questionContent: string;
-//   answerContent: string;
-//   bestAnswerCompany: string;
-//   // reason: string;
-//   score: number;
-// };
+type summaryQuestionType = {
+  questionID: string;
+  questionContent: string;
+  answerContent: string;
+  bestAnswerCompany: string | null;
+  reason: string | null;
+  score: number | null;
+};
 
 type Props = {
-  selectedUser: CandidateType;
-  setSelectedUser: React.Dispatch<React.SetStateAction<CandidateType | null>>;
+  selectedUser: CandidateLocalType | null;
+  setSelectedUser: React.Dispatch<
+    React.SetStateAction<CandidateLocalType | null>
+  >;
 };
 
 const SelectedUser: React.FC<Props> = ({ selectedUser, setSelectedUser }) => {
@@ -431,17 +390,17 @@ const SelectedUser: React.FC<Props> = ({ selectedUser, setSelectedUser }) => {
               <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-gray-100 sm:mx-0 sm:h-10 sm:w-10">
                 <img
                   className="h-10 w-10 rounded-full"
-                  src={selectedUser?.user?.discordAvatar!}
-                  alt={selectedUser?.user?.discordName!}
+                  src={selectedUser?.avatar!}
+                  alt={selectedUser?.name!}
                 />
               </div>
               <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                 <h3 className="mb-4 text-2xl font-medium leading-6 text-black">
-                  {selectedUser?.user?.discordName}
+                  {selectedUser?.name}
                 </h3>
                 <div className="mt-2">
                   <p className="inline-block rounded-lg px-4 py-2 text-4xl font-bold text-indigo-600 shadow-lg">
-                    {selectedUser?.overallScore}
+                    {selectedUser?.score}
                     <span className="tooltip">
                       <svg
                         className="h-6 w-6 text-gray-400 hover:text-gray-600"

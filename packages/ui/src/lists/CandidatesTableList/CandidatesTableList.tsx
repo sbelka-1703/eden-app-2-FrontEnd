@@ -1,7 +1,6 @@
-import { CandidateType } from "@eden/package-graphql/generated/graphqlEden";
 import {
   Avatar,
-  // Badge,
+  Badge,
   GridItemTwelve,
   GridLayout,
   Loading,
@@ -16,6 +15,29 @@ interface InputGroupProps extends ComponentPropsWithoutRef<"td"> {
   textColor?: string;
   children: string | ReactNode;
 }
+
+type summaryQuestionType = {
+  questionID: string;
+  questionContent: string;
+  answerContent: string;
+  bestAnswerCompany: string | null;
+  reason: string | null;
+  score: number | null;
+};
+
+type CandidateLocalType = {
+  _id: number;
+  name: string;
+  avatar: string;
+  score: number;
+  role?: string;
+  background?: any[];
+  level?: string;
+  usdcHour?: number;
+  responseRate?: number;
+  reason: string;
+  summaryQuestions: summaryQuestionType[];
+};
 
 const ColumnStyled: FC<InputGroupProps> = ({
   extraCssClass,
@@ -36,10 +58,10 @@ const ColumnStyled: FC<InputGroupProps> = ({
 );
 
 type CandidatesTableListProps = {
-  candidatesList: CandidateType[];
+  candidatesList: CandidateLocalType[];
   fetchIsLoading: boolean;
   // eslint-disable-next-line no-unused-vars
-  setRowObjectData?: (user: CandidateType) => void;
+  setRowObjectData?: (user: CandidateLocalType) => void;
 };
 
 export const CandidatesTableList: React.FC<CandidatesTableListProps> = ({
@@ -47,7 +69,7 @@ export const CandidatesTableList: React.FC<CandidatesTableListProps> = ({
   fetchIsLoading,
   setRowObjectData,
 }) => {
-  const handleObjectDataSelection = (user: CandidateType) => {
+  const handleObjectDataSelection = (user: CandidateLocalType) => {
     setRowObjectData && setRowObjectData(user);
   };
 
@@ -86,7 +108,7 @@ export const CandidatesTableList: React.FC<CandidatesTableListProps> = ({
             ) : Boolean(candidatesList) ? (
               candidatesList.map((candidate, idx) => (
                 <tr
-                  key={`${candidate.user?._id}`}
+                  key={`${candidate._id}`}
                   onClick={() => handleObjectDataSelection(candidate)}
                   className="cursor-pointer hover:bg-gray-300 focus:outline-none focus:ring focus:ring-gray-300 active:bg-gray-300"
                 >
@@ -96,52 +118,46 @@ export const CandidatesTableList: React.FC<CandidatesTableListProps> = ({
                   <ColumnStyled extraCssClass="border-r-0 pr-0">
                     <Avatar
                       size="xs"
-                      src={candidate.user?.discordAvatar!}
-                      alt={`${candidate.user?.discordName!.trim()}-avatar`}
+                      src={candidate.avatar!}
+                      alt={`${candidate.name!.trim()}-avatar`}
                     />
                   </ColumnStyled>
                   <ColumnStyled extraCssClass="border-l-0 pl-0">
-                    {candidate.user?.discordName!}
+                    {candidate.name!}
                   </ColumnStyled>
                   <ColumnStyled>
-                    {candidate.user?.memberRole?.title
-                      ? candidate.user.memberRole.title
-                      : null}
+                    {candidate.role ? candidate.role : null}
                   </ColumnStyled>
                   <ColumnStyled textColor="text-fuchsia-600">
-                    {candidate.overallScore
-                      ? `${candidate.overallScore} %`
+                    {candidate.score ? `${candidate.score} %` : null}
+                  </ColumnStyled>
+                  <ColumnStyled>
+                    {candidate.background
+                      ? candidate.background.map((experience, idx) => (
+                          <Badge
+                            key={`${experience}${idx}`}
+                            colorRGB="224,192,245"
+                            text={experience}
+                            cutText={17}
+                          />
+                        ))
                       : null}
                   </ColumnStyled>
-                  {/* <ColumnStyled>
-                    {candidate.user?.previousProjects
-                      ? candidate.user?.previousProjects.map(
-                          (experience, idx) => (
-                            <Badge
-                              key={`${experience}${idx}`}
-                              colorRGB="224,192,245"
-                              text={experience}
-                              cutText={17}
-                            />
-                          )
-                        )
-                      : null}
-                  </ColumnStyled> */}
-                  {/* <ColumnStyled>
-                    {candidate.user?.experienceLevel ? (
+                  <ColumnStyled>
+                    {candidate.level ? (
                       <Badge
                         colorRGB="153,255,204"
-                        text={candidate.user?.experienceLevel}
+                        text={candidate.level}
                         cutText={9}
                       />
                     ) : null}
-                  </ColumnStyled> */}
-                  {/* <ColumnStyled>
+                  </ColumnStyled>
+                  <ColumnStyled>
                     {candidate.usdcHour ? candidate.usdcHour : null}
-                  </ColumnStyled> */}
-                  {/* <ColumnStyled>
+                  </ColumnStyled>
+                  <ColumnStyled>
                     {candidate.responseRate ? candidate.responseRate : null}
-                  </ColumnStyled> */}
+                  </ColumnStyled>
                 </tr>
               ))
             ) : (
