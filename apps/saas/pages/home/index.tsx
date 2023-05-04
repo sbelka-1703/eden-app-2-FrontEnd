@@ -15,13 +15,13 @@ const HomePage: NextPageWithLayout = () => {
             </Link>
           </li>
           <li>
-            <Link href={"/train-ai/644e052ca7177f51e7c27b77"}>
-              Company CRM Train questions
+            <Link href={"/dashboard/644e052ca7177f51e7c27b77"}>
+              Interview Company
             </Link>
           </li>
           <li>
-            <Link href={"/interviewEdenAIpage/644e052ca7177f51e7c27b77"}>
-              Interview Company
+            <Link href={"/train-ai/644e052ca7177f51e7c27b77"}>
+              Company Train AI
             </Link>
           </li>
         </ul>
