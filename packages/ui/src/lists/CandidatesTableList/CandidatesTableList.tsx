@@ -1,6 +1,7 @@
+import { CandidateType } from "@eden/package-graphql/generated/graphqlEden";
 import {
   Avatar,
-  Badge,
+  // Badge,
   GridItemTwelve,
   GridLayout,
   Loading,
@@ -8,7 +9,7 @@ import {
 import clsx from "clsx";
 import { ComponentPropsWithoutRef, FC, ReactNode } from "react";
 
-import type { Candidate } from "./types";
+// import type { Candidate } from "./types";
 
 interface InputGroupProps extends ComponentPropsWithoutRef<"td"> {
   extraCssClass?: string;
@@ -35,10 +36,10 @@ const ColumnStyled: FC<InputGroupProps> = ({
 );
 
 type CandidatesTableListProps = {
-  candidatesList: Candidate[];
+  candidatesList: CandidateType[];
   fetchIsLoading: boolean;
   // eslint-disable-next-line no-unused-vars
-  setRowObjectData?: (user: Candidate) => void;
+  setRowObjectData?: (user: CandidateType) => void;
 };
 
 export const CandidatesTableList: React.FC<CandidatesTableListProps> = ({
@@ -46,7 +47,7 @@ export const CandidatesTableList: React.FC<CandidatesTableListProps> = ({
   fetchIsLoading,
   setRowObjectData,
 }) => {
-  const handleObjectDataSelection = (user: Candidate) => {
+  const handleObjectDataSelection = (user: CandidateType) => {
     setRowObjectData && setRowObjectData(user);
   };
 
@@ -83,10 +84,10 @@ export const CandidatesTableList: React.FC<CandidatesTableListProps> = ({
                 </td>
               </tr>
             ) : Boolean(candidatesList) ? (
-              candidatesList.map((user, idx) => (
+              candidatesList.map((candidate, idx) => (
                 <tr
-                  key={`${user._id}`}
-                  onClick={() => handleObjectDataSelection(user)}
+                  key={`${candidate.user?._id}`}
+                  onClick={() => handleObjectDataSelection(candidate)}
                   className="cursor-pointer hover:bg-gray-300 focus:outline-none focus:ring focus:ring-gray-300 active:bg-gray-300"
                 >
                   <ColumnStyled extraCssClass="border-r-0">
@@ -95,44 +96,52 @@ export const CandidatesTableList: React.FC<CandidatesTableListProps> = ({
                   <ColumnStyled extraCssClass="border-r-0 pr-0">
                     <Avatar
                       size="xs"
-                      src={user.avatar}
-                      alt={`${user.name.trim()}-avatar`}
+                      src={candidate.user?.discordAvatar!}
+                      alt={`${candidate.user?.discordName!.trim()}-avatar`}
                     />
                   </ColumnStyled>
                   <ColumnStyled extraCssClass="border-l-0 pl-0">
-                    {user.name}
-                  </ColumnStyled>
-                  <ColumnStyled>{user.role ? user.role : null}</ColumnStyled>
-                  <ColumnStyled textColor="text-fuchsia-600">
-                    {user.score ? `${user.score} %` : null}
+                    {candidate.user?.discordName!}
                   </ColumnStyled>
                   <ColumnStyled>
-                    {user.background
-                      ? user.background.map((experience, idx) => (
-                          <Badge
-                            key={`${experience}${idx}`}
-                            colorRGB="224,192,245"
-                            text={experience}
-                            cutText={17}
-                          />
-                        ))
+                    {candidate.user?.memberRole?.title
+                      ? candidate.user.memberRole.title
                       : null}
                   </ColumnStyled>
-                  <ColumnStyled>
-                    {user.level ? (
+                  <ColumnStyled textColor="text-fuchsia-600">
+                    {candidate.overallScore
+                      ? `${candidate.overallScore} %`
+                      : null}
+                  </ColumnStyled>
+                  {/* <ColumnStyled>
+                    {candidate.user?.previousProjects
+                      ? candidate.user?.previousProjects.map(
+                          (experience, idx) => (
+                            <Badge
+                              key={`${experience}${idx}`}
+                              colorRGB="224,192,245"
+                              text={experience}
+                              cutText={17}
+                            />
+                          )
+                        )
+                      : null}
+                  </ColumnStyled> */}
+                  {/* <ColumnStyled>
+                    {candidate.user?.experienceLevel ? (
                       <Badge
                         colorRGB="153,255,204"
-                        text={user.level}
+                        text={candidate.user?.experienceLevel}
                         cutText={9}
                       />
                     ) : null}
-                  </ColumnStyled>
-                  <ColumnStyled>
-                    {user.usdcHour ? user.usdcHour : null}
-                  </ColumnStyled>
-                  <ColumnStyled>
-                    {user.responseRate ? user.responseRate : null}
-                  </ColumnStyled>
+                  </ColumnStyled> */}
+                  {/* <ColumnStyled>
+                    {candidate.usdcHour ? candidate.usdcHour : null}
+                  </ColumnStyled> */}
+                  {/* <ColumnStyled>
+                    {candidate.responseRate ? candidate.responseRate : null}
+                  </ColumnStyled> */}
                 </tr>
               ))
             ) : (

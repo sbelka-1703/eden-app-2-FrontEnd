@@ -26,24 +26,22 @@ const ADD_QUESTIONS_TO_COMPANY = gql`
   }
 `;
 
-type Question = {
+export type Question = {
   _id: number;
   content: string;
   bestAnswer: string;
 };
 
-type Questions = Question[];
-
 type Props = {
-  questions: Questions;
+  questions: Question[];
   companyID?: string | string[] | undefined;
   // eslint-disable-next-line no-unused-vars
-  setQuestions: (questions: Questions) => void;
+  setQuestions: (questions: Question[]) => void;
   // eslint-disable-next-line no-unused-vars
   setTrainModalOpen: (open: boolean) => void;
 };
 
-const TrainQuestionsEdenAI = ({
+export const TrainQuestionsEdenAI = ({
   questions = [],
   companyID,
   setQuestions,
@@ -62,13 +60,13 @@ const TrainQuestionsEdenAI = ({
 
   const handleQuestionAdd = () => {
     if (newQuestion.trim() !== "") {
-      // const newId = questions.length + 1;
+      const newId = questions.length + 1;
 
       console.log("newQuestion = ", newQuestion);
 
       setQuestions([
         ...questions,
-        { _id: -1, content: newQuestion, bestAnswer: "" },
+        { _id: newId, content: newQuestion, bestAnswer: "" },
       ]);
       setNewQuestion("");
     }
@@ -80,18 +78,11 @@ const TrainQuestionsEdenAI = ({
         fields: {
           companyID: companyID,
           questionsToAsk: questions.map((question) => {
-            if (question._id === -1) {
-              return {
-                questionContent: question.content,
-                bestAnswer: question.bestAnswer,
-              };
-            } else {
-              return {
-                questionID: question._id,
-                bestAnswer: question.bestAnswer,
-                questionContent: question.content,
-              };
-            }
+            return {
+              questionID: question._id,
+              bestAnswer: question.bestAnswer,
+              questionContent: question.content,
+            };
           }),
         },
       },
@@ -148,5 +139,3 @@ const TrainQuestionsEdenAI = ({
     </div>
   );
 };
-
-export default TrainQuestionsEdenAI;

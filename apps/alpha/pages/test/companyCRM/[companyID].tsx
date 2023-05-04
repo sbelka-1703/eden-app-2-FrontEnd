@@ -33,6 +33,17 @@ type User = {
   name: string;
   avatar: string;
   score: number;
+  reason: string;
+  summaryQuestions: summaryQuestionType[];
+};
+
+type summaryQuestionType = {
+  questionID: number;
+  questionContent: string;
+  answerContent: string;
+  bestAnswerCompany: string;
+  reason: string;
+  score: number;
 };
 
 type Question = {
@@ -89,21 +100,32 @@ const CompanyCRM: React.FC = () => {
           return {
             _id: candidate.user._id,
             name: candidate.user.discordName,
-            avatar: candidate.user.discordAvatar,
+            avatar: candidate.user?.discordAvatar,
             score: candidate.overallScore,
           };
         })
       );
 
-      setQuestions(
-        data.findCompany.questionsToAsk.map((question: any) => {
-          return {
+      const questionPrep: Question[] = [];
+
+      data.findCompany.questionsToAsk.map((question: any) => {
+        console.log("question = ", question);
+        if (question.question == null) {
+        } else {
+          questionPrep.push({
             _id: question.question._id,
             content: question.question.content,
             bestAnswer: question.bestAnswer,
-          };
-        })
-      );
+          });
+        }
+        // return {
+        //   _id: question.question._id,
+        //   content: question.question.content,
+        //   bestAnswer: question.bestAnswer,
+        // };
+      });
+
+      setQuestions(questionPrep);
     },
   });
 
