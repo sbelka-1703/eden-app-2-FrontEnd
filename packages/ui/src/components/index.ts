@@ -3,6 +3,7 @@ export * from "./CalendarComp";
 export * from "./CalendarComp";
 export * from "./ChatSimple";
 export * from "./ClassicGraphs";
+export * from "./CVUploadGPT";
 export * from "./DescriptionGPT";
 export * from "./DiscoverTalent";
 export * from "./DragDrop";
