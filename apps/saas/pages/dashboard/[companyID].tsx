@@ -2,15 +2,16 @@ import { gql, useQuery } from "@apollo/client";
 import {
   AppUserLayout,
   Avatar,
+  Button,
   CandidatesTableList,
   // LeftToggleMenu,
   SEO,
 } from "@eden/package-ui";
-import { useRouter } from "next/router";
+import router, { useRouter } from "next/router";
 import React, { useState } from "react";
 
 import { NextPageWithLayout } from "../_app";
-import TrainQuestionsEdenAI from "./components/TrainQuestionsEdenAI";
+// import TrainQuestionsEdenAI from "./components/TrainQuestionsEdenAI";
 
 const FIND_COMPANY = gql`
   query ($fields: findCompanyInput!) {
@@ -162,11 +163,11 @@ export interface Question {
 //   responseRate?: number;
 // };
 
-type QuestionType = {
-  _id: number;
-  content: string;
-  bestAnswer: string;
-};
+// type QuestionType = {
+//   _id: number;
+//   content: string;
+//   bestAnswer: string;
+// };
 
 // type Users = User[];
 
@@ -210,10 +211,10 @@ const CompanyCRM: NextPageWithLayout = () => {
   // const [companyID] = useState<String>("644a5949e1ba07a9e9e3842c");
 
   const [candidates, setCandidates] = useState<CandidateType[]>([]); // DEV: type and name to <Candidate[]> ??
-  const [questions, setQuestions] = useState<QuestionType[]>([]);
+  // const [questions, setQuestions] = useState<QuestionType[]>([]);
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<CandidateType | null>(null);
-  const [trainModalOpen, setTrainModalOpen] = useState(false);
+  // const [trainModalOpen, setTrainModalOpen] = useState(false);
 
   const {
     // data: findCompanyData,
@@ -247,15 +248,15 @@ const CompanyCRM: NextPageWithLayout = () => {
         })
       );
 
-      setQuestions(
-        data.findCompany.questionsToAsk.map((question: QuestionsToAsk) => {
-          return {
-            _id: question.question._id,
-            content: question.question.content,
-            bestAnswer: question.bestAnswer,
-          };
-        })
-      );
+      // setQuestions(
+      //   data.findCompany.questionsToAsk.map((question: QuestionsToAsk) => {
+      //     return {
+      //       _id: question.question._id,
+      //       content: question.question.content,
+      //       bestAnswer: question.bestAnswer,
+      //     };
+      //   })
+      // );
     },
   });
 
@@ -269,17 +270,18 @@ const CompanyCRM: NextPageWithLayout = () => {
     setSelectedUser(user);
   };
 
-  const handleTrainButtonClick = () => {
-    setTrainModalOpen(true);
-  };
+  // const handleTrainButtonClick = () => {
+  //   setTrainModalOpen(true);
+  // };
 
-  const handleCloseTrainModal = () => {
-    setTrainModalOpen(false);
-  };
+  // const handleCloseTrainModal = () => {
+  //   setTrainModalOpen(false);
+  // };
 
   const handleCopyLink = () => {
     // const url = window.location.href;
-    const url = "http://localhost:3000/test/interviewEdenAIpage/" + companyID;
+    // const url = "http://localhost:3000/test/interviewEdenAIpage/" + companyID;
+    const url = `${window.location.origin}/interview/${companyID}`;
 
     navigator.clipboard.writeText(url);
     setNotificationOpen(true);
@@ -310,12 +312,12 @@ const CompanyCRM: NextPageWithLayout = () => {
           setRowObjectData={handleRowClick}
         />
 
-        <button
+        {/* <button
           className="mt-4 rounded bg-blue-500 px-2 py-1 text-white hover:bg-blue-600"
           onClick={handleTrainButtonClick}
         >
           Train EdenAI
-        </button>
+        </button> */}
         {selectedUser ? (
           <div className="fixed inset-0 z-10 overflow-y-auto">
             <div className="flex min-h-screen items-end justify-center px-4 pb-20 pt-4 text-center sm:block sm:p-0">
@@ -365,7 +367,7 @@ const CompanyCRM: NextPageWithLayout = () => {
             </div>
           </div>
         ) : null}
-        {trainModalOpen ? (
+        {/* {trainModalOpen ? (
           <div className="fixed inset-0 z-10 overflow-y-auto">
             <div className="flex min-h-screen items-center justify-center px-4">
               <div
@@ -385,7 +387,15 @@ const CompanyCRM: NextPageWithLayout = () => {
               </div>
             </div>
           </div>
-        ) : null}
+        ) : null} */}
+        <Button
+          variant="secondary"
+          onClick={() => {
+            router.push(`/train-ai/${companyID}`);
+          }}
+        >
+          Train AI
+        </Button>
         {notificationOpen ? (
           <div className="fixed bottom-0 right-0 mb-4 mr-4 rounded-lg bg-green-500 px-4 py-2 text-white">
             Link copied!
