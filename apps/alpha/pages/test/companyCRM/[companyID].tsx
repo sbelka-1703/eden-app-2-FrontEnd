@@ -33,6 +33,17 @@ type User = {
   name: string;
   avatar: string;
   score: number;
+  reason: string;
+  summaryQuestions: summaryQuestionType[];
+};
+
+type summaryQuestionType = {
+  questionID: number;
+  questionContent: string;
+  answerContent: string;
+  bestAnswerCompany: string;
+  reason: string;
+  score: number;
 };
 
 type Question = {
@@ -89,7 +100,7 @@ const CompanyCRM: React.FC = () => {
           return {
             _id: candidate.user._id,
             name: candidate.user.discordName,
-            avatar: candidate.user.discordAvatar,
+            avatar: candidate.user?.discordAvatar,
             score: candidate.overallScore,
           };
         })

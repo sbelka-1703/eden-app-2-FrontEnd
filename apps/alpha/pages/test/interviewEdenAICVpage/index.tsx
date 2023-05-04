@@ -105,7 +105,7 @@ const InterviewEdenAIpage: React.FC = () => {
     <div className="flex h-screen w-full">
       <div className="flex h-full w-1/2 flex-col space-y-4 p-4">
         <h1 className="mb-4 text-3xl font-bold">
-          Help Eden with some questions to know you better
+          Help Eden with some questions to know you better 2
         </h1>
       </div>
       <div className="flex h-screen flex-col items-center justify-center text-lg">
