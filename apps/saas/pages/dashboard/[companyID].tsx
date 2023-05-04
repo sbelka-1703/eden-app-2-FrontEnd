@@ -1,7 +1,9 @@
 import { gql, useQuery } from "@apollo/client";
+import { CandidateType } from "@eden/package-graphql/generated";
 import {
   AppUserLayout,
   Button,
+  CandidateModal,
   CandidatesTableList,
   TrainQuestionsEdenAI,
 } from "@eden/package-ui";
@@ -61,122 +63,10 @@ const FIND_COMPANY = gql`
   }
 `;
 
-export interface CandidatesResponseData {
-  data: Data;
-}
-
-export interface Data {
-  findCompany: FindCompany;
-}
-
-export interface FindCompany {
-  _id: string;
-  name: string;
-  candidates: ICandidate[];
-  questionsToAsk: QuestionsToAsk[];
-  __typename: string;
-}
-
-export interface ICandidate {
-  overallScore: number | null;
-  user: IUser;
-  __typename: string;
-  summaryQuestions: summaryQuestionType[];
-  readyToDisplay: boolean;
-}
-
-export interface IUser {
-  _id: string;
-  discordName: string;
-  discordAvatar: string;
-  memberRole: MemberRole | null;
-  budget: Budget;
-  nodes: NodeElement[];
-  previousProjects: PreviousProject[];
-  __typename: string;
-}
-
-export interface Budget {
-  perHour: number | null;
-  __typename: string;
-}
-
-export interface MemberRole {
-  _id: string;
-  title: string;
-  __typename: string;
-}
-
-export interface NodeElement {
-  nodeData: NodeData;
-  __typename: NodeTypename;
-}
-
-export enum NodeTypename {
-  // eslint-disable-next-line no-unused-vars
-  NodesType = "nodesType",
-}
-
-// eslint-disable-next-line no-unused-vars
-enum NodeEnum {
-  // eslint-disable-next-line no-unused-vars
-  Category = "Category",
-  // eslint-disable-next-line no-unused-vars
-  Sector = "Sector",
-  // eslint-disable-next-line no-unused-vars
-  Skill = "Skill",
-  // eslint-disable-next-line no-unused-vars
-  SubSector = "SubSector",
-}
-
-export interface NodeData {
-  _id: string;
-  name: string;
-  node: NodeEnum;
-  __typename: NodeDataTypename;
-}
-
-export enum NodeDataTypename {
-  // eslint-disable-next-line no-unused-vars
-  Node = "Node",
-}
-
-export interface PreviousProject {
-  title: string;
-  positionName: string | null;
-  __typename: string;
-}
-
-export interface QuestionsToAsk {
-  bestAnswer: null | string;
-  question: Question;
-  __typename: string;
-}
-
-export interface Question {
-  _id: string;
-  content: string;
-  __typename: string;
-}
-
 type QuestionType = {
   _id: number;
   content: string;
   bestAnswer: string;
-};
-
-type CandidateLocalType = {
-  _id: number;
-  name: string;
-  avatar: string;
-  score: number;
-  role?: string;
-  background?: any[];
-  level?: string;
-  usdcHour?: number;
-  responseRate?: number;
-  reason: string;
-  summaryQuestions: summaryQuestionType[];
 };
 
 const CompanyCRM: NextPageWithLayout = () => {
@@ -189,10 +79,12 @@ const CompanyCRM: NextPageWithLayout = () => {
   const router = useRouter();
   const { companyID } = router.query;
 
-  const [candidates, setCandidates] = useState<CandidateLocalType[]>([]);
+  const [candidates, setCandidates] = useState<CandidateType[]>([]);
   const [questions, setQuestions] = useState<QuestionType[]>([]);
+
   const [notificationOpen, setNotificationOpen] = useState(false);
-  const [selectedUser, setSelectedUser] = useState<CandidateLocalType | null>(
+  const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+  const [selectedUserScore, setSelectedUserScore] = useState<number | null>(
     null
   );
   const [trainModalOpen, setTrainModalOpen] = useState(false);
@@ -210,27 +102,7 @@ const CompanyCRM: NextPageWithLayout = () => {
     skip: !Boolean(companyID),
     ssr: false,
     onCompleted: (data: any) => {
-      // setCandidates(data.findCompany.candidates);
-
-      setCandidates(
-        data.findCompany.candidates.map((candidate: ICandidate) => {
-          return {
-            _id: parseInt(candidate.user!._id!),
-            name: candidate.user!.discordName,
-            avatar: candidate.user!.discordAvatar,
-            score: candidate.overallScore, //
-            usdcHour: candidate.user!.budget!.perHour,
-            background: candidate.user!.previousProjects?.map(
-              (project: any) => project.title
-            ),
-            role: candidate.user!.memberRole?.title,
-            level: "Junior", // candidate.user...,
-            responseRate: 15, // candidate.user.chat....
-            // reason: candidate.summaryQuestions,
-            summaryQuestions: candidate.summaryQuestions,
-          };
-        })
-      );
+      setCandidates(data.findCompany.candidates);
 
       const questionPrep: QuestionType[] = [];
 
@@ -255,8 +127,9 @@ const CompanyCRM: NextPageWithLayout = () => {
     },
   });
 
-  const handleRowClick = (user: CandidateLocalType) => {
-    setSelectedUser(user);
+  const handleRowClick = (user: CandidateType) => {
+    if (user.user?._id) setSelectedUserId(user.user?._id);
+    if (user.overallScore) setSelectedUserScore(user.overallScore);
   };
 
   const handleTrainButtonClick = () => {
@@ -277,6 +150,10 @@ const CompanyCRM: NextPageWithLayout = () => {
     setTimeout(() => {
       setNotificationOpen(false);
     }, 3000);
+  };
+
+  const handleOnCandidateInfoModalClose = () => {
+    setSelectedUserId(null);
   };
 
   return (
@@ -311,10 +188,12 @@ const CompanyCRM: NextPageWithLayout = () => {
       >
         Train AI
       </Button>
-      {selectedUser ? (
-        <SelectedUser
-          selectedUser={selectedUser}
-          setSelectedUser={setSelectedUser}
+      {selectedUserId !== null ? (
+        <CandidateModal
+          memberId={selectedUserId}
+          percentage={selectedUserScore}
+          open={Boolean(selectedUserId)}
+          onClose={handleOnCandidateInfoModalClose}
         />
       ) : null}
       {trainModalOpen ? (
@@ -351,113 +230,113 @@ CompanyCRM.getLayout = (page: any) => <AppUserLayout>{page}</AppUserLayout>;
 
 export default CompanyCRM;
 
-type summaryQuestionType = {
-  questionID: string;
-  questionContent: string;
-  answerContent: string;
-  bestAnswerCompany: string | null;
-  reason: string | null;
-  score: number | null;
-};
+// type summaryQuestionType = {
+//   questionID: string;
+//   questionContent: string;
+//   answerContent: string;
+//   bestAnswerCompany: string | null;
+//   reason: string | null;
+//   score: number | null;
+// };
 
-type Props = {
-  selectedUser: CandidateLocalType | null;
-  setSelectedUser: React.Dispatch<
-    React.SetStateAction<CandidateLocalType | null>
-  >;
-};
+// type Props = {
+//   selectedUser: CandidateLocalType | null;
+//   setSelectedUser: React.Dispatch<
+//     React.SetStateAction<CandidateLocalType | null>
+//   >;
+// };
 
-const SelectedUser: React.FC<Props> = ({ selectedUser, setSelectedUser }) => {
-  return (
-    <div className="fixed inset-0 z-10 overflow-y-auto">
-      <div className="flex min-h-screen items-end justify-center px-4 pb-20 pt-4 text-center sm:block sm:p-0">
-        <div
-          className="fixed inset-0 transition-opacity"
-          aria-hidden="true"
-          onClick={() => {
-            setSelectedUser(null);
-          }}
-        >
-          <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
-        </div>
-        <span
-          className="hidden sm:inline-block sm:h-screen sm:align-middle"
-          aria-hidden="true"
-        ></span>
-        <div className="inline-block transform overflow-hidden rounded-lg bg-white text-left align-bottom shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:align-middle">
-          <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-            <div className="sm:flex sm:items-start">
-              <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-gray-100 sm:mx-0 sm:h-10 sm:w-10">
-                <img
-                  className="h-10 w-10 rounded-full"
-                  src={selectedUser?.avatar!}
-                  alt={selectedUser?.name!}
-                />
-              </div>
-              <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                <h3 className="mb-4 text-2xl font-medium leading-6 text-black">
-                  {selectedUser?.name}
-                </h3>
-                <div className="mt-2">
-                  <p className="inline-block rounded-lg px-4 py-2 text-4xl font-bold text-indigo-600 shadow-lg">
-                    {selectedUser?.score}
-                    <span className="tooltip">
-                      <svg
-                        className="h-6 w-6 text-gray-400 hover:text-gray-600"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M12 19V12M12 8V8M12 4L12.01 4M20 4H4C2.89543 4 2 4.89543 2 6V18C2 19.1046 2.89543 20 4 20H20C21.1046 20 22 19.1046 22 18V6C22 4.89543 21.1046 4 20 4Z"
-                        ></path>
-                      </svg>
-                      {/* <span className="tooltiptext">
-                        {selectedUser?.reason}
-                      </span> */}
-                    </span>
-                  </p>
-                  {selectedUser?.summaryQuestions &&
-                    selectedUser?.summaryQuestions?.map((question, index) => (
-                      <div key={index}>
-                        <p className="mb-2 mt-4 text-2xl font-medium leading-6 text-black">
-                          {question?.questionContent}
-                        </p>
-                        <p className="mb-2 text-sm text-gray-500">
-                          Answer: {question?.answerContent}
-                        </p>
-                        {question?.score && (
-                          <p className="inline-block rounded-lg px-4 py-2 text-lg font-bold text-indigo-400 shadow-xl">
-                            Score: {question?.score}
-                          </p>
-                        )}
-                        {/* {question.reason && (
-                          <p className="text-sm text-gray-500">
-                            Reason: {question.reason}
-                          </p>
-                        )} */}
-                      </div>
-                    ))}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="px4 bg-gray-50 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-            <button
-              type="button"
-              className="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
-              onClick={() => {
-                setSelectedUser(null);
-              }}
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
+// const SelectedUser: React.FC<Props> = ({ selectedUser, setSelectedUser }) => {
+//   return (
+//     <div className="fixed inset-0 z-10 overflow-y-auto">
+//       <div className="flex min-h-screen items-end justify-center px-4 pb-20 pt-4 text-center sm:block sm:p-0">
+//         <div
+//           className="fixed inset-0 transition-opacity"
+//           aria-hidden="true"
+//           onClick={() => {
+//             setSelectedUser(null);
+//           }}
+//         >
+//           <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+//         </div>
+//         <span
+//           className="hidden sm:inline-block sm:h-screen sm:align-middle"
+//           aria-hidden="true"
+//         ></span>
+//         <div className="inline-block transform overflow-hidden rounded-lg bg-white text-left align-bottom shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:align-middle">
+//           <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+//             <div className="sm:flex sm:items-start">
+//               <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-gray-100 sm:mx-0 sm:h-10 sm:w-10">
+//                 <img
+//                   className="h-10 w-10 rounded-full"
+//                   src={selectedUser?.avatar!}
+//                   alt={selectedUser?.name!}
+//                 />
+//               </div>
+//               <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+//                 <h3 className="mb-4 text-2xl font-medium leading-6 text-black">
+//                   {selectedUser?.name}
+//                 </h3>
+//                 <div className="mt-2">
+//                   <p className="inline-block rounded-lg px-4 py-2 text-4xl font-bold text-indigo-600 shadow-lg">
+//                     {selectedUser?.score}
+//                     <span className="tooltip">
+//                       <svg
+//                         className="h-6 w-6 text-gray-400 hover:text-gray-600"
+//                         viewBox="0 0 24 24"
+//                         fill="none"
+//                         stroke="currentColor"
+//                       >
+//                         <path
+//                           strokeLinecap="round"
+//                           strokeLinejoin="round"
+//                           strokeWidth="2"
+//                           d="M12 19V12M12 8V8M12 4L12.01 4M20 4H4C2.89543 4 2 4.89543 2 6V18C2 19.1046 2.89543 20 4 20H20C21.1046 20 22 19.1046 22 18V6C22 4.89543 21.1046 4 20 4Z"
+//                         ></path>
+//                       </svg>
+//                       {/* <span className="tooltiptext">
+//                         {selectedUser?.reason}
+//                       </span> */}
+//                     </span>
+//                   </p>
+//                   {selectedUser?.summaryQuestions &&
+//                     selectedUser?.summaryQuestions?.map((question, index) => (
+//                       <div key={index}>
+//                         <p className="mb-2 mt-4 text-2xl font-medium leading-6 text-black">
+//                           {question?.questionContent}
+//                         </p>
+//                         <p className="mb-2 text-sm text-gray-500">
+//                           Answer: {question?.answerContent}
+//                         </p>
+//                         {question?.score && (
+//                           <p className="inline-block rounded-lg px-4 py-2 text-lg font-bold text-indigo-400 shadow-xl">
+//                             Score: {question?.score}
+//                           </p>
+//                         )}
+//                         {/* {question.reason && (
+//                           <p className="text-sm text-gray-500">
+//                             Reason: {question.reason}
+//                           </p>
+//                         )} */}
+//                       </div>
+//                     ))}
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+//           <div className="px4 bg-gray-50 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+//             <button
+//               type="button"
+//               className="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
+//               onClick={() => {
+//                 setSelectedUser(null);
+//               }}
+//             >
+//               Close
+//             </button>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };

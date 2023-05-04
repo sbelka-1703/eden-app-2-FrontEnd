@@ -1,4 +1,4 @@
-import { Maybe, Members } from "@eden/package-graphql/generated";
+import { Members } from "@eden/package-graphql/generated";
 import { UserWithDescription } from "@eden/package-ui";
 import { Tab } from "@headlessui/react";
 import { useState } from "react";
@@ -6,8 +6,8 @@ import { useState } from "react";
 import { InfoSection } from "./tabs/InfoSection";
 
 export interface ICandidateInfoProps {
-  member?: Maybe<Members>;
-  percentage?: number;
+  member: Members;
+  percentage: number | null;
   loading?: boolean;
 }
 
@@ -38,14 +38,17 @@ export const CandidateInfo = ({
       Content: () => <InfoSection member={member} loading={loading} />,
     },
     {
-      tab: "EDEN A1 CHATs",
+      tab: "EDEN AI CHATs",
       Content: () => <InfoSection member={member} loading={true} />,
     },
   ];
 
   return (
     <div>
-      <UserWithDescription member={member} percentage={percentage} />
+      <UserWithDescription
+        member={member}
+        percentage={percentage ? percentage : undefined}
+      />
       <Tab.Group
         defaultIndex={index}
         onChange={(index: number) => {

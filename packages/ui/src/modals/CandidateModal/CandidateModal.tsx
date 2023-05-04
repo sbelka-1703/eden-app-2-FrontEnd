@@ -1,17 +1,16 @@
 import { useQuery } from "@apollo/client";
 import { FIND_MEMBER_INFO } from "@eden/package-graphql";
-import { Maybe, Members } from "@eden/package-graphql/generated";
 import { CandidateInfo, Modal } from "@eden/package-ui";
 
 export interface ICandidateModalProps {
-  member?: Maybe<Members>;
-  percentage?: number;
+  memberId: string;
+  percentage: number | null;
   open?: boolean;
   onClose?: () => void;
 }
 
 export const CandidateModal = ({
-  member,
+  memberId,
   percentage,
   open,
   onClose,
@@ -19,21 +18,21 @@ export const CandidateModal = ({
   const { data: dataMemberInfo } = useQuery(FIND_MEMBER_INFO, {
     variables: {
       fields: {
-        _id: member?._id,
+        _id: memberId,
       },
     },
-    skip: !member?._id || !open,
+    skip: !memberId || !open,
   });
 
   const findMember = dataMemberInfo?.findMember;
 
-  if (!member) return null;
+  if (!memberId) return null;
   // if (!findMember) return null;
 
   return (
     <Modal open={open} onClose={onClose}>
       <div className={`h-8/10 scrollbar-hide w-full overflow-scroll`}>
-        <CandidateInfo member={findMember || member} percentage={percentage} />
+        <CandidateInfo member={findMember} percentage={percentage} />
       </div>
     </Modal>
   );

@@ -1,3 +1,4 @@
+import { CandidateType } from "@eden/package-graphql/generated";
 import {
   Avatar,
   Badge,
@@ -8,36 +9,11 @@ import {
 import clsx from "clsx";
 import { ComponentPropsWithoutRef, FC, ReactNode } from "react";
 
-// import type { Candidate } from "./types";
-
 interface InputGroupProps extends ComponentPropsWithoutRef<"td"> {
   extraCssClass?: string;
   textColor?: string;
   children: string | ReactNode;
 }
-
-type summaryQuestionType = {
-  questionID: string;
-  questionContent: string;
-  answerContent: string;
-  bestAnswerCompany: string | null;
-  reason: string | null;
-  score: number | null;
-};
-
-type CandidateLocalType = {
-  _id: number;
-  name: string;
-  avatar: string;
-  score: number;
-  role?: string;
-  background?: any[];
-  level?: string;
-  usdcHour?: number;
-  responseRate?: number;
-  reason: string;
-  summaryQuestions: summaryQuestionType[];
-};
 
 const ColumnStyled: FC<InputGroupProps> = ({
   extraCssClass,
@@ -58,10 +34,10 @@ const ColumnStyled: FC<InputGroupProps> = ({
 );
 
 type CandidatesTableListProps = {
-  candidatesList: CandidateLocalType[];
+  candidatesList: CandidateType[];
   fetchIsLoading: boolean;
   // eslint-disable-next-line no-unused-vars
-  setRowObjectData?: (user: CandidateLocalType) => void;
+  setRowObjectData?: (user: CandidateType) => void;
 };
 
 export const CandidatesTableList: React.FC<CandidatesTableListProps> = ({
@@ -69,9 +45,27 @@ export const CandidatesTableList: React.FC<CandidatesTableListProps> = ({
   fetchIsLoading,
   setRowObjectData,
 }) => {
-  const handleObjectDataSelection = (user: CandidateLocalType) => {
+  const handleObjectDataSelection = (user: CandidateType) => {
     setRowObjectData && setRowObjectData(user);
   };
+
+  // const candidates = candidatesList.map((candidate: CandidateType) => {
+  //   return {
+  //     _id: parseInt(candidate._id!),
+  //     name: candidate.discordName,
+  //     avatar: candidate.discordAvatar,
+  //     score: candidate.overallScore, //
+  //     usdcHour: candidate.user!.budget!.perHour,
+  //     background: candidate.user!.previousProjects?.map(
+  //       (project: any) => project.title
+  //     ),
+  //     role: candidate.user!.memberRole?.title,
+  //     level: "Junior", // candidate.user...,
+  //     responseRate: 15, // candidate.user.chat....
+  //     // reason: candidate.summaryQuestions,
+  //     summaryQuestions: candidate.summaryQuestions,
+  //   };
+  // });
 
   return (
     <GridLayout>
@@ -108,7 +102,7 @@ export const CandidatesTableList: React.FC<CandidatesTableListProps> = ({
             ) : Boolean(candidatesList) ? (
               candidatesList.map((candidate, idx) => (
                 <tr
-                  key={`${candidate._id}`}
+                  key={`${candidate.user?._id}-${idx}`}
                   onClick={() => handleObjectDataSelection(candidate)}
                   className="cursor-pointer hover:bg-gray-300 focus:outline-none focus:ring focus:ring-gray-300 active:bg-gray-300"
                 >
@@ -118,45 +112,60 @@ export const CandidatesTableList: React.FC<CandidatesTableListProps> = ({
                   <ColumnStyled extraCssClass="border-r-0 pr-0">
                     <Avatar
                       size="xs"
-                      src={candidate.avatar!}
-                      alt={`${candidate.name!.trim()}-avatar`}
+                      src={candidate.user?.discordAvatar!}
+                      alt={`${candidate.user?.discordName!.trim()}-avatar`}
                     />
                   </ColumnStyled>
                   <ColumnStyled extraCssClass="border-l-0 pl-0">
-                    {candidate.name!}
+                    {candidate.user?.discordName!}
                   </ColumnStyled>
                   <ColumnStyled>
-                    {candidate.role ? candidate.role : null}
+                    {candidate.user?.memberRole?.title
+                      ? candidate.user?.memberRole?.title
+                      : null}
                   </ColumnStyled>
                   <ColumnStyled textColor="text-fuchsia-600">
-                    {candidate.score ? `${candidate.score} %` : null}
-                  </ColumnStyled>
-                  <ColumnStyled>
-                    {candidate.background
-                      ? candidate.background.map((experience, idx) => (
-                          <Badge
-                            key={`${experience}${idx}`}
-                            colorRGB="224,192,245"
-                            text={experience}
-                            cutText={17}
-                          />
-                        ))
+                    {candidate.overallScore
+                      ? `${candidate.overallScore} %`
                       : null}
                   </ColumnStyled>
                   <ColumnStyled>
-                    {candidate.level ? (
+                    {candidate.user?.previousProjects
+                      ? candidate.user.previousProjects.map(
+                          (experience, idx) => {
+                            return (
+                              <>
+                                {experience?.title ? (
+                                  <Badge
+                                    key={`${experience}${idx}`}
+                                    colorRGB="224,192,245"
+                                    text={experience.title}
+                                    cutText={17}
+                                  />
+                                ) : null}
+                              </>
+                            );
+                          }
+                        )
+                      : null}
+                  </ColumnStyled>
+                  <ColumnStyled>
+                    {candidate.user?.memberRole?.title ? (
                       <Badge
                         colorRGB="153,255,204"
-                        text={candidate.level}
+                        text={candidate.user?.memberRole?.title}
                         cutText={9}
                       />
                     ) : null}
                   </ColumnStyled>
                   <ColumnStyled>
-                    {candidate.usdcHour ? candidate.usdcHour : null}
+                    {candidate.user!.budget!.perHour
+                      ? candidate.user!.budget!.perHour
+                      : null}
                   </ColumnStyled>
                   <ColumnStyled>
-                    {candidate.responseRate ? candidate.responseRate : null}
+                    {/* {candidate.responseRate ? candidate.responseRate : null} */}
+                    15% (hardoded)
                   </ColumnStyled>
                 </tr>
               ))
