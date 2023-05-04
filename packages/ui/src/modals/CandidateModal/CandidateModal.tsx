@@ -6,14 +6,16 @@ export interface ICandidateModalProps {
   memberId: string;
   percentage: number | null;
   open?: boolean;
-  onClose?: () => void;
+  handleCloseModal: () => void;
+  summaryQuestions: any;
 }
 
 export const CandidateModal = ({
   memberId,
   percentage,
+  summaryQuestions,
   open,
-  onClose,
+  handleCloseModal,
 }: ICandidateModalProps) => {
   const { data: dataMemberInfo } = useQuery(FIND_MEMBER_INFO, {
     variables: {
@@ -30,9 +32,14 @@ export const CandidateModal = ({
   // if (!findMember) return null;
 
   return (
-    <Modal open={open} onClose={onClose}>
+    <Modal open={open} onClose={handleCloseModal}>
       <div className={`h-8/10 scrollbar-hide w-full overflow-scroll`}>
-        <CandidateInfo member={findMember} percentage={percentage} />
+        <CandidateInfo
+          member={findMember}
+          percentage={percentage}
+          summaryQuestions={summaryQuestions}
+          handleCloseModal={handleCloseModal}
+        />
       </div>
     </Modal>
   );

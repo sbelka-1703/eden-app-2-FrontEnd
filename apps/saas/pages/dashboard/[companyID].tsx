@@ -87,6 +87,8 @@ const CompanyCRM: NextPageWithLayout = () => {
   const [selectedUserScore, setSelectedUserScore] = useState<number | null>(
     null
   );
+  const [selectedUserSummaryQuestions, setSelectedUserSummaryQuestions] =
+    useState<any[]>([]);
   const [trainModalOpen, setTrainModalOpen] = useState(false);
 
   const {
@@ -130,6 +132,8 @@ const CompanyCRM: NextPageWithLayout = () => {
   const handleRowClick = (user: CandidateType) => {
     if (user.user?._id) setSelectedUserId(user.user?._id);
     if (user.overallScore) setSelectedUserScore(user.overallScore);
+    if (user.summaryQuestions)
+      setSelectedUserSummaryQuestions(user.summaryQuestions);
   };
 
   const handleTrainButtonClick = () => {
@@ -192,8 +196,9 @@ const CompanyCRM: NextPageWithLayout = () => {
         <CandidateModal
           memberId={selectedUserId}
           percentage={selectedUserScore}
+          summaryQuestions={selectedUserSummaryQuestions}
           open={Boolean(selectedUserId)}
-          onClose={handleOnCandidateInfoModalClose}
+          handleCloseModal={handleOnCandidateInfoModalClose}
         />
       ) : null}
       {trainModalOpen ? (
