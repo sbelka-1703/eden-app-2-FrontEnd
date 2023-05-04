@@ -49,24 +49,6 @@ export const CandidatesTableList: React.FC<CandidatesTableListProps> = ({
     setRowObjectData && setRowObjectData(user);
   };
 
-  // const candidates = candidatesList.map((candidate: CandidateType) => {
-  //   return {
-  //     _id: parseInt(candidate._id!),
-  //     name: candidate.discordName,
-  //     avatar: candidate.discordAvatar,
-  //     score: candidate.overallScore, //
-  //     usdcHour: candidate.user!.budget!.perHour,
-  //     background: candidate.user!.previousProjects?.map(
-  //       (project: any) => project.title
-  //     ),
-  //     role: candidate.user!.memberRole?.title,
-  //     level: "Junior", // candidate.user...,
-  //     responseRate: 15, // candidate.user.chat....
-  //     // reason: candidate.summaryQuestions,
-  //     summaryQuestions: candidate.summaryQuestions,
-  //   };
-  // });
-
   return (
     <GridLayout>
       <GridItemTwelve>
