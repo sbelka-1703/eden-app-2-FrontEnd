@@ -1,17 +1,9 @@
 import { gql, useQuery } from "@apollo/client";
-import {
-  AppUserLayout,
-  Avatar,
-  Button,
-  CandidatesTableList,
-  // LeftToggleMenu,
-  SEO,
-} from "@eden/package-ui";
-import router, { useRouter } from "next/router";
+import { Button, CandidatesTableList } from "@eden/package-ui";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 
-import { NextPageWithLayout } from "../_app";
-// import TrainQuestionsEdenAI from "./components/TrainQuestionsEdenAI";
+import TrainQuestionsEdenAI from "./components/TrainQuestionsEdenAI";
 
 const FIND_COMPANY = gql`
   query ($fields: findCompanyInput!) {
@@ -163,11 +155,11 @@ export interface Question {
 //   responseRate?: number;
 // };
 
-// type QuestionType = {
-//   _id: number;
-//   content: string;
-//   bestAnswer: string;
-// };
+type QuestionType = {
+  _id: number;
+  content: string;
+  bestAnswer: string;
+};
 
 // type Users = User[];
 
@@ -198,23 +190,39 @@ type CandidateType = {
   usdcHour?: number;
   responseRate?: number;
 };
+// type Users = User[];
 
-const CompanyCRM: NextPageWithLayout = () => {
+// const users: Users = [
+//   {
+//     id: 1,
+//     name: "John Doe",
+//     email: "johndoe@example.com",
+//     avatar: "https://randomuser.me/api/portraits/men/1.jpg",
+//   },
+//   {
+//     id: 2,
+//     name: "Jane Doe",
+//     email: "janedoe@example.com",
+//     avatar: "https://randomuser.me/api/portraits/women/2.jpg",
+//   },
+//   // Add more users as needed
+// ];
+
+const CompanyCRM: React.FC = () => {
   // interface MessageObject {
   //   message: string;
   //   sentMessage: boolean;
   //   user?: string;
   // }
 
-  const { companyID } = useRouter().query;
+  const router = useRouter();
+  const { companyID } = router.query;
 
   // const [companyID] = useState<String>("644a5949e1ba07a9e9e3842c");
-
   const [candidates, setCandidates] = useState<CandidateType[]>([]); // DEV: type and name to <Candidate[]> ??
-  // const [questions, setQuestions] = useState<QuestionType[]>([]);
+  // const [users, setUsers] = useState<User[]>([]);
+  const [questions, setQuestions] = useState<QuestionType[]>([]);
   const [notificationOpen, setNotificationOpen] = useState(false);
-  const [selectedUser, setSelectedUser] = useState<CandidateType | null>(null);
-  // const [trainModalOpen, setTrainModalOpen] = useState(false);
 
   const {
     // data: findCompanyData,
@@ -248,35 +256,49 @@ const CompanyCRM: NextPageWithLayout = () => {
         })
       );
 
-      // setQuestions(
-      //   data.findCompany.questionsToAsk.map((question: QuestionsToAsk) => {
-      //     return {
-      //       _id: question.question._id,
-      //       content: question.question.content,
-      //       bestAnswer: question.bestAnswer,
-      //     };
-      //   })
-      // );
+      const questionPrep: QuestionType[] = [];
+
+      data.findCompany.questionsToAsk.map((question: any) => {
+        console.log("question = ", question);
+        if (question.question == null) {
+        } else {
+          questionPrep.push({
+            _id: question.question._id,
+            content: question.question.content,
+            bestAnswer: question.bestAnswer,
+          });
+        }
+        // return {
+        //   _id: question.question._id,
+        //   content: question.question.content,
+        //   bestAnswer: question.bestAnswer,
+        // };
+      });
+
+      setQuestions(questionPrep);
     },
   });
 
-  // console.log(!Boolean(companyID), {
-  // findCompanyData,
-  // findCompanyIsLoading,
-  // findCompanyError,
-  // });
+  // console.log("dataCompany = ", dataCompany);
+
+  console.log("companyID = ", companyID);
+
+  console.log("questions = ", questions);
+
+  const [selectedUser, setSelectedUser] = useState<CandidateType | null>(null);
+  const [trainModalOpen, setTrainModalOpen] = useState(false);
 
   const handleRowClick = (user: CandidateType) => {
     setSelectedUser(user);
   };
 
-  // const handleTrainButtonClick = () => {
-  //   setTrainModalOpen(true);
-  // };
+  const handleTrainButtonClick = () => {
+    setTrainModalOpen(true);
+  };
 
-  // const handleCloseTrainModal = () => {
-  //   setTrainModalOpen(false);
-  // };
+  const handleCloseTrainModal = () => {
+    setTrainModalOpen(false);
+  };
 
   const handleCopyLink = () => {
     // const url = window.location.href;
@@ -291,121 +313,114 @@ const CompanyCRM: NextPageWithLayout = () => {
   };
 
   return (
-    <>
-      <SEO />
-      <div className="container mx-auto w-full p-8">
-        {/* <LeftToggleMenu></LeftToggleMenu> */}
-        <div className="mb-4 flex justify-between">
-          <h1 className="text-3xl font-bold leading-tight text-gray-900">
-            Users
-          </h1>
-          <button
-            className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-            onClick={handleCopyLink}
-          >
-            Link Candidates Copy
-          </button>
-        </div>
-        <CandidatesTableList
-          candidatesList={candidates}
-          fetchIsLoading={findCompanyIsLoading}
-          setRowObjectData={handleRowClick}
-        />
-
-        {/* <button
-          className="mt-4 rounded bg-blue-500 px-2 py-1 text-white hover:bg-blue-600"
-          onClick={handleTrainButtonClick}
+    <div className="container mx-auto">
+      <div className="mb-4 flex justify-between">
+        <h1 className="text-3xl font-bold leading-tight text-gray-900">
+          Users
+        </h1>
+        <button
+          className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+          onClick={handleCopyLink}
         >
-          Train EdenAI
-        </button> */}
-        {selectedUser ? (
-          <div className="fixed inset-0 z-10 overflow-y-auto">
-            <div className="flex min-h-screen items-end justify-center px-4 pb-20 pt-4 text-center sm:block sm:p-0">
-              <div
-                className="fixed inset-0 transition-opacity"
-                aria-hidden="true"
-                onClick={() => setSelectedUser(null)}
-              >
-                <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
-              </div>
-              <span
-                className="hidden sm:inline-block sm:h-screen sm:align-middle"
-                aria-hidden="true"
-              ></span>
-              <div className="inline-block transform overflow-hidden rounded-lg bg-white text-left align-bottom shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:align-middle">
-                <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-                  <div className="sm:flex sm:items-start">
-                    <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-gray-100 sm:mx-0 sm:h-10 sm:w-10">
-                      <Avatar
-                        size="xs"
-                        src={selectedUser.avatar}
-                        alt={selectedUser.name}
-                      />
-                    </div>
-                    <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                      <h3 className="text-lg    font-medium leading-6 text-gray-900">
-                        {selectedUser.name}
-                      </h3>
-                      <div className="mt-2">
-                        <p className="text-sm text-gray-500">
-                          Score: {selectedUser.score}
-                        </p>
-                      </div>
+          Link Candidates Copy
+        </button>
+      </div>
+      <CandidatesTableList
+        candidatesList={candidates}
+        fetchIsLoading={findCompanyIsLoading}
+        setRowObjectData={handleRowClick}
+      />
+      <button
+        className="mt-4 rounded bg-blue-500 px-2 py-1 text-white hover:bg-blue-600"
+        onClick={handleTrainButtonClick}
+      >
+        Train EdenAI Dirty
+      </button>
+      <Button
+        variant="secondary"
+        onClick={() => {
+          router.push(`/train-ai/${companyID}`);
+        }}
+      >
+        Train AI
+      </Button>
+      {selectedUser && (
+        <div className="fixed inset-0 z-10 overflow-y-auto">
+          <div className="flex min-h-screen items-end justify-center px-4 pb-20 pt-4 text-center sm:block sm:p-0">
+            <div
+              className="fixed inset-0 transition-opacity"
+              aria-hidden="true"
+              onClick={() => setSelectedUser(null)}
+            >
+              <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+            </div>
+            <span
+              className="hidden sm:inline-block sm:h-screen sm:align-middle"
+              aria-hidden="true"
+            ></span>
+            <div className="inline-block transform overflow-hidden rounded-lg bg-white text-left align-bottom shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:align-middle">
+              <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                <div className="sm:flex sm:items-start">
+                  <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-gray-100 sm:mx-0 sm:h-10 sm:w-10">
+                    <img
+                      className="h-10 w-10 rounded-full"
+                      src={selectedUser.avatar}
+                      alt={selectedUser.name}
+                    />
+                  </div>
+                  <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                    <h3 className="text-lg    font-medium leading-6 text-gray-900">
+                      {selectedUser.name}
+                    </h3>
+                    <div className="mt-2">
+                      <p className="text-sm text-gray-500">
+                        Score: {selectedUser.score}
+                      </p>
                     </div>
                   </div>
                 </div>
-                <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                  <button
-                    type="button"
-                    className="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
-                    onClick={() => setSelectedUser(null)}
-                  >
-                    Close
-                  </button>
-                </div>
+              </div>
+              <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                <button
+                  type="button"
+                  className="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
+                  onClick={() => setSelectedUser(null)}
+                >
+                  Close
+                </button>
               </div>
             </div>
           </div>
-        ) : null}
-        {/* {trainModalOpen ? (
-          <div className="fixed inset-0 z-10 overflow-y-auto">
-            <div className="flex min-h-screen items-center justify-center px-4">
-              <div
-                className="fixed inset-0 transition-opacity"
-                aria-hidden="true"
-                onClick={handleCloseTrainModal}
-              >
-                <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
-              </div>
-              <div className="transform overflow-hidden rounded-lg bg-white shadow-xl transition-all sm:w-full sm:max-w-lg">
-                <TrainQuestionsEdenAI
-                  questions={questions}
-                  companyID={companyID}
-                  setQuestions={setQuestions}
-                  setTrainModalOpen={setTrainModalOpen}
-                />
-              </div>
+        </div>
+      )}
+      {trainModalOpen && (
+        <div className="fixed inset-0 z-10 overflow-y-auto">
+          <div className="flex min-h-screen items-center justify-center px-4">
+            <div
+              className="fixed inset-0 transition-opacity"
+              aria-hidden="true"
+              onClick={handleCloseTrainModal}
+            >
+              <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+            </div>
+            <div className="transform overflow-hidden rounded-lg bg-white shadow-xl transition-all sm:w-full sm:max-w-lg">
+              <TrainQuestionsEdenAI
+                questions={questions}
+                companyID={companyID}
+                setQuestions={setQuestions}
+                setTrainModalOpen={setTrainModalOpen}
+              />
             </div>
           </div>
-        ) : null} */}
-        <Button
-          variant="secondary"
-          onClick={() => {
-            router.push(`/train-ai/${companyID}`);
-          }}
-        >
-          Train AI
-        </Button>
-        {notificationOpen ? (
-          <div className="fixed bottom-0 right-0 mb-4 mr-4 rounded-lg bg-green-500 px-4 py-2 text-white">
-            Link copied!
-          </div>
-        ) : null}
-      </div>
-    </>
+        </div>
+      )}
+      {notificationOpen && (
+        <div className="fixed bottom-0 right-0 mb-4 mr-4 rounded-lg bg-green-500 px-4 py-2 text-white">
+          Link copied!
+        </div>
+      )}
+    </div>
   );
 };
-
-CompanyCRM.getLayout = (page) => <AppUserLayout>{page}</AppUserLayout>;
 
 export default CompanyCRM;
