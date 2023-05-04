@@ -1,8 +1,9 @@
 import { gql, useQuery } from "@apollo/client";
-import { Button, CandidatesTableList } from "@eden/package-ui";
+import { AppUserLayout, Button, CandidatesTableList } from "@eden/package-ui";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 
+import { NextPageWithLayout } from "../_app";
 import TrainQuestionsEdenAI from "./components/TrainQuestionsEdenAI";
 
 const FIND_COMPANY = gql`
@@ -208,7 +209,7 @@ type CandidateType = {
 //   // Add more users as needed
 // ];
 
-const CompanyCRM: React.FC = () => {
+const CompanyCRM: NextPageWithLayout = () => {
   // interface MessageObject {
   //   message: string;
   //   sentMessage: boolean;
@@ -316,7 +317,7 @@ const CompanyCRM: React.FC = () => {
     <div className="container mx-auto">
       <div className="mb-4 flex justify-between">
         <h1 className="text-3xl font-bold leading-tight text-gray-900">
-          Users
+          Candidates
         </h1>
         <button
           className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
@@ -422,5 +423,7 @@ const CompanyCRM: React.FC = () => {
     </div>
   );
 };
+
+CompanyCRM.getLayout = (page: any) => <AppUserLayout>{page}</AppUserLayout>;
 
 export default CompanyCRM;
