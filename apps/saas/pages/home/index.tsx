@@ -10,13 +10,11 @@ const HomePage: NextPageWithLayout = () => {
         <h2>Quick directory</h2>
         <ul className="list-disc">
           <li>
-            <Link href={"/interview/644e052ca7177f51e7c27b77"}>
-              Interview page
-            </Link>
+            <Link href={"/interview/644e052ca7177f51e7c27b77"}>Interview</Link>
           </li>
           <li>
             <Link href={"/dashboard/644e052ca7177f51e7c27b77"}>
-              Interview Company
+              Company Dashboard
             </Link>
           </li>
           <li>
