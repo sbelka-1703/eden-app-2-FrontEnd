@@ -2,6 +2,7 @@ import { gql, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 
+import SelectedUser from "./components/SelectedUser";
 import TrainQuestionsEdenAI from "./components/TrainQuestionsEdenAI";
 
 const FIND_COMPANY = gql`
@@ -9,14 +10,6 @@ const FIND_COMPANY = gql`
     findCompany(fields: $fields) {
       _id
       name
-      candidates {
-        overallScore
-        user {
-          _id
-          discordName
-          discordAvatar
-        }
-      }
       questionsToAsk {
         bestAnswer
         question {
@@ -24,15 +17,43 @@ const FIND_COMPANY = gql`
           content
         }
       }
+      candidates {
+        user {
+          _id
+          discordName
+          discordAvatar
+        }
+        overallScore
+        readyToDisplay
+
+        summaryQuestions {
+          questionID
+          questionContent
+          answerContent
+          reason
+          score
+          bestAnswerCompany
+        }
+      }
     }
   }
 `;
+
+type summaryQuestionType = {
+  questionID: number;
+  questionContent: string;
+  answerContent: string;
+  bestAnswerCompany: string;
+  reason: string;
+  score: number;
+};
 
 type User = {
   _id: number;
   name: string;
   avatar: string;
   score: number;
+  summaryQuestions: summaryQuestionType[];
 };
 
 type Question = {
@@ -91,6 +112,7 @@ const CompanyCRM: React.FC = () => {
             name: candidate.user.discordName,
             avatar: candidate.user.discordAvatar,
             score: candidate.overallScore,
+            summaryQuestions: candidate.summaryQuestions,
           };
         })
       );
@@ -117,6 +139,8 @@ const CompanyCRM: React.FC = () => {
       setQuestions(questionPrep);
     },
   });
+
+  console.log("users = ", users);
 
   console.log("dataCompany = ", dataCompany);
 
@@ -193,6 +217,12 @@ const CompanyCRM: React.FC = () => {
         Train EdenAI
       </button>
       {selectedUser && (
+        <SelectedUser
+          selectedUser={selectedUser}
+          setSelectedUser={setSelectedUser}
+        />
+      )}
+      {/* {selectedUser && (
         <div className="fixed inset-0 z-10 overflow-y-auto">
           <div className="flex min-h-screen items-end justify-center px-4 pb-20 pt-4 text-center sm:block sm:p-0">
             <div
@@ -240,7 +270,7 @@ const CompanyCRM: React.FC = () => {
             </div>
           </div>
         </div>
-      )}
+      )} */}
       {trainModalOpen && (
         <div className="fixed inset-0 z-10 overflow-y-auto">
           <div className="flex min-h-screen items-center justify-center px-4">
