@@ -31,6 +31,7 @@ export * from "./SkillSelector";
 export * from "./SocialMediaComponent";
 export * from "./SocialMediaInput";
 export * from "./SubNodesExpandable";
+export * from "./TrainQuestionsEdenAI";
 export * from "./UserBackground";
 export * from "./UserWithDescription";
 export * from "./Wizard";

@@ -5,12 +5,12 @@ import {
   CandidatesTableList,
   // LeftToggleMenu,
   SEO,
+  TrainQuestionsEdenAI,
 } from "@eden/package-ui";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 
 import { NextPageWithLayout } from "../_app";
-import TrainQuestionsEdenAI from "./components/TrainQuestionsEdenAI";
 
 const FIND_COMPANY = gql`
   query ($fields: findCompanyInput!) {

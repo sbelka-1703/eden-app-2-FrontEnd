@@ -26,24 +26,22 @@ const ADD_QUESTIONS_TO_COMPANY = gql`
   }
 `;
 
-type Question = {
+export type Question = {
   _id: number;
   content: string;
   bestAnswer: string;
 };
 
-type Questions = Question[];
-
 type Props = {
-  questions: Questions;
+  questions: Question[];
   companyID?: string | string[] | undefined;
   // eslint-disable-next-line no-unused-vars
-  setQuestions: (questions: Questions) => void;
+  setQuestions: (questions: Question[]) => void;
   // eslint-disable-next-line no-unused-vars
   setTrainModalOpen: (open: boolean) => void;
 };
 
-const TrainQuestionsEdenAI = ({
+export const TrainQuestionsEdenAI = ({
   questions = [],
   companyID,
   setQuestions,
@@ -141,5 +139,3 @@ const TrainQuestionsEdenAI = ({
     </div>
   );
 };
-
-export default TrainQuestionsEdenAI;
