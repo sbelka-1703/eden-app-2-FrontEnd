@@ -1,0 +1,113 @@
+import { gql, useMutation } from "@apollo/client";
+import { ChangeEvent, FormEvent, useState } from "react";
+
+export const CV_TO_SUMMARY = gql`
+  mutation ($fields: CVtoSummaryInput!) {
+    CVtoSummary(fields: $fields) {
+      result
+    }
+  }
+`;
+
+export interface ICVUploadGPTProps {
+  timePerWeek?: number;
+  seed?: string;
+}
+
+// eslint-disable-next-line no-unused-vars
+export const CVUploadGPT = ({ timePerWeek, seed }: ICVUploadGPTProps) => {
+  const [file, setFile] = useState<File | null>(null);
+  const [summary, setSummary] = useState<string | null>(null);
+
+  const [CVtoSummary] = useMutation(CV_TO_SUMMARY, {
+    onCompleted({ CVtoSummary }) {
+      console.log("CVtoSummary", CVtoSummary);
+      console.log("CVtoSummary.result", CVtoSummary.result);
+      setSummary(CVtoSummary.result);
+    },
+  });
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setFile(e.target.files[0]);
+    }
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!file) {
+      return;
+    }
+    const reader = new FileReader();
+
+    reader.onloadend = async () => {
+      const base64File = ((reader.result as string) || "").split(",")[1];
+      const response = await fetch("../api/process-pdf/process-pdf", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ fileBuffer: base64File }),
+      });
+
+      if (response.ok) {
+        const { text } = await response.json();
+
+        CVtoSummary({ variables: { fields: { cvString: text } } });
+
+        console.log(text);
+      } else {
+        const { error } = await response.json();
+
+        console.log("error aaa", error);
+      }
+    };
+
+    reader.readAsDataURL(file);
+  };
+
+  const summaryList = summary
+    ? summary
+        .split("•")
+        .filter((item) => item.trim() !== "")
+        .map((item, index) => <li key={index}>{item}</li>)
+    : [];
+
+  console.log("summaryList", summaryList);
+
+  return (
+    <div className="w-fit ">
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col items-center justify-center space-y-2"
+      >
+        <label>Resume(CV)</label>
+        <label htmlFor="input" className="text-center text-sm">
+          Upload Recent Resume for Better Results Form Our AI
+        </label>
+        <input
+          className="ml-60"
+          onChange={handleFileChange}
+          type="file"
+          accept=".pdf"
+        ></input>
+        <button
+          className="rounded-lg border-2 border-blue-400 px-2 font-bold text-blue-400 hover:border-blue-700 hover:bg-blue-700 hover:text-white"
+          type="submit"
+        >
+          Upload Resume
+        </button>
+      </form>
+      {summary ? (
+        <div className="ml-2 mt-2 w-fit rounded-md border-2 border-black pl-6 pr-4 ">
+          <label htmlFor="ul" className="text-right text-lg font-bold">
+            CV Summary:
+          </label>
+          <ul className="list-outside list-disc space-y-[3px] ">
+            {summaryList}
+          </ul>
+        </div>
+      ) : null}
+    </div>
+  );
+};
