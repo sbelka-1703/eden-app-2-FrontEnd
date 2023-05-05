@@ -123,13 +123,14 @@ export const InfoTab = ({ member }: Props) => {
           {member?.previousProjects && member?.previousProjects.length ? (
             <section className="mb-2 w-full text-left">
               <TextLabel1 className="text-xs">🍒 BACKGROUND</TextLabel1>
-              <div className="ml-4 inline-flex flex-wrap">
+              <div className="ml-4 mt-2 inline-flex flex-wrap">
                 {[
                   "Project Manager x Amazon",
                   "Senior Project Manager x LLC",
                   "PM Scum Master x Rocky Industries",
                 ].map((experience: string, index: number) => (
                   <div key={index} className="mb-4 flex flex-row">
+                    ►{" "}
                     <Badge
                       text={experience}
                       colorRGB="250,248,137"
