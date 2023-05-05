@@ -49,7 +49,7 @@ export const CandidateInfo = ({
       Content: () => <InfoTab member={member} loading={loading} />,
     },
     {
-      tab: "EDEN AI CHATs",
+      tab: "EDEN AI CHAT",
       Content: () => <InfoTab member={member} loading={true} />,
     },
   ];
@@ -67,7 +67,7 @@ export const CandidateInfo = ({
           setIndex(index);
         }}
       >
-        <Tab.List className="w-full space-x-9 text-xl">
+        <Tab.List className="w-full content-between space-x-16 text-xl">
           {tabs.map(({ tab }, index) => (
             <Tab
               key={index}
