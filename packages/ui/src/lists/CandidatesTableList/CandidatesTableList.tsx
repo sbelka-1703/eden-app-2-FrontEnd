@@ -114,18 +114,16 @@ export const CandidatesTableList: React.FC<CandidatesTableListProps> = ({
                         {candidate.user?.previousProjects
                           ? candidate.user.previousProjects.map(
                               (experience, idx) => {
-                                return (
-                                  <>
-                                    {experience?.title ? (
-                                      <Badge
-                                        key={`${experience}${idx}`}
-                                        colorRGB="224,192,245"
-                                        text={experience.title}
-                                        cutText={30}
-                                      />
-                                    ) : null}
-                                  </>
-                                );
+                                if (experience?.title) {
+                                  return (
+                                    <Badge
+                                      key={`${experience}${idx}`}
+                                      colorRGB="224,192,245"
+                                      text={experience.title}
+                                      cutText={30}
+                                    />
+                                  );
+                                }
                               }
                             )
                           : null}
