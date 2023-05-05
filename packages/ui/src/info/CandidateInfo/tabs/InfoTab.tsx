@@ -1,5 +1,11 @@
 import { Maybe, Members, NodesType } from "@eden/package-graphql/generated";
-import { Badge, SocialMediaComp, TextLabel1 } from "@eden/package-ui";
+import {
+  Badge,
+  SocialMediaComp,
+  TextLabel1,
+  UserBackground,
+} from "@eden/package-ui";
+import { useState } from "react";
 
 interface Props {
   member?: Maybe<Members>;
@@ -8,6 +14,8 @@ interface Props {
 }
 
 export const InfoTab = ({ member }: Props) => {
+  const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
+
   return (
     <>
       <div className="mb-4 grid grid-cols-2">
@@ -132,24 +140,11 @@ export const InfoTab = ({ member }: Props) => {
           {member?.previousProjects && member?.previousProjects.length ? (
             <section className="mb-2 w-full text-left">
               <TextLabel1 className="text-xs">🍒 BACKGROUND</TextLabel1>
-              <div className="ml-4 mt-2 inline-flex flex-wrap">
-                {[
-                  "Project Manager x Amazon",
-                  "Senior Project Manager x LLC",
-                  "PM Scum Master x Rocky Industries",
-                ].map((experience: string, index: number) => (
-                  <div key={index} className="mb-4 flex flex-row">
-                    ►{" "}
-                    <Badge
-                      text={experience}
-                      colorRGB="250,248,137"
-                      className={`font-Inter text-sm`}
-                      closeButton={false}
-                      cutText={50}
-                    />
-                  </div>
-                ))}
-              </div>
+              <UserBackground
+                background={member?.previousProjects || []}
+                setExperienceOpen={setExperienceOpen!}
+                experienceOpen={experienceOpen!}
+              />
             </section>
           ) : null}
         </div>

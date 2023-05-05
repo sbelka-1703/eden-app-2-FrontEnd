@@ -27,7 +27,7 @@ export const UserBackground = ({
   return (
     <div>
       <div className="mb-6">
-        <TextLabel1>🎡 Background</TextLabel1>
+        {/* <TextLabel1>🎡 Background</TextLabel1> */}
         {background?.map((item, index) => {
           const empty =
             !item?.description && !item?.startDate && !item?.endDate;
@@ -55,7 +55,7 @@ export const UserBackground = ({
                 {index < 2 && <span className="ml-3 text-xl">⭐️</span>}
               </div>
               {index === experienceOpen && (
-                <Card border className="grid grid-cols-2 py-4 px-6">
+                <Card border className="grid grid-cols-2 px-6 py-4">
                   <div className="col-span-1">
                     <TextLabel1>Description</TextLabel1>
                     <p className="whitespace-pre-wrap">{item?.description}</p>
