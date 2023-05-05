@@ -12,7 +12,7 @@ export interface ICandidateInfoProps {
   percentage: number | null;
   loading?: boolean;
   summaryQuestions: any;
-  handleCloseModal: () => void;
+  handleCloseModal?: () => void;
 }
 
 function classNames(...classes: any[]) {
@@ -24,6 +24,7 @@ export const CandidateInfo = ({
   percentage,
   loading = false,
   summaryQuestions,
+  // eslint-disable-next-line no-unused-vars
   handleCloseModal,
 }: ICandidateInfoProps) => {
   const [index, setIndex] = useState(0);
@@ -122,17 +123,6 @@ export const CandidateInfo = ({
               <Tab.Panel key={index}>
                 <>
                   <Content />
-                  <div className="px4 bg-gray-50 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                    <button
-                      type="button"
-                      className="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
-                      onClick={() => {
-                        handleCloseModal();
-                      }}
-                    >
-                      Close
-                    </button>
-                  </div>
                 </>
               </Tab.Panel>
             ))}
