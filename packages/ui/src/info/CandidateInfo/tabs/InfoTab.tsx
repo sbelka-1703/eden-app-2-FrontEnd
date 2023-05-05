@@ -1,4 +1,4 @@
-import { Maybe, Members } from "@eden/package-graphql/generated";
+import { Maybe, Members, NodesType } from "@eden/package-graphql/generated";
 import { Badge, SocialMediaComp, TextLabel1 } from "@eden/package-ui";
 
 interface Props {
@@ -45,20 +45,21 @@ export const InfoTab = ({ member }: Props) => {
               <section className="mb-2 w-full text-left">
                 <TextLabel1 className="mb-2 text-xs">🌍 Location</TextLabel1>
                 <p className="ml-4 font-bold text-slate-600">
-                  {`${
-                    member?.location ? `${member?.location}` : "Bali, Indonesia" // TODO: change to empty string location?
-                  }`}
+                  {member?.location ? `${member?.location}` : "-"}
                 </p>
               </section>
               <section className="mb-2 w-full text-left">
-                <TextLabel1 className="mb-2 text-xs">🧭 Timezone</TextLabel1>
+                <p>
+                  <TextLabel1 className="mb-2 text-xs">🧭 Timezone</TextLabel1>
+                </p>
                 <div className="ml-4 inline-flex">
                   <p className="font-bold text-slate-600">
-                    {`9:41am `} {` `}
+                    {/* {`9:41am `} {` `} */}
+                    {member?.timeZone ? `${member?.timeZone}` : "-"}
                   </p>
-                  <p className="font-bold text-gray-500">
-                    {`- ${member?.timeZone || "UTC +5"}`}
-                  </p>
+                  {/* <p className="font-bold text-gray-500">
+                    {`- ${member?.timeZone || ""}`}
+                  </p> */}
                 </div>
               </section>
             </div>
@@ -66,13 +67,17 @@ export const InfoTab = ({ member }: Props) => {
             <div className="col-2 p-2">
               <section className="mb-2 w-full text-left">
                 <TextLabel1 className="text-xs">💰 Hourly rate</TextLabel1>
-                <p className="text-center text-sm">
-                  $USDC{" "}
-                  <span className="text-xl font-bold text-[#fcba03]">
-                    {member?.budget?.perHour || 35}
-                  </span>{" "}
-                  hour
-                </p>
+                {member?.budget?.perHour !== null &&
+                  member?.budget?.perHour !== undefined &&
+                  member?.budget?.perHour >= 0 && (
+                    <p className="text-center text-sm">
+                      $USD{" "}
+                      <span className="text-xl font-bold text-[#fcba03]">
+                        {member?.budget?.perHour}
+                      </span>{" "}
+                      hour
+                    </p>
+                  )}
               </section>
               <section className="mb-2 w-full text-left">
                 <TextLabel1 className="text-xs">⭐ Level</TextLabel1>
@@ -87,7 +92,7 @@ export const InfoTab = ({ member }: Props) => {
                         : member?.experienceLevel?.total <= 6
                         ? "Mid"
                         : "Senior"
-                      : "Entry"
+                      : "-"
                   }
                 />
               </section>
@@ -104,18 +109,20 @@ export const InfoTab = ({ member }: Props) => {
           <section className="mb-2 w-full text-left">
             <TextLabel1 className="text-xs">🌺 WIZARD SKILLS</TextLabel1>
             <div className="ml-4 inline-flex flex-wrap">
-              {["Agile", "Leadership", "Product", "Development"].map(
-                (preference: string, index: number) => (
-                  <Badge
-                    key={index}
-                    text={preference}
-                    colorRGB="224,151,232"
-                    className={`font-Inter text-sm`}
-                    closeButton={false}
-                    cutText={16}
-                  />
-                )
-              )}
+              {member?.nodes?.map((skill: Maybe<NodesType>, index: number) => (
+                <>
+                  {skill?.nodeData?.name ? (
+                    <Badge
+                      key={index}
+                      text={skill?.nodeData?.name}
+                      colorRGB="224,151,232"
+                      className={`font-Inter text-sm`}
+                      closeButton={false}
+                      cutText={16}
+                    />
+                  ) : null}
+                </>
+              ))}
             </div>
           </section>
 
