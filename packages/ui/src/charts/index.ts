@@ -1,3 +1,4 @@
+export * from "./BackgroundMatchChart";
 export * from "./Charts";
 export * from "./RangeChart";
 export * from "./RangeChartOne";

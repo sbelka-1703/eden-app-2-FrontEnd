@@ -1,15 +1,13 @@
-import { CandidateType } from "@eden/package-graphql/generated/graphqlEden";
+import { CandidateType } from "@eden/package-graphql/generated";
 import {
   Avatar,
-  // Badge,
+  Badge,
   GridItemTwelve,
   GridLayout,
   Loading,
 } from "@eden/package-ui";
 import clsx from "clsx";
 import { ComponentPropsWithoutRef, FC, ReactNode } from "react";
-
-// import type { Candidate } from "./types";
 
 interface InputGroupProps extends ComponentPropsWithoutRef<"td"> {
   extraCssClass?: string;
@@ -86,7 +84,7 @@ export const CandidatesTableList: React.FC<CandidatesTableListProps> = ({
             ) : Boolean(candidatesList) ? (
               candidatesList.map((candidate, idx) => (
                 <tr
-                  key={`${candidate.user?._id}`}
+                  key={`${candidate.user?._id}-${idx}`}
                   onClick={() => handleObjectDataSelection(candidate)}
                   className="cursor-pointer hover:bg-gray-300 focus:outline-none focus:ring focus:ring-gray-300 active:bg-gray-300"
                 >
@@ -105,7 +103,7 @@ export const CandidatesTableList: React.FC<CandidatesTableListProps> = ({
                   </ColumnStyled>
                   <ColumnStyled>
                     {candidate.user?.memberRole?.title
-                      ? candidate.user.memberRole.title
+                      ? candidate.user?.memberRole?.title
                       : null}
                   </ColumnStyled>
                   <ColumnStyled textColor="text-fuchsia-600">
@@ -113,35 +111,52 @@ export const CandidatesTableList: React.FC<CandidatesTableListProps> = ({
                       ? `${candidate.overallScore} %`
                       : null}
                   </ColumnStyled>
-                  {/* <ColumnStyled>
+                  <ColumnStyled>
                     {candidate.user?.previousProjects
-                      ? candidate.user?.previousProjects.map(
-                          (experience, idx) => (
-                            <Badge
-                              key={`${experience}${idx}`}
-                              colorRGB="224,192,245"
-                              text={experience}
-                              cutText={17}
-                            />
-                          )
+                      ? candidate.user.previousProjects.map(
+                          (experience, idx) => {
+                            return (
+                              <>
+                                {experience?.title ? (
+                                  <Badge
+                                    key={`${experience}${idx}`}
+                                    colorRGB="224,192,245"
+                                    text={experience.title}
+                                    cutText={30}
+                                  />
+                                ) : null}
+                              </>
+                            );
+                          }
                         )
                       : null}
-                  </ColumnStyled> */}
-                  {/* <ColumnStyled>
-                    {candidate.user?.experienceLevel ? (
+                  </ColumnStyled>
+                  <ColumnStyled>
+                    {candidate?.user?.experienceLevel?.total ? (
                       <Badge
                         colorRGB="153,255,204"
-                        text={candidate.user?.experienceLevel}
+                        text={
+                          candidate?.user.experienceLevel?.total
+                            ? candidate?.user.experienceLevel?.total <= 3
+                              ? "Junior"
+                              : candidate?.user.experienceLevel?.total <= 6
+                              ? "Mid"
+                              : "Senior"
+                            : "Entry"
+                        }
                         cutText={9}
                       />
                     ) : null}
-                  </ColumnStyled> */}
-                  {/* <ColumnStyled>
-                    {candidate.usdcHour ? candidate.usdcHour : null}
-                  </ColumnStyled> */}
-                  {/* <ColumnStyled>
-                    {candidate.responseRate ? candidate.responseRate : null}
-                  </ColumnStyled> */}
+                  </ColumnStyled>
+                  <ColumnStyled>
+                    {candidate.user!.budget!.perHour
+                      ? candidate.user!.budget!.perHour
+                      : null}
+                  </ColumnStyled>
+                  <ColumnStyled>
+                    {/* {candidate.responseRate ? candidate.responseRate : null} */}
+                    15% (hardoded)
+                  </ColumnStyled>
                 </tr>
               ))
             ) : (
