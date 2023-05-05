@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import { FIND_MEMBER_INFO } from "@eden/package-graphql";
+import { FIND_MEMBER } from "@eden/package-graphql";
 import { CandidateInfo, Modal } from "@eden/package-ui";
 
 export interface ICandidateModalProps {
@@ -17,7 +17,7 @@ export const CandidateModal = ({
   open,
   handleCloseModal,
 }: ICandidateModalProps) => {
-  const { data: dataMemberInfo } = useQuery(FIND_MEMBER_INFO, {
+  const { data: dataMember } = useQuery(FIND_MEMBER, {
     variables: {
       fields: {
         _id: memberId,
@@ -26,7 +26,7 @@ export const CandidateModal = ({
     skip: !memberId || !open,
   });
 
-  const findMember = dataMemberInfo?.findMember;
+  const findMember = dataMember?.findMember;
 
   if (!memberId) return null;
   // if (!findMember) return null;
