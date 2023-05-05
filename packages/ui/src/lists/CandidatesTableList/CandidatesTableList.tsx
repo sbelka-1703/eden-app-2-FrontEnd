@@ -132,10 +132,18 @@ export const CandidatesTableList: React.FC<CandidatesTableListProps> = ({
                       : null}
                   </ColumnStyled>
                   <ColumnStyled>
-                    {candidate.user?.memberRole?.title ? (
+                    {candidate?.user?.experienceLevel?.total ? (
                       <Badge
                         colorRGB="153,255,204"
-                        text={candidate.user?.memberRole?.title}
+                        text={
+                          candidate?.user.experienceLevel?.total
+                            ? candidate?.user.experienceLevel?.total <= 3
+                              ? "Junior"
+                              : candidate?.user.experienceLevel?.total <= 6
+                              ? "Mid"
+                              : "Senior"
+                            : "Entry"
+                        }
                         cutText={9}
                       />
                     ) : null}
