@@ -68,16 +68,18 @@ export const InfoTab = ({ member }: Props) => {
               <section className="mb-2 w-full text-left">
                 <TextLabel1 className="text-xs">💰 Hourly rate</TextLabel1>
                 {member?.budget?.perHour !== null &&
-                  member?.budget?.perHour !== undefined &&
-                  member?.budget?.perHour >= 0 && (
-                    <p className="text-center text-sm">
-                      $USD{" "}
-                      <span className="text-xl font-bold text-[#fcba03]">
-                        {member?.budget?.perHour}
-                      </span>{" "}
-                      hour
-                    </p>
-                  )}
+                member?.budget?.perHour !== undefined &&
+                member?.budget?.perHour >= 0 ? (
+                  <p className="text-center text-sm">
+                    $USD{" "}
+                    <span className="text-xl font-bold text-[#fcba03]">
+                      {member.budget.perHour}
+                    </span>{" "}
+                    hour
+                  </p>
+                ) : (
+                  "-"
+                )}
               </section>
               <section className="mb-2 w-full text-left">
                 <TextLabel1 className="text-xs">⭐ Level</TextLabel1>
