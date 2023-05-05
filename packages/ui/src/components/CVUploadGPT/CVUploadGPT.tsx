@@ -1,10 +1,19 @@
 import { gql, useMutation } from "@apollo/client";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { UserContext } from "@eden/package-context";
+import { ChangeEvent, FormEvent, useContext, useState } from "react";
 
-export const CV_TO_SUMMARY = gql`
-  mutation ($fields: CVtoSummaryInput!) {
-    CVtoSummary(fields: $fields) {
-      result
+// export const CV_TO_SUMMARY = gql`
+//   mutation ($fields: CVtoSummaryInput!) {
+//     CVtoSummary(fields: $fields) {
+//       result
+//     }
+//   }
+// `;
+
+export const SAVE_CV_TO_USER = gql`
+  mutation SaveCVtoUser($fields: saveCVtoUserInput) {
+    saveCVtoUser(fields: $fields) {
+      success
     }
   }
 `;
@@ -17,14 +26,15 @@ export interface ICVUploadGPTProps {
 // eslint-disable-next-line no-unused-vars
 export const CVUploadGPT = ({ timePerWeek, seed }: ICVUploadGPTProps) => {
   const [file, setFile] = useState<File | null>(null);
-  const [summary, setSummary] = useState<string | null>(null);
+  // const [summary, setSummary] = useState<string | null>(null);
+  const { currentUser } = useContext(UserContext);
 
-  const [CVtoSummary] = useMutation(CV_TO_SUMMARY, {
-    onCompleted({ CVtoSummary }) {
-      console.log("CVtoSummary", CVtoSummary);
-      console.log("CVtoSummary.result", CVtoSummary.result);
-      setSummary(CVtoSummary.result);
-    },
+  const [SaveCVtoUser] = useMutation(SAVE_CV_TO_USER, {
+    // onCompleted({ SaveCVtoUser }) {
+    //   console.log("SaveCVtoUser", SaveCVtoUser);
+    //   console.log("SaveCVtoUser.result", SaveCVtoUser.result);
+    //   setSummary(SaveCVtoUser.result);
+    // },
   });
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -53,7 +63,15 @@ export const CVUploadGPT = ({ timePerWeek, seed }: ICVUploadGPTProps) => {
       if (response.ok) {
         const { text } = await response.json();
 
-        CVtoSummary({ variables: { fields: { cvString: text } } });
+        SaveCVtoUser({
+          variables: {
+            fields: {
+              // cvString: text
+              userID: currentUser?._id,
+              cvContent: text,
+            },
+          },
+        });
 
         console.log(text);
       } else {
@@ -66,14 +84,14 @@ export const CVUploadGPT = ({ timePerWeek, seed }: ICVUploadGPTProps) => {
     reader.readAsDataURL(file);
   };
 
-  const summaryList = summary
-    ? summary
-        .split("•")
-        .filter((item) => item.trim() !== "")
-        .map((item, index) => <li key={index}>{item}</li>)
-    : [];
+  // const summaryList = summary
+  //   ? summary
+  //       .split("•")
+  //       .filter((item) => item.trim() !== "")
+  //       .map((item, index) => <li key={index}>{item}</li>)
+  //   : [];
 
-  console.log("summaryList", summaryList);
+  // console.log("summaryList", summaryList);
 
   return (
     <div className="w-fit ">
@@ -98,7 +116,7 @@ export const CVUploadGPT = ({ timePerWeek, seed }: ICVUploadGPTProps) => {
           Upload Resume
         </button>
       </form>
-      {summary ? (
+      {/* {summary ? (
         <div className="ml-2 mt-2 w-fit rounded-md border-2 border-black pl-6 pr-4 ">
           <label htmlFor="ul" className="text-right text-lg font-bold">
             CV Summary:
@@ -107,7 +125,7 @@ export const CVUploadGPT = ({ timePerWeek, seed }: ICVUploadGPTProps) => {
             {summaryList}
           </ul>
         </div>
-      ) : null}
+      ) : null} */}
     </div>
   );
 };
