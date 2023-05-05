@@ -5,6 +5,7 @@ import {
   GridItemTwelve,
   GridLayout,
   Loading,
+  TextHeading2,
 } from "@eden/package-ui";
 import clsx from "clsx";
 import { ComponentPropsWithoutRef, FC, ReactNode } from "react";
@@ -23,7 +24,7 @@ const ColumnStyled: FC<InputGroupProps> = ({
 }) => (
   <td
     className={clsx(
-      "text-md border  px-4 py-3 text-center",
+      "text-md border px-4 py-3 text-center",
       textColor,
       extraCssClass
     )}
@@ -56,12 +57,12 @@ export const CandidatesTableList: React.FC<CandidatesTableListProps> = ({
           <thead className="text-gray-500">
             <tr>
               <th className="border border-black py-4">#</th>
-              <th colSpan={2} className="border border-black py-4">
+              <th colSpan={2} className="min-w-min border border-black py-4">
                 Name
               </th>
               <th className="border border-black py-4">Role</th>
               <th className="border border-black py-4">Match</th>
-              <th className="border border-black py-4">Background</th>
+              <th className="border border-black py-4 ">Background</th>
               <th className="border border-black py-4">Level</th>
               <th className="border border-black py-4">
                 USDC/
@@ -107,11 +108,11 @@ export const CandidatesTableList: React.FC<CandidatesTableListProps> = ({
                       : null}
                   </ColumnStyled>
                   <ColumnStyled textColor="text-fuchsia-600">
-                    {candidate.overallScore
-                      ? `${candidate.overallScore} %`
-                      : null}
+                    {candidate.overallScore ? (
+                      <TextHeading2 className="text-colorFFA9F1 font-black">{`${candidate.overallScore}%`}</TextHeading2>
+                    ) : null}
                   </ColumnStyled>
-                  <ColumnStyled>
+                  <ColumnStyled extraCssClass="max-w-xs">
                     {candidate.user?.previousProjects
                       ? candidate.user.previousProjects.map(
                           (experience, idx) => {
@@ -149,9 +150,11 @@ export const CandidatesTableList: React.FC<CandidatesTableListProps> = ({
                     ) : null}
                   </ColumnStyled>
                   <ColumnStyled>
-                    {candidate.user!.budget!.perHour
-                      ? candidate.user!.budget!.perHour
-                      : null}
+                    {candidate.user!.budget!.perHour ? (
+                      <TextHeading2 className="text-colorFFD02B font-black">
+                        {candidate.user!.budget!.perHour}
+                      </TextHeading2>
+                    ) : null}
                   </ColumnStyled>
                   <ColumnStyled>
                     {/* {candidate.responseRate ? candidate.responseRate : null} */}
