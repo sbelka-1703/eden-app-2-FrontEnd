@@ -131,7 +131,7 @@ export const CandidatesTableList: React.FC<CandidatesTableListProps> = ({
                           : null}
                       </div>
                     </ColumnStyled>
-                    <ColumnStyled>
+                    <ColumnStyled className="text-center">
                       {candidate?.user?.experienceLevel?.total ? (
                         <Badge
                           colorRGB="153,255,204"
