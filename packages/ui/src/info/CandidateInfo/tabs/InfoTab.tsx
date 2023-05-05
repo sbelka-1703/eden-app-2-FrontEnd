@@ -42,7 +42,7 @@ export const InfoTab = ({ member }: Props) => {
             <div className="col-1 p-2">
               <section className="mb-2 w-full text-left">
                 <TextLabel1 className="mb-2 text-xs">
-                  ❤️️ AVAILABILITY
+                  ⏳️ AVAILABILITY
                 </TextLabel1>
                 <p className="ml-4 font-bold text-slate-600">
                   {member?.hoursPerWeek
@@ -74,37 +74,45 @@ export const InfoTab = ({ member }: Props) => {
             {/* Second Column: Hourly Rate, Level, Notice */}
             <div className="col-2 p-2">
               <section className="mb-2 w-full text-left">
-                <TextLabel1 className="text-xs">💰 Hourly rate</TextLabel1>
-                {member?.budget?.perHour !== null &&
-                member?.budget?.perHour !== undefined &&
-                member?.budget?.perHour >= 0 ? (
-                  <p className="text-center text-sm">
-                    $USD{" "}
-                    <span className="text-xl font-bold text-[#fcba03]">
-                      {member.budget.perHour}
-                    </span>{" "}
-                    hour
-                  </p>
-                ) : (
-                  "-"
-                )}
+                <p>
+                  <TextLabel1 className="text-xs">💰 Hourly rate</TextLabel1>
+                </p>
+                <p>
+                  {member?.budget?.perHour !== null &&
+                  member?.budget?.perHour !== undefined &&
+                  member?.budget?.perHour >= 0 ? (
+                    <p className="ml-4 text-sm">
+                      <span className="text-xl font-bold text-[#fcba03]">
+                        ${member.budget.perHour}
+                      </span>{" "}
+                      / hour
+                    </p>
+                  ) : (
+                    <span className="ml-4 font-bold text-slate-600">-</span>
+                  )}
+                </p>
               </section>
               <section className="mb-2 w-full text-left">
-                <TextLabel1 className="text-xs">⭐ Level</TextLabel1>
-                <br />
-                <Badge
-                  className="ml-4 text-sm"
-                  colorRGB="151,232,163"
-                  text={
-                    member?.experienceLevel?.total
-                      ? member?.experienceLevel?.total <= 3
-                        ? "Junior"
-                        : member?.experienceLevel?.total <= 6
-                        ? "Mid"
-                        : "Senior"
-                      : "-"
-                  }
-                />
+                <p>
+                  <TextLabel1 className="text-xs">⭐ Level</TextLabel1>
+                </p>
+                <p>
+                  {member?.experienceLevel?.total ? (
+                    <Badge
+                      className="ml-4 text-sm"
+                      colorRGB="151,232,163"
+                      text={
+                        member?.experienceLevel?.total <= 3
+                          ? "Junior"
+                          : member?.experienceLevel?.total <= 6
+                          ? "Mid"
+                          : "Senior"
+                      }
+                    />
+                  ) : (
+                    <span className="ml-4 font-bold text-slate-600">-</span>
+                  )}
+                </p>
               </section>
               <section className="mb-2 w-full text-left">
                 <TextLabel1 className="text-xs">🍀 Notice</TextLabel1>
@@ -149,7 +157,7 @@ export const InfoTab = ({ member }: Props) => {
           ) : null}
         </div>
         <div className="col-2 p-2">
-          <section className="mb-2 w-full text-left">
+          {/* <section className="mb-2 w-full text-left">
             <TextLabel1 className="text-xs">🔎 INTERESTS</TextLabel1>
             <div className="ml-4 inline-flex flex-wrap">
               {["Travelling", "Trading", "Community", "DAOs"].map(
@@ -165,7 +173,7 @@ export const InfoTab = ({ member }: Props) => {
                 )
               )}
             </div>
-          </section>
+          </section> */}
 
           <section className="mb-2 w-full text-center">
             <div className="my-4 flex justify-center">

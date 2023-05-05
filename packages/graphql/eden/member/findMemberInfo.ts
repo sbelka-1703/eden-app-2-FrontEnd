@@ -24,6 +24,9 @@ export const FIND_MEMBER_INFO = gql`
           node
         }
       }
+      budget {
+        perHour
+      }
       previousProjects {
         title
         description

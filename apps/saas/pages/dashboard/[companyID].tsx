@@ -41,6 +41,10 @@ const FIND_COMPANY = gql`
             title
             positionName
           }
+          experienceLevel {
+            total
+            years
+          }
         }
         readyToDisplay
         summaryQuestions {

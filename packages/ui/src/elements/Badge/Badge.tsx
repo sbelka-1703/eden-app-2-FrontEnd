@@ -42,7 +42,7 @@ export const Badge = ({
       <div
         data-tip={isHover}
         data-for={`badgeTip-${text}`}
-        className={`mr-2 mb-1 inline-block cursor-default rounded-full ${className}`}
+        className={`mb-1 mr-2 inline-block cursor-default rounded-full last:mb-0 last:mr-0 ${className}`}
         style={{ background: `rgba(${colorRGB})` }}
         onMouseEnter={() => {
           setIsHover(`${text}`);
@@ -55,7 +55,7 @@ export const Badge = ({
           <>
             <span className="mb-px">{textShort}</span>
             {closeButton && (
-              <button className={`ml-1 -mt-1 -mr-1`} onClick={onClose}>
+              <button className={`-mr-1 -mt-1 ml-1`} onClick={onClose}>
                 <XIcon
                   className="inline-block h-4 w-4 cursor-pointer text-gray-900 hover:text-slate-400"
                   aria-hidden="true"
@@ -64,10 +64,10 @@ export const Badge = ({
             )}
           </>
         </div>
+        <ReactTooltip id={`badgeTip-${text}`} place="top" effect="solid">
+          {isHover}
+        </ReactTooltip>
       </div>
-      <ReactTooltip id={`badgeTip-${text}`} place="top" effect="solid">
-        {isHover}
-      </ReactTooltip>
     </>
   );
 };
