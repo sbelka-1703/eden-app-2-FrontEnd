@@ -122,7 +122,7 @@ export const CandidatesTableList: React.FC<CandidatesTableListProps> = ({
                                     key={`${experience}${idx}`}
                                     colorRGB="224,192,245"
                                     text={experience.title}
-                                    cutText={17}
+                                    cutText={30}
                                   />
                                 ) : null}
                               </>

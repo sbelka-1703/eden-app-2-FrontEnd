@@ -4,6 +4,7 @@ import { Tab } from "@headlessui/react";
 import { useState } from "react";
 
 import { InfoTab } from "./tabs/InfoTab";
+import { MatchTab } from "./tabs/MatchTab";
 import { ScoresTab } from "./tabs/ScoresTab";
 
 export interface ICandidateInfoProps {
@@ -36,13 +37,7 @@ export const CandidateInfo = ({
     },
     {
       tab: "MATCH %",
-      Content: () => (
-        <ScoresTab
-          member={member}
-          percentage={percentage}
-          summaryQuestions={summaryQuestions}
-        />
-      ),
+      Content: () => <MatchTab member={member} />,
     },
     {
       tab: "GRAPH",
@@ -50,7 +45,13 @@ export const CandidateInfo = ({
     },
     {
       tab: "EDEN AI CHAT",
-      Content: () => <InfoTab member={member} loading={true} />,
+      Content: () => (
+        <ScoresTab
+          member={member}
+          percentage={percentage}
+          summaryQuestions={summaryQuestions}
+        />
+      ),
     },
   ];
 
