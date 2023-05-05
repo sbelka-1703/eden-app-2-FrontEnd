@@ -3,6 +3,7 @@ import { Avatar, Button, TextHeading3 } from "@eden/package-ui";
 import { Tab } from "@headlessui/react";
 import { useState } from "react";
 
+import { GraphTab } from "./tabs/GraphTab";
 import { InfoTab } from "./tabs/InfoTab";
 import { MatchTab } from "./tabs/MatchTab";
 import { ScoresTab } from "./tabs/ScoresTab";
@@ -42,7 +43,7 @@ export const CandidateInfo = ({
     },
     {
       tab: "GRAPH",
-      Content: () => <InfoTab member={member} loading={loading} />,
+      Content: () => <GraphTab member={member} />,
     },
     {
       tab: "EDEN AI CHAT",
