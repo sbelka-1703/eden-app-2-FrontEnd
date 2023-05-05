@@ -131,7 +131,7 @@ export const CandidatesTableList: React.FC<CandidatesTableListProps> = ({
                           : null}
                       </div>
                     </ColumnStyled>
-                    <ColumnStyled className="text-center">
+                    <ColumnStyled extraCssClass="text-center">
                       {candidate?.user?.experienceLevel?.total ? (
                         <Badge
                           colorRGB="153,255,204"
@@ -148,7 +148,7 @@ export const CandidatesTableList: React.FC<CandidatesTableListProps> = ({
                         />
                       ) : null}
                     </ColumnStyled>
-                    <ColumnStyled className="pr-2 text-right">
+                    <ColumnStyled extraCssClass="pr-2 text-right">
                       {candidate.user!.budget!.perHour ? (
                         <TextHeading2 className="text-colorFFD02B font-black">
                           ${candidate.user!.budget!.perHour}
