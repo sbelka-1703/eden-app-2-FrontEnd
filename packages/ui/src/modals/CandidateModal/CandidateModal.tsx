@@ -26,8 +26,6 @@ export const CandidateModal = ({
     skip: !memberId || !open,
   });
 
-  const findMember = dataMember?.findMember;
-
   if (!memberId) return null;
   // if (!findMember) return null;
 
@@ -35,7 +33,7 @@ export const CandidateModal = ({
     <Modal open={open} onClose={handleCloseModal}>
       <div className={`h-8/10 scrollbar-hide w-full overflow-scroll`}>
         <CandidateInfo
-          member={findMember}
+          member={dataMember?.findMember}
           percentage={percentage}
           summaryQuestions={summaryQuestions}
           handleCloseModal={handleCloseModal}
