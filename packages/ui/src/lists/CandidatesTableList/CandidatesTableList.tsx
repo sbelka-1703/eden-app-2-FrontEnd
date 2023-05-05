@@ -88,7 +88,7 @@ export const CandidatesTableList: React.FC<CandidatesTableListProps> = ({
                       {idx + 1}
                     </ColumnStyled>
                     <ColumnStyled extraCssClass="border-r-0 pr-0">
-                      <div className=" flex flex-nowrap items-center">
+                      <div className="flex flex-nowrap items-center">
                         <Avatar
                           size="xs"
                           src={candidate.user?.discordAvatar!}
@@ -110,7 +110,7 @@ export const CandidatesTableList: React.FC<CandidatesTableListProps> = ({
                       ) : null}
                     </ColumnStyled>
                     <ColumnStyled extraCssClass="text-center max-w-xs overflow-hidden">
-                      <div className="max-h-[40px] min-h-[40px] w-full transition-[max-height] duration-150 ease-in-out group-hover:max-h-[400px]">
+                      <div className="max-h-[40px] min-h-[40px] w-full pb-1 pt-1.5 transition-[max-height] duration-150 ease-in-out group-hover:max-h-[400px]">
                         {candidate.user?.previousProjects
                           ? candidate.user.previousProjects.map(
                               (experience, idx) => {
