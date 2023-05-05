@@ -39,7 +39,9 @@ export const CandidateInfo = ({
     },
     {
       tab: "MATCH %",
-      Content: () => <MatchTab member={member} />,
+      Content: () => (
+        <MatchTab member={member} summaryQuestions={summaryQuestions} />
+      ),
     },
     {
       tab: "GRAPH",
