@@ -55,7 +55,7 @@ export const MatchTab: React.FC<Props> = ({ member, summaryQuestions }) => {
         className={`mx-auto my-4 grid grid-cols-${summaryQuestions.length} gap-4`}
       >
         {summaryQuestions.map((item, index) => (
-          <div key={index}>
+          <div key={index} className="hover:bg-blue-100">
             <div className="mx-auto flex h-16 w-auto items-center justify-center">
               <p className="text-center">
                 <TextLabel1 className="text-black">
