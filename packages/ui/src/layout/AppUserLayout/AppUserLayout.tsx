@@ -11,7 +11,7 @@ export const AppUserLayout = ({
 }: IAppUserLayoutProps) => {
   return (
     <>
-      <div className="bg-background flex min-w-0 flex-col">
+      <div className="bg-background flex min-h-screen min-w-0 flex-col">
         <AppHeader logoLink={logoLink} inApp />
         <main className="relative flex flex-grow">{children}</main>
       </div>
