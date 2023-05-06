@@ -5,14 +5,15 @@ import {
   TextInputLabel,
   TextLabel1,
 } from "@eden/package-ui";
-import React from "react";
+import { FC } from "react";
 
 type Props = {
   member: Members;
   summaryQuestions: SummaryQuestionType[];
 };
 
-export const MatchTab: React.FC<Props> = ({ member, summaryQuestions }) => {
+export const MatchTab: FC<Props> = ({ member, summaryQuestions }) => {
+  console.log("MatchTab");
   const exampleData = [
     {
       questionID: "1242",
@@ -44,7 +45,7 @@ export const MatchTab: React.FC<Props> = ({ member, summaryQuestions }) => {
     <>
       <div className="mb-4 mt-4">
         <BackgroundMatchChart
-          memberName={member.discordName ?? ""}
+          memberName={member?.discordName!}
           backgroundMatchData={exampleData}
         />
       </div>

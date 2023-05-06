@@ -1,3 +1,5 @@
+import { useQuery } from "@apollo/client";
+import { FIND_MEMBER } from "@eden/package-graphql";
 import { Members, SummaryQuestionType } from "@eden/package-graphql/generated";
 import { Avatar, Button, TextHeading3 } from "@eden/package-ui";
 import { Tab } from "@headlessui/react";
@@ -9,11 +11,10 @@ import { MatchTab } from "./tabs/MatchTab";
 import { ScoresTab } from "./tabs/ScoresTab";
 
 export interface ICandidateInfoProps {
-  member: Members;
+  memberId: string; // Members;
   percentage: number | null;
   loading?: boolean;
   summaryQuestions: SummaryQuestionType[];
-  handleCloseModal?: () => void;
 }
 
 function classNames(...classes: any[]) {
@@ -21,41 +22,38 @@ function classNames(...classes: any[]) {
 }
 
 export const CandidateInfo = ({
-  member,
+  memberId,
   percentage,
-  loading = false,
+  // loading = false,
   summaryQuestions,
-  // eslint-disable-next-line no-unused-vars
-  handleCloseModal,
 }: ICandidateInfoProps) => {
+  console.log("CandidateInfoComponent");
   const [index, setIndex] = useState(0);
 
-  if (!member) return null;
+  const { data: findMemberData } = useQuery(FIND_MEMBER, {
+    variables: {
+      fields: {
+        _id: memberId,
+      },
+    },
+    skip: !Boolean(memberId),
+    onCompleted: (data) => {
+      console.log({ findMemberData: data });
+    },
+  });
 
   const tabs = [
     {
       tab: "INFO",
-      Content: () => <InfoTab member={member} loading={loading} />,
     },
     {
       tab: "MATCH %",
-      Content: () => (
-        <MatchTab member={member} summaryQuestions={summaryQuestions} />
-      ),
     },
     {
       tab: "GRAPH",
-      Content: () => <GraphTab member={member} />,
     },
     {
       tab: "EDEN AI CHAT",
-      Content: () => (
-        <ScoresTab
-          member={member}
-          percentage={percentage}
-          summaryQuestions={summaryQuestions}
-        />
-      ),
     },
   ];
 
@@ -72,7 +70,10 @@ export const CandidateInfo = ({
           </div>
           <div className="col-2 p-2">
             <div className="flex w-full justify-center">
-              <Avatar src={member?.discordAvatar!} size={`lg`} />
+              <Avatar
+                src={findMemberData?.findMember?.discordAvatar}
+                size={`lg`}
+              />
             </div>
           </div>
           <div className="col-3 mt-5 w-full p-2 text-center">
@@ -90,11 +91,11 @@ export const CandidateInfo = ({
 
         <div className="flex justify-center">
           <TextHeading3 className="font-extrabold">
-            {member?.discordName}
+            {findMemberData?.findMember?.discordName}
           </TextHeading3>
         </div>
         <TextHeading3 className="font-extrabold text-gray-500">
-          {member?.memberRole?.title}
+          {findMemberData?.findMember?.memberRole?.title}
         </TextHeading3>
       </div>
       <div className="w-full">
@@ -122,13 +123,49 @@ export const CandidateInfo = ({
             ))}
           </Tab.List>
           <Tab.Panels>
-            {tabs.map(({ Content }, index) => (
-              <Tab.Panel key={index}>
-                <div className="relative">
-                  <Content />
-                </div>
-              </Tab.Panel>
-            ))}
+            {({ selectedIndex }) => {
+              if (selectedIndex === 0)
+                return (
+                  <Tab.Panel>
+                    <div className="relative">
+                      <InfoTab member={findMemberData?.findMember} />
+                    </div>
+                  </Tab.Panel>
+                );
+              if (selectedIndex === 1)
+                return (
+                  <Tab.Panel>
+                    <div className="relative">
+                      <MatchTab
+                        member={findMemberData.findMember as Members}
+                        summaryQuestions={summaryQuestions}
+                      />
+                    </div>
+                  </Tab.Panel>
+                );
+              if (selectedIndex === 2)
+                return (
+                  <Tab.Panel>
+                    <div className="relative">
+                      <GraphTab member={findMemberData?.findMember!} />
+                    </div>
+                  </Tab.Panel>
+                );
+              if (selectedIndex === 3)
+                return (
+                  <Tab.Panel>
+                    <div className="relative">
+                      <ScoresTab
+                        member={findMemberData?.findMember}
+                        percentage={percentage}
+                        summaryQuestions={summaryQuestions}
+                      />
+                    </div>
+                  </Tab.Panel>
+                );
+
+              return <>{selectedIndex}</>;
+            }}
           </Tab.Panels>
         </Tab.Group>
       </div>

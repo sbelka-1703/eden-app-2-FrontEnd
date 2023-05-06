@@ -34,7 +34,7 @@ type CandidatesTableListProps = {
   candidatesList: CandidateType[];
   fetchIsLoading: boolean;
   // eslint-disable-next-line no-unused-vars
-  setRowObjectData?: (user: CandidateType) => void;
+  setRowObjectData: (candidate: CandidateType) => void;
 };
 
 export const CandidatesTableList: React.FC<CandidatesTableListProps> = ({
@@ -42,8 +42,8 @@ export const CandidatesTableList: React.FC<CandidatesTableListProps> = ({
   fetchIsLoading,
   setRowObjectData,
 }) => {
-  const handleObjectDataSelection = (user: CandidateType) => {
-    setRowObjectData && setRowObjectData(user);
+  const handleObjectDataSelection = (candidate: CandidateType) => {
+    setRowObjectData(candidate);
   };
 
   return (
@@ -53,21 +53,15 @@ export const CandidatesTableList: React.FC<CandidatesTableListProps> = ({
           <table className="text-md w-full">
             <thead className="bg-slate-200 text-gray-800 shadow-md">
               <tr>
-                <th className="border-b border-r border-gray-400 py-2">#</th>
                 <th className="min-w-min border-b border-gray-400 py-2">
                   Name
                 </th>
-                <th className="border-b border-gray-400 py-2">Role</th>
                 <th className="border-b border-gray-400 py-2">Match</th>
-                <th className="border-b border-gray-400 py-2 ">Background</th>
-                <th className="border-b border-gray-400 py-2">Level</th>
+
                 <th className="border-b border-gray-400 py-2 pr-2 text-right">
                   $/hour
                 </th>
-                {/* <th className="border border-black py-2">
-                Response
-                <br /> rate
-              </th> */}
+                <th className="border-b border-gray-400 py-2">Level</th>
               </tr>
             </thead>
             <tbody>
@@ -84,9 +78,6 @@ export const CandidatesTableList: React.FC<CandidatesTableListProps> = ({
                     onClick={() => handleObjectDataSelection(candidate)}
                     className="group cursor-pointer even:bg-slate-100 hover:bg-lime-50 focus:outline-none focus:ring focus:ring-gray-300 active:bg-gray-300"
                   >
-                    <ColumnStyled extraCssClass="text-center border-r">
-                      {idx + 1}
-                    </ColumnStyled>
                     <ColumnStyled extraCssClass="border-r-0 pr-0">
                       <div className="flex flex-nowrap items-center">
                         <Avatar
@@ -99,36 +90,22 @@ export const CandidatesTableList: React.FC<CandidatesTableListProps> = ({
                         </span>
                       </div>
                     </ColumnStyled>
-                    <ColumnStyled extraCssClass="text-center">
-                      {candidate.user?.memberRole?.title
-                        ? candidate.user?.memberRole?.title
-                        : null}
-                    </ColumnStyled>
                     <ColumnStyled textColor="text-fuchsia-600 text-center">
                       {candidate.overallScore ? (
                         <TextHeading2 className="text-colorFFA9F1 font-black">{`${candidate.overallScore}%`}</TextHeading2>
                       ) : null}
                     </ColumnStyled>
-                    <ColumnStyled extraCssClass="text-center max-w-xs overflow-hidden">
-                      <div className="max-h-[40px] min-h-[40px] w-full pb-1 pt-1.5 transition-[max-height] duration-150 ease-in-out group-hover:max-h-[400px]">
-                        {candidate.user?.previousProjects
-                          ? candidate.user.previousProjects.map(
-                              (experience, idx) => {
-                                if (experience?.title) {
-                                  return (
-                                    <Badge
-                                      key={`${experience}${idx}`}
-                                      colorRGB="224,192,245"
-                                      text={experience.title}
-                                      cutText={30}
-                                    />
-                                  );
-                                }
-                              }
-                            )
-                          : null}
-                      </div>
+
+                    <ColumnStyled extraCssClass="pr-2 text-right">
+                      {candidate.user!.budget!.perHour ? (
+                        <TextHeading2 className="text-colorFFD02B font-black">
+                          ${candidate.user!.budget!.perHour}
+                        </TextHeading2>
+                      ) : (
+                        <span className="text-gray-400">-</span>
+                      )}
                     </ColumnStyled>
+
                     <ColumnStyled extraCssClass="text-center">
                       {candidate?.user?.experienceLevel?.total ? (
                         <Badge
@@ -146,19 +123,6 @@ export const CandidatesTableList: React.FC<CandidatesTableListProps> = ({
                         />
                       ) : null}
                     </ColumnStyled>
-                    <ColumnStyled extraCssClass="pr-2 text-right">
-                      {candidate.user!.budget!.perHour ? (
-                        <TextHeading2 className="text-colorFFD02B font-black">
-                          ${candidate.user!.budget!.perHour}
-                        </TextHeading2>
-                      ) : (
-                        <span className="text-gray-400">-</span>
-                      )}
-                    </ColumnStyled>
-                    {/* <ColumnStyled>
-                    // {candidate.responseRate ? candidate.responseRate : null}
-                    15% (hardoded)
-                  </ColumnStyled> */}
                   </tr>
                 ))
               ) : (
