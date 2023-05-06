@@ -14,6 +14,7 @@ export * from "./MatchAvatar";
 export * from "./MenuItem";
 export * from "./Modal";
 export * from "./NumberCircle";
+export * from "./PopoverWithHover";
 export * from "./ProgressBar";
 export * from "./ProgressBarGeneric";
 export * from "./RangeSlider";

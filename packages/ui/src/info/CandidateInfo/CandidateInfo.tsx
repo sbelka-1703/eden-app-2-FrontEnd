@@ -1,20 +1,22 @@
 import { useQuery } from "@apollo/client";
 import { FIND_MEMBER } from "@eden/package-graphql";
 import { SummaryQuestionType } from "@eden/package-graphql/generated";
-import { Avatar, Button, TextHeading3 } from "@eden/package-ui";
+import {
+  Avatar,
+  Button,
+  GraphTab,
+  InfoTab,
+  MatchTab,
+  ScoresTab,
+  TextHeading3,
+} from "@eden/package-ui";
 import { Tab } from "@headlessui/react";
 import { useState } from "react";
-
-import { GraphTab } from "./tabs/GraphTab";
-import { InfoTab } from "./tabs/InfoTab";
-import { MatchTab } from "./tabs/MatchTab";
-import { ScoresTab } from "./tabs/ScoresTab";
 
 export interface ICandidateInfoProps {
   memberID: string;
   percentage: number | null;
   summaryQuestions: SummaryQuestionType[];
-  handleCloseModal?: () => void;
 }
 
 function classNames(...classes: any[]) {

@@ -35,13 +35,12 @@ export const CandidatesTableList: FC<CandidatesTableListProps> = ({
   fetchIsLoading,
   setRowObjectData,
 }) => {
+  const [candidateIDRowSelected, setCandidateIDRowSelected] =
+    useState<string>("");
   const handleObjectDataSelection = (candidate: CandidateType) => {
     setRowObjectData(candidate);
-    setCandidateIDRowSelected(candidate.user?._id!);
+    setCandidateIDRowSelected(candidate.user?._id || "");
   };
-  const [candidateIDRowSelected, setCandidateIDRowSelected] = useState<
-    string | null
-  >(null);
 
   return (
     <section className="scrollbar-hide w-full overflow-scroll rounded-md border border-gray-400 bg-white drop-shadow-md">
