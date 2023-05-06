@@ -51,27 +51,31 @@ export const BackgroundMatchChart: FC<BackgroundMatchChartProps> = ({
   const [chartData, setChartData] = useState<any>(null);
 
   useMemo(() => {
-    const barsLabels = backgroundMatchData.map((item) => item.questionContent);
-    const memberData = backgroundMatchData.map((item) => item.userPercentage);
-    const averageData = backgroundMatchData.map(
-      (item) => item.averagePercentage
-    );
+    if (memberName && backgroundMatchData) {
+      const barsLabels = backgroundMatchData.map(
+        (item) => item.questionContent
+      );
+      const memberData = backgroundMatchData.map((item) => item.userPercentage);
+      const averageData = backgroundMatchData.map(
+        (item) => item.averagePercentage
+      );
 
-    setChartData({
-      labels: barsLabels,
-      datasets: [
-        {
-          label: memberName,
-          data: memberData,
-          backgroundColor: "rgba(23, 48, 232)",
-        },
-        {
-          label: "Average Candidate",
-          data: averageData,
-          backgroundColor: "rgba(100, 151, 227)",
-        },
-      ],
-    });
+      setChartData({
+        labels: barsLabels,
+        datasets: [
+          {
+            label: memberName,
+            data: memberData,
+            backgroundColor: "rgba(23, 48, 232)",
+          },
+          {
+            label: "Average Candidate",
+            data: averageData,
+            backgroundColor: "rgba(100, 151, 227)",
+          },
+        ],
+      });
+    }
   }, [memberName, backgroundMatchData]);
 
   if (!chartData) return <></>;

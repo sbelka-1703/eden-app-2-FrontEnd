@@ -5,14 +5,15 @@ import {
   TextInputLabel,
   TextLabel1,
 } from "@eden/package-ui";
-import React from "react";
+import { FC } from "react";
 
 type Props = {
-  member: Members;
-  summaryQuestions: SummaryQuestionType[];
+  member?: Members;
+  summaryQuestions?: SummaryQuestionType[];
 };
 
-export const MatchTab: React.FC<Props> = ({ member, summaryQuestions }) => {
+export const MatchTab: FC<Props> = ({ member, summaryQuestions }) => {
+  console.log("MatchTab");
   const exampleData = [
     {
       questionID: "1242",
@@ -44,7 +45,7 @@ export const MatchTab: React.FC<Props> = ({ member, summaryQuestions }) => {
     <>
       <div className="mb-4 mt-4">
         <BackgroundMatchChart
-          memberName={member.discordName ?? ""}
+          memberName={member?.discordName ?? ""}
           backgroundMatchData={exampleData}
         />
       </div>
@@ -52,9 +53,9 @@ export const MatchTab: React.FC<Props> = ({ member, summaryQuestions }) => {
         EXPERTISE
       </p>
       <div
-        className={`mx-auto my-4 grid grid-cols-${summaryQuestions.length} gap-4`}
+        className={`mx-auto my-4 grid grid-cols-${summaryQuestions?.length} gap-4`}
       >
-        {summaryQuestions.map((item, index) => (
+        {summaryQuestions?.map((item, index) => (
           <div key={index} className="hover:bg-blue-100">
             <div className="mx-auto flex h-16 w-auto items-center justify-center">
               <p className="text-center">
@@ -93,9 +94,9 @@ export const MatchTab: React.FC<Props> = ({ member, summaryQuestions }) => {
         CULTURE FIT
       </p>
       <div
-        className={`mx-auto grid grid-cols-${summaryQuestions.length} gap-4`}
+        className={`mx-auto grid grid-cols-${summaryQuestions?.length} gap-4`}
       >
-        {summaryQuestions.map((item, index) => (
+        {summaryQuestions?.map((item, index) => (
           <div key={index}>
             <div className="mx-auto flex h-16 w-auto items-center justify-center">
               <p className="text-center">
