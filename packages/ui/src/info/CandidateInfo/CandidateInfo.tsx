@@ -1,9 +1,13 @@
 import { useQuery } from "@apollo/client";
-import { FIND_MEMBER } from "@eden/package-graphql";
-import { Members, SummaryQuestionType } from "@eden/package-graphql/generated";
-import { Avatar, Button, TextHeading3 } from "@eden/package-ui";
+import { FIND_COMPANY_QUESTIONS, FIND_MEMBER } from "@eden/package-graphql";
+import {
+  QuestionType,
+  SummaryQuestionType,
+} from "@eden/package-graphql/generated";
+import { Avatar, Button, Loading, TextHeading3 } from "@eden/package-ui";
 import { Tab } from "@headlessui/react";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { FC, useMemo, useState } from "react";
 
 import { GraphTab } from "./tabs/GraphTab";
 import { InfoTab } from "./tabs/InfoTab";
@@ -11,36 +15,44 @@ import { MatchTab } from "./tabs/MatchTab";
 import { ScoresTab } from "./tabs/ScoresTab";
 
 export interface ICandidateInfoProps {
-  memberId: string; // Members;
-  percentage: number | null;
-  loading?: boolean;
-  summaryQuestions: SummaryQuestionType[];
+  memberID: string; // Members;
 }
 
 function classNames(...classes: any[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-export const CandidateInfo = ({
-  memberId,
-  percentage,
-  // loading = false,
-  summaryQuestions,
-}: ICandidateInfoProps) => {
+export const CandidateInfo: FC<ICandidateInfoProps> = ({ memberID }) => {
   console.log("CandidateInfoComponent");
   const [index, setIndex] = useState(0);
+  const [summaryQuestions, setSummaryQuestions] = useState<
+    SummaryQuestionType[]
+  >([]);
 
-  const { data: findMemberData } = useQuery(FIND_MEMBER, {
+  const { companyID } = useRouter().query;
+
+  const { data: findCompanyQuestionsData } = useQuery(FIND_COMPANY_QUESTIONS, {
     variables: {
       fields: {
-        _id: memberId,
+        _id: companyID,
       },
     },
-    skip: !Boolean(memberId),
-    onCompleted: (data) => {
-      console.log({ findMemberData: data });
-    },
+    skip: !Boolean(companyID),
+    ssr: false,
   });
+
+  const { data: findMemberData, loading: findMemberIsLoading } = useQuery(
+    FIND_MEMBER,
+    {
+      variables: {
+        fields: {
+          _id: memberID,
+        },
+      },
+      skip: !Boolean(memberID),
+      ssr: false,
+    }
+  );
 
   const tabs = [
     {
@@ -56,6 +68,25 @@ export const CandidateInfo = ({
       tab: "EDEN AI CHAT",
     },
   ];
+
+  useMemo(() => {
+    if (findCompanyQuestionsData) {
+      const questionPrep: SummaryQuestionType[] =
+        findCompanyQuestionsData.findCompany.questionsToAsk.map(
+          (question: QuestionType) => {
+            if (question.question) {
+              return {
+                _id: question.question._id,
+                content: question.question.content,
+                bestAnswer: question.bestAnswer,
+              };
+            }
+          }
+        );
+
+      setSummaryQuestions(questionPrep);
+    }
+  }, [findCompanyQuestionsData]);
 
   return (
     <div>
@@ -124,11 +155,16 @@ export const CandidateInfo = ({
           </Tab.List>
           <Tab.Panels>
             {({ selectedIndex }) => {
+              console.log({ selectedIndex });
               if (selectedIndex === 0)
                 return (
                   <Tab.Panel>
                     <div className="relative">
-                      <InfoTab member={findMemberData?.findMember} />
+                      {findMemberIsLoading ? (
+                        <Loading />
+                      ) : (
+                        <InfoTab member={findMemberData?.findMember} />
+                      )}
                     </div>
                   </Tab.Panel>
                 );
@@ -136,10 +172,14 @@ export const CandidateInfo = ({
                 return (
                   <Tab.Panel>
                     <div className="relative">
-                      <MatchTab
-                        member={findMemberData.findMember as Members}
-                        summaryQuestions={summaryQuestions}
-                      />
+                      {findMemberIsLoading ? (
+                        <Loading />
+                      ) : (
+                        <MatchTab
+                          member={findMemberData.findMember}
+                          summaryQuestions={summaryQuestions}
+                        />
+                      )}
                     </div>
                   </Tab.Panel>
                 );
@@ -147,7 +187,11 @@ export const CandidateInfo = ({
                 return (
                   <Tab.Panel>
                     <div className="relative">
-                      <GraphTab member={findMemberData?.findMember!} />
+                      {findMemberIsLoading ? (
+                        <Loading />
+                      ) : (
+                        <GraphTab member={findMemberData?.findMember} />
+                      )}
                     </div>
                   </Tab.Panel>
                 );
@@ -155,11 +199,15 @@ export const CandidateInfo = ({
                 return (
                   <Tab.Panel>
                     <div className="relative">
-                      <ScoresTab
-                        member={findMemberData?.findMember}
-                        percentage={percentage}
-                        summaryQuestions={summaryQuestions}
-                      />
+                      {findMemberIsLoading ? (
+                        <Loading />
+                      ) : (
+                        <ScoresTab
+                          member={findMemberData?.findMember}
+                          percentage={findMemberData?.findMember.overallScore}
+                          summaryQuestions={summaryQuestions}
+                        />
+                      )}
                     </div>
                   </Tab.Panel>
                 );

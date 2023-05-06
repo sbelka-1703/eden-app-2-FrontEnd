@@ -37,7 +37,7 @@ type CandidatesTableListProps = {
   setRowObjectData: (candidate: CandidateType) => void;
 };
 
-export const CandidatesTableList: React.FC<CandidatesTableListProps> = ({
+export const CandidatesTableList: FC<CandidatesTableListProps> = ({
   candidatesList,
   fetchIsLoading,
   setRowObjectData,
