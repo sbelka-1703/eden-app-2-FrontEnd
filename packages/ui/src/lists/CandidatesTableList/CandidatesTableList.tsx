@@ -1,7 +1,7 @@
 import { CandidateType } from "@eden/package-graphql/generated";
 import { Avatar, Badge, Loading, TextHeading2 } from "@eden/package-ui";
 import clsx from "clsx";
-import { ComponentPropsWithoutRef, FC, ReactNode } from "react";
+import { ComponentPropsWithoutRef, FC, ReactNode, useState } from "react";
 
 interface InputGroupProps extends ComponentPropsWithoutRef<"td"> {
   extraCssClass?: string;
@@ -37,7 +37,11 @@ export const CandidatesTableList: FC<CandidatesTableListProps> = ({
 }) => {
   const handleObjectDataSelection = (candidate: CandidateType) => {
     setRowObjectData(candidate);
+    setCandidateIDRowSelected(candidate.user?._id!);
   };
+  const [candidateIDRowSelected, setCandidateIDRowSelected] = useState<
+    string | null
+  >(null);
 
   return (
     <section className="scrollbar-hide w-full overflow-scroll rounded-md border border-gray-400 bg-white drop-shadow-md">
@@ -68,7 +72,11 @@ export const CandidatesTableList: FC<CandidatesTableListProps> = ({
               <tr
                 key={`${candidate.user?._id}-${idx}`}
                 onClick={() => handleObjectDataSelection(candidate)}
-                className="group cursor-pointer even:bg-slate-100 hover:bg-lime-50 focus:outline-none focus:ring focus:ring-gray-300 active:bg-gray-300"
+                className={`${
+                  candidateIDRowSelected === candidate.user?._id
+                    ? "bg-lime-100"
+                    : "even:bg-slate-100"
+                } group cursor-pointer  hover:bg-lime-50 focus:outline-none focus:ring focus:ring-gray-300 active:bg-gray-300`}
               >
                 <ColumnStyled extraCssClass="border-r-0 pr-0">
                   <div className="flex flex-nowrap items-center">

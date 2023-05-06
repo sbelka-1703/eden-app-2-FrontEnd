@@ -1,5 +1,4 @@
 import { gql, useQuery } from "@apollo/client";
-import { FIND_MEMBER } from "@eden/package-graphql";
 import { CandidateType } from "@eden/package-graphql/generated";
 import {
   AppUserLayout,
@@ -72,7 +71,6 @@ const CompanyCRM: NextPageWithLayout = () => {
 
   const [candidates, setCandidates] = useState<CandidateType[]>([]);
 
-  // const [notificationOpen, setNotificationOpen] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [selectedUserScore, setSelectedUserScore] = useState<number | null>(
     null
@@ -104,16 +102,6 @@ const CompanyCRM: NextPageWithLayout = () => {
       setSelectedUserSummaryQuestions(user.summaryQuestions);
   };
 
-  const { data: dataMember } = useQuery(FIND_MEMBER, {
-    variables: {
-      fields: {
-        _id: selectedUserId,
-      },
-    },
-    skip: !Boolean(selectedUserId),
-    ssr: false,
-  });
-
   return (
     <div className="grid flex-1 grid-cols-2 gap-4">
       <div className="col-1">
@@ -128,7 +116,7 @@ const CompanyCRM: NextPageWithLayout = () => {
       <div className="col-2">
         <div className="m-4 border border-gray-500 p-10">
           <CandidateInfo
-            member={dataMember?.findMember}
+            memberID={selectedUserId || ""}
             percentage={selectedUserScore}
             summaryQuestions={selectedUserSummaryQuestions}
           />

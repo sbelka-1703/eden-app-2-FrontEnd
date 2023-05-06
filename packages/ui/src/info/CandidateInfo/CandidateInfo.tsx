@@ -1,4 +1,6 @@
-import { Members, SummaryQuestionType } from "@eden/package-graphql/generated";
+import { useQuery } from "@apollo/client";
+import { FIND_MEMBER } from "@eden/package-graphql";
+import { SummaryQuestionType } from "@eden/package-graphql/generated";
 import { Avatar, Button, TextHeading3 } from "@eden/package-ui";
 import { Tab } from "@headlessui/react";
 import { useState } from "react";
@@ -9,7 +11,7 @@ import { MatchTab } from "./tabs/MatchTab";
 import { ScoresTab } from "./tabs/ScoresTab";
 
 export interface ICandidateInfoProps {
-  member: Members;
+  memberID: string;
   percentage: number | null;
   summaryQuestions: SummaryQuestionType[];
   handleCloseModal?: () => void;
@@ -20,34 +22,45 @@ function classNames(...classes: any[]) {
 }
 
 export const CandidateInfo = ({
-  member,
+  memberID,
   percentage,
   summaryQuestions,
 }: ICandidateInfoProps) => {
   const [index, setIndex] = useState(0);
 
-  // if (!member) return null;
+  const { data: dataMember } = useQuery(FIND_MEMBER, {
+    variables: {
+      fields: {
+        _id: memberID,
+      },
+    },
+    skip: !Boolean(memberID),
+    ssr: false,
+  });
 
   const tabs = [
     {
       tab: "INFO",
-      Content: () => <InfoTab member={member} />,
+      Content: () => <InfoTab member={dataMember?.findMember} />,
     },
     {
       tab: "MATCH %",
       Content: () => (
-        <MatchTab member={member} summaryQuestions={summaryQuestions} />
+        <MatchTab
+          member={dataMember?.findMember}
+          summaryQuestions={summaryQuestions}
+        />
       ),
     },
     {
       tab: "GRAPH",
-      Content: () => <GraphTab member={member} />,
+      Content: () => <GraphTab member={dataMember?.findMember} />,
     },
     {
       tab: "EDEN AI CHAT",
       Content: () => (
         <ScoresTab
-          member={member}
+          member={dataMember?.findMember}
           percentage={percentage}
           summaryQuestions={summaryQuestions}
         />
@@ -68,7 +81,7 @@ export const CandidateInfo = ({
           </div>
           <div className="col-2 p-2">
             <div className="flex w-full justify-center">
-              <Avatar src={member?.discordAvatar!} size={`lg`} />
+              <Avatar src={dataMember?.findMember.discordAvatar!} size={`lg`} />
             </div>
           </div>
           <div className="col-3 mt-5 w-full p-2 text-center">
@@ -86,11 +99,11 @@ export const CandidateInfo = ({
 
         <div className="flex justify-center">
           <TextHeading3 className="font-extrabold">
-            {member?.discordName}
+            {dataMember?.findMember?.discordName}
           </TextHeading3>
         </div>
         <TextHeading3 className="font-extrabold text-gray-500">
-          {member?.memberRole?.title}
+          {dataMember?.findMember?.memberRole?.title}
         </TextHeading3>
       </div>
       <div className="w-full">
