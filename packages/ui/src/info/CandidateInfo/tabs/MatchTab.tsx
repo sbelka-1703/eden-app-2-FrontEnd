@@ -1,14 +1,18 @@
-import { Members } from "@eden/package-graphql/generated";
-import { BackgroundMatchChart } from "@eden/package-ui";
+import { Members, SummaryQuestionType } from "@eden/package-graphql/generated";
+import {
+  BackgroundMatchChart,
+  TextHeading2,
+  TextInputLabel,
+  TextLabel1,
+} from "@eden/package-ui";
 import React from "react";
 
 type Props = {
   member: Members;
+  summaryQuestions: SummaryQuestionType[];
 };
 
-export const MatchTab: React.FC<Props> = ({ member }) => {
-  console.log({ member });
-
+export const MatchTab: React.FC<Props> = ({ member, summaryQuestions }) => {
   const exampleData = [
     {
       questionID: "1242",
@@ -38,12 +42,77 @@ export const MatchTab: React.FC<Props> = ({ member }) => {
 
   return (
     <>
-      <div className="mb-4 mt-4 ">
-        MatchTab
+      <div className="mb-4 mt-4">
         <BackgroundMatchChart
           memberName={member.discordName ?? ""}
           backgroundMatchData={exampleData}
         />
+      </div>
+      <p className="text-soilHeading3 font-poppins mb-2 mt-6 text-center font-black text-gray-400">
+        EXPERTISE
+      </p>
+      <div
+        className={`mx-auto my-4 grid grid-cols-${summaryQuestions.length} gap-4`}
+      >
+        {summaryQuestions.map((item, index) => (
+          <div key={index} className="hover:bg-blue-100">
+            <div className="mx-auto flex h-16 w-auto items-center justify-center">
+              <p className="text-center">
+                <TextLabel1 className="text-black">
+                  {item.questionContent}
+                </TextLabel1>
+              </p>
+            </div>
+            <div className="mt-2">
+              <div className="flex items-center justify-center">
+                {item.score ? (
+                  <div className="font-black">
+                    <TextHeading2
+                      className={`${
+                        index % 2
+                          ? "text-soilPurple"
+                          : index % 3
+                          ? "text-soilOrange"
+                          : "text-soilTurquoise"
+                      }`}
+                    >
+                      {item.score}%
+                    </TextHeading2>
+                  </div>
+                ) : (
+                  <TextInputLabel className="text-xs text-black">
+                    {item.answerContent}
+                  </TextInputLabel>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <p className="text-soilHeading3 font-poppins mb-6 text-center font-black text-gray-400">
+        CULTURE FIT
+      </p>
+      <div
+        className={`mx-auto grid grid-cols-${summaryQuestions.length} gap-4`}
+      >
+        {summaryQuestions.map((item, index) => (
+          <div key={index}>
+            <div className="mx-auto flex h-16 w-auto items-center justify-center">
+              <p className="text-center">
+                <TextLabel1 className="text-black">
+                  {item.questionContent}
+                </TextLabel1>
+              </p>
+            </div>
+            <div className="mx-auto flex items-center justify-center">
+              <p className="text-center">
+                <TextLabel1 className="text-soilPurple">
+                  {item.answerContent}
+                </TextLabel1>
+              </p>
+            </div>
+          </div>
+        ))}
       </div>
     </>
   );

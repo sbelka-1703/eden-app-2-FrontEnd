@@ -1,11 +1,11 @@
-import { Members } from "@eden/package-graphql/generated";
+import { Members, SummaryQuestionType } from "@eden/package-graphql/generated";
 import { Avatar } from "@eden/package-ui";
 import React from "react";
 
 type Props = {
-  member: Members | null;
+  member: Members;
   percentage: number | null;
-  summaryQuestions: any;
+  summaryQuestions: SummaryQuestionType[];
 };
 
 export const ScoresTab: React.FC<Props> = ({

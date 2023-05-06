@@ -1,4 +1,4 @@
-import { Members } from "@eden/package-graphql/generated";
+import { Members, SummaryQuestionType } from "@eden/package-graphql/generated";
 import { Avatar, Button, TextHeading3 } from "@eden/package-ui";
 import { Tab } from "@headlessui/react";
 import { useState } from "react";
@@ -12,7 +12,7 @@ export interface ICandidateInfoProps {
   member: Members;
   percentage: number | null;
   loading?: boolean;
-  summaryQuestions: any;
+  summaryQuestions: SummaryQuestionType[];
   handleCloseModal?: () => void;
 }
 
@@ -39,7 +39,9 @@ export const CandidateInfo = ({
     },
     {
       tab: "MATCH %",
-      Content: () => <MatchTab member={member} />,
+      Content: () => (
+        <MatchTab member={member} summaryQuestions={summaryQuestions} />
+      ),
     },
     {
       tab: "GRAPH",
@@ -110,7 +112,7 @@ export const CandidateInfo = ({
                 className={({ selected }) =>
                   classNames(
                     selected
-                      ? "border-b-soilGreen-700 text-soilGreen-700 w-full border-b-4"
+                      ? "border-b-soilGreen-700 text-soilGreen-700 w-full border-b-4 outline-none"
                       : "font-avenir-roman w-full border-b-4 text-gray-400"
                   )
                 }
@@ -122,9 +124,9 @@ export const CandidateInfo = ({
           <Tab.Panels>
             {tabs.map(({ Content }, index) => (
               <Tab.Panel key={index}>
-                <>
+                <div className="relative">
                   <Content />
-                </>
+                </div>
               </Tab.Panel>
             ))}
           </Tab.Panels>
