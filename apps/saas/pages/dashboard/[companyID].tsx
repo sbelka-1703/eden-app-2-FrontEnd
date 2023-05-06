@@ -1,4 +1,5 @@
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
+import { FIND_COMPANY_FULL } from "@eden/package-graphql";
 import { CandidateType } from "@eden/package-graphql/generated";
 import {
   AppUserLayout,
@@ -9,61 +10,6 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 
 import { NextPageWithLayout } from "../_app";
-
-const FIND_COMPANY = gql`
-  query ($fields: findCompanyInput!) {
-    findCompany(fields: $fields) {
-      _id
-      name
-      candidates {
-        overallScore
-        user {
-          _id
-          discordName
-          discordAvatar
-          memberRole {
-            _id
-            title
-          }
-          budget {
-            perHour
-          }
-          nodes {
-            nodeData {
-              _id
-              name
-              node
-            }
-          }
-          previousProjects {
-            title
-            positionName
-          }
-          experienceLevel {
-            total
-            years
-          }
-        }
-        readyToDisplay
-        summaryQuestions {
-          questionID
-          questionContent
-          answerContent
-          reason
-          score
-          bestAnswerCompany
-        }
-      }
-      questionsToAsk {
-        bestAnswer
-        question {
-          _id
-          content
-        }
-      }
-    }
-  }
-`;
 
 const CompanyCRM: NextPageWithLayout = () => {
   const router = useRouter();
@@ -82,7 +28,7 @@ const CompanyCRM: NextPageWithLayout = () => {
     // data: findCompanyData,
     loading: findCompanyIsLoading,
     // error: findCompanyError,
-  } = useQuery(FIND_COMPANY, {
+  } = useQuery(FIND_COMPANY_FULL, {
     variables: {
       fields: {
         _id: companyID,
