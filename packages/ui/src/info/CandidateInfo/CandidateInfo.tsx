@@ -25,12 +25,10 @@ export const CandidateInfo = ({
   percentage,
   loading = false,
   summaryQuestions,
-  // eslint-disable-next-line no-unused-vars
-  handleCloseModal,
 }: ICandidateInfoProps) => {
   const [index, setIndex] = useState(0);
 
-  if (!member) return null;
+  // if (!member) return null;
 
   const tabs = [
     {
@@ -60,7 +58,7 @@ export const CandidateInfo = ({
   ];
 
   return (
-    <div>
+    <section>
       <div className="font-Inter mb-4 flex-col text-center">
         <div className="grid grid-cols-3">
           <div className="col-1 mt-5 w-full p-2 text-center">
@@ -132,6 +130,6 @@ export const CandidateInfo = ({
           </Tab.Panels>
         </Tab.Group>
       </div>
-    </div>
+    </section>
   );
 };
