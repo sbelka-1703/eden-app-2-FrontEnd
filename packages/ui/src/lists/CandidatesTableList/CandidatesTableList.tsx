@@ -27,16 +27,16 @@ type CandidatesTableListProps = {
   candidatesList: CandidateType[];
   fetchIsLoading: boolean;
   // eslint-disable-next-line no-unused-vars
-  setRowObjectData?: (user: CandidateType) => void;
+  setRowObjectData: (candidate: CandidateType) => void;
 };
 
-export const CandidatesTableList: React.FC<CandidatesTableListProps> = ({
+export const CandidatesTableList: FC<CandidatesTableListProps> = ({
   candidatesList,
   fetchIsLoading,
   setRowObjectData,
 }) => {
-  const handleObjectDataSelection = (user: CandidateType) => {
-    setRowObjectData && setRowObjectData(user);
+  const handleObjectDataSelection = (candidate: CandidateType) => {
+    setRowObjectData(candidate);
   };
 
   return (

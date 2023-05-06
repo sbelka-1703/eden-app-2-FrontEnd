@@ -11,7 +11,6 @@ import { ScoresTab } from "./tabs/ScoresTab";
 export interface ICandidateInfoProps {
   member: Members;
   percentage: number | null;
-  loading?: boolean;
   summaryQuestions: SummaryQuestionType[];
   handleCloseModal?: () => void;
 }
@@ -23,7 +22,6 @@ function classNames(...classes: any[]) {
 export const CandidateInfo = ({
   member,
   percentage,
-  loading = false,
   summaryQuestions,
 }: ICandidateInfoProps) => {
   const [index, setIndex] = useState(0);
@@ -33,7 +31,7 @@ export const CandidateInfo = ({
   const tabs = [
     {
       tab: "INFO",
-      Content: () => <InfoTab member={member} loading={loading} />,
+      Content: () => <InfoTab member={member} />,
     },
     {
       tab: "MATCH %",

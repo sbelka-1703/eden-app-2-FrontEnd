@@ -5,15 +5,13 @@ import {
   TextLabel1,
   UserBackground,
 } from "@eden/package-ui";
-import { useState } from "react";
+import { FC, useState } from "react";
 
 interface Props {
-  member?: Maybe<Members>;
-  percentage?: number;
-  loading?: boolean;
+  member?: Members;
 }
 
-export const InfoTab = ({ member }: Props) => {
+export const InfoTab: FC<Props> = ({ member }) => {
   const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
 
   return (
@@ -62,12 +60,8 @@ export const InfoTab = ({ member }: Props) => {
                 </p>
                 <div className="ml-4 inline-flex">
                   <p className="font-bold text-slate-600">
-                    {/* {`9:41am `} {` `} */}
                     {member?.timeZone ? `${member?.timeZone}` : "-"}
                   </p>
-                  {/* <p className="font-bold text-gray-500">
-                    {`- ${member?.timeZone || ""}`}
-                  </p> */}
                 </div>
               </section>
             </div>
@@ -77,7 +71,7 @@ export const InfoTab = ({ member }: Props) => {
                 <p>
                   <TextLabel1 className="text-xs">💰 Hourly rate</TextLabel1>
                 </p>
-                <p>
+                <div>
                   {member?.budget?.perHour !== null &&
                   member?.budget?.perHour !== undefined &&
                   member?.budget?.perHour >= 0 ? (
@@ -90,13 +84,13 @@ export const InfoTab = ({ member }: Props) => {
                   ) : (
                     <span className="ml-4 font-bold text-slate-600">-</span>
                   )}
-                </p>
+                </div>
               </section>
               <section className="mb-2 w-full text-left">
                 <p>
                   <TextLabel1 className="text-xs">⭐ Level</TextLabel1>
                 </p>
-                <p>
+                <div>
                   {member?.experienceLevel?.total ? (
                     <Badge
                       className="ml-4 text-sm"
@@ -112,7 +106,7 @@ export const InfoTab = ({ member }: Props) => {
                   ) : (
                     <span className="ml-4 font-bold text-slate-600">-</span>
                   )}
-                </p>
+                </div>
               </section>
               <section className="mb-2 w-full text-left">
                 <TextLabel1 className="text-xs">🍀 Notice</TextLabel1>
@@ -127,20 +121,18 @@ export const InfoTab = ({ member }: Props) => {
           <section className="mb-2 w-full text-left">
             <TextLabel1 className="text-xs">🌺 WIZARD SKILLS</TextLabel1>
             <div className="ml-4 inline-flex flex-wrap">
-              {member?.nodes?.map((skill: Maybe<NodesType>, index: number) => (
-                <>
-                  {skill?.nodeData?.name ? (
-                    <Badge
-                      key={index}
-                      text={skill?.nodeData?.name}
-                      colorRGB="224,151,232"
-                      className={`font-Inter text-sm`}
-                      closeButton={false}
-                      cutText={16}
-                    />
-                  ) : null}
-                </>
-              ))}
+              {member?.nodes?.map((skill: Maybe<NodesType>, index: number) => {
+                return skill?.nodeData?.name ? (
+                  <Badge
+                    key={index}
+                    text={skill?.nodeData?.name}
+                    colorRGB="224,151,232"
+                    className={`font-Inter text-sm`}
+                    closeButton={false}
+                    cutText={16}
+                  />
+                ) : null;
+              })}
             </div>
           </section>
 
