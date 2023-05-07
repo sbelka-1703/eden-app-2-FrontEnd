@@ -1,6 +1,7 @@
 import { Members, SummaryQuestionType } from "@eden/package-graphql/generated";
 import {
   BackgroundMatchChart,
+  PopoverScoreReason,
   TextHeading2,
   TextInputLabel,
   TextLabel1,
@@ -53,43 +54,45 @@ export const MatchTab: FC<Props> = ({ member, summaryQuestions }) => {
       </p>
       <div
         className={`mx-auto my-4 grid grid-cols-${
-          summaryQuestions?.length || 4
+          summaryQuestions?.length === 1 ? 3 : summaryQuestions?.length
         } gap-4`}
       >
         {summaryQuestions
           ? summaryQuestions.map((item, index) => (
-              <div key={index} className="hover:bg-blue-200">
-                <div className="mx-auto flex h-16 w-auto items-center justify-center">
-                  <p className="text-center">
-                    <TextLabel1 className="text-black">
-                      {item.questionContent}
-                    </TextLabel1>
-                  </p>
-                </div>
-                <div className="mt-2">
-                  <div className="flex items-center justify-center">
-                    {item.score ? (
-                      <div className="font-black">
-                        <TextHeading2
-                          className={`${
-                            index % 2
-                              ? "text-soilPurple"
-                              : index % 3
-                              ? "text-soilOrange"
-                              : "text-soilTurquoise"
-                          }`}
-                        >
-                          {item.score}%
-                        </TextHeading2>
-                      </div>
-                    ) : (
-                      <TextInputLabel className="text-xs text-black">
-                        {item.answerContent}
-                      </TextInputLabel>
-                    )}
+              <PopoverScoreReason size="lg" key={index} question={item}>
+                <div className="hover:bg-blue-200">
+                  <div className="mx-auto flex h-16 w- items-center justify-center">
+                    <p className="text-center">
+                      <TextLabel1 className="text-black">
+                        {item.questionContent}
+                      </TextLabel1>
+                    </p>
+                  </div>
+                  <div className="mt-2">
+                    <div className="flex items-center justify-center">
+                      {item.score ? (
+                        <div className="font-black">
+                          <TextHeading2
+                            className={`${
+                              index % 2
+                                ? "text-soilPurple"
+                                : index % 3
+                                ? "text-soilOrange"
+                                : "text-soilTurquoise"
+                            }`}
+                          >
+                            {item.score}%
+                          </TextHeading2>
+                        </div>
+                      ) : (
+                        <TextInputLabel className="text-xs text-black">
+                          {item.answerContent}
+                        </TextInputLabel>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
+              </PopoverScoreReason>
             ))
           : null}
       </div>
