@@ -106,22 +106,24 @@ export const MatchTab: FC<Props> = ({ member, summaryQuestions }) => {
       >
         {summaryQuestions
           ? summaryQuestions?.map((item, index) => (
-              <div key={index} className="hover:bg-blue-200">
-                <div className="mx-auto flex h-16 w-auto items-center justify-center">
-                  <p className="text-center">
-                    <TextLabel1 className="text-black">
-                      {item.questionContent}
-                    </TextLabel1>
-                  </p>
+              <PopoverScoreReason size="lg" key={index} question={item}>
+                <div className="hover:bg-blue-200">
+                  <div className="mx-auto flex h-16 w-auto items-center justify-center">
+                    <p className="text-center">
+                      <TextLabel1 className="text-black">
+                        {item.questionContent}
+                      </TextLabel1>
+                    </p>
+                  </div>
+                  <div className="mx-auto flex items-center justify-center">
+                    <p className="text-center">
+                      <TextLabel1 className="text-soilPurple">
+                        {item.answerContent}
+                      </TextLabel1>
+                    </p>
+                  </div>
                 </div>
-                <div className="mx-auto flex items-center justify-center">
-                  <p className="text-center">
-                    <TextLabel1 className="text-soilPurple">
-                      {item.answerContent}
-                    </TextLabel1>
-                  </p>
-                </div>
-              </div>
+              </PopoverScoreReason>
             ))
           : null}
       </div>
