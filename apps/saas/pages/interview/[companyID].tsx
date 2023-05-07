@@ -144,15 +144,21 @@ const InterviewEdenAIContainer = () => {
     },
     skip: companyID == "" || companyID == null,
     onCompleted: (data) => {
-      setQuestions(
-        data.findCompany.questionsToAsk.map((question: any) => {
+      let questionsChange = data.findCompany.questionsToAsk.map(
+        (question: any) => {
           return {
-            _id: question.question._id,
-            content: question.question.content,
-            bestAnswer: question.bestAnswer,
+            _id: question?.question?._id,
+            content: question?.question?.content,
+            bestAnswer: question?.bestAnswer,
           };
-        })
+        }
       );
+
+      questionsChange = questionsChange.filter((question: any) => {
+        return question._id != null;
+      });
+
+      setQuestions(questionsChange);
     },
   });
 
