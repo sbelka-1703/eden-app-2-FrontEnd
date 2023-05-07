@@ -17,6 +17,7 @@
     "@eden/package-mock": "*",
     "@eden/package-tsconfig": "*",
     "@faker-js/faker": "^7.6.0",
+    "@headlessui-float/react": "^0.11.2",
     "@headlessui/react": "^1.6.6",
     "@heroicons/react": "^1.0.6",
     "@jaames/iro": "^5.5.2",

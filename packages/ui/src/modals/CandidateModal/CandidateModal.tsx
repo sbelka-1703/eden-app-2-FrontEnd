@@ -25,7 +25,6 @@ export const CandidateModal = ({
           memberID={memberId}
           percentage={percentage}
           summaryQuestions={summaryQuestions}
-          handleCloseModal={handleCloseModal}
         />
       </div>
     </Modal>
