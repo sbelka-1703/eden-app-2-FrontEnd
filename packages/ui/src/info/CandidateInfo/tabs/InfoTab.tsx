@@ -1,6 +1,7 @@
-import { Maybe, Members, NodesType } from "@eden/package-graphql/generated";
+import { Members } from "@eden/package-graphql/generated";
 import {
   Badge,
+  NodeList,
   SocialMediaComp,
   TextLabel1,
   UserBackground,
@@ -121,18 +122,13 @@ export const InfoTab: FC<Props> = ({ member }) => {
           <section className="mb-2 w-full text-left">
             <TextLabel1 className="text-xs">🌺 WIZARD SKILLS</TextLabel1>
             <div className="ml-4 inline-flex flex-wrap">
-              {member?.nodes?.map((skill: Maybe<NodesType>, index: number) => {
-                return skill?.nodeData?.name ? (
-                  <Badge
-                    key={index}
-                    text={skill?.nodeData?.name}
-                    colorRGB="224,151,232"
-                    className={`font-Inter text-sm`}
-                    closeButton={false}
-                    cutText={16}
-                  />
-                ) : null;
-              })}
+              {member?.nodes && member?.nodes.length > 0 && (
+                <NodeList
+                  overflowNumber={3}
+                  nodes={member?.nodes}
+                  colorRGB={`224,151,232`}
+                />
+              )}
             </div>
           </section>
 
