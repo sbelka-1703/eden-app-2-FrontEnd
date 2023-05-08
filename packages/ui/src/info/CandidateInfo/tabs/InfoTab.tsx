@@ -1,4 +1,4 @@
-import { Maybe, Members, NodesType } from "@eden/package-graphql/generated";
+import { Members } from "@eden/package-graphql/generated";
 import {
   Badge,
   NodeList,
