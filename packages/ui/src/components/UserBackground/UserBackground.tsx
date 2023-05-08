@@ -3,12 +3,6 @@ import {
   Maybe,
   PreviousProjectsType,
 } from "@eden/package-graphql/generated";
-import {
-  Card,
-  // EndorsementList,
-  // TextHeading3,
-  TextLabel1,
-} from "@eden/package-ui";
 import React from "react";
 
 export interface IUserBackgroundProps {
