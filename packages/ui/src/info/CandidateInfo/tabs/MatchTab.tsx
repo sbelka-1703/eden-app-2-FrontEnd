@@ -64,14 +64,14 @@ export const MatchTab: FC<Props> = ({ member, summaryQuestions }) => {
                   <div className="w- mx-auto flex h-16 items-center justify-center">
                     <p className="text-center">
                       <TextLabel1 className="text-black">
-                        {item.questionContentSmall.replace(".", "")}
+                        {item.questionContentSmall?.replace(".", "")}
                       </TextLabel1>
                     </p>
                   </div>
                   <div className="mt-2">
                     <div className="flex items-center justify-center">
                       <TextInputLabel className="text-xs text-black">
-                        {item.answerContentSmall.replace(".", "")}
+                        {item.answerContentSmall?.replace(".", "")}
                       </TextInputLabel>
                       {item.score ? (
                         <div className="font-black">
