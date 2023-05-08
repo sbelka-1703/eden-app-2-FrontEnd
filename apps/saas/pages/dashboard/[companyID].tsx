@@ -1,6 +1,4 @@
-import { useQuery } from "@apollo/client";
-import { FIND_COMPANY_FULL } from "@eden/package-graphql";
-import { CandidateType } from "@eden/package-graphql/generated";
+import { useSaasAppContext } from "@eden/package-context";
 import {
   AppUserLayout,
   Button,
@@ -13,25 +11,11 @@ import React, { useState } from "react";
 
 import { NextPageWithLayout } from "../_app";
 
-type QuestionType = {
-  _id: number;
-  content: string;
-  bestAnswer: string;
-};
-
 const CompanyCRM: NextPageWithLayout = () => {
+  const { candidates, trainQuestions, setTrainQuestions } = useSaasAppContext();
+
   const router = useRouter();
   const { companyID } = router.query;
-
-  const [candidates, setCandidates] = useState<CandidateType[]>([]);
-
-  const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
-  const [selectedUserScore, setSelectedUserScore] =
-    useState<number | null>(null);
-  const [selectedUserSummaryQuestions, setSelectedUserSummaryQuestions] =
-    useState<any[]>([]);
-
-  const [questions, setQuestions] = useState<QuestionType[]>([]);
 
   const [trainModalOpen, setTrainModalOpen] = useState(false);
 
@@ -43,53 +27,13 @@ const CompanyCRM: NextPageWithLayout = () => {
     setTrainModalOpen(false);
   };
 
-  const {
-    // data: findCompanyData,
-    loading: findCompanyIsLoading,
-    // error: findCompanyError,
-  } = useQuery(FIND_COMPANY_FULL, {
-    variables: {
-      fields: {
-        _id: companyID,
-      },
-    },
-    skip: !Boolean(companyID),
-    ssr: false,
-    onCompleted: (data: any) => {
-      setCandidates(data.findCompany.candidates);
-      const questionPrep: QuestionType[] = [];
-
-      data.findCompany.questionsToAsk.map((question: any) => {
-        console.log("question = ", question);
-        if (question.question == null) {
-        } else {
-          questionPrep.push({
-            _id: question.question._id,
-            content: question.question.content,
-            bestAnswer: question.bestAnswer,
-          });
-        }
-      });
-
-      setQuestions(questionPrep);
-    },
-  });
-
-  const handleRowClick = (user: CandidateType) => {
-    if (user.user?._id) setSelectedUserId(user.user?._id);
-    if (user.overallScore) setSelectedUserScore(user.overallScore);
-    if (user.summaryQuestions)
-      setSelectedUserSummaryQuestions(user.summaryQuestions);
-  };
-
   return (
     <div className="grid flex-1 grid-cols-2 gap-4">
       <div className="col-1">
         <div className="container m-4 border border-gray-500 p-4">
           <CandidatesTableList
             candidatesList={candidates}
-            fetchIsLoading={findCompanyIsLoading}
-            setRowObjectData={handleRowClick}
+            fetchIsLoading={!candidates}
           />
           <button
             className="mt-4 rounded bg-blue-500 px-2 py-1 text-white hover:bg-blue-600"
@@ -117,9 +61,9 @@ const CompanyCRM: NextPageWithLayout = () => {
                 </div>
                 <div className="transform overflow-hidden rounded-lg bg-white shadow-xl transition-all sm:w-full sm:max-w-lg">
                   <TrainQuestionsEdenAI
-                    questions={questions}
+                    questions={trainQuestions}
                     companyID={companyID}
-                    setQuestions={setQuestions}
+                    setQuestions={setTrainQuestions}
                     setTrainModalOpen={setTrainModalOpen}
                   />
                 </div>
@@ -130,11 +74,7 @@ const CompanyCRM: NextPageWithLayout = () => {
       </div>
       <div className="col-2">
         <div className="m-4 border border-gray-500 bg-white p-10">
-          <CandidateInfo
-            memberID={selectedUserId || ""}
-            percentage={selectedUserScore}
-            summaryQuestions={selectedUserSummaryQuestions}
-          />
+          <CandidateInfo />
         </div>
       </div>
     </div>

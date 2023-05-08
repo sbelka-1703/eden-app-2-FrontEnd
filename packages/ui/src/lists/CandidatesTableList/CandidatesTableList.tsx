@@ -1,7 +1,8 @@
+import { useSaasAppContext } from "@eden/package-context";
 import { CandidateType } from "@eden/package-graphql/generated";
 import { Avatar, Badge, Loading, TextHeading2 } from "@eden/package-ui";
 import clsx from "clsx";
-import { ComponentPropsWithoutRef, FC, ReactNode, useState } from "react";
+import { ComponentPropsWithoutRef, FC, ReactNode } from "react";
 
 interface InputGroupProps extends ComponentPropsWithoutRef<"td"> {
   extraCssClass?: string;
@@ -26,20 +27,26 @@ const ColumnStyled: FC<InputGroupProps> = ({
 type CandidatesTableListProps = {
   candidatesList: CandidateType[];
   fetchIsLoading: boolean;
-  // eslint-disable-next-line no-unused-vars
-  setRowObjectData: (candidate: CandidateType) => void;
 };
 
 export const CandidatesTableList: FC<CandidatesTableListProps> = ({
   candidatesList,
   fetchIsLoading,
-  setRowObjectData,
 }) => {
-  const [candidateIDRowSelected, setCandidateIDRowSelected] =
-    useState<string>("");
+  const {
+    setSelectedCandidateID,
+    selectedCandidateID,
+    setSelectedCandidateScore,
+    setSelectedCandidateSummaryQuestions,
+  } = useSaasAppContext();
+
   const handleObjectDataSelection = (candidate: CandidateType) => {
-    setRowObjectData(candidate);
-    setCandidateIDRowSelected(candidate.user?._id || "");
+    setSelectedCandidateID(candidate.user?._id || "");
+    if (candidate.overallScore)
+      setSelectedCandidateScore(candidate.overallScore);
+    if (candidate.summaryQuestions && candidate.summaryQuestions) {
+      setSelectedCandidateSummaryQuestions(candidate.summaryQuestions);
+    }
   };
 
   return (
@@ -68,7 +75,7 @@ export const CandidatesTableList: FC<CandidatesTableListProps> = ({
                 key={`${candidate.user?._id}-${idx}`}
                 onClick={() => handleObjectDataSelection(candidate)}
                 className={`${
-                  candidateIDRowSelected === candidate.user?._id
+                  selectedCandidateID === candidate.user?._id
                     ? "bg-lime-100"
                     : "even:bg-slate-100"
                 } group cursor-pointer  hover:bg-lime-50 focus:outline-none focus:ring focus:ring-gray-300 active:bg-gray-300`}

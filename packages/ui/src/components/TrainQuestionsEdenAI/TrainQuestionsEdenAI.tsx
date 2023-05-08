@@ -1,6 +1,7 @@
 import { gql, useMutation } from "@apollo/client";
+import { QuestionType } from "@eden/package-context";
 import { Mutation } from "@eden/package-graphql/generated";
-import React, { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 
 const ADD_QUESTIONS_TO_COMPANY = gql`
   mutation ($fields: addQuestionsToAskCompanyInput) {
@@ -26,19 +27,13 @@ const ADD_QUESTIONS_TO_COMPANY = gql`
   }
 `;
 
-export type Question = {
-  _id: number;
-  content: string;
-  bestAnswer: string;
-};
-
 type Props = {
-  questions: Question[];
+  questions: QuestionType[];
   companyID?: string | string[] | undefined;
   // eslint-disable-next-line no-unused-vars
-  setQuestions: (questions: Question[]) => void;
+  setQuestions: Dispatch<SetStateAction<any[]>>;
   // eslint-disable-next-line no-unused-vars
-  setTrainModalOpen: (open: boolean) => void;
+  setTrainModalOpen: Dispatch<SetStateAction<boolean>>;
 };
 
 export const TrainQuestionsEdenAI = ({
@@ -63,11 +58,12 @@ export const TrainQuestionsEdenAI = ({
       const newId = questions.length + 1;
 
       console.log("newQuestion = ", newQuestion);
-
-      setQuestions([
+      const newQuestionsToAdd = [
         ...questions,
         { _id: newId, content: newQuestion, bestAnswer: "" },
-      ]);
+      ];
+
+      setQuestions(newQuestionsToAdd);
       setNewQuestion("");
     }
   };

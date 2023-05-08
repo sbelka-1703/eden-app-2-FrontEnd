@@ -1,5 +1,5 @@
-import { useQuery } from "@apollo/client";
-import { FIND_MEMBER } from "@eden/package-graphql";
+/* eslint-disable no-unused-vars */
+import { useSaasAppContext } from "@eden/package-context";
 import { SummaryQuestionType } from "@eden/package-graphql/generated";
 import {
   Avatar,
@@ -14,9 +14,9 @@ import { Tab } from "@headlessui/react";
 import { useState } from "react";
 
 export interface ICandidateInfoProps {
-  memberID: string;
-  percentage: number | null;
-  summaryQuestions: SummaryQuestionType[];
+  memberID?: string;
+  percentage?: number | null;
+  summaryQuestions?: SummaryQuestionType[];
 }
 
 function classNames(...classes: any[]) {
@@ -30,47 +30,41 @@ export const CandidateInfo = ({
 }: ICandidateInfoProps) => {
   const [index, setIndex] = useState(0);
 
-  const { data: dataMember } = useQuery(FIND_MEMBER, {
-    variables: {
-      fields: {
-        _id: memberID,
-      },
-    },
-    skip: !Boolean(memberID),
-    ssr: false,
-  });
+  const {
+    selectedCandidateScore,
+    selectedCandidateSummaryQuestions,
+    candidateInfo,
+  } = useSaasAppContext();
 
   const tabs = [
     {
       tab: "INFO",
-      Content: () => <InfoTab member={dataMember?.findMember} />,
+      Content: () => <InfoTab member={candidateInfo} />,
     },
     {
       tab: "MATCH %",
       Content: () => (
         <MatchTab
-          member={dataMember?.findMember}
-          summaryQuestions={summaryQuestions}
+          member={candidateInfo}
+          summaryQuestions={selectedCandidateSummaryQuestions}
         />
       ),
     },
     {
       tab: "GRAPH",
-      Content: () => <GraphTab member={dataMember?.findMember} />,
+      Content: () => <GraphTab member={candidateInfo} />,
     },
     {
       tab: "EDEN AI CHAT",
       Content: () => (
         <ScoresTab
-          member={dataMember?.findMember}
-          percentage={percentage}
-          summaryQuestions={summaryQuestions}
+          member={candidateInfo}
+          percentage={selectedCandidateScore}
+          summaryQuestions={selectedCandidateSummaryQuestions}
         />
       ),
     },
   ];
-
-  console.log("summaryQuestions = ", summaryQuestions);
 
   return (
     <section>
@@ -85,7 +79,7 @@ export const CandidateInfo = ({
           </div>
           <div className="col-2 p-2">
             <div className="flex w-full justify-center">
-              <Avatar src={dataMember?.findMember.discordAvatar!} size={`lg`} />
+              <Avatar src={candidateInfo.discordAvatar!} size={`lg`} />
             </div>
           </div>
           <div className="col-3 mt-5 w-full p-2 text-center">
@@ -103,11 +97,11 @@ export const CandidateInfo = ({
 
         <div className="flex justify-center">
           <TextHeading3 className="font-extrabold">
-            {dataMember?.findMember?.discordName}
+            {candidateInfo?.discordName}
           </TextHeading3>
         </div>
         <TextHeading3 className="font-extrabold text-gray-500">
-          {dataMember?.findMember?.memberRole?.title}
+          {candidateInfo?.memberRole?.title}
         </TextHeading3>
       </div>
       <div className="w-full bg-white">
