@@ -131,18 +131,6 @@ export const InfoTab: FC<Props> = ({ member }) => {
               )}
             </div>
           </section>
-
-          {/* BACKGROUND */}
-          {member?.previousProjects && member?.previousProjects.length ? (
-            <section className="mb-2 w-full text-left">
-              <TextLabel1 className="text-xs">🍒 BACKGROUND</TextLabel1>
-              <UserBackground
-                background={member?.previousProjects || []}
-                setExperienceOpen={setExperienceOpen!}
-                experienceOpen={experienceOpen!}
-              />
-            </section>
-          ) : null}
         </div>
         <div className="col-2 p-2">
           {/* <section className="mb-2 w-full text-left">
@@ -172,6 +160,16 @@ export const InfoTab: FC<Props> = ({ member }) => {
           </section>
         </div>
       </div>
+      {member?.previousProjects && member?.previousProjects.length ? (
+        <section className="mb-2 w-full text-left">
+          <TextLabel1 className="text-xs">🍒 BACKGROUND</TextLabel1>
+          <UserBackground
+            background={member?.previousProjects || []}
+            setExperienceOpen={setExperienceOpen!}
+            experienceOpen={experienceOpen!}
+          />
+        </section>
+      ) : null}
     </>
   );
 };
