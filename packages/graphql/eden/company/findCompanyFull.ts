@@ -40,7 +40,9 @@ export const FIND_COMPANY_FULL = gql`
         summaryQuestions {
           questionID
           questionContent
+          questionContentSmall
           answerContent
+          answerContentSmall
           reason
           score
           bestAnswerCompany

@@ -234,7 +234,7 @@ export const DynamicSearchMemberGraph = ({
     variables: {
       fields: {
         // nodesID: ["63eaefc44862b62edc3037b4", "63eaefebdf71c82f61c177eb"],
-        nodesID: nodesID,
+        nodesID: nodesID.slice(0, 10),
         memberID: memberID,
         showAvatar: true,
         nodeSettings: nodeSettings,

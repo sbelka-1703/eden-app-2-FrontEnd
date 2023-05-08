@@ -7,6 +7,7 @@ interface Props {
 
 export const GraphTab: React.FC<Props> = ({ member }: Props) => {
   if (!member) return null;
+  console.log("tortugaaaaaaaa");
   return (
     <div className="mt-3 h-[360px] w-full">
       <DynamicSearchMemberGraph

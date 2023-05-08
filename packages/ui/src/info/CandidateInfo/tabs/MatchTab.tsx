@@ -61,15 +61,18 @@ export const MatchTab: FC<Props> = ({ member, summaryQuestions }) => {
           ? summaryQuestions.map((item, index) => (
               <PopoverScoreReason size="lg" key={index} question={item}>
                 <div className="hover:bg-blue-200">
-                  <div className="mx-auto flex h-16 w- items-center justify-center">
+                  <div className="w- mx-auto flex h-16 items-center justify-center">
                     <p className="text-center">
                       <TextLabel1 className="text-black">
-                        {item.questionContent}
+                        {item.questionContentSmall.replace(".", "")}
                       </TextLabel1>
                     </p>
                   </div>
                   <div className="mt-2">
                     <div className="flex items-center justify-center">
+                      <TextInputLabel className="text-xs text-black">
+                        {item.answerContentSmall.replace(".", "")}
+                      </TextInputLabel>
                       {item.score ? (
                         <div className="font-black">
                           <TextHeading2
@@ -81,14 +84,15 @@ export const MatchTab: FC<Props> = ({ member, summaryQuestions }) => {
                                 : "text-soilTurquoise"
                             }`}
                           >
-                            {item.score}%
+                            {item.score * 10}%
                           </TextHeading2>
                         </div>
-                      ) : (
-                        <TextInputLabel className="text-xs text-black">
-                          {item.answerContent}
-                        </TextInputLabel>
-                      )}
+                      ) : //  : (
+                      //   <TextInputLabel className="text-xs text-black">
+                      //     {item.answerContentSmall.replace(".", "")}
+                      //   </TextInputLabel>
+                      // )
+                      null}
                     </div>
                   </div>
                 </div>
@@ -96,7 +100,7 @@ export const MatchTab: FC<Props> = ({ member, summaryQuestions }) => {
             ))
           : null}
       </div>
-      <p className="text-soilHeading3 font-poppins mb-6 text-center font-black text-gray-400">
+      {/* <p className="text-soilHeading3 font-poppins mb-6 text-center font-black text-gray-400">
         CULTURE FIT
       </p>
       <div
@@ -111,14 +115,14 @@ export const MatchTab: FC<Props> = ({ member, summaryQuestions }) => {
                   <div className="mx-auto flex h-16 w-auto items-center justify-center">
                     <p className="text-center">
                       <TextLabel1 className="text-black">
-                        {item.questionContent}
+                        {item.questionContentSmall.replace(".", "")}
                       </TextLabel1>
                     </p>
                   </div>
                   <div className="mx-auto flex items-center justify-center">
                     <p className="text-center">
                       <TextLabel1 className="text-soilPurple">
-                        {item.answerContent}
+                        {item.answerContentSmall.replace(".", "")}
                       </TextLabel1>
                     </p>
                   </div>
@@ -126,7 +130,7 @@ export const MatchTab: FC<Props> = ({ member, summaryQuestions }) => {
               </PopoverScoreReason>
             ))
           : null}
-      </div>
+      </div> */}
     </>
   );
 };
