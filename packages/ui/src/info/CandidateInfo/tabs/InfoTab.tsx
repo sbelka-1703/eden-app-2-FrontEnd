@@ -6,6 +6,7 @@ import {
   TextLabel1,
   UserBackground,
 } from "@eden/package-ui";
+import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
 import { FC, useState } from "react";
 
 interface Props {
@@ -14,6 +15,7 @@ interface Props {
 
 export const InfoTab: FC<Props> = ({ member }) => {
   const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
+  const [seeMore, setSeeMore] = useState(false);
 
   return (
     <>
@@ -22,9 +24,30 @@ export const InfoTab: FC<Props> = ({ member }) => {
           <div className="my-4 flex flex-col items-start justify-center">
             <TextLabel1>🌸 Short bio</TextLabel1>
             {member?.bio ? (
-              <p className="text-soilBody font-Inter whitespace-pre-wrap font-normal">
-                {member?.bio}
-              </p>
+              <>
+                <p className="text-soilBody font-Inter whitespace-pre-wrap font-normal">
+                  {seeMore
+                    ? member.bio
+                    : member.bio.length > 200
+                    ? member.bio.substring(0, 200) + "..."
+                    : member.bio}
+                </p>
+                {member.bio.length > 200 && (
+                  <p
+                    className="mt-1 w-full cursor-pointer text-center text-sm"
+                    onClick={() => setSeeMore(!seeMore)}
+                  >
+                    {`see ${seeMore ? "less" : "more"}`}
+                    <span>
+                      {seeMore ? (
+                        <ChevronUpIcon width={16} className="ml-2 inline" />
+                      ) : (
+                        <ChevronDownIcon width={16} className="ml-2 inline" />
+                      )}
+                    </span>
+                  </p>
+                )}
+              </>
             ) : (
               <div className="flex w-full animate-pulse space-x-4">
                 <div className="flex-1 space-y-2 py-1">
