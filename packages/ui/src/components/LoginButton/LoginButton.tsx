@@ -62,7 +62,7 @@ export const LoginButton = ({ inApp }: ILoginButtonProps) => {
           ) : (
             <button
               className={`text-darkGreen flex rounded-full border border-blue-400 bg-white/50 p-1.5 font-medium hover:border-blue-600 hover:bg-white/60`}
-              onClick={() => signIn("discord")}
+              onClick={() => signIn("google")}
             >
               <span className={`rounded-full bg-blue-600 p-1`}>
                 <FaDiscord size={`1em`} color={`#ffffff`} />
