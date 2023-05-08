@@ -70,10 +70,12 @@ export const CandidateInfo = ({
     },
   ];
 
+  console.log("summaryQuestions = ", summaryQuestions);
+
   return (
     <section>
-      <div className="font-Inter mb-4 flex-col text-center">
-        <div className="grid grid-cols-3">
+      <div className="font-Inter mb-4 flex-col bg-white text-center">
+        <div className="grid grid-cols-3 bg-white">
           <div className="col-1 mt-5 w-full p-2 text-center">
             <div className="flex w-full justify-end">
               <Button className="bg-red-400 font-bold text-white" radius="pill">
@@ -108,7 +110,7 @@ export const CandidateInfo = ({
           {dataMember?.findMember?.memberRole?.title}
         </TextHeading3>
       </div>
-      <div className="w-full">
+      <div className="w-full bg-white">
         <Tab.Group
           defaultIndex={index}
           onChange={(index: number) => {
@@ -116,7 +118,7 @@ export const CandidateInfo = ({
             setIndex(index);
           }}
         >
-          <Tab.List className="flex justify-between px-6 text-xl">
+          <Tab.List className="flex justify-between bg-white px-6 text-xl">
             {tabs.map(({ tab }, index) => (
               <Tab
                 key={index}

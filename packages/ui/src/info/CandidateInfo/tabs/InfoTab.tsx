@@ -1,10 +1,12 @@
-import { Maybe, Members, NodesType } from "@eden/package-graphql/generated";
+import { Members } from "@eden/package-graphql/generated";
 import {
   Badge,
+  NodeList,
   SocialMediaComp,
   TextLabel1,
   UserBackground,
 } from "@eden/package-ui";
+import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
 import { FC, useState } from "react";
 
 interface Props {
@@ -13,6 +15,7 @@ interface Props {
 
 export const InfoTab: FC<Props> = ({ member }) => {
   const [experienceOpen, setExperienceOpen] = useState<number | null>(null);
+  const [seeMore, setSeeMore] = useState(false);
 
   return (
     <>
@@ -21,9 +24,30 @@ export const InfoTab: FC<Props> = ({ member }) => {
           <div className="my-4 flex flex-col items-start justify-center">
             <TextLabel1>🌸 Short bio</TextLabel1>
             {member?.bio ? (
-              <p className="text-soilBody font-Inter whitespace-pre-wrap font-normal">
-                {member?.bio}
-              </p>
+              <>
+                <p className="text-soilBody font-Inter whitespace-pre-wrap font-normal">
+                  {seeMore
+                    ? member.bio
+                    : member.bio.length > 200
+                    ? member.bio.substring(0, 200) + "..."
+                    : member.bio}
+                </p>
+                {member.bio.length > 200 && (
+                  <p
+                    className="mt-1 w-full cursor-pointer text-center text-sm"
+                    onClick={() => setSeeMore(!seeMore)}
+                  >
+                    {`see ${seeMore ? "less" : "more"}`}
+                    <span>
+                      {seeMore ? (
+                        <ChevronUpIcon width={16} className="ml-2 inline" />
+                      ) : (
+                        <ChevronDownIcon width={16} className="ml-2 inline" />
+                      )}
+                    </span>
+                  </p>
+                )}
+              </>
             ) : (
               <div className="flex w-full animate-pulse space-x-4">
                 <div className="flex-1 space-y-2 py-1">
@@ -121,32 +145,15 @@ export const InfoTab: FC<Props> = ({ member }) => {
           <section className="mb-2 w-full text-left">
             <TextLabel1 className="text-xs">🌺 WIZARD SKILLS</TextLabel1>
             <div className="ml-4 inline-flex flex-wrap">
-              {member?.nodes?.map((skill: Maybe<NodesType>, index: number) => {
-                return skill?.nodeData?.name ? (
-                  <Badge
-                    key={index}
-                    text={skill?.nodeData?.name}
-                    colorRGB="224,151,232"
-                    className={`font-Inter text-sm`}
-                    closeButton={false}
-                    cutText={16}
-                  />
-                ) : null;
-              })}
+              {member?.nodes && member?.nodes.length > 0 && (
+                <NodeList
+                  overflowNumber={3}
+                  nodes={member?.nodes}
+                  colorRGB={`224,151,232`}
+                />
+              )}
             </div>
           </section>
-
-          {/* BACKGROUND */}
-          {member?.previousProjects && member?.previousProjects.length ? (
-            <section className="mb-2 w-full text-left">
-              <TextLabel1 className="text-xs">🍒 BACKGROUND</TextLabel1>
-              <UserBackground
-                background={member?.previousProjects || []}
-                setExperienceOpen={setExperienceOpen!}
-                experienceOpen={experienceOpen!}
-              />
-            </section>
-          ) : null}
         </div>
         <div className="col-2 p-2">
           {/* <section className="mb-2 w-full text-left">
@@ -176,6 +183,16 @@ export const InfoTab: FC<Props> = ({ member }) => {
           </section>
         </div>
       </div>
+      {member?.previousProjects && member?.previousProjects.length ? (
+        <section className="mb-2 w-full text-left">
+          <TextLabel1 className="text-xs">🍒 BACKGROUND</TextLabel1>
+          <UserBackground
+            background={member?.previousProjects || []}
+            setExperienceOpen={setExperienceOpen!}
+            experienceOpen={experienceOpen!}
+          />
+        </section>
+      ) : null}
     </>
   );
 };

@@ -3,12 +3,6 @@ import {
   Maybe,
   PreviousProjectsType,
 } from "@eden/package-graphql/generated";
-import {
-  Card,
-  // EndorsementList,
-  // TextHeading3,
-  TextLabel1,
-} from "@eden/package-ui";
 import React from "react";
 
 export interface IUserBackgroundProps {
@@ -52,16 +46,12 @@ export const UserBackground = ({
                 <div className="scrollbar-hide flex h-8 max-w-[80%] items-center overflow-x-scroll whitespace-nowrap !rounded-full border-0 bg-[#DEFEFF] px-4 outline-0">
                   {item?.title}
                 </div>
-                {index < 2 && <span className="ml-3 text-xl">⭐️</span>}
+                {/* {index < 2 && <span className="ml-3 text-xl">⭐️</span>} */}
               </div>
               {index === experienceOpen && (
-                <Card border className="grid grid-cols-2 px-6 py-4">
-                  <div className="col-span-1">
-                    <TextLabel1>Description</TextLabel1>
-                    <p className="whitespace-pre-wrap">{item?.description}</p>
-                  </div>
-                  <div className="col-span-1">
-                    <TextLabel1>Timeline</TextLabel1>
+                <div className="pl-8">
+                  <div className="text-gray-500">
+                    {/* <TextLabel1>Timeline</TextLabel1> */}
                     {item?.startDate && (
                       <p>
                         {`${new Date(Number(item?.startDate)).toLocaleString(
@@ -84,7 +74,11 @@ export const UserBackground = ({
                       </p>
                     )}
                   </div>
-                </Card>
+                  <div className="">
+                    {/* <TextLabel1>Description</TextLabel1> */}
+                    <p className="whitespace-pre-wrap">{item?.description}</p>
+                  </div>
+                </div>
               )}
             </div>
           );

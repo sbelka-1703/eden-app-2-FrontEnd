@@ -53,12 +53,12 @@ HomePage.getLayout = (page) => <AppUserLayout>{page}</AppUserLayout>;
 
 export default HomePage;
 
-import { gql, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { UserContext } from "@eden/package-context";
 import { IncomingMessage, ServerResponse } from "http";
 import { useRouter } from "next/router";
 import { getSession } from "next-auth/react";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 export async function getServerSideProps(ctx: {
   req: IncomingMessage;
@@ -95,6 +95,23 @@ const FIND_COMPANY = gql`
           _id
           content
         }
+      }
+    }
+  }
+`;
+
+const ADD_CANDIDATE_TO_COMPANY = gql`
+  mutation ($fields: addCandidatesCompanyInput) {
+    addCandidatesCompany(fields: $fields) {
+      _id
+      name
+      candidates {
+        user {
+          _id
+          discordName
+          discordAvatar
+        }
+        overallScore
       }
     }
   }
@@ -144,15 +161,21 @@ const InterviewEdenAIContainer = () => {
     },
     skip: companyID == "" || companyID == null,
     onCompleted: (data) => {
-      setQuestions(
-        data.findCompany.questionsToAsk.map((question: any) => {
+      let questionsChange = data.findCompany.questionsToAsk.map(
+        (question: any) => {
           return {
-            _id: question.question._id,
-            content: question.question.content,
-            bestAnswer: question.bestAnswer,
+            _id: question?.question?._id,
+            content: question?.question?.content,
+            bestAnswer: question?.bestAnswer,
           };
-        })
+        }
       );
+
+      questionsChange = questionsChange.filter((question: any) => {
+        return question._id != null;
+      });
+
+      setQuestions(questionsChange);
     },
   });
 
@@ -162,18 +185,47 @@ const InterviewEdenAIContainer = () => {
   //       _id: companyID,
   //       candidates: [
   //         {
-  //           userID: "908392557258604544",
+  //           userID: currentUser?._id,
   //         },
   //       ],
   //     },
   //   },
   //   skip: companyID == "" || companyID == null || currentUser?._id != "",
-  //   onCompleted: (data) => {
-  //     console.log("data = ", data);
-  //   },
+  //   // onCompleted: (data) => {
+  //   //   console.log("data = ", data);
+  //   // },
   // });
+  const [addCandidateToCompany] = useMutation(ADD_CANDIDATE_TO_COMPANY, {
+    onCompleted: (data) => {
+      console.log("data = ", data);
+      setAddCandidateFlag(true);
+    },
+  });
 
-  console.log("companyID = ", companyID);
+  const [addCandidateFlag, setAddCandidateFlag] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (
+      addCandidateFlag == false &&
+      currentUser?._id != undefined &&
+      companyID != undefined
+    ) {
+      addCandidateToCompany({
+        variables: {
+          fields: {
+            companyID: companyID,
+            candidates: [
+              {
+                userID: currentUser?._id,
+              },
+            ],
+          },
+        },
+      });
+    }
+  }, [companyID, currentUser?._id]);
+
+  // console.log("companyID = ", companyID);
 
   const [experienceTypeID] = useState<string>("");
 

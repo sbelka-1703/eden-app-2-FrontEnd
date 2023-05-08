@@ -36,14 +36,16 @@ export const PopoverScoreReason: FC<PopoverScoreReasonProps> = ({
 
     const content1 = (
       <>
-        <TextHeading2 className="text-center mb-2">
-          Why{" "}
-          <span className="text-colorFFA9F1 font-extrabold">
-            {question.score}%
-          </span>
-          ?
-        </TextHeading2>
-        <p className="text-sm mb-6">{question.reason}</p>
+        {question.score && (
+          <TextHeading2 className="mb-2 text-center">
+            Why{" "}
+            <span className="text-colorFFA9F1 font-extrabold">
+              {question.score * 10}%
+            </span>
+            ?
+          </TextHeading2>
+        )}
+        <p className="mb-6 text-sm">{question.reason}</p>
       </>
     );
 

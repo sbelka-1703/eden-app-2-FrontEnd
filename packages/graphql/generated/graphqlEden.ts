@@ -290,6 +290,7 @@ export type Members = {
   chat?: Maybe<ChatResponse>;
   completedOpportunities?: Maybe<Scalars["Int"]>;
   content?: Maybe<ContentType>;
+  cvInfo?: Maybe<CvInfoType>;
   discordAvatar?: Maybe<Scalars["String"]>;
   discordName?: Maybe<Scalars["String"]>;
   discriminator?: Maybe<Scalars["String"]>;
@@ -354,6 +355,8 @@ export type Mutation = {
   addReview?: Maybe<Review>;
   applyGrant?: Maybe<GrantTemplate>;
   approveTweet?: Maybe<Project>;
+  autoUpdateMemoryFromCV?: Maybe<AutoUpdateMemoryFromCvOutput>;
+  autoUpdateUserInfoFromCV?: Maybe<AutoUpdateUserInfoFromCvOutput>;
   calculateReputation?: Maybe<Members>;
   changeTeamMember_Phase_Project?: Maybe<Project>;
   createEndorsementLink?: Maybe<EndorsementLink>;
@@ -391,6 +394,7 @@ export type Mutation = {
   relatedNode?: Maybe<Node>;
   relatedNode_name?: Maybe<Node>;
   saveActionsPerformed?: Maybe<Scalars["Boolean"]>;
+  saveCVtoUser?: Maybe<SaveCVtoUserOutput>;
   saveCoreProductFeatureInteration?: Maybe<Scalars["Boolean"]>;
   saveDailyLogin?: Maybe<Scalars["Boolean"]>;
   storeLongTermMemory?: Maybe<StoreLongTermMemoryOutput>;
@@ -500,6 +504,14 @@ export type MutationApplyGrantArgs = {
 
 export type MutationApproveTweetArgs = {
   fields: ApproveTweetInput;
+};
+
+export type MutationAutoUpdateMemoryFromCvArgs = {
+  fields?: InputMaybe<AutoUpdateMemoryFromCvInput>;
+};
+
+export type MutationAutoUpdateUserInfoFromCvArgs = {
+  fields?: InputMaybe<AutoUpdateUserInfoFromCvInput>;
 };
 
 export type MutationCalculateReputationArgs = {
@@ -648,6 +660,10 @@ export type MutationRelatedNode_NameArgs = {
 
 export type MutationSaveActionsPerformedArgs = {
   fields?: InputMaybe<SaveActionsPerformedInput>;
+};
+
+export type MutationSaveCVtoUserArgs = {
+  fields?: InputMaybe<SaveCVtoUserInput>;
 };
 
 export type MutationSaveCoreProductFeatureInterationArgs = {
@@ -1372,6 +1388,7 @@ export type QuestionsEdenAi = {
   _id?: Maybe<Scalars["ID"]>;
   answeredQuestionByUsers?: Maybe<Array<Maybe<Scalars["ID"]>>>;
   content?: Maybe<Scalars["String"]>;
+  contentSmall?: Maybe<Scalars["String"]>;
   questionOwnedByCompanies?: Maybe<Array<Maybe<Scalars["ID"]>>>;
 };
 
@@ -1564,8 +1581,10 @@ export type SubscriptionRoomUpdatedArgs = {
 export type SummaryQuestionType = {
   __typename?: "SummaryQuestionType";
   answerContent?: Maybe<Scalars["String"]>;
+  answerContentSmall?: Maybe<Scalars["String"]>;
   bestAnswerCompany?: Maybe<Scalars["String"]>;
   questionContent?: Maybe<Scalars["String"]>;
+  questionContentSmall?: Maybe<Scalars["String"]>;
   questionID?: Maybe<Scalars["ID"]>;
   reason?: Maybe<Scalars["String"]>;
   score?: Maybe<Scalars["Float"]>;
@@ -1779,6 +1798,24 @@ export type AttributesType = {
   Observer?: Maybe<Scalars["Int"]>;
   Reformer?: Maybe<Scalars["Int"]>;
   Supporter?: Maybe<Scalars["Int"]>;
+};
+
+export type AutoUpdateMemoryFromCvInput = {
+  userIDs?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+};
+
+export type AutoUpdateMemoryFromCvOutput = {
+  __typename?: "autoUpdateMemoryFromCVOutput";
+  users?: Maybe<Array<Maybe<Members>>>;
+};
+
+export type AutoUpdateUserInfoFromCvInput = {
+  userIDs?: InputMaybe<Array<InputMaybe<Scalars["ID"]>>>;
+};
+
+export type AutoUpdateUserInfoFromCvOutput = {
+  __typename?: "autoUpdateUserInfoFromCVOutput";
+  users?: Maybe<Array<Maybe<Members>>>;
 };
 
 export type AvailabilityInput = {
@@ -2083,6 +2120,17 @@ export type CreateSkillsInput = {
   state?: InputMaybe<ApprovedSkillEnum>;
 };
 
+export type CvInfoType = {
+  __typename?: "cvInfoType";
+  cvContent?: Maybe<Scalars["String"]>;
+  cvMemory?: Maybe<Array<Maybe<CvMemoryType>>>;
+  cvPreparationBio?: Maybe<Scalars["Boolean"]>;
+  cvPreparationDone?: Maybe<Scalars["Boolean"]>;
+  cvPreparationMemory?: Maybe<Scalars["Boolean"]>;
+  cvPreparationNodes?: Maybe<Scalars["Boolean"]>;
+  cvPreparationPreviousProjects?: Maybe<Scalars["Boolean"]>;
+};
+
 export type CvMapKgInput = {
   message?: InputMaybe<Scalars["String"]>;
 };
@@ -2090,6 +2138,12 @@ export type CvMapKgInput = {
 export type CvMapKgOutput = {
   __typename?: "cvMapKGOutput";
   keywords?: Maybe<Array<Maybe<KeywordValue>>>;
+};
+
+export type CvMemoryType = {
+  __typename?: "cvMemoryType";
+  memoryContent?: Maybe<Scalars["String"]>;
+  pineConeID?: Maybe<Scalars["String"]>;
 };
 
 export type DatesInput = {
@@ -3248,6 +3302,7 @@ export type QuestionAnsweredType = {
   questionID?: Maybe<Scalars["ID"]>;
   subConversationAnswer?: Maybe<Array<Maybe<ConversationType>>>;
   summaryOfAnswer?: Maybe<Scalars["String"]>;
+  summaryOfAnswerSmall?: Maybe<Scalars["String"]>;
 };
 
 export enum Range {
@@ -3372,6 +3427,16 @@ export type RoleType = {
 
 export type SaveActionsPerformedInput = {
   actionType?: InputMaybe<ActionTypeEnum>;
+};
+
+export type SaveCVtoUserInput = {
+  cvContent?: InputMaybe<Scalars["String"]>;
+  userID?: InputMaybe<Scalars["ID"]>;
+};
+
+export type SaveCVtoUserOutput = {
+  __typename?: "saveCVtoUserOutput";
+  success?: Maybe<Scalars["Boolean"]>;
 };
 
 export type SaveCoreProductFeatureInterationInput = {
