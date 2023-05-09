@@ -124,7 +124,7 @@ const CompanyCRM: NextPageWithLayout = () => {
         </div>
       </div>
       <div className="col-2">
-        <div className="m-4 border border-gray-500 bg-white p-10">
+        <div className="m-4 border border-gray-500 bg-white p-8">
           <CandidateInfo
             memberID={selectedUserId || ""}
             percentage={selectedUserScore}

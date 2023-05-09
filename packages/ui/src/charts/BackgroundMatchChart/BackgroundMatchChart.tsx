@@ -23,11 +23,25 @@ export const options = {
   responsive: true,
   plugins: {
     legend: {
-      position: "top" as const,
+      // position: "top" as const,
+      display: false,
     },
-    title: {
-      display: true,
-      text: "Background Match",
+    // title: {
+    //   display: true,
+    //   text: "Background Match",
+    // },
+  },
+  scales: {
+    x: {
+      grid: {
+        display: false,
+      },
+    },
+    y: {
+      display: false,
+      grid: {
+        display: false,
+      },
     },
   },
 };
