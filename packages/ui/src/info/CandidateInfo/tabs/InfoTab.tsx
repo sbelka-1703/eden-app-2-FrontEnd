@@ -143,7 +143,7 @@ export const InfoTab: FC<Props> = ({ member }) => {
       <div className="mb-4 grid grid-cols-2">
         <div className="col-1 p-2">
           <section className="mb-2 w-full text-left">
-            <TextLabel1 className="text-xs">🌺 WIZARD SKILLS</TextLabel1>
+            <TextLabel1 className="text-xs">🌺 TOP SKILLS</TextLabel1>
             <div className="ml-4 inline-flex flex-wrap">
               {member?.nodes && member?.nodes.length > 0 && (
                 <NodeList
