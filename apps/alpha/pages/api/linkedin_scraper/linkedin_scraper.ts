@@ -1,3 +1,4 @@
+import cheerio from "cheerio";
 import { NextApiRequest, NextApiResponse } from "next";
 import puppeteer, { Browser, Page } from "puppeteer";
 
@@ -35,12 +36,19 @@ async function extractLinkedInProfile(url: string): Promise<string> {
 //   ]);
 // }
 
+function extractTextFromHTML(html: string): string {
+  const $ = cheerio.load(html);
+
+  return $("body").text();
+}
+
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {
     try {
       const profileHTML = await extractLinkedInProfile(linkedInProfileURL);
+      const profileText = extractTextFromHTML(profileHTML);
 
-      res.status(200).json({ profileHTML });
+      res.status(200).json({ profileText });
     } catch (error) {
       res.status(500).json({ error: "Failed to scrape LinkedIn profile" });
     }
