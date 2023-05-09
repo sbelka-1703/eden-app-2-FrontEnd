@@ -23,7 +23,7 @@ export const MatchTab: FC<Props> = ({ member, summaryQuestions }) => {
     },
     {
       questionID: "9521",
-      questionContent: "Work from Home or Office",
+      questionContent: "WFH or Office",
       userPercentage: 35,
       averagePercentage: 45,
     },
@@ -35,19 +35,24 @@ export const MatchTab: FC<Props> = ({ member, summaryQuestions }) => {
     },
     {
       questionID: "1211",
-      questionContent: "Industry experience",
+      questionContent: "Industry exp",
       userPercentage: 90,
       averagePercentage: 40,
     },
   ];
 
   return (
-    <>
-      <div className="mb-4 mt-4">
-        <BackgroundMatchChart
-          memberName={member?.discordName ?? ""}
-          backgroundMatchData={exampleData}
-        />
+    <div className="pt-4">
+      <div className="grid grid-cols-2">
+        <div className="col-span-1">
+          <p className="text-center">
+            <TextLabel1>Background match</TextLabel1>
+          </p>
+          <BackgroundMatchChart
+            memberName={member?.discordName ?? ""}
+            backgroundMatchData={exampleData}
+          />
+        </div>
       </div>
       <p className="text-soilHeading3 font-poppins mb-2 mt-6 text-center font-black text-gray-400">
         EXPERTISE
@@ -131,6 +136,6 @@ export const MatchTab: FC<Props> = ({ member, summaryQuestions }) => {
             ))
           : null}
       </div> */}
-    </>
+    </div>
   );
 };
