@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "@apollo/client": "^3.7.5",
-    "@clerk/nextjs": "^4.17.1",
     "@eden/package-context": "*",
     "@eden/package-graphql": "*",
     "@eden/package-ui": "*",

@@ -14,7 +14,6 @@ import { onError } from "@apollo/client/link/error";
 import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 import { createClient } from "graphql-ws";
 import { getMainDefinition } from "@apollo/client/utilities";
-import { auth, clerkClient } from "@clerk/nextjs";
 
 import jwt_decode from "jwt-decode";
 
@@ -57,7 +56,6 @@ const edenLink = new ApolloLink((operation, forward) => {
         if (data.error) return toPromise(forward(operation));
 
         console.log("client.ts");
-        console.log(auth, clerkClient);
         // console.log(auth.getToken());
 
         debugger;
