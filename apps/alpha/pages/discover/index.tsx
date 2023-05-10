@@ -353,6 +353,8 @@ const chatEden: NextPageWithLayout = () => {
     "salary"
   );
 
+  console.log("test");
+
   // const mode: 'salary' | 'level' = 'level';
   // ------------ Salary Popup ------------
 
@@ -1118,6 +1120,7 @@ import MultiSelectPopup from "@eden/package-ui/src/components/MultiSelectPopup/M
 import SalaryPopup from "@eden/package-ui/src/components/SalaryPopup/SalaryPopup";
 import { Dialog, Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
+import { log } from "console";
 
 export type ChatModalProps = {
   title?: string;
