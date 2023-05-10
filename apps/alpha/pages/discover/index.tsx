@@ -349,9 +349,10 @@ const chatEden: NextPageWithLayout = () => {
     // }
   };
 
-  const [mode, setMode] = useState<"salary" | "level" | "availability">(
-    "salary"
-  );
+  const [mode, setMode] =
+    useState<"salary" | "level" | "availability">("salary");
+
+  console.log("test");
 
   // const mode: 'salary' | 'level' = 'level';
   // ------------ Salary Popup ------------

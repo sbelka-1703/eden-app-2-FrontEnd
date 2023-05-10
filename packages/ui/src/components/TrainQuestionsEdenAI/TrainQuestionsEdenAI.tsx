@@ -27,6 +27,12 @@ const ADD_QUESTIONS_TO_COMPANY = gql`
   }
 `;
 
+export type Question = {
+  _id: string;
+  content: string;
+  bestAnswer: string;
+};
+
 type Props = {
   questions: QuestionType[];
   companyID?: string | string[] | undefined;
@@ -55,15 +61,13 @@ export const TrainQuestionsEdenAI = ({
 
   const handleQuestionAdd = () => {
     if (newQuestion.trim() !== "") {
-      const newId = questions.length + 1;
+      // const newId = questions.length + 1;
+      const newId = "";
 
-      console.log("newQuestion = ", newQuestion);
-      const newQuestionsToAdd = [
+      setQuestions([
         ...questions,
         { _id: newId, content: newQuestion, bestAnswer: "" },
-      ];
-
-      setQuestions(newQuestionsToAdd);
+      ]);
       setNewQuestion("");
     }
   };
@@ -74,11 +78,18 @@ export const TrainQuestionsEdenAI = ({
         fields: {
           companyID: companyID,
           questionsToAsk: questions.map((question) => {
-            return {
-              questionID: question._id,
-              bestAnswer: question.bestAnswer,
-              questionContent: question.content,
-            };
+            if (question._id) {
+              return {
+                questionID: question._id,
+                bestAnswer: question.bestAnswer,
+                questionContent: question.content,
+              };
+            } else {
+              return {
+                bestAnswer: question.bestAnswer,
+                questionContent: question.content,
+              };
+            }
           }),
         },
       },

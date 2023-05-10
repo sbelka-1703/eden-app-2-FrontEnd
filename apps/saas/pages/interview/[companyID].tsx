@@ -1,3 +1,5 @@
+import { gql, useMutation, useQuery } from "@apollo/client";
+import { UserContext } from "@eden/package-context";
 import {
   AI_INTERVIEW_SERVICES,
   AppUserLayout,
@@ -5,11 +7,15 @@ import {
   ChatMessage,
   CVUploadGPT,
   InterviewEdenAI,
+  RawDataGraph,
   SEO,
   Wizard,
   WizardStep,
 } from "@eden/package-ui";
+import { useRouter } from "next/router";
+import { useContext, useEffect, useState } from "react";
 
+import { rawDataPersonProject } from "../../utils/data/rawDataPersonProject";
 import type { NextPageWithLayout } from "../_app";
 
 const HomePage: NextPageWithLayout = () => {
@@ -19,23 +25,39 @@ const HomePage: NextPageWithLayout = () => {
     <>
       <SEO />
       <Card className="mx-auto mt-3 h-[88vh] w-full max-w-5xl bg-white" shadow>
-        <div className="w-full p-8">
+        <div className="h-full w-full p-8">
           <Wizard>
             <WizardStep label={"welcome"}>
-              <h2>Welcome to Eden AI</h2>
-              <p>You are selected to do an interview with Tesla</p>
+              <section className="flex h-full flex-col items-center justify-center">
+                <h2 className="mb-8 text-2xl font-medium">
+                  Welcome to Eden AI
+                </h2>
+                <p>You are selected to do an interview with Tesla</p>
+              </section>
             </WizardStep>
-            <WizardStep label={"welcome"}>
-              <h3>
-                Your first interview with Tesla will be a discussion with EdenAI
-              </h3>
-              <p>You are selected to do an interview with Tesla</p>
+            <WizardStep label={"instructions"}>
+              <section className="flex h-full flex-col items-center justify-center">
+                <h3 className="mb-8 text-lg font-medium">
+                  Your first interview with Tesla will be a discussion with Eden
+                  AI
+                </h3>
+                <div className="mt-8 flex h-[70%] w-full justify-center">
+                  <RawDataGraph
+                    rawData={rawDataPersonProject}
+                    disableZoom={true}
+                  />
+                </div>
+              </section>
             </WizardStep>
             <WizardStep label={"cv"}>
-              <h3>Hey {currentUser?.discordName}!</h3>
-              <p>Upload your CV here</p>
-              {/* <p>--- ADD UPLOAD CV BUTTON --</p> */}
-              <CVUploadGPT />
+              <section className="flex h-full flex-col items-center justify-center">
+                <h3 className="mb-8 text-lg font-medium">
+                  Hey {currentUser?.discordName}!
+                </h3>
+                <p className="mb-8">Upload your CV here</p>
+                {/* <p>--- ADD UPLOAD CV BUTTON --</p> */}
+                <CVUploadGPT />
+              </section>
             </WizardStep>
             <WizardStep label={"chat"}>
               <div className="mx-auto h-[70vh] max-w-lg">
@@ -53,12 +75,8 @@ HomePage.getLayout = (page) => <AppUserLayout>{page}</AppUserLayout>;
 
 export default HomePage;
 
-import { gql, useMutation, useQuery } from "@apollo/client";
-import { UserContext } from "@eden/package-context";
 import { IncomingMessage, ServerResponse } from "http";
-import { useRouter } from "next/router";
 import { getSession } from "next-auth/react";
-import { useContext, useEffect, useState } from "react";
 
 export async function getServerSideProps(ctx: {
   req: IncomingMessage;
@@ -257,7 +275,7 @@ const InterviewEdenAIContainer = () => {
             //   setMode={setMode}
             sentMessageToEdenAIobj={sentMessageToEdenAIobj}
             setSentMessageToEdenAIobj={setSentMessageToEdenAIobj}
-            placeholder={""}
+            placeholder={'Hi! I\'m Eden AI. Say "Hello" ti start the interview'}
             questions={questions}
             setQuestions={setQuestions}
             userID={currentUser?._id}

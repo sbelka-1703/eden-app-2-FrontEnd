@@ -74,7 +74,7 @@ const CvGPT = () => {
         onSubmit={handleSubmit}
         className="flex flex-col items-center justify-center space-y-2"
       >
-        <label>Resume(CV)</label>
+        {/* <label>Resume(CV)</label> */}
         <label htmlFor="input" className="text-center text-sm">
           Upload Recent Resume for Better Results Form Our AI
         </label>
@@ -92,7 +92,7 @@ const CvGPT = () => {
         </button>
       </form>
       {summary ? (
-        <div className="mt-2 ml-2 w-fit rounded-md border-2 border-black pl-6 pr-4 ">
+        <div className="ml-2 mt-2 w-fit rounded-md border-2 border-black pl-6 pr-4 ">
           <label htmlFor="ul" className="text-right text-lg font-bold">
             CV Summary:
           </label>

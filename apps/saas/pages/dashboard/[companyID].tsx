@@ -13,8 +13,8 @@ import React, { useState } from "react";
 
 import { NextPageWithLayout } from "../_app";
 
-type QuestionType = {
-  _id: number;
+type Question = {
+  _id: string;
   content: string;
   bestAnswer: string;
 };
@@ -28,8 +28,10 @@ const CompanyCRM: NextPageWithLayout = () => {
     useState<number | null>(null);
   const [selectedUserSummaryQuestions, setSelectedUserSummaryQuestions] =
     useState<any[]>([]);
+
+  const [questions, setQuestions] = useState<Question[]>([]);
+
   const [trainModalOpen, setTrainModalOpen] = useState(false);
-  const [questions, setQuestions] = useState<QuestionType[]>([]);
   const {
     // data: findCompanyData,
     loading: findCompanyIsLoading,
@@ -44,7 +46,7 @@ const CompanyCRM: NextPageWithLayout = () => {
     ssr: false,
     onCompleted: (data: any) => {
       setCandidates(data.findCompany.candidates);
-      const questionPrep: QuestionType[] = [];
+      const questionPrep: Question[] = [];
 
       data.findCompany.questionsToAsk.map((question: any) => {
         console.log("question = ", question);
@@ -125,11 +127,17 @@ const CompanyCRM: NextPageWithLayout = () => {
       </div>
       <div className="col-2">
         <div className="m-4 border border-gray-500 bg-white p-8">
-          <CandidateInfo
-            memberID={selectedUserId || ""}
-            percentage={selectedUserScore}
-            summaryQuestions={selectedUserSummaryQuestions}
-          />
+          {selectedUserId ? (
+            <CandidateInfo
+              memberID={selectedUserId || ""}
+              percentage={selectedUserScore}
+              summaryQuestions={selectedUserSummaryQuestions}
+            />
+          ) : (
+            <div>
+              <p className="text-gray-400">Select a candidate</p>
+            </div>
+          )}
         </div>
       </div>
     </div>
