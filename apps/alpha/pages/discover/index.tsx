@@ -353,6 +353,8 @@ const chatEden: NextPageWithLayout = () => {
     "salary"
   );
 
+  console.log("test");
+
   // const mode: 'salary' | 'level' = 'level';
   // ------------ Salary Popup ------------
 
