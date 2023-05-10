@@ -1,5 +1,4 @@
 import { gql, useMutation } from "@apollo/client";
-import { QuestionType } from "@eden/package-context";
 import { Mutation } from "@eden/package-graphql/generated";
 import { Dispatch, SetStateAction, useState } from "react";
 
@@ -34,7 +33,7 @@ export type Question = {
 };
 
 type Props = {
-  questions: QuestionType[];
+  questions: Question[];
   companyID?: string | string[] | undefined;
   // eslint-disable-next-line no-unused-vars
   setQuestions: Dispatch<SetStateAction<any[]>>;
