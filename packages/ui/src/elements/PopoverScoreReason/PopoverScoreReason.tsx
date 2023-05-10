@@ -45,7 +45,16 @@ export const PopoverScoreReason: FC<PopoverScoreReasonProps> = ({
             ?
           </TextHeading2>
         )}
-        <p className="mb-6 text-sm">{question.reason}</p>
+        {question.reason && (
+          <ul className="mb-6 list-inside list-disc text-sm">
+            {question.reason
+              .split("-")
+              .filter(Boolean)
+              .map((bulletPoint, index) => (
+                <li key={index}>{bulletPoint.trim()}</li>
+              ))}
+          </ul>
+        )}
       </>
     );
 
