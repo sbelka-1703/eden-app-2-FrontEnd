@@ -99,10 +99,10 @@ export const CVUploadGPT = ({ timePerWeek, seed }: ICVUploadGPTProps) => {
         onSubmit={handleSubmit}
         className="flex flex-col items-center justify-center space-y-2"
       >
-        <label>Resume(CV)</label>
-        <label htmlFor="input" className="text-center text-sm">
+        {/* <label>Resume(CV)</label> */}
+        {/* <label htmlFor="input" className="text-center text-sm">
           Upload Recent Resume for Better Results Form Our AI
-        </label>
+        </label> */}
         <input
           className="ml-60"
           onChange={handleFileChange}

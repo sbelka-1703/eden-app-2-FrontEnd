@@ -514,7 +514,7 @@ export function updateNodesBackendSettings(
   const items: any[] = [];
   const itemsObj = {};
 
-  data.nodes.forEach(function (node: any) {
+  data.nodes?.forEach(function (node: any) {
     if (!node) return;
 
     let nodeType = node.nodeType;

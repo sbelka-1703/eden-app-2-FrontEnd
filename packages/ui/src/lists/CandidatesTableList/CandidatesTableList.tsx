@@ -89,7 +89,7 @@ export const CandidatesTableList: FC<CandidatesTableListProps> = ({
                   ) : null}
                 </ColumnStyled>
                 <ColumnStyled extraCssClass="pr-2 text-right">
-                  {candidate.user!.budget!.perHour ? (
+                  {candidate.user?.budget?.perHour ? (
                     <TextHeading2 className="text-colorFFD02B font-black">
                       ${candidate.user!.budget!.perHour}
                     </TextHeading2>
