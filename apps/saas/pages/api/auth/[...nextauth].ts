@@ -1,7 +1,8 @@
 // eslint-disable-next-line camelcase
 import jwt_decode from "jwt-decode";
 import NextAuth from "next-auth";
-import DiscordProvider from "next-auth/providers/discord";
+// import DiscordProvider from "next-auth/providers/discord";
+import GoogleProvider from "next-auth/providers/google";
 
 type decodedType = {
   exp: number;
@@ -19,6 +20,7 @@ type edenTokenType = {
 async function getEdenToken(accessToken: string) {
   const NEXT_PUBLIC_AUTH_URL = process.env.NEXT_PUBLIC_AUTH_URL;
 
+  console.log("jldsjslkdlkjsdfsdlkjflsjkflkjdlksjslkjflkjs");
   try {
     const res = await fetch(`${NEXT_PUBLIC_AUTH_URL}/auth/token`, {
       method: "POST",
@@ -38,15 +40,18 @@ async function getEdenToken(accessToken: string) {
 
 export default NextAuth({
   providers: [
-    DiscordProvider({
-      clientId: process.env.DISCORD_CLIENT_ID as string,
-      clientSecret: process.env.DISCORD_CLIENT_SECRET as string,
-      authorization: { params: { scope: "identify guilds" } },
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      // authorization: { params: { scope: "identify guilds" } },
     }),
   ],
   secret: process.env.NEXT_PUBLIC_SECRET,
   callbacks: {
     session: async ({ session, token }) => {
+      console.log("session:", session);
+      console.log("token:", token);
+
       if (session?.user) {
         session.user.id = token.uid as string;
       }
@@ -70,6 +75,8 @@ export default NextAuth({
     },
     jwt: async ({ user, token, account }) => {
       // Initial sign in
+      console.log("////////", user, token, account);
+
       if (account && user) {
         return {
           uid: user.id,

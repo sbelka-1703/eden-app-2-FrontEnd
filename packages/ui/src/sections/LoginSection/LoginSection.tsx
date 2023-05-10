@@ -16,7 +16,7 @@ export const LoginSection = ({ image }: ILoginSectionProps) => {
       }}
     >
       <div
-        className={`container mx-auto max-w-screen-2xl flex-grow py-8 px-2 sm:px-5`}
+        className={`container mx-auto max-w-screen-2xl flex-grow px-2 py-8 sm:px-5`}
       >
         <div className="grid grid-cols-12 lg:gap-4 xl:gap-8">
           <GridItemTwo> </GridItemTwo>
@@ -60,7 +60,7 @@ export const LoginSection = ({ image }: ILoginSectionProps) => {
               <div className={`flex w-full justify-center`}>
                 <button
                   className={`text-darkGreen absolute bottom-8 flex rounded-full border border-white bg-white/50 p-1.5 font-medium hover:bg-white/60`}
-                  onClick={() => signIn("discord")}
+                  onClick={() => signIn("google")}
                 >
                   <span className={`rounded-full bg-blue-600 p-1`}>
                     <FaDiscord size={`1.5em`} color={`#ffffff`} />
