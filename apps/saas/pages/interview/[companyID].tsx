@@ -275,7 +275,12 @@ const InterviewEdenAIContainer = () => {
             //   setMode={setMode}
             sentMessageToEdenAIobj={sentMessageToEdenAIobj}
             setSentMessageToEdenAIobj={setSentMessageToEdenAIobj}
-            placeholder={'Hi! I\'m Eden AI. Say "Hello" ti start the interview'}
+            placeholder={
+              <p className="bg-accentColor rounded-lg p-1 text-center font-medium">
+                Hi! I&apos;m Eden AI. Say &quot;Hello&quot; to start the
+                interview
+              </p>
+            }
             questions={questions}
             setQuestions={setQuestions}
             userID={currentUser?._id}
