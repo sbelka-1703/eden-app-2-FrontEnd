@@ -131,11 +131,17 @@ const CompanyCRM: NextPageWithLayout = () => {
       </div>
       <div className="col-2">
         <div className="m-4 border border-gray-500 bg-white p-8">
-          <CandidateInfo
-            memberID={selectedUserId || ""}
-            percentage={selectedUserScore}
-            summaryQuestions={selectedUserSummaryQuestions}
-          />
+          {selectedUserId ? (
+            <CandidateInfo
+              memberID={selectedUserId || ""}
+              percentage={selectedUserScore}
+              summaryQuestions={selectedUserSummaryQuestions}
+            />
+          ) : (
+            <div>
+              <p className="text-gray-400">Select a candidate</p>
+            </div>
+          )}
         </div>
       </div>
     </div>
