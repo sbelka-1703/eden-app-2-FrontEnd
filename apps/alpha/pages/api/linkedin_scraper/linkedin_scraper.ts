@@ -3,15 +3,15 @@ import { NextApiRequest, NextApiResponse } from "next";
 import puppeteer, { Browser, Page } from "puppeteer";
 
 // Replace this with the actual LinkedIn profile URL
-const linkedInProfileURL =
-  "https://www.linkedin.com/in/miltiadis-saratzidis-b1a396129/";
+
+// const linkedInProfileURL = "https://www.linkedin.com/in/michaelsypes/";
 
 async function extractLinkedInProfile(url: string): Promise<string> {
   const browser: Browser = await puppeteer.launch({ headless: true });
   const page: Page = await browser.newPage();
 
-  // Use this line if you need to sign in to LinkedIn first
-  // await signInToLinkedIn(page);
+  // Sign in to LinkedIn
+  //   await signInToLinkedIn(page);
 
   await page.goto(url, { waitUntil: "networkidle2" });
   const content: string = await page.content();
@@ -22,8 +22,8 @@ async function extractLinkedInProfile(url: string): Promise<string> {
 
 // async function signInToLinkedIn(page: Page): Promise<void> {
 //   // Add your LinkedIn credentials here
-//   const email = "your@email.com";
-//   const password = "your-password";
+//   const email = "miciti3036@carpetra.com";
+//   const password = "4)sk=gf.6,7PP*Y";
 
 //   await page.goto("https://www.linkedin.com/login", {
 //     waitUntil: "networkidle2",
@@ -39,13 +39,20 @@ async function extractLinkedInProfile(url: string): Promise<string> {
 function extractTextFromHTML(html: string): string {
   const $ = cheerio.load(html);
 
-  return $("body").text();
+  return $("body").text().replace(/\n/g, "");
 }
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {
+    const { url } = req.query;
+
+    if (!url || typeof url !== "string") {
+      res.status(400).json({ error: "Invalid or missing URL parameter" });
+      return;
+    }
+
     try {
-      const profileHTML = await extractLinkedInProfile(linkedInProfileURL);
+      const profileHTML = await extractLinkedInProfile(url);
       const profileText = extractTextFromHTML(profileHTML);
 
       res.status(200).json({ profileText });
