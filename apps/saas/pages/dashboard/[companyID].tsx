@@ -13,8 +13,8 @@ import React, { useState } from "react";
 
 import { NextPageWithLayout } from "../_app";
 
-type QuestionType = {
-  _id: number;
+type Question = {
+  _id: string;
   content: string;
   bestAnswer: string;
 };
@@ -32,7 +32,7 @@ const CompanyCRM: NextPageWithLayout = () => {
   const [selectedUserSummaryQuestions, setSelectedUserSummaryQuestions] =
     useState<any[]>([]);
 
-  const [questions, setQuestions] = useState<QuestionType[]>([]);
+  const [questions, setQuestions] = useState<Question[]>([]);
 
   const [trainModalOpen, setTrainModalOpen] = useState(false);
 
@@ -58,7 +58,7 @@ const CompanyCRM: NextPageWithLayout = () => {
     ssr: false,
     onCompleted: (data: any) => {
       setCandidates(data.findCompany.candidates);
-      const questionPrep: QuestionType[] = [];
+      const questionPrep: Question[] = [];
 
       data.findCompany.questionsToAsk.map((question: any) => {
         console.log("question = ", question);
