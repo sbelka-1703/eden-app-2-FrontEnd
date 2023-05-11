@@ -6,14 +6,22 @@ import {
   TextInputLabel,
   TextLabel1,
 } from "@eden/package-ui";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 
 type Props = {
   member?: Members;
   summaryQuestions?: SummaryQuestionType[];
 };
 
+type BarChartQuestions = {
+  questionID: string;
+  questionContent: string;
+  userPercentage: number;
+  averagePercentage: number;
+};
+
 export const MatchTab: FC<Props> = ({ member, summaryQuestions }) => {
+  console.log("summaryQuestions = 22", summaryQuestions);
   const exampleData = [
     {
       questionID: "1242",
@@ -41,6 +49,27 @@ export const MatchTab: FC<Props> = ({ member, summaryQuestions }) => {
     },
   ];
 
+  const [dataBarChart, setDataBarChart] = useState<BarChartQuestions[]>([]);
+
+  useEffect(() => {
+    const dataBarChartPr: BarChartQuestions[] = [];
+
+    summaryQuestions?.forEach((question: any) => {
+      console.log("question = ", question);
+
+      if (question?.score) {
+        dataBarChartPr.push({
+          questionID: question?.questionID,
+          questionContent: question?.questionContentSmall,
+          userPercentage: question?.score * 10,
+          averagePercentage: 50, // change later to the average of users
+        });
+      }
+    });
+
+    setDataBarChart(dataBarChartPr);
+  }, [summaryQuestions]);
+
   return (
     <div className="pt-4">
       <div className="grid grid-cols-2">
@@ -48,10 +77,16 @@ export const MatchTab: FC<Props> = ({ member, summaryQuestions }) => {
           <p className="text-center">
             <TextLabel1>Background match</TextLabel1>
           </p>
-          <BackgroundMatchChart
+          {/* <BackgroundMatchChart
             memberName={member?.discordName ?? ""}
             backgroundMatchData={exampleData}
-          />
+          /> */}
+          {dataBarChart.length > 0 && (
+            <BackgroundMatchChart
+              memberName={member?.discordName ?? ""}
+              backgroundMatchData={dataBarChart}
+            />
+          )}
         </div>
       </div>
       <p className="text-soilHeading3 font-poppins mb-2 mt-6 text-center font-black text-gray-400">
