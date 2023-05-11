@@ -45,16 +45,29 @@ export const PopoverScoreReason: FC<PopoverScoreReasonProps> = ({
             ?
           </TextHeading2>
         )}
-        <p className="mb-6 text-sm">{question.reason}</p>
+        {question.reason && (
+          <ul className="mb-6 list-inside list-disc text-sm">
+            {question.reason
+              .split("-")
+              .filter(Boolean)
+              .map((bulletPoint, index) => (
+                <li key={index}>{bulletPoint.trim()}</li>
+              ))}
+          </ul>
+        )}
       </>
     );
 
     const content2 = (
-      <div>
-        <p>{question.questionContent ? question.questionContent : null}</p>
-        <p>{question.bestAnswerCompany ? question.bestAnswerCompany : null}</p>
-        <p>{question.answerContent ? question.answerContent : null}</p>
+      <div className="rounded-lg border p-4">
+        <p className="mb-2 text-lg font-bold">{question.questionContent}</p>
+        <p className="text-gray-600">{question.answerContent}</p>
       </div>
+      // <div>
+      //   <p>{question.questionContent ? question.questionContent : null}</p>
+      //   <p>{question.answerContent ? question.answerContent : null}</p>
+      //   <p>{question.bestAnswerCompany ? question.bestAnswerCompany : null}</p>
+      // </div>
     );
     const handleChangeContent = () => {
       setShowContentOne(!showContentOne);

@@ -68,6 +68,7 @@ export const Avatar = ({
           onError={() => {
             setImageSrc("");
           }}
+          referrerPolicy="no-referrer"
         />
       ) : (
         <>{isProject ? project() : user()}</>

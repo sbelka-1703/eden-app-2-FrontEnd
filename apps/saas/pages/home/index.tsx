@@ -1,4 +1,5 @@
 import { AppUserLayout, SEO } from "@eden/package-ui";
+import Link from "next/link";
 
 import type { NextPageWithLayout } from "../_app";
 
@@ -32,14 +33,10 @@ HomePage.getLayout = (page) => <AppUserLayout>{page}</AppUserLayout>;
 
 export default HomePage;
 
-import { IncomingMessage, ServerResponse } from "http";
-import Link from "next/link";
+import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
 
-export async function getServerSideProps(ctx: {
-  req: IncomingMessage;
-  res: ServerResponse;
-}) {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
 
   const url = ctx.req.url?.replace("/", "");
@@ -56,4 +53,4 @@ export async function getServerSideProps(ctx: {
   return {
     props: {},
   };
-}
+};
