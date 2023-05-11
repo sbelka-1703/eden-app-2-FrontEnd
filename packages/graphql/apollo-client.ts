@@ -58,8 +58,6 @@ const edenLink = new ApolloLink((operation, forward) => {
         console.log("client.ts");
         // console.log(auth.getToken());
 
-        debugger;
-
         const edenToken = data.edenToken;
         if (edenToken) {
           operation.setContext({

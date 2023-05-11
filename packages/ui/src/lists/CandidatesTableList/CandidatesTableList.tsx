@@ -37,6 +37,7 @@ export const CandidatesTableList: FC<CandidatesTableListProps> = ({
 }) => {
   const [candidateIDRowSelected, setCandidateIDRowSelected] =
     useState<string>("");
+
   const handleObjectDataSelection = (candidate: CandidateType) => {
     setRowObjectData(candidate);
     setCandidateIDRowSelected(candidate.user?._id || "");
