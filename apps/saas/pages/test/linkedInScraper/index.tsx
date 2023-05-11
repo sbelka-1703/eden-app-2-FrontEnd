@@ -10,7 +10,7 @@ const LinkedInScraper = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    //send url to the api
     const queryParams = new URLSearchParams({ url: profileLink }).toString();
     const response = await fetch(
       `/api/linkedin_scraper_api/linkedin_scraper?${queryParams}`,
