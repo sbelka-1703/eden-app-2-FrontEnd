@@ -1,7 +1,7 @@
 import "../styles/global.css";
 
 import { ApolloProvider } from "@apollo/client";
-import { SaasAppProvider, UserProvider } from "@eden/package-context";
+import { UserProvider } from "@eden/package-context";
 import { apolloClient } from "@eden/package-graphql";
 import type { NextPage } from "next";
 import type { AppProps } from "next/app";
@@ -33,11 +33,7 @@ const App = ({
   return (
     <SessionProvider session={session}>
       <ApolloProvider client={apolloClient}>
-        <UserProvider>
-          <SaasAppProvider>
-            {getLayout(<Component {...pageProps} />)}
-          </SaasAppProvider>
-        </UserProvider>
+        <UserProvider>{getLayout(<Component {...pageProps} />)}</UserProvider>
       </ApolloProvider>
     </SessionProvider>
   );
