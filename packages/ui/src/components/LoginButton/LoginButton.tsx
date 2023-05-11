@@ -5,7 +5,7 @@ import { ChevronDownIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
 import { signIn, signOut } from "next-auth/react";
 import { Fragment, useContext } from "react";
-import { FaDiscord } from "react-icons/fa";
+import { FaGoogle } from "react-icons/fa";
 
 const menuItems = [
   {
@@ -64,8 +64,8 @@ export const LoginButton = ({ inApp }: ILoginButtonProps) => {
               className={`text-darkGreen flex rounded-full border border-blue-400 bg-white/50 p-1.5 font-medium hover:border-blue-600 hover:bg-white/60`}
               onClick={() => signIn("google")}
             >
-              <span className={`rounded-full bg-blue-600 p-1`}>
-                <FaDiscord size={`1em`} color={`#ffffff`} />
+              <span className={`rounded-full bg-[#176bef] p-1`}>
+                <FaGoogle size={`1.2em`} color={`#ffffff`} />
               </span>
               <span className={`my-auto pl-2 pr-4 text-sm`}>
                 Login with Google
