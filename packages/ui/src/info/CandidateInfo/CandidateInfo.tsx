@@ -1,15 +1,14 @@
 /* eslint-disable no-unused-vars */
 import { useQuery } from "@apollo/client";
-import { useSaasAppContext } from "@eden/package-context";
 import { FIND_MEMBER } from "@eden/package-graphql";
 import { SummaryQuestionType } from "@eden/package-graphql/generated";
 import {
   Avatar,
   Button,
+  EdenChatTab,
   GraphTab,
   InfoTab,
   MatchTab,
-  ScoresTab,
   TextHeading3,
 } from "@eden/package-ui";
 import { Tab } from "@headlessui/react";
@@ -62,13 +61,7 @@ export const CandidateInfo = ({
     },
     {
       tab: "EDEN AI CHAT",
-      Content: () => (
-        <ScoresTab
-          member={dataMember?.findMember}
-          percentage={percentage}
-          summaryQuestions={summaryQuestions || []}
-        />
-      ),
+      Content: () => <EdenChatTab memberID={dataMember?.findMember._id} />,
     },
   ];
 
