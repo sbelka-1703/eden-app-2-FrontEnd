@@ -20,7 +20,6 @@ type edenTokenType = {
 async function getEdenToken(accessToken: string) {
   const NEXT_PUBLIC_AUTH_URL = process.env.NEXT_PUBLIC_AUTH_URL;
 
-  console.log("jldsjslkdlkjsdfsdlkjflsjkflkjdlksjslkjflkjs");
   try {
     const res = await fetch(`${NEXT_PUBLIC_AUTH_URL}/auth/token`, {
       method: "POST",
@@ -78,12 +77,15 @@ export default NextAuth({
       console.log("////////", user, token, account);
 
       if (account && user) {
+        const _edenToken = await getEdenToken(account.id_token as string);
+
+        console.log("----->", _edenToken);
         return {
           uid: user.id,
-          accessToken: account.access_token as string,
+          accessToken: account.id_token as string,
           accessTokenExpires:
             account.expires_at && ((account.expires_at * 1000) as number),
-          edenToken: await getEdenToken(account.access_token as string),
+          edenToken: _edenToken,
         };
       }
       const accessTokenExpires = token.accessTokenExpires as number;
