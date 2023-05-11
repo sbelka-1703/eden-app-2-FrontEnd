@@ -6,7 +6,7 @@ import { UserProvider } from "@eden/package-context";
 import { apolloClient } from "@eden/package-graphql";
 import type { NextPage } from "next";
 import type { AppProps } from "next/app";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 import { SessionProvider } from "next-auth/react";
 import type { ReactElement, ReactNode } from "react";
 import * as React from "react";
@@ -14,12 +14,12 @@ import { ToastContainer } from "react-toastify";
 
 // import { IS_DEVELOPMENT } from "../constants";
 
-const AppDeviceLayout = dynamic(
-  () => import(`@eden/package-ui/src/layout/AppDeviceLayout/AppDeviceLayout`),
-  {
-    ssr: false,
-  }
-);
+// const AppDeviceLayout = dynamic(
+//   () => import(`@eden/package-ui/src/layout/AppDeviceLayout/AppDeviceLayout`),
+//   {
+//     ssr: false,
+//   }
+// );
 
 export { reportWebVitals } from "next-axiom";
 
@@ -42,7 +42,7 @@ const App = ({
 
   return (
     <>
-      <AppDeviceLayout />
+      {/* <AppDeviceLayout /> */}
       <SessionProvider session={session}>
         <ApolloProvider client={apolloClient}>
           <UserProvider>{getLayout(<Component {...pageProps} />)}</UserProvider>
