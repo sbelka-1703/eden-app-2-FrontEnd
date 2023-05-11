@@ -22,28 +22,16 @@ type Question = {
 const CompanyCRM: NextPageWithLayout = () => {
   const router = useRouter();
   const { companyID } = router.query;
-
   const [candidates, setCandidates] = useState<CandidateType[]>([]);
-
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
-  const [selectedUserScore, setSelectedUserScore] = useState<number | null>(
-    null
-  );
+  const [selectedUserScore, setSelectedUserScore] =
+    useState<number | null>(null);
   const [selectedUserSummaryQuestions, setSelectedUserSummaryQuestions] =
     useState<any[]>([]);
 
   const [questions, setQuestions] = useState<Question[]>([]);
 
   const [trainModalOpen, setTrainModalOpen] = useState(false);
-
-  const handleTrainButtonClick = () => {
-    setTrainModalOpen(true);
-  };
-
-  const handleCloseTrainModal = () => {
-    setTrainModalOpen(false);
-  };
-
   const {
     // data: findCompanyData,
     loading: findCompanyIsLoading,
@@ -81,6 +69,14 @@ const CompanyCRM: NextPageWithLayout = () => {
     if (user.overallScore) setSelectedUserScore(user.overallScore);
     if (user.summaryQuestions)
       setSelectedUserSummaryQuestions(user.summaryQuestions);
+  };
+
+  const handleTrainButtonClick = () => {
+    setTrainModalOpen(true);
+  };
+
+  const handleCloseTrainModal = () => {
+    setTrainModalOpen(false);
   };
 
   return (
