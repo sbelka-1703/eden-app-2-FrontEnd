@@ -14,12 +14,12 @@ import { ToastContainer } from "react-toastify";
 
 // import { IS_DEVELOPMENT } from "../constants";
 
-const AppDeviceLayout = dynamic(
-  () => import(`@eden/package-ui/src/layout/AppDeviceLayout/AppDeviceLayout`),
-  {
-    ssr: false,
-  }
-);
+// const AppDeviceLayout = dynamic(
+//   () => import(`@eden/package-ui/src/layout/AppDeviceLayout/AppDeviceLayout`),
+//   {
+//     ssr: false,
+//   }
+// );
 
 export { reportWebVitals } from "next-axiom";
 
@@ -42,7 +42,7 @@ const App = ({
 
   return (
     <>
-      <AppDeviceLayout />
+      {/* <AppDeviceLayout /> */}
       <SessionProvider session={session}>
         <ApolloProvider client={apolloClient}>
           <UserProvider>{getLayout(<Component {...pageProps} />)}</UserProvider>
