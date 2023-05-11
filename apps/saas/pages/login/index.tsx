@@ -1,5 +1,5 @@
 import { LoginSection, SEO } from "@eden/package-ui";
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 
 import wave from "../../public/wave.gif";
 
@@ -14,23 +14,22 @@ const LoginPage: NextPage = () => {
 
 export default LoginPage;
 
-import { IncomingMessage, ServerResponse } from "http";
 import { getSession } from "next-auth/react";
 
-export async function getServerSideProps(ctx: {
-  query: any;
-  req: IncomingMessage;
-  res: ServerResponse;
-}) {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
 
   const { redirect } = ctx.query;
 
   let redirectUrl = "/home";
 
-  if (redirect && redirect.startsWith("_next")) {
+  if (
+    redirect &&
+    typeof redirect === "string" &&
+    redirect.startsWith("_next")
+  ) {
     redirectUrl = "/home";
-  } else if (redirect) {
+  } else if (redirect && typeof redirect === "string") {
     redirectUrl = redirect;
   }
 
@@ -46,4 +45,4 @@ export async function getServerSideProps(ctx: {
   return {
     props: {},
   };
-}
+};

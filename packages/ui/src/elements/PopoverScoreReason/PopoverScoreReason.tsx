@@ -59,11 +59,15 @@ export const PopoverScoreReason: FC<PopoverScoreReasonProps> = ({
     );
 
     const content2 = (
-      <div>
-        <p>{question.questionContent ? question.questionContent : null}</p>
-        <p>{question.bestAnswerCompany ? question.bestAnswerCompany : null}</p>
-        <p>{question.answerContent ? question.answerContent : null}</p>
+      <div className="rounded-lg border p-4">
+        <p className="mb-2 text-lg font-bold">{question.questionContent}</p>
+        <p className="text-gray-600">{question.answerContent}</p>
       </div>
+      // <div>
+      //   <p>{question.questionContent ? question.questionContent : null}</p>
+      //   <p>{question.answerContent ? question.answerContent : null}</p>
+      //   <p>{question.bestAnswerCompany ? question.bestAnswerCompany : null}</p>
+      // </div>
     );
     const handleChangeContent = () => {
       setShowContentOne(!showContentOne);
