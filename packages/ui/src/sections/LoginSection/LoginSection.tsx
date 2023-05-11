@@ -65,9 +65,7 @@ export const LoginSection = ({ image }: ILoginSectionProps) => {
                   <span className={`rounded-full bg-blue-600 p-1`}>
                     <FaDiscord size={`1.5em`} color={`#ffffff`} />
                   </span>
-                  <span className={`my-auto pl-2 pr-4`}>
-                    Login with Discord
-                  </span>
+                  <span className={`my-auto pl-2 pr-4`}>Login with Google</span>
                 </button>
               </div>
             </div>

@@ -68,7 +68,7 @@ export const LoginButton = ({ inApp }: ILoginButtonProps) => {
                 <FaDiscord size={`1em`} color={`#ffffff`} />
               </span>
               <span className={`my-auto pl-2 pr-4 text-sm`}>
-                Login with Discord
+                Login with Google
               </span>
             </button>
           )}
