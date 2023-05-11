@@ -7,6 +7,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { BsCheckCircle } from "react-icons/bs";
 import { toast } from "react-toastify";
 
 import { Loading } from "../../elements";
@@ -35,6 +36,7 @@ export interface ICVUploadGPTProps {
 export const CVUploadGPT = ({ timePerWeek, seed }: ICVUploadGPTProps) => {
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState<boolean>(false);
+  const [uploaded, setUploaded] = useState<boolean>(false);
   // const [summary, setSummary] = useState<string | null>(null);
   const { currentUser } = useContext(UserContext);
 
@@ -48,6 +50,7 @@ export const CVUploadGPT = ({ timePerWeek, seed }: ICVUploadGPTProps) => {
       console.log("------>", data);
 
       setUploading(false);
+      setUploaded(true);
       toast.success("success");
     },
     onError: (err) => {
@@ -162,8 +165,28 @@ export const CVUploadGPT = ({ timePerWeek, seed }: ICVUploadGPTProps) => {
         {/* <label htmlFor="input" className="text-center text-sm">
           Upload Recent Resume for Better Results Form Our AI
         </label> */}
+        <label htmlFor="file-upload" className="relative">
+          <div
+            className={`cursor-pointer rounded-md border-2 px-4 py-1 hover:border-black hover:bg-black hover:text-white ${
+              uploaded
+                ? " !cursor-default !border-gray-200 !bg-gray-200 !text-black"
+                : ""
+            }`}
+          >
+            Upload file
+          </div>
+          {uploaded && (
+            <BsCheckCircle
+              size={24}
+              color="#40f83f"
+              className="absolute -right-[40px] top-[6px]"
+            />
+          )}
+        </label>
         <input
-          className="ml-60"
+          disabled={uploaded}
+          id="file-upload"
+          className="hidden"
           onChange={handleFileChange}
           type="file"
           accept=".pdf"
