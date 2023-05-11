@@ -6,7 +6,7 @@ import { UserProvider } from "@eden/package-context";
 import { apolloClient } from "@eden/package-graphql";
 import type { NextPage } from "next";
 import type { AppProps } from "next/app";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 import { SessionProvider } from "next-auth/react";
 import type { ReactElement, ReactNode } from "react";
 import * as React from "react";
